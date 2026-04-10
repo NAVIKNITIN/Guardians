@@ -22,7 +22,10 @@ export function CardSection() {
           Buyer and developer journeys
         </h2>
         <div className="grid gap-6 lg:grid-cols-2 lg:gap-8">
-          <article className="group relative overflow-hidden rounded-sm border border-brand-border bg-brand-background shadow-sm transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-xl">
+          <article
+            id="buyer"
+            className="group relative overflow-hidden rounded-sm border border-brand-border bg-brand-background shadow-sm transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-xl"
+          >
             <div className="pointer-events-none absolute inset-0 hex-pattern opacity-40" />
             <div className="relative flex min-h-[320px] flex-col p-6 sm:min-h-[360px] sm:p-8 lg:flex-row lg:items-stretch">
               <div className="flex flex-1 flex-col justify-between gap-8">
@@ -35,7 +38,7 @@ export function CardSection() {
                   </h3>
                 </div>
                 <Link
-                  href="#buyer"
+                  href="/#buyer"
                   className={cn(
                     primaryCtaClassName,
                     "w-fit rounded-none border border-brand-text-primary bg-white text-brand-text-primary shadow-none hover:bg-brand-text-primary hover:text-white",
@@ -57,7 +60,10 @@ export function CardSection() {
             </div>
           </article>
 
-          <article className="group relative overflow-hidden rounded-sm border border-brand-border bg-brand-background shadow-sm transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-xl">
+          <article
+            id="developer"
+            className="group relative overflow-hidden rounded-sm border border-brand-border bg-brand-background shadow-sm transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-xl"
+          >
             <div className="pointer-events-none absolute inset-0 hex-pattern opacity-40" />
             <div className="relative flex min-h-[320px] flex-col p-6 sm:min-h-[360px] sm:p-8 lg:flex-row-reverse lg:items-stretch">
               <div className="flex flex-1 flex-col justify-between gap-8 lg:items-end lg:text-right">
@@ -70,7 +76,7 @@ export function CardSection() {
                   </h3>
                 </div>
                 <Link
-                  href="#developer"
+                  href="/developer"
                   className={cn(
                     primaryCtaClassName,
                     "w-fit rounded-none border border-brand-text-primary bg-white text-brand-text-primary shadow-none hover:bg-brand-text-primary hover:text-white lg:self-end",

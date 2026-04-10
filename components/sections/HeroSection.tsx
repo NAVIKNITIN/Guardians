@@ -6,7 +6,7 @@ import Link from "next/link";
 
 const HERO_IMAGE = "/images/Home/1.png";
 
-/** Figma: rose-gold gradient anchored to #B48183 */
+/** Rose-gold gradient anchored to #B48183 */
 const heroCtaClassName = cn(
   "inline-flex items-center justify-center gap-2 rounded-none border-0 px-8 py-3.5 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-md transition-all duration-300 ease-out",
   "min-w-[180px]",

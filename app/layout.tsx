@@ -3,7 +3,10 @@ import { nexaFont, qasbyneFont } from "@/styles/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "The Guardians | Real Estate Advisory",
+  title: {
+    default: "The Guardians | Real Estate Advisory",
+    template: "%s | The Guardians",
+  },
   description:
     "Premium real estate advisory — consulting, projects, and partnerships across India.",
   openGraph: {
