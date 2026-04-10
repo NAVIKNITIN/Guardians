@@ -1,0 +1,34 @@
+import type { Metadata } from "next";
+import { nexaFont, qasbyneFont } from "@/styles/fonts";
+import "./globals.css";
+
+export const metadata: Metadata = {
+  title: "The Guardians | Real Estate Advisory",
+  description:
+    "Premium real estate advisory — consulting, projects, and partnerships across India.",
+  openGraph: {
+    title: "The Guardians | Real Estate Advisory",
+    description:
+      "Premium real estate advisory — consulting, projects, and partnerships across India.",
+    type: "website",
+  },
+};
+
+export default function RootLayout({
+  children,
+}: Readonly<{
+  children: React.ReactNode;
+}>) {
+  return (
+    <html
+      lang="en"
+      className={`${nexaFont.variable} ${qasbyneFont.variable} h-full scroll-smooth antialiased`}
+    >
+      <body
+        className={`min-h-full bg-brand-background font-sans text-brand-text-primary ${nexaFont.className}`}
+      >
+        {children}
+      </body>
+    </html>
+  );
+}
