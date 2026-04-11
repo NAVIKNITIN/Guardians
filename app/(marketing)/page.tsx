@@ -1,4 +1,3 @@
-import { CardSection } from "@/components/sections/CardSection";
 import { DividerSection } from "@/components/sections/DividerSection";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { StickyScrollFillSection } from "@/components/sections/StickyScrollFillSection";
@@ -26,7 +25,6 @@ export default function HomePage() {
         ]}
       />
       <DividerSection />
-      <CardSection />
     </>
   );
 }
