@@ -35,8 +35,8 @@ const socialRightCol = [
 
 const quickLinkRows: { label: string; href: string }[][] = [
   [
-    { label: "About", href: "#about" },
-    { label: "Brands", href: "#brands" },
+    { label: "About", href: "/about" },
+    { label: "Brands", href: "/about#brands" },
     { label: "Services", href: "#services" },
   ],
   [

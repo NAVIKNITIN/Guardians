@@ -9,7 +9,7 @@ import Link from "next/link";
 import { useState } from "react";
 
 const navLeft = [
-  { label: "About", href: "#about" },
+  { label: "About", href: "/about" },
   { label: "Services", href: "#services", dropdown: true },
   { label: "Projects", href: "#projects", dropdown: true },
   // { label: "Developer", href: "/Main", dropdown: true },
