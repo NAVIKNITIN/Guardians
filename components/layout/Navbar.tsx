@@ -12,7 +12,7 @@ const navLeft = [
   { label: "About", href: "#about" },
   { label: "Services", href: "#services", dropdown: true },
   { label: "Projects", href: "#projects", dropdown: true },
-  { label: "Developer", href: "/Main", dropdown: true },
+  // { label: "Developer", href: "/Main", dropdown: true },
 ];
 
 const navRight = [

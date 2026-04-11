@@ -1,5 +1,45 @@
 /** Copy & media for `/developer` — replace with CMS later. */
 
+export type DeveloperServiceCard = {
+  id: string;
+  title: string;
+  src: string;
+};
+
+/** Service tiles for the “Our services” band — horizontal scroll supports any length. */
+export const OUR_SERVICES_CARDS: DeveloperServiceCard[] = [
+  {
+    id: "residential",
+    title: "Residential",
+    src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: "business",
+    title: "Business solution",
+    src: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: "market",
+    title: "Market intelligence",
+    src: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: "partner",
+    title: "Partner network",
+    src: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: "institutional",
+    title: "Institutional sales",
+    src: "https://images.unsplash.com/photo-1486718448742-163732cd1544?auto=format&fit=crop&w=800&q=80",
+  },
+  {
+    id: "advisory",
+    title: "Structured advisory",
+    src: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
+  },
+];
+
 export type OurWorkSlide = {
   id: string;
   title: string;

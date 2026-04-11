@@ -16,7 +16,8 @@
   --color-brand-border: #e5e5e5;
   --color-brand-border-strong: #d4d4d4;
   --color-brand-bar: #8e8383;
-  --color-brand-footer: #3d3838;
+  /* Marketing footer band (Figma) */
+  --color-brand-footer: #8f8183;
   --color-brand-footer-dark: #2a2626;
 
   --font-serif: var(--font-nexa), system-ui, sans-serif;
