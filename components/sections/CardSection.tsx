@@ -1,14 +1,62 @@
 import { Container } from "@/components/common/Container";
-import { IconArrowUpRight, IconCart, IconCrane } from "@/components/common/icons";
+import { IconArrowUpRight, IconCrane } from "@/components/common/icons";
 import { primaryCtaClassName } from "@/styles/buttonStyles";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 import Link from "next/link";
 
-const BUYER_IMG =
-  "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=80";
-const DEV_IMG =
-  "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=900&q=80";
+function CardImageColumn({
+  portraitSrc,
+  patternSrc,
+  portraitAlt,
+  objectPositionClass,
+  className,
+}: {
+  portraitSrc: string;
+  patternSrc: string;
+  portraitAlt: string;
+  objectPositionClass: string;
+  className?: string;
+}) {
+  return (
+    <div
+      className={cn(
+        "relative mt-8 h-48 w-full shrink-0 overflow-hidden sm:h-56 lg:mt-0 lg:flex lg:h-auto lg:min-h-0 lg:w-2/5 lg:flex-col lg:self-stretch lg:overflow-visible",
+        className,
+      )}
+    >
+      {/* Background pattern: full card height on lg via vertical bleed; portrait block unchanged */}
+      <div
+        className={cn(
+          "pointer-events-none absolute inset-x-0 z-0 max-lg:inset-y-0 lg:bottom-0 lg:-top-8",
+        )}
+      >
+        <Image
+          src={patternSrc}
+          alt=""
+          fill
+          className="object-cover object-center"
+          sizes="(max-width: 1024px) 100vw, 40vw"
+          aria-hidden
+        />
+      </div>
+      <div className="relative z-10 flex min-h-0 flex-1 flex-col overflow-hidden">
+        <div className="relative min-h-[12rem] flex-1 sm:min-h-[14rem] lg:min-h-[280px]">
+          <Image
+            src={portraitSrc}
+            alt={portraitAlt}
+            fill
+            className={cn(
+              "object-cover grayscale transition-transform duration-500 group-hover:scale-[1.02]",
+              objectPositionClass,
+            )}
+            sizes="(max-width: 1024px) 100vw, 40vw"
+          />
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export function CardSection() {
   return (
@@ -27,14 +75,22 @@ export function CardSection() {
             className="group relative overflow-hidden rounded-sm border border-brand-border bg-brand-background shadow-sm transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-xl"
           >
             <div className="pointer-events-none absolute inset-0 hex-pattern opacity-40" />
-            <div className="relative flex min-h-[320px] flex-col p-6 sm:min-h-[360px] sm:p-8 lg:flex-row lg:items-stretch">
-              <div className="flex flex-1 flex-col justify-between gap-8">
-                <IconCart className="h-8 w-8 text-brand-text-primary" />
+            <div className="relative flex min-h-[320px] flex-col p-6 sm:min-h-[360px] sm:p-8 lg:flex-row lg:items-stretch lg:px-8 lg:pt-8 lg:pb-0">
+              <div className="flex flex-1 flex-col justify-between gap-8 lg:pb-8">
+                <Image
+                  src="/images/Buyer/BuyerVector.svg"
+                  alt=""
+                  width={47}
+                  height={50}
+                  className="h-[50px] w-[47px] shrink-0"
+                  aria-hidden
+                />
+
                 <div>
                   <h3 className="text-2xl font-normal tracking-tight text-brand-text-primary sm:text-3xl lg:text-4xl">
                     I AM A
                     <br />
-                    BUYER
+                    <span className="font-qasbyne text-brand-accent">BUYER</span>
                   </h3>
                 </div>
                 <Link
@@ -48,15 +104,13 @@ export function CardSection() {
                   <IconArrowUpRight className="h-4 w-4" />
                 </Link>
               </div>
-              <div className="relative mt-8 h-48 w-full shrink-0 sm:h-56 lg:mt-0 lg:ml-4 lg:h-auto lg:w-2/5">
-                <Image
-                  src={BUYER_IMG}
-                  alt="Professional buyer consulting"
-                  fill
-                  className="object-cover object-top grayscale transition-transform duration-500 group-hover:scale-105"
-                  sizes="(max-width: 1024px) 100vw, 40vw"
-                />
-              </div>
+              <CardImageColumn
+                portraitSrc="/images/Buyer/image 41.svg"
+                patternSrc="/images/Buyer/Group 4.svg"
+                portraitAlt="Smiling professional representing property buyers"
+                objectPositionClass="object-[center_22%] sm:object-right"
+                className="lg:ml-4"
+              />
             </div>
           </article>
 
@@ -65,14 +119,14 @@ export function CardSection() {
             className="group relative overflow-hidden rounded-sm border border-brand-border bg-brand-background shadow-sm transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-xl"
           >
             <div className="pointer-events-none absolute inset-0 hex-pattern opacity-40" />
-            <div className="relative flex min-h-[320px] flex-col p-6 sm:min-h-[360px] sm:p-8 lg:flex-row-reverse lg:items-stretch">
-              <div className="flex flex-1 flex-col justify-between gap-8 lg:items-end lg:text-right">
-                <IconCrane className="h-8 w-8 text-brand-text-primary lg:self-end" />
+            <div className="relative flex min-h-[320px] flex-col p-6 sm:min-h-[360px] sm:p-8 lg:flex-row-reverse lg:items-stretch lg:px-8 lg:pt-8 lg:pb-0">
+              <div className="flex flex-1 flex-col justify-between gap-8 lg:items-end lg:pb-8 lg:text-right">
+                <IconCrane className="h-[50px] w-[47px] shrink-0 text-brand-accent lg:self-end" />
                 <div>
                   <h3 className="text-2xl font-normal tracking-tight text-brand-text-primary sm:text-3xl lg:text-4xl">
                     I AM A
                     <br />
-                    DEVELOPER
+                    <span className="font-qasbyne text-brand-accent">DEVELOPER</span>
                   </h3>
                 </div>
                 <Link
@@ -86,15 +140,13 @@ export function CardSection() {
                   <IconArrowUpRight className="h-4 w-4" />
                 </Link>
               </div>
-              <div className="relative mt-8 h-48 w-full shrink-0 sm:h-56 lg:mt-0 lg:mr-4 lg:h-auto lg:w-2/5">
-                <Image
-                  src={DEV_IMG}
-                  alt="Professional developer partnership"
-                  fill
-                  className="object-cover object-top grayscale transition-transform duration-500 group-hover:scale-105"
-                  sizes="(max-width: 1024px) 100vw, 40vw"
-                />
-              </div>
+              <CardImageColumn
+                portraitSrc="/images/Developer/image 42.svg"
+                patternSrc="/images/Developer/Group 4.svg"
+                portraitAlt="Smiling professional representing real estate developers"
+                objectPositionClass="object-[center_22%] sm:object-left"
+                className="lg:mr-4"
+              />
             </div>
           </article>
         </div>
