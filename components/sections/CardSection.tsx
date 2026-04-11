@@ -62,7 +62,7 @@ export function CardSection() {
   return (
     <section
       id="services"
-      className="bg-brand-background-muted py-10"
+      className=" py-10"
       aria-labelledby="cards-heading"
     >
       <Container>
@@ -74,7 +74,6 @@ export function CardSection() {
             id="buyer"
             className="group relative overflow-hidden rounded-sm border border-brand-border bg-brand-background shadow-sm transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-xl"
           >
-            <div className="pointer-events-none absolute inset-0 hex-pattern opacity-40" />
             <div className="relative flex min-h-[320px] flex-col p-6 sm:min-h-[360px] sm:p-8 lg:flex-row lg:items-stretch lg:px-8 lg:pt-8 lg:pb-0">
               <div className="flex flex-1 flex-col justify-between gap-8 lg:pb-8">
                 <Image
@@ -118,7 +117,6 @@ export function CardSection() {
             id="developer"
             className="group relative overflow-hidden rounded-sm border border-brand-border bg-brand-background shadow-sm transition-all duration-500 ease-out hover:-translate-y-1 hover:shadow-xl"
           >
-            <div className="pointer-events-none absolute inset-0 hex-pattern opacity-40" />
             <div className="relative flex min-h-[320px] flex-col p-6 sm:min-h-[360px] sm:p-8 lg:flex-row-reverse lg:items-stretch lg:px-8 lg:pt-8 lg:pb-0">
               <div className="flex flex-1 flex-col justify-between gap-8 lg:items-end lg:pb-8 lg:text-right">
                 <IconCrane className="h-[50px] w-[47px] shrink-0 text-brand-accent lg:self-end" />
