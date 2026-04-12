@@ -198,7 +198,7 @@ export const TESTIMONIALS: Testimonial[] = [
     id: "2",
     brandLabel: "Marathon Group",
     quote:
-      "Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     name: "Priya Shah",
     role: "Head of Sales",
     location: "Mumbai",
@@ -207,10 +207,37 @@ export const TESTIMONIALS: Testimonial[] = [
     id: "3",
     brandLabel: "Sunteck",
     quote:
-      "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     name: "Rahul Verma",
     role: "Director — Projects",
     location: "Pune",
+  },
+  {
+    id: "4",
+    brandLabel: "Piramal Realty",
+    quote:
+      "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.",
+    name: "Ananya Desai",
+    role: "VP — Customer Experience",
+    location: "Lower Parel, Mumbai",
+  },
+  {
+    id: "5",
+    brandLabel: "Sheth Creators",
+    quote:
+      "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores.",
+    name: "Karan Mehta",
+    role: "Associate Director",
+    location: "Thane",
+  },
+  {
+    id: "6",
+    brandLabel: "Guru Prerna",
+    quote:
+      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti.",
+    name: "Neha Kulkarni",
+    role: "Sales Lead",
+    location: "Navi Mumbai",
   },
 ];
 
@@ -222,11 +249,22 @@ export type AwardSlide = {
   imageSrc: string;
 };
 
+/** First award uses the hero trophy asset; others rotate through local `/public/images` art. */
+const AWARD_OTHER_IMAGES = [
+  "/images/ourwork.svg",
+  "/images/developer-hero.svg",
+  "/images/Home/Banner1.svg",
+  "/images/Developer/ourservices/1.svg",
+  "/images/Developer/ourservices/2.svg",
+  "/images/Developer/Group%204.svg",
+  "/images/image_1.svg",
+  "/images/Buyer/BuyerVector.svg",
+] as const;
+
 export const AWARD_SLIDES: AwardSlide[] = Array.from({ length: 25 }, (_, i) => ({
   id: String(i + 1),
   company: "[COMPANY NAME HERE]",
   achievement: "[Achievement here]",
   year: "[YEAR RECEIVED]",
-  imageSrc:
-    "https://images.unsplash.com/photo-1513151233558-d860c5398176?auto=format&fit=crop&w=800&q=80",
+  imageSrc:AWARD_OTHER_IMAGES[i % AWARD_OTHER_IMAGES.length],
 }));
