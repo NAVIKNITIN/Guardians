@@ -1,30 +1,13 @@
-import { AwardsSection } from "@/components/developer/AwardsSection";
-import { DeveloperDetailsHero } from "@/components/developer/DeveloperDetailsHero";
-import { DeveloperOurServicesBand } from "@/components/developer/DeveloperOurServicesBand";
-import { DeveloperStatsSection } from "@/components/developer/DeveloperStatsSection";
-import { LandmarkProjectsSection } from "@/components/developer/LandmarkProjectsSection";
-import { OurWorkSection } from "@/components/developer/OurWorkSection";
-import { PartnersSection } from "@/components/developer/PartnersSection";
-import { TestimonialsSection } from "@/components/developer/TestimonialsSection";
+import { AudienceMarketingPage } from "@/components/marketing/AudienceMarketingPage";
+import { BUYER_MARKETING_PAGE } from "@/data/audience-marketing";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: { absolute: "Developer | The Guardians" },
+  title: { absolute: "Buyer | The Guardians" },
   description:
-    "Developer-focused advisory — strategy, market intelligence, and partnerships.",
+    "Buyer-focused guidance — discovery, diligence, and confident property decisions.",
 };
 
-export default function DeveloperDetailsPage() {
-  return (
-    <>
-      <DeveloperDetailsHero />
-      <DeveloperOurServicesBand />
-      <OurWorkSection />
-      <LandmarkProjectsSection />
-      <DeveloperStatsSection />
-      <PartnersSection />
-      <TestimonialsSection />
-      <AwardsSection />
-    </>
-  );
+export default function BuyerPage() {
+  return <AudienceMarketingPage content={BUYER_MARKETING_PAGE} />;
 }

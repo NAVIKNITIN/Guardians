@@ -1,10 +1,9 @@
 "use client";
 
-import {
-  LANDMARK_COMPLETED,
-  LANDMARK_ONGOING,
-  type LandmarkProject,
-} from "@/data/developer-page";
+import type {
+  LandmarkProject,
+  LandmarkSectionContent,
+} from "@/data/audience-marketing";
 import { CarouselControls } from "@/components/ui/CarouselControls";
 import { MarketingEnquireLink } from "@/components/ui/MarketingEnquireLink";
 import { PeekStrip } from "@/components/ui/PeekStrip";
@@ -37,15 +36,21 @@ const AUTO_ADVANCE_MS = 3000;
 
 type Tab = "ongoing" | "completed";
 
-const TAB_OPTIONS = [
-  { value: "ongoing" as const, label: "Ongoing" },
-  { value: "completed" as const, label: "Completed" },
-];
+function tabOptions(content: LandmarkSectionContent) {
+  return [
+    { value: "ongoing" as const, label: content.tabOngoingLabel },
+    { value: "completed" as const, label: content.tabCompletedLabel },
+  ];
+}
 
 /** ~1440×650 hero proportion */
 const CAROUSEL_ASPECT = "aspect-[144/65]";
 
-export function LandmarkProjectsSection() {
+export function LandmarkProjectsSection({
+  content,
+}: {
+  content: LandmarkSectionContent;
+}) {
   const [tab, setTab] = useState<Tab>("ongoing");
   const [index, setIndex] = useState(0);
   /** Bumped on manual navigation so the 3s autoplay timer restarts. */
@@ -53,9 +58,11 @@ export function LandmarkProjectsSection() {
   /** `1` = next (enter from right), `-1` = prev (enter from left). */
   const [slideDir, setSlideDir] = useState<1 | -1>(1);
 
+  const options = useMemo(() => tabOptions(content), [content]);
+
   const projects: LandmarkProject[] = useMemo(
-    () => (tab === "ongoing" ? LANDMARK_ONGOING : LANDMARK_COMPLETED),
-    [tab],
+    () => (tab === "ongoing" ? content.ongoing : content.completed),
+    [tab, content],
   );
 
   const n = projects.length;
@@ -83,9 +90,9 @@ export function LandmarkProjectsSection() {
       <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
         <h2
           id="landmark-heading"
-          className="max-w-xl font-qasbyne text-[clamp(1.75rem,3.2vw,2.75rem)] font-normal uppercase leading-[1.15] tracking-[0.06em] text-brand-text-primary"
+          className="shrink-0 whitespace-nowrap font-qasbyne text-[clamp(1.75rem,2.6vw,4.75rem)] font-normal uppercase leading-[1.15] tracking-[0.06em] text-brand-text-primary"
         >
-          Our landmark projects
+          {content.sectionTitle}
         </h2>
         <UnderlineTabs
           value={tab}
@@ -95,7 +102,7 @@ export function LandmarkProjectsSection() {
             setSlideDir(1);
             restartAutoplay();
           }}
-          options={TAB_OPTIONS}
+          options={options}
           className="shrink-0 sm:pb-0.5"
         />
       </div>
@@ -187,7 +194,7 @@ export function LandmarkProjectsSection() {
       </div>
 
       <div className="mt-10 flex justify-center">
-        <MarketingEnquireLink href="/contact">Know more</MarketingEnquireLink>
+        <MarketingEnquireLink href={content.ctaHref}>{content.ctaLabel}</MarketingEnquireLink>
       </div>
     </SectionSurface>
   );

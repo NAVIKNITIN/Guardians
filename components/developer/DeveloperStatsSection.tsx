@@ -1,6 +1,10 @@
 "use client";
 
-import { STATS, formatDeveloperStatValue, type DeveloperStat } from "@/data/developer-page";
+import {
+  formatDeveloperStatValue,
+  type DeveloperStat,
+  type StatsSectionContent,
+} from "@/data/audience-marketing";
 import { SectionSurface } from "@/components/ui/SectionSurface";
 import { useCountUp } from "@/hooks/useCountUp";
 import { nexaFont } from "@/styles/fonts";
@@ -35,14 +39,19 @@ function StatFigure({
   );
 }
 
-export function DeveloperStatsSection() {
+export function DeveloperStatsSection({
+  content,
+}: {
+  content: StatsSectionContent;
+}) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "0px 0px -12% 0px" });
+  const metrics = content.metrics;
 
   return (
     <SectionSurface variant="stats" aria-label="Key metrics">
       <div ref={ref} className="grid grid-cols-2 md:grid-cols-4">
-        {STATS.map((stat, idx) => (
+        {metrics.map((stat, idx) => (
           <div
             key={stat.label}
             className={cn(

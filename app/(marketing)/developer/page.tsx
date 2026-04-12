@@ -1,11 +1,5 @@
-import { AwardsSection } from "@/components/developer/AwardsSection";
-import { DeveloperDetailsHero } from "@/components/developer/DeveloperDetailsHero";
-import { DeveloperOurServicesBand } from "@/components/developer/DeveloperOurServicesBand";
-import { DeveloperStatsSection } from "@/components/developer/DeveloperStatsSection";
-import { LandmarkProjectsSection } from "@/components/developer/LandmarkProjectsSection";
-import { OurWorkSection } from "@/components/developer/OurWorkSection";
-import { PartnersSection } from "@/components/developer/PartnersSection";
-import { TestimonialsSection } from "@/components/developer/TestimonialsSection";
+import { AudienceMarketingPage } from "@/components/marketing/AudienceMarketingPage";
+import { DEVELOPER_MARKETING_PAGE } from "@/data/audience-marketing";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -15,16 +9,5 @@ export const metadata: Metadata = {
 };
 
 export default function DeveloperDetailsPage() {
-  return (
-    <>
-      <DeveloperDetailsHero />
-      <DeveloperOurServicesBand />
-      <OurWorkSection />
-      <LandmarkProjectsSection />
-      <DeveloperStatsSection />
-      <PartnersSection />
-      <TestimonialsSection />
-      <AwardsSection />
-    </>
-  );
+  return <AudienceMarketingPage content={DEVELOPER_MARKETING_PAGE} />;
 }

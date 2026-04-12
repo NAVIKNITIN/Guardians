@@ -1,6 +1,6 @@
 "use client";
 
-import { TESTIMONIALS } from "@/data/developer-page";
+import type { TestimonialsSectionContent } from "@/data/audience-marketing";
 import { TestimonialCard } from "@/components/developer/TestimonialCard";
 import { CarouselControls } from "@/components/ui/CarouselControls";
 import { MarketingEnquireLink } from "@/components/ui/MarketingEnquireLink";
@@ -11,8 +11,13 @@ import { useMemo } from "react";
 
 const DESKTOP_VISIBLE = 3;
 
-export function TestimonialsSection() {
-  const n = TESTIMONIALS.length;
+export function TestimonialsSection({
+  content,
+}: {
+  content: TestimonialsSectionContent;
+}) {
+  const items = content.items;
+  const n = items.length;
   const { index, advance } = useCycleIndex(n, 0);
 
   /** Three-card window (wraps) so prev/next updates the desktop row. */
@@ -20,9 +25,9 @@ export function TestimonialsSection() {
     () =>
       Array.from({ length: DESKTOP_VISIBLE }, (_, offset) => {
         const i = (index + offset) % n;
-        return TESTIMONIALS[i]!;
+        return items[i]!;
       }),
-    [index, n],
+    [index, n, items],
   );
 
   return (
@@ -32,7 +37,7 @@ export function TestimonialsSection() {
           id="testimonials-heading"
           className={marketingClasses.headingDisplayMd}
         >
-          What our clients say
+          {content.sectionTitle}
         </h2>
         <CarouselControls
           currentIndex={index}
@@ -50,11 +55,13 @@ export function TestimonialsSection() {
         ))}
       </div>
       <div className="mt-10 md:hidden">
-        <TestimonialCard item={TESTIMONIALS[index]!} />
+        <TestimonialCard item={items[index]!} />
       </div>
 
       <div className="mt-10 flex justify-center">
-        <MarketingEnquireLink href="/contact">View more</MarketingEnquireLink>
+        <MarketingEnquireLink href={content.viewMoreHref}>
+          {content.viewMoreLabel}
+        </MarketingEnquireLink>
       </div>
     </SectionSurface>
   );

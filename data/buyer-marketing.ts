@@ -1,0 +1,184 @@
+import type {
+  AwardSlide,
+  DeveloperStat,
+  MarketingPageContent,
+} from "./audience-marketing-types";
+import {
+  CONTACT,
+  DEFAULT_HERO_CTA,
+  DEFAULT_READ_MORE,
+  DEFAULT_VIEW_MORE,
+  partnersBand,
+} from "./audience-marketing-shared";
+import {
+  DEV_LANDMARK_COMPLETED,
+  DEV_LANDMARK_ONGOING,
+} from "./developer-marketing";
+const AWARD_ROTATION_IMAGES = [
+  "/images/ourwork.svg",
+  "/images/developer-hero.svg",
+  "/images/Home/Banner1.svg",
+  "/images/Developer/ourservices/1.svg",
+  "/images/Developer/ourservices/2.svg",
+  "/images/Developer/Group%204.svg",
+  "/images/image_1.svg",
+  "/images/Buyer/BuyerVector.svg",
+] as const;
+
+const DEV_AWARD_SLIDES: AwardSlide[] = Array.from({ length: 25 }, (_, i) => ({
+  id: String(i + 1),
+  company: "[COMPANY NAME HERE]",
+  achievement: "[Achievement here]",
+  year: "[YEAR RECEIVED]",
+  imageSrc: AWARD_ROTATION_IMAGES[i % AWARD_ROTATION_IMAGES.length],
+}));
+
+export const BUYER_MARKETING_PAGE = {
+  hero: {
+    isBuyer: true,
+    backgroundImageSrc: "/images/Buyer/hero.svg",
+    body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    ...DEFAULT_HERO_CTA,
+    ariaHeadingId: "buyer-hero-heading",
+  },
+  services: {
+    sectionTitle: "Our Services",
+    description:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+    ...DEFAULT_READ_MORE,
+    cards: [
+      {
+        id: "search",
+        title: "Discovery & shortlist",
+        src: "/images/Buyer/BuyerVector.svg",
+        description:
+          "Curated options that match budget, commute, schools, and lifestyle — without the noise.",
+      },
+      {
+        id: "diligence",
+        title: "Diligence & pricing",
+        src: "/images/Mask group.svg",
+        description:
+          "Comparable sales, project reputation, and documentation checks before you commit.",
+      },
+      {
+        id: "negotiation",
+        title: "Offer & negotiation",
+        src: "/images/ourwork.svg",
+        description:
+          "Clear terms, milestone planning, and coordination with lenders and legal partners.",
+      },
+      {
+        id: "handover",
+        title: "Handover support",
+        src: "/images/Home/Banner1.svg",
+        description:
+          "Snag lists, possession readiness, and move-in planning so nothing slips.",
+      },
+    ],
+  },
+  // ourWork: {
+  //   sectionTitle: "Buyer stories",
+  //   ...DEFAULT_READ_MORE,
+  //   slides: [
+  //     {
+  //       id: "b1",
+  //       title: "From first visit to keys in Lower Parel.",
+  //       body: "We helped a family compare three corridors, stress-test EMIs, and close on a timeline that matched their school admissions window.",
+  //       imageSrc: "/images/Buyer/image%2041.svg",
+  //     },
+  //     {
+  //       id: "b2",
+  //       title: "Relocating from Delhi with zero guesswork.",
+  //       body: "Neighborhood fit, commute trials, and a diligence pack on the builder track record before the token went through.",
+  //       imageSrc:
+  //         "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80",
+  //     },
+  //     {
+  //       id: "b3",
+  //       title: "Upgrade path from rental to owned.",
+  //       body: "Structured milestones for sale of the older asset, bridge planning, and synchronized possession dates.",
+  //       imageSrc:
+  //         "https://images.unsplash.com/photo-1486718448742-163732cd1544?auto=format&fit=crop&w=1200&q=80",
+  //     },
+  //   ],
+  // },
+  landmark: {
+    sectionTitle: "Our landmark projects",
+    tabOngoingLabel: "Ongoing",
+    tabCompletedLabel: "Completed",
+    ongoing: DEV_LANDMARK_ONGOING,
+    completed: DEV_LANDMARK_COMPLETED,
+    ctaHref: CONTACT,
+    ctaLabel: "Know more",
+  },
+  stats: {
+    metrics: [
+      { label: "Families guided to closure", end: 850, format: "comma" },
+      {
+        label: "Avg. days saved vs DIY search",
+        end: 32,
+        format: "suffix",
+        suffix: "+",
+      },
+      {
+        label: "Lenders & legal partners",
+        end: 48,
+        format: "suffix",
+        suffix: "+",
+      },
+      { label: "Cities with on-ground support", end: 6, format: "comma" },
+    ] as const satisfies readonly DeveloperStat[],
+  },
+  partners: partnersBand(
+    "Partnered with Revolutionary",
+    "Startups & Global Organizations",
+  ),
+  // testimonials: {
+  //   sectionTitle: "What buyers say",
+  //   ...DEFAULT_VIEW_MORE,
+  //   items: [
+  //     {
+  //       id: "bb1",
+  //       brandLabel: "First-time buyer",
+  //       quote:
+  //         "We always knew what milestone came next. The shortlist was brutally honest — not just what was selling fastest.",
+  //       name: "Isha Malhotra",
+  //       role: "Product lead",
+  //       location: "Bandra",
+  //     },
+  //     {
+  //       id: "bb2",
+  //       brandLabel: "Upgrade buyer",
+  //       quote:
+  //         "They synchronized our sale and purchase timelines so we were never between homes longer than planned.",
+  //       name: "Sameer Khanna",
+  //       role: "Finance director",
+  //       location: "Powai",
+  //     },
+  //     {
+  //       id: "bb3",
+  //       brandLabel: "NRI buyer",
+  //       quote:
+  //         "Video walk-throughs, diligence PDFs, and a single thread for every question made remote buying workable.",
+  //       name: "Anita Deshpande",
+  //       role: "Consultant",
+  //       location: "Singapore → Pune",
+  //     },
+  //   ],
+  // },
+  awards: {
+    starIconSrc: "/images/Developer/award/star.svg",
+    headingLine1: "Awards &",
+    headingLine2: "Recognitions",
+    slides: DEV_AWARD_SLIDES,
+  },
+  banner: {
+    headline: "Lorem ipsum dolor sit amet, consectetur",
+    imageSrc: "/images/Buyer/image%2059.svg",
+    ctaLabel: "Explore",
+    ctaHref: "/projects",
+    imageAlt: "",
+    ariaHeadingId: "buyer-explore-banner-heading",
+  },
+} satisfies MarketingPageContent;

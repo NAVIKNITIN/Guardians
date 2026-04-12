@@ -1,8 +1,7 @@
-import {
-  PARTNER_LOGOS_ROW1,
-  PARTNER_LOGOS_ROW2,
-  type PartnerLogo,
-} from "@/data/developer-page";
+import type {
+  PartnerLogo,
+  PartnersSectionContent,
+} from "@/data/audience-marketing";
 import { MarketingEnquireLink } from "@/components/ui/MarketingEnquireLink";
 import { SectionSurface } from "@/components/ui/SectionSurface";
 import { cn } from "@/utils/cn";
@@ -10,24 +9,29 @@ import Image from "next/image";
 
 import "./partners-marquee.css";
 
-export function PartnersSection() {
+export function PartnersSection({
+  content,
+}: {
+  content: PartnersSectionContent;
+}) {
   return (
     <SectionSurface variant="partners" aria-labelledby="partners-heading">
       <h2
         id="partners-heading"
         className="mx-auto max-w-4xl text-center font-bold uppercase leading-relaxed tracking-[0.2em] text-brand-text-primary sm:text-xs"
       >
-        Partnered with revolutionary <br /> startups & global organizations
+        {content.headlineLine1} <br /> {content.headlineLine2}
       </h2>
       <div className="mt-10 space-y-4">
-        <LogoRow items={[...PARTNER_LOGOS_ROW1]} direction="lr" />
-        <LogoRow items={[...PARTNER_LOGOS_ROW2]} direction="rl" />
+        <LogoRow items={[...content.row1]} direction="lr" />
+        <LogoRow items={[...content.row2]} direction="rl" />
       </div>
-      <p className="mt-10 text-center text-normal text-brand-text-secondary">
-        …and many more to
-      </p>
-      <div className="mt-4 flex justify-center">
-        <MarketingEnquireLink href="/contact">Know</MarketingEnquireLink>
+
+      <div className="mt-16 flex justify-center gap-4 items-center">
+        <p className="text-center font-bold text-brand-text-secondary">
+          {content.closing}
+        </p>
+        <MarketingEnquireLink href={content.ctaHref}>{content.ctaLabel}</MarketingEnquireLink>
       </div>
     </SectionSurface>
   );

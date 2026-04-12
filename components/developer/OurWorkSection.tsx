@@ -1,6 +1,6 @@
 "use client";
 
-import { OUR_WORK_SLIDES } from "@/data/developer-page";
+import type { OurWorkBandContent } from "@/data/audience-marketing";
 import { CarouselControls } from "@/components/ui/CarouselControls";
 import { MarketingEnquireLink } from "@/components/ui/MarketingEnquireLink";
 import { SectionSurface } from "@/components/ui/SectionSurface";
@@ -12,11 +12,11 @@ import Image from "next/image";
 
 const slideTransition = { duration: 0.35, ease: [0.22, 1, 0.36, 1] as const };
 
-const total = OUR_WORK_SLIDES.length;
-
-export function OurWorkSection() {
+export function OurWorkSection({ content }: { content: OurWorkBandContent }) {
+  const slides = content.slides;
+  const total = slides.length;
   const { index, advance } = useCycleIndex(total, 0);
-  const slide = OUR_WORK_SLIDES[index]!;
+  const slide = slides[index]!;
 
   return (
     <SectionSurface
@@ -26,7 +26,7 @@ export function OurWorkSection() {
       <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
         <div>
           <h2 id="our-work-heading" className={marketingClasses.headingDisplay}>
-            Our work
+            {content.sectionTitle}
           </h2>
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
@@ -44,8 +44,11 @@ export function OurWorkSection() {
               </p>
             </motion.div>
           </AnimatePresence>
-          <MarketingEnquireLink href="/contact" className="mt-8 inline-flex px-7">
-            Read more
+          <MarketingEnquireLink
+            href={content.readMoreHref}
+            className="mt-8 inline-flex px-7"
+          >
+            {content.readMoreLabel}
           </MarketingEnquireLink>
           <CarouselControls
             className="mt-10 gap-4"
@@ -82,7 +85,7 @@ export function OurWorkSection() {
               className="absolute inset-x-0 bottom-0 flex justify-center gap-1.5 pb-3"
               aria-hidden
             >
-              {OUR_WORK_SLIDES.slice(0, 6).map((_, dot) => (
+              {slides.slice(0, 6).map((_, dot) => (
                 <span
                   key={dot}
                   className={cn(

@@ -1,4 +1,4 @@
-import type { Testimonial } from "@/data/developer-page";
+import type { Testimonial } from "@/data/audience-marketing";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 

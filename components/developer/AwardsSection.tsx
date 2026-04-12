@@ -1,7 +1,6 @@
 "use client";
 
-import type { AwardSlide } from "@/data/developer-page";
-import { AWARD_SLIDES } from "@/data/developer-page";
+import type { AwardSlide, AwardsSectionContent } from "@/data/audience-marketing";
 import { CarouselControls } from "@/components/ui/CarouselControls";
 import { SectionSurface } from "@/components/ui/SectionSurface";
 import { marketingClasses } from "@/styles/marketingClasses";
@@ -11,8 +10,6 @@ import { RollingText } from "@/components/ui/RollingText";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import { memo, useEffect, useState } from "react";
-
-const TOTAL = AWARD_SLIDES.length;
 
 /** Static deck behind the active page — edges + stitch read as bound pages. */
 function BookSpineStack({ className }: { className?: string }) {
@@ -147,9 +144,15 @@ const bookFlipReduced = {
   exit: { opacity: 0 },
 };
 
-export function AwardsSection() {
-  const { index, advance } = useCycleIndex(TOTAL, 0);
-  const slide = AWARD_SLIDES[index]!;
+export function AwardsSection({
+  content,
+}: {
+  content: AwardsSectionContent;
+}) {
+  const slides = content.slides;
+  const total = slides.length;
+  const { index, advance } = useCycleIndex(total, 0);
+  const slide = slides[index]!;
   const reduceMotion = useReducedMotion();
   const [rollDir, setRollDir] = useState<1 | -1>(1);
   /** Index of the slide that is turning away; cleared after mount so AnimatePresence can run `exit`. */
@@ -184,10 +187,10 @@ export function AwardsSection() {
 
   return (
     <SectionSurface variant="default" aria-labelledby="awards-heading">
-      <div className="grid gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-10 xl:gap-14">
+      <div className="grid gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-10 xl:gap-14 px-2 md:px-10 lg:px-20">
         <div className="flex flex-col items-start text-left lg:col-span-3">
           <Image
-            src="/images/Developer/award/star.svg"
+            src={content.starIconSrc}
             alt=""
             width={91}
             height={75}
@@ -200,8 +203,9 @@ export function AwardsSection() {
               marketingClasses.headingDisplaySm,
             )}
           >
-            Awards &
-            Recognitions
+            {content.headingLine1}
+            <br />
+            {content.headingLine2}
           </h2>
         </div>
 
@@ -231,7 +235,7 @@ export function AwardsSection() {
               >
                 {outgoingIndex !== null && (
                   <motion.div
-                    key={AWARD_SLIDES[outgoingIndex]!.id}
+                    key={slides[outgoingIndex]!.id}
                     custom={rollDir}
                     variants={reduceMotion ? bookFlipReduced : bookFlipFull}
                     initial="center"
@@ -248,7 +252,7 @@ export function AwardsSection() {
                       className="relative h-full w-full"
                       style={{ transformStyle: "preserve-3d" }}
                     >
-                      <BookPageFront slide={AWARD_SLIDES[outgoingIndex]!} />
+                      <BookPageFront slide={slides[outgoingIndex]!} />
                     </div>
                   </motion.div>
                 )}
@@ -261,7 +265,7 @@ export function AwardsSection() {
           <div className="mb-8 flex shrink-0 justify-start lg:mb-10">
             <CarouselControls
               currentIndex={index}
-              total={TOTAL}
+              total={total}
               onPrev={goPrev}
               onNext={goNext}
               prevLabel="Previous award"
@@ -295,7 +299,7 @@ export function AwardsSection() {
                   block
                   value={slide.achievement}
                   direction={rollDir}
-                  className="font-qasbyne text-[clamp(1.5rem,2.8vw,2.75rem)] font-normal leading-[1.15] tracking-[0.02em] text-brand-text-primary"
+                  className="font-qasbyne text-[clamp(1.5rem,2.1vw,2.75rem)] font-normal leading-[1.15] tracking-[0.02em] text-brand-text-primary"
                 />
               </div>
             </div>
