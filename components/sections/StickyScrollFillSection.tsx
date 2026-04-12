@@ -70,11 +70,11 @@ function FillLine({
  */
 export function StickyScrollFillSection({
   lines,
-  trackClassName = "min-h-[240vh]",
+  trackClassName = "min-h-[150vh]",
   className,
   fromColor = "#c4c4c4",
   toColor = "#111111",
-  stagger = 0.2,
+  stagger = 0.11,
   as = "h2",
 }: StickyScrollFillSectionProps) {
   const trackRef = useRef<HTMLDivElement | null>(null);
@@ -107,7 +107,10 @@ export function StickyScrollFillSection({
   return (
     <div
       ref={trackRef}
-      className={cn("relative bg-brand-background", trackClassName)}
+      className={cn(
+        "relative bg-brand-background ",
+        trackClassName,
+      )}
     >
       {/* Top-sticky viewport frame (not bottom-sticky on the tall track): the outer track is
           only for scroll length; the inner panel fills the viewport and keeps copy anchored
@@ -121,7 +124,8 @@ export function StickyScrollFillSection({
       >
         <div
           className={cn(
-            "w-full space-y-1.5 px-4 text-center sm:px-6 lg:px-8",
+            "w-full space-y-1.5 px-4 pt-10 text-center sm:px-6 sm:pt-12 lg:px-8 lg:pt-14",
+            "pb-2 sm:pb-3 lg:pb-4",
             className,
           )}
         >
