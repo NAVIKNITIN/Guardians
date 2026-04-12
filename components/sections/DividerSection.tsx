@@ -415,7 +415,7 @@ export function DividerSection() {
     <section
       ref={sectionRef}
       id="services"
-      className="relative bg-brand-background py-10 lg:h-[300vh] lg:py-0"
+      className="relative bg-brand-background py-0 lg:h-[300vh]"
       aria-labelledby="divider-cards-heading"
     >
       <h2 id="divider-cards-heading" className="sr-only">
@@ -436,7 +436,7 @@ export function DividerSection() {
               unoptimized
             />
           </div>
-          <ProfileCards className="mt-10" />
+          <ProfileCards className="mt-0" />
         </Container>
       </div>
 

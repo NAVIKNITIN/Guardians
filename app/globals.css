@@ -35,6 +35,21 @@
 :root {
   --background: #ffffff;
   --foreground: #0a0a0a;
+  /**
+   * Total height of the sticky site header (top bar + main nav).
+   * Keep in sync with `Navbar` — used for sticky sections + ScrollTrigger pin start.
+   */
+  --site-header-height: 118px;
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --site-header-height: 152px;
+  }
+}
+
+html {
+  scroll-padding-top: var(--site-header-height);
 }
 
 body {

@@ -4,6 +4,7 @@ export type DeveloperServiceCard = {
   id: string;
   title: string;
   src: string;
+  description: string;
 };
 
 /** Service tiles for the “Our services” band — horizontal scroll supports any length. */
@@ -11,32 +12,38 @@ export const OUR_SERVICES_CARDS: DeveloperServiceCard[] = [
   {
     id: "residential",
     title: "Residential",
-    src: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=800&q=80",
+    src: "/images/Developer/ourservices/1.svg",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
   },
   {
     id: "business",
     title: "Business solution",
-    src: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=800&q=80",
+    src: "/images/Developer/ourservices/2.svg",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
   },
   {
     id: "market",
     title: "Market intelligence",
     src: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
   },
   {
     id: "partner",
     title: "Partner network",
     src: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
   },
   {
     id: "institutional",
     title: "Institutional sales",
     src: "https://images.unsplash.com/photo-1486718448742-163732cd1544?auto=format&fit=crop&w=800&q=80",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
   },
   {
     id: "advisory",
     title: "Structured advisory",
     src: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
+    description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit."
   },
 ];
 
@@ -53,7 +60,7 @@ export const OUR_WORK_SLIDES: OurWorkSlide[] = [
     title: "The Guardians Assists with Elme Communities’ Evolution.",
     body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
     imageSrc:
-      "https://images.unsplash.com/photo-1486325202020-763d971de886?auto=format&fit=crop&w=1200&q=80",
+      "/images/ourwork.svg",
   },
   {
     id: "2",

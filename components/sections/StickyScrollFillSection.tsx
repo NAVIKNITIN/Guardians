@@ -88,7 +88,13 @@ export function StickyScrollFillSection({
       const scrollY = window.scrollY;
       const offsetTop = rect.top + scrollY;
       const vh = window.innerHeight;
-      const range = Math.max(1, el.offsetHeight - vh);
+      const headerPx = parseFloat(
+        getComputedStyle(document.documentElement).getPropertyValue(
+          "--site-header-height",
+        ),
+      ) || 118;
+      const usableVh = Math.max(1, vh - headerPx);
+      const range = Math.max(1, el.offsetHeight - usableVh);
       const p = clamp((scrollY - offsetTop) / range, 0, 1);
       sectionProgress.set(p);
     };
@@ -106,7 +112,13 @@ export function StickyScrollFillSection({
       {/* Top-sticky viewport frame (not bottom-sticky on the tall track): the outer track is
           only for scroll length; the inner panel fills the viewport and keeps copy anchored
           low like before, without a multi-screen empty band between hero and text. */}
-      <div className="sticky top-0 z-10 flex min-h-[50dvh] w-full flex-col justify-end bg-brand-background py-4 sm:py-20">
+      <div
+        className="sticky z-10 flex w-full flex-col justify-end bg-brand-background py-0"
+        style={{
+          top: "var(--site-header-height)",
+          minHeight: "calc(50dvh - var(--site-header-height))",
+        }}
+      >
         <div
           className={cn(
             "w-full space-y-1.5 px-4 text-center sm:px-6 lg:px-8",
