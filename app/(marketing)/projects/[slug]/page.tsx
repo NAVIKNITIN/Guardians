@@ -285,7 +285,7 @@ function CaseStudySection({
       </div>
 
       <div className="flex w-full min-w-0 flex-col items-start justify-start text-left">
-        <h2 className="font-[Georgia,Cambria,'Times_New_Roman',serif] text-[clamp(2rem,4vw,3.25rem)] font-normal uppercase leading-[1.05] tracking-[0.06em] text-[#202225]">
+        <h2 className="text-[clamp(2rem,4vw,3.25rem)] font-normal uppercase leading-[1.05] tracking-[0.06em] text-[#202225]">
           Case Study
         </h2>
         <div className="mt-6 flex w-full flex-col gap-4">
@@ -409,10 +409,10 @@ function ProjectDetailPageContent() {
                     : ""
                     } ${i > 0 ? "pl-4 lg:pl-6" : ""}`}
                 >
-                  <span className="font-nexa text-xs font-bold uppercase tracking-[0.1em] text-black/80 sm:text-sm ">
+                  <span className=" text-xs font-bold uppercase tracking-[0.1em] text-black/80 sm:text-sm ">
                     {stat.label}
                   </span>
-                  <span className="mt-1 font-nexa text-[#8F8183]">
+                  <span className="mt-1  text-[#8F8183]">
                     <span className="text-2xl sm:text-3xl lg:text-[2.625rem] leading-none">
                       {stat.value}
                     </span>

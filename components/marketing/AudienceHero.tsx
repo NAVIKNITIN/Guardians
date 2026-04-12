@@ -49,7 +49,7 @@ export function AudienceHero({ content }: { content: MarketingHeroContent }) {
             className="font-qasbyne text-[clamp(2rem,6vw,4.5rem)] uppercase leading-[1.05] tracking-[0.04em]"
           >
             <span className="block">
-              <span className="font-semibold text-[#0a0a0a]">{lead}</span>{" "}
+              <span className="font-normal text-[#0a0a0a]">{lead}</span>{" "}
               <span className="font-light text-[#7a6a5c]">{accent}</span>
             </span>
           </h1>

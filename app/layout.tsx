@@ -28,7 +28,7 @@ export default function RootLayout({
       className={`${nexaFont.variable} ${qasbyneFont.variable} h-full scroll-smooth antialiased`}
     >
       <body
-        className={`${nexaFont.variable} min-h-full bg-brand-background font-nexa text-brand-text-primary ${nexaFont.className}`}
+        className={`${nexaFont.variable} min-h-full bg-brand-background text-brand-text-primary `}
       >
         {children}
       </body>

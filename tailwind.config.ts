@@ -11,8 +11,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        nexa: ["var(--font-nexa)"],
-        qasbyne: ["var(--font-qasbyne)"],
+        nexa: [...nexaStack],
+        qasbyne: [...qasbyneStack],
       },
     },
   },

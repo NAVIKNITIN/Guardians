@@ -55,7 +55,7 @@ export function DeveloperStatsSection({
           <div
             key={stat.label}
             className={cn(
-              `${nexaFont.className} flex flex-col items-center px-3 py-8 text-center sm:px-6`,
+              ` flex flex-col items-center px-3 py-8 text-center sm:px-6`,
               idx % 2 === 1 && "border-l border-black/[0.08]",
               idx >= 2 && "border-t border-black/[0.08] md:border-t-0",
               idx > 0 && "md:border-l md:border-black/[0.08]",

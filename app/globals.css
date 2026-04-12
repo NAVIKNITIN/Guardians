@@ -20,8 +20,11 @@
   --color-brand-footer: #8f8183;
   --color-brand-footer-dark: #2a2626;
   --max-width-brand: 90rem;
-  --font-nexa: var(--font-nexa);
-  --font-qasbyne: var(--font-qasbyne);
+  --font-nexa: font-nexa;
+  --font-qasbyne: font-qasbyne;
+  /* Default UI fonts: Nexa everywhere unless `font-qasbyne` is used */
+  --font-sans: font-nexa, ui-sans-serif, system-ui, sans-serif;
+  --font-serif: font-nexa, ui-sans-serif, system-ui, sans-serif;
 }
 
 @utility bg-grid-hero {
@@ -34,8 +37,8 @@
 :root {
   --background: #ffffff;
   --foreground: #0a0a0a;
-  --font-primary: var(--font-nexa);
-  --font-secondary: var(--font-qasbyne);
+  --font-primary: font-nexa;
+  --font-secondary: font-qasbyne;
 
   --site-header-height: 118px;
 }
@@ -53,6 +56,5 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-nexa), system-ui, sans-serif;
+  font-family: font-nexa, system-ui, sans-serif;
 }
-

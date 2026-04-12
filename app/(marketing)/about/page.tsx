@@ -55,22 +55,22 @@ function BrandCard({
       <article className="flex min-h-[138px] items-center justify-center border border-[#ece7e7] bg-white px-6 py-8 text-center">
         <div className="leading-none text-[#938788]">
           <div className="flex items-start justify-center gap-1">
-            <span className="font-sans text-[clamp(1.9rem,3vw,3.1rem)] font-bold lowercase tracking-[-0.05em]">
+            <span className="text-[clamp(1.9rem,3vw,3.1rem)] font-bold lowercase tracking-[-0.05em]">
               ground
             </span>
             <div className="pt-1 text-left">
-              <div className="font-sans text-[0.46rem] font-semibold uppercase tracking-[0.12em]">
+              <div className="text-[0.46rem] font-semibold uppercase tracking-[0.12em]">
                 Real
               </div>
-              <div className="font-sans text-[0.46rem] font-semibold uppercase tracking-[0.12em]">
+              <div className="text-[0.46rem] font-semibold uppercase tracking-[0.12em]">
                 Estate
               </div>
-              <div className="font-sans text-[0.46rem] font-semibold uppercase tracking-[0.12em]">
+              <div className="text-[0.46rem] font-semibold uppercase tracking-[0.12em]">
                 Advisory
               </div>
             </div>
           </div>
-          <div className="-mt-1 font-sans text-[clamp(1.9rem,3vw,3.1rem)] font-bold lowercase tracking-[-0.05em]">
+          <div className="-mt-1 text-[clamp(1.9rem,3vw,3.1rem)] font-bold lowercase tracking-[-0.05em]">
             holding
           </div>
         </div>
@@ -82,12 +82,12 @@ function BrandCard({
     return (
       <article className="flex min-h-[138px] items-center justify-center border border-[#ece7e7] bg-white px-6 py-8 text-center">
         <div className="text-[#938788]">
-          <div className="font-sans text-[clamp(1.55rem,2.5vw,2.45rem)] font-medium uppercase tracking-[0.1em]">
+          <div className="text-[clamp(1.55rem,2.5vw,2.45rem)] font-medium uppercase tracking-[0.1em]">
             The Guardians
           </div>
           <div className="mt-2 flex items-center justify-center gap-3">
             <span className="h-px w-12 bg-[#cfc4c5]" />
-            <span className="font-sans text-[0.75rem] uppercase tracking-[0.42em] text-[#9f9495]">
+            <span className="text-[0.75rem] uppercase tracking-[0.42em] text-[#9f9495]">
               International
             </span>
             <span className="h-px w-12 bg-[#cfc4c5]" />
@@ -101,7 +101,7 @@ function BrandCard({
     return (
       <article className="flex min-h-[138px] items-center justify-center border border-[#ece7e7] bg-white px-6 py-8 text-center">
         <div className="text-[#938788]">
-          <div className="mb-2 font-sans text-[0.54rem] uppercase tracking-[0.42em] text-[#a39899]">
+          <div className="mb-2 text-[0.54rem] uppercase tracking-[0.42em] text-[#a39899]">
             The Guardians
           </div>
           <div className="flex items-center justify-center gap-3">
@@ -110,7 +110,7 @@ function BrandCard({
               <span className="absolute bottom-0 left-0 h-5 w-5 border-l-[5px] border-b-[5px] border-[#938788]" />
               <span className="absolute left-3 top-1 h-7 w-4 border-l-[5px] border-t-[5px] border-[#938788]" />
             </div>
-            <span className="font-sans text-[clamp(1.75rem,2.8vw,2.9rem)] font-bold uppercase tracking-[0.02em]">
+            <span className="text-[clamp(1.75rem,2.8vw,2.9rem)] font-bold uppercase tracking-[0.02em]">
               Cavalry
             </span>
           </div>
@@ -122,10 +122,10 @@ function BrandCard({
   return (
     <article className="flex min-h-[138px] items-center justify-center border border-[#ece7e7] bg-white px-6 py-8 text-center">
       <div>
-        <h3 className="font-sans text-[clamp(1.3rem,2vw,2rem)] font-bold uppercase tracking-[0.04em] text-[#8f8183]">
+        <h3 className="text-[clamp(1.3rem,2vw,2rem)] font-bold uppercase tracking-[0.04em] text-[#8f8183]">
           {title}
         </h3>
-        <p className="mt-2 font-sans text-[0.64rem] uppercase tracking-[0.34em] text-[#a49a9b]">
+        <p className="mt-2 text-[0.64rem] uppercase tracking-[0.34em] text-[#a49a9b]">
           {subtitle}
         </p>
       </div>
@@ -156,7 +156,7 @@ export default function AboutPage() {
               <span className="text-[#9e8f90]">Who</span>
               <span className="ml-3 text-[#201d1e]">We Are?</span>
             </h1>
-            <p className="mx-auto mt-4 max-w-[1180px] font-sans text-[17px] leading-[1.1] text-[#2f2b2c] sm:text-[21px] lg:text-[24px]">
+            <p className="mx-auto mt-4 max-w-[1180px] text-[17px] leading-[1.1] text-[#2f2b2c] sm:text-[21px] lg:text-[24px]">
               We are one of the fastest growing Real Estate consulting company in India.
             </p>
           </div>
@@ -182,7 +182,7 @@ export default function AboutPage() {
                   />
                 </div>
                 <div className="mx-auto max-w-[800px] text-center lg:px-[62px]">
-                  <p className="font-sans text-[clamp(0.98rem,1vw,1.05rem)] leading-[1.38] text-[#3c393a]">
+                  <p className="text-[clamp(0.98rem,1vw,1.05rem)] leading-[1.38] text-[#3c393a]">
                     <span className="font-semibold text-[#242021]">The Guardians</span> mark the coming
                     together of the best of minds from the Indian real estate industry, a set of professionals
                     who have played diverse roles across their careers. Their collective experience spans over
@@ -207,14 +207,14 @@ export default function AboutPage() {
 
             <div className="mt-16 grid items-start gap-y-10 lg:grid-cols-[470px_1fr] lg:gap-x-18">
               <div className="max-w-[470px] lg:pl-10">
-                <h3 className="max-w-[430px] font-sans text-[clamp(1.72rem,2.1vw,2.6rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-[#1f1c1d]">
+                <h3 className="max-w-[430px] text-[clamp(1.72rem,2.1vw,2.6rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-[#1f1c1d]">
                   Revolutionising real
                   <br />
                   estate through
                   <br />
                   innovation
                 </h3>
-                <p className="mt-8 max-w-[355px] font-sans text-[14px] leading-[1.28] text-[#5f5a5b]">
+                <p className="mt-8 max-w-[355px] text-[14px] leading-[1.28] text-[#5f5a5b]">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                   ut labore et dolore magna aliqua, dolor sit amet, consectetur adipiscing elit, sed do
                   eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -233,7 +233,7 @@ export default function AboutPage() {
                   >
                     <p
                       className={cn(
-                        "font-sans text-[2.55rem] font-semibold leading-[0.92] tracking-[-0.04em] text-[#9a8c8f]",
+                        "text-[2.55rem] font-semibold leading-[0.92] tracking-[-0.04em] text-[#9a8c8f]",
                         stat.nowrap && "whitespace-nowrap text-[2.18rem] leading-[0.92]",
                       )}
                     >
@@ -241,7 +241,7 @@ export default function AboutPage() {
                     </p>
                     <p
                       className={cn(
-                        "mt-1.5 font-sans text-[11px] leading-tight text-[#706b6c]",
+                        "mt-1.5 text-[11px] leading-tight text-[#706b6c]",
                         index < 2 && "mt-2",
                       )}
                     >
@@ -286,10 +286,10 @@ export default function AboutPage() {
                     <div className="font-serif text-[5.5rem] leading-none text-[#c8c5c6] sm:text-[6.5rem]">
                       &ldquo;
                     </div>
-                    <h3 className="-mt-8 max-w-[520px] font-sans text-[clamp(2rem,3vw,3.2rem)] font-semibold leading-[1.08] text-[#1f1d1d]">
+                    <h3 className="-mt-8 max-w-[520px] text-[clamp(2rem,3vw,3.2rem)] font-semibold leading-[1.08] text-[#1f1d1d]">
                       We stay ahead of the curve with strategy
                     </h3>
-                    <p className="mt-7 max-w-[560px] font-sans text-sm leading-8 text-[#5d5859] sm:text-[15px]">
+                    <p className="mt-7 max-w-[560px] text-sm leading-8 text-[#5d5859] sm:text-[15px]">
                       Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                       ut labore et dolore magna aliqua, dolor sit amet, consectetur adipiscing elit, sed do
                       eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet,
@@ -300,10 +300,10 @@ export default function AboutPage() {
 
                   <div className="mt-10 flex items-end justify-between gap-4">
                     <div>
-                      <p className="font-sans text-[clamp(2rem,2.6vw,2.7rem)] font-semibold text-[#2a2626]">
+                      <p className="text-[clamp(2rem,2.6vw,2.7rem)] font-semibold text-[#2a2626]">
                         Jayesh Rathod
                       </p>
-                      <p className="mt-2 font-sans text-sm uppercase tracking-[0.22em] text-[#867f80]">
+                      <p className="mt-2 text-sm uppercase tracking-[0.22em] text-[#867f80]">
                         Co-Founder & Director
                       </p>
                     </div>
@@ -339,7 +339,7 @@ export default function AboutPage() {
         <Container>
           <div className="mx-auto max-w-[1120px]">
             <div className="flex items-center justify-center gap-5">
-              <p className="font-sans text-[0.95rem] font-bold uppercase tracking-[0.22em] text-[#2a2626]">
+              <p className="text-[0.95rem] font-bold uppercase tracking-[0.22em] text-[#2a2626]">
                 The Guardians Real Estate Advisory
               </p>
             </div>
