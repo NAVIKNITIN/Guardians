@@ -29,7 +29,8 @@ const brandCards = [
 ] as const;
 
 const heroImage = "/images/mumbai-skyline-bw.png";
-const leadershipImage = "/images/leadership-photo.png";
+const leadershipImage =
+  "https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=900&q=80";
 const subsectionTitleClass =
   "font-qasbyne text-[clamp(1.7rem,3vw,2.8rem)] uppercase tracking-[0.08em] text-[#2a2626]";
 
