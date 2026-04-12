@@ -1,4 +1,5 @@
 import { CareerHero } from "@/components/career/CareerHero";
+import { GrowWithUs } from "@/components/career/GrowWithUs";
 import { LifeAtGuardians } from "@/components/career/LifeAtGuardians";
 import { OfficeActivities } from "@/components/career/OfficeActivities";
 import { ReasonsToJoin } from "@/components/career/ReasonsToJoin";
@@ -17,6 +18,7 @@ export default function CareerPage() {
       <LifeAtGuardians />
       <ReasonsToJoin />
       <OfficeActivities />
+      <GrowWithUs />
     </>
   );
 }

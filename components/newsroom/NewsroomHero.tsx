@@ -9,17 +9,17 @@ export function NewsroomHero() {
       aria-labelledby="newsroom-hero-heading"
     >
       {/* Full-bleed hero background */}
-      <div className="absolute inset-0 z-0" aria-hidden>
+      <div className="absolute inset-0 z-0 mt-[-150px]" aria-hidden>
         <Image
-          src="https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=3532&q=85"
-          alt=""
+          src="/images/newsroom.svg"
+          alt="Newsroom"
           fill
-          className="object-cover object-center"
+          className="object-cover"
           sizes="100vw"
           priority
         />
         {/* Dark overlay to ensure white text legibility */}
-        <div className="absolute inset-0 bg-[#202225]/55" />
+        <div className="absolute inset-0 bg-black/50" />
       </div>
 
       {/* Centered heading */}

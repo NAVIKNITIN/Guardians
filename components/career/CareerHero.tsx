@@ -12,16 +12,15 @@ export function CareerHero() {
       {/* Layered decorative building imagery */}
       <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
         <Image
-          src="https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=2880&q=80"
-          alt=""
+          src="/images/workwithus.svg"
+          alt="Work With Us"
           fill
-          className="object-cover object-center"
+          className="object-fill"
           sizes="100vw"
           priority
         />
         {/* Gradient overlays matching Figma's layered images effect */}
-        <div className="absolute inset-0 bg-gradient-to-b from-white/30 via-transparent to-white/40" />
-        <div className="absolute inset-0 bg-white/20 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-black/25" />
       </div>
 
       {/* Centered text */}

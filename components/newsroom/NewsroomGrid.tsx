@@ -1,5 +1,6 @@
 import { Container } from "@/components/common/Container";
 import { NewsCard, type NewsArticle } from "./NewsCard";
+import Image from "next/image";
 
 const EXCERPT =
   "Lorem ipsum dolor sit amet consectetur. Augue molestie etiam lacus velit. Eget urna sagittis faucibus mauris id lacinia sit amet volutpat.";
@@ -109,7 +110,7 @@ function ViewMoreIcon() {
 export function NewsroomGrid() {
   return (
     <section
-      className="border-t border-black/[0.06] bg-brand-background py-16 sm:py-20 lg:py-24"
+      className="bg-white py-16 sm:py-16 lg:py-20 px-2 lg:px-10"
       aria-label="News articles"
     >
       <Container>
@@ -131,7 +132,7 @@ export function NewsroomGrid() {
             }}
           >
             View More
-            <ViewMoreIcon />
+            <Image src="/images/arrowwhite.svg" alt="View More" width={15} height={15} />
           </button>
         </div>
       </Container>

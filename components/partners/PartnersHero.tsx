@@ -11,7 +11,7 @@ export function PartnersHero() {
       {/* Geometric paper-cut background */}
       <div className="pointer-events-none absolute inset-0 z-0">
         <Image
-          src="/images/Home/paper-cut-hero.png"
+          src="/images/partner-hero.svg"
           alt=""
           fill
           className="object-cover object-center"
@@ -34,20 +34,20 @@ export function PartnersHero() {
       <div
         className={cn(
           "relative z-20 flex items-center justify-center",
-          "min-h-[260px] sm:min-h-[310px] lg:min-h-[362px]",
+          "min-h-[260px] sm:min-h-[310px] lg:min-h-[362px] bg-black/25",
         )}
       >
         <h1
           id="partners-hero-heading"
           className={cn(
-            "font-qasbyne font-normal uppercase text-[#202225]",
+            " uppercase text-[#202225]",
             "text-[clamp(2rem,6vw,4.375rem)] leading-[1.06] tracking-[0.05em]",
             "text-center",
           )}
+
         >
-          Partners{" "}
-          <span className="font-qasbyne italic">&amp;</span>{" "}
-          Clients
+          <span className=" text-white" >Partners</span>
+          <span className="font-qasbyne " > &amp; Clients</span>
         </h1>
       </div>
     </section>

@@ -1,12 +1,17 @@
+"use client";
+
 import { Container } from "@/components/common/Container";
 import { GazetteCard, type GazetteIssue } from "./GazetteCard";
+import Image from "next/image";
+import { DownloadModal } from "../magazine/DownloadModal";
+import { useState } from "react";
 
 const ISSUES: GazetteIssue[] = [
   {
     id: "1",
     title: "Revolutionising real estate - The Power of GIS mapping in India",
     imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/35f80b4852d3b0f3cc3880dfe66322c0a324b1b4?width=1082",
+      "/images/citylife.svg",
     imageAlt: "City Life magazine cover",
     href: "#",
   },
@@ -14,7 +19,7 @@ const ISSUES: GazetteIssue[] = [
     id: "2",
     title: "Revolutionising real estate - The Power of GIS mapping in India",
     imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/35f80b4852d3b0f3cc3880dfe66322c0a324b1b4?width=1082",
+      "/images/citylife.svg",
     imageAlt: "City Life magazine cover",
     href: "#",
   },
@@ -22,7 +27,7 @@ const ISSUES: GazetteIssue[] = [
     id: "3",
     title: "Revolutionising real estate - The Power of GIS mapping in India",
     imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/35f80b4852d3b0f3cc3880dfe66322c0a324b1b4?width=1082",
+      "/images/citylife.svg",
     imageAlt: "City Life magazine cover",
     href: "#",
   },
@@ -30,7 +35,7 @@ const ISSUES: GazetteIssue[] = [
     id: "4",
     title: "Revolutionising real estate - The Power of GIS mapping in India",
     imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/69cfc63ec1bc1c07ddf5cdb1894e5d8aab377554?width=1082",
+      "/images/citylife.svg",
     imageAlt: "City Life magazine cover",
     href: "#",
   },
@@ -38,7 +43,7 @@ const ISSUES: GazetteIssue[] = [
     id: "5",
     title: "Revolutionising real estate - The Power of GIS mapping in India",
     imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/69cfc63ec1bc1c07ddf5cdb1894e5d8aab377554?width=1082",
+      "/images/citylife.svg",
     imageAlt: "City Life magazine cover",
     href: "#",
   },
@@ -46,7 +51,7 @@ const ISSUES: GazetteIssue[] = [
     id: "6",
     title: "Revolutionising real estate - The Power of GIS mapping in India",
     imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/69cfc63ec1bc1c07ddf5cdb1894e5d8aab377554?width=1082",
+      "/images/citylife.svg",
     imageAlt: "City Life magazine cover",
     href: "#",
   },
@@ -61,13 +66,14 @@ function ViewMoreIcon() {
 }
 
 export function GazetteGrid() {
+  const [activeIssue, setActiveIssue] = useState<string | null>(null);
   return (
-    <section className="bg-white py-16 sm:py-20 lg:py-24" aria-label="Gazette issues">
+    <section className="bg-white py-16 sm:py-16 lg:py-20 px-2 lg:px-10" aria-label="Gazette issues">
       <Container>
         {/* 3-column grid */}
         <div className="grid grid-cols-1 gap-x-10 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-[52px] lg:gap-y-16">
           {ISSUES.map((issue) => (
-            <GazetteCard key={issue.id} issue={issue} />
+            <GazetteCard key={issue.id} issue={issue} onOpenFile={setActiveIssue} />
           ))}
         </div>
 
@@ -82,10 +88,16 @@ export function GazetteGrid() {
             }}
           >
             View More
-            <ViewMoreIcon />
+            <Image src="/images/arrowwhite.svg" alt="View More" width={15} height={15} />
           </button>
         </div>
       </Container>
+      {/* Download modal */}
+      <DownloadModal
+        isOpen={activeIssue !== null}
+        onClose={() => setActiveIssue(null)}
+        issueTitle={activeIssue ?? ""}
+      />
     </section>
   );
 }

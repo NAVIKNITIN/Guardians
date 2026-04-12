@@ -28,7 +28,7 @@ function CornerArrowIcon() {
   );
 }
 
-export function GazetteCard({ issue }: { issue: GazetteIssue }) {
+export function GazetteCard({ issue, onOpenFile }: { issue: GazetteIssue, onOpenFile: (title: string) => void }) {
   return (
     <article className="flex flex-col items-center">
       {/* Portrait magazine cover */}
@@ -50,8 +50,9 @@ export function GazetteCard({ issue }: { issue: GazetteIssue }) {
       </h3>
 
       {/* Open File button */}
-      <Link
-        href={issue.href}
+      <button
+        type="button"
+        onClick={() => onOpenFile(issue.title)}
         className={cn(
           "mt-5 flex items-center justify-center gap-5",
           "border border-black/30 px-12 py-[18px]",
@@ -61,8 +62,8 @@ export function GazetteCard({ issue }: { issue: GazetteIssue }) {
         )}
       >
         Open File
-        <Image src="/images/arrowblack.svg" alt="Open File" width={15} height={15} />
-      </Link>
+        <Image src="/images/arrow.svg" alt="Open File" width={15} height={15} />
+      </button>
     </article>
   );
 }

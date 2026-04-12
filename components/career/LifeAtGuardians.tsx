@@ -5,7 +5,7 @@ import Image from "next/image";
 export function LifeAtGuardians() {
   return (
     <section
-      className="border-t border-black/[0.06] bg-brand-background py-16 sm:py-20 lg:py-24"
+      className="bg-white py-16 sm:py-16 lg:py-20 px-2 lg:px-10"
       aria-labelledby="life-heading"
     >
       {/* ── Top split: heading left / description right ── */}
@@ -15,8 +15,8 @@ export function LifeAtGuardians() {
           <h2
             id="life-heading"
             className={cn(
-              "font-qasbyne font-normal uppercase text-[#202225]",
-              "text-[clamp(2.25rem,5.5vw,4.375rem)] leading-[1] tracking-[0.05em]",
+              " uppercase text-[#202225]",
+              "text-[clamp(2.25rem,3.8vw,4.375rem)] leading-[1] tracking-[0.05em]",
             )}
           >
             Life at<br />Guardians
@@ -33,7 +33,7 @@ export function LifeAtGuardians() {
       </Container>
 
       {/* ── Full-width-ish large image ── */}
-      <div className="mx-auto mt-10 max-w-[1196px] px-4 sm:px-6 lg:mt-12 lg:px-8 xl:px-0">
+      <div className="mx-auto mt-10  lg:mt-12 px-2 lg:px-10">
         <div
           className="relative w-full overflow-hidden bg-[#BCBDC0]"
           style={{ height: "clamp(240px, 28vw, 400px)" }}

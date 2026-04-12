@@ -107,7 +107,7 @@ function ReasonCard({ card }: { card: ReasonCard }) {
 export function ReasonsToJoin() {
   return (
     <section
-      className="border-t border-black/[0.06] bg-brand-background py-16 sm:py-20 lg:py-24"
+      className=" bg-white mb-16 sm:mb-20  py-4 px-2 lg:px-10 "
       aria-labelledby="reasons-heading"
     >
       <Container>
@@ -115,9 +115,9 @@ export function ReasonsToJoin() {
         <h2
           id="reasons-heading"
           className={cn(
-            "text-center font-qasbyne font-normal uppercase text-[#202225]",
-            "text-[clamp(1.75rem,4vw,3.125rem)] leading-[1.4] tracking-[0.05em]",
-            "mb-10 lg:mb-12",
+            "text-center  uppercase text-[#202225]",
+            "text-[clamp(1.75rem,2.8vw,3.75rem)] leading-[1.4] tracking-[0.05em]",
+            "mb-5 lg:mb-5",
           )}
         >
           Reasons to Join Guardians

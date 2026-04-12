@@ -29,7 +29,7 @@ const ACTIVITIES = [
 export function OfficeActivities() {
   return (
     <section
-      className="border-t border-black/[0.06] bg-brand-background py-16 sm:py-20 lg:py-24"
+      className="bg-white mb-16 sm:mb-20  py-4 px-2 lg:px-10 "
       aria-labelledby="activities-heading"
     >
       <Container>
@@ -37,8 +37,8 @@ export function OfficeActivities() {
         <h2
           id="activities-heading"
           className={cn(
-            "text-center font-qasbyne font-normal uppercase text-[#202225]",
-            "text-[clamp(1.75rem,4vw,3.125rem)] leading-[1.4] tracking-[0.05em]",
+            "text-center  uppercase text-[#202225]",
+            "text-[clamp(1.75rem,2.8vw,3.75rem)] leading-[1.4] tracking-[0.05em]",
             "mb-10 lg:mb-12",
           )}
         >
@@ -51,7 +51,7 @@ export function OfficeActivities() {
             <div key={activity.id} className="flex flex-col gap-4">
               {/* Photo */}
               <div
-                className="relative w-full overflow-hidden bg-neutral-200"
+                className="relative w-full overflow-hidden bg-[#BCBDC0]"
                 style={{ height: "clamp(220px, 24vw, 350px)" }}
               >
                 <Image
@@ -64,7 +64,7 @@ export function OfficeActivities() {
               </div>
 
               {/* Label */}
-              <p className="font-nexa text-lg font-bold leading-snug text-[#161616]">
+              <p className="font-nexa text-lg font-bold leading-snug text-[#202225]">
                 {activity.label}
               </p>
             </div>
