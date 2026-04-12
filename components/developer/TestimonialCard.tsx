@@ -28,7 +28,7 @@ export function TestimonialCard({
           <Image src={avatar} alt="" fill className="object-cover" sizes="48px" />
         </div>
       </div>
-      <p className="mt-6 font-serif text-5xl leading-none text-brand-text-primary/25">
+      <p className="mt-6 font-nexa text-5xl leading-none text-brand-text-primary/25">
         &ldquo;
       </p>
       <p className="mt-2 text-sm leading-relaxed text-brand-text-secondary">

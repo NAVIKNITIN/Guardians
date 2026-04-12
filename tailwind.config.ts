@@ -1,5 +1,8 @@
 import type { Config } from "tailwindcss";
 
+const nexaStack = ["var(--font-nexa)", "system-ui", "sans-serif"] as const;
+const qasbyneStack = ["var(--font-qasbyne)", "system-ui", "sans-serif"] as const;
+
 const config: Config = {
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
@@ -8,9 +11,8 @@ const config: Config = {
   theme: {
     extend: {
       fontFamily: {
-        sans: ["var(--font-nexa)", "system-ui", "sans-serif"],
-        serif: ["var(--font-nexa)", "system-ui", "sans-serif"],
-        qasbyne: ["var(--font-qasbyne)", "system-ui", "sans-serif"],
+        nexa: ["var(--font-nexa)"],
+        qasbyne: ["var(--font-qasbyne)"],
       },
     },
   },

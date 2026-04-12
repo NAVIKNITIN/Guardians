@@ -131,30 +131,56 @@ export const LANDMARK_COMPLETED: LandmarkProject[] = LANDMARK_ONGOING.map(
   }),
 );
 
+export type DeveloperStat =
+  | { readonly label: string; readonly end: number; readonly format: "comma" }
+  | {
+      readonly label: string;
+      readonly end: number;
+      readonly format: "suffix";
+      readonly suffix: string;
+    };
+
 export const STATS = [
-  { value: "37,850", label: "Cr. Worth of Inventory Sold" },
-  { value: "2 Million+", label: "Sq. Ft. Area Developed" },
-  { value: "307+", label: "Projects Delivered" },
-  { value: "29,669", label: "Units Sold" },
-] as const;
+  { label: "Cr. Worth of Inventory Sold", end: 37850, format: "comma" },
+  {
+    label: "Sq. Ft. Area Developed",
+    end: 2,
+    format: "suffix",
+    suffix: " Million+",
+  },
+  { label: "Projects Delivered", end: 307, format: "suffix", suffix: "+" },
+  { label: "Units Sold", end: 29669, format: "comma" },
+] as const satisfies readonly DeveloperStat[];
 
-export const PARTNER_LOGOS_ROW1 = [
-  "Marathon",
-  "Sunteck",
-  "Piramal Realty",
-  "Sheth Creators",
-  "Guru Prerna",
-  "Integrated",
-] as const;
+export function formatDeveloperStatValue(stat: DeveloperStat, n: number): string {
+  const v = Math.min(Math.max(0, Math.round(n)), stat.end);
+  if (stat.format === "comma") return v.toLocaleString("en-US");
+  return `${v}${stat.suffix}`;
+}
 
-export const PARTNER_LOGOS_ROW2 = [
-  "Crystal",
-  "Crescent",
-  "Ashford",
-  "Ashish Group",
-  "ID Group",
-  "Sonam",
-] as const;
+const partnerLogoSrc = (filename: string) =>
+  `/images/Developer/partners/${encodeURIComponent(filename)}`;
+
+export type PartnerLogo = { readonly src: string; readonly alt: string };
+
+/** Filenames under `public/images/Developer/partners` — two rows of six. */
+export const PARTNER_LOGOS_ROW1: readonly PartnerLogo[] = [
+  { src: partnerLogoSrc("Group 32.svg"), alt: "Partner logo" },
+  { src: partnerLogoSrc("Group 33.svg"), alt: "Partner logo" },
+  { src: partnerLogoSrc("Group 34.svg"), alt: "Partner logo" },
+  { src: partnerLogoSrc("Group 36.svg"), alt: "Partner logo" },
+  { src: partnerLogoSrc("Group 38.svg"), alt: "Partner logo" },
+  { src: partnerLogoSrc("Group 39.svg"), alt: "Partner logo" },
+];
+
+export const PARTNER_LOGOS_ROW2: readonly PartnerLogo[] = [
+  { src: partnerLogoSrc("Group 42.svg"), alt: "Partner logo" },
+  { src: partnerLogoSrc("Group 44.svg"), alt: "Partner logo" },
+  { src: partnerLogoSrc("Group 47.svg"), alt: "Partner logo" },
+  { src: partnerLogoSrc("Group 48.svg"), alt: "Partner logo" },
+  { src: partnerLogoSrc("Group 49.svg"), alt: "Partner logo" },
+  { src: partnerLogoSrc("Group 50.svg"), alt: "Partner logo" },
+];
 
 export type Testimonial = {
   id: string;

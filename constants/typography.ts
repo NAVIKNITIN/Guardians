@@ -3,8 +3,7 @@
  */
 export const typography = {
   fontFamily: {
-    sans: "var(--font-nexa)",
-    serif: "var(--font-nexa)",
+    nexa: "var(--font-nexa)",
     qasbyne: "var(--font-qasbyne)",
   },
   fontSize: {

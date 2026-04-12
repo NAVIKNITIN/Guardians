@@ -275,7 +275,7 @@ function CaseStudySection({
         )}
 
         <div className="absolute bottom-0 left-0 z-[1] p-4 sm:p-6">
-          <p className="font-sans text-xl font-bold uppercase leading-[1.1] tracking-[0.06em] text-white sm:text-2xl md:text-3xl lg:text-4xl">
+          <p className="font-nexa text-xl font-bold uppercase leading-[1.1] tracking-[0.06em] text-white sm:text-2xl md:text-3xl lg:text-4xl">
             <span className="block sm:inline">Client </span>
             <span className="mt-1 inline-block bg-black/45 px-2 py-1 sm:mt-0 sm:px-3">
               Chronicles
@@ -292,7 +292,7 @@ function CaseStudySection({
           {paragraphs.map((p, i) => (
             <p
               key={i}
-              className="font-sans text-sm leading-relaxed text-[#161616]/90 sm:text-base"
+              className="font-nexa text-sm leading-relaxed text-[#161616]/90 sm:text-base"
             >
               {p}
             </p>
@@ -322,7 +322,7 @@ function AmenityItem({
           className="h-20 w-20 object-contain"
         />
       </div>
-      <span className="font-sans text-[11px] font-bold uppercase tracking-[0.08em] text-[#202225] sm:text-xs">
+      <span className="font-nexa text-[11px] font-bold uppercase tracking-[0.08em] text-[#202225] sm:text-xs">
         {amenity.label}
       </span>
     </div>
@@ -369,7 +369,7 @@ function ProjectDetailPageContent() {
           {/* Breadcrumb — returns to the same listing (ongoing vs completed) */}
           <Link
             href={projectsListHref}
-            className="mb-3 inline-block font-sans text-xs text-[#8F8183] transition-colors hover:text-[#161616] sm:text-sm"
+            className="mb-3 inline-block font-nexa text-xs text-[#8F8183] transition-colors hover:text-[#161616] sm:text-sm"
           >
             {projectsListLabel}
           </Link>
@@ -380,7 +380,7 @@ function ProjectDetailPageContent() {
               {/* Status dot + label */}
               <div className="mb-2 flex items-center gap-2">
                 <span className="h-2.5 w-2.5 rounded-full bg-[#8F8183]" />
-                <span className="font-sans text-base text-[#8F8183] sm:text-lg">
+                <span className="font-nexa text-base text-[#8F8183] sm:text-lg">
                   {heroStatusLine}
                 </span>
               </div>
@@ -394,7 +394,7 @@ function ProjectDetailPageContent() {
               </h1>
 
               {/* RERA */}
-              <p className="mt-3 font-sans text-xs font-bold uppercase tracking-[0.1em] text-[#161616] underline sm:text-sm">
+              <p className="mt-3 font-nexa text-xs font-bold uppercase tracking-[0.1em] text-[#161616] underline sm:text-sm">
                 Rera No.: {project.rera}
               </p>
             </div>
@@ -423,10 +423,10 @@ function ProjectDetailPageContent() {
                       : ""
                   } ${i > 0 ? "pl-4 lg:pl-6" : ""}`}
                 >
-                  <span className="font-sans text-xs font-bold uppercase tracking-[0.1em] text-black/80 sm:text-sm">
+                  <span className="font-nexa text-xs font-bold uppercase tracking-[0.1em] text-black/80 sm:text-sm ">
                     {stat.label}
                   </span>
-                  <span className="mt-1 font-sans text-[#8F8183]">
+                  <span className="mt-1 font-nexa text-[#8F8183]">
                     <span className="text-2xl sm:text-3xl lg:text-[2.625rem] leading-none">
                       {stat.value}
                     </span>
@@ -463,7 +463,7 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       <section className="bg-white py-12 lg:py-16">
         <Container>
-          <p className="font-sans text-xl font-bold leading-snug text-black sm:text-2xl lg:text-[2.25rem] lg:leading-[1.17]">
+          <p className="font-nexa text-xl font-bold leading-snug text-black sm:text-2xl lg:text-[2.25rem] lg:leading-[1.17]">
             {project.description}
           </p>
         </Container>
@@ -578,12 +578,12 @@ function ProjectDetailPageContent() {
                 {project.locationItems.map((item, i) => (
                   <div key={i}>
                     <div className="flex items-center justify-between gap-4 py-3">
-                      <span className="font-sans text-sm text-[#161616] sm:text-base">
+                      <span className="font-nexa text-sm text-[#161616] sm:text-base">
                         {item.name}
                       </span>
                       <div className="flex shrink-0 items-center gap-3">
                         {item.type === "walk" ? <WalkIcon /> : <DriveIcon />}
-                        <span className="w-14 text-right font-sans text-sm font-bold text-[#161616] sm:text-base">
+                        <span className="w-14 text-right font-nexa text-sm font-bold text-[#161616] sm:text-base">
                           {item.time}
                         </span>
                       </div>
@@ -660,7 +660,7 @@ function ProjectDetailPageContent() {
                 <h2 className="font-qasbyne text-[clamp(2.5rem,5vw,4.375rem)] uppercase leading-none tracking-[0.05em] text-white">
                   Book A Visit
                 </h2>
-                <p className="mt-5 max-w-[30rem] font-sans text-sm leading-relaxed text-white sm:text-base">
+                <p className="mt-5 max-w-[30rem] font-nexa text-sm leading-relaxed text-white sm:text-base">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                   do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                   dolor sit amet, consectetur adipiscing elit.
@@ -669,19 +669,19 @@ function ProjectDetailPageContent() {
 
               <div className="mt-10 flex flex-col gap-6 border-t border-white/40 pt-8 sm:flex-row sm:gap-12">
                 <div>
-                  <p className="font-sans text-xs font-bold uppercase tracking-[0.1em] text-white">
+                  <p className="font-nexa text-xs font-bold uppercase tracking-[0.1em] text-white">
                     Location
                   </p>
-                  <p className="mt-2 max-w-[16rem] font-sans text-sm leading-relaxed text-white">
+                  <p className="mt-2 max-w-[16rem] font-nexa text-sm leading-relaxed text-white">
                     C-602 &amp; 603, ONE BKC, G Block, Bandra Kurla Complex,
                     Bandra (E), Mumbai - 400051
                   </p>
                 </div>
                 <div>
-                  <p className="font-sans text-xs font-bold uppercase tracking-[0.1em] text-white">
+                  <p className="font-nexa text-xs font-bold uppercase tracking-[0.1em] text-white">
                     Contact
                   </p>
-                  <p className="mt-2 font-sans text-sm leading-relaxed text-white">
+                  <p className="mt-2 font-nexa text-sm leading-relaxed text-white">
                     022-68770076
                     <br />
                     022-6877005
@@ -753,7 +753,7 @@ function ProjectDetailPageContent() {
 
                 {/* Message */}
                 <div className="border-t border-[#8F8183]/30 pt-6">
-                  <label className="block font-sans text-sm font-bold text-[#202225]">
+                  <label className="block font-nexa text-sm font-bold text-[#202225]">
                     Message
                   </label>
                   <textarea
@@ -762,7 +762,7 @@ function ProjectDetailPageContent() {
                     value={form.message}
                     onChange={handleChange}
                     rows={2}
-                    className="mt-2 w-full resize-none border-b border-[#8F8183] bg-transparent font-sans text-sm text-[#202020] placeholder-[#202020]/40 outline-none"
+                    className="mt-2 w-full resize-none border-b border-[#8F8183] bg-transparent font-nexa text-sm text-[#202020] placeholder-[#202020]/40 outline-none"
                   />
                 </div>
 
@@ -770,7 +770,7 @@ function ProjectDetailPageContent() {
                 <div className="mt-8">
                   <button
                     type="button"
-                    className="inline-flex h-[55px] items-center gap-5 px-12 font-sans text-base font-bold uppercase tracking-[0.1em] text-white lg:text-xl"
+                    className="inline-flex h-[55px] items-center gap-5 px-12 font-nexa text-base font-bold uppercase tracking-[0.1em] text-white lg:text-xl"
                     style={{
                       background:
                         "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",
@@ -797,7 +797,7 @@ export default function ProjectDetailPage() {
       fallback={
         <main className="min-h-[50vh] bg-white pt-[137px]">
           <Container>
-            <p className="font-sans text-sm text-[#8F8183]">Loading…</p>
+            <p className="font-nexa text-sm text-[#8F8183]">Loading…</p>
           </Container>
         </main>
       }
@@ -829,7 +829,7 @@ function FormField({
 }: FormFieldProps) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="font-sans text-sm font-bold text-[#202225]">
+      <label className="font-nexa text-sm font-bold text-[#202225]">
         {label}
       </label>
       <input
@@ -838,7 +838,7 @@ function FormField({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="border-b border-[#8F8183] bg-transparent pb-1 font-sans text-sm text-[#202020] placeholder-[#202020]/40 outline-none"
+        className="border-b border-[#8F8183] bg-transparent pb-1 font-nexa text-sm text-[#202020] placeholder-[#202020]/40 outline-none"
       />
     </div>
   );
@@ -863,7 +863,7 @@ function SelectField({
 }: SelectFieldProps) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="font-sans text-sm font-bold text-[#202225]">
+      <label className="font-nexa text-sm font-bold text-[#202225]">
         {label}
       </label>
       <div className="relative border-b border-[#8F8183] pb-1">
@@ -871,7 +871,7 @@ function SelectField({
           name={name}
           value={value}
           onChange={onChange}
-          className="w-full appearance-none bg-transparent font-sans text-sm text-[#202020]/40 outline-none"
+          className="w-full appearance-none bg-transparent font-nexa text-sm text-[#202020]/40 outline-none"
         >
           <option value="" disabled>
             {placeholder}

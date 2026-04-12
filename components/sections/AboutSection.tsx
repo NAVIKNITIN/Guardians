@@ -8,7 +8,7 @@ export function AboutSection() {
       aria-labelledby="about-heading"
     >
       <Container>
-        <div className="mx-auto max-w-[980px] text-center font-sans">
+        <div className="mx-auto max-w-[980px] text-center font-nexa">
           <h2 id="about-heading" className="sr-only">
             About The Guardians
           </h2>

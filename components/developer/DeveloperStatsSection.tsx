@@ -1,25 +1,59 @@
-import { STATS } from "@/data/developer-page";
+"use client";
+
+import { STATS, formatDeveloperStatValue, type DeveloperStat } from "@/data/developer-page";
 import { SectionSurface } from "@/components/ui/SectionSurface";
+import { useCountUp } from "@/hooks/useCountUp";
+import { nexaFont } from "@/styles/fonts";
 import { cn } from "@/utils/cn";
+import { useInView } from "framer-motion";
+import { useRef } from "react";
+
+function StatFigure({
+  stat,
+  index,
+  isInView,
+}: {
+  stat: DeveloperStat;
+  index: number;
+  isInView: boolean;
+}) {
+  const count = useCountUp(stat.end, isInView, {
+    duration: 1800,
+    delay: index * 75,
+  });
+  const text = formatDeveloperStatValue(stat, count);
+
+  return (
+    <p
+      className={cn(
+        nexaFont.className,
+        "font-nexa text-3xl font-medium tabular-nums text-brand-footer tracking-[-0.03em] sm:text-4xl md:text-[clamp(2.25rem,4vw,2.85rem)] md:tracking-[-0.04em]",
+      )}
+    >
+      {text}
+    </p>
+  );
+}
 
 export function DeveloperStatsSection() {
+  const ref = useRef<HTMLDivElement>(null);
+  const isInView = useInView(ref, { once: true, margin: "0px 0px -12% 0px" });
+
   return (
     <SectionSurface variant="stats" aria-label="Key metrics">
-      <div className="grid grid-cols-2 md:grid-cols-4">
+      <div ref={ref} className="grid grid-cols-2 md:grid-cols-4">
         {STATS.map((stat, idx) => (
           <div
             key={stat.label}
             className={cn(
-              "flex flex-col items-center px-3 py-8 text-center sm:px-6",
+              `${nexaFont.className} flex flex-col items-center px-3 py-8 text-center sm:px-6`,
               idx % 2 === 1 && "border-l border-black/[0.08]",
               idx >= 2 && "border-t border-black/[0.08] md:border-t-0",
               idx > 0 && "md:border-l md:border-black/[0.08]",
             )}
           >
-            <p className="font-sans text-3xl font-light tabular-nums tracking-tight text-brand-text-primary sm:text-4xl md:text-[2.75rem]">
-              {stat.value}
-            </p>
-            <p className="mt-2 max-w-[12rem] text-[11px] font-semibold uppercase leading-snug tracking-wide text-brand-text-secondary sm:text-xs">
+            <StatFigure stat={stat} index={idx} isInView={isInView} />
+            <p className="mt-2 max-w-[12rem] text-[11px] font-semibold uppercase leading-snug tracking-wide text-brand-text-primary sm:text-xs">
               {stat.label}
             </p>
           </div>

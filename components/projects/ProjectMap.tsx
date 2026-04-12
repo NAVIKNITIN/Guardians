@@ -99,7 +99,7 @@ export function ProjectMap({
       L.marker([lat, lng], { icon })
         .addTo(map)
         .bindPopup(
-          `<span style="font-family:sans-serif;font-size:13px;font-weight:600">${label}</span>`,
+          `<span style="font-family:var(--font-nexa);font-size:13px;font-weight:600">${label}</span>`,
         );
     });
 

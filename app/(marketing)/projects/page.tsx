@@ -3,15 +3,8 @@
 import { Container } from "@/components/common/Container";
 import { ProjectCard } from "@/components/projects/ProjectCard";
 import Image from "next/image";
-import { Playfair_Display } from "next/font/google";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
-
-const playfairProjectsHero = Playfair_Display({
-  subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  display: "swap",
-});
 
 // ---------------------------------------------------------------------------
 // Filter option sets (demo data — replace with CMS / API)
@@ -227,7 +220,7 @@ function SearchIcon() {
 }
 
 const filterSelectClass =
-  "relative inline-flex h-[51px] min-w-[8.5rem] cursor-pointer appearance-none items-center border border-[#161616] bg-white pl-5 pr-10 font-sans text-sm font-bold uppercase tracking-[0.1em] text-[#161616] outline-none transition-colors hover:bg-black/[0.02] sm:min-w-[9.5rem] sm:text-base";
+  "relative inline-flex h-[51px] min-w-[8.5rem] cursor-pointer appearance-none items-center border border-[#161616] bg-white pl-5 pr-10 font-nexa text-sm font-bold uppercase tracking-[0.1em] text-[#161616] outline-none transition-colors hover:bg-black/[0.02] sm:min-w-[9.5rem] sm:text-base";
 
 function FilterSelect({
   label,
@@ -326,11 +319,11 @@ function ProjectsPageContent() {
 
         <div className="relative z-[1] flex w-full flex-1 flex-col items-center justify-start gap-1 text-center sm:gap-6 sm:px-10 sm:py-14">
           <h1
-            className={`${playfairProjectsHero.className} max-w-[22ch] text-[clamp(2rem,6vw,3.75rem)] font-normal uppercase leading-[1.12] tracking-[0.06em] text-[#0a0a0a] sm:max-w-[100vw] sm:tracking-[0.07em] lg:text-[clamp(2.75rem,5vw,4rem)]`}
+            className="max-w-[22ch] font-qasbyne text-[clamp(2rem,6vw,3.75rem)] font-normal uppercase leading-[1.12] tracking-[0.06em] text-[#0a0a0a] sm:max-w-[100vw] sm:tracking-[0.07em] lg:text-[clamp(2.75rem,5vw,4rem)]"
           >
             Projects
           </h1>
-          <p className="mt-[-22px]  max-w-xl font-sans text-[0.875rem] font-normal leading-relaxed text-[#0a0a0a] sm:text-lg lg:text-xl">
+          <p className="mt-[-22px]  max-w-xl font-nexa text-[0.875rem] font-normal leading-relaxed text-[#0a0a0a] sm:text-lg lg:text-xl">
             We are one of the fastest growing Real Estate consulting company in
             India.
           </p>
@@ -346,14 +339,14 @@ function ProjectsPageContent() {
             <div className="flex items-center gap-5">
               <button
                 type="button"
-                className="inline-flex items-center gap-2 font-sans text-sm font-black uppercase tracking-[0.1em] text-[#8F8183] sm:text-base"
+                className="inline-flex items-center gap-2 font-nexa text-sm font-black uppercase tracking-[0.1em] text-[#8F8183] sm:text-base"
               >
                 Filters
                 <ChevronUp className="text-[#8F8183]" />
               </button>
               <button
                 type="button"
-                className="inline-flex items-center gap-2 font-sans text-sm font-bold uppercase tracking-[0.1em] text-[#8F8183] sm:text-base"
+                className="inline-flex items-center gap-2 font-nexa text-sm font-bold uppercase tracking-[0.1em] text-[#8F8183] sm:text-base"
               >
                 Sort By
                 <ChevronDown className="text-[#8F8183]" />
@@ -362,7 +355,7 @@ function ProjectsPageContent() {
 
             <div className="flex h-[34px] w-full max-w-[345px] items-center gap-2.5 border border-black/20 bg-white px-3.5">
               <SearchIcon />
-              <span className="font-sans text-base text-black/60">Search</span>
+              <span className="font-nexa text-base text-black/60">Search</span>
             </div>
           </div>
 
@@ -383,7 +376,7 @@ function ProjectsPageContent() {
             />
 
             {activeLocation && (
-              <div className="inline-flex h-[51px] items-center border border-[#161616] bg-[#BCBDC0] px-5 font-sans text-sm font-bold uppercase tracking-[0.1em] text-[#161616] sm:text-base">
+              <div className="inline-flex h-[51px] items-center border border-[#161616] bg-[#BCBDC0] px-5 font-nexa text-sm font-bold uppercase tracking-[0.1em] text-[#161616] sm:text-base">
                 <span>{activeLocation}</span>
                 <span className="mx-4 h-[52px] w-px bg-[#161616]" />
                 <button
@@ -412,7 +405,7 @@ function ProjectsPageContent() {
 
             <button
               type="button"
-              className="ml-auto font-sans text-base text-black underline"
+              className="ml-auto font-nexa text-base text-black underline"
               onClick={clearAllFilters}
             >
               Clear all
@@ -444,7 +437,7 @@ function ProjectsPageContent() {
           </div>
 
           {visibleProjects.length === 0 ? (
-            <p className="mt-10 text-center font-sans text-sm text-[#161616]/70">
+            <p className="mt-10 text-center font-nexa text-sm text-[#161616]/70">
               No projects match these filters. Try adjusting or{" "}
               <button
                 type="button"
@@ -460,7 +453,7 @@ function ProjectsPageContent() {
           <div className="mt-12 flex justify-center lg:mt-16">
             <button
               type="button"
-              className="inline-flex h-[55px] items-center gap-5 px-12 font-sans text-base font-bold uppercase tracking-[0.1em] text-white lg:text-xl"
+              className="inline-flex h-[55px] items-center gap-5 px-12 font-nexa text-base font-bold uppercase tracking-[0.1em] text-white lg:text-xl"
               style={{
                 background:
                   "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",
@@ -482,7 +475,7 @@ export default function ProjectsPage() {
       fallback={
         <main className="min-h-[50vh] bg-white">
           <div className="flex h-[320px] items-center justify-center bg-[#BCBDC0]/30 sm:h-[400px] lg:h-[550px]">
-            <span className="font-sans text-sm text-[#202225]/60">Loading…</span>
+            <span className="font-nexa text-sm text-[#202225]/60">Loading…</span>
           </div>
         </main>
       }

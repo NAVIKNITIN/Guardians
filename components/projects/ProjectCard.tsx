@@ -61,7 +61,7 @@ export function ProjectCard({
           <div
             className={`absolute left-0 top-[30px] inline-flex items-center px-5 py-2.5 ${badgeBg}`}
           >
-            <span className="font-sans text-xs font-bold uppercase tracking-[0.1em] text-white sm:text-sm">
+            <span className="font-nexa text-xs font-bold uppercase tracking-[0.1em] text-white sm:text-sm">
               {badge.label}
             </span>
           </div>
@@ -71,10 +71,10 @@ export function ProjectCard({
       {/* Info row */}
       <div className="relative flex items-end justify-between px-5 py-4 lg:py-5">
         <div className="flex flex-col gap-1">
-          <span className="font-sans text-lg font-bold leading-tight text-[#161616] sm:text-xl lg:text-2xl">
+          <span className="font-nexa text-lg font-bold leading-tight text-[#161616] sm:text-xl lg:text-2xl">
             {title}
           </span>
-          <span className="font-sans text-sm font-normal leading-snug text-[#161616]/70 sm:text-base lg:text-[20px]">
+          <span className="font-nexa text-sm font-normal leading-snug text-[#161616]/70 sm:text-base lg:text-[20px]">
             {subtitle}
           </span>
         </div>

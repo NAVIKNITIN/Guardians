@@ -11,15 +11,8 @@ import { SectionSurface } from "@/components/ui/SectionSurface";
 import { UnderlineTabs } from "@/components/ui/UnderlineTabs";
 import { cn } from "@/utils/cn";
 import { AnimatePresence, motion } from "framer-motion";
-import { Playfair_Display } from "next/font/google";
 import Image from "next/image";
 import { useMemo, useState } from "react";
-
-const playfairLandmark = Playfair_Display({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-  display: "swap",
-});
 
 const slideTransition = { duration: 0.4, ease: [0.22, 1, 0.36, 1] as const };
 
@@ -52,10 +45,7 @@ export function LandmarkProjectsSection() {
       <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
         <h2
           id="landmark-heading"
-          className={cn(
-            playfairLandmark.className,
-            "max-w-xl text-[clamp(1.75rem,3.2vw,2.75rem)] font-normal uppercase leading-[1.15] tracking-[0.06em] text-brand-text-primary",
-          )}
+          className="max-w-xl font-qasbyne text-[clamp(1.75rem,3.2vw,2.75rem)] font-normal uppercase leading-[1.15] tracking-[0.06em] text-brand-text-primary"
         >
           Our landmark projects
         </h2>
@@ -209,7 +199,7 @@ function ActiveProjectCard({
         <p className="text-[10px] font-medium uppercase tracking-[0.35em] text-white/95 sm:text-[11px]">
           {project.projectLine}
         </p>
-        <p className="mt-2 font-sans text-2xl font-bold uppercase leading-none tracking-tight text-white drop-shadow-sm sm:text-3xl md:text-4xl lg:text-5xl">
+        <p className="mt-2 font-nexa text-2xl font-bold uppercase leading-none tracking-tight text-white drop-shadow-sm sm:text-3xl md:text-4xl lg:text-5xl">
           {project.projectName}
         </p>
         <p className="mx-auto mt-3 max-w-2xl text-xs leading-relaxed text-white/90 sm:text-sm">

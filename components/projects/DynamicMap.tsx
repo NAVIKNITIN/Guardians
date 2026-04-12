@@ -8,7 +8,7 @@ export const DynamicMap = dynamic(
     ssr: false,
     loading: () => (
       <div className="flex h-full w-full animate-pulse items-center justify-center bg-[#BCBDC0]">
-        <span className="font-sans text-sm text-[#202225]/60">
+        <span className="font-nexa text-sm text-[#202225]/60">
           Loading map…
         </span>
       </div>
