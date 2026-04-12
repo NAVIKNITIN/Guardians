@@ -1,11 +1,8 @@
 "use client";
 
-import { RoundIconButton } from "@/components/ui/RoundIconButton";
+import { IconChevronLeft, IconChevronRight } from "@/components/common/icons";
 import { cn } from "@/utils/cn";
-import Image from "next/image";
-
-const CAROUSEL_PREV = "/images/leftcarousel.svg";
-const CAROUSEL_NEXT = "/images/rightcarousel.svg";
+import { RoundIconButton } from "@/components/ui/RoundIconButton";
 
 export type CarouselControlsProps = {
   currentIndex: number;
@@ -33,31 +30,17 @@ export function CarouselControls({
   className,
 }: CarouselControlsProps) {
   return (
-    <div className={cn("flex items-center gap-1", className)}>
+    <div className={cn("flex items-center gap-3", className)}>
       <RoundIconButton label={prevLabel} onClick={onPrev}>
-        <Image
-          src={CAROUSEL_PREV}
-          alt=""
-          width={20}
-          height={20}
-          className="h-5 "
-          // unoptimized
-        />
+        <IconChevronLeft className="h-5 w-5" />
       </RoundIconButton>
       {showCounter ? (
-        <span className="min-w-[1.5rem] text-center text-sm tabular-nums text-brand-text-secondary">
+        <span className="min-w-[3.25rem] text-center text-sm tabular-nums text-brand-text-secondary">
           {currentIndex + 1} / {total}
         </span>
       ) : null}
       <RoundIconButton label={nextLabel} onClick={onNext}>
-        <Image
-          src={CAROUSEL_NEXT}
-          alt=""
-          width={20}
-          height={20}
-          className="h-5  bg-transparent"
-          // unoptimized
-        />
+        <IconChevronRight className="h-5 w-5" />
       </RoundIconButton>
     </div>
   );

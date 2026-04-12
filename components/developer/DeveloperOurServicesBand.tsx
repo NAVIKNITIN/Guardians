@@ -3,7 +3,6 @@ import { cn } from "@/utils/cn";
 import Image from "next/image";
 import { SectionSurface } from "@/components/ui/SectionSurface";
 import { OUR_SERVICES_CARDS } from "@/data/developer-page";
-import { MarketingEnquireLink } from "../ui";
 
 /** Horizontal service tiles — image block + caps label. */
 export function DeveloperOurServicesBand() {
@@ -22,21 +21,19 @@ export function DeveloperOurServicesBand() {
             Our services
           </h2>
           <p className="mt-5 max-w-md text-sm leading-relaxed text-brand-text-secondary sm:text-base">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
+            ad minim veniam, quis nostrud exercitation ullamco laboris.
           </p>
-          <MarketingEnquireLink href="/contact" className="mt-8 inline-flex px-7">
-            Read more
-          </MarketingEnquireLink>
         </div>
-        
 
         <div className="lg:col-span-8 lg:min-w-0">
           {/* Pull to viewport edges on small screens so the row can scroll full-bleed; contained on lg+ */}
           <div
             className={cn(
-              "-mx-4 overflow-x-auto overscroll-x-contain scroll-smooth sm:-mx-6 sm:px-0 lg:mx-0",
-              "[scrollbar-width:none] [-ms-overflow-style:none]",
-              "[&::-webkit-scrollbar]:h-0 [&::-webkit-scrollbar]:w-0",
+              "-mx-4 overflow-x-auto overscroll-x-contain scroll-smooth pb-2 sm:-mx-6 sm:px-0 lg:mx-0",
+              "[-ms-overflow-style:none] [scrollbar-gutter:stable] [scrollbar-width:thin]",
+              "[&::-webkit-scrollbar]:h-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-neutral-300 [&::-webkit-scrollbar-track]:bg-transparent",
             )}
           >
             <ul
@@ -63,14 +60,9 @@ export function DeveloperOurServicesBand() {
                       />
                     </div>
                     <div className="border-t border-brand-border bg-white px-4 py-3">
-                      <h3 className=" text-center text-[18px] font-semibold uppercase tracking-[0.18em] text-brand-text-primary truncate">
+                      <h3 className="text-center text-[11px] font-semibold uppercase tracking-[0.18em] text-brand-text-primary sm:text-xs">
                         {card.title}
                       </h3>
-                    </div>
-                    <div>
-                        <p className="px-4 py-2 text-center text-sm leading-relaxed text-brand-text-secondary">
-                          {card.description}
-                      </p>
                     </div>
                   </article>
                 </li>

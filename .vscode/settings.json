@@ -1,7 +1,0 @@
-{
-    "builder.serverUrl": "https://builder.io/app/projects/f9c7389c445041f4873f23111bdde61d/hollow-window-jytdlmkf",
-    "builder.command": "npm run dev",
-    "builder.runDevServer": false,
-    "builder.autoDetectDevServer": true,
-    "builder.launchType": "editor"
-}
