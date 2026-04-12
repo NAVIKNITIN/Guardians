@@ -10,7 +10,15 @@ import { useState } from "react";
 
 const navLeft = [
   { label: "About", href: "/about" },
-  { label: "Services", href: "/services", dropdown: true },
+  {
+    label: "Services",
+    href: "/buyer/services",
+    dropdown: true,
+    dropdownItems: [
+      { label: "Buyer's Services", href: "/buyer/services" },
+      { label: "Developer's Services", href: "/developer/services" },
+    ],
+  },
   {
     label: "Projects",
     href: "/projects",
@@ -24,9 +32,9 @@ const navLeft = [
 ];
 
 const navRight = [
-  { label: "Partners & Clients", href: "#partners" },
+  { label: "Partners & Clients", href: "/partners" },
   { label: "TGREA", href: "#tgrea" },
-  { label: "Career", href: "#career" },
+  { label: "Career", href: "/career" },
 ];
 
 /** Matches reference: ~14–16px, medium weight, charcoal #1A1A1A */
@@ -38,6 +46,10 @@ const navLinkClassMobile =
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  /** After a submenu link is clicked, hide the flyout until pointer leaves the trigger (hover/focus-within otherwise keeps it open). */
+  const [closedDesktopDropdown, setClosedDesktopDropdown] = useState<
+    string | null
+  >(null);
   useBodyScrollLock(open);
 
   return (
@@ -117,11 +129,9 @@ export function Navbar() {
                   Array.isArray(dropdownItems) && dropdownItems.length > 0;
 
                 if (hasMenu && dropdownItems) {
+                  const dismissed = closedDesktopDropdown === item.label;
                   return (
-                    <div
-                      key={item.label}
-                      className="group relative shrink-0"
-                    >
+                    <div key={item.label} className="group relative shrink-0">
                       <Link
                         href={item.href}
                         className={cn(
@@ -129,12 +139,21 @@ export function Navbar() {
                           "inline-flex items-center gap-1.5",
                         )}
                         aria-haspopup="true"
+                        onMouseEnter={() => {
+                          if (closedDesktopDropdown === item.label) {
+                            setClosedDesktopDropdown(null);
+                          }
+                        }}
                       >
                         {item.label}
                         <IconChevronDown className="h-3 w-3 shrink-0 text-[#1A1A1A]/50 transition-transform group-hover:translate-y-px" />
                       </Link>
                       <div
-                        className="pointer-events-none invisible absolute left-0 top-full z-[60] pt-3 opacity-0 transition-[opacity,visibility] duration-150 group-hover:pointer-events-auto group-hover:visible group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:visible group-focus-within:opacity-100"
+                        className={cn(
+                          "pointer-events-none invisible absolute left-0 top-full z-[60] pt-3 opacity-0 transition-[opacity,visibility] duration-150",
+                          !dismissed &&
+                            "group-hover:pointer-events-auto group-hover:visible group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:visible group-focus-within:opacity-100",
+                        )}
                         role="presentation"
                       >
                         <ul
@@ -146,7 +165,14 @@ export function Navbar() {
                               <Link
                                 role="menuitem"
                                 href={sub.href}
-                                className="block px-4 py-2.5 text-sm leading-snug text-[#1A1A1A] transition-colors hover:bg-black/[0.04] hover:text-brand-accent"
+                                className="pointer-events-auto relative z-10 block px-4 py-2.5 text-sm leading-snug text-[#1A1A1A] transition-colors hover:bg-black/[0.04] hover:text-brand-accent"
+                                onClick={() => {
+                                  // Defer so the Link’s navigation runs before we hide the panel;
+                                  // sync state can drop pointer-events and break the first click.
+                                  window.setTimeout(() => {
+                                    setClosedDesktopDropdown(item.label);
+                                  }, 0);
+                                }}
                               >
                                 {sub.label}
                               </Link>

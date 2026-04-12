@@ -41,11 +41,11 @@ const quickLinkRows: { label: string; href: string }[][] = [
   ],
   [
     { label: "Projects", href: "#projects" },
-    { label: "Partners & Clients", href: "#partners" },
+    { label: "Partners & Clients", href: "/partners" },
   ],
   [
-    { label: "Career", href: "#career" },
-    { label: "Media", href: "#media" },
+    { label: "Career", href: "/career" },
+    { label: "Media", href: "/newsroom" },
   ],
 ];
 
