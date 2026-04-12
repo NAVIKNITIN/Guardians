@@ -205,10 +205,14 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="mt-16 grid items-start gap-y-10 lg:grid-cols-[400px_1fr] lg:gap-x-18">
-              <div className="max-w-[400px] lg:pl-10">
-                <h3 className="max-w-[320px] font-sans text-[clamp(1.72rem,2.1vw,2.6rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-[#1f1c1d]">
-                  Revolutionising real estate through innovation
+            <div className="mt-16 grid items-start gap-y-10 lg:grid-cols-[470px_1fr] lg:gap-x-18">
+              <div className="max-w-[470px] lg:pl-10">
+                <h3 className="max-w-[430px] font-sans text-[clamp(1.72rem,2.1vw,2.6rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-[#1f1c1d]">
+                  Revolutionising real
+                  <br />
+                  estate through
+                  <br />
+                  innovation
                 </h3>
                 <p className="mt-8 max-w-[355px] font-sans text-[14px] leading-[1.28] text-[#5f5a5b]">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
