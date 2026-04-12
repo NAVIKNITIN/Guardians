@@ -332,16 +332,13 @@ function AmenityItem({
 // ---------------------------------------------------------------------------
 // Page
 // ---------------------------------------------------------------------------
+const COMPLETED_HERO_BG = "/images/Projects/completed.svg";
+
 function ProjectDetailPageContent() {
   const searchParams = useSearchParams();
   const isFromCompleted = searchParams.get("status") === "completed";
-  const projectsListHref = isFromCompleted
-    ? "/projects?stage=completed"
-    : "/projects";
-  const projectsListLabel = isFromCompleted
-    ? "Completed Projects"
-    : "Ongoing Projects";
   const heroStatusLine = isFromCompleted ? "Completed Project" : project.status;
+  const buildingHeroSrc = isFromCompleted ? COMPLETED_HERO_BG : project.heroImage;
 
   const [form, setForm] = useState({
     firstName: "",
@@ -439,11 +436,12 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       <section className="relative h-[280px] overflow-hidden sm:h-[380px] lg:h-[550px] pt-4 lg:mt-20">
         <Image
-          src={project.heroImage}
+          src={buildingHeroSrc}
           alt="Lorem Ipsum Towers"
           fill
           className="object-cover object-center"
           priority
+          unoptimized={isFromCompleted}
         />
       </section>
 

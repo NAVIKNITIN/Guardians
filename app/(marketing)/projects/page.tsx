@@ -301,6 +301,11 @@ function ProjectsPageContent() {
     setActiveLocation(null);
   }
 
+  const heroBackgroundSrc =
+    filterStage === "Completed"
+      ? "/images/Projects/completed.svg"
+      : "/images/Projects/ongoing/bg-hero.svg";
+
   return (
     <main>
       {/* ------------------------------------------------------------------ */}
@@ -308,7 +313,7 @@ function ProjectsPageContent() {
       {/* ------------------------------------------------------------------ */}
       <section className="relative isolate flex min-h-[400px] h-[min(72vw,560px)] flex-col overflow-hidden sm:min-h-[380px] sm:h-[420px] lg:h-[560px]">
         <Image
-          src="/images/Projects/ongoing/bg-hero.svg"
+          src={heroBackgroundSrc}
           alt=""
           fill
           priority
