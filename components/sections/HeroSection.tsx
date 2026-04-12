@@ -18,7 +18,7 @@ const heroCtaClassName = cn(
 export function HeroSection() {
   return (
     <section
-      className="relative min-h-[560px] overflow-hidden bg-neutral-200 pt-10 pb-24 sm:min-h-[600px] sm:pt-14 sm:pb-28 lg:min-h-[680px] lg:pt-20 lg:pb-36"
+      className="relative min-h-[560px] overflow-hidden bg-neutral-200 pt-10 pb-24 sm:min-h-[600px] sm:pt-14 sm:pb-28 lg:min-h-[680px] lg:pt-20 lg:pb-38"
       aria-labelledby="hero-heading"
     >
       {/* Full-bleed background image */}
