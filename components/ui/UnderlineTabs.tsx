@@ -14,7 +14,7 @@ export type UnderlineTabsProps<T extends string> = {
   className?: string;
 };
 
-/** Simple text tabs with bottom border indicator. */
+/** Text tabs with a thin baseline and a thicker underline on the active tab (design: landmark / marketing). */
 export function UnderlineTabs<T extends string>({
   value,
   onChange,
@@ -24,7 +24,7 @@ export function UnderlineTabs<T extends string>({
   return (
     <div
       className={cn(
-        "flex gap-8 border-b border-transparent text-sm font-medium",
+        "flex gap-10 border-b border-neutral-200 text-sm font-medium tracking-wide",
         className,
       )}
       role="tablist"
@@ -39,10 +39,10 @@ export function UnderlineTabs<T extends string>({
             aria-selected={selected}
             onClick={() => onChange(opt.value)}
             className={cn(
-              "-mb-px pb-2 transition-colors",
+              "-mb-px pb-2.5 transition-colors",
               selected
-                ? "border-b-2 border-black text-brand-text-primary"
-                : "text-brand-text-muted hover:text-brand-text-secondary",
+                ? "border-b-2 border-[#6b5d56] text-[#4a433e]"
+                : "border-b-2 border-transparent text-neutral-400 hover:text-neutral-500",
             )}
           >
             {opt.label}

@@ -1,0 +1,493 @@
+"use client";
+
+import { Container } from "@/components/common/Container";
+import { ProjectCard } from "@/components/projects/ProjectCard";
+import Image from "next/image";
+import { Playfair_Display } from "next/font/google";
+import { useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useMemo, useState } from "react";
+
+const playfairProjectsHero = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+  display: "swap",
+});
+
+// ---------------------------------------------------------------------------
+// Filter option sets (demo data — replace with CMS / API)
+// ---------------------------------------------------------------------------
+const BUDGET_OPTIONS = ["All", "Under 2 Cr", "2-5 Cr", "5+ Cr"] as const;
+const BUILDER_OPTIONS = [
+  "All",
+  "Piramal Realty",
+  "Godrej Properties",
+  "Lodha Group",
+  "Hiranandani",
+] as const;
+const CONFIGURATION_OPTIONS = ["All", "1 BHK", "2 BHK", "3 BHK"] as const;
+const STAGE_OPTIONS = ["All", "Ongoing", "Completed"] as const;
+
+type ProjectRow = {
+  id: number;
+  imageSrc: string;
+  title: string;
+  subtitle: string;
+  badge?: { label: string; variant: "units-left" | "completed" };
+  budget: (typeof BUDGET_OPTIONS)[number];
+  builder: (typeof BUILDER_OPTIONS)[number];
+  configuration: (typeof CONFIGURATION_OPTIONS)[number];
+};
+
+const projects: ProjectRow[] = [
+  {
+    id: 1,
+    imageSrc:
+      "https://api.builder.io/api/v1/image/assets/TEMP/203ee87b79b62b29ca7bfeec5620ccde4c08b541?width=1156",
+    title: "Lorem Ipsum Tower A",
+    subtitle: "Piramal Realty, Chembur (E)",
+    badge: { label: "1 Unit Left", variant: "units-left" },
+    budget: "2-5 Cr",
+    builder: "Piramal Realty",
+    configuration: "2 BHK",
+  },
+  {
+    id: 2,
+    imageSrc:
+      "https://api.builder.io/api/v1/image/assets/TEMP/54e4a7c8abbe8f73e0035dd81f86037f4a8b4b00?width=1156",
+    title: "Lorem Ipsum Tower A",
+    subtitle: "Piramal Realty, Chembur (E)",
+    badge: { label: "Completed", variant: "completed" },
+    budget: "5+ Cr",
+    builder: "Piramal Realty",
+    configuration: "3 BHK",
+  },
+  {
+    id: 3,
+    imageSrc:
+      "https://api.builder.io/api/v1/image/assets/TEMP/7769d743394da96add1e94ca942f9bb1c77cd427?width=1156",
+    title: "Lorem Ipsum Tower A",
+    subtitle: "Godrej Properties, Chembur (E)",
+    badge: { label: "Completed", variant: "completed" },
+    budget: "2-5 Cr",
+    builder: "Godrej Properties",
+    configuration: "2 BHK",
+  },
+  {
+    id: 4,
+    imageSrc:
+      "https://api.builder.io/api/v1/image/assets/TEMP/0309fde517863c8fac98cb9fb6c135628be630e1?width=1156",
+    title: "Lorem Ipsum Tower A",
+    subtitle: "Piramal Realty, Chembur (E)",
+    badge: { label: "3 Units Left", variant: "units-left" },
+    budget: "Under 2 Cr",
+    builder: "Piramal Realty",
+    configuration: "1 BHK",
+  },
+  {
+    id: 5,
+    imageSrc:
+      "https://api.builder.io/api/v1/image/assets/TEMP/0599b48a0f231435d854e652f79648eddce816ee?width=1156",
+    title: "Lorem Ipsum Tower A",
+    subtitle: "Lodha Group, Chembur (E)",
+    badge: undefined,
+    budget: "2-5 Cr",
+    builder: "Lodha Group",
+    configuration: "2 BHK",
+  },
+  {
+    id: 6,
+    imageSrc:
+      "https://api.builder.io/api/v1/image/assets/TEMP/624038e34bf0ae66de2edce4d31249b82a8cd3c5?width=1468",
+    title: "Lorem Ipsum Tower A",
+    subtitle: "Godrej Properties, Chembur (E)",
+    badge: { label: "Completed", variant: "completed" },
+    budget: "5+ Cr",
+    builder: "Godrej Properties",
+    configuration: "3 BHK",
+  },
+  {
+    id: 7,
+    imageSrc:
+      "https://api.builder.io/api/v1/image/assets/TEMP/6b27c079f590303119b3b91407ccb4e0c7b32eb2?width=1284",
+    title: "Lorem Ipsum Tower A",
+    subtitle: "Hiranandani, Chembur (E)",
+    badge: undefined,
+    budget: "Under 2 Cr",
+    builder: "Hiranandani",
+    configuration: "1 BHK",
+  },
+  {
+    id: 8,
+    imageSrc:
+      "https://api.builder.io/api/v1/image/assets/TEMP/4ce2d829ca90f439ca072b1b5728106fc76d0968?width=1156",
+    title: "Lorem Ipsum Tower B",
+    subtitle: "Lodha Group, Noida",
+    badge: undefined,
+    budget: "2-5 Cr",
+    builder: "Lodha Group",
+    configuration: "3 BHK",
+  },
+];
+
+function projectIsCompleted(p: ProjectRow) {
+  return p.badge?.variant === "completed";
+}
+
+function subtitleMatchesLocation(subtitle: string, location: string | null) {
+  if (!location) return true;
+  const key = location.replace(/\s*\(E\)\s*$/i, "").trim().toLowerCase();
+  return subtitle.toLowerCase().includes(key);
+}
+
+function filterProjects(
+  list: ProjectRow[],
+  opts: {
+    budget: string;
+    builder: string;
+    configuration: string;
+    stage: string;
+    location: string | null;
+  },
+) {
+  return list.filter((p) => {
+    if (opts.budget !== "All" && p.budget !== opts.budget) return false;
+    if (opts.builder !== "All" && p.builder !== opts.builder) return false;
+    if (opts.configuration !== "All" && p.configuration !== opts.configuration)
+      return false;
+    if (opts.stage === "Ongoing" && projectIsCompleted(p)) return false;
+    if (opts.stage === "Completed" && !projectIsCompleted(p)) return false;
+    if (!subtitleMatchesLocation(p.subtitle, opts.location)) return false;
+    return true;
+  });
+}
+
+// ---------------------------------------------------------------------------
+// Sub-components
+// ---------------------------------------------------------------------------
+
+/** Chevron down icon */
+function ChevronDown({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      width="17"
+      height="9"
+      viewBox="0 0 17 9"
+      fill="none"
+      className={className}
+    >
+      <path
+        d="M14.0989 0.293936C14.5468 -0.0979785 15.2728 -0.0979785 15.7207 0.293936C16.1686 0.68585 16.1686 1.32112 15.7207 1.71303L8.83922 7.73439C8.39133 8.1263 7.66531 8.1263 7.21741 7.73439L0.335924 1.71303C-0.111975 1.32112 -0.111975 0.68585 0.335924 0.293936C0.783822 -0.0979785 1.50984 -0.0979785 1.95773 0.293936L8.02832 5.60574L14.0989 0.293936Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+/** Chevron up icon */
+function ChevronUp({ className = "" }: { className?: string }) {
+  return (
+    <svg
+      width="17"
+      height="9"
+      viewBox="0 0 17 9"
+      fill="none"
+      className={className}
+    >
+      <path
+        d="M14.0989 7.73438C14.5468 8.1263 15.2728 8.1263 15.7207 7.73438C16.1686 7.34247 16.1686 6.7072 15.7207 6.31529L8.83922 0.293935C8.39133 -0.0979786 7.66531 -0.0979786 7.21741 0.293935L0.335924 6.31529C-0.111975 6.7072 -0.111975 7.34247 0.335924 7.73438C0.783822 8.1263 1.50984 8.1263 1.95773 7.73438L8.02832 2.42258L14.0989 7.73438Z"
+        fill="currentColor"
+      />
+    </svg>
+  );
+}
+
+/** Arrow up-right icon for "View More" button */
+function ArrowUpRight() {
+  return (
+    <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
+      <path d="M0 0H14.4958V14.4958" stroke="white" strokeWidth="2" />
+      <line x1="0" y1="14" x2="14" y2="0" stroke="white" strokeWidth="2" />
+    </svg>
+  );
+}
+
+/** Search icon */
+function SearchIcon() {
+  return (
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+      <path
+        fillRule="evenodd"
+        clipRule="evenodd"
+        d="M10.4993 2C9.14387 2.00012 7.80814 2.32436 6.60353 2.94569C5.39893 3.56702 4.36037 4.46742 3.57451 5.57175C2.78866 6.67609 2.27829 7.95235 2.08599 9.29404C1.89368 10.6357 2.02503 12.004 2.46906 13.2846C2.91308 14.5652 3.65692 15.7211 4.63851 16.6557C5.6201 17.5904 6.81098 18.2768 8.11179 18.6576C9.4126 19.0384 10.7856 19.1026 12.1163 18.8449C13.447 18.5872 14.6967 18.015 15.7613 17.176L19.4133 20.828C19.6019 21.0102 19.8545 21.111 20.1167 21.1087C20.3789 21.1064 20.6297 21.0012 20.8151 20.8158C21.0005 20.6304 21.1057 20.3796 21.108 20.1174C21.1102 19.8552 21.0094 19.6026 20.8273 19.414L17.1753 15.762C18.1633 14.5086 18.7784 13.0024 18.9504 11.4157C19.1223 9.82905 18.8441 8.22602 18.1475 6.79009C17.4509 5.35417 16.3642 4.14336 15.0116 3.29623C13.659 2.44911 12.0952 1.99989 10.4993 2ZM3.99928 10.5C3.99928 8.77609 4.6841 7.12279 5.90308 5.90381C7.12207 4.68482 8.77537 4 10.4993 4C12.2232 4 13.8765 4.68482 15.0955 5.90381C16.3145 7.12279 16.9993 8.77609 16.9993 10.5C16.9993 12.2239 16.3145 13.8772 15.0955 15.0962C13.8765 16.3152 12.2232 17 10.4993 17C8.77537 17 7.12207 16.3152 5.90308 15.0962C4.6841 13.8772 3.99928 12.2239 3.99928 10.5Z"
+        fill="black"
+        fillOpacity="0.3"
+      />
+    </svg>
+  );
+}
+
+const filterSelectClass =
+  "relative inline-flex h-[51px] min-w-[8.5rem] cursor-pointer appearance-none items-center border border-[#161616] bg-white pl-5 pr-10 font-sans text-sm font-bold uppercase tracking-[0.1em] text-[#161616] outline-none transition-colors hover:bg-black/[0.02] sm:min-w-[9.5rem] sm:text-base";
+
+function FilterSelect({
+  label,
+  value,
+  onChange,
+  options,
+}: {
+  label: string;
+  value: string;
+  onChange: (v: string) => void;
+  options: readonly string[];
+}) {
+  return (
+    <label className="relative inline-flex items-center">
+      <span className="sr-only">{label}</span>
+      <select
+        aria-label={label}
+        value={value}
+        onChange={(e) => onChange(e.target.value)}
+        className={filterSelectClass}
+      >
+        {options.map((o) => (
+          <option key={o} value={o}>
+            {o === "All" ? label.toUpperCase() : o}
+          </option>
+        ))}
+      </select>
+      <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-2.5 w-2.5 -translate-y-1/2 text-[#202225]" />
+    </label>
+  );
+}
+
+// ---------------------------------------------------------------------------
+// Page
+// ---------------------------------------------------------------------------
+function ProjectsPageContent() {
+  const searchParams = useSearchParams();
+
+  const [filterBudget, setFilterBudget] = useState<string>("All");
+  const [filterBuilder, setFilterBuilder] = useState<string>("All");
+  const [filterConfiguration, setFilterConfiguration] =
+    useState<string>("All");
+  const [filterStage, setFilterStage] = useState<string>("All");
+
+  const [activeLocation, setActiveLocation] = useState<string | null>(
+    "Chembur (E)",
+  );
+
+  useEffect(() => {
+    const stage = searchParams.get("stage");
+    if (stage === "ongoing") setFilterStage("Ongoing");
+    else if (stage === "completed") setFilterStage("Completed");
+  }, [searchParams]);
+
+  const visibleProjects = useMemo(
+    () =>
+      filterProjects(projects, {
+        budget: filterBudget,
+        builder: filterBuilder,
+        configuration: filterConfiguration,
+        stage: filterStage,
+        location: activeLocation,
+      }),
+    [
+      filterBudget,
+      filterBuilder,
+      filterConfiguration,
+      filterStage,
+      activeLocation,
+    ],
+  );
+
+  function clearAllFilters() {
+    setFilterBudget("All");
+    setFilterBuilder("All");
+    setFilterConfiguration("All");
+    setFilterStage("All");
+    setActiveLocation(null);
+  }
+
+  return (
+    <main>
+      {/* ------------------------------------------------------------------ */}
+      {/* HERO — combined projects landing                                    */}
+      {/* ------------------------------------------------------------------ */}
+      <section className="relative isolate flex min-h-[400px] h-[min(72vw,560px)] flex-col overflow-hidden sm:min-h-[380px] sm:h-[420px] lg:h-[560px]">
+        <Image
+          src="/images/Projects/ongoing/bg-hero.svg"
+          alt=""
+          fill
+          priority
+          unoptimized
+          className="object-[center_30%] sm:object-center"
+          sizes="100vw"
+        />
+
+        <div className="relative z-[1] flex w-full flex-1 flex-col items-center justify-start gap-1 text-center sm:gap-6 sm:px-10 sm:py-14">
+          <h1
+            className={`${playfairProjectsHero.className} max-w-[22ch] text-[clamp(2rem,6vw,3.75rem)] font-normal uppercase leading-[1.12] tracking-[0.06em] text-[#0a0a0a] sm:max-w-[100vw] sm:tracking-[0.07em] lg:text-[clamp(2.75rem,5vw,4rem)]`}
+          >
+            Projects
+          </h1>
+          <p className="mt-[-22px]  max-w-xl font-sans text-[0.875rem] font-normal leading-relaxed text-[#0a0a0a] sm:text-lg lg:text-xl">
+            We are one of the fastest growing Real Estate consulting company in
+            India.
+          </p>
+        </div>
+      </section>
+
+      {/* ------------------------------------------------------------------ */}
+      {/* FILTER BAR                                                          */}
+      {/* ------------------------------------------------------------------ */}
+      <section className="border-b border-black/10 shadow-[0_-4px_4px_0_rgba(0,0,0,0.15)]">
+        <Container className="py-5 lg:py-6">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div className="flex items-center gap-5">
+              <button
+                type="button"
+                className="inline-flex items-center gap-2 font-sans text-sm font-black uppercase tracking-[0.1em] text-[#8F8183] sm:text-base"
+              >
+                Filters
+                <ChevronUp className="text-[#8F8183]" />
+              </button>
+              <button
+                type="button"
+                className="inline-flex items-center gap-2 font-sans text-sm font-bold uppercase tracking-[0.1em] text-[#8F8183] sm:text-base"
+              >
+                Sort By
+                <ChevronDown className="text-[#8F8183]" />
+              </button>
+            </div>
+
+            <div className="flex h-[34px] w-full max-w-[345px] items-center gap-2.5 border border-black/20 bg-white px-3.5">
+              <SearchIcon />
+              <span className="font-sans text-base text-black/60">Search</span>
+            </div>
+          </div>
+
+          <div className="my-4 h-px w-full bg-black/20" />
+
+          <div className="flex flex-wrap items-center gap-3">
+            <FilterSelect
+              label="Budget"
+              value={filterBudget}
+              onChange={setFilterBudget}
+              options={[...BUDGET_OPTIONS]}
+            />
+            <FilterSelect
+              label="Builder"
+              value={filterBuilder}
+              onChange={setFilterBuilder}
+              options={[...BUILDER_OPTIONS]}
+            />
+
+            {activeLocation && (
+              <div className="inline-flex h-[51px] items-center border border-[#161616] bg-[#BCBDC0] px-5 font-sans text-sm font-bold uppercase tracking-[0.1em] text-[#161616] sm:text-base">
+                <span>{activeLocation}</span>
+                <span className="mx-4 h-[52px] w-px bg-[#161616]" />
+                <button
+                  type="button"
+                  onClick={() => setActiveLocation(null)}
+                  className="text-xl font-bold leading-none"
+                  aria-label="Remove filter"
+                >
+                  X
+                </button>
+              </div>
+            )}
+
+            <FilterSelect
+              label="Configuration"
+              value={filterConfiguration}
+              onChange={setFilterConfiguration}
+              options={[...CONFIGURATION_OPTIONS]}
+            />
+            <FilterSelect
+              label="Stage"
+              value={filterStage}
+              onChange={setFilterStage}
+              options={[...STAGE_OPTIONS]}
+            />
+
+            <button
+              type="button"
+              className="ml-auto font-sans text-base text-black underline"
+              onClick={clearAllFilters}
+            >
+              Clear all
+            </button>
+          </div>
+        </Container>
+      </section>
+
+      {/* ------------------------------------------------------------------ */}
+      {/* PROJECT GRID                                                        */}
+      {/* ------------------------------------------------------------------ */}
+      <section className="bg-white py-10 lg:py-16">
+        <Container>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-[20px]">
+            {visibleProjects.map((project) => (
+              <ProjectCard
+                key={project.id}
+                imageSrc={project.imageSrc}
+                title={project.title}
+                subtitle={project.subtitle}
+                badge={project.badge}
+                href={
+                  projectIsCompleted(project)
+                    ? `/projects/${project.id}?status=completed`
+                    : `/projects/${project.id}`
+                }
+              />
+            ))}
+          </div>
+
+          {visibleProjects.length === 0 ? (
+            <p className="mt-10 text-center font-sans text-sm text-[#161616]/70">
+              No projects match these filters. Try adjusting or{" "}
+              <button
+                type="button"
+                className="underline"
+                onClick={clearAllFilters}
+              >
+                clear all
+              </button>
+              .
+            </p>
+          ) : null}
+
+          <div className="mt-12 flex justify-center lg:mt-16">
+            <button
+              type="button"
+              className="inline-flex h-[55px] items-center gap-5 px-12 font-sans text-base font-bold uppercase tracking-[0.1em] text-white lg:text-xl"
+              style={{
+                background:
+                  "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",
+              }}
+            >
+              View More
+              <ArrowUpRight />
+            </button>
+          </div>
+        </Container>
+      </section>
+    </main>
+  );
+}
+
+export default function ProjectsPage() {
+  return (
+    <Suspense
+      fallback={
+        <main className="min-h-[50vh] bg-white">
+          <div className="flex h-[320px] items-center justify-center bg-[#BCBDC0]/30 sm:h-[400px] lg:h-[550px]">
+            <span className="font-sans text-sm text-[#202225]/60">Loading…</span>
+          </div>
+        </main>
+      }
+    >
+      <ProjectsPageContent />
+    </Suspense>
+  );
+}
