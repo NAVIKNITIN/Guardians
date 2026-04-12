@@ -22,7 +22,7 @@ export function RoundIconButton({
       type={type}
       aria-label={label}
       className={cn(
-        "flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-black/15 bg-white text-brand-text-primary transition-colors hover:border-black/30",
+        "flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-transparent text-brand-text-primary transition-colors hover:bg-black/[0.04]",
         className,
       )}
       {...props}

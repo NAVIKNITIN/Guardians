@@ -3,12 +3,12 @@ import { MarketingEnquireLink } from "@/components/ui/MarketingEnquireLink";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 
-const HERO_IMAGE = "/images/group_builder.svg";
+const HERO_IMAGE = "/images/Mask group.svg";
 
 export function DeveloperDetailsHero() {
   return (
     <section
-      className="relative min-h-[min(85vh,760px)] overflow-hidden bg-neutral-300 pt-10 pb-28 sm:min-h-[min(100vh,1000px)] sm:pt-14 sm:pb-32 lg:pt-16 lg:pb-40"
+      className="relative w-full min-w-0 min-h-[min(85vh,760px)] overflow-hidden bg-neutral-300 pt-10 pb-28 sm:min-h-[min(100vh,1000px)] sm:pt-14 sm:pb-32 lg:pt-16 lg:pb-40"
       aria-labelledby="developer-hero-heading"
     >
       <div className="pointer-events-none absolute inset-0 z-0">
