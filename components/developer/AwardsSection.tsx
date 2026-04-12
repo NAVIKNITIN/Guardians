@@ -1,68 +1,310 @@
 "use client";
 
+import type { AwardSlide } from "@/data/developer-page";
 import { AWARD_SLIDES } from "@/data/developer-page";
-import { IconLaurelAward } from "@/components/common/icons";
 import { CarouselControls } from "@/components/ui/CarouselControls";
 import { SectionSurface } from "@/components/ui/SectionSurface";
 import { marketingClasses } from "@/styles/marketingClasses";
 import { useCycleIndex } from "@/hooks/useCycleIndex";
 import { cn } from "@/utils/cn";
+import { RollingText } from "@/components/ui/RollingText";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
+import { memo, useEffect, useState } from "react";
+
+const TOTAL = AWARD_SLIDES.length;
+
+/** Static deck behind the active page — edges + stitch read as bound pages. */
+function BookSpineStack({ className }: { className?: string }) {
+  return (
+    <div
+      className={cn("pointer-events-none absolute inset-0 z-0", className)}
+      aria-hidden
+    >
+      {[3, 2, 1].map((step) => (
+        <div
+          key={step}
+          className="absolute rounded-sm border border-black/[0.07] bg-gradient-to-br from-neutral-100 to-neutral-200/90 shadow-sm"
+          style={{
+            inset: 0,
+            transform: `translate(${step * 5}px, ${step * 5}px)`,
+            zIndex: -step,
+          }}
+        />
+      ))}
+      {/* Spine thread — vertical stitch line where “pages” meet */}
+      <div
+        className="absolute top-[8%] bottom-[8%] left-[14%] w-px opacity-40"
+        style={{
+          background:
+            "repeating-linear-gradient(to bottom, #8f8183 0px, #8f8183 3px, transparent 3px, transparent 6px)",
+        }}
+      />
+      <div
+        className="absolute top-[8%] bottom-[8%] left-[calc(14%+5px)] w-px opacity-25"
+        style={{
+          background:
+            "repeating-linear-gradient(to bottom, #bcbdc0 0px, #bcbdc0 2px, transparent 2px, transparent 5px)",
+        }}
+      />
+    </div>
+  );
+}
+
+/** Back of the turning page — paper + thread pattern. */
+function BookPageBack({ slide }: { slide: AwardSlide }) {
+  return (
+    <div
+      className="absolute inset-0 overflow-hidden rounded-sm border border-black/12 bg-[#f3efe8] shadow-inner"
+      style={{
+        transform: "rotateY(180deg)",
+        backfaceVisibility: "hidden",
+        WebkitBackfaceVisibility: "hidden",
+      }}
+    >
+      <div
+        className="absolute inset-0 opacity-[0.35]"
+        style={{
+          backgroundImage: [
+            "repeating-linear-gradient(0deg, transparent, transparent 11px, rgba(0,0,0,0.04) 11px, rgba(0,0,0,0.04) 12px)",
+            "repeating-linear-gradient(90deg, transparent, transparent 9px, rgba(0,0,0,0.03) 9px, rgba(0,0,0,0.03) 10px)",
+          ].join(","),
+        }}
+      />
+      <div
+        className="absolute top-[10%] bottom-[10%] left-[18%] w-[2px] opacity-50"
+        style={{
+          background:
+            "repeating-linear-gradient(to bottom, #6b6560 0px, #6b6560 4px, transparent 4px, transparent 8px)",
+        }}
+      />
+      <div
+        className="absolute top-[10%] bottom-[10%] left-[calc(18%+6px)] w-px opacity-30"
+        style={{
+          background:
+            "repeating-linear-gradient(to bottom, #8f8183 0px, #8f8183 2px, transparent 2px, transparent 5px)",
+        }}
+      />
+    </div>
+  );
+}
+
+/** Front of the award card (ghost stack + image). */
+const BookPageFront = memo(function BookPageFront({ slide }: { slide: AwardSlide }) {
+  return (
+    <div
+      className="absolute inset-0 overflow-hidden rounded-sm shadow-lg"
+      style={{
+        backfaceVisibility: "hidden",
+        WebkitBackfaceVisibility: "hidden",
+      }}
+    >
+      <div
+        className="absolute inset-0 z-0 translate-x-3 translate-y-3 rounded-sm border border-black/6 bg-neutral-100/90 shadow-sm"
+        aria-hidden
+      />
+      <div
+        className="absolute inset-0 z-1 translate-x-1.5 translate-y-1.5 rounded-sm border border-black/8 bg-white shadow-md"
+        aria-hidden
+      />
+      <div className="absolute inset-0 z-10 overflow-hidden rounded-sm border border-black/8 bg-white">
+        <Image
+          src={slide.imageSrc}
+          alt=""
+          fill
+          className="object-cover object-center"
+          sizes="(max-width: 1024px) 100vw, 400px"
+        />
+      </div>
+    </div>
+  );
+});
+
+/** Half the previous turn (~44°) — subtle “half page” sweep instead of a near-flat fold. */
+const BOOK_TURN_DEG = 82;
+
+const bookFlipFull = {
+  enter: (dir: 1 | -1) => ({
+    rotateY: dir > 0 ? BOOK_TURN_DEG : -BOOK_TURN_DEG,
+    transformOrigin: dir > 0 ? "right center" : "left center",
+    opacity: 1,
+  }),
+  center: {
+    rotateY: 0,
+    transformOrigin: "center center",
+    opacity: 1,
+  },
+  exit: (dir: 1 | -1) => ({
+    rotateY: dir > 0 ? -BOOK_TURN_DEG : BOOK_TURN_DEG,
+    transformOrigin: dir > 0 ? "left center" : "right center",
+    opacity: 1,
+  }),
+};
+
+const bookFlipReduced = {
+  enter: { opacity: 0 },
+  center: { opacity: 1 },
+  exit: { opacity: 0 },
+};
 
 export function AwardsSection() {
-  const total = AWARD_SLIDES.length;
-  const { index, advance } = useCycleIndex(total, 0);
+  const { index, advance } = useCycleIndex(TOTAL, 0);
   const slide = AWARD_SLIDES[index]!;
+  const reduceMotion = useReducedMotion();
+  const [rollDir, setRollDir] = useState<1 | -1>(1);
+  /** Index of the slide that is turning away; cleared after mount so AnimatePresence can run `exit`. */
+  const [outgoingIndex, setOutgoingIndex] = useState<number | null>(null);
+  /** True from click until exit animation finishes — not tied to `outgoingIndex` (cleared early to trigger exit). */
+  const [transitionLock, setTransitionLock] = useState(false);
+
+  const goNext = () => {
+    if (transitionLock) return;
+    setRollDir(1);
+    setTransitionLock(true);
+    setOutgoingIndex(index);
+    advance(1);
+  };
+
+  const goPrev = () => {
+    if (transitionLock) return;
+    setRollDir(-1);
+    setTransitionLock(true);
+    setOutgoingIndex(index);
+    advance(-1);
+  };
+
+  // Exit only runs when this child leaves the tree; after one frame, drop `outgoingIndex` so removal starts the flip.
+  useEffect(() => {
+    if (outgoingIndex === null) return;
+    const id = requestAnimationFrame(() => {
+      setOutgoingIndex(null);
+    });
+    return () => cancelAnimationFrame(id);
+  }, [outgoingIndex]);
 
   return (
     <SectionSurface variant="default" aria-labelledby="awards-heading">
-      <div className="grid gap-12 lg:grid-cols-12 lg:items-center lg:gap-8">
-        <div className="flex flex-col items-center text-center lg:col-span-3 lg:items-start lg:text-left">
-          <IconLaurelAward className="h-16 w-16 text-brand-text-primary" />
+      <div className="grid gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-10 xl:gap-14">
+        <div className="flex flex-col items-start text-left lg:col-span-3">
+          <Image
+            src="/images/Developer/award/star.svg"
+            alt=""
+            width={91}
+            height={75}
+            className="h-16 w-auto shrink-0 object-contain object-left sm:h-18"
+          />
           <h2
             id="awards-heading"
-            className={cn("mt-6", marketingClasses.headingDisplaySm)}
+            className={cn(
+              "mt-5 lg:mt-[70px] max-w-48 sm:max-w-none font-qasbyne",
+              marketingClasses.headingDisplaySm,
+            )}
           >
-            Awards &amp; recognitions
+            Awards &
+            Recognitions
           </h2>
         </div>
 
-        <div className="relative lg:col-span-5">
-          <div className="relative mx-auto aspect-[4/5] w-full max-w-sm overflow-hidden rounded-sm border border-black/[0.08] bg-neutral-100 shadow-md">
-            <Image
-              key={slide.id}
-              src={slide.imageSrc}
-              alt=""
-              fill
-              className="object-cover object-center"
-              sizes="(max-width: 1024px) 100vw, 400px"
-            />
+        {/* Book-style page turn + spine stack behind */}
+        <div className="relative flex justify-center lg:col-span-5 lg:justify-center">
+          <div
+            className={cn(
+              "relative mx-auto w-full max-w-[280px] sm:max-w-[300px]",
+              "aspect-4/5 max-h-[min(22rem,52.5vh)] min-h-0",
+            )}
+          >
+            <BookSpineStack />
+
             <div
-              className="absolute inset-2 -z-10 translate-x-2 translate-y-2 rounded-sm border border-black/10 bg-white shadow-sm"
-              aria-hidden
-            />
+              className="relative z-10 h-full w-full [perspective:1200px]"
+              style={{ perspectiveOrigin: "50% 50%" }}
+            >
+              {/* Incoming slide stays flat underneath so it shows through the turn */}
+              <div className="absolute inset-0 z-0">
+                <BookPageFront slide={slide} />
+              </div>
+
+              <AnimatePresence
+                initial={false}
+                custom={rollDir}
+                onExitComplete={() => setTransitionLock(false)}
+              >
+                {outgoingIndex !== null && (
+                  <motion.div
+                    key={AWARD_SLIDES[outgoingIndex]!.id}
+                    custom={rollDir}
+                    variants={reduceMotion ? bookFlipReduced : bookFlipFull}
+                    initial="center"
+                    animate="center"
+                    exit="exit"
+                    transition={{
+                      duration: reduceMotion ? 0.2 : 0.62,
+                      ease: [0.22, 0.82, 0.28, 1],
+                    }}
+                    className="preserve-3d absolute inset-0 z-10 h-full w-full"
+                    style={{ transformStyle: "preserve-3d" }}
+                  >
+                    <div
+                      className="relative h-full w-full"
+                      style={{ transformStyle: "preserve-3d" }}
+                    >
+                      <BookPageFront slide={AWARD_SLIDES[outgoingIndex]!} />
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
 
-        <div className="flex flex-col justify-center lg:col-span-4">
-          <p className="text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-text-muted">
-            {slide.company}
-          </p>
-          <p className="mt-3 font-qasbyne text-2xl font-normal leading-snug text-brand-text-primary sm:text-3xl">
-            {slide.achievement}
-          </p>
-          <p className="mt-4 text-[10px] font-semibold uppercase tracking-widest text-brand-text-muted">
-            {slide.year}
-          </p>
-          <CarouselControls
-            className="mt-8 gap-4"
-            currentIndex={index}
-            total={total}
-            onPrev={() => advance(-1)}
-            onNext={() => advance(1)}
-            prevLabel="Previous award"
-            nextLabel="Next award"
-          />
+        <div className="flex min-h-0 flex-col lg:col-span-4 lg:h-full">
+          <div className="mb-8 flex shrink-0 justify-start lg:mb-10">
+            <CarouselControls
+              currentIndex={index}
+              total={TOTAL}
+              onPrev={goPrev}
+              onNext={goNext}
+              prevLabel="Previous award"
+              nextLabel="Next award"
+              buttonClassName="border-0 bg-transparent hover:bg-transparent"
+              counterClassName="min-w-[2.75rem] px-1 text-xs font-medium text-brand-text-primary sm:text-sm"
+              renderCounter={({ currentIndex, total }) => (
+                <span className="inline-flex min-w-[2.75rem] items-baseline justify-center gap-0.5 px-1 text-xs font-medium text-brand-text-primary tabular-nums sm:text-sm">
+                  <RollingText
+                    value={String(currentIndex + 1)}
+                    direction={rollDir}
+                  />
+                  <span className="opacity-70" aria-hidden>
+                    /
+                  </span>
+                  <span>{total}</span>
+                </span>
+              )}
+            />
+          </div>
+
+          <div className="flex min-h-0 flex-1 flex-col justify-between gap-8">
+            <div>
+              <RollingText
+                value={slide.company}
+                direction={rollDir}
+                className="text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-text-primary"
+              />
+              <div className="mt-4">
+                <RollingText
+                  block
+                  value={slide.achievement}
+                  direction={rollDir}
+                  className="font-qasbyne text-[clamp(1.5rem,2.8vw,2.75rem)] font-normal leading-[1.15] tracking-[0.02em] text-brand-text-primary"
+                />
+              </div>
+            </div>
+            <RollingText
+              value={slide.year}
+              direction={rollDir}
+              className="text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-text-secondary"
+            />
+          </div>
         </div>
       </div>
     </SectionSurface>

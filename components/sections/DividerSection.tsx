@@ -228,7 +228,7 @@ function ProfileCards({ className }: { className?: string }) {
               </h3>
             </div>
             <Link
-              href="/#buyer"
+              href="/buyer"
               className={cn(
                 primaryCtaClassName,
                 "w-fit rounded-none border border-brand-text-primary bg-white text-brand-text-primary shadow-none hover:bg-brand-text-primary hover:text-white",

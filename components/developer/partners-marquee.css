@@ -1,0 +1,53 @@
+/* Co-located so keyframes + animation always ship with PartnersSection (Tailwind v4 pipeline-safe). */
+
+@keyframes partners-marquee-lr {
+  from {
+    transform: translate3d(-50%, 0, 0);
+  }
+  to {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes partners-marquee-rl {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.partners-marquee__viewport {
+  overflow: hidden;
+}
+
+.partners-marquee__track {
+  display: flex;
+  width: max-content;
+  flex-wrap: nowrap;
+  gap: 0.75rem;
+  will-change: transform;
+}
+
+.partners-marquee__track--lr {
+  animation: partners-marquee-lr 50s linear infinite;
+}
+
+.partners-marquee__track--rl {
+  animation: partners-marquee-rl 50s linear infinite;
+}
+
+.partners-marquee__track--lr:hover,
+.partners-marquee__track--rl:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .partners-marquee__track--lr,
+  .partners-marquee__track--rl {
+    animation: none;
+    transform: none;
+    will-change: auto;
+  }
+}
