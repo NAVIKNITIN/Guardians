@@ -75,7 +75,7 @@ export function NewsCard({ article }: { article: NewsArticle }) {
         )}
       >
         Read More
-        <CornerArrowIcon />
+        <Image src="/images/arrowblack.svg" alt="Read More" width={15} height={15} />
       </Link>
     </article>
   );

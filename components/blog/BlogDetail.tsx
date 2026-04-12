@@ -62,16 +62,16 @@ function BackArrow() {
 
 export function BlogDetail({ post }: { post: BlogDetailPost }) {
   return (
-    <article className="bg-white py-14 sm:py-16 lg:py-20">
+    <article className="bg-white py-20 lg:py-[20px]">
       <Container>
         {/* Back to blog */}
-        <Link
+        {/* <Link
           href="/blog"
           className="mb-8 inline-flex items-center gap-2 font-nexa text-sm font-bold uppercase tracking-[0.1em] text-[#8F8183] transition-opacity hover:opacity-70"
         >
           <BackArrow />
           Back to Blogs
-        </Link>
+        </Link> */}
 
         {/* ── Meta row: category + date ─────────────────────────────── */}
         <div className="flex items-center justify-between gap-4">
@@ -84,7 +84,7 @@ export function BlogDetail({ post }: { post: BlogDetailPost }) {
         </div>
 
         {/* ── Title ────────────────────────────────────────────────────── */}
-        <h1 className="mt-4 font-nexa text-[clamp(1.75rem,4vw,3.125rem)] font-bold leading-[1] text-[#161616]">
+        <h1 className="mt-4 font-qasbyne text-[clamp(1.75rem,4vw,3.125rem)] leading-[1] text-[#161616]">
           {post.title}
         </h1>
 
@@ -103,10 +103,10 @@ export function BlogDetail({ post }: { post: BlogDetailPost }) {
         </div>
 
         {/* ── Two-column: body + sidebar ────────────────────────────────── */}
-        <div className="mt-12 flex flex-col gap-10 lg:flex-row lg:gap-[68px] xl:gap-20">
+        <div className="mt-12 flex flex-col gap-10 lg:flex-row ">
           {/* Article body */}
           <div className="min-w-0 flex-1">
-            <div className="font-nexa text-xl font-normal leading-[1.5] text-[#161616] space-y-6 whitespace-pre-line">
+            <div className="font-nexa text-xl font-normal leading-[1.5] text-[#161616] whitespace-pre-line">
               {post.body}
             </div>
           </div>

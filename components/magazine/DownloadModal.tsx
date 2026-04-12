@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/utils/cn";
+import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 type UserType = "business" | "employee";
@@ -198,7 +199,12 @@ export function DownloadModal({ isOpen, onClose, issueTitle }: DownloadModalProp
             }}
           >
             Submit
-            <CornerArrowIcon />
+            <Image
+              src="/images/arrowwhite.svg"
+              alt="Submit"
+              width={15}
+              height={15}
+            />
           </button>
         </form>
       </div>

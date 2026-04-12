@@ -1,6 +1,8 @@
 import { Container } from "@/components/common/Container";
 import { BlogCard, type BlogPost } from "./BlogCard";
 import { BlogSidebar } from "./BlogSidebar";
+import Image from "next/image";
+import Link from "next/link";
 
 const EXCERPT =
   "Lorem ipsum dolor sit amet consectetur. Augue molestie etiam lacus velit. Eget urna sagittis faucibus mauris id....";
@@ -104,7 +106,7 @@ function ViewMoreIcon() {
 
 export function BlogGrid() {
   return (
-    <section className="bg-white py-14 sm:py-16 lg:py-20" aria-label="Blog posts">
+    <section className="bg-white py-14 sm:py-16 lg:py-10 px-2 lg:px-10" aria-label="Blog posts">
       <Container>
         {/* Filter bar */}
         <div className="mb-6 flex items-center gap-10 border-b border-[#8F8183]/30 pb-4">
@@ -124,8 +126,8 @@ export function BlogGrid() {
 
             {/* VIEW MORE */}
             <div className="mt-14 flex justify-center">
-              <button
-                type="button"
+              <Link
+                href="#"
                 className="inline-flex items-center gap-5 px-12 py-[18px] font-nexa text-xl font-bold uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90"
                 style={{
                   background:
@@ -133,8 +135,8 @@ export function BlogGrid() {
                 }}
               >
                 View More
-                <ViewMoreIcon />
-              </button>
+                <Image src="/images/arrowwhite.svg" alt="View More" width={15} height={15} />
+              </Link>
             </div>
           </div>
 

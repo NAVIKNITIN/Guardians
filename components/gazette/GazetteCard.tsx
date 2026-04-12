@@ -61,7 +61,7 @@ export function GazetteCard({ issue }: { issue: GazetteIssue }) {
         )}
       >
         Open File
-        <CornerArrowIcon />
+        <Image src="/images/arrowblack.svg" alt="Open File" width={15} height={15} />
       </Link>
     </article>
   );

@@ -53,7 +53,7 @@ export function BlogCard({ post }: { post: BlogPost }) {
 
       {/* Read More button */}
       <Link
-        href={post.href}
+        href={`/blog/${post.id}`}
         className={cn(
           "mt-5 flex items-center justify-center gap-5",
           "border border-black/30 px-12 py-2.5",
@@ -62,7 +62,7 @@ export function BlogCard({ post }: { post: BlogPost }) {
         )}
       >
         Read More
-        <CornerArrowIcon />
+        <Image src="/images/arrow.svg" alt="View More" width={15} height={15} />
       </Link>
     </article>
   );

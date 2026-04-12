@@ -18,42 +18,42 @@ const ISSUES: MagazineIssue[] = [
     id: "1",
     title: "Revolutionising real estate - The Power of GIS mapping in India",
     imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/1b24559f19361befa01282cb6d7a541677d24b5d?width=1082",
+      "/images/citylife.svg",
     imageAlt: "Magazine cover",
   },
   {
     id: "2",
     title: "Revolutionising real estate - The Power of GIS mapping in India",
     imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/1b24559f19361befa01282cb6d7a541677d24b5d?width=1082",
+      "/images/citylife.svg",
     imageAlt: "Magazine cover",
   },
   {
     id: "3",
     title: "Revolutionising real estate - The Power of GIS mapping in India",
     imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/1b24559f19361befa01282cb6d7a541677d24b5d?width=1082",
+      "/images/citylife.svg",
     imageAlt: "Magazine cover",
   },
   {
     id: "4",
     title: "Revolutionising real estate - The Power of GIS mapping in India",
     imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/a0aec7389b59c267fe9e6cb147a75e605ac97963?width=1082",
+      "/images/citylife.svg",
     imageAlt: "Magazine cover",
   },
   {
     id: "5",
     title: "Revolutionising real estate - The Power of GIS mapping in India",
     imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/a0aec7389b59c267fe9e6cb147a75e605ac97963?width=1082",
+      "/images/citylife.svg",
     imageAlt: "Magazine cover",
   },
   {
     id: "6",
     title: "Revolutionising real estate - The Power of GIS mapping in India",
     imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/a0aec7389b59c267fe9e6cb147a75e605ac97963?width=1082",
+      "/images/citylife.svg",
     imageAlt: "Magazine cover",
   },
 ];
@@ -113,7 +113,7 @@ function MagazineCard({
         )}
       >
         Open File
-        <CornerArrowIconDark />
+        <Image src="/images/arrow.svg" alt="Open File" width={15} height={15} />
       </button>
     </article>
   );
@@ -123,7 +123,7 @@ export function MagazineGrid() {
   const [activeIssue, setActiveIssue] = useState<string | null>(null);
 
   return (
-    <section className="bg-white py-16 sm:py-20 lg:py-24" aria-label="Magazine issues">
+    <section className="bg-white py-16 sm:py-16 lg:py-20 px-2 lg:px-10" aria-label="Magazine issues">
       <Container>
         {/* 3-column grid */}
         <div className="grid grid-cols-1 gap-x-10 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-[52px] lg:gap-y-16">
@@ -147,7 +147,7 @@ export function MagazineGrid() {
             }}
           >
             Load More
-            <CornerArrowIconWhite />
+            <Image src="/images/arrowwhite.svg" alt="Load More" width={15} height={15} />
           </button>
         </div>
       </Container>
