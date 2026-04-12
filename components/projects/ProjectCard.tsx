@@ -1,3 +1,4 @@
+import { IconArrowUpRight } from "@/components/common/icons";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/utils/cn";
@@ -16,16 +17,6 @@ export interface ProjectCardProps {
   };
 }
 
-/** Diagonal arrow icon matching the design system */
-function ArrowIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-      <path d="M0 0H14.4958V14.4958" stroke="white" strokeWidth="2" />
-      <line x1="0" y1="0" x2="15" y2="15" stroke="white" strokeWidth="2" />
-    </svg>
-  );
-}
-
 export function ProjectCard({
   imageSrc,
   imageAlt = "",
@@ -34,54 +25,59 @@ export function ProjectCard({
   href = "#",
   badge,
 }: ProjectCardProps) {
-  const badgeBg =
-    badge?.variant === "completed" ? "bg-[#161616]" : "bg-[#8F8183]";
+  const badgeClass =
+    badge?.variant === "completed"
+      ? "bg-neutral-900/90"
+      : "bg-[#8B7268]/90";
 
   return (
     <Link
       href={href}
       className={cn(
-        "group relative flex flex-col overflow-hidden bg-[rgba(188,189,192,0.10)] shadow-[0_0_22px_0_rgba(0,0,0,0.25)]",
-        "transition-[box-shadow,transform] hover:shadow-[0_0_28px_0_rgba(0,0,0,0.2)]",
+        "group relative flex flex-col overflow-hidden rounded-lg bg-white",
+        "shadow-[0_4px_24px_rgba(0,0,0,0.08)] transition-[box-shadow,transform] duration-300",
+        "hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]",
       )}
       aria-label={`View ${title}`}
     >
-      {/* Image area */}
-      <div className="relative h-[220px] w-full overflow-hidden bg-[#BCBDC0] sm:h-[270px] lg:h-[350px]">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#BCBDC0] sm:aspect-[16/10]">
         <Image
           src={imageSrc}
           alt={imageAlt}
           fill
-          className="object-cover transition-transform duration-500 group-hover:scale-105"
-          sizes="(min-width: 1280px) 578px, (min-width: 768px) 50vw, 100vw"
+          className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          sizes="(min-width: 1280px) 400px, (min-width: 768px) 45vw, 100vw"
         />
 
-        {/* Status badge */}
-        {badge && (
+        {badge ? (
           <div
-            className={`absolute left-0 top-[30px] inline-flex items-center px-5 py-2.5 ${badgeBg}`}
+            className={cn(
+              "absolute left-3 top-3 z-10 rounded-sm px-3 py-1.5 sm:left-4 sm:top-4 sm:px-3.5 sm:py-2",
+              badgeClass,
+            )}
           >
-            <span className="font-nexa text-xs font-bold uppercase tracking-[0.1em] text-white sm:text-sm">
+            <span className="font-nexa text-[10px] font-bold uppercase tracking-[0.12em] text-white sm:text-xs">
               {badge.label}
             </span>
           </div>
-        )}
+        ) : null}
       </div>
 
-      {/* Info row */}
-      <div className="relative flex items-end justify-between px-5 py-4 lg:py-5">
-        <div className="flex flex-col gap-1">
-          <span className="font-nexa text-lg font-bold leading-tight text-[#161616] sm:text-xl lg:text-2xl">
+      <div className="flex items-center justify-between gap-4 bg-[#ecebeb] px-4 py-4 sm:px-5 sm:py-5">
+        <div className="min-w-0 flex-1">
+          <p className="font-nexa text-base font-bold leading-snug text-[#161616] sm:text-lg">
             {title}
-          </span>
-          <span className="font-nexa text-sm font-normal leading-snug text-[#161616]/70 sm:text-base lg:text-[20px]">
+          </p>
+          <p className="mt-1 font-nexa text-sm font-normal leading-snug text-[#161616]/60 sm:text-[15px]">
             {subtitle}
-          </span>
+          </p>
         </div>
 
-        {/* Arrow CTA */}
-        <span className="flex h-[55px] w-[75px] shrink-0 items-center justify-center bg-[#161616] transition-opacity group-hover:opacity-80">
-          <ArrowIcon />
+        <span
+          className="inline-flex h-11 w-11 shrink-0 items-center justify-center bg-black text-white transition-colors group-hover:bg-neutral-900"
+          aria-hidden
+        >
+          <IconArrowUpRight className="h-5 w-5" />
         </span>
       </div>
     </Link>

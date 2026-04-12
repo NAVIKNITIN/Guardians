@@ -19,7 +19,7 @@ export function AudienceHero({ content }: { content: MarketingHeroContent }) {
 
   return (
     <section
-      className="relative isolate w-full min-w-0 min-h-[min(85vh,760px)] overflow-hidden bg-neutral-300 pt-10 pb-28 sm:min-h-[min(100vh,1000px)] sm:pt-14 sm:pb-32 lg:pt-16 lg:pb-40"
+      className="relative isolate w-full min-w-0 min-h-[min(90vh,860px)] overflow-hidden bg-neutral-300 pt-10 pb-28 sm:min-h-[min(100vh,1000px)] sm:pt-14 sm:pb-32 lg:pt-16 lg:pb-40"
       aria-labelledby={content.ariaHeadingId}
     >
       <div className="pointer-events-none absolute inset-0 z-0">

@@ -321,7 +321,7 @@ function ProjectsPageContent() {
           <h1
             className="max-w-[22ch] font-qasbyne text-[clamp(2rem,6vw,3.75rem)] font-normal uppercase leading-[1.12] tracking-[0.06em] text-[#0a0a0a] sm:max-w-[100vw] sm:tracking-[0.07em] lg:text-[clamp(2.75rem,5vw,4rem)]"
           >
-            Projects
+            {filterStage}  Projects
           </h1>
           <p className="mt-[-22px]  max-w-xl font-nexa text-[0.875rem] font-normal leading-relaxed text-[#0a0a0a] sm:text-lg lg:text-xl">
             We are one of the fastest growing Real Estate consulting company in
@@ -335,7 +335,7 @@ function ProjectsPageContent() {
       {/* ------------------------------------------------------------------ */}
       <section className="border-b border-black/10 shadow-[0_-4px_4px_0_rgba(0,0,0,0.15)]">
         <Container className="py-5 lg:py-6">
-          <div className="flex flex-wrap items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center justify-between gap-3 lg:px-18">
             <div className="flex items-center gap-5">
               <button
                 type="button"
@@ -359,9 +359,9 @@ function ProjectsPageContent() {
             </div>
           </div>
 
-          <div className="my-4 h-px w-full bg-black/20" />
+          <div className="my-4 h-px w-[90%] bg-black/20 mx-auto" />
 
-          <div className="flex flex-wrap items-center gap-3">
+          <div className="flex items-center gap-2 lg:px-18">
             <FilterSelect
               label="Budget"
               value={filterBudget}
@@ -378,7 +378,7 @@ function ProjectsPageContent() {
             {activeLocation && (
               <div className="inline-flex h-[51px] items-center border border-[#161616] bg-[#BCBDC0] px-5 font-nexa text-sm font-bold uppercase tracking-[0.1em] text-[#161616] sm:text-base">
                 <span>{activeLocation}</span>
-                <span className="mx-4 h-[52px] w-px bg-[#161616]" />
+                <span className="mx-1 h-[52px] w-px bg-[#161616]" />
                 <button
                   type="button"
                   onClick={() => setActiveLocation(null)}
@@ -417,7 +417,7 @@ function ProjectsPageContent() {
       {/* ------------------------------------------------------------------ */}
       {/* PROJECT GRID                                                        */}
       {/* ------------------------------------------------------------------ */}
-      <section className="bg-white py-10 lg:py-16">
+      <section className="bg-white py-10 lg:py-16 lg:px-18">
         <Container>
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-[20px]">
             {visibleProjects.map((project) => (

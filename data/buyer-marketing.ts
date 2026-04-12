@@ -24,6 +24,8 @@ const AWARD_ROTATION_IMAGES = [
   "/images/image_1.svg",
   "/images/Buyer/BuyerVector.svg",
 ] as const;
+const PLACEHOLDER_SERVICE_DESC =
+  "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
 
 const DEV_AWARD_SLIDES: AwardSlide[] = Array.from({ length: 25 }, (_, i) => ({
   id: String(i + 1),
@@ -42,38 +44,46 @@ export const BUYER_MARKETING_PAGE = {
     ariaHeadingId: "buyer-hero-heading",
   },
   services: {
-    sectionTitle: "Our Services",
+    sectionTitle: "Our services",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
     ...DEFAULT_READ_MORE,
     cards: [
       {
-        id: "search",
-        title: "Discovery & shortlist",
-        src: "/images/Buyer/BuyerVector.svg",
-        description:
-          "Curated options that match budget, commute, schools, and lifestyle — without the noise.",
+        id: "residential",
+        title: "Residential",
+        src: "/images/Developer/ourservices/1.svg",
+        description: PLACEHOLDER_SERVICE_DESC,
       },
       {
-        id: "diligence",
-        title: "Diligence & pricing",
-        src: "/images/Mask group.svg",
-        description:
-          "Comparable sales, project reputation, and documentation checks before you commit.",
+        id: "business",
+        title: "Business solution",
+        src: "/images/Developer/ourservices/2.svg",
+        description: PLACEHOLDER_SERVICE_DESC,
       },
       {
-        id: "negotiation",
-        title: "Offer & negotiation",
-        src: "/images/ourwork.svg",
-        description:
-          "Clear terms, milestone planning, and coordination with lenders and legal partners.",
+        id: "market",
+        title: "Market intelligence",
+        src: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80",
+        description: PLACEHOLDER_SERVICE_DESC,
       },
       {
-        id: "handover",
-        title: "Handover support",
-        src: "/images/Home/Banner1.svg",
-        description:
-          "Snag lists, possession readiness, and move-in planning so nothing slips.",
+        id: "partner",
+        title: "Partner network",
+        src: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80",
+        description: PLACEHOLDER_SERVICE_DESC,
+      },
+      {
+        id: "institutional",
+        title: "Institutional sales",
+        src: "https://images.unsplash.com/photo-1486718448742-163732cd1544?auto=format&fit=crop&w=800&q=80",
+        description: PLACEHOLDER_SERVICE_DESC,
+      },
+      {
+        id: "advisory",
+        title: "Structured advisory",
+        src: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
+        description: PLACEHOLDER_SERVICE_DESC,
       },
     ],
   },

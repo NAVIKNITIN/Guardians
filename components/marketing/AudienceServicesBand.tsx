@@ -1,9 +1,11 @@
+import { IconArrowUpRight } from "@/components/common/icons";
 import { SectionSurface } from "@/components/ui/SectionSurface";
 import { MarketingEnquireLink } from "@/components/ui";
 import type { ServicesBandContent } from "@/data/audience-marketing";
 import { marketingClasses } from "@/styles/marketingClasses";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
+import Link from "next/link";
 
 export function AudienceServicesBand({
   content,
@@ -54,27 +56,39 @@ export function AudienceServicesBand({
                 >
                   <article
                     className={cn(
-                      "overflow-hidden rounded-sm border border-brand-border bg-brand-background-muted shadow-sm transition-shadow hover:shadow-md",
+                      "flex h-full min-h-88 flex-col rounded-none bg-[#EEEEEE] transition-opacity hover:opacity-[0.97]",
                     )}
                   >
-                    <div className="relative aspect-[4/3] w-full bg-neutral-200">
-                      <Image
-                        src={card.src}
-                        alt=""
-                        fill
-                        className="object-cover object-center saturate-[0.9]"
-                        sizes="(max-width: 640px) min(280px, 100vw - 2.5rem), 288px"
-                      />
+                    <div className="p-3">
+                      <div className="bg-white ">
+                        <div className="relative aspect-4/3 w-full overflow-hidden bg-neutral-200">
+                          <Image
+                            src={card.src}
+                            alt=""
+                            fill
+                            className="object-cover object-center saturate-[0.92]"
+                            sizes="(max-width: 640px) min(280px, 100vw - 2.5rem), 288px"
+                          />
+                        </div>
+                      </div>
                     </div>
-                    <div className="border-t border-brand-border bg-white px-4 py-3">
-                      <h3 className="truncate text-center text-[18px] font-semibold uppercase tracking-[0.18em] text-brand-text-primary">
+
+                    <div className="flex flex-1 flex-col px-4 pb-4 pt-1">
+                      <h3 className="text-left text-[15px] font-bold uppercase leading-snug tracking-[0.14em] text-brand-text-primary sm:text-base">
                         {card.title}
                       </h3>
-                    </div>
-                    <div>
-                      <p className="px-4 py-2 text-center text-sm leading-relaxed text-brand-text-secondary">
-                        {card.description}
-                      </p>
+                      <div className="mt-4 flex min-h-0 flex-1 items-end justify-between gap-3">
+                        <p className="min-w-0 flex-1 text-left text-sm font-normal leading-relaxed text-brand-text-primary">
+                          {card.description}
+                        </p>
+                        <Link
+                          href={content.readMoreHref}
+                          className="inline-flex h-11 w-11 shrink-0 items-center justify-center bg-black text-white transition-colors hover:bg-neutral-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+                          aria-label={content.readMoreLabel}
+                        >
+                          <IconArrowUpRight className="h-5 w-5" />
+                        </Link>
+                      </div>
                     </div>
                   </article>
                 </li>

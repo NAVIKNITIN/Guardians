@@ -76,7 +76,7 @@ export const DEVELOPER_MARKETING_PAGE = {
   hero: {
     isBuyer: false,
     backgroundImageSrc: "/images/Mask group.svg",
-    body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam — structured advisory for developers and institutional partners.",
+    body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     ...DEFAULT_HERO_CTA,
     ariaHeadingId: "developer-hero-heading",
   },

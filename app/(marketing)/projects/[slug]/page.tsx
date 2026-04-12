@@ -22,7 +22,7 @@ const project = {
   title: "Lorem Ipsum\nTowers",
   rera: "P51700012556",
   developerLogo:
-    "/images/Projects/ongoing/bg-hero.svg",
+    "/images/Projects/Group 45.svg",
   stats: [
     { label: "Area", value: "37,850", unit: "sq. ft." },
     { label: "Type", value: "1, 2 & 3 BHK", unit: "" },
@@ -364,16 +364,8 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* HERO — project header                                            */}
       {/* ---------------------------------------------------------------- */}
-      <section className="relative overflow-hidden bg-white pt-[137px]">
+      <section className="relative overflow-hidden bg-white pt-10 md:pt-20 lg:pt-[60px] px-10 lg:px-20">
         <Container className="pb-0">
-          {/* Breadcrumb — returns to the same listing (ongoing vs completed) */}
-          <Link
-            href={projectsListHref}
-            className="mb-3 inline-block font-nexa text-xs text-[#8F8183] transition-colors hover:text-[#161616] sm:text-sm"
-          >
-            {projectsListLabel}
-          </Link>
-
           <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
             {/* Left — title block */}
             <div>
@@ -384,7 +376,6 @@ function ProjectDetailPageContent() {
                   {heroStatusLine}
                 </span>
               </div>
-
               {/* Project title */}
               <h1
                 className="font-qasbyne text-[clamp(2.5rem,5vw,4.375rem)] uppercase leading-[1] tracking-[0.05em] text-[#202225]"
@@ -392,7 +383,6 @@ function ProjectDetailPageContent() {
               >
                 {project.title}
               </h1>
-
               {/* RERA */}
               <p className="mt-3 font-nexa text-xs font-bold uppercase tracking-[0.1em] text-[#161616] underline sm:text-sm">
                 Rera No.: {project.rera}
@@ -400,7 +390,7 @@ function ProjectDetailPageContent() {
             </div>
 
             {/* Right — developer logo */}
-            <div className="shrink-0">
+            <div className="shrink-0 absolute right-40 bottom-40">
               <Image
                 src={project.developerLogo}
                 alt="Godrej Properties"
@@ -412,16 +402,15 @@ function ProjectDetailPageContent() {
           </div>
 
           {/* Stats bar */}
-          <div className="mt-6 border-t border-black">
+          <div className="mt-6 border-t border-black ">
             <div className="grid grid-cols-2 border-b border-black lg:grid-cols-4">
               {project.stats.map((stat, i) => (
                 <div
                   key={i}
-                  className={`flex flex-col justify-center py-5 pr-4 ${
-                    i < project.stats.length - 1
-                      ? "border-r border-black"
-                      : ""
-                  } ${i > 0 ? "pl-4 lg:pl-6" : ""}`}
+                  className={`flex flex-col justify-center py-5 pr-4 ${i < project.stats.length - 1
+                    ? "border-r border-black"
+                    : ""
+                    } ${i > 0 ? "pl-4 lg:pl-6" : ""}`}
                 >
                   <span className="font-nexa text-xs font-bold uppercase tracking-[0.1em] text-black/80 sm:text-sm ">
                     {stat.label}
@@ -443,12 +432,12 @@ function ProjectDetailPageContent() {
         </Container>
       </section>
 
-      
+
 
       {/* ---------------------------------------------------------------- */}
       {/* BUILDING HERO IMAGE                                              */}
       {/* ---------------------------------------------------------------- */}
-      <section className="relative h-[280px] overflow-hidden sm:h-[380px] lg:h-[550px]">
+      <section className="relative h-[280px] overflow-hidden sm:h-[380px] lg:h-[550px] pt-4 lg:mt-20">
         <Image
           src={project.heroImage}
           alt="Lorem Ipsum Towers"
@@ -461,9 +450,9 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* DESCRIPTION                                                      */}
       {/* ---------------------------------------------------------------- */}
-      <section className="bg-white py-12 lg:py-16">
+      <section className="bg-white py-12 lg:py-16 px-10 lg:px-20">
         <Container>
-          <p className="font-nexa text-xl font-bold leading-snug text-black sm:text-2xl lg:text-[2.25rem] lg:leading-[1.17]">
+          <p className="!font-nexa text-xl font-bold leading-snug text-black sm:text-2xl lg:text-[2.25rem] lg:leading-[1.17]">
             {project.description}
           </p>
         </Container>
@@ -472,7 +461,7 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* PHOTO GALLERY                                                    */}
       {/* ---------------------------------------------------------------- */}
-      <section className="bg-white pb-12 lg:pb-16">
+      <section className="bg-white pb-12 lg:pb-16 px-10 lg:px-20">
         <Container>
           <div className="flex flex-col gap-4">
             {/* Row 1: two halves */}
@@ -536,8 +525,8 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* PROJECT AMENITIES                                                */}
       {/* ---------------------------------------------------------------- */}
-      <section className="relative overflow-hidden py-14 lg:py-20">
-        
+      <section className="relative overflow-hidden py-14 lg:py-20  bg-[#BCBDC0]">
+
         {/* Light overlay so text stays readable */}
         <div className="absolute inset-0 bg-white/85" />
 
@@ -547,14 +536,14 @@ function ProjectDetailPageContent() {
           </h2>
 
           {/* Rows 1 & 2 — 4 columns on desktop */}
-          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4 lg:gap-x-12 lg:gap-y-12">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4 lg:gap-x-12 lg:gap-y-12  mx-10 lg:mx-20">
             {project.amenities.slice(0, 8).map((amenity, i) => (
               <AmenityItem key={i} amenity={amenity} />
             ))}
           </div>
 
           {/* Row 3 — 2 items, left-aligned */}
-          <div className="mt-10 grid grid-cols-2 gap-x-6 sm:w-1/2 lg:mt-12 lg:gap-x-12">
+          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4 lg:gap-x-12 lg:gap-y-12  mx-10 lg:mx-20 mt-8">
             {project.amenities.slice(8).map((amenity, i) => (
               <AmenityItem key={i} amenity={amenity} />
             ))}
@@ -565,7 +554,7 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* LOCATION                                                         */}
       {/* ---------------------------------------------------------------- */}
-      <section className="bg-white py-14 lg:py-20">
+      <section className="bg-white py-14 lg:py-20 px-10 lg:px-20">
         <Container>
           <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
             {/* Left — list */}
@@ -627,165 +616,165 @@ function ProjectDetailPageContent() {
       {/* CASE STUDY (completed projects only)                             */}
       {/* ---------------------------------------------------------------- */}
       {isFromCompleted ? (
-      <section className="bg-white py-12 lg:py-16">
-        <Container>
-          <CaseStudySection
-            posterSrc={project.caseStudy.posterSrc}
-            videoUrl={project.caseStudy.videoUrl}
-            paragraphs={project.caseStudy.paragraphs}
-          />
-        </Container>
-      </section>
+        <section className="bg-white py-12 lg:py-16 px-10 lg:px-20">
+          <Container>
+            <CaseStudySection
+              posterSrc={project.caseStudy.posterSrc}
+              videoUrl={project.caseStudy.videoUrl}
+              paragraphs={project.caseStudy.paragraphs}
+            />
+          </Container>
+        </section>
       ) : null}
 
       {/* ---------------------------------------------------------------- */}
       {/* BOOK A VISIT (ongoing projects only — hidden for completed)      */}
       {/* ---------------------------------------------------------------- */}
       {!isFromCompleted ? (
-      <section className="relative overflow-hidden py-0">
-        {/* Background */}
-        <Image
-          src={project.bookVisitBg}
-          alt=""
-          fill
-          className="object-cover object-center"
-        />
-        <div className="absolute inset-0 bg-[#202225]/50" />
+        <section className="relative overflow-hidden py-0 px-10 lg:px-20 mb-10 lg:mb-20">
+          {/* Background */}
+          <Image
+            src={project.bookVisitBg}
+            alt=""
+            fill
+            className="object-cover object-center"
+          />
+          <div className="absolute inset-0 bg-[#202225]/50" />
 
-        <Container className="relative z-10 py-16 lg:py-20">
-          <div className="flex flex-col gap-10 lg:flex-row lg:gap-16">
-            {/* Left — info */}
-            <div className="flex flex-1 flex-col justify-between">
-              <div>
-                <h2 className="font-qasbyne text-[clamp(2.5rem,5vw,4.375rem)] uppercase leading-none tracking-[0.05em] text-white">
-                  Book A Visit
-                </h2>
-                <p className="mt-5 max-w-[30rem] font-nexa text-sm leading-relaxed text-white sm:text-base">
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                  do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                  dolor sit amet, consectetur adipiscing elit.
-                </p>
-              </div>
-
-              <div className="mt-10 flex flex-col gap-6 border-t border-white/40 pt-8 sm:flex-row sm:gap-12">
+          <Container className="relative z-10 py-16 lg:py-20">
+            <div className="flex flex-col gap-10 lg:flex-row lg:gap-16">
+              {/* Left — info */}
+              <div className="flex flex-1 flex-col justify-between">
                 <div>
-                  <p className="font-nexa text-xs font-bold uppercase tracking-[0.1em] text-white">
-                    Location
-                  </p>
-                  <p className="mt-2 max-w-[16rem] font-nexa text-sm leading-relaxed text-white">
-                    C-602 &amp; 603, ONE BKC, G Block, Bandra Kurla Complex,
-                    Bandra (E), Mumbai - 400051
+                  <h2 className="font-qasbyne text-[clamp(2.5rem,5vw,4.375rem)] uppercase leading-none tracking-[0.05em] text-white">
+                    Book A Visit
+                  </h2>
+                  <p className="mt-5 max-w-[30rem] font-nexa text-sm leading-relaxed text-white sm:text-base">
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
+                    do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    dolor sit amet, consectetur adipiscing elit.
                   </p>
                 </div>
-                <div>
-                  <p className="font-nexa text-xs font-bold uppercase tracking-[0.1em] text-white">
-                    Contact
-                  </p>
-                  <p className="mt-2 font-nexa text-sm leading-relaxed text-white">
-                    022-68770076
-                    <br />
-                    022-6877005
-                  </p>
+
+                <div className="mt-10 flex flex-col gap-6 border-t border-white/40 pt-8 sm:flex-row sm:gap-12">
+                  <div>
+                    <p className="font-nexa text-xs font-bold uppercase tracking-[0.1em] text-white">
+                      Location
+                    </p>
+                    <p className="mt-2 max-w-[16rem] font-nexa text-sm leading-relaxed text-white">
+                      C-602 &amp; 603, ONE BKC, G Block, Bandra Kurla Complex,
+                      Bandra (E), Mumbai - 400051
+                    </p>
+                  </div>
+                  <div>
+                    <p className="font-nexa text-xs font-bold uppercase tracking-[0.1em] text-white">
+                      Contact
+                    </p>
+                    <p className="mt-2 font-nexa text-sm leading-relaxed text-white">
+                      022-68770076
+                      <br />
+                      022-6877005
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right — form card */}
+              <div className="w-full bg-white px-8 py-8 lg:w-[488px] lg:shrink-0 lg:px-10 lg:py-8">
+                <div className="flex flex-col gap-0">
+                  {/* Row 1: First / Last name */}
+                  <div className="grid grid-cols-2 gap-8 pb-6">
+                    <FormField
+                      label="First Name"
+                      name="firstName"
+                      placeholder="Enter your first name"
+                      value={form.firstName}
+                      onChange={handleChange}
+                    />
+                    <FormField
+                      label="Last Name"
+                      name="lastName"
+                      placeholder="Enter your last name"
+                      value={form.lastName}
+                      onChange={handleChange}
+                    />
+                  </div>
+
+                  {/* Row 2: Email / Phone */}
+                  <div className="grid grid-cols-2 gap-8 border-t border-[#8F8183]/30 py-6">
+                    <FormField
+                      label="Email Address"
+                      name="email"
+                      placeholder="Enter your email address"
+                      value={form.email}
+                      onChange={handleChange}
+                      type="email"
+                    />
+                    <FormField
+                      label="Phone Number"
+                      name="phone"
+                      placeholder="Enter your phone number"
+                      value={form.phone}
+                      onChange={handleChange}
+                      type="tel"
+                    />
+                  </div>
+
+                  {/* Row 3: Location / Upload CV */}
+                  <div className="grid grid-cols-2 gap-8 border-t border-[#8F8183]/30 py-6">
+                    <SelectField
+                      label="Location"
+                      name="location"
+                      placeholder="Select City"
+                      value={form.location}
+                      onChange={handleChange}
+                      options={["Mumbai", "Pune", "Delhi", "Bangalore"]}
+                    />
+                    <SelectField
+                      label="Upload CV"
+                      name="cv"
+                      placeholder="Choose File"
+                      value={form.cv}
+                      onChange={handleChange}
+                      options={[]}
+                    />
+                  </div>
+
+                  {/* Message */}
+                  <div className="border-t border-[#8F8183]/30 pt-6">
+                    <label className="block font-nexa text-sm font-bold text-[#202225]">
+                      Message
+                    </label>
+                    <textarea
+                      name="message"
+                      placeholder="Type Message...."
+                      value={form.message}
+                      onChange={handleChange}
+                      rows={2}
+                      className="mt-2 w-full resize-none border-b border-[#8F8183] bg-transparent font-nexa text-sm text-[#202020] placeholder-[#202020]/40 outline-none"
+                    />
+                  </div>
+
+                  {/* Submit */}
+                  <div className="mt-8">
+                    <button
+                      type="button"
+                      className="inline-flex h-[55px] items-center gap-5 px-12 font-nexa text-base font-bold uppercase tracking-[0.1em] text-white lg:text-xl"
+                      style={{
+                        background:
+                          "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",
+                      }}
+                    >
+                      Submit
+                      <ArrowUpRight />
+                    </button>
+                  </div>
                 </div>
               </div>
             </div>
 
-            {/* Right — form card */}
-            <div className="w-full bg-white px-8 py-8 lg:w-[488px] lg:shrink-0 lg:px-10 lg:py-8">
-              <div className="flex flex-col gap-0">
-                {/* Row 1: First / Last name */}
-                <div className="grid grid-cols-2 gap-8 pb-6">
-                  <FormField
-                    label="First Name"
-                    name="firstName"
-                    placeholder="Enter your first name"
-                    value={form.firstName}
-                    onChange={handleChange}
-                  />
-                  <FormField
-                    label="Last Name"
-                    name="lastName"
-                    placeholder="Enter your last name"
-                    value={form.lastName}
-                    onChange={handleChange}
-                  />
-                </div>
-
-                {/* Row 2: Email / Phone */}
-                <div className="grid grid-cols-2 gap-8 border-t border-[#8F8183]/30 py-6">
-                  <FormField
-                    label="Email Address"
-                    name="email"
-                    placeholder="Enter your email address"
-                    value={form.email}
-                    onChange={handleChange}
-                    type="email"
-                  />
-                  <FormField
-                    label="Phone Number"
-                    name="phone"
-                    placeholder="Enter your phone number"
-                    value={form.phone}
-                    onChange={handleChange}
-                    type="tel"
-                  />
-                </div>
-
-                {/* Row 3: Location / Upload CV */}
-                <div className="grid grid-cols-2 gap-8 border-t border-[#8F8183]/30 py-6">
-                  <SelectField
-                    label="Location"
-                    name="location"
-                    placeholder="Select City"
-                    value={form.location}
-                    onChange={handleChange}
-                    options={["Mumbai", "Pune", "Delhi", "Bangalore"]}
-                  />
-                  <SelectField
-                    label="Upload CV"
-                    name="cv"
-                    placeholder="Choose File"
-                    value={form.cv}
-                    onChange={handleChange}
-                    options={[]}
-                  />
-                </div>
-
-                {/* Message */}
-                <div className="border-t border-[#8F8183]/30 pt-6">
-                  <label className="block font-nexa text-sm font-bold text-[#202225]">
-                    Message
-                  </label>
-                  <textarea
-                    name="message"
-                    placeholder="Type Message...."
-                    value={form.message}
-                    onChange={handleChange}
-                    rows={2}
-                    className="mt-2 w-full resize-none border-b border-[#8F8183] bg-transparent font-nexa text-sm text-[#202020] placeholder-[#202020]/40 outline-none"
-                  />
-                </div>
-
-                {/* Submit */}
-                <div className="mt-8">
-                  <button
-                    type="button"
-                    className="inline-flex h-[55px] items-center gap-5 px-12 font-nexa text-base font-bold uppercase tracking-[0.1em] text-white lg:text-xl"
-                    style={{
-                      background:
-                        "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",
-                    }}
-                  >
-                    Submit
-                    <ArrowUpRight />
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-       
-        </Container>
-      </section>
+          </Container>
+        </section>
       ) : null}
     </main>
   );
