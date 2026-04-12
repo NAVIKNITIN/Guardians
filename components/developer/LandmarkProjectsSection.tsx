@@ -7,14 +7,33 @@ import {
 } from "@/data/developer-page";
 import { CarouselControls } from "@/components/ui/CarouselControls";
 import { MarketingEnquireLink } from "@/components/ui/MarketingEnquireLink";
+import { PeekStrip } from "@/components/ui/PeekStrip";
 import { SectionSurface } from "@/components/ui/SectionSurface";
 import { UnderlineTabs } from "@/components/ui/UnderlineTabs";
 import { cn } from "@/utils/cn";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 
-const slideTransition = { duration: 0.4, ease: [0.22, 1, 0.36, 1] as const };
+/** Slower horizontal slide: forward = new image moves in from the right, old exits left. */
+const activeCardSlide = {
+  duration: 0.78,
+  ease: [0.45, 0.05, 0.25, 1] as const,
+};
+
+const activeSlideVariants = {
+  enter: (dir: number) => ({
+    x: dir >= 0 ? "100%" : "-100%",
+    opacity: 1,
+  }),
+  center: { x: 0, opacity: 1 },
+  exit: (dir: number) => ({
+    x: dir >= 0 ? "-100%" : "100%",
+    opacity: 1,
+  }),
+};
+
+const AUTO_ADVANCE_MS = 3000;
 
 type Tab = "ongoing" | "completed";
 
@@ -29,6 +48,10 @@ const CAROUSEL_ASPECT = "aspect-[144/65]";
 export function LandmarkProjectsSection() {
   const [tab, setTab] = useState<Tab>("ongoing");
   const [index, setIndex] = useState(0);
+  /** Bumped on manual navigation so the 3s autoplay timer restarts. */
+  const [autoplayEpoch, setAutoplayEpoch] = useState(0);
+  /** `1` = next (enter from right), `-1` = prev (enter from left). */
+  const [slideDir, setSlideDir] = useState<1 | -1>(1);
 
   const projects: LandmarkProject[] = useMemo(
     () => (tab === "ongoing" ? LANDMARK_ONGOING : LANDMARK_COMPLETED),
@@ -38,7 +61,22 @@ export function LandmarkProjectsSection() {
   const n = projects.length;
   const prev = (index - 1 + n) % n;
   const next = (index + 1) % n;
+  const ahead = (index + 2) % n;
   const active = projects[index]!;
+
+  const restartAutoplay = useCallback(() => {
+    setAutoplayEpoch((e) => e + 1);
+  }, []);
+
+  useEffect(() => {
+    if (n <= 1) return;
+    const id = setInterval(() => {
+      if (document.hidden) return;
+      setSlideDir(1);
+      setIndex((i) => (i + 1) % n);
+    }, AUTO_ADVANCE_MS);
+    return () => clearInterval(id);
+  }, [n, tab, autoplayEpoch]);
 
   return (
     <SectionSurface variant="default" aria-labelledby="landmark-heading">
@@ -54,36 +92,77 @@ export function LandmarkProjectsSection() {
           onChange={(v) => {
             setTab(v);
             setIndex(0);
+            setSlideDir(1);
+            restartAutoplay();
           }}
           options={TAB_OPTIONS}
           className="shrink-0 sm:pb-0.5"
         />
       </div>
 
-      <div className="relative mt-12 md:mt-14">
-        <div className="flex items-stretch justify-center gap-3 md:gap-5 lg:gap-8">
-          <MiniSlide
+      <div
+        className={cn(
+          "relative mt-12 md:mt-14",
+          /* Full-bleed: escape Container padding so the carousel touches viewport edges */
+          "left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-x-clip",
+        )}
+      >
+        {/*
+          Desktop: 13% | 1fr | 13% | 8% — side peeks + `PeekStrip` tail on the far right (+3% vs 5%).
+        */}
+        <div className="grid w-full grid-cols-1 md:grid-cols-[minmax(0,12.5%)_minmax(0,1fr)_minmax(0,12.5%)_minmax(0,8%)] md:items-stretch md:gap-3 lg:gap-4">
+          <PeekHalfSlide
             project={projects[prev]!}
-            onClick={() => setIndex(prev)}
-            className="hidden md:block"
+            onClick={() => {
+              setSlideDir(-1);
+              setIndex(prev);
+              restartAutoplay();
+            }}
+            side="left"
+            className="hidden min-h-0 md:block"
           />
-          <div className="relative min-w-0 w-full max-w-[min(100%,56rem)] shrink">
-            <AnimatePresence mode="wait" initial={false}>
+          <div
+            className={cn(
+              "relative isolate min-w-0 w-full overflow-hidden bg-neutral-200",
+              CAROUSEL_ASPECT,
+            )}
+          >
+            <AnimatePresence initial={false} mode="sync" custom={slideDir}>
               <motion.div
                 key={`${tab}-${active.id}`}
-                initial={{ opacity: 0, scale: 1.03 }}
-                animate={{ opacity: 1, scale: 1 }}
-                exit={{ opacity: 0 }}
-                transition={slideTransition}
+                className="absolute inset-0"
+                custom={slideDir}
+                variants={activeSlideVariants}
+                initial="enter"
+                animate="center"
+                exit="exit"
+                transition={activeCardSlide}
               >
-                <ActiveProjectCard project={active} aspectClassName={CAROUSEL_ASPECT} />
+                <ActiveProjectCard
+                  project={active}
+                  aspectClassName="h-full min-h-0 w-full"
+                />
               </motion.div>
             </AnimatePresence>
           </div>
-          <MiniSlide
+          <PeekHalfSlide
             project={projects[next]!}
-            onClick={() => setIndex(next)}
-            className="hidden md:block"
+            onClick={() => {
+              setSlideDir(1);
+              setIndex(next);
+              restartAutoplay();
+            }}
+            side="right"
+            className="hidden min-h-0 md:block"
+          />
+          <PeekTailStrip
+            project={projects[ahead]!}
+            onClick={() => {
+              setSlideDir(1);
+              setIndex(ahead);
+              restartAutoplay();
+            }}
+            className="hidden min-h-0 md:block"
           />
         </div>
         <div className="mt-5 flex justify-center md:hidden">
@@ -91,8 +170,16 @@ export function LandmarkProjectsSection() {
             showCounter={false}
             currentIndex={index}
             total={n}
-            onPrev={() => setIndex((i) => (i - 1 + n) % n)}
-            onNext={() => setIndex((i) => (i + 1) % n)}
+            onPrev={() => {
+              setSlideDir(-1);
+              setIndex((i) => (i - 1 + n) % n);
+              restartAutoplay();
+            }}
+            onNext={() => {
+              setSlideDir(1);
+              setIndex((i) => (i + 1) % n);
+              restartAutoplay();
+            }}
             prevLabel="Previous project"
             nextLabel="Next project"
           />
@@ -106,7 +193,8 @@ export function LandmarkProjectsSection() {
   );
 }
 
-function MiniSlide({
+/** Narrow 8% column using `PeekStrip` (next-next slide teaser). */
+function PeekTailStrip({
   project,
   onClick,
   className,
@@ -121,28 +209,77 @@ function MiniSlide({
       onClick={onClick}
       aria-label={`Show project ${project.projectName}`}
       className={cn(
-        "relative min-h-0 w-[clamp(6.5rem,16vw,13rem)] shrink-0 overflow-hidden rounded-sm border border-black/[0.06] bg-neutral-200 md:self-stretch",
+        "relative flex h-full min-h-0 w-full min-w-0 overflow-hidden rounded-sm border border-black/[0.06] bg-neutral-200 p-0 shadow-sm",
         className,
       )}
     >
-      <AnimatePresence initial={false} mode="popLayout">
-        <motion.div
-          key={project.id}
-          className="absolute inset-0"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
-        >
-          <Image
-            src={project.imageSrc}
-            alt=""
-            fill
-            className="object-cover object-center grayscale transition-opacity duration-300 hover:opacity-100 md:opacity-90"
-            sizes="(max-width: 1280px) 200px, 240px"
-          />
-        </motion.div>
-      </AnimatePresence>
+      <PeekStrip side="left" peekPercent={100} fillParent className="h-full min-h-0">
+        <AnimatePresence initial={false} mode="sync">
+          <motion.div
+            key={project.id}
+            className="relative h-full min-h-0 w-full"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.32, ease: [0.25, 0.1, 0.2, 1] }}
+          >
+            <Image
+              src={project.imageSrc}
+              alt=""
+              fill
+              className="object-cover object-center grayscale transition-opacity duration-300 hover:opacity-100 md:opacity-90"
+              sizes="180px"
+            />
+          </motion.div>
+        </AnimatePresence>
+      </PeekStrip>
+    </button>
+  );
+}
+
+function PeekHalfSlide({
+  project,
+  onClick,
+  side,
+  className,
+}: {
+  project: LandmarkProject;
+  onClick: () => void;
+  side: "left" | "right";
+  className?: string;
+}) {
+  const align = side === "left" ? "justify-end" : "justify-start";
+
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      aria-label={`Show project ${project.projectName}`}
+      className={cn(
+        "relative flex h-full min-h-0 w-full min-w-0 overflow-hidden rounded-sm border border-black/[0.06] bg-neutral-200 shadow-sm",
+        className,
+      )}
+    >
+      <div className={cn("flex h-full min-h-0 w-full min-w-0 overflow-hidden", align)}>
+        <AnimatePresence initial={false} mode="sync">
+          <motion.div
+            key={project.id}
+            className="relative h-full min-h-0 w-[200%] shrink-0"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.32, ease: [0.25, 0.1, 0.2, 1] }}
+          >
+            <Image
+              src={project.imageSrc}
+              alt=""
+              fill
+              className="object-cover object-center grayscale transition-opacity duration-300 hover:opacity-100 md:opacity-90"
+              sizes="(max-width: 1280px) 25vw, 320px"
+            />
+          </motion.div>
+        </AnimatePresence>
+      </div>
     </button>
   );
 }

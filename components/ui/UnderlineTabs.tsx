@@ -24,7 +24,7 @@ export function UnderlineTabs<T extends string>({
   return (
     <div
       className={cn(
-        "flex gap-10 border-b border-neutral-200 text-sm font-medium tracking-wide",
+        "flex gap-10 border-b border-neutral-200 font-nexa text-sm font-medium tracking-wide",
         className,
       )}
       role="tablist"
