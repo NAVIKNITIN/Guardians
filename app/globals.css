@@ -19,11 +19,9 @@
   /* Marketing footer band (Figma) */
   --color-brand-footer: #8f8183;
   --color-brand-footer-dark: #2a2626;
-
-  --font-serif: var(--font-nexa), system-ui, sans-serif;
-  --font-sans: var(--font-nexa), system-ui, sans-serif;
-
   --max-width-brand: 90rem;
+  --font-nexa: var(--font-nexa);
+  --font-qasbyne: var(--font-qasbyne);
 }
 
 @utility hex-pattern {
@@ -32,7 +30,8 @@
 }
 
 @utility bg-grid-hero {
-  background-image: linear-gradient(90deg, #0a0a0a 1px, transparent 1px),
+  background-image:
+    linear-gradient(90deg, #0a0a0a 1px, transparent 1px),
     linear-gradient(#0a0a0a 1px, transparent 1px);
   background-size: 28px 28px;
 }
@@ -40,10 +39,24 @@
 :root {
   --background: #ffffff;
   --foreground: #0a0a0a;
+  --font-primary: var(--font-nexa);
+  --font-secondary: var(--font-qasbyne);
+
+  --site-header-height: 118px;
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --site-header-height: 152px;
+  }
+}
+
+html {
+  scroll-padding-top: var(--site-header-height);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans);
+  font-family: var(--font-nexa), system-ui, sans-serif;
 }

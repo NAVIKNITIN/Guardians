@@ -52,7 +52,7 @@ export function HeroSection() {
           </h1>
           <p
             className={cn(
-              "mx-auto mt-8 max-w-[42rem] font-sans font-normal leading-relaxed text-[#2D2225]/85",
+              "mx-auto mt-8 max-w-[42rem] font-nexa font-normal leading-relaxed text-[#2D2225]/85",
               "text-sm sm:mt-10 sm:text-base lg:mt-12 lg:text-lg",
             )}
           >

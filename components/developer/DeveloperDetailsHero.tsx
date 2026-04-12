@@ -44,7 +44,7 @@ export function DeveloperDetailsHero() {
           </h1>
           <p
             className={cn(
-              "mx-auto mt-8 max-w-[40rem] font-sans font-normal leading-relaxed text-[#1a1a1a]/92",
+              "mx-auto mt-8 max-w-[40rem] font-nexa font-normal leading-relaxed text-[#1a1a1a]/92",
               "text-sm sm:mt-10 sm:text-base lg:mt-11 lg:text-[17px]",
             )}
           >
