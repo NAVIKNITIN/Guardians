@@ -32,7 +32,7 @@ export default function HomePage() {
         </div>
       </section>
       <DividerSection />
-      <CardSection />
+      {/* <CardSection /> */}
     </>
   );
 }
