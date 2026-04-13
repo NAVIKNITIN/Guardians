@@ -33,7 +33,7 @@ const navLeft = [
 
 const navRight = [
   { label: "Partners & Clients", href: "/partners" },
-  { label: "TGREA", href: "#tgrea" },
+  { label: "TGREA", href: "/tgrea" },
   { label: "Career", href: "/career" },
 ];
 
@@ -152,7 +152,7 @@ export function Navbar() {
                         className={cn(
                           "pointer-events-none invisible absolute left-0 top-full z-[60] pt-3 opacity-0 transition-[opacity,visibility] duration-150",
                           !dismissed &&
-                            "group-hover:pointer-events-auto group-hover:visible group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:visible group-focus-within:opacity-100",
+                          "group-hover:pointer-events-auto group-hover:visible group-hover:opacity-100 group-focus-within:pointer-events-auto group-focus-within:visible group-focus-within:opacity-100",
                         )}
                         role="presentation"
                       >
@@ -271,18 +271,18 @@ export function Navbar() {
                   </Link>
                   {hasMenu && dropdownItems
                     ? dropdownItems.map((sub) => (
-                        <Link
-                          key={sub.href}
-                          href={sub.href}
-                          className={cn(
-                            navLinkClassMobile,
-                            "border-l-2 border-black/[0.08] pl-4 text-[14px] text-[#1A1A1A]/85",
-                          )}
-                          onClick={() => setOpen(false)}
-                        >
-                          {sub.label}
-                        </Link>
-                      ))
+                      <Link
+                        key={sub.href}
+                        href={sub.href}
+                        className={cn(
+                          navLinkClassMobile,
+                          "border-l-2 border-black/[0.08] pl-4 text-[14px] text-[#1A1A1A]/85",
+                        )}
+                        onClick={() => setOpen(false)}
+                      >
+                        {sub.label}
+                      </Link>
+                    ))
                     : null}
                 </div>
               );
