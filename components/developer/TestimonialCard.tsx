@@ -32,7 +32,7 @@ export function TestimonialCard({
             alt=""
             width={150}
             height={50}
-            className="h-[50px] w-full object-contain object-left"
+            className="h-[50px] w-full object-cover object-left"
             sizes="150px"
           />
           {/* <span className="pointer-events-none absolute inset-0 flex items-center justify-end pr-3 pl-[3.25rem] text-[9px] font-semibold uppercase leading-tight tracking-wide text-neutral-800 sm:text-[10px]">

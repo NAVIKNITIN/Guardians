@@ -1,3 +1,4 @@
+import { LOCAL_IMAGES, localImageByIndex } from "@/lib/local-images";
 import type {
   AwardSlide,
   DeveloperStat,
@@ -22,8 +23,7 @@ export const DEV_LANDMARK_ONGOING: LandmarkProject[] = [
     projectLine: "MARATHON GROUP'S",
     projectName: "MONTE SOUTH",
     location: "Byculla, Mumbai, Maharashtra | 2, 2.5, 3 & 3.5 BHK Residences",
-    imageSrc:
-      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1600&q=80",
+    imageSrc: LOCAL_IMAGES.holding,
   },
   {
     id: "p2",
@@ -31,8 +31,7 @@ export const DEV_LANDMARK_ONGOING: LandmarkProject[] = [
     projectLine: "RESIDENTIAL TOWER",
     projectName: "ELEVATE ONE",
     location: "Western Suburbs, Mumbai",
-    imageSrc:
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1600&q=80",
+    imageSrc: LOCAL_IMAGES.partnerHero,
   },
   {
     id: "p3",
@@ -40,8 +39,7 @@ export const DEV_LANDMARK_ONGOING: LandmarkProject[] = [
     projectLine: "MIXED-USE",
     projectName: "HARBOUR VIEW",
     location: "Navi Mumbai",
-    imageSrc:
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80",
+    imageSrc: LOCAL_IMAGES.citylife,
   },
 ];
 
@@ -101,25 +99,25 @@ export const DEVELOPER_MARKETING_PAGE = {
       {
         id: "market",
         title: "Market intelligence",
-        src: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80",
+        src: LOCAL_IMAGES.marketService,
         description: PLACEHOLDER_SERVICE_DESC,
       },
       {
         id: "partner",
         title: "Partner network",
-        src: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80",
+        src: LOCAL_IMAGES.buyerServicesHero,
         description: PLACEHOLDER_SERVICE_DESC,
       },
       {
         id: "institutional",
         title: "Institutional sales",
-        src: "https://images.unsplash.com/photo-1486718448742-163732cd1544?auto=format&fit=crop&w=800&q=80",
+        src: LOCAL_IMAGES.retailService,
         description: PLACEHOLDER_SERVICE_DESC,
       },
       {
         id: "advisory",
         title: "Structured advisory",
-        src: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
+        src: LOCAL_IMAGES.landService,
         description: PLACEHOLDER_SERVICE_DESC,
       },
     ],
@@ -138,21 +136,19 @@ export const DEVELOPER_MARKETING_PAGE = {
         id: "2",
         title: "Strategic positioning for mixed-use corridors.",
         body: "Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident.",
-        imageSrc:
-          "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1200&q=80",
+        imageSrc: localImageByIndex(1),
       },
       {
         id: "3",
         title: "Institutional sales velocity and channel design.",
         body: "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.",
-        imageSrc:
-          "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1200&q=80",
+        imageSrc: localImageByIndex(2),
       },
       ...Array.from({ length: 9 }, (_, i) => ({
         id: String(i + 4),
         title: `Featured collaboration ${i + 4}`,
         body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        imageSrc: `https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1200&q=${70 + i}`,
+        imageSrc: localImageByIndex(i + 3),
       })),
     ],
   },

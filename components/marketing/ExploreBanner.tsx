@@ -12,12 +12,12 @@ export function ExploreBanner({ content }: { content: MarketingBannerContent }) 
 
   return (
     <section
-      className="border-y border-black/[0.06]  py-12 sm:py-14 md:py-16 lg:py-20 lg:px-20"
+      className="border-y border-black/[0.06] py-10 sm:py-14 md:py-16 lg:py-20"
       aria-labelledby={headingId}
     >
       <Container>
-        <div className="grid grid-cols-1 items-center gap-10 lg:grid-cols-2 lg:gap-12 xl:gap-16 bg-[#f5f4f4] lg:pl-20">
-          <div className="flex max-w-xl flex-col gap-8 lg:max-w-none lg:pr-4">
+        <div className="grid grid-cols-1 items-center gap-8 rounded-sm bg-[#f5f4f4] p-5 sm:gap-10 sm:p-8 lg:grid-cols-2 lg:gap-12 lg:pl-12 lg:pr-8 xl:gap-16 xl:pl-16 2xl:pl-20">
+          <div className="flex min-w-0 max-w-xl flex-col gap-6 sm:gap-8 lg:max-w-none lg:pr-4">
             <h2
               id={headingId}
               className={cn(

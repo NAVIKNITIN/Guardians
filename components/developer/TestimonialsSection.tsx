@@ -6,6 +6,7 @@ import { CarouselControls } from "@/components/ui/CarouselControls";
 import { MarketingEnquireLink } from "@/components/ui/MarketingEnquireLink";
 import { SectionSurface } from "@/components/ui/SectionSurface";
 import { marketingClasses } from "@/styles/marketingClasses";
+import { cn } from "@/utils/cn";
 import { useCycleIndex } from "@/hooks/useCycleIndex";
 import { useMemo } from "react";
 
@@ -32,10 +33,10 @@ export function TestimonialsSection({
 
   return (
     <SectionSurface variant="compact" aria-labelledby="testimonials-heading">
-      <div className="mx-auto max-w-7xl flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+      <div className="mx-auto flex max-w-7xl flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
         <h2
           id="testimonials-heading"
-          className={marketingClasses.headingDisplayMd}
+          className={cn(marketingClasses.headingDisplayMd, "min-w-0 flex-1 pr-2")}
         >
           {content.sectionTitle}
         </h2>

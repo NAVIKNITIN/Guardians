@@ -3,6 +3,7 @@
 import { Container } from "@/components/common/Container";
 import { DynamicMap } from "@/components/projects/DynamicMap";
 import type { MapMarker } from "@/components/projects/DynamicMap";
+import { LOCAL_IMAGES, localImageByIndex } from "@/lib/local-images";
 import Image from "next/image";
 import Link from "next/link";
 import { useSearchParams } from "next/navigation";
@@ -29,38 +30,16 @@ const project = {
     { label: "Location", value: "Chembur (E)", unit: "" },
     { label: "Project completed in", value: "Dec. 2026", unit: "" },
   ],
-  heroImage:
-    "https://api.builder.io/api/v1/image/assets/TEMP/fd7ab7c5d0ac21eb41b997f1d448e8ae4af49caa?width=2880",
+  heroImage: LOCAL_IMAGES.tgreaHero,
   description:
     "We are one of the fastest growing Real Estate consulting company in India. It's growth, today, has far outrun most of the other real estate advisory company across the country.",
   gallery: [
-    // Row 1 — two equal panels
-    {
-      src: "https://api.builder.io/api/v1/image/assets/TEMP/c1403cf20f428a6813ffa486b2cafaedd75d792c?width=1222",
-      span: "half",
-    },
-    {
-      src: "https://api.builder.io/api/v1/image/assets/TEMP/71adf6936122f442d8ae7705c5d033fb86869799?width=1184",
-      span: "half",
-    },
-    // Row 2 — full-width
-    {
-      src: "https://api.builder.io/api/v1/image/assets/TEMP/3aa6bb4a610293a75278929da1d673553efc5f38?width=2428",
-      span: "full",
-    },
-    // Row 3 — three equal panels
-    {
-      src: "https://api.builder.io/api/v1/image/assets/TEMP/037c1886ab160175dc95be469fa085bf03084fc9?width=812",
-      span: "third",
-    },
-    {
-      src: "https://api.builder.io/api/v1/image/assets/TEMP/d383566135a2993ed84e1b2fa8881cce62ce13e0?width=1221",
-      span: "third",
-    },
-    {
-      src: "https://api.builder.io/api/v1/image/assets/TEMP/a9cc7cdec0d8d9f8459008067590d662c395be60?width=778",
-      span: "third",
-    },
+    { src: localImageByIndex(0), span: "half" as const },
+    { src: localImageByIndex(1), span: "half" as const },
+    { src: localImageByIndex(2), span: "full" as const },
+    { src: localImageByIndex(3), span: "third" as const },
+    { src: localImageByIndex(4), span: "third" as const },
+    { src: localImageByIndex(5), span: "third" as const },
   ],
   amenities: [
     { label: "Gymnasium", imageSrc: amenityImage("1.svg") },
@@ -146,17 +125,15 @@ const project = {
     },
   ],
   caseStudy: {
-    posterSrc: "/images/Projects/case-study-client-chronicles.png",
+    posterSrc: LOCAL_IMAGES.heroPrimary,
     /** Set to a watch URL to turn the play control into a link */
     videoUrl: "",
     paragraphs: [
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor sit amet, consectetur adipiscing elit."
     ],
   },
-  amenitiesBg:
-    "https://api.builder.io/api/v1/image/assets/TEMP/55c8acf83922c22ccc9ecff7291da5462bb43041?width=2880",
-  bookVisitBg:
-    "https://api.builder.io/api/v1/image/assets/TEMP/28a877eed69767d65d87e75cd519237cc1f7ec89?width=2880",
+  amenitiesBg: LOCAL_IMAGES.holding,
+  bookVisitBg: LOCAL_IMAGES.partnerHero,
 };
 
 // ---------------------------------------------------------------------------
@@ -234,7 +211,7 @@ function CaseStudySection({
           src={posterSrc}
           alt=""
           fill
-          className="object-cover"
+          className="object-cover object-center"
           sizes="(min-width: 1024px) 50vw, 100vw"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/35" />
@@ -319,7 +296,7 @@ function AmenityItem({
           alt=""
           width={80}
           height={80}
-          className="h-20 w-20 object-contain"
+          className="h-20 w-20 object-cover"
         />
       </div>
       <span className="font-nexa text-[11px] font-bold uppercase tracking-[0.08em] text-[#202225] sm:text-xs">
@@ -361,21 +338,21 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* HERO — project header                                            */}
       {/* ---------------------------------------------------------------- */}
-      <section className="relative overflow-hidden bg-white pt-10 md:pt-20 lg:pt-[60px] px-10 lg:px-20">
+      <section className="relative overflow-hidden bg-white px-4 pt-10 sm:px-6 md:px-10 md:pt-20 lg:px-20 lg:pt-[60px]">
         <Container className="pb-0">
           <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
             {/* Left — title block */}
-            <div>
+            <div className="min-w-0 max-w-full pr-0 lg:max-w-[min(100%,42rem)] lg:pr-8">
               {/* Status dot + label */}
               <div className="mb-2 flex items-center gap-2">
-                <span className="h-2.5 w-2.5 rounded-full bg-[#8F8183]" />
+                <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-[#8F8183]" />
                 <span className="font-nexa text-base text-[#8F8183] sm:text-lg">
                   {heroStatusLine}
                 </span>
               </div>
               {/* Project title */}
               <h1
-                className="font-qasbyne text-[clamp(2.5rem,5vw,4.375rem)] uppercase leading-[1] tracking-[0.05em] text-[#202225]"
+                className="break-words font-qasbyne text-[clamp(2rem,8vw,4.375rem)] uppercase leading-[1] tracking-[0.05em] text-[#202225] sm:text-[clamp(2.5rem,5vw,4.375rem)]"
                 style={{ whiteSpace: "pre-line" }}
               >
                 {project.title}
@@ -386,28 +363,28 @@ function ProjectDetailPageContent() {
               </p>
             </div>
 
-            {/* Right — developer logo */}
-            <div className="shrink-0 absolute right-40 bottom-40">
+            {/* Right — developer logo (in flow on small screens; anchored on large) */}
+            <div className="relative mt-2 shrink-0 self-start lg:absolute lg:right-4 lg:top-1 lg:mt-0 xl:right-20 2xl:right-40">
               <Image
                 src={project.developerLogo}
                 alt="Godrej Properties"
                 width={160}
                 height={46}
-                className="h-auto w-[160px] object-contain lg:w-[218px]"
+                className="h-auto w-[140px] object-cover sm:w-[160px] lg:w-[218px]"
               />
             </div>
           </div>
 
           {/* Stats bar */}
-          <div className="mt-6 border-t border-black ">
+          <div className="mt-6 border-t border-black">
             <div className="grid grid-cols-2 border-b border-black lg:grid-cols-4">
               {project.stats.map((stat, i) => (
                 <div
                   key={i}
-                  className={`flex flex-col justify-center py-5 pr-4 ${i < project.stats.length - 1
+                  className={`flex flex-col justify-center py-4 pr-3 sm:py-5 sm:pr-4 max-lg:nth-[n+3]:border-t max-lg:nth-[n+3]:border-black ${i < project.stats.length - 1
                     ? "border-r border-black"
                     : ""
-                    } ${i > 0 ? "pl-4 lg:pl-6" : ""}`}
+                    } ${i > 0 ? "pl-3 sm:pl-4 lg:pl-6" : ""}`}
                 >
                   <span className=" text-xs font-bold uppercase tracking-[0.1em] text-black/80 sm:text-sm ">
                     {stat.label}
@@ -448,7 +425,7 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* DESCRIPTION                                                      */}
       {/* ---------------------------------------------------------------- */}
-      <section className="bg-white py-12 lg:py-16 px-10 lg:px-20">
+      <section className="bg-white px-4 py-12 sm:px-6 md:px-10 lg:px-20 lg:py-16">
         <Container>
           <p className="!font-nexa text-xl font-bold leading-snug text-black sm:text-2xl lg:text-[2.25rem] lg:leading-[1.17]">
             {project.description}
@@ -459,7 +436,7 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* PHOTO GALLERY                                                    */}
       {/* ---------------------------------------------------------------- */}
-      <section className="bg-white pb-12 lg:pb-16 px-10 lg:px-20">
+      <section className="bg-white px-4 pb-12 sm:px-6 md:px-10 lg:px-20 lg:pb-16">
         <Container>
           <div className="flex flex-col gap-4">
             {/* Row 1: two halves */}
@@ -534,14 +511,14 @@ function ProjectDetailPageContent() {
           </h2>
 
           {/* Rows 1 & 2 — 4 columns on desktop */}
-          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4 lg:gap-x-12 lg:gap-y-12  mx-10 lg:mx-20">
+          <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-10 lg:gap-x-12 lg:gap-y-12 lg:mx-20">
             {project.amenities.slice(0, 8).map((amenity, i) => (
               <AmenityItem key={i} amenity={amenity} />
             ))}
           </div>
 
           {/* Row 3 — 2 items, left-aligned */}
-          <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-4 lg:gap-x-12 lg:gap-y-12  mx-10 lg:mx-20 mt-8">
+          <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-10 lg:gap-x-12 lg:gap-y-12 lg:mx-20">
             {project.amenities.slice(8).map((amenity, i) => (
               <AmenityItem key={i} amenity={amenity} />
             ))}
@@ -552,20 +529,20 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* LOCATION                                                         */}
       {/* ---------------------------------------------------------------- */}
-      <section className="bg-white py-14 lg:py-20 px-10 lg:px-20">
+      <section className="bg-white px-4 py-14 sm:px-6 md:px-10 lg:px-20 lg:py-20">
         <Container>
           <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
             {/* Left — list */}
             <div className="min-w-0 flex-1">
-              <h2 className="mb-8 font-qasbyne text-[clamp(2rem,4.5vw,4.375rem)] uppercase tracking-[0.05em] text-[#202225]">
+              <h2 className="mb-6 font-qasbyne text-[clamp(1.75rem,5vw,4.375rem)] uppercase tracking-[0.05em] text-[#202225] sm:mb-8">
                 Location
               </h2>
 
               <div className="flex flex-col">
                 {project.locationItems.map((item, i) => (
                   <div key={i}>
-                    <div className="flex items-center justify-between gap-4 py-3">
-                      <span className="font-nexa text-sm text-[#161616] sm:text-base">
+                    <div className="flex items-start justify-between gap-3 py-3 sm:items-center sm:gap-4">
+                      <span className="min-w-0 flex-1 break-words font-nexa text-sm text-[#161616] sm:text-base">
                         {item.name}
                       </span>
                       <div className="flex shrink-0 items-center gap-3">
@@ -584,7 +561,7 @@ function ProjectDetailPageContent() {
             </div>
 
             {/* Right — dynamic map */}
-            <div className="relative h-[340px] w-full shrink-0 overflow-hidden lg:h-auto lg:min-h-[550px] lg:w-[49%]">
+            <div className="relative h-[min(50vh,380px)] w-full min-h-[280px] shrink-0 overflow-hidden sm:h-[360px] lg:h-auto lg:min-h-[550px] lg:w-[49%]">
               <DynamicMap
                 center={project.mapCenter}
                 zoom={project.mapZoom}
@@ -614,7 +591,7 @@ function ProjectDetailPageContent() {
       {/* CASE STUDY (completed projects only)                             */}
       {/* ---------------------------------------------------------------- */}
       {isFromCompleted ? (
-        <section className="bg-white py-12 lg:py-16 px-10 lg:px-20">
+        <section className="bg-white px-4 py-12 sm:px-6 md:px-10 lg:px-20 lg:py-16">
           <Container>
             <CaseStudySection
               posterSrc={project.caseStudy.posterSrc}
@@ -629,22 +606,23 @@ function ProjectDetailPageContent() {
       {/* BOOK A VISIT (ongoing projects only — hidden for completed)      */}
       {/* ---------------------------------------------------------------- */}
       {!isFromCompleted ? (
-        <section className="relative overflow-hidden py-0 px-10 lg:px-20 mb-10 lg:mb-20">
+        <section className="relative mb-10 min-h-0 overflow-hidden px-4 py-0 sm:px-6 md:px-10 lg:mb-20 lg:px-20">
           {/* Background */}
           <Image
             src={project.bookVisitBg}
             alt=""
             fill
             className="object-cover object-center"
+            sizes="100vw"
           />
           <div className="absolute inset-0 bg-[#202225]/50" />
 
-          <Container className="relative z-10 py-16 lg:py-20">
+          <Container className="relative z-10 py-12 sm:py-16 lg:py-20">
             <div className="flex flex-col gap-10 lg:flex-row lg:gap-16">
               {/* Left — info */}
-              <div className="flex flex-1 flex-col justify-between">
+              <div className="flex min-w-0 flex-1 flex-col justify-between">
                 <div>
-                  <h2 className="font-qasbyne text-[clamp(2.5rem,5vw,4.375rem)] uppercase leading-none tracking-[0.05em] text-white">
+                  <h2 className="font-qasbyne text-[clamp(2rem,6vw,4.375rem)] uppercase leading-none tracking-[0.05em] text-white sm:text-[clamp(2.5rem,5vw,4.375rem)]">
                     Book A Visit
                   </h2>
                   <p className="mt-5 max-w-[30rem] font-nexa text-sm leading-relaxed text-white sm:text-base">
@@ -678,10 +656,10 @@ function ProjectDetailPageContent() {
               </div>
 
               {/* Right — form card */}
-              <div className="w-full bg-white px-8 py-8 lg:w-[488px] lg:shrink-0 lg:px-10 lg:py-8">
+              <div className="w-full min-w-0 max-w-full bg-white px-5 py-7 sm:px-8 sm:py-8 lg:w-[488px] lg:shrink-0 lg:px-10">
                 <div className="flex flex-col gap-0">
                   {/* Row 1: First / Last name */}
-                  <div className="grid grid-cols-2 gap-8 pb-6">
+                  <div className="grid grid-cols-1 gap-6 pb-6 sm:grid-cols-2 sm:gap-8">
                     <FormField
                       label="First Name"
                       name="firstName"
@@ -699,7 +677,7 @@ function ProjectDetailPageContent() {
                   </div>
 
                   {/* Row 2: Email / Phone */}
-                  <div className="grid grid-cols-2 gap-8 border-t border-[#8F8183]/30 py-6">
+                  <div className="grid grid-cols-1 gap-6 border-t border-[#8F8183]/30 py-6 sm:grid-cols-2 sm:gap-8">
                     <FormField
                       label="Email Address"
                       name="email"
@@ -719,7 +697,7 @@ function ProjectDetailPageContent() {
                   </div>
 
                   {/* Row 3: Location / Upload CV */}
-                  <div className="grid grid-cols-2 gap-8 border-t border-[#8F8183]/30 py-6">
+                  <div className="grid grid-cols-1 gap-6 border-t border-[#8F8183]/30 py-6 sm:grid-cols-2 sm:gap-8">
                     <SelectField
                       label="Location"
                       name="location"
@@ -757,7 +735,7 @@ function ProjectDetailPageContent() {
                   <div className="mt-8">
                     <button
                       type="button"
-                      className="inline-flex h-[55px] items-center gap-5 px-12 font-nexa text-base font-bold uppercase tracking-[0.1em] text-white lg:text-xl"
+                      className="inline-flex h-[52px] w-full items-center justify-center gap-4 px-8 font-nexa text-sm font-bold uppercase tracking-[0.1em] text-white sm:h-[55px] sm:w-auto sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
                       style={{
                         background:
                           "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",

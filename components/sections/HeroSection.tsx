@@ -9,7 +9,7 @@ const HERO_IMAGE = "/images/Home/1.png";
 /** Rose-gold gradient anchored to #B48183 */
 const heroCtaClassName = cn(
   "inline-flex items-center justify-center gap-2 rounded-none border-0 px-8 py-3.5 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-md transition-all duration-300 ease-out",
-  "min-w-[180px]",
+  "w-full min-w-0 max-w-[280px] sm:min-w-[180px] sm:max-w-none",
   "bg-gradient-to-r from-[#d9aeb0] via-[#B48183] to-[#9a6568]",
   "hover:from-[#cfa3a5] hover:via-[#a97275] hover:to-[#8a585b]",
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B48183]",
@@ -34,7 +34,7 @@ export function HeroSection() {
       </div>
 
       <Container className="relative z-10">
-        <div className="mx-auto flex max-w-[760px] flex-col items-center text-center">
+        <div className="mx-auto flex min-w-0 max-w-[760px] flex-col items-center px-1 text-center sm:px-0">
           <h1
             id="hero-heading"
             className={cn(
@@ -44,7 +44,7 @@ export function HeroSection() {
               "xl:text-[70px] xl:leading-[70px]",
             )}
           >
-            <span className="block whitespace-nowrap">
+            <span className="block whitespace-normal sm:whitespace-nowrap">
               LOREM IPSUM{" "}
               <span className="text-[#8F8183]">DOLOR</span>
             </span>

@@ -1,3 +1,4 @@
+import { LOCAL_IMAGES } from "@/lib/local-images";
 import Image from "next/image";
 
 export function GazetteHero() {
@@ -10,7 +11,7 @@ export function GazetteHero() {
       {/* Full-bleed background */}
       <div className="absolute inset-0 z-0" aria-hidden>
         <Image
-          src="https://api.builder.io/api/v1/image/assets/TEMP/8469382136ac7d950cd43c8ce1fa20ef63975472?width=3532"
+          src={LOCAL_IMAGES.citylife}
           alt=""
           fill
           className="object-cover object-center"

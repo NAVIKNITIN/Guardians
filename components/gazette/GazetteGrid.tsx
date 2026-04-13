@@ -68,7 +68,10 @@ function ViewMoreIcon() {
 export function GazetteGrid() {
   const [activeIssue, setActiveIssue] = useState<string | null>(null);
   return (
-    <section className="bg-white py-16 sm:py-16 lg:py-20 px-2 lg:px-10" aria-label="Gazette issues">
+    <section
+      className="bg-white px-3 py-12 sm:px-4 sm:py-16 lg:py-20 lg:px-8 xl:px-10"
+      aria-label="Gazette issues"
+    >
       <Container>
         {/* 3-column grid */}
         <div className="grid grid-cols-1 gap-x-10 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-[52px] lg:gap-y-16">
@@ -78,17 +81,23 @@ export function GazetteGrid() {
         </div>
 
         {/* VIEW MORE CTA */}
-        <div className="mt-16 flex justify-center lg:mt-20">
+        <div className="mt-12 flex justify-center px-1 sm:mt-16 lg:mt-20">
           <button
             type="button"
-            className="inline-flex items-center gap-5 px-12 py-[18px] font-nexa text-xl font-bold uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90"
+            className="inline-flex w-full max-w-sm items-center justify-center gap-4 px-8 py-3.5 font-nexa text-base font-bold uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 sm:w-auto sm:max-w-none sm:gap-5 sm:px-12 sm:py-[18px] sm:text-xl"
             style={{
               background:
                 "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",
             }}
           >
             View More
-            <Image src="/images/arrowwhite.svg" alt="View More" width={15} height={15} />
+            <Image
+              src="/images/arrowwhite.svg"
+              alt="View More"
+              width={15}
+              height={15}
+              className="object-cover"
+            />
           </button>
         </div>
       </Container>

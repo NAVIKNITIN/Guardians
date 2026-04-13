@@ -55,14 +55,14 @@ export function DeveloperStatsSection({
           <div
             key={stat.label}
             className={cn(
-              ` flex flex-col items-center px-3 py-8 text-center sm:px-6`,
+              "flex min-w-0 flex-col items-center px-2 py-6 text-center sm:px-6 sm:py-8",
               idx % 2 === 1 && "border-l border-black/[0.08]",
               idx >= 2 && "border-t border-black/[0.08] md:border-t-0",
               idx > 0 && "md:border-l md:border-black/[0.08]",
             )}
           >
             <StatFigure stat={stat} index={idx} isInView={isInView} />
-            <p className="mt-2 max-w-[12rem] text-[11px] font-semibold uppercase leading-snug tracking-wide text-brand-text-primary sm:text-xs">
+            <p className="mt-2 max-w-[11rem] text-[10px] font-semibold uppercase leading-snug tracking-wide text-brand-text-primary sm:max-w-[12rem] sm:text-xs">
               {stat.label}
             </p>
           </div>

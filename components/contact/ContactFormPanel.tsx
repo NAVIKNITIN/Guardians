@@ -73,13 +73,13 @@ const CONTACT_BLOCKS: ContactBlock[] = [
 function ContactInfoBlock({ block }: { block: ContactBlock }) {
   return (
     <div className="flex flex-col ">
-      <h3 className="font-nexa text-2xl font-semibold leading-tight text-[#161616]">
+      <h3 className="font-nexa text-lg font-semibold leading-tight text-[#161616] sm:text-2xl">
         {block.title}
       </h3>
       {block.email && (
         <a
           href={`mailto:${block.email}`}
-          className="flex items-center gap-2 font-nexa text-xl font-normal text-[#161616] transition-opacity hover:opacity-70"
+          className="flex min-w-0 items-start gap-2 break-all font-nexa text-base font-normal text-[#161616] transition-opacity hover:opacity-70 sm:items-center sm:text-xl"
         >
           <EmailIcon />
           {block.email}
@@ -88,7 +88,7 @@ function ContactInfoBlock({ block }: { block: ContactBlock }) {
       {block.phone && (
         <a
           href={block.telHref}
-          className="flex items-center gap-2 font-nexa text-xl font-normal text-[#161616] transition-opacity hover:opacity-70"
+          className="flex min-w-0 flex-wrap items-center gap-2 font-nexa text-base font-normal text-[#161616] transition-opacity hover:opacity-70 sm:text-xl"
         >
           <PhoneIcon />
           {block.phone}
@@ -279,7 +279,13 @@ export function ContactFormPanel() {
               >
                 Submit
                 <span className="inline-block" aria-hidden>
-                  <Image src="/images/arrowwhite.svg" alt="" width={15} height={15} />
+                  <Image
+                    src="/images/arrowwhite.svg"
+                    alt=""
+                    width={15}
+                    height={15}
+                    className="object-cover"
+                  />
                 </span>
               </button>
             </form>

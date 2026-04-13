@@ -23,8 +23,8 @@ export function OurWorkSection({ content }: { content: OurWorkBandContent }) {
       variant="muted"
       aria-labelledby="our-work-heading"
     >
-      <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-16">
-        <div>
+      <div className="grid items-start gap-10 sm:gap-12 lg:grid-cols-2 lg:gap-16">
+        <div className="min-w-0">
           <h2 id="our-work-heading" className={marketingClasses.headingDisplay}>
             {content.sectionTitle}
           </h2>

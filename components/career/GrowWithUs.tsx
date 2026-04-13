@@ -29,7 +29,7 @@ function IconEnvelopeOutline({ className }: { className?: string }) {
 export function GrowWithUs() {
     return (
         <section
-            className="relative overflow-hidden border-t border-black/6 mb-16 sm:mb-20 lg:mb-24 mx-10 lg:mx-40 py-4 px-2 lg:px-10"
+            className="relative mx-4 mb-16 overflow-hidden border-t border-black/6 px-3 py-6 sm:mx-8 sm:mb-20 sm:px-4 sm:py-8 lg:mx-24 lg:mb-24 lg:px-10 xl:mx-40"
             aria-labelledby="grow-heading"
         >
             <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>

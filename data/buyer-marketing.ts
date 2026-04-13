@@ -10,6 +10,7 @@ import {
   DEFAULT_VIEW_MORE,
   partnersBand,
 } from "./audience-marketing-shared";
+import { LOCAL_IMAGES } from "@/lib/local-images";
 import {
   DEV_LANDMARK_COMPLETED,
   DEV_LANDMARK_ONGOING,
@@ -64,25 +65,25 @@ export const BUYER_MARKETING_PAGE = {
       {
         id: "market",
         title: "Market intelligence",
-        src: "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=800&q=80",
+        src: LOCAL_IMAGES.marketService,
         description: PLACEHOLDER_SERVICE_DESC,
       },
       {
         id: "partner",
         title: "Partner network",
-        src: "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=800&q=80",
+        src: LOCAL_IMAGES.buyerServicesHero,
         description: PLACEHOLDER_SERVICE_DESC,
       },
       {
         id: "institutional",
         title: "Institutional sales",
-        src: "https://images.unsplash.com/photo-1486718448742-163732cd1544?auto=format&fit=crop&w=800&q=80",
+        src: LOCAL_IMAGES.retailService,
         description: PLACEHOLDER_SERVICE_DESC,
       },
       {
         id: "advisory",
         title: "Structured advisory",
-        src: "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=800&q=80",
+        src: LOCAL_IMAGES.landService,
         description: PLACEHOLDER_SERVICE_DESC,
       },
     ],
@@ -101,15 +102,13 @@ export const BUYER_MARKETING_PAGE = {
   //       id: "b2",
   //       title: "Relocating from Delhi with zero guesswork.",
   //       body: "Neighborhood fit, commute trials, and a diligence pack on the builder track record before the token went through.",
-  //       imageSrc:
-  //         "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1200&q=80",
+  //       imageSrc: "/images/Buyer/services/market.svg",
   //     },
   //     {
   //       id: "b3",
   //       title: "Upgrade path from rental to owned.",
   //       body: "Structured milestones for sale of the older asset, bridge planning, and synchronized possession dates.",
-  //       imageSrc:
-  //         "https://images.unsplash.com/photo-1486718448742-163732cd1544?auto=format&fit=crop&w=1200&q=80",
+  //       imageSrc: "/images/Buyer/services/retail.svg",
   //     },
   //   ],
   // },

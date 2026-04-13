@@ -1,4 +1,5 @@
 import { Container } from "@/components/common/Container";
+import { localImageByIndex } from "@/lib/local-images";
 import { NewsCard, type NewsArticle } from "./NewsCard";
 import Image from "next/image";
 
@@ -11,8 +12,7 @@ const ARTICLES: NewsArticle[] = [
     date: "12 Dec 2025",
     title: "Revolutionising Real Estate — The Power of GIS Mapping in India",
     excerpt: EXCERPT,
-    imageSrc:
-      "https://images.unsplash.com/photo-1486325212027-8081e485255e?auto=format&fit=crop&w=500&q=80",
+    imageSrc: localImageByIndex(0),
     imageAlt: "GIS mapping in real estate",
     href: "#",
   },
@@ -21,8 +21,7 @@ const ARTICLES: NewsArticle[] = [
     date: "10 Dec 2025",
     title: "Revolutionising Real Estate — The Power of GIS Mapping in India",
     excerpt: EXCERPT,
-    imageSrc:
-      "https://images.unsplash.com/photo-1560518883-ce09059eeffa?auto=format&fit=crop&w=500&q=80",
+    imageSrc: localImageByIndex(1),
     imageAlt: "Real estate market insights",
     href: "#",
   },
@@ -31,8 +30,7 @@ const ARTICLES: NewsArticle[] = [
     date: "08 Dec 2025",
     title: "Revolutionising Real Estate — The Power of GIS Mapping in India",
     excerpt: EXCERPT,
-    imageSrc:
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=500&q=80",
+    imageSrc: localImageByIndex(2),
     imageAlt: "Luxury real estate project",
     href: "#",
   },
@@ -41,8 +39,7 @@ const ARTICLES: NewsArticle[] = [
     date: "05 Dec 2025",
     title: "Revolutionising Real Estate — The Power of GIS Mapping in India",
     excerpt: EXCERPT,
-    imageSrc:
-      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=500&q=80",
+    imageSrc: localImageByIndex(3),
     imageAlt: "High-rise residential development",
     href: "#",
   },
@@ -51,8 +48,7 @@ const ARTICLES: NewsArticle[] = [
     date: "02 Dec 2025",
     title: "Revolutionising Real Estate — The Power of GIS Mapping in India",
     excerpt: EXCERPT,
-    imageSrc:
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=500&q=80",
+    imageSrc: localImageByIndex(4),
     imageAlt: "Corporate advisory services",
     href: "#",
   },
@@ -61,8 +57,7 @@ const ARTICLES: NewsArticle[] = [
     date: "29 Nov 2025",
     title: "Revolutionising Real Estate — The Power of GIS Mapping in India",
     excerpt: EXCERPT,
-    imageSrc:
-      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=500&q=80",
+    imageSrc: localImageByIndex(5),
     imageAlt: "Real estate advisory professionals",
     href: "#",
   },
@@ -71,8 +66,7 @@ const ARTICLES: NewsArticle[] = [
     date: "25 Nov 2025",
     title: "Revolutionising Real Estate — The Power of GIS Mapping in India",
     excerpt: EXCERPT,
-    imageSrc:
-      "https://images.unsplash.com/photo-1486718448742-163732cd1544?auto=format&fit=crop&w=500&q=80",
+    imageSrc: localImageByIndex(6),
     imageAlt: "Modern residential towers",
     href: "#",
   },
@@ -81,8 +75,7 @@ const ARTICLES: NewsArticle[] = [
     date: "20 Nov 2025",
     title: "Revolutionising Real Estate — The Power of GIS Mapping in India",
     excerpt: EXCERPT,
-    imageSrc:
-      "https://images.unsplash.com/photo-1426122402199-be02db90eb90?auto=format&fit=crop&w=500&q=80",
+    imageSrc: localImageByIndex(7),
     imageAlt: "Property development overview",
     href: "#",
   },
@@ -110,7 +103,7 @@ function ViewMoreIcon() {
 export function NewsroomGrid() {
   return (
     <section
-      className="bg-white py-16 sm:py-16 lg:py-20 px-2 lg:px-10"
+      className="bg-white px-3 py-12 sm:px-4 sm:py-16 lg:py-20 lg:px-8 xl:px-10"
       aria-label="News articles"
     >
       <Container>
@@ -122,17 +115,23 @@ export function NewsroomGrid() {
         </div>
 
         {/* VIEW MORE CTA */}
-        <div className="mt-14 flex justify-center lg:mt-16">
+        <div className="mt-12 flex justify-center px-1 sm:mt-14 lg:mt-16">
           <button
             type="button"
-            className="inline-flex items-center gap-5 px-12 py-[18px] font-nexa text-lg font-bold uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90"
+            className="inline-flex w-full max-w-sm items-center justify-center gap-4 px-8 py-3.5 font-nexa text-base font-bold uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 sm:w-auto sm:max-w-none sm:gap-5 sm:px-12 sm:py-[18px] sm:text-lg"
             style={{
               background:
                 "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",
             }}
           >
             View More
-            <Image src="/images/arrowwhite.svg" alt="View More" width={15} height={15} />
+            <Image
+              src="/images/arrowwhite.svg"
+              alt="View More"
+              width={15}
+              height={15}
+              className="object-cover"
+            />
           </button>
         </div>
       </Container>

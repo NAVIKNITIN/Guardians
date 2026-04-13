@@ -194,7 +194,7 @@ export function AwardsSection({
             alt=""
             width={91}
             height={75}
-            className="h-16 w-auto shrink-0 object-contain object-left sm:h-18"
+            className="h-16 w-auto shrink-0 object-cover object-left sm:h-18"
           />
           <h2
             id="awards-heading"

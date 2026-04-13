@@ -82,7 +82,7 @@ export function Navbar() {
                 alt="The Guardians Real Estate Advisory"
                 width={220}
                 height={52}
-                className="h-8 w-auto max-w-[min(72vw,220px)] object-contain"
+                className="h-8 w-auto max-w-[min(72vw,220px)] object-cover"
                 sizes="220px"
                 priority
               />
@@ -212,7 +212,7 @@ export function Navbar() {
                 alt="The Guardians Real Estate Advisory"
                 width={260}
                 height={60}
-                className="h-10 w-auto object-contain sm:h-11 lg:h-[3.25rem]"
+                className="h-10 w-auto object-cover sm:h-11 lg:h-[3.25rem]"
                 sizes="(min-width: 1280px) 260px, 0px"
               />
             </Link>

@@ -17,7 +17,7 @@ const brands = [
 
 /** Rose-gold gradient matching the Figma "Read More" buttons */
 const readMoreClassName = cn(
-  "inline-flex items-center gap-4 px-12 py-5",
+  "inline-flex w-full max-w-xs items-center justify-center gap-3 px-8 py-4 sm:w-auto sm:max-w-none sm:justify-start sm:gap-4 sm:px-12 sm:py-5",
   "font-nexa text-sm font-bold uppercase tracking-[0.1em] text-white",
   "transition-opacity duration-200 hover:opacity-90",
 );
@@ -56,7 +56,7 @@ function BrandRow({ reverse, href }: BrandRowProps) {
         alt="Ground Holding – Real Estate"
         width={223}
         height={80}
-        className="block h-auto w-[180px] object-contain lg:w-[223px]"
+        className="block h-auto w-[180px] object-cover lg:w-[223px]"
       />
       <p className="max-w-[488px] font-nexa text-base font-normal leading-[1.5] text-[#161616]">
         {DESCRIPTION}
@@ -91,14 +91,14 @@ function BrandRow({ reverse, href }: BrandRowProps) {
           {/* Photo on left */}
           <div className="order-1 lg:order-1">{photoContent}</div>
           {/* Text on right */}
-          <div className="order-2 flex items-center px-8 lg:order-2 lg:px-16">
+          <div className="order-2 flex items-center px-4 sm:px-8 lg:order-2 lg:px-16">
             {textContent}
           </div>
         </>
       ) : (
         <>
           {/* Text on left */}
-          <div className="order-2 flex items-center px-8 lg:order-1 lg:px-16">
+          <div className="order-2 flex items-center px-4 sm:px-8 lg:order-1 lg:px-16">
             {textContent}
           </div>
           {/* Photo on right */}
@@ -128,7 +128,7 @@ export function TGREABrands() {
       {/* Brand rows */}
       <div className="">
         {brands.map(({ id, reverse, href }) => (
-          <div className=" my-4 lg:mb-[70px]">
+          <div className=" my-4 lg:mb-[70px]" key={id}>
             <BrandRow key={id} reverse={reverse} href={href} />
           </div>
         ))}

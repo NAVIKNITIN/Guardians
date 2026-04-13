@@ -41,18 +41,18 @@ const BRANCHES: Branch[] = [
 function BranchCard({ branch }: { branch: Branch }) {
   return (
     <div className="flex h-full flex-col items-center text-center">
-      <h3 className="font-nexa text-[2rem] font-bold leading-tight text-[#161616]">
+      <h3 className="font-nexa text-xl font-bold leading-tight text-[#161616] sm:text-[2rem]">
         {branch.name}
       </h3>
       <div className="mt-4 flex w-full min-h-0 flex-1 flex-col justify-between gap-6">
-        <p className="font-nexa text-xl font-normal leading-[1.2] text-[#161616]">
+        <p className="font-nexa text-base font-normal leading-[1.35] text-[#161616] sm:text-lg md:text-xl md:leading-[1.2]">
           {branch.address}
         </p>
         <a
           href={branch.mapUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex shrink-0 items-center justify-center gap-5 self-center px-12 py-[18px] font-nexa text-xl font-bold uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90"
+          className="inline-flex w-full max-w-sm shrink-0 items-center justify-center gap-4 self-center px-6 py-3.5 font-nexa text-base font-bold uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 sm:w-auto sm:max-w-none sm:gap-5 sm:px-12 sm:py-[18px] sm:text-xl"
           style={{
             background:
               "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",
@@ -65,6 +65,7 @@ function BranchCard({ branch }: { branch: Branch }) {
               alt=""
               width={15}
               height={15}
+              className="object-cover"
             />
           </span>
         </a>

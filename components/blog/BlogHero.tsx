@@ -1,3 +1,4 @@
+import { LOCAL_IMAGES } from "@/lib/local-images";
 import Image from "next/image";
 
 export function BlogHero() {
@@ -10,7 +11,7 @@ export function BlogHero() {
       {/* Layered background images */}
       <div className="absolute inset-0 z-0" aria-hidden>
         <Image
-          src="https://api.builder.io/api/v1/image/assets/TEMP/2ec45ffca9271aab6859b89724446b000d0917e0?width=2880"
+          src={LOCAL_IMAGES.newsroom}
           alt=""
           fill
           className="object-cover object-center"

@@ -1,6 +1,7 @@
 "use client";
 
 import { useCycleIndex } from "@/hooks/useCycleIndex";
+import { localImageByIndex } from "@/lib/local-images";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 
@@ -21,8 +22,7 @@ const PARTNERS: PartnerShowcaseItem[] = [
   {
     id: "adani",
     name: "Adani Realty",
-    imageSrc:
-      "https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?auto=format&fit=crop&w=1600&q=80",
+    imageSrc: localImageByIndex(0),
     subLogos: [
       { src: "/images/Developer/partners/Group 32.svg", alt: "Partner logo" },
       { src: "/images/Developer/partners/Group 33.svg", alt: "Partner logo" },
@@ -35,8 +35,7 @@ const PARTNERS: PartnerShowcaseItem[] = [
   {
     id: "godrej",
     name: "Godrej Properties",
-    imageSrc:
-      "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=1600&q=80",
+    imageSrc: localImageByIndex(1),
     subLogos: [
       { src: "/images/Developer/partners/Group 38.svg", alt: "Partner logo" },
       { src: "/images/Developer/partners/Group 39.svg", alt: "Partner logo" },
@@ -49,8 +48,7 @@ const PARTNERS: PartnerShowcaseItem[] = [
   {
     id: "marathon",
     name: "Marathon Group",
-    imageSrc:
-      "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=1600&q=80",
+    imageSrc: localImageByIndex(2),
     subLogos: [
       { src: "/images/Developer/partners/Group 47.svg", alt: "Partner logo" },
       { src: "/images/Developer/partners/Group 48.svg", alt: "Partner logo" },
@@ -63,8 +61,7 @@ const PARTNERS: PartnerShowcaseItem[] = [
   {
     id: "sunteck",
     name: "Sunteck Realty",
-    imageSrc:
-      "https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=1600&q=80",
+    imageSrc: localImageByIndex(3),
     subLogos: [
       { src: "/images/Developer/partners/Group 32.svg", alt: "Partner logo" },
       { src: "/images/Developer/partners/Group 36.svg", alt: "Partner logo" },
@@ -77,8 +74,7 @@ const PARTNERS: PartnerShowcaseItem[] = [
   {
     id: "piramal",
     name: "Piramal Realty",
-    imageSrc:
-      "https://images.unsplash.com/photo-1503387762-592deb58ef4e?auto=format&fit=crop&w=1600&q=80",
+    imageSrc: localImageByIndex(4),
     subLogos: [
       { src: "/images/Developer/partners/Group 44.svg", alt: "Partner logo" },
       { src: "/images/Developer/partners/Group 47.svg", alt: "Partner logo" },
@@ -91,8 +87,7 @@ const PARTNERS: PartnerShowcaseItem[] = [
   {
     id: "ashford",
     name: "Ashford Group",
-    imageSrc:
-      "https://images.unsplash.com/photo-1486718448742-163732cd1544?auto=format&fit=crop&w=1600&q=80",
+    imageSrc: localImageByIndex(5),
     subLogos: [
       { src: "/images/Developer/partners/Group 39.svg", alt: "Partner logo" },
       { src: "/images/Developer/partners/Group 33.svg", alt: "Partner logo" },
@@ -105,8 +100,7 @@ const PARTNERS: PartnerShowcaseItem[] = [
   {
     id: "crescent",
     name: "Crescent Group",
-    imageSrc:
-      "https://images.unsplash.com/photo-1426122402199-be02db90eb90?auto=format&fit=crop&w=1600&q=80",
+    imageSrc: localImageByIndex(6),
     subLogos: [
       { src: "/images/Developer/partners/Group 42.svg", alt: "Partner logo" },
       { src: "/images/Developer/partners/Group 44.svg", alt: "Partner logo" },
@@ -124,13 +118,13 @@ export function FeaturedPartnerShowcase() {
 
   return (
     <section
-      className="py-10 sm:py-14 lg:py-16"
+      className="w-full min-w-0 overflow-x-clip py-10 sm:py-14 lg:py-16"
       aria-label="Featured partners showcase"
     >
-      <div className="mx-auto max-w-[1237px] px-4 sm:px-6 lg:px-8 xl:px-0">
+      <div className="mx-auto w-full min-w-0 max-w-[min(1237px,100%)] px-4 sm:px-6 lg:px-8 xl:px-0">
         {/* ── Main Slide ── */}
         <div
-          className="relative overflow-hidden shadow-[0_0_20px_rgba(0,0,0,0.25)]"
+          className="relative w-full min-h-[260px] max-w-full overflow-hidden shadow-[0_0_20px_rgba(0,0,0,0.25)] sm:min-h-[320px] md:min-h-0"
           style={{ aspectRatio: "1237/562" }}
         >
           {/* Background image (blurred building) */}
@@ -140,7 +134,7 @@ export function FeaturedPartnerShowcase() {
               src={current.imageSrc}
               alt=""
               fill
-              className="object-cover object-center"
+              className="object-cover"
               style={{ filter: "blur(6px)", transform: "scale(1.04)" }}
               sizes="(max-width: 1280px) 100vw, 1237px"
             />
@@ -170,20 +164,20 @@ export function FeaturedPartnerShowcase() {
             </h2>
           </div>
 
-          {/* Sub-logos row */}
-          <div className="absolute inset-x-0 bottom-[18%] z-20 flex justify-center px-6">
-            <div className="flex flex-wrap items-center justify-center gap-6 sm:gap-10 lg:gap-14">
+          {/* Sub-logos row — wrap + max-width so narrow viewports don’t overflow */}
+          <div className="absolute inset-x-0 bottom-[12%] z-20 flex justify-center px-3 sm:bottom-[18%] sm:px-6">
+            <div className="flex max-w-full min-w-0 flex-wrap items-center justify-center gap-3 sm:gap-8 md:gap-10 lg:gap-14">
               {current.subLogos.map((logo, i) => (
                 <div
                   key={i}
-                  className="relative flex h-10 w-24 items-center justify-center sm:h-14 sm:w-32"
+                  className="relative flex h-9 w-[4.5rem] max-w-[28vw] shrink-0 items-center justify-center sm:h-12 sm:w-28 md:h-14 md:w-32"
                 >
                   <Image
                     src={logo.src}
                     alt={logo.alt}
                     fill
                     className="object-contain object-center brightness-0 invert"
-                    sizes="128px"
+                    sizes="(max-width: 640px) 25vw, 128px"
                   />
                 </div>
               ))}
@@ -237,38 +231,42 @@ export function FeaturedPartnerShowcase() {
           </button>
         </div>
 
-        {/* ── Tab strip ── */}
-        <div
-          className="flex overflow-x-auto"
-          role="tablist"
-          aria-label="Select partner"
-        >
-          {PARTNERS.map((partner, i) => (
-            <button
-              key={partner.id}
-              type="button"
-              role="tab"
-              aria-selected={i === index}
-              onClick={() => setIndex(i)}
-              className={cn(
-                "flex min-w-[140px] flex-1 items-center justify-center px-3 py-4 transition-colors sm:min-w-[160px] sm:py-5",
-                "border-r border-black/[0.08] last:border-r-0",
-                i === index
-                  ? "bg-white shadow-inner"
-                  : "bg-[#DADADB] hover:bg-white/70",
-              )}
-            >
-              <div className="relative h-10 w-full max-w-[100px]">
-                <Image
-                  src={partner.tabLogoSrc}
-                  alt={partner.tabLogoAlt}
-                  fill
-                  className="object-contain object-center"
-                  sizes="100px"
-                />
-              </div>
-            </button>
-          ))}
+        {/* ── Tab strip: scroll horizontally on small screens; equal columns on xl+ ── */}
+        <div className="w-full min-w-0 max-w-full">
+          <div
+            className="flex w-full min-w-0 overflow-x-auto overscroll-x-contain scroll-smooth [-webkit-overflow-scrolling:touch] [scrollbar-width:thin] xl:overflow-visible"
+            role="tablist"
+            aria-label="Select partner"
+          >
+            {PARTNERS.map((partner, i) => (
+              <button
+                key={partner.id}
+                type="button"
+                role="tab"
+                aria-selected={i === index}
+                onClick={() => setIndex(i)}
+                className={cn(
+                  "flex shrink-0 items-center justify-center px-3 py-3 transition-colors sm:px-4 sm:py-4 md:py-5",
+                  "min-w-[5.75rem] sm:min-w-[7.5rem]",
+                  "xl:min-w-0 xl:flex-1 xl:basis-0 xl:shrink",
+                  "border-r border-black/[0.08] last:border-r-0",
+                  i === index
+                    ? "bg-white shadow-inner"
+                    : "bg-[#DADADB] hover:bg-white/70",
+                )}
+              >
+                <div className="relative h-8 w-full max-w-[5.5rem] sm:h-10 sm:max-w-[6.25rem]">
+                  <Image
+                    src={partner.tabLogoSrc}
+                    alt={partner.tabLogoAlt}
+                    fill
+                    className="object-contain object-center"
+                    sizes="100px"
+                  />
+                </div>
+              </button>
+            ))}
+          </div>
         </div>
       </div>
     </section>

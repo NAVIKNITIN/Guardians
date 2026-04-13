@@ -204,6 +204,7 @@ export function DownloadModal({ isOpen, onClose, issueTitle }: DownloadModalProp
               alt="Submit"
               width={15}
               height={15}
+              className="object-cover"
             />
           </button>
         </form>

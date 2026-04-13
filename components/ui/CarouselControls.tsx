@@ -57,8 +57,7 @@ export function CarouselControls({
           alt=""
           width={20}
           height={20}
-          className="h-5 "
-          // unoptimized
+          className="h-5 object-cover"
         />
       </RoundIconButton>
       {showCounter ? (
@@ -85,8 +84,7 @@ export function CarouselControls({
           alt=""
           width={20}
           height={20}
-          className="h-5  bg-transparent"
-          // unoptimized
+          className="h-5 bg-transparent object-cover"
         />
       </RoundIconButton>
     </div>

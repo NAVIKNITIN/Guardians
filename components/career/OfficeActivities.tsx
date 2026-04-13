@@ -1,4 +1,5 @@
 import { Container } from "@/components/common/Container";
+import { localImageByIndex } from "@/lib/local-images";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 
@@ -6,22 +7,19 @@ const ACTIVITIES = [
   {
     id: "league",
     label: "Guardians' Premier League",
-    imageSrc:
-      "https://images.unsplash.com/photo-1543351611-58f69d7c1781?auto=format&fit=crop&w=928&q=80",
+    imageSrc: localImageByIndex(0),
     imageAlt: "Guardians' Premier League cricket match",
   },
   {
     id: "csr",
     label: "CSR Activities",
-    imageSrc:
-      "https://images.unsplash.com/photo-1559027615-cd4628902d4a?auto=format&fit=crop&w=768&q=80",
+    imageSrc: localImageByIndex(1),
     imageAlt: "CSR Activities by The Guardians team",
   },
   {
     id: "game",
     label: "Game Room",
-    imageSrc:
-      "https://images.unsplash.com/photo-1511882150382-421056c89033?auto=format&fit=crop&w=1048&q=80",
+    imageSrc: localImageByIndex(2),
     imageAlt: "Guardians office game room",
   },
 ] as const;

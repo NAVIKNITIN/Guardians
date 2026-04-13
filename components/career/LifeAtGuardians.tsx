@@ -1,4 +1,5 @@
 import { Container } from "@/components/common/Container";
+import { LOCAL_IMAGES } from "@/lib/local-images";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 
@@ -39,7 +40,7 @@ export function LifeAtGuardians() {
           style={{ height: "clamp(240px, 28vw, 400px)" }}
         >
           <Image
-            src="https://images.unsplash.com/photo-1497366216548-37526070297c?auto=format&fit=crop&w=2392&q=80"
+            src={LOCAL_IMAGES.workWithUs}
             alt="Life at The Guardians — team at work"
             fill
             className="object-cover object-center"

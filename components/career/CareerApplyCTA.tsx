@@ -16,7 +16,7 @@ export function CareerApplyCTA() {
           src="/images/Group%204.svg"
           alt=""
           fill
-          className="object-contain object-right"
+          className="object-cover object-right"
         />
       </div>
 

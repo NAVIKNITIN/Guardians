@@ -5,8 +5,7 @@ import Image from "next/image";
 export function CareerHero() {
   return (
     <section
-      className="relative overflow-hidden bg-neutral-200"
-      style={{ height: "clamp(380px, 45vw, 513px)" }}
+      className="relative min-h-[min(88vh,520px)] overflow-hidden bg-neutral-200 sm:min-h-[420px] lg:min-h-[513px]"
       aria-labelledby="career-hero-heading"
     >
       {/* Layered decorative building imagery */}
@@ -15,7 +14,7 @@ export function CareerHero() {
           src="/images/workwithus.svg"
           alt="Work With Us"
           fill
-          className="object-fill"
+          className="object-cover object-center"
           sizes="100vw"
           priority
         />
@@ -24,12 +23,12 @@ export function CareerHero() {
       </div>
 
       {/* Centered text */}
-      <Container className="relative z-10 flex h-full flex-col items-center justify-center pb-4 pt-4 text-center">
+      <Container className="relative z-10 flex flex-col items-center justify-center px-2 py-16 text-center sm:py-20">
         <h1
           id="career-hero-heading"
           className={cn(
-            "font-qasbyne font-normal uppercase text-[#202225]",
-            "text-[clamp(2.5rem,6.5vw,4.375rem)] leading-[1] tracking-[0.05em]",
+            "max-w-[18ch] break-words font-qasbyne font-normal uppercase text-[#202225] sm:max-w-none",
+            "text-[clamp(2rem,6.5vw,4.375rem)] leading-[1] tracking-[0.05em] sm:text-[clamp(2.5rem,6.5vw,4.375rem)]",
           )}
         >
           Work With Us

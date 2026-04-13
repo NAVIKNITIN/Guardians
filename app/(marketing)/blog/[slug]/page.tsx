@@ -1,4 +1,5 @@
 import { BlogDetail, type BlogDetailPost } from "@/components/blog/BlogDetail";
+import { LOCAL_IMAGES } from "@/lib/local-images";
 import type { Metadata } from "next";
 
 // In production this data would come from a CMS or API based on the slug.
@@ -6,8 +7,7 @@ const POST: BlogDetailPost = {
   category: "CATEGORY",
   date: "12 Dec 2025",
   title: "Revolutionising real estate - The Power of GIS mapping in India",
-  featuredImage:
-    "https://api.builder.io/api/v1/image/assets/TEMP/6ce9838e17a7ea4c029a25aaf2f899488a41b05f?width=2390",
+  featuredImage: LOCAL_IMAGES.newsroom,
   featuredImageAlt: "GIS mapping in real estate",
   body: `Lorem ipsum dolor sit amet consectetur. Diam tellus nunc et pulvinar rhoncus semper non dolor. Volutpat eget tincidunt turpis enim semper purus in rhoncus. Viverra condimentum scelerisque sit nisl dignissim lectus. Sed fames cras turpis scelerisque posuere lectus. Turpis in natoque id elit. Proin quis aliquam sed euismod sit eleifend. Eleifend et ac a fermentum netus in enim. Congue consequat tincidunt amet consequat massa gravida nulla nunc. A pellentesque blandit nec habitant magna ultrices accumsan. Elit odio adipiscing urna ultricies ultrices malesuada nisl quam.
 

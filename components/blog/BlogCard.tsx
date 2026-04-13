@@ -62,7 +62,13 @@ export function BlogCard({ post }: { post: BlogPost }) {
         )}
       >
         Read More
-        <Image src="/images/arrow.svg" alt="View More" width={15} height={15} />
+        <Image
+          src="/images/arrow.svg"
+          alt="View More"
+          width={15}
+          height={15}
+          className="object-cover"
+        />
       </Link>
     </article>
   );

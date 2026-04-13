@@ -1,4 +1,5 @@
 import { Container } from "@/components/common/Container";
+import { localImageByIndex } from "@/lib/local-images";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 
@@ -18,16 +19,14 @@ const REASONS: ReasonCard[] = [
   {
     id: "culture",
     title: "Client-First Advisory Culture",
-    imageSrc:
-      "https://images.unsplash.com/photo-1600880292203-757bb62b4baf?auto=format&fit=crop&w=1352&q=80",
+    imageSrc: localImageByIndex(0),
     imageAlt: "Advisory culture at The Guardians",
     flex: 260,
   },
   {
     id: "transactions",
     title: "Exposure to High-Value Transactions",
-    imageSrc:
-      "https://images.unsplash.com/photo-1556761175-4b46a572b786?auto=format&fit=crop&w=998&q=80",
+    imageSrc: localImageByIndex(1),
     imageAlt: "High-value transactions exposure",
     flex: 260,
   },
@@ -35,8 +34,7 @@ const REASONS: ReasonCard[] = [
     id: "growth",
     title: "Professional Growth Over Hierarchy",
     subtitle: "Progress is driven by skill, ownership, and performance.",
-    imageSrc:
-      "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?auto=format&fit=crop&w=1600&q=80",
+    imageSrc: localImageByIndex(2),
     imageAlt: "Professional growth environment",
     flex: 356,
     showArrow: true,
@@ -44,8 +42,7 @@ const REASONS: ReasonCard[] = [
   {
     id: "process",
     title: "Refined, Process-Driven Environment",
-    imageSrc:
-      "https://images.unsplash.com/photo-1497366811353-6870744d04b2?auto=format&fit=crop&w=1524&q=80",
+    imageSrc: localImageByIndex(3),
     imageAlt: "Refined process-driven environment",
     flex: 260,
   },
@@ -54,7 +51,7 @@ const REASONS: ReasonCard[] = [
 function ReasonCard({ card }: { card: ReasonCard }) {
   return (
     <div
-      className="group relative overflow-hidden bg-white"
+      className="group relative min-h-[200px] overflow-hidden bg-white sm:min-h-0"
       style={{ flex: card.flex, minWidth: 0 }}
     >
       {/* Photo — cropped to card height */}
@@ -126,9 +123,8 @@ export function ReasonsToJoin() {
         {/* 4-card photo row */}
         <div
           className={cn(
-            "flex flex-col gap-3 sm:flex-row sm:gap-4",
+            "flex flex-col gap-3 sm:h-[clamp(260px,35vw,450px)] sm:flex-row sm:gap-4",
           )}
-          style={{ height: "clamp(280px, 35vw, 450px)" }}
         >
           {REASONS.map((card) => (
             <ReasonCard key={card.id} card={card} />

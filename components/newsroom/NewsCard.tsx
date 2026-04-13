@@ -75,7 +75,13 @@ export function NewsCard({ article }: { article: NewsArticle }) {
         )}
       >
         Read More
-        <Image src="/images/arrow.svg" alt="Read More" width={15} height={15} />
+        <Image
+          src="/images/arrow.svg"
+          alt="Read More"
+          width={15}
+          height={15}
+          className="object-cover"
+        />
       </Link>
     </article>
   );

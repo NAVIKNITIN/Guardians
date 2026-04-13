@@ -1,3 +1,4 @@
+import { LOCAL_IMAGES } from "@/lib/local-images";
 import Image from "next/image";
 
 export function ContactHero() {
@@ -10,7 +11,7 @@ export function ContactHero() {
       {/* Background layers */}
       <div className="absolute inset-0 z-0" aria-hidden>
         <Image
-          src="https://api.builder.io/api/v1/image/assets/TEMP/ffb822e5230897e4c0edde1dbf81129bf76e5da1?width=2880"
+          src={LOCAL_IMAGES.heroPrimary}
           alt=""
           fill
           className="object-cover object-center"
@@ -18,7 +19,7 @@ export function ContactHero() {
           priority
         />
         <Image
-          src="https://api.builder.io/api/v1/image/assets/TEMP/f4c98fe839f3b9919fba400520fe141a62f7fd86?width=2880"
+          src={LOCAL_IMAGES.heroSecondary}
           alt=""
           fill
           className="object-cover object-center mix-blend-darken"

@@ -27,8 +27,8 @@ export function PartnersSection({
         <LogoRow items={[...content.row2]} direction="rl" />
       </div>
 
-      <div className="mt-16 flex justify-center gap-4 items-center">
-        <p className="text-center font-bold text-brand-text-secondary">
+      <div className="mt-12 flex flex-col items-center justify-center gap-4 px-1 sm:mt-16 sm:flex-row sm:flex-wrap sm:gap-6">
+        <p className="max-w-md text-center text-sm font-bold text-brand-text-secondary sm:text-base">
           {content.closing}
         </p>
         <MarketingEnquireLink href={content.ctaHref}>{content.ctaLabel}</MarketingEnquireLink>
@@ -80,7 +80,7 @@ function LogoTile({
         alt={decorative ? "" : item.alt}
         width={160}
         height={48}
-        className="h-10 w-auto max-w-full object-contain object-center"
+        className="h-10 w-auto max-w-full object-cover object-center"
       />
     </div>
   );

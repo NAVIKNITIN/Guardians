@@ -93,7 +93,7 @@ function BuyerProfileCard({
             alt=""
             width={47}
             height={50}
-            className="h-[50px] w-[47px] shrink-0 brightness-0"
+            className="h-[50px] w-[47px] shrink-0 object-cover brightness-0"
             aria-hidden
           />
 
@@ -203,7 +203,7 @@ export function DividerSection() {
               src={DIVIDER_BANNER_SRC}
               alt=""
               fill
-              className="object-contain object-center"
+              className="object-cover object-center"
               sizes="(max-width: 1440px) 100vw, 90rem"
               unoptimized
               priority

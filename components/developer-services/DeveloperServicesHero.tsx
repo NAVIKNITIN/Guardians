@@ -3,8 +3,7 @@ import Image from "next/image";
 export function DeveloperServicesHero() {
   return (
     <section
-      className="relative overflow-hidden mb-4 lg:mb-[80px]"
-      style={{ height: "clamp(320px, 36vw, 513px)" }}
+      className="relative mb-4 min-h-[min(88vh,520px)] overflow-hidden sm:min-h-[380px] lg:mb-[80px] lg:min-h-[513px]"
       aria-labelledby="dev-services-heading"
     >
       <div className="absolute inset-0 z-0" aria-hidden>
@@ -18,10 +17,10 @@ export function DeveloperServicesHero() {
         />
       </div>
 
-      <div className="relative z-10 flex h-full flex-col items-center justify-start mt-10 lg:mt-[100px] gap-4 px-4 text-center font-qasbyne ">
+      <div className="relative z-10 flex flex-col items-center justify-start gap-4 px-4 pb-10 pt-16 text-center font-qasbyne sm:pt-20 lg:mt-[100px] lg:pb-0">
         <h1
           id="dev-services-heading"
-          className="font-qasbyne font-normal uppercase text-[#202225] text-[clamp(2rem,6.5vw,4.375rem)] leading-none tracking-[0.05em]"
+          className="max-w-[min(100%,22ch)] break-words font-qasbyne text-[clamp(1.75rem,6vw,4.375rem)] font-normal uppercase leading-none tracking-[0.05em] text-[#202225] sm:max-w-none sm:text-[clamp(2rem,6.5vw,4.375rem)]"
         >
           Developer&apos;s Services
         </h1>

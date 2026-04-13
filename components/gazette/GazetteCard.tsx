@@ -62,7 +62,13 @@ export function GazetteCard({ issue, onOpenFile }: { issue: GazetteIssue, onOpen
         )}
       >
         Open File
-        <Image src="/images/arrow.svg" alt="Open File" width={15} height={15} />
+        <Image
+          src="/images/arrow.svg"
+          alt="Open File"
+          width={15}
+          height={15}
+          className="object-cover"
+        />
       </button>
     </article>
   );

@@ -4,7 +4,7 @@ import { cn } from "@/utils/cn";
 export function PartnersHero() {
   return (
     <section
-      className="relative overflow-hidden bg-neutral-300"
+      className="relative w-full min-w-0 overflow-x-clip bg-neutral-300"
       style={{ minHeight: 362 }}
       aria-labelledby="partners-hero-heading"
     >
@@ -33,21 +33,21 @@ export function PartnersHero() {
       {/* Centered heading */}
       <div
         className={cn(
-          "relative z-20 flex items-center justify-center",
+          "relative z-20 flex w-full min-w-0 items-center justify-center px-4 sm:px-6",
           "min-h-[260px] sm:min-h-[310px] lg:min-h-[362px] bg-black/25",
         )}
       >
         <h1
           id="partners-hero-heading"
           className={cn(
-            " uppercase text-[#202225]",
-            "text-[clamp(2rem,6vw,4.375rem)] leading-[1.06] tracking-[0.05em]",
-            "text-center",
+            "max-w-full uppercase text-[#202225]",
+            /* Lower floor than 2rem so long title fits narrow phones without horizontal scroll */
+            "text-[clamp(1.125rem,5.5vw+0.35rem,4.375rem)] leading-[1.06] tracking-[0.05em]",
+            "text-center text-balance",
           )}
-
         >
-          <span className=" text-white" >Partners</span>
-          <span className="font-qasbyne " > &amp; Clients</span>
+          <span className="text-white">Partners</span>
+          <span className="font-qasbyne"> &amp; Clients</span>
         </h1>
       </div>
     </section>

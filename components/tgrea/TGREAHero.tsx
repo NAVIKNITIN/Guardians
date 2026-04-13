@@ -7,8 +7,7 @@ const HERO_BG =
 export function TGREAHero() {
   return (
     <section
-      className="relative overflow-hidden bg-neutral-200"
-      style={{ minHeight: "513px" }}
+      className="relative min-h-[min(90vh,640px)] overflow-hidden bg-neutral-200 sm:min-h-[520px]"
       aria-labelledby="tgrea-hero-heading"
     >
       {/* Background cityscape */}
@@ -26,12 +25,12 @@ export function TGREAHero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 flex min-h-[613px] flex-col items-center justify-center px-4 py-20 text-center">
+      <div className="relative z-10 flex min-h-[min(72vh,560px)] flex-col items-center justify-center px-4 py-14 text-center sm:min-h-[560px] sm:py-20">
         <h1
           id="tgrea-hero-heading"
           className={cn(
-            "font-qasbyne font-normal uppercase tracking-[0.05em] text-[#202225]",
-            "text-[clamp(2.5rem,6vw,4.375rem)] leading-[1]",
+            "max-w-[min(100%,20ch)] break-words font-qasbyne font-normal uppercase tracking-[0.05em] text-[#202225] sm:max-w-none",
+            "text-[clamp(2rem,6vw,4.375rem)] leading-[1] sm:text-[clamp(2.5rem,6vw,4.375rem)]",
           )}
         >
           The Guardians

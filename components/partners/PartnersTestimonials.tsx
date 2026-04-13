@@ -101,7 +101,7 @@ function TestimonialCard({ item }: { item: PartnersTestimonial }) {
               src={item.brandLogoSrc}
               alt={item.brandLogoAlt}
               fill
-              className="object-contain object-center"
+              className="object-cover object-center"
               sizes="80px"
             />
           </div>

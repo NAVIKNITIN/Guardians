@@ -1,3 +1,4 @@
+import { LOCAL_IMAGES } from "@/lib/local-images";
 import Image from "next/image";
 
 export function MagazineHero() {
@@ -9,7 +10,7 @@ export function MagazineHero() {
     >
       <div className="absolute inset-0 z-0" aria-hidden>
         <Image
-          src="https://api.builder.io/api/v1/image/assets/TEMP/02793c57941b1dcc29282bec2e73a449eb6cd5e2?width=3532"
+          src={LOCAL_IMAGES.magazine}
           alt=""
           fill
           className="object-cover object-center"

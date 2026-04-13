@@ -1,4 +1,5 @@
 import { Container } from "@/components/common/Container";
+import { localImageByIndex } from "@/lib/local-images";
 import { BlogCard, type BlogPost } from "./BlogCard";
 import { BlogSidebar } from "./BlogSidebar";
 import Image from "next/image";
@@ -13,8 +14,7 @@ const POSTS: BlogPost[] = [
     date: "12 Dec 2025",
     title: "Revolutionising real estate - The Power of GIS mapping in India",
     excerpt: EXCERPT,
-    imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/29e6c5b50c49c27cefaf3e5ff201a70f36e2afee?width=500",
+    imageSrc: localImageByIndex(0),
     imageAlt: "GIS mapping in real estate",
     href: "#",
   },
@@ -23,8 +23,7 @@ const POSTS: BlogPost[] = [
     date: "12 Dec 2025",
     title: "Revolutionising real estate - The Power of GIS mapping in India",
     excerpt: EXCERPT,
-    imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/76e2f01e6b8cf630ab2b349551aece5f8b9019e5?width=500",
+    imageSrc: localImageByIndex(1),
     imageAlt: "Real estate market overview",
     href: "#",
   },
@@ -33,8 +32,7 @@ const POSTS: BlogPost[] = [
     date: "12 Dec 2025",
     title: "Revolutionising real estate - The Power of GIS mapping in India",
     excerpt: EXCERPT,
-    imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/8c283f7787a72b02ac205cfb74447f352c3a43b2?width=500",
+    imageSrc: localImageByIndex(2),
     imageAlt: "Real estate advisory insights",
     href: "#",
   },
@@ -43,8 +41,7 @@ const POSTS: BlogPost[] = [
     date: "12 Dec 2025",
     title: "Revolutionising real estate - The Power of GIS mapping in India",
     excerpt: EXCERPT,
-    imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/a239323a3b8d8c1519175236f7877290c4fbccbe?width=500",
+    imageSrc: localImageByIndex(3),
     imageAlt: "Property market trends",
     href: "#",
   },
@@ -53,8 +50,7 @@ const POSTS: BlogPost[] = [
     date: "12 Dec 2025",
     title: "Revolutionising real estate - The Power of GIS mapping in India",
     excerpt: EXCERPT,
-    imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/d9bb13a20f5f3c9c73a76d1b8828e640f2189342?width=500",
+    imageSrc: localImageByIndex(4),
     imageAlt: "Real estate development",
     href: "#",
   },
@@ -63,8 +59,7 @@ const POSTS: BlogPost[] = [
     date: "12 Dec 2025",
     title: "Revolutionising real estate - The Power of GIS mapping in India",
     excerpt: EXCERPT,
-    imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/d9bb13a20f5f3c9c73a76d1b8828e640f2189342?width=500",
+    imageSrc: localImageByIndex(5),
     imageAlt: "Commercial real estate insights",
     href: "#",
   },
@@ -106,10 +101,13 @@ function ViewMoreIcon() {
 
 export function BlogGrid() {
   return (
-    <section className="bg-white py-14 sm:py-16 lg:py-10 px-2 lg:px-10" aria-label="Blog posts">
+    <section
+      className="bg-white px-3 py-12 sm:px-4 sm:py-16 lg:py-10 lg:px-8 xl:px-10"
+      aria-label="Blog posts"
+    >
       <Container>
         {/* Filter bar */}
-        <div className="mb-6 flex items-center gap-10 border-b border-[#8F8183]/30 pb-4">
+        <div className="mb-6 flex flex-wrap items-center gap-4 border-b border-[#8F8183]/30 pb-4 sm:gap-8 md:gap-10">
           <FilterDropdown label="Category" />
           <FilterDropdown label="Year" />
         </div>
@@ -125,17 +123,23 @@ export function BlogGrid() {
             </div>
 
             {/* VIEW MORE */}
-            <div className="mt-14 flex justify-center">
+            <div className="mt-12 flex justify-center px-1 sm:mt-14">
               <Link
                 href="#"
-                className="inline-flex items-center gap-5 px-12 py-[18px] font-nexa text-xl font-bold uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90"
+                className="inline-flex w-full max-w-sm items-center justify-center gap-4 px-8 py-3.5 font-nexa text-base font-bold uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 sm:w-auto sm:max-w-none sm:gap-5 sm:px-12 sm:py-[18px] sm:text-xl"
                 style={{
                   background:
                     "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",
                 }}
               >
                 View More
-                <Image src="/images/arrowwhite.svg" alt="View More" width={15} height={15} />
+                <Image
+                  src="/images/arrowwhite.svg"
+                  alt="View More"
+                  width={15}
+                  height={15}
+                  className="object-cover"
+                />
               </Link>
             </div>
           </div>

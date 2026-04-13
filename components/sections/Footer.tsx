@@ -89,7 +89,7 @@ export function Footer() {
           alt=""
           width={344}
           height={193}
-          className="absolute bottom-0 left-8 h-auto w-[min(26rem,88vw)] max-w-none object-contain object-bottom object-left sm:left-[14%] lg:left-[20%] lg:w-[min(22rem,32vw)]"
+          className="absolute bottom-0 left-8 h-auto w-[min(26rem,88vw)] max-w-none object-cover object-bottom object-left sm:left-[14%] lg:left-[20%] lg:w-[min(22rem,32vw)]"
         />
       </div>
 
@@ -109,7 +109,7 @@ export function Footer() {
                 alt="The Guardians Real Estate Advisory"
                 width={220}
                 height={56}
-                className="h-auto w-full max-w-[180px] object-contain object-left sm:max-w-[200px]"
+                className="h-auto w-full max-w-[180px] object-cover object-left sm:max-w-[200px]"
                 priority={false}
               />
             </div>
@@ -167,7 +167,7 @@ export function Footer() {
                           alt=""
                           width={14}
                           height={14}
-                          className="h-3.5 w-3.5 shrink-0 object-contain"
+                          className="h-3.5 w-3.5 shrink-0 object-cover"
                         />
                         <span>{label}</span>
                       </Link>
@@ -189,7 +189,7 @@ export function Footer() {
                           alt=""
                           width={14}
                           height={14}
-                          className="h-3.5 w-3.5 shrink-0 object-contain"
+                          className="h-3.5 w-3.5 shrink-0 object-cover"
                         />
                         <span>{label}</span>
                       </Link>

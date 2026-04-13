@@ -8,20 +8,6 @@ const nextConfig: NextConfig = {
     "@tailwindcss/node",
     "@tailwindcss/postcss",
   ],
-  images: {
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "images.unsplash.com",
-        pathname: "/**",
-      },
-      {
-        protocol: "https",
-        hostname: "api.builder.io",
-        pathname: "/**",
-      },
-    ],
-  },
 };
 
 export default nextConfig;

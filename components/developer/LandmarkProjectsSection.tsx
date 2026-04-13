@@ -90,7 +90,7 @@ export function LandmarkProjectsSection({
       <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
         <h2
           id="landmark-heading"
-          className="shrink-0 whitespace-nowrap font-qasbyne text-[clamp(1.75rem,2.6vw,4.75rem)] font-normal uppercase leading-[1.15] tracking-[0.06em] text-brand-text-primary"
+          className="min-w-0 shrink font-qasbyne text-[clamp(1.5rem,4.5vw,4.75rem)] font-normal uppercase leading-[1.15] tracking-[0.06em] text-brand-text-primary sm:shrink-0 sm:whitespace-nowrap sm:text-[clamp(1.75rem,2.6vw,4.75rem)]"
         >
           {content.sectionTitle}
         </h2>

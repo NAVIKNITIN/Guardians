@@ -43,10 +43,10 @@ export function AudienceHero({ content }: { content: MarketingHeroContent }) {
       />
 
       <Container className="relative z-10">
-        <div className="mx-auto flex max-w-[820px] flex-col items-center text-center">
+        <div className="mx-auto flex min-w-0 max-w-[820px] flex-col items-center px-2 text-center sm:px-4">
           <h1
             id={content.ariaHeadingId}
-            className="font-qasbyne text-[clamp(2rem,6vw,4.5rem)] uppercase leading-[1.05] tracking-[0.04em]"
+            className="break-words font-qasbyne text-[clamp(1.75rem,6vw,4.5rem)] uppercase leading-[1.05] tracking-[0.04em] sm:text-[clamp(2rem,6vw,4.5rem)]"
           >
             <span className="block">
               <span className="font-normal text-[#0a0a0a]">{lead}</span>{" "}

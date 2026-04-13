@@ -2,6 +2,7 @@
 
 import { Container } from "@/components/common/Container";
 import { ProjectCard } from "@/components/projects/ProjectCard";
+import { localImageByIndex } from "@/lib/local-images";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
@@ -34,8 +35,7 @@ type ProjectRow = {
 const projects: ProjectRow[] = [
   {
     id: 1,
-    imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/203ee87b79b62b29ca7bfeec5620ccde4c08b541?width=1156",
+    imageSrc: localImageByIndex(0),
     title: "Lorem Ipsum Tower A",
     subtitle: "Piramal Realty, Chembur (E)",
     badge: { label: "1 Unit Left", variant: "units-left" },
@@ -45,8 +45,7 @@ const projects: ProjectRow[] = [
   },
   {
     id: 2,
-    imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/54e4a7c8abbe8f73e0035dd81f86037f4a8b4b00?width=1156",
+    imageSrc: localImageByIndex(1),
     title: "Lorem Ipsum Tower A",
     subtitle: "Piramal Realty, Chembur (E)",
     badge: { label: "Completed", variant: "completed" },
@@ -56,8 +55,7 @@ const projects: ProjectRow[] = [
   },
   {
     id: 3,
-    imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/7769d743394da96add1e94ca942f9bb1c77cd427?width=1156",
+    imageSrc: localImageByIndex(2),
     title: "Lorem Ipsum Tower A",
     subtitle: "Godrej Properties, Chembur (E)",
     badge: { label: "Completed", variant: "completed" },
@@ -67,8 +65,7 @@ const projects: ProjectRow[] = [
   },
   {
     id: 4,
-    imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/0309fde517863c8fac98cb9fb6c135628be630e1?width=1156",
+    imageSrc: localImageByIndex(3),
     title: "Lorem Ipsum Tower A",
     subtitle: "Piramal Realty, Chembur (E)",
     badge: { label: "3 Units Left", variant: "units-left" },
@@ -78,8 +75,7 @@ const projects: ProjectRow[] = [
   },
   {
     id: 5,
-    imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/0599b48a0f231435d854e652f79648eddce816ee?width=1156",
+    imageSrc: localImageByIndex(4),
     title: "Lorem Ipsum Tower A",
     subtitle: "Lodha Group, Chembur (E)",
     badge: undefined,
@@ -89,8 +85,7 @@ const projects: ProjectRow[] = [
   },
   {
     id: 6,
-    imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/624038e34bf0ae66de2edce4d31249b82a8cd3c5?width=1468",
+    imageSrc: localImageByIndex(5),
     title: "Lorem Ipsum Tower A",
     subtitle: "Godrej Properties, Chembur (E)",
     badge: { label: "Completed", variant: "completed" },
@@ -100,8 +95,7 @@ const projects: ProjectRow[] = [
   },
   {
     id: 7,
-    imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/6b27c079f590303119b3b91407ccb4e0c7b32eb2?width=1284",
+    imageSrc: localImageByIndex(6),
     title: "Lorem Ipsum Tower A",
     subtitle: "Hiranandani, Chembur (E)",
     badge: undefined,
@@ -111,8 +105,7 @@ const projects: ProjectRow[] = [
   },
   {
     id: 8,
-    imageSrc:
-      "https://api.builder.io/api/v1/image/assets/TEMP/4ce2d829ca90f439ca072b1b5728106fc76d0968?width=1156",
+    imageSrc: localImageByIndex(7),
     title: "Lorem Ipsum Tower B",
     subtitle: "Lodha Group, Noida",
     badge: undefined,
@@ -220,7 +213,7 @@ function SearchIcon() {
 }
 
 const filterSelectClass =
-  "relative inline-flex h-[51px] min-w-[8.5rem] cursor-pointer appearance-none items-center border border-[#161616] bg-white pl-5 pr-10 font-nexa text-sm font-bold uppercase tracking-[0.1em] text-[#161616] outline-none transition-colors hover:bg-black/[0.02] sm:min-w-[9.5rem] sm:text-base";
+  "relative inline-flex h-12 min-h-[48px] w-full min-w-0 max-w-full cursor-pointer appearance-none items-center border border-[#161616] bg-white pl-4 pr-9 font-nexa text-xs font-bold uppercase tracking-[0.08em] text-[#161616] outline-none transition-colors hover:bg-black/[0.02] sm:h-[51px] sm:min-w-[8.5rem] sm:max-w-none sm:pl-5 sm:pr-10 sm:text-sm sm:tracking-[0.1em] md:min-w-[9.5rem] md:text-base";
 
 function FilterSelect({
   label,
@@ -248,7 +241,7 @@ function FilterSelect({
           </option>
         ))}
       </select>
-      <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-2.5 w-2.5 -translate-y-1/2 text-[#202225]" />
+      <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-2.5 w-2.5 -translate-y-1/2 text-[#202225] sm:right-3" />
     </label>
   );
 }
@@ -318,17 +311,17 @@ function ProjectsPageContent() {
           fill
           priority
           unoptimized
-          className="object-[center_30%] sm:object-center"
+          className="object-cover"
           sizes="100vw"
         />
 
-        <div className="relative z-[1] flex w-full flex-1 flex-col items-center justify-start gap-1 text-center sm:gap-6 sm:px-10 sm:py-14">
+        <div className="relative z-[1] flex w-full min-w-0 flex-1 flex-col items-center justify-start gap-2 px-4 pb-8 pt-6 text-center sm:gap-6 sm:px-10 sm:py-14 sm:pb-14">
           <h1
-            className="max-w-[22ch] font-qasbyne text-[clamp(2rem,6vw,3.75rem)] font-normal uppercase leading-[1.12] tracking-[0.06em] text-[#0a0a0a] sm:max-w-[100vw] sm:tracking-[0.07em] lg:text-[clamp(2.75rem,5vw,4rem)]"
+            className="max-w-[min(22ch,100%)] break-words font-qasbyne text-[clamp(1.75rem,5.5vw,3.75rem)] font-normal uppercase leading-[1.12] tracking-[0.06em] text-[#0a0a0a] sm:max-w-[100vw] sm:tracking-[0.07em] lg:text-[clamp(2.75rem,5vw,4rem)]"
           >
-            {filterStage}  Projects
+            {filterStage} Projects
           </h1>
-          <p className="mt-[-22px]  max-w-xl font-nexa text-[0.875rem] font-normal leading-relaxed text-[#0a0a0a] sm:text-lg lg:text-xl">
+          <p className=" lg:mt-0 max-w-xl px-1 font-nexa text-[0.875rem] font-normal leading-relaxed text-[#0a0a0a] sm:text-lg lg:text-xl">
             We are one of the fastest growing Real Estate consulting company in
             India.
           </p>
@@ -339,9 +332,9 @@ function ProjectsPageContent() {
       {/* FILTER BAR                                                          */}
       {/* ------------------------------------------------------------------ */}
       <section className="border-b border-black/10 shadow-[0_-4px_4px_0_rgba(0,0,0,0.15)]">
-        <Container className="py-5 lg:py-6">
-          <div className="flex flex-wrap items-center justify-between gap-3 lg:px-18">
-            <div className="flex items-center gap-5">
+        <Container className="py-4 sm:py-5 lg:py-6">
+          <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4 lg:px-8 xl:px-12 2xl:px-16">
+            <div className="flex min-w-0 flex-wrap items-center gap-3 sm:gap-5">
               <button
                 type="button"
                 className="inline-flex items-center gap-2 font-nexa text-sm font-black uppercase tracking-[0.1em] text-[#8F8183] sm:text-base"
@@ -358,15 +351,17 @@ function ProjectsPageContent() {
               </button>
             </div>
 
-            <div className="flex h-[34px] w-full max-w-[345px] items-center gap-2.5 border border-black/20 bg-white px-3.5">
+            <div className="flex h-10 min-h-[44px] w-full min-w-0 max-w-full items-center gap-2.5 border border-black/20 bg-white px-3 sm:h-[34px] sm:min-h-0 sm:max-w-[345px] sm:px-3.5">
               <SearchIcon />
-              <span className="font-nexa text-base text-black/60">Search</span>
+              <span className="font-nexa text-sm text-black/60 sm:text-base">
+                Search
+              </span>
             </div>
           </div>
 
-          <div className="my-4 h-px w-[90%] bg-black/20 mx-auto" />
+          <div className="my-3 h-px w-full max-w-[90%] bg-black/20 mx-auto sm:my-4" />
 
-          <div className="flex items-center gap-2 lg:px-18">
+          <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2 lg:gap-3 lg:px-8 xl:px-12 2xl:px-16">
             <FilterSelect
               label="Budget"
               value={filterBudget}
@@ -381,9 +376,9 @@ function ProjectsPageContent() {
             />
 
             {activeLocation && (
-              <div className="inline-flex h-[51px] items-center border border-[#161616] bg-[#BCBDC0] px-5 font-nexa text-sm font-bold uppercase tracking-[0.1em] text-[#161616] sm:text-base">
-                <span>{activeLocation}</span>
-                <span className="mx-1 h-[52px] w-px bg-[#161616]" />
+              <div className="inline-flex h-12 min-h-[48px] w-full max-w-full flex-wrap items-center justify-between gap-2 border border-[#161616] bg-[#BCBDC0] px-4 font-nexa text-xs font-bold uppercase tracking-[0.08em] text-[#161616] sm:h-[51px] sm:min-h-0 sm:w-auto sm:max-w-none sm:px-5 sm:text-sm sm:tracking-[0.1em] md:text-base">
+                <span className="min-w-0 break-words">{activeLocation}</span>
+                <span className="mx-1 hidden h-[52px] w-px shrink-0 bg-[#161616] sm:inline-block" />
                 <button
                   type="button"
                   onClick={() => setActiveLocation(null)}
@@ -410,7 +405,7 @@ function ProjectsPageContent() {
 
             <button
               type="button"
-              className="ml-auto font-nexa text-base text-black underline"
+              className="w-full py-2 text-left font-nexa text-sm text-black underline sm:ml-auto sm:w-auto sm:py-0 sm:text-base"
               onClick={clearAllFilters}
             >
               Clear all
@@ -422,9 +417,9 @@ function ProjectsPageContent() {
       {/* ------------------------------------------------------------------ */}
       {/* PROJECT GRID                                                        */}
       {/* ------------------------------------------------------------------ */}
-      <section className="bg-white py-10 lg:py-16 lg:px-18">
+      <section className="bg-white py-8 sm:py-10 lg:px-8 lg:py-16 xl:px-12 2xl:px-16">
         <Container>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-[20px]">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-5 xl:gap-[20px]">
             {visibleProjects.map((project) => (
               <ProjectCard
                 key={project.id}
@@ -455,10 +450,10 @@ function ProjectsPageContent() {
             </p>
           ) : null}
 
-          <div className="mt-12 flex justify-center lg:mt-16">
+          <div className="mt-10 flex justify-center px-2 sm:mt-12 lg:mt-16">
             <button
               type="button"
-              className="inline-flex h-[55px] items-center gap-5 px-12 font-nexa text-base font-bold uppercase tracking-[0.1em] text-white lg:text-xl"
+              className="inline-flex h-[52px] w-full max-w-sm items-center justify-center gap-4 px-8 font-nexa text-sm font-bold uppercase tracking-[0.1em] text-white sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
               style={{
                 background:
                   "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",

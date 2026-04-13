@@ -98,8 +98,8 @@ function ServiceTile({ tile }: { tile: ServiceTile }) {
           background: "linear-gradient(180deg, rgba(32,34,37,0.00) 0%, #202225 100%)",
         }}
       />
-      <div className="absolute bottom-0 left-0 right-0 flex items-center gap-5 px-12 py-[17px]">
-        <span className="font-nexa text-2xl font-bold uppercase tracking-[0.1em] text-white">
+      <div className="absolute bottom-0 left-0 right-0 flex items-center gap-3 px-4 py-3 sm:gap-5 sm:px-8 sm:py-[17px] lg:px-12">
+        <span className="min-w-0 flex-1 font-nexa text-base font-bold uppercase leading-tight tracking-[0.08em] text-white sm:text-xl sm:tracking-[0.1em] lg:text-2xl">
           {tile.label}
         </span>
         <ChevronRight />

@@ -152,11 +152,11 @@ export default function AboutPage() {
             priority
           />
           <div className="absolute inset-x-0 top-[6%] px-4 text-center sm:top-[7%] sm:px-6 lg:top-[7.5%]">
-            <h1 className="font-qasbyne text-[clamp(2.7rem,6vw,5.8rem)] uppercase tracking-[0.02em] leading-[0.94]">
+            <h1 className="break-words px-1 font-qasbyne text-[clamp(2rem,5.5vw,5.8rem)] uppercase leading-[0.94] tracking-[0.02em] sm:text-[clamp(2.7rem,6vw,5.8rem)]">
               <span className="text-[#9e8f90]">Who</span>
-              <span className="ml-3 text-[#201d1e]">We Are?</span>
+              <span className="ml-2 inline-block sm:ml-3 sm:inline">We Are?</span>
             </h1>
-            <p className="mx-auto mt-4 max-w-[1180px] text-[17px] leading-[1.1] text-[#2f2b2c] sm:text-[21px] lg:text-[24px]">
+            <p className="mx-auto mt-4 max-w-[1180px] px-2 text-[15px] leading-[1.15] text-[#2f2b2c] sm:text-[17px] sm:leading-[1.1] md:text-[21px] lg:text-[24px]">
               We are one of the fastest growing Real Estate consulting company in India.
             </p>
           </div>
@@ -178,7 +178,7 @@ export default function AboutPage() {
                     alt=""
                     width={84}
                     height={180}
-                    className="h-auto w-[80px] scale-x-[-1]"
+                    className="h-auto w-[80px] object-cover scale-x-[-1]"
                   />
                 </div>
                 <div className="mx-auto max-w-[800px] text-center lg:px-[62px]">
@@ -199,7 +199,7 @@ export default function AboutPage() {
                     alt=""
                     width={84}
                     height={180}
-                    className="h-auto w-[80px]"
+                    className="h-auto w-[80px] object-cover"
                   />
                 </div>
               </div>
@@ -221,14 +221,14 @@ export default function AboutPage() {
                 </p>
               </div>
 
-              <div className="grid max-w-[430px] grid-cols-2 items-start gap-x-12 gap-y-12 lg:ml-auto">
+              <div className="grid w-full max-w-[430px] grid-cols-2 items-start gap-x-6 gap-y-10 sm:gap-x-12 sm:gap-y-12 lg:ml-auto">
                 {stats.map((stat, index) => (
                   <div
                     key={stat.label}
                     className={cn(
-                      "flex min-h-[94px] w-[178px] flex-col justify-start self-start",
-                      index < 2 && "min-h-[88px]",
-                      stat.nowrap && "w-[170px]",
+                      "flex min-h-[88px] w-full min-w-0 max-w-[11.5rem] flex-col justify-start self-start sm:min-h-[94px] sm:w-[178px] sm:max-w-none",
+                      index < 2 && "min-h-[80px] sm:min-h-[88px]",
+                      stat.nowrap && "max-w-[10.5rem] sm:w-[170px]",
                     )}
                   >
                     <p
