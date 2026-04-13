@@ -33,7 +33,7 @@ const navLeft = [
 
 const navRight = [
   { label: "Partners & Clients", href: "/partners" },
-  { label: "TGREA", href: "#tgrea" },
+  { label: "TGREA", href: "/tgrea" },
   { label: "Career", href: "/career" },
 ];
 
