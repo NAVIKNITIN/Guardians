@@ -22,9 +22,10 @@ export function OurWorkSection({ content }: { content: OurWorkBandContent }) {
     <SectionSurface
       variant="muted"
       aria-labelledby="our-work-heading"
+      className="px-4 py-6 sm:px-6 sm:py-8 lg:px-20 lg:py-5"
     >
-      <div className="grid items-start gap-10 sm:gap-12 lg:grid-cols-2 lg:gap-16">
-        <div className="min-w-0">
+      <div className="grid items-start gap-10 sm:gap-12 lg:grid-cols-2 lg:gap-12">
+        <div className="min-w-0 ">
           <h2 id="our-work-heading" className={marketingClasses.headingDisplay}>
             {content.sectionTitle}
           </h2>
@@ -36,22 +37,22 @@ export function OurWorkSection({ content }: { content: OurWorkBandContent }) {
               exit={{ opacity: 0, y: -8 }}
               transition={slideTransition}
             >
-              <h3 className="mt-6 text-lg font-semibold leading-snug text-brand-text-primary sm:text-xl">
+              <h3 className="mt-6 fs-28 leading-snug text-brand-text-primary sm:text-xl max-w-md font-nexa">
                 {slide.title}
               </h3>
-              <p className="mt-4 text-sm leading-relaxed text-brand-text-secondary sm:text-base">
+              <p className="mt-4 fs-20 lh-24 fw-200 leading-relaxed text-brand-text-primary sm:text-base max-w-lg">
                 {slide.body}
               </p>
             </motion.div>
           </AnimatePresence>
           <MarketingEnquireLink
             href={content.readMoreHref}
-            className="mt-8 inline-flex px-7"
+            className="lg:mt-12 mt-8 inline-flex px-7 "
           >
             {content.readMoreLabel}
           </MarketingEnquireLink>
           <CarouselControls
-            className="mt-10 gap-4"
+            className="mt-5 gap-4"
             currentIndex={index}
             total={total}
             onPrev={() => advance(-1)}
@@ -62,7 +63,7 @@ export function OurWorkSection({ content }: { content: OurWorkBandContent }) {
         </div>
 
         <div className="relative">
-          <div className="relative aspect-square w-full max-w-lg overflow-hidden rounded-sm border border-black/[0.08] bg-neutral-200 shadow-sm lg:ml-auto">
+          <div className="relative aspect-square w-full max-w-xl overflow-hidden rounded-sm border border-black/[0.08] bg-neutral-200 shadow-sm lg:ml-auto">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={slide.id}

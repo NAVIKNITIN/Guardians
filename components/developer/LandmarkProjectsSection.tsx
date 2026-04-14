@@ -87,10 +87,10 @@ export function LandmarkProjectsSection({
 
   return (
     <SectionSurface variant="default" aria-labelledby="landmark-heading">
-      <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
+      <div className="flex flex-col gap-8 px-4 sm:flex-row sm:items-end sm:justify-between sm:gap-6 sm:px-6 lg:px-20">
         <h2
           id="landmark-heading"
-          className="min-w-0 shrink font-qasbyne text-[clamp(1.5rem,4.5vw,4.75rem)] font-normal uppercase leading-[1.15] tracking-[0.06em] text-brand-text-primary sm:shrink-0 sm:whitespace-nowrap sm:text-[clamp(1.75rem,2.6vw,4.75rem)]"
+          className="min-w-0 shrink font-qasbyne text-[clamp(1.5rem,4.5vw,4.75rem)] fs-50 font-normal uppercase leading-[1.15] tracking-[0.06em] text-brand-text-primary sm:shrink-0 sm:whitespace-nowrap sm:text-[clamp(1.75rem,2.6vw,4.75rem)]"
         >
           {content.sectionTitle}
         </h2>
@@ -103,7 +103,7 @@ export function LandmarkProjectsSection({
             restartAutoplay();
           }}
           options={options}
-          className="shrink-0 sm:pb-0.5"
+          className="shrink-0 sm:pb-0.5 "
         />
       </div>
 
@@ -193,8 +193,8 @@ export function LandmarkProjectsSection({
         </div>
       </div>
 
-      <div className="mt-10 flex justify-center">
-        <MarketingEnquireLink href={content.ctaHref}>{content.ctaLabel}</MarketingEnquireLink>
+      <div className="mt-14 flex justify-center">
+        <MarketingEnquireLink className="" href={content.ctaHref}>{content.ctaLabel}</MarketingEnquireLink>
       </div>
     </SectionSurface>
   );

@@ -24,7 +24,7 @@ export function UnderlineTabs<T extends string>({
   return (
     <div
       className={cn(
-        "flex gap-10 border-b border-neutral-200 font-nexa text-sm font-medium tracking-wide",
+        "flex gap-10 border-b border-neutral-200 font-nexa fs-20 ",
         className,
       )}
       role="tablist"
@@ -39,10 +39,10 @@ export function UnderlineTabs<T extends string>({
             aria-selected={selected}
             onClick={() => onChange(opt.value)}
             className={cn(
-              "-mb-px pb-2.5 transition-colors",
+              "-mb-px pb-1.5 pt-1 transition-colors",
               selected
-                ? "border-b-2 border-[#6b5d56] text-[#4a433e]"
-                : "border-b-2 border-transparent text-neutral-400 hover:text-neutral-500",
+                ? "cursor-pointer border-b-2 border-brand-accent text-brand-text-secondary"
+                : " cursor-pointer border-b-2 border-transparent text-[#D9D9D9] hover:text-brand-text-primary",
             )}
           >
             {opt.label}

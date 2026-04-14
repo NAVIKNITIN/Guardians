@@ -13,9 +13,9 @@ export const marketingClasses = {
   sectionStats:
     "border-t border-black/[0.06] bg-brand-background-muted py-14 sm:py-16",
   headingDisplay:
-    "font-qasbyne text-[clamp(1.75rem,3vw,2.5rem)] font-normal uppercase leading-tight tracking-[0.08em] text-brand-text-primary",
+    "font-qasbyne text-[clamp(1.75rem,3vw,2.5rem)] font-normal uppercase leading-tight tracking-[0.08em] text-brand-text-primary mt-5 fs-50 ",
   headingDisplayMd:
-    "font-qasbyne text-[clamp(1.75rem,3vw,2.35rem)] font-normal uppercase leading-tight tracking-[0.08em] text-brand-text-primary",
+    "font-qasbyne text-[clamp(1.75rem,3vw,2.35rem)] font-normal uppercase leading-tight tracking-[0.08em] text-brand-text-primary ",
   headingDisplaySm:
     "font-qasbyne text-[clamp(1.5rem,2.5vw,2rem)] font-normal uppercase leading-tight tracking-[0.08em] text-brand-text-primary",
   roundNavButton:

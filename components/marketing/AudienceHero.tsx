@@ -19,7 +19,7 @@ export function AudienceHero({ content }: { content: MarketingHeroContent }) {
 
   return (
     <section
-      className="relative isolate w-full min-w-0 min-h-[min(90vh,860px)] overflow-hidden bg-neutral-300 pt-10 pb-28 sm:min-h-[min(100vh,1000px)] sm:pt-14 sm:pb-32 lg:pt-16 lg:pb-40"
+      className="relative isolate w-full min-w-0 min-h-[min(120vh,960px)] overflow-hidden bg-neutral-300 pt-10 pb-28 sm:min-h-[min(120vh,1000px)] sm:pt-14 sm:pb-32 lg:pt-16 lg:pb-40"
       aria-labelledby={content.ariaHeadingId}
     >
       <div className="pointer-events-none absolute inset-0 z-0">
@@ -55,7 +55,7 @@ export function AudienceHero({ content }: { content: MarketingHeroContent }) {
           </h1>
           <p
             className={cn(
-              "mx-auto mt-8 max-w-[40rem] font-nexa font-normal leading-relaxed text-[#1a1a1a]/92",
+              "mx-auto mt-8 max-w-[32rem] font-nexa font-normal leading-relaxed text-[#1a1a1a]/92",
               "text-sm sm:mt-10 sm:text-base lg:mt-11 lg:text-[17px]",
             )}
           >

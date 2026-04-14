@@ -6,6 +6,7 @@ import { cn } from "@/utils/cn";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const navLeft = [
@@ -39,10 +40,10 @@ const navRight = [
 
 /** Primary nav labels (Figma TGREA): Nexa 400, 18/18, #202225 */
 const navLinkClass =
-  "font-nexa not-italic fw-400 fs-18 lh-100 text-[#202225] transition-colors hover:text-brand-accent";
+  "font-nexa not-italic fs-17 lh-100 text-[#202225] transition-colors hover:text-brand-accent";
 
 const navLinkClassMobile =
-  "font-nexa not-italic fw-400 fs-18 lh-100 text-[#202225] transition-colors hover:text-brand-accent";
+  "font-nexa not-italic fs-18 lh-100 text-[#202225] transition-colors hover:text-brand-accent";
 
 /** Desktop flyout rows — same type ramp as primary links (avoids UA / role=menu text sizing). */
 const navDropdownItemClass = cn(
@@ -54,8 +55,18 @@ const navDropdownItemClass = cn(
 const searchLabelClass =
   "font-nexa not-italic fw-400 text-[11px] leading-[11px] text-white/95 capitalize sm:text-xs sm:leading-none";
 
+function isActivePath(pathname: string, href: string) {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+function navStateClass(isActive: boolean) {
+  return isActive ? "fw-400 opacity-100" : "fw-100 opacity-55";
+}
+
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
   /** After a submenu link is clicked, hide the flyout until pointer leaves the trigger (hover/focus-within otherwise keeps it open). */
   const [closedDesktopDropdown, setClosedDesktopDropdown] = useState<
     string | null
@@ -140,13 +151,17 @@ export function Navbar() {
 
                 if (hasMenu && dropdownItems) {
                   const dismissed = closedDesktopDropdown === item.label;
+                  const isItemActive =
+                    isActivePath(pathname, item.href) ||
+                    dropdownItems.some((sub) => isActivePath(pathname, sub.href));
                   return (
                     <div key={item.label} className="group relative shrink-0">
                       <Link
                         href={item.href}
                         className={cn(
                           navLinkClass,
-                          "inline-flex items-center gap-1.5 font-nexa not-italic fw-400 fs-18",
+                          navStateClass(isItemActive),
+                          "inline-flex items-center gap-1.5 font-nexa not-italic ",
                         )}
                         aria-haspopup="true"
                         onMouseEnter={() => {
@@ -167,7 +182,7 @@ export function Navbar() {
                         role="presentation"
                       >
                         <ul
-                          className="list-none p-0 font-nexa not-italic fw-400 fs-18 lh-100 text-[#202225] min-w-[12.5rem] rounded border border-black/[0.06] bg-[#FAFAFA] py-2 shadow-md"
+                          className="list-none p-0 font-nexa not-italic fw-400 fs-17 lh-100 text-[#202225] min-w-[12.5rem] rounded border border-black/[0.06] bg-[#FAFAFA] py-2 shadow-md"
                           role="menu"
                         >
                           {dropdownItems.map((sub) => (
@@ -200,6 +215,7 @@ export function Navbar() {
                     href={item.href}
                     className={cn(
                       navLinkClass,
+                      navStateClass(isActivePath(pathname, item.href)),
                       "group inline-flex shrink-0 items-center gap-1.5",
                     )}
                   >
@@ -237,6 +253,7 @@ export function Navbar() {
                   href={item.href}
                   className={cn(
                     navLinkClass,
+                    navStateClass(isActivePath(pathname, item.href)),
                     "shrink-0",
                     item.label === "TGREA" && "uppercase",
                   )}
@@ -270,6 +287,7 @@ export function Navbar() {
                     href={item.href}
                     className={cn(
                       navLinkClassMobile,
+                      navStateClass(isActivePath(pathname, item.href)),
                       "inline-flex items-center gap-1.5",
                     )}
                     onClick={() => setOpen(false)}
@@ -286,6 +304,7 @@ export function Navbar() {
                         href={sub.href}
                         className={cn(
                           navLinkClassMobile,
+                          navStateClass(isActivePath(pathname, sub.href)),
                           "border-l-2 border-black/[0.08] pl-4",
                         )}
                         onClick={() => setOpen(false)}
@@ -305,6 +324,7 @@ export function Navbar() {
                 href={item.href}
                 className={cn(
                   navLinkClassMobile,
+                  navStateClass(isActivePath(pathname, item.href)),
                   item.label === "TGREA" && "uppercase",
                 )}
                 onClick={() => setOpen(false)}

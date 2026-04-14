@@ -11,7 +11,7 @@ import { cn } from "@/utils/cn";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
 
-function StatFigure({
+export function StatFigure({
   stat,
   index,
   isInView,
@@ -29,7 +29,7 @@ function StatFigure({
   return (
     <p
       className={cn(
-        "font-nexa text-3xl font-medium tabular-nums text-brand-footer tracking-[-0.03em] sm:text-4xl md:text-[clamp(2.25rem,4vw,2.85rem)] md:tracking-[-0.04em]",
+        "font-nexa text-3xl font-light tabular-nums text-brand-footer tracking-[-0.03em] sm:text-4xl md:text-[clamp(2.25rem,4vw,2.85rem)] md:tracking-[-0.04em]",
       )}
     >
       {text}
@@ -47,25 +47,22 @@ export function DeveloperStatsSection({
   const metrics = content.metrics;
 
   return (
-    <SectionSurface variant="stats" aria-label="Key metrics">
-      <div ref={ref} className="grid grid-cols-2 md:grid-cols-4">
-        {metrics.map((stat, idx) => (
-          <div
-            key={stat.label}
-            className={cn(
-              "flex min-w-0 flex-col items-center px-2 py-6 text-center sm:px-6 sm:py-8",
-              idx % 2 === 1 && "border-l border-black/[0.08]",
-              idx >= 2 && "border-t border-black/[0.08] md:border-t-0",
-              idx > 0 && "md:border-l md:border-black/[0.08]",
-            )}
-          >
-            <StatFigure stat={stat} index={idx} isInView={isInView} />
-            <p className="mt-2 max-w-[11rem] text-[10px] font-semibold uppercase leading-snug tracking-wide text-brand-text-primary sm:max-w-[12rem] sm:text-xs">
-              {stat.label}
-            </p>
-          </div>
-        ))}
-      </div>
-    </SectionSurface>
+    // <SectionSurface variant="stats" className="bg-transparent" aria-label="Key metrics">
+    <div ref={ref} className="grid grid-cols-2 md:grid-cols-4">
+      {metrics.map((stat, idx) => (
+        <div
+          key={stat.label}
+          className={cn(
+            "flex min-w-0 flex-col items-center justify-center text-center px-14 sm:px-16 lg:px-20 md:border-l md:border-black/[0.18] h-5 mb-8 md:mb-12 lg:mb-23 mt-2 md:mt-3 lg:mt-5",
+          )}
+        >
+          <StatFigure stat={stat} index={idx} isInView={isInView} />
+          <p className="mt-2 fs-10 lh-20 font-semibold  uppercase leading-snug tracking-wide text-brand-text-primary sm:max-w-[12rem] sm:text-xs">
+            {stat.label}
+          </p>
+        </div>
+      ))}
+    </div>
+    // </SectionSurface>
   );
 }

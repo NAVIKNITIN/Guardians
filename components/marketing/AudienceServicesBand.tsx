@@ -15,7 +15,7 @@ export function AudienceServicesBand({
   return (
     <SectionSurface
       variant="default"
-      className="py-14 sm:py-16 lg:py-20"
+      className="px-4 py-14 sm:px-6 sm:py-16 lg:px-20 lg:py-20"
       aria-labelledby="audience-services-heading"
     >
       <div className="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-10 xl:gap-12">
@@ -26,7 +26,7 @@ export function AudienceServicesBand({
           >
             {content.sectionTitle}
           </h2>
-          <p className="mt-5 max-w-md text-sm leading-relaxed text-brand-text-secondary sm:text-base">
+          <p className="mt-5 max-w-sm fs-18 leading-relaxed text-black sm:text-base fw-300">
             {content.description}
           </p>
           <MarketingEnquireLink
@@ -37,7 +37,7 @@ export function AudienceServicesBand({
           </MarketingEnquireLink>
         </div>
 
-        <div className="lg:col-span-8 lg:min-w-0">
+        <div className="lg:col-span-8 lg:min-w-0 overflow-x-scroll">
           <div
             className={cn(
               "-mx-4 overflow-x-auto overscroll-x-contain scroll-smooth sm:-mx-6 sm:px-0 lg:mx-0",

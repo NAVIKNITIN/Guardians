@@ -21,24 +21,27 @@ function BookSpineStack({ className }: { className?: string }) {
       {[3, 2, 1].map((step) => (
         <div
           key={step}
-          className="absolute rounded-sm border border-black/[0.07] bg-gradient-to-br from-neutral-100 to-neutral-200/90 shadow-sm"
+          className="absolute rounded-sm border border-black/[0.06] bg-gradient-to-b from-neutral-50 to-neutral-200/95 shadow-[0_8px_22px_rgba(0,0,0,0.12)]"
           style={{
-            inset: 0,
-            transform: `translate(${step * 5}px, ${step * 5}px)`,
+            left: `${step * 2.4}%`,
+            right: `${step * 2.4}%`,
+            top: `${-step * 2.8}%`,
+            bottom: `${step * 1.2}%`,
+            transform: `translateY(${step * 2}px)`,
             zIndex: -step,
           }}
         />
       ))}
-      {/* Spine thread — vertical stitch line where “pages” meet */}
+      {/* Spine thread — subtle inner stitch lines */}
       <div
-        className="absolute top-[8%] bottom-[8%] left-[14%] w-px opacity-40"
+        className="absolute top-[7%] bottom-[7%] left-[13%] w-px opacity-28"
         style={{
           background:
             "repeating-linear-gradient(to bottom, #8f8183 0px, #8f8183 3px, transparent 3px, transparent 6px)",
         }}
       />
       <div
-        className="absolute top-[8%] bottom-[8%] left-[calc(14%+5px)] w-px opacity-25"
+        className="absolute top-[7%] bottom-[7%] left-[calc(13%+6px)] w-px opacity-16"
         style={{
           background:
             "repeating-linear-gradient(to bottom, #bcbdc0 0px, #bcbdc0 2px, transparent 2px, transparent 5px)",
@@ -186,7 +189,7 @@ export function AwardsSection({
   }, [outgoingIndex]);
 
   return (
-    <SectionSurface variant="default" aria-labelledby="awards-heading">
+    <SectionSurface variant="stats" aria-labelledby="awards-heading" className="bg-transparent border-t-0 !pt-5">
       <div className="grid gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-10 xl:gap-14 px-2 md:px-10 lg:px-20">
         <div className="flex flex-col items-start text-left lg:col-span-3">
           <Image
@@ -199,7 +202,7 @@ export function AwardsSection({
           <h2
             id="awards-heading"
             className={cn(
-              "mt-5 lg:mt-[70px] max-w-48 sm:max-w-none font-qasbyne",
+              "mt-5 lg:mt-[70px] max-w-48 sm:max-w-none font-qasbyne fs-45",
               marketingClasses.headingDisplaySm,
             )}
           >
@@ -214,7 +217,7 @@ export function AwardsSection({
           <div
             className={cn(
               "relative mx-auto w-full max-w-[280px] sm:max-w-[300px]",
-              "aspect-4/5 max-h-[min(22rem,52.5vh)] min-h-0",
+              "aspect-4/5 max-h-[min(31rem,73.5vh)] min-h-0",
             )}
           >
             <BookSpineStack />

@@ -15,10 +15,14 @@ export function PartnersSection({
   content: PartnersSectionContent;
 }) {
   return (
-    <SectionSurface variant="partners" aria-labelledby="partners-heading">
+    <SectionSurface
+      variant="partners"
+      aria-labelledby="partners-heading"
+      className="px-4 py-14 sm:px-6 sm:py-16 lg:px-10 lg:py-10"
+    >
       <h2
         id="partners-heading"
-        className="mx-auto max-w-4xl text-center font-bold uppercase leading-relaxed tracking-[0.2em] text-brand-text-primary sm:text-xs"
+        className="mx-auto max-w-4xl text-center font-bold uppercase leading-relaxed tracking-[0.2em] text-brand-text-primary sm:text-xs fs-20"
       >
         {content.headlineLine1} <br /> {content.headlineLine2}
       </h2>
