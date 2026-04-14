@@ -50,14 +50,14 @@ const quickLinkRows: { label: string; href: string }[][] = [
 ];
 
 const sectionTitleClass =
-  "font-nexa text-base font-bold uppercase tracking-[0.1em] text-white sm:text-lg";
+  "font-nexa text-xs font-normal uppercase tracking-[0.1em] text-white sm:text-lg";
 
 const dropdownButtonClass =
-  "flex w-full items-center justify-between gap-2 border-b border-white py-1.5 text-left font-nexa text-sm font-normal text-white transition-colors hover:text-white";
+  "flex w-full items-center justify-between gap-2 border-b border-white py-1.5 text-left font-nexa text-xs font-normal text-white transition-colors hover:text-white";
 
 function QuickLinkRow({ items }: { items: { label: string; href: string }[] }) {
   return (
-    <p className="flex flex-wrap items-center gap-x-1.5 gap-y-1 font-nexa text-sm leading-snug text-white">
+    <p className="flex flex-wrap items-center gap-x-1.5 gap-y-1 font-nexa text-xs leading-snug text-white">
       {items.map((item, i) => (
         <span key={item.href} className="inline-flex items-center gap-x-1.5">
           {i > 0 && (
@@ -89,15 +89,15 @@ export function Footer() {
           alt=""
           width={344}
           height={193}
-          className="absolute bottom-0 left-8 h-auto w-[min(26rem,88vw)] max-w-none object-cover object-bottom object-left sm:left-[14%] lg:left-[20%] lg:w-[min(22rem,32vw)]"
+          className="absolute bottom-0 left-8 h-auto w-[min(26rem,88vw)] max-w-none object-cover object-bottom object-left sm:left-[14%] lg:left-[18.6%] lg:w-[min(22rem,32vw)]"
         />
       </div>
 
-      <Container className="relative z-10 py-7 sm:py-8 lg:py-9">
+      <Container className="relative z-10 py-1 sm:py-2 lg:py-3">
         <div
           className={cn(
             "grid gap-6 lg:gap-7",
-            "lg:grid-cols-12 lg:items-start lg:gap-x-8 lg:gap-y-0",
+            "lg:grid-cols-12 lg:items-start lg:gap-x-8 lg:gap-y-0 py-3 lg:py-4",
             "xl:gap-x-12 xl:gap-x-14",
           )}
         >
@@ -105,7 +105,7 @@ export function Footer() {
           <div className="relative flex min-w-0 shrink-0 flex-col gap-4 sm:gap-5 lg:col-span-5 lg:px-6">
             <div className="shrink-0">
               <Image
-                src="/images/Logo.svg"
+                src="/images/Logo1.svg"
                 alt="The Guardians Real Estate Advisory"
                 width={220}
                 height={56}
@@ -117,7 +117,7 @@ export function Footer() {
             <h2 className="max-w-[26rem] font-nexa text-[clamp(1.5rem,3.2vw,2.35rem)] font-normal leading-[1.1] sm:mt-4">
               <span className="font-normal text-[#BCBDC0]">Lorem Ipsum Dolor? </span>
               <span className="font-normal text-[#BCBDC0]">
-                Let&apos;s <span className="font-bold text-[#F7F7F7]">Collaborate.</span>
+                Let&apos;s <span className="font-normal text-[#F7F7F7]">Collaborate.</span>
               </span>
             </h2>
 
@@ -153,7 +153,7 @@ export function Footer() {
             <div>
               <h3 className={sectionTitleClass}>Social</h3>
               <div className="mt-2 flex items-stretch gap-4 sm:gap-5">
-                <ul className="flex min-w-0 flex-1 flex-col gap-2 font-nexa text-sm">
+                <ul className="flex min-w-0 flex-1 flex-col gap-2 font-nexa text-xs">
                   {socialLeftCol.map(({ label, href, iconSrc }) => (
                     <li key={label}>
                       <Link
@@ -174,13 +174,12 @@ export function Footer() {
                     </li>
                   ))}
                 </ul>
-                <div className="w-px shrink-0 self-stretch bg-white/40" aria-hidden />
-                <ul className="flex min-w-0 flex-1 flex-col gap-2 font-nexa text-sm">
+                <ul className="flex min-w-0 flex-1 flex-col gap-2 font-nexa text-xs">
                   {socialRightCol.map(({ label, href, iconSrc }) => (
                     <li key={label}>
                       <Link
                         href={href}
-                        className="inline-flex items-center gap-2.5 font-nexa text-white transition-colors hover:text-white"
+                        className="inline-flex items-center gap-2.5 font-nexa text-white transition-colors hover:text-white "
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -218,7 +217,7 @@ export function Footer() {
 
             <div>
               <h3 className={sectionTitleClass}>Quick links</h3>
-              <div className="mt-2 flex flex-col gap-1.5">
+              <div className="mt-2 flex flex-col gap-1.5 text-sm ">
                 {quickLinkRows.map((row, idx) => (
                   <QuickLinkRow key={idx} items={row} />
                 ))}
@@ -228,7 +227,7 @@ export function Footer() {
         </div>
 
         {/* Full-width rule + copyright */}
-        <div className="mt-8 shrink-0 border-t border-white pt-5 sm:mt-9 sm:pt-6">
+        <div className="mt-1 shrink-0 border-t border-white pt-1 sm:mt-9 sm:pt-2">
           <p className="text-center font-nexa text-sm font-light leading-normal text-white">
             © {year} The Guardians. All rights reserved.
           </p>
