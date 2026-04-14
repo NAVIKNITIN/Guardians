@@ -1,6 +1,54 @@
 @import "tailwindcss";
 @config "../tailwind.config.ts";
 
+@font-face {
+  font-family: "font-nexa";
+  src: url("/fonts/nexa/Nexa-Regular.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "font-nexa";
+  src: url("/fonts/nexa/Nexa-Medium.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "font-nexa";
+  src: url("/fonts/nexa/Nexa-Bold.woff2") format("woff2");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "font-qasbyne";
+  src: url("/fonts/qasbyne/Qasbyne.otf") format("opentype");
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "font-qasbyne";
+  src: url("/fonts/qasbyne/Qasbyne.otf") format("opentype");
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "font-qasbyne";
+  src: url("/fonts/qasbyne/Qasbyne.otf") format("opentype");
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+}
+
 @theme inline {
   --color-brand-primary: #0a0a0a;
   --color-brand-secondary: #525252;
@@ -57,6 +105,16 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: font-nexa, system-ui, sans-serif;
+}
+
+/* Keep Qasbyne rendering deterministic across browsers (closer to Figma preview). */
+.font-qasbyne {
+  font-kerning: normal;
+  font-feature-settings: "kern" 1, "liga" 1, "clig" 1;
+  font-synthesis: none;
+  text-rendering: geometricPrecision;
+  -webkit-font-smoothing: auto;
+  -moz-osx-font-smoothing: auto;
 }
 
 .fs-13 {

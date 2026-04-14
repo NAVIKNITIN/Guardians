@@ -7,7 +7,6 @@ import {
 } from "@/data/audience-marketing";
 import { SectionSurface } from "@/components/ui/SectionSurface";
 import { useCountUp } from "@/hooks/useCountUp";
-import { nexaFont } from "@/styles/fonts";
 import { cn } from "@/utils/cn";
 import { useInView } from "framer-motion";
 import { useRef } from "react";
@@ -30,7 +29,6 @@ function StatFigure({
   return (
     <p
       className={cn(
-        nexaFont.className,
         "font-nexa text-3xl font-medium tabular-nums text-brand-footer tracking-[-0.03em] sm:text-4xl md:text-[clamp(2.25rem,4vw,2.85rem)] md:tracking-[-0.04em]",
       )}
     >

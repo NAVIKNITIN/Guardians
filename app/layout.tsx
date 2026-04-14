@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { nexaFont, qasbyneFont } from "@/styles/fonts";
 import "./globals.css";
 
 export const metadata: Metadata = {
@@ -23,13 +22,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      className={`${nexaFont.variable} ${qasbyneFont.variable} h-full scroll-smooth antialiased`}
-    >
-      <body
-        className={`${nexaFont.variable} min-h-full bg-brand-background text-brand-text-primary `}
-      >
+    <html lang="en" className="h-full scroll-smooth">
+      <body className="min-h-full bg-brand-background text-brand-text-primary">
         {children}
       </body>
     </html>
