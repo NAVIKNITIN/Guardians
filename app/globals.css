@@ -58,3 +58,172 @@ body {
   color: var(--foreground);
   font-family: font-nexa, system-ui, sans-serif;
 }
+
+.fs-13 {
+  font-size: 13px;
+}
+.fs-14 {
+  font-size: 14px;
+}
+.fs-15 {
+  font-size: 15px;
+}
+.fs-16 {
+  font-size: 16px;
+}
+.fs-17 {
+  font-size: 17px;
+}
+.fs-18 {
+  font-size: 18px;
+}
+.fs-19 {
+  font-size: 19px;
+}
+.fs-20 {
+  font-size: 20px;
+}
+.fs-21 {
+  font-size: 21px;
+}
+.fs-22 {
+  font-size: 22px;
+}
+.fs-23 {
+  font-size: 23px;
+}
+.fs-24 {
+  font-size: 24px;
+}
+.fs-25 {
+  font-size: 25px;
+}
+.fw-100 {
+  font-weight: 100;
+}
+.fw-200 {
+  font-weight: 200;
+}
+.fw-300 {
+  font-weight: 300;
+}
+.fw-400 {
+  font-weight: 400;
+}
+.fw-500 {
+  font-weight: 500;
+}
+.fw-600 {
+  font-weight: 600;
+}
+.fw-700 {
+  font-weight: 700;
+}
+.fw-800 {
+  font-weight: 800;
+}
+.fw-900 {
+  font-weight: 900;
+}
+.lh-100 {
+  line-height: 100%;
+}
+.lh-110 {
+  line-height: 110%;
+}
+.lh-120 {
+  line-height: 120%;
+}
+.lh-130 {
+  line-height: 130%;
+}
+.lh-140 {
+  line-height: 140%;
+}
+.lh-150 {
+  line-height: 150%;
+}
+.lh-160 {
+  line-height: 160%;
+}
+.lh-170 {
+  line-height: 170%;
+}
+.lh-180 {
+  line-height: 180%;
+}
+.lh-190 {
+  line-height: 190%;
+}
+.lh-200 {
+  line-height: 200%;
+}
+.ls-tight {
+  letter-spacing: -0.02em;
+}
+.ls-normal {
+  letter-spacing: 0;
+}
+.ls-wide {
+  letter-spacing: 0.05em;
+}
+.ls-wider {
+  letter-spacing: 0.1em;
+}
+.ls-widest {
+  letter-spacing: 0.2em;
+}
+.lh-210 {
+  line-height: 210%;
+}
+.lh-220 {
+  line-height: 220%;
+}
+.lh-230 {
+  line-height: 230%;
+}
+.lh-240 {
+  line-height: 240%;
+}
+.ls-tight {
+  letter-spacing: -0.02em;
+}
+.ls-normal {
+  letter-spacing: 0;
+}
+.ls-wide {
+  letter-spacing: 0.05em;
+}
+.ls-wider {
+  letter-spacing: 0.1em;
+}
+.ls-widest {
+  letter-spacing: 0.2em;
+}
+.lh-210 {
+  line-height: 210%;
+}
+.lh-220 {
+  line-height: 220%;
+}
+.lh-230 {
+  line-height: 230%;
+}
+.lh-240 {
+  line-height: 240%;
+}
+.ls-tight {
+  letter-spacing: -0.02em;
+}
+.ls-normal {
+  letter-spacing: 0;
+}
+.ls-wide {
+  letter-spacing: 0.05em;
+}
+.ls-wider {
+  letter-spacing: 0.1em;
+}
+.ls-widest {
+  letter-spacing: 0.2em;
+}

@@ -37,12 +37,22 @@ const navRight = [
   { label: "Career", href: "/career" },
 ];
 
-/** Matches reference: ~14–16px, medium weight, charcoal #1A1A1A */
+/** Primary nav labels (Figma TGREA): Nexa 400, 18/18, #202225 */
 const navLinkClass =
-  "text-sm !font-[1] leading-snug tracking-normal text-[#1A1A1A] transition-colors hover:text-brand-accent lg:text-[15px] 2xl:text-base";
+  "font-nexa not-italic fw-400 fs-18 lh-100 text-[#202225] transition-colors hover:text-brand-accent";
 
 const navLinkClassMobile =
-  "text-[15px] font-medium leading-snug tracking-normal text-[#1A1A1A] transition-colors hover:text-brand-accent";
+  "font-nexa not-italic fw-400 fs-18 lh-100 text-[#202225] transition-colors hover:text-brand-accent";
+
+/** Desktop flyout rows — same type ramp as primary links (avoids UA / role=menu text sizing). */
+const navDropdownItemClass = cn(
+  navLinkClass,
+  "pointer-events-auto relative z-10 block w-full px-4 py-2.5 text-left transition-colors hover:bg-black/[0.04] hover:text-brand-accent",
+);
+
+/** Top bar “Search” — Figma Group 63: box height 11px → 11/11 type (paste had no font block; color kept for bar contrast). */
+const searchLabelClass =
+  "font-nexa not-italic fw-400 text-[11px] leading-[11px] text-white/95 capitalize sm:text-xs sm:leading-none";
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
@@ -136,7 +146,7 @@ export function Navbar() {
                         href={item.href}
                         className={cn(
                           navLinkClass,
-                          "inline-flex items-center gap-1.5",
+                          "inline-flex items-center gap-1.5 font-nexa not-italic fw-400 fs-18",
                         )}
                         aria-haspopup="true"
                         onMouseEnter={() => {
@@ -146,7 +156,7 @@ export function Navbar() {
                         }}
                       >
                         {item.label}
-                        <IconChevronDown className="h-3 w-3 shrink-0 text-[#1A1A1A]/50 transition-transform group-hover:translate-y-px" />
+                        <IconChevronDown className="h-3 w-3 shrink-0 text-[#202225]/50 transition-transform group-hover:translate-y-px" />
                       </Link>
                       <div
                         className={cn(
@@ -157,7 +167,7 @@ export function Navbar() {
                         role="presentation"
                       >
                         <ul
-                          className="min-w-[12.5rem] rounded border border-black/[0.06] bg-[#FAFAFA] py-2 shadow-md"
+                          className="list-none p-0 font-nexa not-italic fw-400 fs-18 lh-100 text-[#202225] min-w-[12.5rem] rounded border border-black/[0.06] bg-[#FAFAFA] py-2 shadow-md"
                           role="menu"
                         >
                           {dropdownItems.map((sub) => (
@@ -165,7 +175,7 @@ export function Navbar() {
                               <Link
                                 role="menuitem"
                                 href={sub.href}
-                                className="pointer-events-auto relative z-10 block px-4 py-2.5 text-sm leading-snug text-[#1A1A1A] transition-colors hover:bg-black/[0.04] hover:text-brand-accent"
+                                className={navDropdownItemClass}
                                 onClick={() => {
                                   // Defer so the Link’s navigation runs before we hide the panel;
                                   // sync state can drop pointer-events and break the first click.
@@ -195,7 +205,7 @@ export function Navbar() {
                   >
                     {item.label}
                     {item.dropdown ? (
-                      <IconChevronDown className="h-3 w-3 shrink-0 text-[#1A1A1A]/50 transition-transform group-hover:translate-y-px" />
+                      <IconChevronDown className="h-3 w-3 shrink-0 text-[#202225]/50 transition-transform group-hover:translate-y-px" />
                     ) : null}
                   </Link>
                 );
@@ -266,7 +276,7 @@ export function Navbar() {
                   >
                     {item.label}
                     {item.dropdown ? (
-                      <IconChevronDown className="h-3.5 w-3.5 shrink-0 text-[#1A1A1A]/50" />
+                      <IconChevronDown className="h-3.5 w-3.5 shrink-0 text-[#202225]/50" />
                     ) : null}
                   </Link>
                   {hasMenu && dropdownItems
@@ -276,7 +286,7 @@ export function Navbar() {
                         href={sub.href}
                         className={cn(
                           navLinkClassMobile,
-                          "border-l-2 border-black/[0.08] pl-4 text-[14px] text-[#1A1A1A]/85",
+                          "border-l-2 border-black/[0.08] pl-4",
                         )}
                         onClick={() => setOpen(false)}
                       >

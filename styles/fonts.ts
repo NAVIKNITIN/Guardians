@@ -6,7 +6,7 @@ export const nexaFont = localFont({
     { path: "../public/fonts/nexa/Nexa-Medium.woff2", weight: "500" },
     { path: "../public/fonts/nexa/Nexa-Bold.woff2", weight: "700" },
   ],
-  variable: "--nexaFont",
+  variable: "--font-nexa",
   display: "swap",
 });
 
@@ -16,6 +16,6 @@ export const qasbyneFont = localFont({
     { path: "../public/fonts/qasbyne/Qasbyne-Medium.woff2", weight: "500" },
     { path: "../public/fonts/qasbyne/Qasbyne-Bold.woff2", weight: "700" },
   ],
-  variable: "--qasbyneFont",
+  variable: "--font-qasbyne",
   display: "swap",
 });

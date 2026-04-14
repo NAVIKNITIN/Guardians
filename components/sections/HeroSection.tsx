@@ -38,17 +38,15 @@ export function HeroSection() {
           <h1
             id="hero-heading"
             className={cn(
-              "w-full max-w-[760px] font-qasbyne font-normal uppercase text-[#2D2225]",
-              "text-[clamp(1.75rem,5vw,4.375rem)] leading-[1.06] tracking-[0.035em]",
-              "sm:text-[clamp(2.25rem,5.5vw,4.375rem)] sm:leading-[1.04]",
-              "xl:text-[70px] xl:leading-[70px]",
+              "w-full max-w-[760px] font-qasbyne not-italic fw-400 text-[#202225]",
+              "text-[clamp(1.75rem,5vw,70px)] leading-none",
             )}
           >
             <span className="block whitespace-normal sm:whitespace-nowrap">
               LOREM IPSUM{" "}
               <span className="text-[#8F8183]">DOLOR</span>
             </span>
-            <span className="block text-[#2D2225]">SIT AMET</span>
+            <span className="block">SIT AMET</span>
           </h1>
           <p
             className={cn(
