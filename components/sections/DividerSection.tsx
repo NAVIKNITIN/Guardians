@@ -3,6 +3,7 @@ import { IconArrowUpRight, IconCrane } from "@/components/common/icons";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 import Link from "next/link";
+import type { ReactNode } from "react";
 
 /** Same asset as the original divide strip. */
 export const DIVIDER_BANNER_SRC = "/images/Home/Banner1.svg";
@@ -12,14 +13,14 @@ const BANNER_HEIGHT = 350;
 /** Percent height = width × (350/1196); padding-bottom avoids flex collapse when children are `absolute`. */
 const BANNER_ASPECT_PADDING_PCT = (BANNER_HEIGHT / BANNER_WIDTH) * 100;
 
-const dividerCardCtaClassName = cn(
+export const dividerCardCtaClassName = cn(
   "inline-flex items-center justify-center gap-2 rounded-none border border-neutral-900 bg-white px-6 py-3",
   "font-nexa text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-900",
   "transition-colors duration-300 hover:bg-neutral-900 hover:text-white",
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900",
 );
 
-function CardImageColumn({
+export function CardImageColumn({
   portraitSrc,
   patternSrc,
   portraitAlt,
@@ -71,13 +72,33 @@ function CardImageColumn({
   );
 }
 
-function BuyerProfileCard({
-  className,
-  articleId,
-}: {
+export type ProfileCardProps = {
   className?: string;
   articleId?: string;
-}) {
+  title: "Buyer" | "Developer";
+  href: string;
+  icon: ReactNode;
+  reverseOnDesktop?: boolean;
+  imageColumnClassName?: string;
+  portraitSrc: string;
+  patternSrc: string;
+  portraitAlt: string;
+  objectPositionClass: string;
+};
+
+export function ProfileCard({
+  className,
+  articleId,
+  title,
+  href,
+  icon,
+  reverseOnDesktop,
+  imageColumnClassName,
+  portraitSrc,
+  patternSrc,
+  portraitAlt,
+  objectPositionClass,
+}: ProfileCardProps) {
   return (
     <article
       id={articleId}
@@ -86,8 +107,64 @@ function BuyerProfileCard({
         className,
       )}
     >
-      <div className="relative flex min-h-[320px] flex-col p-6 sm:min-h-[360px] sm:p-8 lg:flex-row lg:items-stretch lg:px-8 lg:pt-8 lg:pb-0">
-        <div className="flex flex-1 flex-col justify-between gap-8 lg:pb-8">
+      <div
+        className={cn(
+          "relative flex min-h-[320px] flex-col p-6 sm:min-h-[360px] sm:p-8 lg:items-stretch lg:px-8 lg:pt-8 lg:pb-0",
+          reverseOnDesktop ? "lg:flex-row-reverse" : "lg:flex-row",
+        )}
+      >
+        <div
+          className={cn(
+            "flex flex-1 flex-col justify-between gap-8 lg:pb-8",
+            reverseOnDesktop && "lg:items-end lg:text-right",
+          )}
+        >
+          {icon}
+          <div className={cn(reverseOnDesktop ? "lg:text-right" : "text-left lg:text-left")}>
+            <p
+              className={cn(
+                "font-nexa text-xs lg:text-xl font-large uppercase tracking-[0.2em] text-[#202225]",
+                reverseOnDesktop ? "lg:text-right" : "lg:text-left",
+              )}
+            >
+              I am a
+            </p>
+            <h3 className="mt-1 tracking-wider font-qasbyne qs-letterspacing-5 text-[clamp(2rem,4.5vw,3rem)] font-normal uppercase leading-none  text-[#8F8183]">
+              {title}
+            </h3>
+          </div>
+          <Link
+            href={href}
+            className={cn(
+              dividerCardCtaClassName,
+              "w-fit",
+              reverseOnDesktop && "lg:self-end",
+            )}
+          >
+            Know More
+            <IconArrowUpRight className="h-4 w-4" />
+          </Link>
+        </div>
+        <CardImageColumn
+          portraitSrc={portraitSrc}
+          patternSrc={patternSrc}
+          portraitAlt={portraitAlt}
+          objectPositionClass={objectPositionClass}
+          className={imageColumnClassName}
+        />
+      </div>
+    </article>
+  );
+}
+
+export function ProfileCards({ className }: { className?: string }) {
+  return (
+    <div className={cn("grid gap-4 sm:gap-6 lg:grid-cols-2 lg:gap-6", className)}>
+      <ProfileCard
+        articleId="buyer"
+        title="Buyer"
+        href="/buyer"
+        icon={
           <Image
             src="/images/Buyer/BuyerVector.svg"
             alt=""
@@ -96,83 +173,27 @@ function BuyerProfileCard({
             className="h-[50px] w-[47px] shrink-0 object-cover brightness-0"
             aria-hidden
           />
-
-          <div>
-            <p className="font-nexa text-xs font-medium uppercase tracking-[0.2em] text-neutral-600">
-              I am a
-            </p>
-            <h3 className="mt-1 font-qasbyne text-[clamp(2rem,4.5vw,3rem)] font-normal uppercase leading-none tracking-tight text-neutral-950">
-              Buyer
-            </h3>
-          </div>
-          <Link href="/buyer" className={cn(dividerCardCtaClassName, "w-fit")}>
-            Know More
-            <IconArrowUpRight className="h-4 w-4" />
-          </Link>
-        </div>
-        <CardImageColumn
-          portraitSrc="/images/Buyer/image 41.svg"
-          patternSrc="/images/Buyer/Group 4.svg"
-          portraitAlt="Smiling professional representing property buyers"
-          objectPositionClass="object-[center_22%] sm:object-right"
-          className="lg:ml-4"
-        />
-      </div>
-    </article>
-  );
-}
-
-function DeveloperProfileCard({
-  className,
-  articleId,
-}: {
-  className?: string;
-  articleId?: string;
-}) {
-  return (
-    <article
-      id={articleId}
-      className={cn(
-        "group relative overflow-hidden rounded-sm border border-neutral-300/90 bg-[#e8e8e8] transition-all duration-500 ease-out hover:-translate-y-0.5 hover:shadow-md",
-        className,
-      )}
-    >
-      <div className="relative flex min-h-[320px] flex-col p-6 sm:min-h-[360px] sm:p-8 lg:flex-row-reverse lg:items-stretch lg:px-8 lg:pt-8 lg:pb-0">
-        <div className="flex flex-1 flex-col justify-between gap-8 lg:items-end lg:pb-8 lg:text-right">
+        }
+        portraitSrc="/images/Buyer/image 41.svg"
+        patternSrc="/images/Buyer/Group 4.svg"
+        portraitAlt="Smiling professional representing property buyers"
+        objectPositionClass="object-[center_22%] sm:object-right"
+        imageColumnClassName="lg:ml-4"
+      />
+      <ProfileCard
+        articleId="developer"
+        title="Developer"
+        href="/developer"
+        icon={
           <IconCrane className="h-[50px] w-[47px] shrink-0 text-neutral-800 lg:self-end" />
-          <div>
-            <p className="font-nexa text-xs font-medium uppercase tracking-[0.2em] text-neutral-600 lg:text-right">
-              I am a
-            </p>
-            <h3 className="mt-1 font-qasbyne text-[clamp(2rem,4.5vw,3rem)] font-normal uppercase leading-none tracking-tight text-neutral-950 lg:text-right">
-              Developer
-            </h3>
-          </div>
-          <Link
-            href="/developer"
-            className={cn(dividerCardCtaClassName, "w-fit lg:self-end")}
-          >
-            Know More
-            <IconArrowUpRight className="h-4 w-4" />
-          </Link>
-        </div>
-        <CardImageColumn
-          portraitSrc="/images/Developer/image 42.svg"
-          patternSrc="/images/Developer/Group 4.svg"
-          portraitAlt="Smiling professional representing real estate developers"
-          objectPositionClass="object-[center_22%] sm:object-left"
-          className="lg:mr-4"
-        />
-      </div>
-    </article>
-  );
-}
-
-function ProfileCards({ className }: { className?: string }) {
-  return (
-    <div className={cn("grid gap-4 sm:gap-6 lg:grid-cols-2 lg:gap-6", className)}>
-      <BuyerProfileCard articleId="buyer" />
-      <DeveloperProfileCard articleId="developer" />
+        }
+        reverseOnDesktop
+        portraitSrc="/images/Developer/image 42.svg"
+        patternSrc="/images/Developer/Group 4.svg"
+        portraitAlt="Smiling professional representing real estate developers"
+        objectPositionClass="object-[center_22%] sm:object-left"
+        imageColumnClassName="lg:mr-4"
+      />
     </div>
   );
 }

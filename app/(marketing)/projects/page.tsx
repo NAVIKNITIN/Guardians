@@ -1,6 +1,7 @@
 "use client";
 
 import { Container } from "@/components/common/Container";
+import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { ProjectCard } from "@/components/projects/ProjectCard";
 import { localImageByIndex } from "@/lib/local-images";
 import Image from "next/image";
@@ -183,16 +184,6 @@ function ChevronUp({ className = "" }: { className?: string }) {
         d="M14.0989 7.73438C14.5468 8.1263 15.2728 8.1263 15.7207 7.73438C16.1686 7.34247 16.1686 6.7072 15.7207 6.31529L8.83922 0.293935C8.39133 -0.0979786 7.66531 -0.0979786 7.21741 0.293935L0.335924 6.31529C-0.111975 6.7072 -0.111975 7.34247 0.335924 7.73438C0.783822 8.1263 1.50984 8.1263 1.95773 7.73438L8.02832 2.42258L14.0989 7.73438Z"
         fill="currentColor"
       />
-    </svg>
-  );
-}
-
-/** Arrow up-right icon for "View More" button */
-function ArrowUpRight() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-      <path d="M0 0H14.4958V14.4958" stroke="white" strokeWidth="2" />
-      <line x1="0" y1="14" x2="14" y2="0" stroke="white" strokeWidth="2" />
     </svg>
   );
 }
@@ -451,17 +442,11 @@ function ProjectsPageContent() {
           ) : null}
 
           <div className="mt-10 flex justify-center px-2 sm:mt-12 lg:mt-16">
-            <button
-              type="button"
-              className="inline-flex h-[52px] w-full max-w-sm items-center justify-center gap-4 px-8 font-nexa text-sm font-bold uppercase tracking-[0.1em] text-white sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
-              style={{
-                background:
-                  "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",
-              }}
+            <GradientCtaButton
+              className="h-[52px] w-full max-w-sm sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
             >
               View More
-              <ArrowUpRight />
-            </button>
+            </GradientCtaButton>
           </div>
         </Container>
       </section>

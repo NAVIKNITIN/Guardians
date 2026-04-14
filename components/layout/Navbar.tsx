@@ -63,7 +63,7 @@ export function Navbar() {
   useBodyScrollLock(open);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-t border-[#1A1A1A]/10 bg-[#FAFAFA]">
+    <header className="sticky top-0 z-50 w-full border-t border-[#1A1A1A]/10 bg-[#8F8083]">
       <div className="bg-brand-bar/90 text-[11px] font-medium tracking-wide text-white/95 sm:text-xs">
         <Container className="flex h-9 items-center justify-end sm:h-10">
           <Link

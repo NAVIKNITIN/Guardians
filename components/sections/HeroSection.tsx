@@ -1,24 +1,14 @@
 import { Container } from "@/components/common/Container";
-import { IconArrowUpRight } from "@/components/common/icons";
+import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
-import Link from "next/link";
 
 const HERO_IMAGE = "/images/Home/1.png";
-
-/** Rose-gold gradient anchored to #B48183 */
-const heroCtaClassName = cn(
-  "inline-flex items-center justify-center gap-2 rounded-none border-0 px-8 py-3.5 text-xs font-bold uppercase tracking-[0.2em] text-white shadow-md transition-all duration-300 ease-out",
-  "w-full min-w-0 max-w-[280px] sm:min-w-[180px] sm:max-w-none",
-  "bg-gradient-to-r from-[#d9aeb0] via-[#B48183] to-[#9a6568]",
-  "hover:from-[#cfa3a5] hover:via-[#a97275] hover:to-[#8a585b]",
-  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B48183]",
-);
 
 export function HeroSection() {
   return (
     <section
-      className="relative min-h-[560px] overflow-hidden bg-neutral-200 pt-10 pb-0 sm:min-h-[600px] sm:pt-14 lg:min-h-[680px] lg:pt-20"
+      className="relative min-h-[560px] overflow-hidden bg-neutral-200 pt-10 pb-0 sm:min-h-[600px] sm:pt-14 lg:min-h-[520px] lg:pt-20"
       aria-labelledby="hero-heading"
     >
       {/* Full-bleed background image */}
@@ -58,10 +48,13 @@ export function HeroSection() {
             India.
           </p>
           <div className="mt-10 flex justify-center sm:mt-12">
-            <Link href="#about" className={cn(heroCtaClassName, "group")}>
+            <GradientCtaButton
+              href="#about"
+              variant="know-more"
+              className="w-full min-w-0 max-w-[280px] rounded-none border-0 text-xs tracking-[0.2em] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B48183] sm:min-w-[180px] sm:max-w-none"
+            >
               KNOW MORE
-              <IconArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-            </Link>
+            </GradientCtaButton>
           </div>
         </div>
       </Container>

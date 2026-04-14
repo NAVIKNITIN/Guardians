@@ -110,11 +110,45 @@ body {
 /* Keep Qasbyne rendering deterministic across browsers (closer to Figma preview). */
 .font-qasbyne {
   font-kerning: normal;
-  font-feature-settings: "kern" 1, "liga" 1, "clig" 1;
+  font-feature-settings:
+    "kern" 1,
+    "liga" 1,
+    "clig" 1;
   font-synthesis: none;
   text-rendering: geometricPrecision;
   -webkit-font-smoothing: auto;
   -moz-osx-font-smoothing: auto;
+}
+
+/* Reusable Qasbyne tracking style from Figma: 5% letter spacing. */
+.qs-letterspacing-5 {
+  letter-spacing: 0.05em;
+}
+
+/* Shared CTA gradient from Figma (Know More button). */
+.btn-know-more-gradient {
+  background-color: #f5a696;
+  background-image: linear-gradient(
+    90deg,
+    #ffa995 5%,
+    #d88373 15%,
+    #f5a696 50%,
+    #d27e6c 85%,
+    #ffa995 95%
+  );
+}
+
+/* Shared CTA gradient used for primary action buttons. */
+.btn-primary-gradient {
+  background-color: #f09684;
+  background-image: linear-gradient(
+    270deg,
+    #ffa995 5%,
+    #d88373 15%,
+    #f09684 50%,
+    #d27e6c 85%,
+    #ffa995 95%
+  );
 }
 
 .fs-13 {
@@ -155,6 +189,9 @@ body {
 }
 .fs-25 {
   font-size: 25px;
+}
+.fs-48 {
+  font-size: 48px;
 }
 .fw-100 {
   font-weight: 100;
