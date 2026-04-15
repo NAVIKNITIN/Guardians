@@ -176,7 +176,7 @@ export function FeaturedPartnerShowcase() {
                     src={logo.src}
                     alt={logo.alt}
                     fill
-                    className="object-contain object-center brightness-0 invert"
+                    className="object-contain object-center  invert"
                     sizes="(max-width: 640px) 25vw, 128px"
                   />
                 </div>

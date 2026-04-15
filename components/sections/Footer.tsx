@@ -115,9 +115,9 @@ export function Footer() {
             </div>
 
             <h2 className="max-w-[26rem] font-nexa text-[clamp(1.5rem,3.2vw,2.35rem)] font-normal leading-[1.1] sm:mt-4">
-              <span className="font-normal text-[#BCBDC0]">Lorem Ipsum Dolor? </span>
-              <span className="font-normal text-[#BCBDC0]">
-                Let&apos;s <span className="font-normal text-[#F7F7F7]">Collaborate.</span>
+              <span className="font-bold text-[#BCBDC0] ">Lorem Ipsum Dolor? </span>
+              <span className="font-bold text-[#BCBDC0] ">
+                Let&apos;s <span className="font-bold text-[#F7F7F7]">Collaborate.</span>
               </span>
             </h2>
 
@@ -135,7 +135,7 @@ export function Footer() {
           </div>
 
           {/* Column 2 — Location + Social */}
-          <div className="flex min-w-0 shrink-0 flex-col gap-5 sm:gap-6 lg:col-span-3 lg:pt-0">
+          <div className="flex min-w-0 shrink-0 flex-col gap-5 sm:gap-6 lg:col-span-3 lg:pt-2">
             <div>
               <h3 className={sectionTitleClass}>Location</h3>
               <ul className="mt-2 space-y-0">
@@ -200,7 +200,7 @@ export function Footer() {
           </div>
 
           {/* Column 3 — Queries + Quick links */}
-          <div className="flex min-w-0 shrink-0 flex-col gap-5 sm:gap-6 lg:col-span-3 lg:pt-0">
+          <div className="flex min-w-0 shrink-0 flex-col gap-5 sm:gap-6 lg:col-span-3 lg:pt-2">
             <div>
               <h3 className={sectionTitleClass}>Have queries?</h3>
               <ul className="mt-2 space-y-0">

@@ -1,62 +1,6 @@
 @import "tailwindcss";
 @config "../tailwind.config.ts";
 
-@font-face {
-  font-family: "font-nexa";
-  src: url("/fonts/nexa/Nexa-ExtraLight.ttf") format("truetype");
-  font-style: normal;
-  font-weight: 200;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "font-nexa";
-  src: url("/fonts/nexa/nexa-bold/NexaLight.otf") format("opentype");
-  font-style: normal;
-  font-weight: 300;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "font-nexa";
-  src: url("/fonts/nexa/nexa-bold/NexaBold.otf") format("opentype");
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "font-nexa";
-  src: url("/fonts/nexa/Nexa-Heavy.ttf") format("truetype");
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "font-qasbyne";
-  src: url("/fonts/qasbyne/Qasbyne.otf") format("opentype");
-  font-style: normal;
-  font-weight: 400;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "font-qasbyne";
-  src: url("/fonts/qasbyne/Qasbyne.otf") format("opentype");
-  font-style: normal;
-  font-weight: 500;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "font-qasbyne";
-  src: url("/fonts/qasbyne/Qasbyne.otf") format("opentype");
-  font-style: normal;
-  font-weight: 700;
-  font-display: swap;
-}
-
 @theme inline {
   --color-brand-primary: #0a0a0a;
   --color-brand-secondary: #525252;
@@ -77,8 +21,8 @@
   --color-brand-footer-dark: #2a2626;
   --max-width-brand: 90rem;
   /* Default UI fonts: Nexa everywhere unless `font-qasbyne` is used */
-  --font-sans: var(--font-nexa), ui-sans-serif, system-ui, sans-serif;
-  --font-serif: var(--font-nexa), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "font-nexa", ui-sans-serif, system-ui, sans-serif;
+  --font-serif: "font-nexa", ui-sans-serif, system-ui, sans-serif;
 }
 
 @utility bg-grid-hero {
@@ -88,10 +32,29 @@
   background-size: 28px 28px;
 }
 
+@utility max-content-760 {
+  margin-inline: auto;
+  display: flex;
+  min-width: 0;
+  max-width: 760px;
+}
+
+@media (min-width: 640px) {
+  .hero-shift-sm {
+    min-height: 530px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .hero-shift-sm {
+    margin-top: -50px;
+  }
+}
+
 :root {
   --background: #ffffff;
   --foreground: #0a0a0a;
-  --font-primary: var(--font-nexa);
+  --font-primary: "font-nexa";
   --font-secondary: var(--font-qasbyne);
 
   --site-header-height: 118px;
@@ -110,7 +73,8 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-nexa), system-ui, sans-serif;
+  font-family: "font-nexa", system-ui, sans-serif;
+  font-weight: 400;
 }
 
 /* Keep Qasbyne rendering deterministic across browsers (closer to Figma preview). */
@@ -210,6 +174,9 @@ body {
 }
 .fs-28 {
   font-size: 28px;
+}
+.fs-42 {
+  font-size: 42px;
 }
 
 .fs-45 {

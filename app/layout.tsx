@@ -27,7 +27,7 @@ export default function RootLayout({
       lang="en"
       className={`${nexaFont.variable} ${qasbyneFont.variable} h-full scroll-smooth`}
     >
-      <body className="min-h-full bg-brand-background text-brand-text-primary">
+      <body className="min-h-full bg-brand-background text-brand-text-primary font-sans">
         {children}
       </body>
     </html>

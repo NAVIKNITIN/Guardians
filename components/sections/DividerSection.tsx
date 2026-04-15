@@ -123,13 +123,13 @@ export function ProfileCard({
           <div className={cn(reverseOnDesktop ? "lg:text-right" : "text-left lg:text-left")}>
             <p
               className={cn(
-                "font-nexa text-xs lg:text-xl font-large uppercase tracking-[0.2em] text-[#202225]",
+                "font-nexa fw-700 fs-24 text-xs lg:text-xl font-large uppercase tracking-[0.2em] text-[#202225]",
                 reverseOnDesktop ? "lg:text-right" : "lg:text-left",
               )}
             >
               I am a
             </p>
-            <h3 className="mt-1 tracking-wider font-qasbyne qs-letterspacing-5 text-[clamp(2rem,4.5vw,3rem)] font-normal uppercase leading-none  text-[#8F8183]">
+            <h3 className="ls-wider mt-1 tracking-wider fw-100 font-qasbyne fs-42 qs-letterspacing-5 text-[clamp(2rem,4.5vw,3rem)] uppercase leading-none  text-[#8F8183]">
               {title}
             </h3>
           </div>
@@ -137,12 +137,12 @@ export function ProfileCard({
             href={href}
             className={cn(
               dividerCardCtaClassName,
-              "w-fit",
-              reverseOnDesktop && "lg:self-end",
+              "w-fit font-nexa fw-700 fs-18 ls-normal capitalize",
+              reverseOnDesktop && "lg:self-end font-nexa fw-700 fs-18 ls-normal capitalize",
             )}
           >
             Know More
-            <IconArrowUpRight className="h-4 w-4" />
+            <Image src="/images/rightTopArrow.svg" alt="" width={16} height={16} className="h-4 w-4" />
           </Link>
         </div>
         <CardImageColumn
@@ -165,12 +165,13 @@ export function ProfileCards({ className }: { className?: string }) {
         title="Buyer"
         href="/buyer"
         icon={
+
           <Image
-            src="/images/Buyer/BuyerVector.svg"
+            src="/images/Buyer/BuyerFilterIcon.svg"
             alt=""
             width={47}
             height={50}
-            className="h-[50px] w-[47px] shrink-0 object-cover brightness-0"
+            className="h-[50px] w-[47px] shrink-0 object-cover "
             aria-hidden
           />
         }
@@ -185,7 +186,14 @@ export function ProfileCards({ className }: { className?: string }) {
         title="Developer"
         href="/developer"
         icon={
-          <IconCrane className="h-[50px] w-[47px] shrink-0 text-neutral-800 lg:self-end" />
+          <Image
+            src="/images/Developer/DeveloperFilterIcon.svg"
+            alt=""
+            width={47}
+            height={50}
+            className="h-[50px] w-[47px] shrink-0 object-cover "
+            aria-hidden
+          />
         }
         reverseOnDesktop
         portraitSrc="/images/Developer/image 42.svg"
@@ -224,7 +232,7 @@ export function DividerSection() {
               src={DIVIDER_BANNER_SRC}
               alt=""
               fill
-              className="object-cover object-center"
+              className="object-cover object-center lg:h-[350px]"
               sizes="(max-width: 1440px) 100vw, 90rem"
               unoptimized
               priority

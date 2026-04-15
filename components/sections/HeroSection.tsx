@@ -8,7 +8,7 @@ const HERO_IMAGE = "/images/Home/1.png";
 export function HeroSection() {
   return (
     <section
-      className="relative min-h-[560px] overflow-hidden bg-neutral-200 pt-10 pb-0 sm:min-h-[600px] sm:pt-14 lg:min-h-[520px] lg:pt-20"
+      className="sm:pt-14 lg:min-h-[650px] relative min-h-[560px] overflow-hidden pt-10 pb-0  lg:pt-20"
       aria-labelledby="hero-heading"
     >
       {/* Full-bleed background image */}
@@ -23,12 +23,12 @@ export function HeroSection() {
         />
       </div>
 
-      <Container className="relative z-10">
+      <Container className="relative z-10 pt-5">
         <div className="mx-auto flex min-w-0 max-w-[760px] flex-col items-center px-1 text-center sm:px-0">
           <h1
             id="hero-heading"
             className={cn(
-              "w-full max-w-[760px] font-qasbyne font-normal not-italic uppercase tracking-[0.05em] text-[#202225]",
+              "w-full max-w-[760px] font-qasbyne fw-100 not-italic uppercase tracking-[0.05em] text-[#202225]",
               "text-[clamp(1.75rem,5vw,70px)] leading-[1]",
             )}
           >
@@ -40,14 +40,14 @@ export function HeroSection() {
           </h1>
           <p
             className={cn(
-              "mx-auto mt-8 max-w-[42rem] font-nexa font-normal leading-relaxed text-[#2D2225]/85",
-              "text-sm sm:mt-10 sm:text-base lg:mt-12 lg:text-lg",
+              "mx-auto mt-8 max-w-[42rem] font-nexa fw-300 leading-relaxed text-[#000000]",
+              "text-sm sm:mt-10 sm:text-base lg:mt-12 lg:text-lg lg:ml-[20px]",
             )}
           >
             We are one of the fastest growing Real Estate consulting company in
             India.
           </p>
-          <div className="mt-10 flex justify-center sm:mt-12">
+          <div className="lg:mt-8 flex justify-center sm:mt-12">
             <GradientCtaButton
               href="#about"
               variant="know-more"

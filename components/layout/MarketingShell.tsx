@@ -7,7 +7,7 @@ export function MarketingShell({ children }: { children: ReactNode }) {
   return (
     <div className="flex min-h-screen min-w-0 flex-col overflow-x-clip">
       <Navbar />
-      <main className="min-w-0 flex-1">{children}</main>
+      <main className="hero-shift-sm min-w-0 flex-1">{children}</main>
       <Footer />
     </div>
   );
