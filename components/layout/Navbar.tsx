@@ -38,12 +38,12 @@ const navRight = [
   { label: "Career", href: "/career" },
 ];
 
-/** Primary nav labels (Figma TGREA): Nexa 400, 18/18, #202225 */
+/** Primary nav labels tuned to Figma nav scale. */
 const navLinkClass =
-  "font-nexa not-italic fs-17 lh-100 text-[#202225] transition-colors hover:text-brand-accent";
+  "font-nexa not-italic fs-16 lh-100 transition-colors hover:text-[#202225]";
 
 const navLinkClassMobile =
-  "font-nexa not-italic fs-18 lh-100 text-[#202225] transition-colors hover:text-brand-accent";
+  "font-nexa not-italic fs-18 lh-100 transition-colors hover:text-[#202225]";
 
 /** Desktop flyout rows — same type ramp as primary links (avoids UA / role=menu text sizing). */
 const navDropdownItemClass = cn(
@@ -61,7 +61,9 @@ function isActivePath(pathname: string, href: string) {
 }
 
 function navStateClass(isActive: boolean) {
-  return isActive ? "fw-400 opacity-100" : "fw-100 opacity-55";
+  return isActive
+    ? "font-nexa text-[#000000] fw-400 fs-16 lh-100"
+    : "font-nexa text-[#726d6d] fw-400 fs-16 lh-100";
 }
 
 export function Navbar() {
@@ -74,16 +76,16 @@ export function Navbar() {
   useBodyScrollLock(open);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-t border-[#1A1A1A]/10 bg-[#8F8083]">
-      <div className="bg-brand-bar/90 text-[11px] font-medium tracking-wide text-white/95 sm:text-xs">
-        <Container className="flex h-9 items-center justify-end sm:h-10">
+    <header className="sticky top-0 z-50 w-full bg-[#8F8083]">
+      <div className="bg-[#8F8083] text-white/95">
+        <Container className="flex h-8 items-center justify-end sm:h-9">
           <Link
             href="#search"
             className="inline-flex items-center gap-2 transition-opacity hover:opacity-80"
             aria-label="Search"
           >
-            <IconSearch className="h-3.5 w-3.5 opacity-90 sm:h-4 sm:w-4" />
-            <span className="capitalize">Search</span>
+            <IconSearch className="h-3 w-3 opacity-90 sm:h-3.5 sm:w-3.5" />
+            <span className={searchLabelClass}>Search</span>
           </Link>
         </Container>
       </div>
@@ -138,9 +140,9 @@ export function Navbar() {
           </div>
 
           {/* Desktop: left nav | centered logo | right nav */}
-          <div className="hidden min-h-[5.25rem] items-stretch py-4 lg:min-h-[5.5rem] lg:py-5 xl:flex">
+          <div className="hidden min-h-[4.5rem] items-stretch py-2.5 lg:min-h-[4.75rem] lg:py-3 xl:flex">
             <nav
-              className="flex min-w-0 flex-1 items-center justify-end gap-7 pr-6 lg:gap-9 lg:pr-10"
+              className="flex min-w-0 flex-1 items-center justify-end gap-5 pr-5 lg:gap-6 lg:pr-7"
               aria-label="Primary left"
             >
               {navLeft.map((item) => {
@@ -161,7 +163,7 @@ export function Navbar() {
                         className={cn(
                           navLinkClass,
                           navStateClass(isItemActive),
-                          "inline-flex items-center gap-1.5 font-nexa not-italic ",
+                          "inline-flex items-center gap-1.5",
                         )}
                         aria-haspopup="true"
                         onMouseEnter={() => {
@@ -182,7 +184,7 @@ export function Navbar() {
                         role="presentation"
                       >
                         <ul
-                          className="list-none p-0 font-nexa not-italic fw-400 fs-17 lh-100 text-[#202225] min-w-[12.5rem] rounded border border-black/[0.06] bg-[#FAFAFA] py-2 shadow-md"
+                          className="list-none min-w-[12.5rem] rounded border border-black/[0.06] bg-[#FAFAFA] p-0 py-2 text-[#202225] shadow-md"
                           role="menu"
                         >
                           {dropdownItems.map((sub) => (
@@ -230,21 +232,21 @@ export function Navbar() {
 
             <Link
               href="/"
-              className="flex shrink-0 items-center justify-center self-center px-2 lg:px-5"
+              className="flex shrink-0 items-center justify-center self-center px-2.5 lg:px-4"
               aria-label="The Guardians home"
             >
               <Image
                 src="/images/Home/Logo.png"
                 alt="The Guardians Real Estate Advisory"
-                width={260}
-                height={60}
-                className="h-10 w-auto object-cover sm:h-11 lg:h-[3.25rem]"
-                sizes="(min-width: 1280px) 260px, 0px"
+                width={252}
+                height={58}
+                className="h-[2.45rem] w-auto object-cover lg:h-[2.6rem]"
+                sizes="(min-width: 1280px) 252px, 0px"
               />
             </Link>
 
             <nav
-              className="flex min-w-0 flex-1 items-center justify-start gap-7 pl-6 lg:gap-9 lg:pl-10"
+              className="flex min-w-0 flex-1 items-center justify-start gap-5 pl-5 lg:gap-6 lg:pl-7"
               aria-label="Primary right"
             >
               {navRight.map((item) => (
@@ -274,7 +276,7 @@ export function Navbar() {
         )}
       >
         <Container className="flex flex-col gap-4 py-6">
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 ">
             {navLeft.map((item) => {
               const dropdownItems =
                 "dropdownItems" in item ? item.dropdownItems : undefined;
@@ -317,7 +319,7 @@ export function Navbar() {
               );
             })}
           </div>
-          <div className="flex flex-col gap-3 border-t border-black/[0.06] pt-4">
+          <div className=" items-center justify-center align-middle flex flex-col gap-3 border-t border-black/[0.06] pt-4">
             {navRight.map((item) => (
               <Link
                 key={item.label}

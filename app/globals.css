@@ -3,15 +3,23 @@
 
 @font-face {
   font-family: "font-nexa";
-  src: url("/fonts/nexa/Nexa-Regular.woff2") format("woff2");
+  src: url("/fonts/nexa/Nexa-ExtraLight.ttf") format("truetype");
   font-style: normal;
-  font-weight: 100;
+  font-weight: 200;
   font-display: swap;
 }
 
 @font-face {
   font-family: "font-nexa";
-  src: url("/fonts/nexa/Nexa-Medium.woff2") format("woff2");
+  src: url("/fonts/nexa/nexa-bold/NexaLight.otf") format("opentype");
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "font-nexa";
+  src: url("/fonts/nexa/nexa-bold/NexaBold.otf") format("opentype");
   font-style: normal;
   font-weight: 500;
   font-display: swap;
@@ -19,7 +27,7 @@
 
 @font-face {
   font-family: "font-nexa";
-  src: url("/fonts/nexa/Nexa-Bold.woff2") format("woff2");
+  src: url("/fonts/nexa/Nexa-Heavy.ttf") format("truetype");
   font-style: normal;
   font-weight: 700;
   font-display: swap;
@@ -68,11 +76,9 @@
   --color-brand-footer: #8f8183;
   --color-brand-footer-dark: #2a2626;
   --max-width-brand: 90rem;
-  --font-nexa: font-nexa;
-  --font-qasbyne: font-qasbyne;
   /* Default UI fonts: Nexa everywhere unless `font-qasbyne` is used */
-  --font-sans: font-nexa, ui-sans-serif, system-ui, sans-serif;
-  --font-serif: font-nexa, ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-nexa), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-nexa), ui-sans-serif, system-ui, sans-serif;
 }
 
 @utility bg-grid-hero {
@@ -85,8 +91,8 @@
 :root {
   --background: #ffffff;
   --foreground: #0a0a0a;
-  --font-primary: font-nexa;
-  --font-secondary: font-qasbyne;
+  --font-primary: var(--font-nexa);
+  --font-secondary: var(--font-qasbyne);
 
   --site-header-height: 118px;
 }
@@ -104,7 +110,7 @@ html {
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: font-nexa, system-ui, sans-serif;
+  font-family: var(--font-nexa), system-ui, sans-serif;
 }
 
 /* Keep Qasbyne rendering deterministic across browsers (closer to Figma preview). */
