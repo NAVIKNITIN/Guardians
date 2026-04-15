@@ -5,11 +5,29 @@ import {
   type DeveloperStat,
   type StatsSectionContent,
 } from "@/data/audience-marketing";
-import { SectionSurface } from "@/components/ui/SectionSurface";
+
+// CHANGE: same about section ke old buttons and image 
+import {
+  IconChevronLeft,
+  IconChevronRight,
+} from "@/components/common/icons";
+
 import { useCountUp } from "@/hooks/useCountUp";
 import { cn } from "@/utils/cn";
-import { useInView } from "framer-motion";
-import { useRef } from "react";
+
+// CHANGE: smooth image/text transition ke liye.
+import {
+  AnimatePresence,
+  motion,
+  useInView,
+  useReducedMotion,
+} from "framer-motion";
+
+// CHANGE: leadership images render karne ke liye.
+import Image from "next/image";
+
+// CHANGE: slider state ke liye.
+import { startTransition, useRef, useState } from "react";
 
 export function StatFigure({
   stat,
@@ -47,7 +65,6 @@ export function DeveloperStatsSection({
   const metrics = content.metrics;
 
   return (
-    // <SectionSurface variant="stats" className="bg-transparent" aria-label="Key metrics">
     <div ref={ref} className="grid grid-cols-2 md:grid-cols-4">
       {metrics.map((stat, idx) => (
         <div
@@ -63,6 +80,231 @@ export function DeveloperStatsSection({
         </div>
       ))}
     </div>
-    // </SectionSurface>
+  );
+}
+
+// CHANGE: About page ke 4 leadership slides ke liye type.
+export type LeadershipSlide = {
+  id: string;
+  imageSrc: string;
+  imageAlt: string;
+  title: string;
+  body: string;
+  name: string;
+  role: string;
+  imagePositionClassName?: string;
+};
+
+// CHANGE: smooth slide timing.
+const leadershipTransition = {
+  duration: 0.34,
+  ease: [0.22, 1, 0.36, 1] as const,
+};
+
+// CHANGE: image transition.
+const leadershipImageVariants = {
+  enter: (direction: 1 | -1) => ({
+    opacity: 0,
+    x: direction > 0 ? 20 : -20,
+  }),
+  center: {
+    opacity: 1,
+    x: 0,
+  },
+  exit: (direction: 1 | -1) => ({
+    opacity: 0,
+    x: direction > 0 ? -20 : 20,
+  }),
+};
+
+// CHANGE: title/body transition.
+const leadershipTopVariants = {
+  enter: (direction: 1 | -1) => ({
+    opacity: 0,
+    x: direction > 0 ? 16 : -16,
+  }),
+  center: {
+    opacity: 1,
+    x: 0,
+  },
+  exit: (direction: 1 | -1) => ({
+    opacity: 0,
+    x: direction > 0 ? -16 : 16,
+  }),
+};
+
+// CHANGE: bottom name/role transition.
+const leadershipBottomVariants = {
+  enter: (direction: 1 | -1) => ({
+    opacity: 0,
+    x: direction > 0 ? 12 : -12,
+  }),
+  center: {
+    opacity: 1,
+    x: 0,
+  },
+  exit: (direction: 1 | -1) => ({
+    opacity: 0,
+    x: direction > 0 ? -12 : 12,
+  }),
+};
+
+// CHANGE: same old about leadership layout rakha gaya hai.
+// Sirf image/text switch hoga. Button same jagah par fixed rahega.
+export function AboutLeadershipSection({
+  slides,
+}: {
+  slides: readonly LeadershipSlide[];
+}) {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [direction, setDirection] = useState<1 | -1>(1);
+  const shouldReduceMotion = Boolean(useReducedMotion());
+
+  if (slides.length === 0) return null;
+
+  const activeSlide = slides[activeIndex]!;
+
+  // CHANGE: same previous/next button logic.
+  const moveBy = (step: 1 | -1) => {
+    setDirection(step);
+
+    startTransition(() => {
+      setActiveIndex((current) => {
+        const total = slides.length;
+        return (current + step + total) % total;
+      });
+    });
+  };
+
+  return (
+    <div className="mx-auto max-w-[1120px] lg:px-4">
+      <h2 className="font-qasbyne text-[clamp(1.7rem,2.7vw,2.8rem)] uppercase tracking-[0.05em] text-[#2a2626]">
+        Meet The Leadership
+      </h2>
+
+      <div className="mt-8 border border-[#ece7e7] bg-[#f3f1f1] p-6 sm:p-8 lg:p-10">
+        <div className="grid gap-8 lg:grid-cols-[420px_minmax(0,1fr)] lg:gap-10">
+          <div className="relative min-h-[340px] overflow-hidden bg-[#d9d4d1] sm:min-h-[420px] lg:min-h-[520px]">
+            <AnimatePresence custom={direction} initial={false} mode="wait">
+              <motion.div
+                key={activeSlide.id}
+                custom={direction}
+                variants={shouldReduceMotion ? undefined : leadershipImageVariants}
+                initial={shouldReduceMotion ? false : "enter"}
+                animate="center"
+                exit={shouldReduceMotion ? undefined : "exit"}
+                transition={leadershipTransition}
+                className="absolute inset-0"
+              >
+                <Image
+                  src={activeSlide.imageSrc}
+                  alt={activeSlide.imageAlt}
+                  fill
+                  className={cn(
+                    "object-cover",
+                    activeSlide.imagePositionClassName,
+                  )}
+                  sizes="(max-width: 1024px) 100vw, 420px"
+                  priority={activeIndex === 0}
+                />
+              </motion.div>
+            </AnimatePresence>
+
+            {/* dot wil work  */}
+            <div className="absolute inset-x-0 bottom-4 flex items-center justify-center gap-1.5">
+              {slides.map((slide, index) => (
+                <span
+                  key={slide.id}
+                  className={cn(
+                    "rounded-full transition-all duration-300",
+                    index === activeIndex
+                      ? "h-1.5 w-6 bg-white"
+                      : "h-1.5 w-1.5 bg-white/85",
+                  )}
+                />
+              ))}
+            </div>
+          </div>
+
+          {/*  */}
+          <div className="flex flex-col justify-between py-2 lg:py-4">
+            <div className="min-h-[250px] sm:min-h-[280px] lg:min-h-[300px]">
+              <AnimatePresence custom={direction} initial={false} mode="wait">
+                <motion.div
+                  key={`${activeSlide.id}-top`}
+                  custom={direction}
+                  variants={shouldReduceMotion ? undefined : leadershipTopVariants}
+                  initial={shouldReduceMotion ? false : "enter"}
+                  animate="center"
+                  exit={shouldReduceMotion ? undefined : "exit"}
+                  transition={leadershipTransition}
+                >
+                  <div className="font-serif text-[5.5rem] leading-none text-[#c8c5c6] sm:text-[6.5rem]">
+                    &ldquo;
+                  </div>
+
+                  <h3 className="-mt-8 max-w-[520px] text-[clamp(2rem,3vw,3.2rem)] font-semibold leading-[1.08] text-[#1f1d1d]">
+                    {activeSlide.title}
+                  </h3>
+
+                  <p className="mt-7 max-w-[560px] text-sm leading-8 text-[#5d5859] sm:text-[15px]">
+                    {activeSlide.body}
+                  </p>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            <div className="mt-10 min-h-[120px]">
+              <AnimatePresence custom={direction} initial={false} mode="wait">
+                <motion.div
+                  key={`${activeSlide.id}-bottom`}
+                  custom={direction}
+                  variants={shouldReduceMotion ? undefined : leadershipBottomVariants}
+                  initial={shouldReduceMotion ? false : "enter"}
+                  animate="center"
+                  exit={shouldReduceMotion ? undefined : "exit"}
+                  transition={leadershipTransition}
+                  className="flex items-end justify-between gap-4"
+                >
+                  <div>
+                    <p className="text-[clamp(2rem,2.6vw,2.7rem)] font-semibold text-[#2a2626]">
+                      {activeSlide.name}
+                    </p>
+                    <p className="mt-2 text-sm uppercase tracking-[0.22em] text-[#867f80]">
+                      {activeSlide.role}
+                    </p>
+                  </div>
+
+                  <div className="font-serif text-[5.5rem] leading-none text-[#c8c5c6] sm:text-[6.5rem]">
+                    &rdquo;
+                  </div>
+                </motion.div>
+              </AnimatePresence>
+            </div>
+
+            {/* onclick logic*/}
+            <div className="mt-7 flex items-center gap-4 text-[#a8a3a4]">
+              <button
+                type="button"
+                onClick={() => moveBy(-1)}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-current/50 bg-white/40"
+                aria-label="Previous"
+              >
+                <IconChevronLeft className="h-4 w-4" />
+              </button>
+
+              <button
+                type="button"
+                onClick={() => moveBy(1)}
+                className="flex h-10 w-10 items-center justify-center rounded-full border border-current/50 bg-white/40"
+                aria-label="Next"
+              >
+                <IconChevronRight className="h-4 w-4" />
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }

@@ -1,9 +1,12 @@
 import { Container } from "@/components/common/Container";
+
+// 
 import {
-  IconArrowUpRight,
-  IconChevronLeft,
-  IconChevronRight,
-} from "@/components/common/icons";
+  AboutLeadershipSection,
+  type LeadershipSlide,
+} from "@/components/developer/DeveloperStatsSection";
+
+import { IconArrowUpRight } from "@/components/common/icons";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 import Link from "next/link";
@@ -35,8 +38,55 @@ const brandCards = [
 ] as const;
 
 const heroImage = "/images/mumbai-skyline-bw.png";
-const leadershipImage = "/images/leadership-photo.png";
 const brandPromiseOrnament = "/images/brand-promise-ornament.png";
+
+// CHANGE: 4 images aur same text yahin page.tsx me rakha gaya hai.
+const leadershipSlides = [
+  {
+    id: "leader-1",
+    imageSrc: "/images/about/Leader.png",
+    imageAlt: "Leadership portrait 1",
+    title: "We stay ahead of the curve with strategy",
+    body:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    name: "Jayesh Rathod",
+    role: "Co-Founder & Director",
+    imagePositionClassName: "object-center",
+  },
+  {
+    id: "leader-2",
+    imageSrc: "/images/about/Leader2.png",
+    imageAlt: "Leadership portrait 2",
+    title: "We stay ahead of the curve with strategy",
+    body:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    name: "Jayesh Rathod",
+    role: "Co-Founder & Director",
+    imagePositionClassName: "object-center",
+  },
+  {
+    id: "leader-3",
+    imageSrc: "/images/about/Leader3.png",
+    imageAlt: "Leadership portrait 3",
+    title: "We stay ahead of the curve with strategy",
+    body:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    name: "Jayesh Rathod",
+    role: "Co-Founder & Director",
+    imagePositionClassName: "object-center",
+  },
+  {
+    id: "leader-4",
+    imageSrc: "/images/about/Leader4.png",
+    imageAlt: "Leadership portrait 4",
+    title: "We stay ahead of the curve with strategy",
+    body:
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+    name: "Jayesh Rathod",
+    role: "Co-Founder & Director",
+    imagePositionClassName: "object-center",
+  },
+] satisfies readonly LeadershipSlide[];
 
 const ctaClassName = cn(
   "inline-flex items-center justify-center gap-3 bg-[linear-gradient(90deg,#ffb09f_0%,#d68b7e_52%,#ffab98_100%)] px-8 py-3 text-[11px] font-bold uppercase tracking-[0.24em] text-white transition-all",
@@ -255,83 +305,11 @@ export default function AboutPage() {
         </Container>
       </section>
 
+      {/* 
+           */}
       <section className="py-10 sm:py-14 lg:py-16">
         <Container>
-          <div className="mx-auto max-w-[1120px] lg:px-4">
-            <h2 className="font-qasbyne text-[clamp(1.7rem,2.7vw,2.8rem)] uppercase tracking-[0.05em] text-[#2a2626]">
-              Meet The Leadership
-            </h2>
-
-            <div className="mt-8 border border-[#ece7e7] bg-[#f3f1f1] p-6 sm:p-8 lg:p-10">
-              <div className="grid gap-8 lg:grid-cols-[420px_minmax(0,1fr)] lg:gap-10">
-                <div className="relative min-h-[340px] overflow-hidden bg-[#d9d4d1] sm:min-h-[420px] lg:min-h-[520px]">
-                  <Image
-                    src={leadershipImage}
-                    alt="Leadership portrait"
-                    fill
-                    className="object-cover object-center"
-                    sizes="(max-width: 1024px) 100vw, 420px"
-                  />
-
-                  <div className="absolute inset-x-0 bottom-4 flex items-center justify-center gap-1.5">
-                    <span className="h-1.5 w-6 rounded-full bg-white" />
-                    <span className="h-1.5 w-1.5 rounded-full bg-white/85" />
-                    <span className="h-1.5 w-1.5 rounded-full bg-white/85" />
-                    <span className="h-1.5 w-1.5 rounded-full bg-white/85" />
-                  </div>
-                </div>
-
-                <div className="flex flex-col justify-between py-2 lg:py-4">
-                  <div>
-                    <div className="font-serif text-[5.5rem] leading-none text-[#c8c5c6] sm:text-[6.5rem]">
-                      &ldquo;
-                    </div>
-                    <h3 className="-mt-8 max-w-[520px] text-[clamp(2rem,3vw,3.2rem)] font-semibold leading-[1.08] text-[#1f1d1d]">
-                      We stay ahead of the curve with strategy
-                    </h3>
-                    <p className="mt-7 max-w-[560px] text-sm leading-8 text-[#5d5859] sm:text-[15px]">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                      ut labore et dolore magna aliqua, dolor sit amet, consectetur adipiscing elit, sed do
-                      eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet,
-                      consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
-                      aliqua.
-                    </p>
-                  </div>
-
-                  <div className="mt-10 flex items-end justify-between gap-4">
-                    <div>
-                      <p className="text-[clamp(2rem,2.6vw,2.7rem)] font-semibold text-[#2a2626]">
-                        Jayesh Rathod
-                      </p>
-                      <p className="mt-2 text-sm uppercase tracking-[0.22em] text-[#867f80]">
-                        Co-Founder & Director
-                      </p>
-                    </div>
-                    <div className="font-serif text-[5.5rem] leading-none text-[#c8c5c6] sm:text-[6.5rem]">
-                      &rdquo;
-                    </div>
-                  </div>
-
-                  <div className="mt-7 flex items-center gap-4 text-[#a8a3a4]">
-                    <button
-                      type="button"
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-current/50 bg-white/40"
-                      aria-label="Previous"
-                    >
-                      <IconChevronLeft className="h-4 w-4" />
-                    </button>
-                    <button
-                      type="button"
-                      className="flex h-10 w-10 items-center justify-center rounded-full border border-current/50 bg-white/40"
-                      aria-label="Next"
-                    >
-                      <IconChevronRight className="h-4 w-4" />
-                    </button>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
+          <AboutLeadershipSection slides={leadershipSlides} />
         </Container>
       </section>
 
