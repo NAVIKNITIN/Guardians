@@ -78,42 +78,6 @@ body {
   font-weight: 400;
 }
 
-/* Nexa face helpers (weights from `styles/fonts.ts`: Light 300, Book 350, Bold 700). */
-.font-nexa-bold {
-  font-family: var(--font-nexa), ui-sans-serif, system-ui, sans-serif;
-  font-weight: 700;
-  font-style: normal;
-}
-
-.font-nexa-regular {
-  font-family: var(--font-nexa), ui-sans-serif, system-ui, sans-serif;
-  font-weight: 400;
-  font-style: normal;
-}
-
-.font-nexabook {
-  font-family: var(--font-nexa), ui-sans-serif, system-ui, sans-serif;
-  font-weight: 350;
-  font-style: normal;
-}
-
-/* Keep Qasbyne rendering deterministic across browsers (closer to Figma preview). */
-.font-qasbyne {
-  font-kerning: normal;
-  font-feature-settings:
-    "kern" 1,
-    "liga" 1,
-    "clig" 1;
-  font-synthesis: none;
-  text-rendering: geometricPrecision;
-  -webkit-font-smoothing: auto;
-  -moz-osx-font-smoothing: auto;
-}
-
-/* Reusable Qasbyne tracking style from Figma: 5% letter spacing. */
-.qs-letterspacing-5 {
-  letter-spacing: 0.05em;
-}
 
 /* Shared CTA gradient from Figma (Know More button). */
 .btn-know-more-gradient {
@@ -372,4 +336,34 @@ body {
 }
 .ls-widest {
   letter-spacing: 0.2em;
+}
+.qs-reg{
+  font-family: var(--font-qasbyne), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 300;
+  font-style: normal;
+}
+.qs-med{
+  font-family: var(--font-qasbyne), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+  font-style: normal;
+}
+.qs-bold{
+  font-family: var(--font-qasbyne), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+.n-reg{
+  font-family: var(--font-nexa), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+.n-bold{
+  font-family: var(--font-nexa), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 350;
+  font-style: normal;
+}
+.n-book{
+  font-family: var(--font-nexa), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 350;
+  font-style: normal;
 }
