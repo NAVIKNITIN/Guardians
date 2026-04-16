@@ -36,12 +36,12 @@ export function NewsCard({ article }: { article: NewsArticle }) {
   return (
     <article className="flex flex-col">
       {/* Date */}
-      <p className="font-nexa text-sm font-normal leading-snug text-[#161616] sm:text-base">
+      <p className="n-reg  text-sm font-normal leading-snug text-[#161616] sm:text-base">
         {article.date}
       </p>
 
       {/* Title */}
-      <h3 className="mt-2 line-clamp-3 font-nexa text-lg font-bold leading-[1.2] text-[#161616] sm:mt-3 sm:text-xl">
+      <h3 className="mt-2 line-clamp-3 n-reg  text-lg font-bold leading-[1.2] text-[#161616] sm:mt-3 sm:text-xl">
         {article.title}
       </h3>
 
@@ -59,7 +59,7 @@ export function NewsCard({ article }: { article: NewsArticle }) {
       </div>
 
       {/* Excerpt */}
-      <p className="mt-4 line-clamp-4 font-nexa text-sm font-normal leading-[1.5] text-[#161616] sm:text-base">
+      <p className="mt-4 line-clamp-4 n-reg  text-sm font-normal leading-[1.5] text-[#161616] sm:text-base">
         {article.excerpt}
       </p>
 
@@ -69,7 +69,7 @@ export function NewsCard({ article }: { article: NewsArticle }) {
         className={cn(
           "mt-5 flex items-center justify-center gap-5",
           "border border-black/30 px-8 py-2.5",
-          "font-nexa text-sm font-bold uppercase tracking-[0.1em] text-[#202225]",
+          "n-reg  text-sm font-bold uppercase tracking-[0.1em] text-[#202225]",
           "transition-colors hover:border-[#202225] hover:bg-[#202225] hover:text-white",
           "[&:hover_svg_path]:stroke-white",
         )}

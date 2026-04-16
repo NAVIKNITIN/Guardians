@@ -15,7 +15,7 @@ const BANNER_ASPECT_PADDING_PCT = (BANNER_HEIGHT / BANNER_WIDTH) * 100;
 
 export const dividerCardCtaClassName = cn(
   "inline-flex items-center justify-center gap-2 rounded-none border border-neutral-900 bg-white px-6 py-3",
-  "font-nexa text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-900",
+  "n-reg  text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-900",
   "transition-colors duration-300 hover:bg-neutral-900 hover:text-white",
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900",
 );
@@ -123,13 +123,13 @@ export function ProfileCard({
           <div className={cn(reverseOnDesktop ? "lg:text-right" : "text-left lg:text-left")}>
             <p
               className={cn(
-                "font-nexa fw-700 fs-24 text-xs lg:text-xl font-large uppercase tracking-[0.2em] text-[#202225]",
+                "n-bold  fs-24 text-xs lg:text-xl uppercase tracking-[0.2em] text-[#202225]",
                 reverseOnDesktop ? "lg:text-right" : "lg:text-left",
               )}
             >
               I am a
             </p>
-            <h3 className="ls-wider mt-1 tracking-wider fw-100 font-qasbyne fs-42 qs-letterspacing-5 text-[clamp(2rem,4.5vw,3rem)] uppercase leading-none  text-[#8F8183]">
+            <h3 className="ls-wider mt-1 tracking-wider fw-100 qs-reg fs-42 qs-letterspacing-5 text-[clamp(2rem,4.5vw,3rem)] uppercase leading-none  text-[#8F8183]">
               {title}
             </h3>
           </div>
@@ -137,8 +137,8 @@ export function ProfileCard({
             href={href}
             className={cn(
               dividerCardCtaClassName,
-              "w-fit font-nexa fw-700 fs-18 ls-normal capitalize",
-              reverseOnDesktop && "lg:self-end font-nexa fw-700 fs-18 ls-normal capitalize",
+              "w-fit n-reg  n-bold fs-18 ls-normal capitalize",
+              reverseOnDesktop && "lg:self-end n-reg  fw-700 fs-18 ls-normal capitalize",
             )}
           >
             Know More

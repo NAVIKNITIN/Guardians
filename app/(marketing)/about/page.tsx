@@ -152,7 +152,7 @@ export default function AboutPage() {
             priority
           />
           <div className="absolute inset-x-0 top-[6%] px-4 text-center sm:top-[7%] sm:px-6 lg:top-[7.5%]">
-            <h1 className="break-words px-1 font-qasbyne text-[clamp(2rem,5.5vw,5.8rem)] uppercase leading-[0.94] tracking-[0.02em] sm:text-[clamp(2.7rem,6vw,5.8rem)]">
+            <h1 className="break-words px-1 qs-reg text-[clamp(2rem,5.5vw,5.8rem)] uppercase leading-[0.94] tracking-[0.02em] sm:text-[clamp(2.7rem,6vw,5.8rem)]">
               <span className="text-[#9e8f90]">Who</span>
               <span className="ml-2 inline-block sm:ml-3 sm:inline">We Are?</span>
             </h1>
@@ -166,7 +166,7 @@ export default function AboutPage() {
       <section className="py-14 sm:py-16 lg:py-20">
         <Container>
           <div className="mx-auto max-w-[1120px]">
-            <h2 className="text-center font-qasbyne text-[clamp(1.9rem,2.6vw,3rem)] uppercase tracking-[0.03em] text-[#2a2626]">
+            <h2 className="text-center qs-reg text-[clamp(1.9rem,2.6vw,3rem)] uppercase tracking-[0.03em] text-[#2a2626]">
               Brand Promise
             </h2>
 
@@ -258,7 +258,7 @@ export default function AboutPage() {
       <section className="py-10 sm:py-14 lg:py-16">
         <Container>
           <div className="mx-auto max-w-[1120px] lg:px-4">
-            <h2 className="font-qasbyne text-[clamp(1.7rem,2.7vw,2.8rem)] uppercase tracking-[0.05em] text-[#2a2626]">
+            <h2 className="qs-reg text-[clamp(1.7rem,2.7vw,2.8rem)] uppercase tracking-[0.05em] text-[#2a2626]">
               Meet The Leadership
             </h2>
 

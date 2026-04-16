@@ -358,7 +358,7 @@ body {
 }
 .n-bold {
   font-family: var(--font-nexa), ui-sans-serif, system-ui, sans-serif;
-  font-weight: 350;
+  font-weight: 600;
   font-style: normal;
 }
 .n-book {

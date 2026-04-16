@@ -84,7 +84,7 @@ export function GazetteGrid() {
         <div className="mt-12 flex justify-center px-1 sm:mt-16 lg:mt-20">
           <button
             type="button"
-            className="inline-flex w-full max-w-sm items-center justify-center gap-4 px-8 py-3.5 font-nexa text-base font-bold uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 sm:w-auto sm:max-w-none sm:gap-5 sm:px-12 sm:py-[18px] sm:text-xl"
+            className="inline-flex w-full max-w-sm items-center justify-center gap-4 px-8 py-3.5 n-reg  text-base font-bold uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 sm:w-auto sm:max-w-none sm:gap-5 sm:px-12 sm:py-[18px] sm:text-xl"
             style={{
               background:
                 "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",

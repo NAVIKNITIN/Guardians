@@ -189,20 +189,20 @@ export function AwardsSection({
   }, [outgoingIndex]);
 
   return (
-    <SectionSurface variant="stats" aria-labelledby="awards-heading" className="bg-transparent border-t-0 border-b-0 !pt-5 mt-10">
-      <div className="grid gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-10 xl:gap-14 px-2 md:px-10 lg:px-20">
+    <SectionSurface variant="stats" aria-labelledby="awards-heading" className="bg-transparent border-t-0 border-b-0 mt-10">
+      <div className="grid gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-10 xl:gap-14 px-2 md:px-10">
         <div className="flex flex-col items-start text-left lg:col-span-3">
           <Image
             src={content.starIconSrc}
             alt=""
-            width={91}
+            width={90}
             height={75}
             className="h-16 w-auto shrink-0 object-cover object-left sm:h-18"
           />
           <h2
             id="awards-heading"
             className={cn(
-              "mt-5 lg:mt-[70px] max-w-48 sm:max-w-none font-qasbyne fs-45",
+              "mt-5 lg:mt-[100] max-w-48 sm:max-w-none qs-reg fs-45 fw-200",
               marketingClasses.headingDisplaySm,
             )}
           >
@@ -213,11 +213,11 @@ export function AwardsSection({
         </div>
 
         {/* Book-style page turn + spine stack behind */}
-        <div className="relative flex justify-center lg:col-span-5 lg:justify-center">
+        <div className="relative flex justify-center lg:col-span-5 lg:justify-center lg:pl-10">
           <div
             className={cn(
-              "relative mx-auto w-full max-w-[280px] sm:max-w-[300px]",
-              "aspect-4/5 max-h-[min(31rem,73.5vh)] min-h-0",
+              "relative mx-auto w-full ",
+              "aspect-4/5 max-h-[min(31rem,65.5vh)] min-h-0",
             )}
           >
             <BookSpineStack />
@@ -290,26 +290,26 @@ export function AwardsSection({
             />
           </div>
 
-          <div className="flex min-h-0 flex-1 flex-col justify-between gap-8">
+          <div className="flex min-h-0 flex-1 flex-col justify-between  lg:mt-25">
             <div>
               <RollingText
                 value={slide.company}
                 direction={rollDir}
-                className="text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-text-primary"
+                className="n-bold text-[18px] uppercase tracking-[0.05em] text-brand-text-primary "
               />
-              <div className="mt-4">
+              <div className="">
                 <RollingText
                   block
                   value={slide.achievement}
                   direction={rollDir}
-                  className="font-qasbyne text-[clamp(1.5rem,2.1vw,2.75rem)] font-normal leading-[1.15] tracking-[0.02em] text-brand-text-primary"
+                  className="n-bold text-[36px]  tracking-[0.02em] text-brand-text-primary"
                 />
               </div>
             </div>
             <RollingText
               value={slide.year}
               direction={rollDir}
-              className="text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-text-secondary"
+              className="text-[10px]  uppercase tracking-[0.2em] text-brand-text-secondary lg:mb-5 n-bold fw-600"
             />
           </div>
         </div>

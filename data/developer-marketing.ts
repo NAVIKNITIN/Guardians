@@ -131,7 +131,7 @@ export const DEVELOPER_MARKETING_PAGE = {
       {
         id: "1",
         title: "The Guardians Assists with Elme Communities’ Evolution.",
-        body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+        body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         imageSrc: "/images/ourwork.svg",
       },
       {

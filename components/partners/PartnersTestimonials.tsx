@@ -108,21 +108,21 @@ function TestimonialCard({ item }: { item: PartnersTestimonial }) {
         </div>
 
         {/* Quote mark */}
-        <span className="mt-6 block font-nexa text-6xl leading-[0.7] text-[#161616]">
+        <span className="mt-6 block n-reg  text-6xl leading-[0.7] text-[#161616]">
           &ldquo;
         </span>
 
         {/* Quote text */}
-        <p className="mt-3 font-nexa text-base font-bold leading-[1.5] text-[#161616] sm:text-lg">
+        <p className="mt-3 n-reg  text-base font-bold leading-[1.5] text-[#161616] sm:text-lg">
           {item.quote}
         </p>
       </div>
 
       {/* Dark footer bar */}
       <div className="bg-[#161616] px-8 py-5 sm:px-10 lg:px-12">
-        <p className="font-nexa text-sm font-bold text-[#BCBDC0]">{item.name}</p>
-        <p className="mt-0.5 font-nexa text-xs text-[#BCBDC0]">{item.role}</p>
-        <p className="mt-0.5 font-nexa text-xs text-[#BCBDC0]/70">
+        <p className="n-reg  text-sm font-bold text-[#BCBDC0]">{item.name}</p>
+        <p className="mt-0.5 n-reg  text-xs text-[#BCBDC0]">{item.role}</p>
+        <p className="mt-0.5 n-reg  text-xs text-[#BCBDC0]/70">
           {item.location}
         </p>
       </div>
@@ -160,7 +160,7 @@ export function PartnersTestimonials() {
           </h2>
           <CarouselControls
             currentIndex={index}
-          total={n}
+            total={n}
             onPrev={() => advance(-1)}
             onNext={() => advance(1)}
             prevLabel="Previous testimonials"

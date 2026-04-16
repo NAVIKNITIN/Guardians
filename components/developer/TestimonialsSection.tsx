@@ -36,7 +36,7 @@ export function TestimonialsSection({
       <div className="mx-auto flex max-w-7xl flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
         <h2
           id="testimonials-heading"
-          className={cn(marketingClasses.headingDisplayMd, "min-w-0 flex-1 pr-2")}
+          className={cn(marketingClasses.headingDisplayMd, "min-w-0 flex-1 pr-2 q-req fw-100 fs-50")}
         >
           {content.sectionTitle}
         </h2>
@@ -59,8 +59,8 @@ export function TestimonialsSection({
         <TestimonialCard item={items[index]!} />
       </div>
 
-      <div className="mt-10 flex justify-center">
-        <MarketingEnquireLink href={content.viewMoreHref}>
+      <div className="mt-10 flex justify-center ">
+        <MarketingEnquireLink href={content.viewMoreHref} className="n-bold fs-16">
           {content.viewMoreLabel}
         </MarketingEnquireLink>
       </div>

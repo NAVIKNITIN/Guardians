@@ -154,7 +154,7 @@ export function FeaturedPartnerShowcase() {
           <div className="absolute inset-x-0 top-[14%] z-20 flex justify-center px-4">
             <h2
               className={cn(
-                "font-qasbyne font-normal uppercase text-white",
+                "qs-reg nt-normal uppercase text-white",
                 "text-[clamp(1.75rem,4vw,3.125rem)] leading-[1.4] tracking-[0.05em]",
                 "drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]",
                 "text-center",

@@ -18,7 +18,7 @@ const brands = [
 /** Rose-gold gradient matching the Figma "Read More" buttons */
 const readMoreClassName = cn(
   "inline-flex w-full max-w-xs items-center justify-center gap-3 px-8 py-4 sm:w-auto sm:max-w-none sm:justify-start sm:gap-4 sm:px-12 sm:py-5",
-  "font-nexa text-sm font-bold uppercase tracking-[0.1em] text-white",
+  "n-reg  text-sm font-bold uppercase tracking-[0.1em] text-white",
   "transition-opacity duration-200 hover:opacity-90",
 );
 
@@ -58,7 +58,7 @@ function BrandRow({ reverse, href }: BrandRowProps) {
         height={80}
         className="block h-auto w-[180px] object-cover lg:w-[223px]"
       />
-      <p className="max-w-[488px] font-nexa text-base font-normal leading-[1.5] text-[#161616]">
+      <p className="max-w-[488px] n-reg  text-base font-normal leading-[1.5] text-[#161616]">
         {DESCRIPTION}
       </p>
       <Link href={href} className={readMoreClassName} style={readMoreStyle}>
@@ -117,7 +117,7 @@ export function TGREABrands() {
         <h2
           id="our-brands-heading"
           className={cn(
-            "font-qasbyne font-normal uppercase tracking-[0.05em] text-[#202225]",
+            "qs-reg nt-normal uppercase tracking-[0.05em] text-[#202225]",
             "text-[clamp(2rem,4vw,3.125rem)] leading-[1]",
           )}
         >

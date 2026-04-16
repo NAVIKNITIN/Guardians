@@ -40,10 +40,11 @@ export function TestimonialCard({
           <Image src={avatar} alt="" fill className="object-cover clip-path-circle" sizes="75px" />
         </div>
       </div>
-      <span className="mt-15 block font-nexa text-7xl leading-[0.68] text-brand-text-primary">
-        &ldquo;
+      <span className="mt-15 block text-brand-text-primary">
+        <Image src={"/images/invertedComma.svg"} alt="" width={27} height={27} className="object-cover clip-path-circle" />
+
       </span>
-      <p className=" fs-20 lh-24 font-normal leading-relaxed text-brand-text-primary">
+      <p className=" fs-20 lh-24 font-normal leading-relaxed text-brand-text-primary mt-5">
         {item.quote}
       </p>
       <div className="mt-6 border-t border-black/10 pt-4">

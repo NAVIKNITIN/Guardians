@@ -22,7 +22,7 @@ export function PartnersSection({
     >
       <h2
         id="partners-heading"
-        className="mx-auto max-w-4xl text-center font-bold uppercase leading-relaxed tracking-[0.2em] text-brand-text-primary sm:text-xs fs-20"
+        className="mx-auto max-w-4xl text-center n-bold fs-20 uppercase  tracking-[0.05em] text-brand-text-primary sm:text-xs fs-20"
       >
         {content.headlineLine1} <br /> {content.headlineLine2}
       </h2>
@@ -32,10 +32,10 @@ export function PartnersSection({
       </div>
 
       <div className="mt-12 flex flex-col items-center justify-center gap-4 px-1 sm:mt-16 sm:flex-row sm:flex-wrap sm:gap-6">
-        <p className="max-w-md text-center text-sm font-bold text-brand-text-secondary sm:text-base">
+        <p className="max-w-md text-center text-sm x-bold text-brand-text-secondary sm:text-base">
           {content.closing}
         </p>
-        <MarketingEnquireLink href={content.ctaHref}>{content.ctaLabel}</MarketingEnquireLink>
+        <MarketingEnquireLink className="n-bold fs-16" href={content.ctaHref}>{content.ctaLabel}</MarketingEnquireLink>
       </div>
     </SectionSurface>
   );

@@ -19,7 +19,7 @@ export function AudienceHero({ content }: { content: MarketingHeroContent }) {
 
   return (
     <section
-      className="relative isolate w-full min-w-0 min-h-[min(120vh,960px)] overflow-hidden bg-neutral-300 pt-10 pb-28 sm:min-h-[min(120vh,1000px)] sm:pt-14 sm:pb-32 lg:pt-16 lg:pb-40"
+      className="relative isolate w-full min-w-0 min-h-[min(120vh,960px)] overflow-hidden bg-neutral-300 pt-10 pb-28 sm:min-h-[min(120vh,1000px)] sm:pt-14 sm:pb-32 lg:pt-30 lg:pb-40"
       aria-labelledby={content.ariaHeadingId}
     >
       <div className="pointer-events-none absolute inset-0 z-0">
@@ -46,7 +46,7 @@ export function AudienceHero({ content }: { content: MarketingHeroContent }) {
         <div className="mx-auto flex min-w-0 max-w-[820px] flex-col items-center px-2 text-center sm:px-4">
           <h1
             id={content.ariaHeadingId}
-            className="break-words  font-qasbyne fw-100 fs-70 text-[clamp(1.75rem,6vw,4.5rem)] uppercase leading-[1.05] tracking-[0.04em] sm:text-[clamp(2rem,6vw,4.5rem)]"
+            className="break-words  qs-reg fw-100 fs-70 text-[clamp(1.75rem,6vw,4.5rem)] uppercase leading-[1.05] tracking-[0.04em] sm:text-[clamp(2rem,6vw,4.5rem)]"
           >
             <span className="block">
               <span className="">{lead}</span>{" "}

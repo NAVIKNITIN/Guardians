@@ -46,7 +46,7 @@ function ChevronDown() {
 }
 
 const inputCls =
-  "w-full border border-black/20 bg-black/5 px-3.5 py-3 font-nexa text-base text-black/60 placeholder:text-black/60 focus:outline-none focus:border-black/40 transition-colors";
+  "w-full border border-black/20 bg-black/5 px-3.5 py-3 n-reg  text-base text-black/60 placeholder:text-black/60 focus:outline-none focus:border-black/40 transition-colors";
 
 export function DownloadModal({ isOpen, onClose, issueTitle }: DownloadModalProps) {
   const [userType, setUserType] = useState<UserType>("business");
@@ -96,13 +96,13 @@ export function DownloadModal({ isOpen, onClose, issueTitle }: DownloadModalProp
         {/* Heading */}
         <h2
           id="download-modal-title"
-          className="font-qasbyne text-[clamp(2rem,3.5vw,3.125rem)] font-normal uppercase tracking-[0.05em] text-[#202225] text-center"
+          className="qs-reg text-[clamp(2rem,3.5vw,3.125rem)] font-normal uppercase tracking-[0.05em] text-[#202225] text-center"
         >
           Download file
         </h2>
 
         {/* Description */}
-        <p className="mt-4 text-center font-nexa text-base text-[#202225]/80 tracking-[-0.01em]">
+        <p className="mt-4 text-center n-reg  text-base text-[#202225]/80 tracking-[-0.01em]">
           Lorem ipsum dolor sit amet consectetur. Congue nulla ut sit ac donec eros. Sed mauris malesuada risus.
         </p>
 
@@ -116,7 +116,7 @@ export function DownloadModal({ isOpen, onClose, issueTitle }: DownloadModalProp
           <div className="flex items-center gap-6 mb-6">
             <button
               type="button"
-              className="flex items-center gap-3 font-nexa text-base text-[#202225] tracking-[-0.01em]"
+              className="flex items-center gap-3 n-reg  text-base text-[#202225] tracking-[-0.01em]"
               onClick={() => setUserType("business")}
             >
               <RadioCircle checked={userType === "business"} />
@@ -124,7 +124,7 @@ export function DownloadModal({ isOpen, onClose, issueTitle }: DownloadModalProp
             </button>
             <button
               type="button"
-              className="flex items-center gap-3 font-nexa text-base text-[#202225] tracking-[-0.01em]"
+              className="flex items-center gap-3 n-reg  text-base text-[#202225] tracking-[-0.01em]"
               onClick={() => setUserType("employee")}
             >
               <RadioCircle checked={userType === "employee"} />
@@ -192,7 +192,7 @@ export function DownloadModal({ isOpen, onClose, issueTitle }: DownloadModalProp
           {/* Submit */}
           <button
             type="submit"
-            className="mt-4 flex w-full items-center justify-center gap-5 py-[18px] font-nexa text-xl font-bold uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90"
+            className="mt-4 flex w-full items-center justify-center gap-5 py-[18px] n-reg  text-xl font-bold uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90"
             style={{
               background:
                 "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",

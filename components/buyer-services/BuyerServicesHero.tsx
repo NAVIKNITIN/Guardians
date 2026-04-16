@@ -19,14 +19,14 @@ export function BuyerServicesHero() {
       </div>
 
       {/* Centered text */}
-      <div className="relative z-10 flex min-h-[inherit] flex-col items-center justify-start gap-4 px-4 pb-10 pt-16 text-center font-qasbyne sm:pt-20 lg:mt-[100px] lg:min-h-0 lg:pb-0">
+      <div className="relative z-10 flex min-h-[inherit] flex-col items-center justify-start gap-4 px-4 pb-10 pt-16 text-center qs-regsm:pt-20 lg:mt-[100px] lg:min-h-0 lg:pb-0">
         <h1
           id="buyer-services-heading"
-          className="max-w-[min(100%,20ch)] break-words font-qasbyne text-[clamp(1.75rem,6vw,4.375rem)] font-normal uppercase leading-none tracking-[0.05em] text-[#202225] sm:max-w-none sm:text-[clamp(2rem,6.5vw,4.375rem)]"
+          className="max-w-[min(100%,20ch)] break-words qs-reg text-[clamp(1.75rem,6vw,4.375rem)] font-normal uppercase leading-none tracking-[0.05em] text-[#202225] sm:max-w-none sm:text-[clamp(2rem,6.5vw,4.375rem)]"
         >
           Buyer&apos;s Services
         </h1>
-        <p className="font-nexa text-base font-normal text-black sm:text-lg max-w-2xl">
+        <p className="n-reg  text-base font-normal text-black sm:text-lg max-w-2xl">
           We are one of the fastest growing Real Estate consulting company in India.
         </p>
       </div>

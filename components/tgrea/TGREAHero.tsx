@@ -29,7 +29,7 @@ export function TGREAHero() {
         <h1
           id="tgrea-hero-heading"
           className={cn(
-            "max-w-[min(100%,20ch)] break-words font-qasbyne font-normal uppercase tracking-[0.05em] text-[#202225] sm:max-w-none",
+            "max-w-[min(100%,20ch)] break-words qs-reg font-normal uppercase tracking-[0.05em] text-[#202225] sm:max-w-none",
             "text-[clamp(2rem,6vw,4.375rem)] leading-[1] sm:text-[clamp(2.5rem,6vw,4.375rem)]",
           )}
         >
@@ -38,7 +38,7 @@ export function TGREAHero() {
 
         <p
           className={cn(
-            "mt-4 font-nexa font-bold uppercase tracking-[0.1em] text-[#202225]",
+            "mt-4 n-reg  font-bold uppercase tracking-[0.1em] text-[#202225]",
             "text-[clamp(0.875rem,1.5vw,1.25rem)]",
           )}
         >
@@ -47,7 +47,7 @@ export function TGREAHero() {
 
         <p
           className={cn(
-            "mt-6 max-w-2xl font-nexa font-normal text-black",
+            "mt-6 max-w-2xl n-reg  font-normal text-black",
             "text-[clamp(0.875rem,1.5vw,1.125rem)] leading-[1.4]",
           )}
         >

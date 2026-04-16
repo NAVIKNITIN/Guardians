@@ -73,13 +73,13 @@ const CONTACT_BLOCKS: ContactBlock[] = [
 function ContactInfoBlock({ block }: { block: ContactBlock }) {
   return (
     <div className="flex flex-col ">
-      <h3 className="font-nexa text-lg font-semibold leading-tight text-[#161616] sm:text-2xl">
+      <h3 className="n-reg  text-lg font-semibold leading-tight text-[#161616] sm:text-2xl">
         {block.title}
       </h3>
       {block.email && (
         <a
           href={`mailto:${block.email}`}
-          className="flex min-w-0 items-start gap-2 break-all font-nexa text-base font-normal text-[#161616] transition-opacity hover:opacity-70 sm:items-center sm:text-xl"
+          className="flex min-w-0 items-start gap-2 break-all n-reg  text-base font-normal text-[#161616] transition-opacity hover:opacity-70 sm:items-center sm:text-xl"
         >
           <EmailIcon />
           {block.email}
@@ -88,7 +88,7 @@ function ContactInfoBlock({ block }: { block: ContactBlock }) {
       {block.phone && (
         <a
           href={block.telHref}
-          className="flex min-w-0 flex-wrap items-center gap-2 font-nexa text-base font-normal text-[#161616] transition-opacity hover:opacity-70 sm:text-xl"
+          className="flex min-w-0 flex-wrap items-center gap-2 n-reg  text-base font-normal text-[#161616] transition-opacity hover:opacity-70 sm:text-xl"
         >
           <PhoneIcon />
           {block.phone}
@@ -117,7 +117,7 @@ function RadioOption({
     <button
       type="button"
       onClick={onClick}
-      className="flex items-center gap-2 font-nexa text-base text-[#202225] tracking-[-0.01em]"
+      className="flex items-center gap-2 n-reg  text-base text-[#202225] tracking-[-0.01em]"
     >
       <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-[#202225]">
         {selected && <span className="h-[18px] w-[18px] rounded-full bg-[#CFCFCF]" />}
@@ -130,7 +130,7 @@ function RadioOption({
 // ─── Shared input style ───────────────────────────────────────────────────────
 
 const inputCls =
-  "w-full border border-black/20 bg-black/5 px-3.5 py-3 font-nexa text-base text-black/60 placeholder:text-black/60 focus:outline-none focus:border-black/40 transition-colors";
+  "w-full border border-black/20 bg-black/5 px-3.5 py-3 n-reg  text-base text-black/60 placeholder:text-black/60 focus:outline-none focus:border-black/40 transition-colors";
 
 // ─── Main panel ──────────────────────────────────────────────────────────────
 
@@ -164,10 +164,10 @@ export function ContactFormPanel() {
           {/* ── Left: contact info ─────────────────────────────────────── */}
           <div className="flex flex-col justify-center gap-10 lg:w-[45%] lg:flex-shrink-0">
             <header className="text-center lg:text-left">
-              <h2 className="font-qasbyne text-[clamp(2rem,4vw,3.125rem)] font-normal uppercase leading-[1.05] tracking-[0.05em] text-[#202225]">
+              <h2 className="qs-reg text-[clamp(2rem,4vw,3.125rem)] font-normal uppercase leading-[1.05] tracking-[0.05em] text-[#202225]">
                 Let&apos;s connect!
               </h2>
-              <p className="mt-4 font-nexa text-base font-normal leading-relaxed text-[#161616] sm:text-lg">
+              <p className="mt-4 n-reg  text-base font-normal leading-relaxed text-[#161616] sm:text-lg">
                 {CONNECT_INTRO}
               </p>
             </header>
@@ -271,7 +271,7 @@ export function ContactFormPanel() {
               {/* Submit */}
               <button
                 type="submit"
-                className="flex w-full items-center justify-center gap-5 py-[18px] font-nexa text-xl font-bold uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90"
+                className="flex w-full items-center justify-center gap-5 py-[18px] n-reg  text-xl font-bold uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90"
                 style={{
                   background:
                     "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",

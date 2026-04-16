@@ -22,7 +22,7 @@ export function MagazineHero() {
       <div className="relative z-10 flex h-full items-center justify-center px-4 text-center">
         <h1
           id="magazine-hero-heading"
-          className="font-qasbyne font-normal uppercase text-[#202225] text-[clamp(2.5rem,7vw,4.355rem)] leading-[1] tracking-[0.05em] lg:pr-8"
+          className="qs-reg font-normal uppercase text-[#202225] text-[clamp(2.5rem,7vw,4.355rem)] leading-[1] tracking-[0.05em] lg:pr-8"
         >
           Magazine
         </h1>

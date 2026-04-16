@@ -204,7 +204,7 @@ function SearchIcon() {
 }
 
 const filterSelectClass =
-  "relative inline-flex h-12 min-h-[48px] w-full min-w-0 max-w-full cursor-pointer appearance-none items-center border border-[#161616] bg-white pl-4 pr-9 font-nexa text-xs font-bold uppercase tracking-[0.08em] text-[#161616] outline-none transition-colors hover:bg-black/[0.02] sm:h-[51px] sm:min-w-[8.5rem] sm:max-w-none sm:pl-5 sm:pr-10 sm:text-sm sm:tracking-[0.1em] md:min-w-[9.5rem] md:text-base";
+  "relative inline-flex h-12 min-h-[48px] w-full min-w-0 max-w-full cursor-pointer appearance-none items-center border border-[#161616] bg-white pl-4 pr-9 n-reg  text-xs font-bold uppercase tracking-[0.08em] text-[#161616] outline-none transition-colors hover:bg-black/[0.02] sm:h-[51px] sm:min-w-[8.5rem] sm:max-w-none sm:pl-5 sm:pr-10 sm:text-sm sm:tracking-[0.1em] md:min-w-[9.5rem] md:text-base";
 
 function FilterSelect({
   label,
@@ -308,11 +308,11 @@ function ProjectsPageContent() {
 
         <div className="relative z-[1] flex w-full min-w-0 flex-1 flex-col items-center justify-start gap-2 px-4 pb-8 pt-6 text-center sm:gap-6 sm:px-10 sm:py-14 sm:pb-14">
           <h1
-            className="max-w-[min(22ch,100%)] break-words font-qasbyne text-[clamp(1.75rem,5.5vw,3.75rem)] font-normal uppercase leading-[1.12] tracking-[0.06em] text-[#0a0a0a] sm:max-w-[100vw] sm:tracking-[0.07em] lg:text-[clamp(2.75rem,5vw,4rem)]"
+            className="max-w-[min(22ch,100%)] break-words qs-reg text-[clamp(1.75rem,5.5vw,3.75rem)] font-normal uppercase leading-[1.12] tracking-[0.06em] text-[#0a0a0a] sm:max-w-[100vw] sm:tracking-[0.07em] lg:text-[clamp(2.75rem,5vw,4rem)]"
           >
             {filterStage} Projects
           </h1>
-          <p className=" lg:mt-0 max-w-xl px-1 font-nexa text-[0.875rem] font-normal leading-relaxed text-[#0a0a0a] sm:text-lg lg:text-xl">
+          <p className=" lg:mt-0 max-w-xl px-1 n-reg  text-[0.875rem] font-normal leading-relaxed text-[#0a0a0a] sm:text-lg lg:text-xl">
             We are one of the fastest growing Real Estate consulting company in
             India.
           </p>
@@ -328,14 +328,14 @@ function ProjectsPageContent() {
             <div className="flex min-w-0 flex-wrap items-center gap-3 sm:gap-5">
               <button
                 type="button"
-                className="inline-flex items-center gap-2 font-nexa text-sm font-black uppercase tracking-[0.1em] text-[#8F8183] sm:text-base"
+                className="inline-flex items-center gap-2 n-reg  text-sm font-black uppercase tracking-[0.1em] text-[#8F8183] sm:text-base"
               >
                 Filters
                 <ChevronUp className="text-[#8F8183]" />
               </button>
               <button
                 type="button"
-                className="inline-flex items-center gap-2 font-nexa text-sm font-bold uppercase tracking-[0.1em] text-[#8F8183] sm:text-base"
+                className="inline-flex items-center gap-2 n-reg  text-sm font-bold uppercase tracking-[0.1em] text-[#8F8183] sm:text-base"
               >
                 Sort By
                 <ChevronDown className="text-[#8F8183]" />
@@ -344,7 +344,7 @@ function ProjectsPageContent() {
 
             <div className="flex h-10 min-h-[44px] w-full min-w-0 max-w-full items-center gap-2.5 border border-black/20 bg-white px-3 sm:h-[34px] sm:min-h-0 sm:max-w-[345px] sm:px-3.5">
               <SearchIcon />
-              <span className="font-nexa text-sm text-black/60 sm:text-base">
+              <span className="n-reg  text-sm text-black/60 sm:text-base">
                 Search
               </span>
             </div>
@@ -367,7 +367,7 @@ function ProjectsPageContent() {
             />
 
             {activeLocation && (
-              <div className="inline-flex h-12 min-h-[48px] w-full max-w-full flex-wrap items-center justify-between gap-2 border border-[#161616] bg-[#BCBDC0] px-4 font-nexa text-xs font-bold uppercase tracking-[0.08em] text-[#161616] sm:h-[51px] sm:min-h-0 sm:w-auto sm:max-w-none sm:px-5 sm:text-sm sm:tracking-[0.1em] md:text-base">
+              <div className="inline-flex h-12 min-h-[48px] w-full max-w-full flex-wrap items-center justify-between gap-2 border border-[#161616] bg-[#BCBDC0] px-4 n-reg  text-xs font-bold uppercase tracking-[0.08em] text-[#161616] sm:h-[51px] sm:min-h-0 sm:w-auto sm:max-w-none sm:px-5 sm:text-sm sm:tracking-[0.1em] md:text-base">
                 <span className="min-w-0 break-words">{activeLocation}</span>
                 <span className="mx-1 hidden h-[52px] w-px shrink-0 bg-[#161616] sm:inline-block" />
                 <button
@@ -396,7 +396,7 @@ function ProjectsPageContent() {
 
             <button
               type="button"
-              className="w-full py-2 text-left font-nexa text-sm text-black underline sm:ml-auto sm:w-auto sm:py-0 sm:text-base"
+              className="w-full py-2 text-left n-reg  text-sm text-black underline sm:ml-auto sm:w-auto sm:py-0 sm:text-base"
               onClick={clearAllFilters}
             >
               Clear all
@@ -428,7 +428,7 @@ function ProjectsPageContent() {
           </div>
 
           {visibleProjects.length === 0 ? (
-            <p className="mt-10 text-center font-nexa text-sm text-[#161616]/70">
+            <p className="mt-10 text-center n-reg  text-sm text-[#161616]/70">
               No projects match these filters. Try adjusting or{" "}
               <button
                 type="button"
@@ -460,7 +460,7 @@ export default function ProjectsPage() {
       fallback={
         <main className="min-h-[50vh] bg-white">
           <div className="flex h-[320px] items-center justify-center bg-[#BCBDC0]/30 sm:h-[400px] lg:h-[550px]">
-            <span className="font-nexa text-sm text-[#202225]/60">Loading…</span>
+            <span className="n-reg  text-sm text-[#202225]/60">Loading…</span>
           </div>
         </main>
       }

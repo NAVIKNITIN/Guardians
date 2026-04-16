@@ -252,7 +252,7 @@ function CaseStudySection({
         )}
 
         <div className="absolute bottom-0 left-0 z-[1] p-4 sm:p-6">
-          <p className="font-nexa text-xl font-bold uppercase leading-[1.1] tracking-[0.06em] text-white sm:text-2xl md:text-3xl lg:text-4xl">
+          <p className="n-reg xt-xl font-bold uppercase leading-[1.1] tracking-[0.06em] text-white sm:text-2xl md:text-3xl lg:text-4xl">
             <span className="block sm:inline">Client </span>
             <span className="mt-1 inline-block bg-black/45 px-2 py-1 sm:mt-0 sm:px-3">
               Chronicles
@@ -269,7 +269,7 @@ function CaseStudySection({
           {paragraphs.map((p, i) => (
             <p
               key={i}
-              className="font-nexa text-sm leading-relaxed text-[#161616]/90 sm:text-base"
+              className="n-reg  text-sm leading-relaxed text-[#161616]/90 sm:text-base"
             >
               {p}
             </p>
@@ -299,7 +299,7 @@ function AmenityItem({
           className="h-20 w-20 object-cover"
         />
       </div>
-      <span className="font-nexa text-[11px] font-bold uppercase tracking-[0.08em] text-[#202225] sm:text-xs">
+      <span className="n-reg  text-[11px] font-bold uppercase tracking-[0.08em] text-[#202225] sm:text-xs">
         {amenity.label}
       </span>
     </div>
@@ -346,19 +346,19 @@ function ProjectDetailPageContent() {
               {/* Status dot + label */}
               <div className="mb-2 flex items-center gap-2">
                 <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-[#8F8183]" />
-                <span className="font-nexa text-base text-[#8F8183] sm:text-lg">
+                <span className="n-reg  text-base text-[#8F8183] sm:text-lg">
                   {heroStatusLine}
                 </span>
               </div>
               {/* Project title */}
               <h1
-                className="break-words font-qasbyne text-[clamp(2rem,8vw,4.375rem)] uppercase leading-[1] tracking-[0.05em] text-[#202225] sm:text-[clamp(2.5rem,5vw,4.375rem)]"
+                className="break-words qs-reg text-[clamp(2rem,8vw,4.375rem)] uppercase leading-[1] tracking-[0.05em] text-[#202225] sm:text-[clamp(2.5rem,5vw,4.375rem)]"
                 style={{ whiteSpace: "pre-line" }}
               >
                 {project.title}
               </h1>
               {/* RERA */}
-              <p className="mt-3 font-nexa text-xs font-bold uppercase tracking-[0.1em] text-[#161616] underline sm:text-sm">
+              <p className="mt-3 n-reg  text-xs font-bold uppercase tracking-[0.1em] text-[#161616] underline sm:text-sm">
                 Rera No.: {project.rera}
               </p>
             </div>
@@ -427,7 +427,7 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       <section className="bg-white px-4 py-12 sm:px-6 md:px-10 lg:px-20 lg:py-16">
         <Container>
-          <p className="!font-nexa text-xl font-bold leading-snug text-black sm:text-2xl lg:text-[2.25rem] lg:leading-[1.17]">
+          <p className="!n-reg  text-xl font-bold leading-snug text-black sm:text-2xl lg:text-[2.25rem] lg:leading-[1.17]">
             {project.description}
           </p>
         </Container>
@@ -506,7 +506,7 @@ function ProjectDetailPageContent() {
         <div className="absolute inset-0 bg-white/85" />
 
         <Container className="relative z-10">
-          <h2 className="mb-10 text-center font-qasbyne text-[clamp(1.75rem,4vw,2.625rem)] uppercase tracking-[0.05em] text-[#202225] lg:mb-14">
+          <h2 className="mb-10 text-center qs-reg text-[clamp(1.75rem,4vw,2.625rem)] uppercase tracking-[0.05em] text-[#202225] lg:mb-14">
             Project Amenities
           </h2>
 
@@ -534,7 +534,7 @@ function ProjectDetailPageContent() {
           <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
             {/* Left — list */}
             <div className="min-w-0 flex-1">
-              <h2 className="mb-6 font-qasbyne text-[clamp(1.75rem,5vw,4.375rem)] uppercase tracking-[0.05em] text-[#202225] sm:mb-8">
+              <h2 className="mb-6 qs-reg text-[clamp(1.75rem,5vw,4.375rem)] uppercase tracking-[0.05em] text-[#202225] sm:mb-8">
                 Location
               </h2>
 
@@ -542,12 +542,12 @@ function ProjectDetailPageContent() {
                 {project.locationItems.map((item, i) => (
                   <div key={i}>
                     <div className="flex items-start justify-between gap-3 py-3 sm:items-center sm:gap-4">
-                      <span className="min-w-0 flex-1 break-words font-nexa text-sm text-[#161616] sm:text-base">
+                      <span className="min-w-0 flex-1 break-words n-reg  text-sm text-[#161616] sm:text-base">
                         {item.name}
                       </span>
                       <div className="flex shrink-0 items-center gap-3">
                         {item.type === "walk" ? <WalkIcon /> : <DriveIcon />}
-                        <span className="w-14 text-right font-nexa text-sm font-bold text-[#161616] sm:text-base">
+                        <span className="w-14 text-right n-reg  text-sm font-bold text-[#161616] sm:text-base">
                           {item.time}
                         </span>
                       </div>
@@ -622,10 +622,10 @@ function ProjectDetailPageContent() {
               {/* Left — info */}
               <div className="flex min-w-0 flex-1 flex-col justify-between">
                 <div>
-                  <h2 className="font-qasbyne text-[clamp(2rem,6vw,4.375rem)] uppercase leading-none tracking-[0.05em] text-white sm:text-[clamp(2.5rem,5vw,4.375rem)]">
+                  <h2 className="qs-reg text-[clamp(2rem,6vw,4.375rem)] uppercase leading-none tracking-[0.05em] text-white sm:text-[clamp(2.5rem,5vw,4.375rem)]">
                     Book A Visit
                   </h2>
-                  <p className="mt-5 max-w-[30rem] font-nexa text-sm leading-relaxed text-white sm:text-base">
+                  <p className="mt-5 max-w-[30rem] n-reg  text-sm leading-relaxed text-white sm:text-base">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                     do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     dolor sit amet, consectetur adipiscing elit.
@@ -634,19 +634,19 @@ function ProjectDetailPageContent() {
 
                 <div className="mt-10 flex flex-col gap-6 border-t border-white/40 pt-8 sm:flex-row sm:gap-12">
                   <div>
-                    <p className="font-nexa text-xs font-bold uppercase tracking-[0.1em] text-white">
+                    <p className="n-reg  text-xs font-bold uppercase tracking-[0.1em] text-white">
                       Location
                     </p>
-                    <p className="mt-2 max-w-[16rem] font-nexa text-sm leading-relaxed text-white">
+                    <p className="mt-2 max-w-[16rem] n-reg  text-sm leading-relaxed text-white">
                       C-602 &amp; 603, ONE BKC, G Block, Bandra Kurla Complex,
                       Bandra (E), Mumbai - 400051
                     </p>
                   </div>
                   <div>
-                    <p className="font-nexa text-xs font-bold uppercase tracking-[0.1em] text-white">
+                    <p className="n-reg  text-xs font-bold uppercase tracking-[0.1em] text-white">
                       Contact
                     </p>
-                    <p className="mt-2 font-nexa text-sm leading-relaxed text-white">
+                    <p className="mt-2 n-reg  text-sm leading-relaxed text-white">
                       022-68770076
                       <br />
                       022-6877005
@@ -718,7 +718,7 @@ function ProjectDetailPageContent() {
 
                   {/* Message */}
                   <div className="border-t border-[#8F8183]/30 pt-6">
-                    <label className="block font-nexa text-sm font-bold text-[#202225]">
+                    <label className="block n-reg  text-sm font-bold text-[#202225]">
                       Message
                     </label>
                     <textarea
@@ -727,7 +727,7 @@ function ProjectDetailPageContent() {
                       value={form.message}
                       onChange={handleChange}
                       rows={2}
-                      className="mt-2 w-full resize-none border-b border-[#8F8183] bg-transparent font-nexa text-sm text-[#202020] placeholder-[#202020]/40 outline-none"
+                      className="mt-2 w-full resize-none border-b border-[#8F8183] bg-transparent n-reg  text-sm text-[#202020] placeholder-[#202020]/40 outline-none"
                     />
                   </div>
 
@@ -735,7 +735,7 @@ function ProjectDetailPageContent() {
                   <div className="mt-8">
                     <button
                       type="button"
-                      className="inline-flex h-[52px] w-full items-center justify-center gap-4 px-8 font-nexa text-sm font-bold uppercase tracking-[0.1em] text-white sm:h-[55px] sm:w-auto sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
+                      className="inline-flex h-[52px] w-full items-center justify-center gap-4 px-8 n-reg  text-sm font-bold uppercase tracking-[0.1em] text-white sm:h-[55px] sm:w-auto sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
                       style={{
                         background:
                           "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",
@@ -762,7 +762,7 @@ export default function ProjectDetailPage() {
       fallback={
         <main className="min-h-[50vh] bg-white pt-[137px]">
           <Container>
-            <p className="font-nexa text-sm text-[#8F8183]">Loading…</p>
+            <p className="n-reg  text-sm text-[#8F8183]">Loading…</p>
           </Container>
         </main>
       }
@@ -794,7 +794,7 @@ function FormField({
 }: FormFieldProps) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="font-nexa text-sm font-bold text-[#202225]">
+      <label className="n-reg xt-sm font-bold text-[#202225]">
         {label}
       </label>
       <input
@@ -803,7 +803,7 @@ function FormField({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="border-b border-[#8F8183] bg-transparent pb-1 font-nexa text-sm text-[#202020] placeholder-[#202020]/40 outline-none"
+        className="border-b border-[#8F8183] bg-transparent pb-1 n-reg  text-sm text-[#202020] placeholder-[#202020]/40 outline-none"
       />
     </div>
   );
@@ -828,7 +828,7 @@ function SelectField({
 }: SelectFieldProps) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="font-nexa text-sm font-bold text-[#202225]">
+      <label className="n-reg  text-sm font-bold text-[#202225]">
         {label}
       </label>
       <div className="relative border-b border-[#8F8183] pb-1">
@@ -836,7 +836,7 @@ function SelectField({
           name={name}
           value={value}
           onChange={onChange}
-          className="w-full appearance-none bg-transparent font-nexa text-sm text-[#202020]/40 outline-none"
+          className="w-full appearance-none bg-transparent n-reg  text-sm text-[#202020]/40 outline-none"
         >
           <option value="" disabled>
             {placeholder}

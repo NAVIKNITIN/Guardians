@@ -28,7 +28,7 @@ export function HeroSection() {
           <h1
             id="hero-heading"
             className={cn(
-              "w-full max-w-[760px] font-qasbyne fw-100 not-italic uppercase tracking-[0.05em] text-[#202225]",
+              "w-full max-w-[760px] qs-reg fw-100 not-italic uppercase tracking-[0.05em] text-[#202225]",
               "text-[clamp(1.75rem,5vw,70px)] leading-[1]",
             )}
           >
@@ -40,7 +40,7 @@ export function HeroSection() {
           </h1>
           <p
             className={cn(
-              "mx-auto mt-8 max-w-[42rem] font-nexa fw-300 leading-relaxed text-[#000000]",
+              "mx-auto mt-8 max-w-[42rem] n-reg  fw-300 leading-relaxed text-[#000000]",
               "text-sm sm:mt-10 sm:text-base lg:mt-10 lg:text-lg lg:ml-[20px]",
             )}
           >

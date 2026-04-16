@@ -24,7 +24,7 @@ export function GazetteHero() {
       <div className="relative z-10 flex h-full items-center justify-center px-4 text-center">
         <h1
           id="gazette-hero-heading"
-          className="font-qasbyne font-normal uppercase text-[#202225] text-[clamp(2.5rem,6.5vw,4.375rem)] leading-[1] tracking-[0.05em]"
+          className="qs-reg font-normal uppercase text-[#202225] text-[clamp(2.5rem,6.5vw,4.375rem)] leading-[1] tracking-[0.05em]"
         >
           Gazette
         </h1>

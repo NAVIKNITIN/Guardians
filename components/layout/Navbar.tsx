@@ -40,10 +40,10 @@ const navRight = [
 
 /** Primary nav labels tuned to Figma nav scale. */
 const navLinkClass =
-  "font-nexa not-italic fs-16 lh-100 transition-colors hover:text-[#202225]";
+  "n-reg  not-italic fs-16 lh-100 transition-colors hover:text-[#202225]";
 
 const navLinkClassMobile =
-  "font-nexa not-italic fs-18 lh-100 transition-colors hover:text-[#202225]";
+  "n-reg  not-italic fs-18 lh-100 transition-colors hover:text-[#202225]";
 
 /** Desktop flyout rows — same type ramp as primary links (avoids UA / role=menu text sizing). */
 const navDropdownItemClass = cn(
@@ -53,7 +53,7 @@ const navDropdownItemClass = cn(
 
 /** Top bar “Search” — Figma Group 63: box height 11px → 11/11 type (paste had no font block; color kept for bar contrast). */
 const searchLabelClass =
-  "font-nexa not-italic fw-600 text-[16px] leading-[16px] text-white/95 capitalize sm:text-xs sm:leading-none";
+  "n-reg  not-italic fw-600 text-[16px] leading-[16px] text-white/95 capitalize sm:text-xs sm:leading-none";
 
 function isActivePath(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
@@ -62,8 +62,8 @@ function isActivePath(pathname: string, href: string) {
 
 function navStateClass(isActive: boolean) {
   return isActive
-    ? "font-nexa text-[#202225] font-bold fs-18 lh-100 ls-normal"
-    : "font-nexa text-[#202225] font-normal fs-18 lh-100 ls-normal";
+    ? "n-reg  text-[#202225] font-bold fs-18 lh-100 ls-normal"
+    : "n-reg  text-[#202225] font-normal fs-18 lh-100 ls-normal";
 }
 
 export function Navbar() {

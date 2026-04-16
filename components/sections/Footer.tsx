@@ -50,14 +50,14 @@ const quickLinkRows: { label: string; href: string }[][] = [
 ];
 
 const sectionTitleClass =
-  "font-nexa text-xs font-normal uppercase tracking-[0.1em] text-white sm:text-lg";
+  "n-reg  text-xs font-normal uppercase tracking-[0.1em] text-white sm:text-lg";
 
 const dropdownButtonClass =
-  "flex w-full items-center justify-between gap-2 border-b border-white py-1.5 text-left font-nexa text-xs font-normal text-white transition-colors hover:text-white";
+  "flex w-full items-center justify-between gap-2 border-b border-white py-1.5 text-left n-reg  text-xs font-normal text-white transition-colors hover:text-white";
 
 function QuickLinkRow({ items }: { items: { label: string; href: string }[] }) {
   return (
-    <p className="flex flex-wrap items-center gap-x-1.5 gap-y-1 font-nexa text-xs leading-snug text-white">
+    <p className="flex flex-wrap items-center gap-x-1.5 gap-y-1 n-reg  text-xs leading-snug text-white">
       {items.map((item, i) => (
         <span key={item.href} className="inline-flex items-center gap-x-1.5">
           {i > 0 && (
@@ -67,7 +67,7 @@ function QuickLinkRow({ items }: { items: { label: string; href: string }[] }) {
           )}
           <Link
             href={item.href}
-            className="font-nexa text-white transition-colors hover:text-white/90"
+            className="n-reg  text-white transition-colors hover:text-white/90"
           >
             {item.label}
           </Link>
@@ -81,7 +81,7 @@ export function Footer() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="relative overflow-hidden bg-[#8F8183] font-nexa text-brand-text-inverse">
+    <footer className="relative overflow-hidden bg-[#8F8183] n-reg  text-brand-text-inverse">
       {/* Watermark — anchored bottom-left behind branding */}
       <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
         <Image
@@ -114,7 +114,7 @@ export function Footer() {
               />
             </div>
 
-            <h2 className="max-w-[26rem] font-nexa text-[clamp(1.5rem,3.2vw,2.35rem)] font-normal leading-[1.1] sm:mt-4">
+            <h2 className="max-w-[26rem] n-reg  text-[clamp(1.5rem,3.2vw,2.35rem)] font-normal leading-[1.1] sm:mt-4">
               <span className="font-bold text-[#BCBDC0] ">Lorem Ipsum Dolor? </span>
               <span className="font-bold text-[#BCBDC0] ">
                 Let&apos;s <span className="font-bold text-[#F7F7F7]">Collaborate.</span>
@@ -124,7 +124,7 @@ export function Footer() {
             <Link
               href="/contact"
               className={cn(
-                "group inline-flex w-fit shrink-0 items-center gap-2 border border-white bg-transparent px-4 py-2.5 font-nexa text-sm font-bold text-white transition-colors sm:text-base",
+                "group inline-flex w-fit shrink-0 items-center gap-2 border border-white bg-transparent px-4 py-2.5 n-reg  text-sm font-bold text-white transition-colors sm:text-base",
                 "hover:bg-white hover:text-neutral-900",
                 "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white",
               )}
@@ -153,12 +153,12 @@ export function Footer() {
             <div>
               <h3 className={sectionTitleClass}>Social</h3>
               <div className="mt-2 flex items-stretch gap-4 sm:gap-5">
-                <ul className="flex min-w-0 flex-1 flex-col gap-2 font-nexa text-xs">
+                <ul className="flex min-w-0 flex-1 flex-col gap-2 n-reg  text-xs">
                   {socialLeftCol.map(({ label, href, iconSrc }) => (
                     <li key={label}>
                       <Link
                         href={href}
-                        className="inline-flex items-center gap-2.5 font-nexa text-white transition-colors hover:text-white"
+                        className="inline-flex items-center gap-2.5 n-reg  text-white transition-colors hover:text-white"
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -174,12 +174,12 @@ export function Footer() {
                     </li>
                   ))}
                 </ul>
-                <ul className="flex min-w-0 flex-1 flex-col gap-2 font-nexa text-xs">
+                <ul className="flex min-w-0 flex-1 flex-col gap-2 n-reg  text-xs">
                   {socialRightCol.map(({ label, href, iconSrc }) => (
                     <li key={label}>
                       <Link
                         href={href}
-                        className="inline-flex items-center gap-2.5 font-nexa text-white transition-colors hover:text-white "
+                        className="inline-flex items-center gap-2.5 n-reg  text-white transition-colors hover:text-white "
                         target="_blank"
                         rel="noopener noreferrer"
                       >
@@ -228,7 +228,7 @@ export function Footer() {
 
         {/* Full-width rule + copyright */}
         <div className="mt-1 shrink-0 border-t border-white pt-1 sm:mt-9 sm:pt-2">
-          <p className="text-center font-nexa text-sm font-light leading-normal text-white">
+          <p className="text-center n-reg  text-sm font-light leading-normal text-white">
             © {year} The Guardians. All rights reserved.
           </p>
         </div>

@@ -27,7 +27,7 @@ export function NewsroomHero() {
         <h1
           id="newsroom-hero-heading"
           className={cn(
-            "font-qasbyne font-normal uppercase text-white",
+            "qs-reg nt-normal uppercase text-white",
             "text-[clamp(2.5rem,6.5vw,4.375rem)] leading-[1] tracking-[0.05em]",
           )}
         >

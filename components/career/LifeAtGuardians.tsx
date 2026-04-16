@@ -24,7 +24,7 @@ export function LifeAtGuardians() {
           </h2>
 
           {/* Right – body description */}
-          <p className="font-nexa text-lg font-normal leading-[1.5] text-[#161616] sm:text-xl">
+          <p className="n-reg  text-lg font-normal leading-[1.5] text-[#161616] sm:text-xl">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor
             sit amet, consectetur adipiscing elit, sed do eiusmod tempor

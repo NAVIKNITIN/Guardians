@@ -56,7 +56,7 @@ export function WhyJoinSection() {
           >
             Why The Guardians?
           </h2>
-          <p className="font-nexa text-sm leading-relaxed text-brand-text-secondary sm:text-base">
+          <p className="n-reg  text-sm leading-relaxed text-brand-text-secondary sm:text-base">
             We are more than a workplace — we are a launchpad for the careers
             of India&apos;s next generation of real estate leaders.
           </p>
@@ -69,14 +69,14 @@ export function WhyJoinSection() {
               key={pillar.id}
               className="group flex flex-col gap-4 bg-white p-8 transition-colors hover:bg-[#FAFAF9] sm:p-10"
             >
-              <span className="font-nexa text-xs font-bold tracking-[0.25em] text-[#8F8183]">
+              <span className="n-reg  text-xs font-bold tracking-[0.25em] text-[#8F8183]">
                 {pillar.number}
               </span>
-              <h3 className="font-qasbyne text-xl font-normal uppercase tracking-[0.06em] text-[#202225] sm:text-2xl">
+              <h3 className="qs-reg text-xl font-normal uppercase tracking-[0.06em] text-[#202225] sm:text-2xl">
                 {pillar.title}
               </h3>
               <div className="h-px w-10 bg-[#8F8183] transition-all duration-300 group-hover:w-16" />
-              <p className="font-nexa text-sm leading-relaxed text-brand-text-secondary">
+              <p className="n-reg  text-sm leading-relaxed text-brand-text-secondary">
                 {pillar.body}
               </p>
             </div>

@@ -105,7 +105,7 @@ function ServiceTile({ tile }: { tile: ServiceTile }) {
         }}
       />
       <div className="absolute bottom-0 left-0 right-0 flex items-center gap-5 px-12 py-[17px]">
-        <span className="font-nexa text-2xl font-bold uppercase tracking-[0.1em] text-white">
+        <span className="n-reg  font-bold uppercase tracking-[0.1em] text-white">
           {tile.label}
         </span>
         <ChevronRight />
@@ -134,7 +134,7 @@ function CommercialPanel() {
       />
 
       <div className="relative z-10 flex h-full flex-col px-8 py-12 lg:px-10">
-        <h2 className="mb-8 font-qasbyne text-[clamp(2rem,4vw,3.125rem)] font-normal uppercase tracking-[0.05em] text-white">
+        <h2 className="mb-8 qs-reg xt-[clamp(2rem,4vw,3.125rem)] font-normal uppercase tracking-[0.05em] text-white">
           Commercial Services
         </h2>
 
@@ -147,15 +147,15 @@ function CommercialPanel() {
                 onClick={() => setOpenIndex(i === openIndex ? -1 : i)}
                 className="flex w-full items-center justify-between gap-4 py-4 text-left transition-opacity hover:opacity-80"
               >
-                <span className="font-nexa text-xl font-bold leading-snug text-white">
+                <span className="n-reg xl font-bold leading-snug text-white">
                   {item.title}
                 </span>
-                <span className="shrink-0 font-nexa text-xl font-bold text-white">
+                <span className="shrink-0 n-reg  text-xl font-bold text-white">
                   {openIndex === i ? "−" : "+"}
                 </span>
               </button>
               {openIndex === i && item.description && (
-                <p className="pb-4 font-nexa text-base font-normal leading-[1.5] text-white">
+                <p className="pb-4 n-reg  text-base font-normal leading-[1.5] text-white">
                   {item.description}
                 </p>
               )}
@@ -166,7 +166,7 @@ function CommercialPanel() {
         <div className="mt-auto pt-8">
           <Link
             href="#"
-            className="inline-flex items-center gap-5 font-nexa text-2xl font-bold uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-80"
+            className="inline-flex items-center gap-5 n-reg  text-2xl font-bold uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-80"
           >
             Know More
             <ChevronRight />

@@ -50,7 +50,7 @@ export const BUYER_MARKETING_PAGE = {
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
     knowMoreHref: CONTACT,
-    knowMoreLabel: DEFAULT_KNOW_MORE.viewMoreLabel, 
+    knowMoreLabel: DEFAULT_KNOW_MORE.knowMoreLabel, 
     cards: [
       {
         id: "residential",

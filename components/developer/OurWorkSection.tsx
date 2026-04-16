@@ -37,29 +37,32 @@ export function OurWorkSection({ content }: { content: OurWorkBandContent }) {
               exit={{ opacity: 0, y: -8 }}
               transition={slideTransition}
             >
-              <h3 className="mt-6 fs-28 leading-snug text-brand-text-primary sm:text-xl max-w-md font-nexa">
+              <h3 className="mt-6 fs-28 leading-snug text-brand-text-primary sm:text-xl max-w-md n-bold ">
                 {slide.title}
               </h3>
-              <p className="mt-4 fs-20 lh-24 fw-200 leading-relaxed text-brand-text-primary sm:text-base max-w-lg">
+              <p className="mt-4 fs-20 lh-24 fw-200 leading-relaxed text-[#161616] sm:text-base max-w-lg n-book ">
                 {slide.body}
               </p>
             </motion.div>
           </AnimatePresence>
           <MarketingEnquireLink
             href={content.readMoreHref}
-            className="lg:mt-12 mt-8 inline-flex px-7 "
+            className="lg:mt-12 mt-8 inline-flex px-7 n-reg fs-20"
           >
             {content.readMoreLabel}
           </MarketingEnquireLink>
-          <CarouselControls
-            className="mt-5 gap-4"
-            currentIndex={index}
-            total={total}
-            onPrev={() => advance(-1)}
-            onNext={() => advance(1)}
-            prevLabel="Previous slide"
-            nextLabel="Next slide"
-          />
+          <div className="mt-22">
+
+            <CarouselControls
+              className="mt-5 gap-4"
+              currentIndex={index}
+              total={total}
+              onPrev={() => advance(-1)}
+              onNext={() => advance(1)}
+              prevLabel="Previous slide"
+              nextLabel="Next slide"
+            />
+          </div>
         </div>
 
         <div className="relative">

@@ -47,7 +47,7 @@ export function PartnersHero() {
           )}
         >
           <span className="text-white">Partners</span>
-          <span className="font-qasbyne"> &amp; Clients</span>
+          <span className="qs-reg"> &amp; Clients</span>
         </h1>
       </div>
     </section>

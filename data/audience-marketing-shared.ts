@@ -19,7 +19,7 @@ export const DEFAULT_VIEW_MORE = {
 
 export const DEFAULT_KNOW_MORE = {
   knowMoreHref: CONTACT,
-  viewMoreLabel: "KNOW more",
+  knowMoreLabel: "KNOW more",
 } as const;
 
 

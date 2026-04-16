@@ -27,7 +27,7 @@ function RecentPostsSidebar() {
   return (
     <aside className="w-full lg:w-[345px] lg:flex-shrink-0">
       <div className="bg-[#F2F2F2] px-6 py-7">
-        <h3 className="font-nexa text-xl font-light uppercase tracking-[0.1em] text-[#161616]">
+        <h3 className="n-reg  text-xl font-light uppercase tracking-[0.1em] text-[#161616]">
           Recent posts
         </h3>
         <div className="mt-3 border-t border-black/10" />
@@ -36,7 +36,7 @@ function RecentPostsSidebar() {
             <li key={i}>
               <Link
                 href="#"
-                className="font-nexa text-base font-bold leading-[1.5] text-[#161616] line-clamp-2 transition-opacity hover:opacity-70"
+                className="n-reg  text-base font-bold leading-[1.5] text-[#161616] line-clamp-2 transition-opacity hover:opacity-70"
               >
                 {title}
               </Link>
@@ -67,7 +67,7 @@ export function BlogDetail({ post }: { post: BlogDetailPost }) {
         {/* Back to blog */}
         {/* <Link
           href="/blog"
-          className="mb-8 inline-flex items-center gap-2 font-nexa text-sm font-bold uppercase tracking-[0.1em] text-[#8F8183] transition-opacity hover:opacity-70"
+          className="mb-8 inline-flex items-center gap-2 n-reg  text-sm font-bold uppercase tracking-[0.1em] text-[#8F8183] transition-opacity hover:opacity-70"
         >
           <BackArrow />
           Back to Blogs
@@ -75,16 +75,16 @@ export function BlogDetail({ post }: { post: BlogDetailPost }) {
 
         {/* ── Meta row: category + date ─────────────────────────────── */}
         <div className="flex items-center justify-between gap-4">
-          <span className="font-nexa text-xl font-normal text-[#161616]">
+          <span className="n-reg  text-xl font-normal text-[#161616]">
             {post.category}
           </span>
-          <span className="font-nexa text-xl font-normal text-[#161616] text-right">
+          <span className="n-reg  text-xl font-normal text-[#161616] text-right">
             {post.date}
           </span>
         </div>
 
         {/* ── Title ────────────────────────────────────────────────────── */}
-        <h1 className="mt-4 font-qasbyne text-[clamp(1.75rem,4vw,3.125rem)] leading-[1] text-[#161616]">
+        <h1 className="mt-4 qs-reg text-[clamp(1.75rem,4vw,3.125rem)] leading-[1] text-[#161616]">
           {post.title}
         </h1>
 
@@ -106,7 +106,7 @@ export function BlogDetail({ post }: { post: BlogDetailPost }) {
         <div className="mt-12 flex flex-col gap-10 lg:flex-row ">
           {/* Article body */}
           <div className="min-w-0 flex-1">
-            <div className="font-nexa text-xl font-normal leading-[1.5] text-[#161616] whitespace-pre-line">
+            <div className="n-reg  text-xl font-normal leading-[1.5] text-[#161616] whitespace-pre-line">
               {post.body}
             </div>
           </div>

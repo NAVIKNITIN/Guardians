@@ -29,7 +29,7 @@ export function StatFigure({
   return (
     <p
       className={cn(
-        "font-nexa text-3xl font-light tabular-nums text-brand-footer tracking-[-0.03em] sm:text-4xl md:text-[clamp(2.25rem,4vw,2.85rem)] md:tracking-[-0.04em]",
+        "n-book  text-3xl fw-200 tabular-nums text-brand-footer tracking-[-0.03em] sm:text-4xl md:text-[clamp(2.25rem,4vw,2.85rem)] md:tracking-[-0.04em]",
       )}
     >
       {text}
@@ -57,7 +57,7 @@ export function DeveloperStatsSection({
           )}
         >
           <StatFigure stat={stat} index={idx} isInView={isInView} />
-          <p className="mt-2 fs-10 lh-20 font-semibold  uppercase leading-snug tracking-wide text-brand-text-primary sm:max-w-[12rem] sm:text-xs">
+          <p className=" fs-10 lh-20 n-bold  uppercase leading-snug tracking-wide text-brand-text-primary sm:max-w-[12rem] sm:text-xs">
             {stat.label}
           </p>
         </div>

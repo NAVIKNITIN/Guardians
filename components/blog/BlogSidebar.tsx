@@ -46,7 +46,7 @@ function SidePanel({
 }) {
   return (
     <div className="bg-[#F2F2F2] px-6 py-7">
-      <h3 className="font-nexa text-xl font-light uppercase tracking-[0.1em] text-[#161616]">
+      <h3 className="n-reg xt-xl font-light uppercase tracking-[0.1em] text-[#161616]">
         {title}
       </h3>
       <div className="mt-3 border-t border-black/10" />
@@ -55,7 +55,7 @@ function SidePanel({
           <li key={i}>
             <a
               href="#"
-              className="font-nexa text-base font-bold leading-[1.5] text-[#161616] transition-opacity hover:opacity-70 line-clamp-2"
+              className="n-reg  text-base font-bold leading-[1.5] text-[#161616] transition-opacity hover:opacity-70 line-clamp-2"
             >
               {item}
             </a>
@@ -75,7 +75,7 @@ export function BlogSidebar() {
         <input
           type="search"
           placeholder="Search"
-          className="w-full bg-transparent font-nexa text-base font-normal text-black/60 placeholder:text-black/60 focus:outline-none tracking-[-0.01em]"
+          className="w-full bg-transparent n-reg  text-base font-normal text-black/60 placeholder:text-black/60 focus:outline-none tracking-[-0.01em]"
           aria-label="Search blog posts"
         />
       </div>

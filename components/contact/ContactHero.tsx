@@ -32,7 +32,7 @@ export function ContactHero() {
       <div className="relative z-10 flex h-full items-center justify-center px-4 text-center">
         <h1
           id="contact-hero-heading"
-          className="font-qasbyne font-normal uppercase text-[clamp(2.5rem,6.5vw,4.375rem)] leading-[1] tracking-[0.05em]"
+          className="qs-reg font-normal uppercase text-[clamp(2.5rem,6.5vw,4.375rem)] leading-[1] tracking-[0.05em]"
         >
           <span className="text-[#8F8183]">Contact </span>
           <span className="text-[#202225]">Us</span>
