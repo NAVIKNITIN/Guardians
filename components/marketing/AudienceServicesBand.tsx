@@ -26,14 +26,14 @@ export function AudienceServicesBand({
           >
             {content.sectionTitle}
           </h2>
-          <p className="mt-5 max-w-sm fs-18 leading-relaxed text-black sm:text-base fw-300">
+          <p className="mt-5 max-w-sm fs-18 leading-relaxed text-black sm:text-base fw-350 font-nexa fs-18">
             {content.description}
           </p>
           <MarketingEnquireLink
-            href={content.readMoreHref}
+            href={content.knowMoreHref}
             className="mt-8 inline-flex px-7"
           >
-            {content.readMoreLabel}
+            {content.knowMoreLabel}
           </MarketingEnquireLink>
         </div>
 
@@ -74,17 +74,17 @@ export function AudienceServicesBand({
                     </div>
 
                     <div className="flex flex-1 flex-col px-4 pb-4 pt-1">
-                      <h3 className="text-left text-[15px] font-bold uppercase leading-snug tracking-[0.14em] text-brand-text-primary sm:text-base">
+                      <h3 className="text-left text-[24px] fw-700 lh-24 uppercase leading-snug tracking-[0.14em] text-brand-text-primary sm:text-base">
                         {card.title}
                       </h3>
-                      <div className="mt-4 flex min-h-0 flex-1 items-end justify-between gap-3">
-                        <p className="min-w-0 flex-1 text-left text-sm font-normal leading-relaxed text-brand-text-primary">
+                      <div className="mt-4 flex min-h-0 flex-1 items-center justify-between">
+                        <p className="min-w-0 flex-1 text-left font-nexa-book fs-15 lh-18  text-brand-text-primary">
                           {card.description}
                         </p>
                         <Link
-                          href={content.readMoreHref}
+                          href={content.knowMoreHref}
                           className="inline-flex h-11 w-11 shrink-0 items-center justify-center bg-black text-white transition-colors hover:bg-neutral-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-                          aria-label={content.readMoreLabel}
+                          aria-label={content.knowMoreLabel}
                         >
                           <IconArrowUpRight className="h-5 w-5" />
                         </Link>

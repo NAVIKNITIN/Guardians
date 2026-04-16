@@ -6,7 +6,7 @@ import Image from "next/image";
 
 function resolveHeadline(content: MarketingHeroContent) {
   const defaults = content.isBuyer
-    ? { lead: "Looking To", accent: "Buy" }
+    ? { lead: "Looking To", accent: "Buy?" }
     : { lead: "Looking to", accent: "sell?" };
   return {
     lead: content.headingLead ?? defaults.lead,
@@ -19,7 +19,7 @@ export function AudienceHero({ content }: { content: MarketingHeroContent }) {
 
   return (
     <section
-      className="relative isolate w-full min-w-0 min-h-[min(120vh,960px)] overflow-hidden bg-neutral-300 pt-10 pb-28 sm:min-h-[min(120vh,1000px)] sm:pt-14 sm:pb-32 lg:pt-16 lg:pb-40"
+      className="lg:pt-[130] relative isolate w-full min-w-0 min-h-[min(120vh,960px)] overflow-hidden bg-neutral-300 pt-10 pb-28 sm:min-h-[min(120vh,1000px)] sm:pt-14 sm:pb-32 lg:pt-16 lg:pb-40"
       aria-labelledby={content.ariaHeadingId}
     >
       <div className="pointer-events-none absolute inset-0 z-0">
@@ -27,7 +27,7 @@ export function AudienceHero({ content }: { content: MarketingHeroContent }) {
           src={content.backgroundImageSrc}
           alt=""
           fill
-          className="object-cover object-center saturate-[0.82] contrast-[1.03]"
+          className="object-cover object-center"
           sizes="100vw"
           priority
         />
@@ -46,17 +46,17 @@ export function AudienceHero({ content }: { content: MarketingHeroContent }) {
         <div className="mx-auto flex min-w-0 max-w-[820px] flex-col items-center px-2 text-center sm:px-4">
           <h1
             id={content.ariaHeadingId}
-            className="break-words font-qasbyne text-[clamp(1.75rem,6vw,4.5rem)] uppercase leading-[1.05] tracking-[0.04em] sm:text-[clamp(2rem,6vw,4.5rem)]"
+            className="break-words  font-qasbyne fw-100 text-[clamp(1.75rem,6vw,4.5rem)] uppercase leading-[1.05] tracking-[0.04em] sm:text-[clamp(2rem,6vw,4.5rem)]"
           >
             <span className="block">
-              <span className="font-normal text-[#0a0a0a]">{lead}</span>{" "}
-              <span className="font-light text-[#7a6a5c]">{accent}</span>
+              <span className="">{lead}</span>{" "}
+              <span className="text-[#7a6a5c]">{accent}</span>
             </span>
           </h1>
           <p
             className={cn(
-              "mx-auto mt-8 max-w-[32rem] font-nexa font-normal leading-relaxed text-[#1a1a1a]/92",
-              "text-sm sm:mt-10 sm:text-base lg:mt-11 lg:text-[17px]",
+              "mx-auto mt-0 lg:max-w-[38rem] font-nexa  fs-18 lg:lh-23 leading-relaxed ",
+              " sm:mt-10 sm:text-base lg:mt-11 ",
             )}
           >
             {content.body}

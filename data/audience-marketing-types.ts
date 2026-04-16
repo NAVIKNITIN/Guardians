@@ -73,8 +73,8 @@ export type MarketingHeroContent = {
 export type ServicesBandContent = {
   sectionTitle: string;
   description: string;
-  readMoreHref: string;
-  readMoreLabel: string;
+  knowMoreHref: string;
+  knowMoreLabel: string;
   cards: DeveloperServiceCard[];
 };
 

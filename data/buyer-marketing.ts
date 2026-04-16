@@ -6,6 +6,7 @@ import type {
 import {
   CONTACT,
   DEFAULT_HERO_CTA,
+  DEFAULT_KNOW_MORE,
   DEFAULT_READ_MORE,
   DEFAULT_VIEW_MORE,
   partnersBand,
@@ -48,7 +49,8 @@ export const BUYER_MARKETING_PAGE = {
     sectionTitle: "Our services",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
-    ...DEFAULT_READ_MORE,
+    knowMoreHref: CONTACT,
+    knowMoreLabel: DEFAULT_KNOW_MORE.viewMoreLabel, 
     cards: [
       {
         id: "residential",

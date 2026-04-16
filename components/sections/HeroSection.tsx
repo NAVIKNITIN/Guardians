@@ -8,11 +8,11 @@ const HERO_IMAGE = "/images/Home/1.png";
 export function HeroSection() {
   return (
     <section
-      className="sm:pt-14 lg:min-h-[650px] relative min-h-[560px] overflow-hidden pt-10 pb-0  lg:pt-20"
+      className=" sm:pt-14 lg:min-h-[650px] relative min-h-[560px] overflow-hidden pt-10 pb-0  lg:pt-20"
       aria-labelledby="hero-heading"
     >
       {/* Full-bleed background image */}
-      <div className="pointer-events-none absolute inset-0 z-0">
+      <div className="pointer-events-none absolute inset-0 z-0 lg:pt-[50]">
         <Image
           src={HERO_IMAGE}
           alt=""

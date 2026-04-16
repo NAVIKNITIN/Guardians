@@ -6,7 +6,7 @@
   --color-brand-secondary: #525252;
   --color-brand-accent: #a67c52;
   --color-brand-accent-hover: #8f6a45;
-  --color-brand-text-primary: #0a0a0a;
+  --color-brand-text-primary: #202225;
   --color-brand-text-secondary: #737373;
   --color-brand-text-muted: #a3a3a3;
   --color-brand-text-inverse: #fafafa;
@@ -53,8 +53,9 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #0a0a0a;
-  --font-primary: "font-nexa";
+  /* Default text when no element sets `color` (inherits via cascade). */
+  --foreground: #202225;
+  --font-primary: var(--font-nexa);
   --font-secondary: var(--font-qasbyne);
 
   --site-header-height: 118px;
@@ -75,6 +76,25 @@ body {
   color: var(--foreground);
   font-family: "font-nexa", system-ui, sans-serif;
   font-weight: 400;
+}
+
+/* Nexa face helpers (weights from `styles/fonts.ts`: Light 300, Book 350, Bold 700). */
+.font-nexa-bold {
+  font-family: var(--font-nexa), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  font-style: normal;
+}
+
+.font-nexa-regular {
+  font-family: var(--font-nexa), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 400;
+  font-style: normal;
+}
+
+.font-nexabook {
+  font-family: var(--font-nexa), ui-sans-serif, system-ui, sans-serif;
+  font-weight: 350;
+  font-style: normal;
 }
 
 /* Keep Qasbyne rendering deterministic across browsers (closer to Figma preview). */
@@ -214,6 +234,39 @@ body {
 }
 .fw-900 {
   font-weight: 900;
+}
+.lh-10 {
+  line-height: 10px;
+}
+.lh-12 {
+  line-height: 12px;
+}
+.lh-14 {
+  line-height: 14px;
+}
+.lh-16 {
+  line-height: 16px;
+}
+.lh-17 {
+  line-height: 17px;
+}
+.lh-19 {
+  line-height: 19px;
+}
+.lh-18 {
+  line-height: 18px;
+}
+.lh-20 {
+  line-height: 20px;
+}
+.lh-21 {
+  line-height: 21px;
+}
+.lh-22 {
+  line-height: 22px;
+}
+.lh-23 {
+  line-height: 23px;
 }
 .lh-24 {
   line-height: 24px;
