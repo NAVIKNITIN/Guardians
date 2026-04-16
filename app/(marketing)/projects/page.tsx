@@ -295,7 +295,7 @@ function ProjectsPageContent() {
       {/* ------------------------------------------------------------------ */}
       {/* HERO — combined projects landing                                    */}
       {/* ------------------------------------------------------------------ */}
-      <section className="relative isolate flex min-h-[400px] h-[min(72vw,560px)] flex-col overflow-hidden sm:min-h-[380px] sm:h-[420px] lg:h-[560px]">
+      <section className="lg:pt-[90px] relative isolate flex min-h-[600px] h-[min(72vw,600px)] flex-col overflow-hidden sm:min-h-[380px] sm:h-[420px] lg:h-[800px]">
         <Image
           src={heroBackgroundSrc}
           alt=""
@@ -306,13 +306,13 @@ function ProjectsPageContent() {
           sizes="100vw"
         />
 
-        <div className="relative z-[1] flex w-full min-w-0 flex-1 flex-col items-center justify-start gap-2 px-4 pb-8 pt-6 text-center sm:gap-6 sm:px-10 sm:py-14 sm:pb-14">
+        <div className="relative z-[1] flex w-full min-w-0 flex-1 flex-col items-center justify-start  px-4 pb-8 pt-6 text-center sm:gap-6 sm:px-10 sm:py-14 sm:pb-14">
           <h1
-            className="max-w-[min(22ch,100%)] break-words qs-reg text-[clamp(1.75rem,5.5vw,3.75rem)] font-normal uppercase leading-[1.12] tracking-[0.06em] text-[#0a0a0a] sm:max-w-[100vw] sm:tracking-[0.07em] lg:text-[clamp(2.75rem,5vw,4rem)]"
+            className="max-w-[min(22ch,100%)] fs-70 qs-reg wrap-break-word qs-reg text-[clamp(1.75rem,5.5vw,3.75rem)] font-normal uppercase leading-[1.12] tracking-[0.06em] text-[#0a0a0a] sm:max-w-[100vw] sm:tracking-[0.07em] lg:text-[clamp(2.75rem,5vw,4rem)]"
           >
             {filterStage} Projects
           </h1>
-          <p className=" lg:mt-0 max-w-xl px-1 n-reg  text-[0.875rem] font-normal leading-relaxed text-[#0a0a0a] sm:text-lg lg:text-xl">
+          <p className=" lg:mt-0 max-w-3xl px-1 n-reg  text-[0.875rem] font-normal leading-relaxed text-[#0a0a0a] sm:text-lg lg:text-medium">
             We are one of the fastest growing Real Estate consulting company in
             India.
           </p>
@@ -458,7 +458,7 @@ export default function ProjectsPage() {
   return (
     <Suspense
       fallback={
-        <main className="min-h-[50vh] bg-white">
+        <main className="min-h-[50vh] bg-white lg:pt-[100px]">
           <div className="flex h-[320px] items-center justify-center bg-[#BCBDC0]/30 sm:h-[400px] lg:h-[550px]">
             <span className="n-reg  text-sm text-[#202225]/60">Loading…</span>
           </div>
