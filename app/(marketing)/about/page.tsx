@@ -135,35 +135,35 @@ function BrandCard({
 
 export default function AboutPage() {
   return (
-    <div className="bg-white text-[#2a2626]">
+    <div className="bg-white text-[#2a2626] ">
       <section
         id="about"
-        className="border-b border-[#d8d2d2] bg-[linear-gradient(180deg,#fbfbfb_0%,#f7f5f5_50%,#efeded_100%)]"
+        className="border-b border-[#d8d2d2] bg-[linear-gradient(180deg,#fbfbfb_0%,#f7f5f5_50%,#efeded_100%)]] lg:min-h-[550px] "
       >
-        <div className="relative w-full overflow-hidden">
+        <div className="relative w-full h-full  overflow-hidden ">
           <Image
             src={heroImage}
             alt="The Guardians city skyline"
             width={1600}
             height={900}
-            className="h-[340px] w-full object-cover object-center sm:h-[420px] lg:h-[500px]"
+            className=" w-full object-cover object-center  "
             sizes="100vw"
             unoptimized
             priority
           />
-          <div className="absolute inset-x-0 top-[6%] px-4 text-center sm:top-[7%] sm:px-6 lg:top-[7.5%]">
-            <h1 className="break-words px-1 qs-reg text-[clamp(2rem,5.5vw,5.8rem)] uppercase leading-[0.94] tracking-[0.02em] sm:text-[clamp(2.7rem,6vw,5.8rem)]">
+          <div className="absolute inset-x-0 top-[6%] px-4 text-center sm:top-[7%] sm:px-6 lg:top-[7.5%] lg:pt-25">
+            <h1 className="break-words px-1 qs-reg fs-70 uppercase leading-[0.94] tracking-[0.02em] ">
               <span className="text-[#9e8f90]">Who</span>
               <span className="ml-2 inline-block sm:ml-3 sm:inline">We Are?</span>
             </h1>
-            <p className="mx-auto mt-4 max-w-[1180px] px-2 text-[15px] leading-[1.15] text-[#2f2b2c] sm:text-[17px] sm:leading-[1.1] md:text-[21px] lg:text-[24px]">
+            <p className="mx-auto mt-4 max-w-[1180px] px-2 text-[15px] leading-[1.15] text-[#2f2b2c] fs-18 n-book">
               We are one of the fastest growing Real Estate consulting company in India.
             </p>
           </div>
         </div>
       </section>
 
-      <section className="py-14 sm:py-16 lg:py-20">
+      <section className="py-14 sm:py-16 lg:py-20 mt-10 ">
         <Container>
           <div className="mx-auto max-w-[1120px]">
             <h2 className="text-center qs-reg text-[clamp(1.9rem,2.6vw,3rem)] uppercase tracking-[0.03em] text-[#2a2626]">
@@ -188,8 +188,8 @@ export default function AboutPage() {
                     who have played diverse roles across their careers. Their collective experience spans over
                     <span className="font-semibold text-[#242021]"> 12 decades </span>
                     and extends to a pan India portfolio of the best of both regional and national real estate
-                    brands. The team has till date sold over
-                    <span className="font-semibold text-[#242021]"> 17.3 Million </span>
+                    brands. The team has till date sold
+                    <span className="font-semibold text-[#242021]">  over 17.3 Million </span>
                     of sq.ft. of projects in both residential and commercial real estate categories.
                   </p>
                 </div>
