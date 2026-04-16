@@ -12,6 +12,8 @@ import {
   IconChevronRight,
 } from "@/components/common/icons";
 
+const CAROUSEL_PREV = "/images/leftcarousel.svg";
+const CAROUSEL_NEXT = "/images/rightcarousel.svg";
 import { useCountUp } from "@/hooks/useCountUp";
 import { cn } from "@/utils/cn";
 
@@ -177,8 +179,8 @@ export function AboutLeadershipSection({
   };
 
   return (
-    <div className="mx-auto max-w-[1120px] lg:px-4">
-      <h2 className="font-qasbyne text-[clamp(1.7rem,2.7vw,2.8rem)] uppercase tracking-[0.05em] text-[#2a2626]">
+    <div className="mx-auto w-full lg:px-20 lg:pb-10">
+      <h2 className="qs-reg fs-50 uppercase tracking-[0.05em] text-[#2a2626]">
         Meet The Leadership
       </h2>
 
@@ -239,17 +241,28 @@ export function AboutLeadershipSection({
                   exit={shouldReduceMotion ? undefined : "exit"}
                   transition={leadershipTransition}
                 >
-                  <div className="font-serif text-[5.5rem] leading-none text-[#c8c5c6] sm:text-[6.5rem]">
-                    &ldquo;
+                  <div className="flex items-start gap-4 ">
+                    <Image
+                      alt="quote"
+                      src="/images/“.svg"
+                      width={68}
+                      height={79}
+                      className="object-cover"
+                      sizes="100px"
+                    />
+                    <span>
+                      <h3 className="n-bold fs-35 lg:fs-42 lh-50 lg:lh-60 pl-4">
+                        {activeSlide.title}
+                      </h3>
+
+
+                    </span>
                   </div>
-
-                  <h3 className="-mt-8 max-w-[520px] text-[clamp(2rem,3vw,3.2rem)] font-semibold leading-[1.08] text-[#1f1d1d]">
-                    {activeSlide.title}
-                  </h3>
-
-                  <p className="mt-7 max-w-[560px] text-sm leading-8 text-[#5d5859] sm:text-[15px]">
+                  <p className="mt-7 max-w-[560px] fs-16 lh-24 n-book fw-100 leading-8 text-[#5d5859] sm:text-[15px]">
                     {activeSlide.body}
                   </p>
+
+
                 </motion.div>
               </AnimatePresence>
             </div>
@@ -270,13 +283,20 @@ export function AboutLeadershipSection({
                     <p className="text-[clamp(2rem,2.6vw,2.7rem)] font-semibold text-[#2a2626]">
                       {activeSlide.name}
                     </p>
-                    <p className="mt-2 text-sm uppercase tracking-[0.22em] text-[#867f80]">
+                    <p className=" fs18 n-bold uppercase tracking-[0.22em] text-[#867f80]">
                       {activeSlide.role}
                     </p>
                   </div>
 
                   <div className="font-serif text-[5.5rem] leading-none text-[#c8c5c6] sm:text-[6.5rem]">
-                    &rdquo;
+                    <Image
+                      alt="quote"
+                      src="/images/“.svg"
+                      width={68}
+                      height={79}
+                      className="object-cover transform -rotate-180"
+                      sizes="100px"
+                    />
                   </div>
                 </motion.div>
               </AnimatePresence>
@@ -290,7 +310,13 @@ export function AboutLeadershipSection({
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-current/50 bg-white/40"
                 aria-label="Previous"
               >
-                <IconChevronLeft className="h-4 w-4" />
+                <Image
+                  src={CAROUSEL_PREV}
+                  alt=""
+                  width={45}
+                  height={45}
+                  className="object-cover"
+                />
               </button>
 
               <button
@@ -299,12 +325,18 @@ export function AboutLeadershipSection({
                 className="flex h-10 w-10 items-center justify-center rounded-full border border-current/50 bg-white/40"
                 aria-label="Next"
               >
-                <IconChevronRight className="h-4 w-4" />
+                <Image
+                  src={CAROUSEL_NEXT}
+                  alt=""
+                  width={45}
+                  height={45}
+                  className="object-cover"
+                />
               </button>
             </div>
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 }

@@ -6,10 +6,9 @@ import {
   type LeadershipSlide,
 } from "@/components/developer/DeveloperStatsSection";
 
-import { IconArrowUpRight } from "@/components/common/icons";
+import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
-import Link from "next/link";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -48,7 +47,7 @@ const leadershipSlides = [
     imageAlt: "Leadership portrait 1",
     title: "We stay ahead of the curve with strategy",
     body:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor sit amet,",
     name: "Jayesh Rathod",
     role: "Co-Founder & Director",
     imagePositionClassName: "object-center",
@@ -88,11 +87,6 @@ const leadershipSlides = [
   },
 ] satisfies readonly LeadershipSlide[];
 
-const ctaClassName = cn(
-  "inline-flex items-center justify-center gap-3 bg-[linear-gradient(90deg,#ffb09f_0%,#d68b7e_52%,#ffab98_100%)] px-8 py-3 text-[11px] font-bold uppercase tracking-[0.24em] text-white transition-all",
-  "hover:brightness-[0.98]",
-);
-
 function BrandCard({
   title,
   subtitle,
@@ -105,7 +99,7 @@ function BrandCard({
       <article className="flex min-h-[138px] items-center justify-center border border-[#ece7e7] bg-white px-6 py-8 text-center">
         <div className="leading-none text-[#938788]">
           <div className="flex items-start justify-center gap-1">
-            <span className="text-[clamp(1.9rem,3vw,3.1rem)] font-bold lowercase tracking-[-0.05em]">
+            <span className=" fs-42 lowercase tracking-[-0.05em] fw-700">
               ground
             </span>
             <div className="pt-1 text-left">
@@ -235,12 +229,12 @@ export default function AboutPage() {
                   <p className="text-[clamp(0.98rem,1vw,1.05rem)] leading-[1.38] text-[#3c393a]">
                     <span className="font-semibold text-[#242021]">The Guardians</span> mark the coming
                     together of the best of minds from the Indian real estate industry, a set of professionals
-                    who have played diverse roles across their careers. Their collective experience spans over
-                    <span className="font-semibold text-[#242021]"> 12 decades </span>
+                    who have played diverse roles across their careers. Their collective experience spans
+                    <span className="font-semibold text-[#242021]"> over 12 decades </span>
                     and extends to a pan India portfolio of the best of both regional and national real estate
                     brands. The team has till date sold
-                    <span className="font-semibold text-[#242021]">  over 17.3 Million </span>
-                    of sq.ft. of projects in both residential and commercial real estate categories.
+                    <span className="font-semibold text-[#242021]">  over 17.3 Million of sq.ft. </span>
+                    of projects in both residential and commercial real estate categories.
                   </p>
                 </div>
                 <div className="absolute right-3 top-1/2 hidden -translate-y-1/2 lg:block">
@@ -255,23 +249,23 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="mt-16 grid items-start gap-y-10 lg:grid-cols-[470px_1fr] lg:gap-x-18">
+            <div className="mt-16 grid items-start gap-y-10 lg:grid-cols-[1fr_1fr] lg:gap-x-18">
               <div className="max-w-[470px] lg:pl-10">
-                <h3 className="max-w-[430px] text-[clamp(1.72rem,2.1vw,2.6rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-[#1f1c1d]">
+                <h3 className="max-w-[430px] n-bold fs-42 text-[clamp(1.72rem,2.1vw,2.6rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-[#1f1c1d]">
                   Revolutionising real
                   <br />
                   estate through
                   <br />
                   innovation
                 </h3>
-                <p className="mt-8 max-w-[355px] text-[14px] leading-[1.28] text-[#5f5a5b]">
+                <p className="mt-8 nexa-bold fs-16 lh-20 max-w-[355px] text-[14px] leading-[1.28] text-[#5f5a5b]">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                   ut labore et dolore magna aliqua, dolor sit amet, consectetur adipiscing elit, sed do
                   eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </p>
               </div>
 
-              <div className="grid w-full max-w-[430px] grid-cols-2 items-start gap-x-6 gap-y-10 sm:gap-x-12 sm:gap-y-12 lg:ml-auto">
+              <div className="grid w-full max-w-[590px] grid-cols-2 items-start gap-x-6 gap-y-10 sm:gap-x-12 sm:gap-y-12 lg:ml-auto">
                 {stats.map((stat, index) => (
                   <div
                     key={stat.label}
@@ -291,7 +285,7 @@ export default function AboutPage() {
                     </p>
                     <p
                       className={cn(
-                        "mt-1.5 text-[11px] leading-tight text-[#706b6c]",
+                        "mt-1.5 text-[16px] n-bold leading-tight text-[#000000]",
                         index < 2 && "mt-2",
                       )}
                     >
@@ -313,7 +307,7 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <section id="brands" className="bg-[#f3f1f1] py-12 sm:py-16 lg:py-20">
+      <section id="brands" className="bg-[#f3f1f1] py-12 sm:py-16 lg:py-10">
         <Container>
           <div className="mx-auto max-w-[1120px]">
             <div className="flex items-center justify-center gap-5">
@@ -333,10 +327,9 @@ export default function AboutPage() {
             </div>
 
             <div className="mt-12 flex justify-center">
-              <Link href="/contact" className={ctaClassName}>
+              <GradientCtaButton href="/contact" variant="know-more" className="fs-18 n-bold uppercase lg:px-10">
                 Know More
-                <IconArrowUpRight className="h-4 w-4" />
-              </Link>
+              </GradientCtaButton>
             </div>
           </div>
         </Container>

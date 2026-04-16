@@ -121,7 +121,7 @@ function BuyerProfileCard({
             <p className="font-nexa text-xs font-medium uppercase tracking-[0.2em] text-neutral-600">
               I am a
             </p>
-            <h3 className="mt-1 font-qasbyne text-[clamp(2rem,4.5vw,3rem)] font-normal uppercase leading-none tracking-tight text-neutral-950">
+            <h3 className="mt-1 qs-reg text-[clamp(2rem,4.5vw,3rem)] font-normal uppercase leading-none tracking-tight text-neutral-950">
               Buyer
             </h3>
           </div>
@@ -167,7 +167,7 @@ function DeveloperProfileCard({
             <p className="font-nexa text-xs font-medium uppercase tracking-[0.2em] text-neutral-600 lg:text-right">
               I am a
             </p>
-            <h3 className="mt-1 font-qasbyne text-[clamp(2rem,4.5vw,3rem)] font-normal uppercase leading-none tracking-tight text-neutral-950 lg:text-right">
+            <h3 className="mt-1 qs-reg text-[clamp(2rem,4.5vw,3rem)] font-normal uppercase leading-none tracking-tight text-neutral-950 lg:text-right">
               Developer
             </h3>
           </div>

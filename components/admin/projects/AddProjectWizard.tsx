@@ -68,7 +68,7 @@ function SectionCard({
           {icon}
         </div>
 
-        <h2 className="font-qasbyne text-[clamp(2.2rem,3vw,3.15rem)] leading-none text-[#081a43]">
+        <h2 className="qs-reg text-[clamp(2.2rem,3vw,3.15rem)] leading-none text-[#081a43]">
           {title}
         </h2>
       </div>

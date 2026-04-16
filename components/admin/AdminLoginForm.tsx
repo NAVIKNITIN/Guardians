@@ -110,7 +110,7 @@ export function AdminLoginForm() {
         <IconBuilding className="h-9 w-9 text-[#ffe9e1]" />
       </div>
 
-      <h1 className="mt-6 text-center font-qasbyne text-[clamp(2.6rem,4vw,3.45rem)] leading-none text-[#3f3a39]">
+      <h1 className="mt-6 text-center qs-reg text-[clamp(2.6rem,4vw,3.45rem)] leading-none text-[#3f3a39]">
         Admin Login
       </h1>
 
