@@ -1,0 +1,78 @@
+<svg width="1400" height="900" viewBox="0 0 1400 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1400" y2="900" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F6F3F0"/>
+      <stop offset="1" stop-color="#ECE7E3"/>
+    </linearGradient>
+    <linearGradient id="hero" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#D4D3D1"/>
+      <stop offset="1" stop-color="#BDBDBE"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#D9B1A5"/>
+      <stop offset="1" stop-color="#BF8D87"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="18" stdDeviation="22" flood-color="#000000" flood-opacity="0.08"/>
+    </filter>
+  </defs>
+
+  <rect width="1400" height="900" fill="url(#bg)"/>
+
+  <rect x="64" y="72" width="1272" height="756" rx="30" fill="#FFFFFF" filter="url(#shadow)"/>
+
+  <text x="112" y="144" fill="#1D1B1B" font-family="Georgia, Times New Roman, serif" font-size="34" letter-spacing="1.2">Matched Color Direction</text>
+  <text x="112" y="178" fill="#8E7E7E" font-family="Arial, Helvetica, sans-serif" font-size="20">Based on your uploaded homepage + developer reference image</text>
+
+  <rect x="112" y="228" width="544" height="444" rx="24" fill="#F7F5F2" stroke="#E3DDD8"/>
+  <rect x="136" y="252" width="496" height="48" rx="10" fill="#A08F90"/>
+  <rect x="136" y="320" width="496" height="178" rx="18" fill="url(#hero)"/>
+  <path d="M136 474 L296 394 L383 460 L384 498 L136 498 Z" fill="#0E0D0D"/>
+  <path d="M632 474 L472 394 L385 460 L384 498 L632 498 Z" fill="#0E0D0D"/>
+  <path d="M286 487 L384 400 L482 487 L444 487 L384 434 L324 487 Z" fill="#1B1B1B"/>
+  <path d="M310 487 L384 420 L458 487 L430 487 L384 446 L338 487 Z" fill="#9B9DA1"/>
+  <path d="M332 487 L384 438 L436 487 L414 487 L384 460 L354 487 Z" fill="#F7F7F7"/>
+
+  <rect x="136" y="526" width="238" height="122" rx="14" fill="#F4F1EE" stroke="#E3DDD8"/>
+  <rect x="394" y="526" width="238" height="122" rx="14" fill="#F4F1EE" stroke="#E3DDD8"/>
+  <circle cx="196" cy="584" r="42" fill="#DAD6D2"/>
+  <circle cx="454" cy="584" r="42" fill="#CFD1D5"/>
+  <rect x="144" y="544" width="58" height="8" rx="4" fill="#8F8080"/>
+  <rect x="404" y="544" width="74" height="8" rx="4" fill="#8F8080"/>
+  <rect x="144" y="610" width="104" height="28" rx="4" fill="url(#accent)"/>
+  <rect x="500" y="610" width="104" height="28" rx="4" fill="#1E1D1D"/>
+
+  <text x="112" y="722" fill="#1D1B1B" font-family="Georgia, Times New Roman, serif" font-size="24">Visual feel</text>
+  <text x="112" y="758" fill="#6F6464" font-family="Arial, Helvetica, sans-serif" font-size="18">Luxury neutral, editorial real-estate, soft blush warmth, high-contrast black details</text>
+
+  <text x="724" y="250" fill="#1D1B1B" font-family="Georgia, Times New Roman, serif" font-size="30">Primary Palette</text>
+
+  <rect x="724" y="290" width="260" height="112" rx="18" fill="#A08F90"/>
+  <text x="752" y="338" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Warm Taupe</text>
+  <text x="752" y="370" fill="#F2ECE8" font-family="Arial, Helvetica, sans-serif" font-size="28">#A08F90</text>
+
+  <rect x="1012" y="290" width="260" height="112" rx="18" fill="#D9B1A5"/>
+  <text x="1040" y="338" fill="#432C28" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Blush Accent</text>
+  <text x="1040" y="370" fill="#5A3A34" font-family="Arial, Helvetica, sans-serif" font-size="28">#D9B1A5</text>
+
+  <rect x="724" y="426" width="260" height="112" rx="18" fill="#F6F3F0" stroke="#DDD6D1"/>
+  <text x="752" y="474" fill="#4E4545" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Stone White</text>
+  <text x="752" y="506" fill="#6E6262" font-family="Arial, Helvetica, sans-serif" font-size="28">#F6F3F0</text>
+
+  <rect x="1012" y="426" width="260" height="112" rx="18" fill="#1D1B1B"/>
+  <text x="1040" y="474" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Deep Charcoal</text>
+  <text x="1040" y="506" fill="#F1F1F1" font-family="Arial, Helvetica, sans-serif" font-size="28">#1D1B1B</text>
+
+  <rect x="724" y="562" width="260" height="112" rx="18" fill="#C7C9CC"/>
+  <text x="752" y="610" fill="#404449" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Steel Gray</text>
+  <text x="752" y="642" fill="#51555A" font-family="Arial, Helvetica, sans-serif" font-size="28">#C7C9CC</text>
+
+  <rect x="1012" y="562" width="260" height="112" rx="18" fill="#E8DED8"/>
+  <text x="1040" y="610" fill="#5E4D49" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Soft Beige</text>
+  <text x="1040" y="642" fill="#705D57" font-family="Arial, Helvetica, sans-serif" font-size="28">#E8DED8</text>
+
+  <text x="724" y="734" fill="#1D1B1B" font-family="Georgia, Times New Roman, serif" font-size="24">Use these combinations</text>
+  <text x="724" y="770" fill="#6F6464" font-family="Arial, Helvetica, sans-serif" font-size="18">Background: #F6F3F0   •   Header/Footer: #A08F90   •   CTA: #D9B1A5</text>
+  <text x="724" y="800" fill="#6F6464" font-family="Arial, Helvetica, sans-serif" font-size="18">Text/Icons: #1D1B1B   •   Secondary image overlays: #C7C9CC   •   Cards: #E8DED8</text>
+  <text x="724" y="830" fill="#8E7E7E" font-family="Arial, Helvetica, sans-serif" font-size="16">Created to match the overall mood of your shared homepage/developer reference.</text>
+</svg>

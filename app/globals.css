@@ -372,3 +372,14 @@ body {
 .heading-style {
   margin-top: -100px;
 }
+.btn-primary-gradient {
+  background-color: #f09684;
+  background-image: linear-gradient(
+    270deg,
+    #ffa995 5%,
+    #d88373 15%,
+    #f09684 50%,
+    #d27e6c 85%,
+    #ffa995 95%
+  );
+}

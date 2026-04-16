@@ -1,0 +1,202 @@
+<svg width="1600" height="3200" viewBox="0 0 1600 3200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="0" y2="3200" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F8F4F0"/>
+      <stop offset="1" stop-color="#EEE6DE"/>
+    </linearGradient>
+    <linearGradient id="shell" x1="0" y1="0" x2="1" y2="1" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFFDFC"/>
+      <stop offset="1" stop-color="#F6F0EB"/>
+    </linearGradient>
+    <linearGradient id="sidebar" x1="0" y1="0" x2="0" y2="1" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#241E1F"/>
+      <stop offset="1" stop-color="#3E3132"/>
+    </linearGradient>
+    <linearGradient id="primary" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#D9B2A7"/>
+      <stop offset="1" stop-color="#C48E84"/>
+    </linearGradient>
+    <linearGradient id="success" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2E8C57"/>
+      <stop offset="1" stop-color="#1B6C41"/>
+    </linearGradient>
+    <linearGradient id="preview" x1="0" y1="0" x2="1" y2="1" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#EEEAE7"/>
+      <stop offset="1" stop-color="#CAC8C8"/>
+    </linearGradient>
+    <filter id="shellShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="20" stdDeviation="26" flood-color="#000000" flood-opacity="0.09"/>
+    </filter>
+    <filter id="cardShadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="12" stdDeviation="16" flood-color="#000000" flood-opacity="0.06"/>
+    </filter>
+  </defs>
+
+  <rect width="1600" height="3200" fill="#1F1A1A"/>
+  <rect x="32" y="32" width="1536" height="3136" rx="30" fill="url(#bg)"/>
+  <rect x="32" y="32" width="1536" height="3136" rx="30" fill="url(#shell)" filter="url(#shellShadow)"/>
+
+  <rect x="32" y="32" width="280" height="3136" rx="30" fill="url(#sidebar)"/>
+  <rect x="32" y="32" width="280" height="120" rx="30" fill="#201A1B"/>
+  <circle cx="92" cy="92" r="21" fill="#D9B2A7"/>
+  <circle cx="92" cy="92" r="9" fill="#FFF8F5"/>
+  <text x="126" y="99" fill="#FFF7F3" font-family="Arial, Helvetica, sans-serif" font-size="28" font-weight="700">Guardians CMS</text>
+
+  <rect x="58" y="172" width="228" height="56" rx="18" fill="#F1E4DE"/>
+  <text x="116" y="206" fill="#3B302F" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700">Admin Project Studio</text>
+  <circle cx="84" cy="200" r="10" fill="#C48E84"/>
+
+  <text x="64" y="276" fill="#C9BCB8" font-family="Arial, Helvetica, sans-serif" font-size="12" letter-spacing="2">WORKFLOW</text>
+
+  <g fill="#FFFFFF" fill-opacity="0.09">
+    <rect x="58" y="300" width="228" height="52" rx="18"/>
+    <rect x="58" y="366" width="228" height="52" rx="18"/>
+    <rect x="58" y="432" width="228" height="52" rx="18"/>
+    <rect x="58" y="498" width="228" height="52" rx="18"/>
+    <rect x="58" y="564" width="228" height="52" rx="18"/>
+    <rect x="58" y="630" width="228" height="52" rx="18"/>
+    <rect x="58" y="696" width="228" height="52" rx="18"/>
+    <rect x="58" y="762" width="228" height="52" rx="18"/>
+  </g>
+
+  <g fill="#B9AAA6">
+    <circle cx="86" cy="326" r="10"/>
+    <circle cx="86" cy="392" r="10"/>
+    <circle cx="86" cy="458" r="10"/>
+    <circle cx="86" cy="524" r="10"/>
+    <circle cx="86" cy="590" r="10"/>
+    <circle cx="86" cy="656" r="10"/>
+    <circle cx="86" cy="722" r="10"/>
+    <circle cx="86" cy="788" r="10"/>
+  </g>
+  <circle cx="86" cy="722" r="10" fill="#D9B2A7"/>
+
+  <text x="112" y="332" fill="#D8CBC7" font-family="Arial, Helvetica, sans-serif" font-size="15">Basic Info</text>
+  <text x="112" y="398" fill="#D8CBC7" font-family="Arial, Helvetica, sans-serif" font-size="15">Hero Section</text>
+  <text x="112" y="464" fill="#D8CBC7" font-family="Arial, Helvetica, sans-serif" font-size="15">Highlights</text>
+  <text x="112" y="530" fill="#D8CBC7" font-family="Arial, Helvetica, sans-serif" font-size="15">Description</text>
+  <text x="112" y="596" fill="#D8CBC7" font-family="Arial, Helvetica, sans-serif" font-size="15">Gallery</text>
+  <text x="112" y="662" fill="#D8CBC7" font-family="Arial, Helvetica, sans-serif" font-size="15">Amenities</text>
+  <text x="112" y="728" fill="#FFF8F5" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700">Location</text>
+  <text x="112" y="794" fill="#D8CBC7" font-family="Arial, Helvetica, sans-serif" font-size="15">Connectivity</text>
+
+  <rect x="58" y="2770" width="228" height="332" rx="22" fill="#FFFFFF" fill-opacity="0.06"/>
+  <text x="82" y="2820" fill="#F2E8E3" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700">Brand Palette</text>
+  <rect x="82" y="2846" width="42" height="42" rx="12" fill="#D9B2A7"/>
+  <rect x="134" y="2846" width="42" height="42" rx="12" fill="#C48E84"/>
+  <rect x="186" y="2846" width="42" height="42" rx="12" fill="#F8F4F0"/>
+  <rect x="238" y="2846" width="24" height="42" rx="10" fill="#241E1F"/>
+  <text x="82" y="2928" fill="#D9CFCA" font-family="Arial, Helvetica, sans-serif" font-size="13">Buttons: blush warm accent</text>
+  <text x="82" y="2954" fill="#D9CFCA" font-family="Arial, Helvetica, sans-serif" font-size="13">Panels: stone ivory</text>
+  <text x="82" y="2980" fill="#D9CFCA" font-family="Arial, Helvetica, sans-serif" font-size="13">Sidebar: charcoal taupe</text>
+  <rect x="82" y="3018" width="180" height="46" rx="16" fill="url(#primary)"/>
+  <text x="172" y="3047" text-anchor="middle" fill="#3B302F" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700">Apply Theme</text>
+
+  <text x="352" y="94" fill="#211C1D" font-family="Georgia, Times New Roman, serif" font-size="42">Real Estate Admin Panel</text>
+  <text x="352" y="128" fill="#8C7D79" font-family="Arial, Helvetica, sans-serif" font-size="16">Full premium matched mockup with your missing location/connectivity section included</text>
+
+  <rect x="1210" y="70" width="120" height="42" rx="20" fill="#FFFFFF" stroke="#E6DAD3"/>
+  <rect x="1344" y="70" width="164" height="42" rx="20" fill="url(#primary)"/>
+  <text x="1270" y="96" text-anchor="middle" fill="#5F5250" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700">Draft</text>
+  <text x="1426" y="96" text-anchor="middle" fill="#3A302F" font-family="Arial, Helvetica, sans-serif" font-size="14" font-weight="700">Preview Live</text>
+
+  <rect x="352" y="166" width="1170" height="126" rx="28" fill="#F2E6DE" filter="url(#cardShadow)"/>
+  <text x="390" y="218" fill="#272122" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Editing: Monte South Luxury Residences</text>
+  <text x="390" y="248" fill="#8A7A76" font-family="Arial, Helvetica, sans-serif" font-size="14">Hero ready • 16 gallery images attached • 8 amenities configured • Location data verified</text>
+  <rect x="1220" y="192" width="120" height="48" rx="16" fill="#FFFFFF"/>
+  <rect x="1354" y="192" width="128" height="48" rx="16" fill="url(#primary)"/>
+  <text x="1280" y="222" text-anchor="middle" fill="#5A4E4C" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700">Save Draft</text>
+  <text x="1418" y="222" text-anchor="middle" fill="#3A302F" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700">Publish</text>
+
+  <rect x="352" y="324" width="1170" height="106" rx="28" fill="#FFFFFF" filter="url(#cardShadow)"/>
+  <rect x="378" y="348" width="198" height="58" rx="18" fill="#241E1F"/>
+  <rect x="588" y="348" width="166" height="58" rx="18" fill="#FBF7F4" stroke="#E6DDD7"/>
+  <rect x="766" y="348" width="186" height="58" rx="18" fill="#FBF7F4" stroke="#E6DDD7"/>
+  <rect x="964" y="348" width="182" height="58" rx="18" fill="#FBF7F4" stroke="#E6DDD7"/>
+  <rect x="1158" y="348" width="338" height="58" rx="18" fill="#FBF7F4" stroke="#E6DDD7"/>
+  <text x="477" y="384" text-anchor="middle" fill="#FFF8F5" font-family="Arial, Helvetica, sans-serif" font-size="16" font-weight="700">Overview</text>
+  <text x="671" y="384" text-anchor="middle" fill="#7E6F6B" font-family="Arial, Helvetica, sans-serif" font-size="16">Media</text>
+  <text x="859" y="384" text-anchor="middle" fill="#7E6F6B" font-family="Arial, Helvetica, sans-serif" font-size="16">Content</text>
+  <text x="1055" y="384" text-anchor="middle" fill="#7E6F6B" font-family="Arial, Helvetica, sans-serif" font-size="16">SEO</text>
+  <text x="1327" y="384" text-anchor="middle" fill="#7E6F6B" font-family="Arial, Helvetica, sans-serif" font-size="16">Connected Experiences</text>
+
+  <rect x="352" y="464" width="770" height="304" rx="30" fill="#FFFFFF" filter="url(#cardShadow)"/>
+  <text x="390" y="524" fill="#241F20" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">Basic Info</text>
+  <rect x="390" y="594" width="694" height="54" rx="16" fill="#FCFAF8" stroke="#E8DDD6"/>
+  <rect x="390" y="664" width="334" height="54" rx="16" fill="#FCFAF8" stroke="#E8DDD6"/>
+  <rect x="750" y="664" width="334" height="54" rx="16" fill="#FCFAF8" stroke="#E8DDD6"/>
+  <text x="414" y="627" fill="#9B8D88" font-family="Arial, Helvetica, sans-serif" font-size="15">Project Name</text>
+  <text x="414" y="697" fill="#9B8D88" font-family="Arial, Helvetica, sans-serif" font-size="15">RERA Number</text>
+  <text x="774" y="697" fill="#9B8D88" font-family="Arial, Helvetica, sans-serif" font-size="15">Project Type</text>
+
+  <rect x="1150" y="464" width="372" height="304" rx="30" fill="#FFFFFF" filter="url(#cardShadow)"/>
+  <text x="1188" y="524" fill="#241F20" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">Hero Preview</text>
+  <rect x="1188" y="562" width="296" height="170" rx="24" fill="url(#preview)"/>
+  <path d="M1188 700 L1292 628 L1382 696 L1484 632" stroke="#1D1B1B" stroke-width="22" stroke-linejoin="round"/>
+  <path d="M1248 704 L1336 632 L1424 704" stroke="#FFFFFF" stroke-width="18" stroke-linejoin="round"/>
+  <path d="M1282 704 L1336 660 L1390 704" stroke="#919499" stroke-width="14" stroke-linejoin="round"/>
+
+  <rect x="352" y="802" width="1170" height="360" rx="30" fill="#FFFFFF" filter="url(#cardShadow)"/>
+  <text x="390" y="862" fill="#241F20" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">Hero Section</text>
+  <rect x="390" y="934" width="500" height="190" rx="24" fill="#FCFAF8" stroke="#E8DDD6" stroke-dasharray="8 8"/>
+  <text x="640" y="1008" text-anchor="middle" fill="#7D6F6B" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Upload Zone</text>
+  <rect x="922" y="934" width="562" height="60" rx="18" fill="#FCFAF8" stroke="#E8DDD6"/>
+  <rect x="922" y="1008" width="270" height="60" rx="18" fill="#FCFAF8" stroke="#E8DDD6"/>
+  <rect x="1214" y="1008" width="270" height="60" rx="18" fill="#FCFAF8" stroke="#E8DDD6"/>
+  <rect x="922" y="1082" width="270" height="60" rx="18" fill="#FCFAF8" stroke="#E8DDD6"/>
+  <rect x="1214" y="1082" width="270" height="60" rx="18" fill="#FCFAF8" stroke="#E8DDD6"/>
+
+  <rect x="352" y="1196" width="1170" height="320" rx="30" fill="#FFFFFF" filter="url(#cardShadow)"/>
+  <text x="390" y="1256" fill="#241F20" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">Description</text>
+  <rect x="390" y="1324" width="1094" height="144" rx="20" fill="#FCFAF8" stroke="#E8DDD6"/>
+  <text x="416" y="1368" fill="#978984" font-family="Arial, Helvetica, sans-serif" font-size="15">Craft the full project narrative, buyer promise, location story, and developer credibility...</text>
+
+  <rect x="352" y="1550" width="1170" height="250" rx="30" fill="#FFFFFF" filter="url(#cardShadow)"/>
+  <text x="390" y="1610" fill="#241F20" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">Gallery</text>
+  <rect x="390" y="1680" width="744" height="86" rx="24" fill="#FCFAF8" stroke="#E8DDD6" stroke-dasharray="8 8"/>
+  <text x="762" y="1716" text-anchor="middle" fill="#7D6F6B" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700">Drag and drop gallery images</text>
+  <rect x="1160" y="1680" width="324" height="56" rx="18" fill="#F4E7E0" stroke="#E5D6CF"/>
+  <text x="1322" y="1715" text-anchor="middle" fill="#5E4B47" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700">Upload Selected Assets</text>
+
+  <rect x="352" y="1834" width="1170" height="304" rx="30" fill="#FFFFFF" filter="url(#cardShadow)"/>
+  <text x="390" y="1894" fill="#241F20" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">Amenities</text>
+  <rect x="390" y="1964" width="658" height="54" rx="18" fill="#FCFAF8" stroke="#E8DDD6"/>
+  <rect x="1068" y="1964" width="236" height="54" rx="18" fill="#FCFAF8" stroke="#E8DDD6"/>
+  <rect x="1324" y="1964" width="160" height="54" rx="18" fill="url(#primary)"/>
+  <text x="414" y="1998" fill="#9B8D88" font-family="Arial, Helvetica, sans-serif" font-size="15">Amenity Name</text>
+  <text x="1092" y="1998" fill="#9B8D88" font-family="Arial, Helvetica, sans-serif" font-size="15">Choose File</text>
+  <text x="1404" y="1998" text-anchor="middle" fill="#3A302F" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700">Add Amenity</text>
+
+  <rect x="352" y="2172" width="1170" height="600" rx="30" fill="#FFFFFF" filter="url(#cardShadow)"/>
+  <text x="390" y="2232" fill="#241F20" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">Location</text>
+  <rect x="390" y="2276" width="1094" height="54" rx="18" fill="#FCFAF8" stroke="#E8DDD6"/>
+  <text x="414" y="2310" fill="#9B8D88" font-family="Arial, Helvetica, sans-serif" font-size="15">Full Address</text>
+
+  <rect x="390" y="2350" width="526" height="54" rx="18" fill="#FCFAF8" stroke="#E8DDD6"/>
+  <rect x="958" y="2350" width="526" height="54" rx="18" fill="#FCFAF8" stroke="#E8DDD6"/>
+  <text x="414" y="2384" fill="#9B8D88" font-family="Arial, Helvetica, sans-serif" font-size="15">Latitude</text>
+  <text x="982" y="2384" fill="#9B8D88" font-family="Arial, Helvetica, sans-serif" font-size="15">Longitude</text>
+
+  <text x="390" y="2474" fill="#241F20" font-family="Arial, Helvetica, sans-serif" font-size="20" font-weight="700">Nearby Connectivity (Walk / Drive)</text>
+
+  <rect x="390" y="2512" width="1094" height="54" rx="18" fill="#FCFAF8" stroke="#E8DDD6"/>
+  <text x="414" y="2546" fill="#9B8D88" font-family="Arial, Helvetica, sans-serif" font-size="15">Place (e.g. Metro Station)</text>
+
+  <rect x="390" y="2586" width="526" height="54" rx="18" fill="#FCFAF8" stroke="#E8DDD6"/>
+  <rect x="958" y="2586" width="526" height="54" rx="18" fill="#FCFAF8" stroke="#E8DDD6"/>
+  <text x="414" y="2620" fill="#9B8D88" font-family="Arial, Helvetica, sans-serif" font-size="15">Walking Time (e.g. 5 min)</text>
+  <text x="982" y="2620" fill="#9B8D88" font-family="Arial, Helvetica, sans-serif" font-size="15">Driving Time (e.g. 2 min)</text>
+
+  <rect x="390" y="2678" width="196" height="56" rx="18" fill="url(#primary)"/>
+  <text x="488" y="2712" text-anchor="middle" fill="#3A302F" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="700">Add Connectivity</text>
+
+  <rect x="352" y="2810" width="1170" height="210" rx="30" fill="#FFFFFF" filter="url(#cardShadow)"/>
+  <text x="390" y="2870" fill="#241F20" font-family="Arial, Helvetica, sans-serif" font-size="22" font-weight="700">Final Actions</text>
+  <text x="390" y="2900" fill="#8A7B77" font-family="Arial, Helvetica, sans-serif" font-size="14">Everything is configured. Save, preview, or publish your project details.</text>
+  <rect x="390" y="2940" width="220" height="64" rx="20" fill="url(#success)"/>
+  <text x="500" y="2980" text-anchor="middle" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="18" font-weight="700">Save Project</text>
+  <rect x="632" y="2940" width="190" height="64" rx="20" fill="#241E1F"/>
+  <text x="727" y="2980" text-anchor="middle" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700">Save Draft</text>
+  <rect x="844" y="2940" width="190" height="64" rx="20" fill="url(#primary)"/>
+  <text x="939" y="2980" text-anchor="middle" fill="#3A302F" font-family="Arial, Helvetica, sans-serif" font-size="17" font-weight="700">Preview Live</text>
+</svg>

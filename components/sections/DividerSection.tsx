@@ -1,26 +1,48 @@
+"use client";
+
 import { Container } from "@/components/common/Container";
 import { IconArrowUpRight, IconCrane } from "@/components/common/icons";
 import { cn } from "@/utils/cn";
+import { motion, useInView, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
-import type { ReactNode } from "react";
+import { useRef } from "react";
 
-/** Same asset as the original divide strip. */
 export const DIVIDER_BANNER_SRC = "/images/Home/Banner1.svg";
+
 const BANNER_WIDTH = 1196;
 const BANNER_HEIGHT = 350;
-
-/** Percent height = width × (350/1196); padding-bottom avoids flex collapse when children are `absolute`. */
 const BANNER_ASPECT_PADDING_PCT = (BANNER_HEIGHT / BANNER_WIDTH) * 100;
+const BANNER_MAX_HEIGHT = 460;
 
-export const dividerCardCtaClassName = cn(
+const LEFT_CLOSED_CLIP = "polygon(0 0, 50% 0, 50% 100%, 0 100%)";
+const RIGHT_CLOSED_CLIP = "polygon(50% 0, 100% 0, 100% 100%, 50% 100%)";
+
+const LEFT_TORN_CLIP = "polygon(0 0, 50% 0, 50% 72%, 37% 100%, 0 100%)";
+const RIGHT_TORN_CLIP = "polygon(50% 0, 100% 0, 100% 100%, 63% 100%, 50% 72%)";
+
+const SPLIT_DURATION = 0.24;
+const SLIDE_DURATION = 0.4;
+const FLIP_DURATION = 0.42;
+
+const SLIDE_DELAY = 0.18;
+const FLIP_DELAY = 0.62;
+const PIECE_FADE_DELAY = 0.96;
+
+const BANNER_FADE_DELAY = 0.96;
+const BANNER_COLLAPSE_DELAY = 1.02;
+
+const CARD_LEFT_DELAY = 1.2;
+const CARD_RIGHT_DELAY = 1.32;
+
+const dividerCardCtaClassName = cn(
   "inline-flex items-center justify-center gap-2 rounded-none border border-neutral-900 bg-white px-6 py-3",
-  "n-reg  text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-900",
+  "font-nexa text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-900",
   "transition-colors duration-300 hover:bg-neutral-900 hover:text-white",
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900",
 );
 
-export function CardImageColumn({
+function CardImageColumn({
   portraitSrc,
   patternSrc,
   portraitAlt,
@@ -40,11 +62,7 @@ export function CardImageColumn({
         className,
       )}
     >
-      <div
-        className={cn(
-          "pointer-events-none absolute inset-x-0 z-0 max-lg:inset-y-0 lg:bottom-0 lg:-top-8",
-        )}
-      >
+      <div className="pointer-events-none absolute inset-x-0 z-0 max-lg:inset-y-0 lg:bottom-0 lg:-top-8">
         <Image
           src={patternSrc}
           alt=""
@@ -54,6 +72,7 @@ export function CardImageColumn({
           aria-hidden
         />
       </div>
+
       <div className="relative z-10 flex min-h-0 flex-1 flex-col overflow-hidden">
         <div className="relative min-h-[12rem] flex-1 sm:min-h-[14rem] lg:min-h-[280px]">
           <Image
@@ -72,33 +91,13 @@ export function CardImageColumn({
   );
 }
 
-export type ProfileCardProps = {
-  className?: string;
-  articleId?: string;
-  title: "Buyer" | "Developer";
-  href: string;
-  icon: ReactNode;
-  reverseOnDesktop?: boolean;
-  imageColumnClassName?: string;
-  portraitSrc: string;
-  patternSrc: string;
-  portraitAlt: string;
-  objectPositionClass: string;
-};
-
-export function ProfileCard({
+function BuyerProfileCard({
   className,
   articleId,
-  title,
-  href,
-  icon,
-  reverseOnDesktop,
-  imageColumnClassName,
-  portraitSrc,
-  patternSrc,
-  portraitAlt,
-  objectPositionClass,
-}: ProfileCardProps) {
+}: {
+  className?: string;
+  articleId?: string;
+}) {
   return (
     <article
       id={articleId}
@@ -107,108 +106,268 @@ export function ProfileCard({
         className,
       )}
     >
-      <div
-        className={cn(
-          "relative flex min-h-[320px] flex-col p-6 sm:min-h-[360px] sm:p-8 lg:items-stretch lg:px-8 lg:pt-8 lg:pb-0",
-          reverseOnDesktop ? "lg:flex-row-reverse" : "lg:flex-row",
-        )}
-      >
-        <div
-          className={cn(
-            "flex flex-1 flex-col justify-between gap-8 lg:pb-8",
-            reverseOnDesktop && "lg:items-end lg:text-right",
-          )}
-        >
-          {icon}
-          <div className={cn(reverseOnDesktop ? "lg:text-right" : "text-left lg:text-left")}>
-            <p
-              className={cn(
-                "n-bold  fs-24 text-xs lg:text-xl uppercase tracking-[0.2em] text-[#202225]",
-                reverseOnDesktop ? "lg:text-right" : "lg:text-left",
-              )}
-            >
+      <div className="relative flex min-h-[320px] flex-col p-6 sm:min-h-[360px] sm:p-8 lg:flex-row lg:items-stretch lg:px-8 lg:pt-8 lg:pb-0">
+        <div className="flex flex-1 flex-col justify-between gap-8 lg:pb-8">
+          <Image
+            src="/images/Buyer/BuyerVector.svg"
+            alt=""
+            width={47}
+            height={50}
+            className="h-[50px] w-[47px] shrink-0 object-cover brightness-0"
+            aria-hidden
+          />
+
+          <div>
+            <p className="font-nexa text-xs font-medium uppercase tracking-[0.2em] text-neutral-600">
               I am a
             </p>
-            <h3 className="ls-wider mt-1 tracking-wider fw-100 qs-reg fs-42 qs-letterspacing-5 text-[clamp(2rem,4.5vw,3rem)] uppercase leading-none  text-[#8F8183]">
-              {title}
+            <h3 className="mt-1 font-qasbyne text-[clamp(2rem,4.5vw,3rem)] font-normal uppercase leading-none tracking-tight text-neutral-950">
+              Buyer
             </h3>
           </div>
-          <Link
-            href={href}
-            className={cn(
-              dividerCardCtaClassName,
-              "w-fit n-reg  n-bold fs-18 ls-normal capitalize",
-              reverseOnDesktop && "lg:self-end n-reg  fw-700 fs-18 ls-normal capitalize",
-            )}
-          >
+
+          <Link href="/buyer" className={cn(dividerCardCtaClassName, "w-fit")}>
             Know More
-            <Image src="/images/rightTopArrow.svg" alt="" width={16} height={16} className="h-4 w-4" />
+            <IconArrowUpRight className="h-4 w-4" />
           </Link>
         </div>
+
         <CardImageColumn
-          portraitSrc={portraitSrc}
-          patternSrc={patternSrc}
-          portraitAlt={portraitAlt}
-          objectPositionClass={objectPositionClass}
-          className={imageColumnClassName}
+          portraitSrc="/images/Buyer/image 41.svg"
+          patternSrc="/images/Buyer/Group 4.svg"
+          portraitAlt="Smiling professional representing property buyers"
+          objectPositionClass="object-[center_22%] sm:object-right"
+          className="lg:ml-4"
         />
       </div>
     </article>
   );
 }
 
-export function ProfileCards({ className }: { className?: string }) {
+function DeveloperProfileCard({
+  className,
+  articleId,
+}: {
+  className?: string;
+  articleId?: string;
+}) {
+  return (
+    <article
+      id={articleId}
+      className={cn(
+        "group relative overflow-hidden rounded-sm border border-neutral-300/90 bg-[#e8e8e8] transition-all duration-500 ease-out hover:-translate-y-0.5 hover:shadow-md",
+        className,
+      )}
+    >
+      <div className="relative flex min-h-[320px] flex-col p-6 sm:min-h-[360px] sm:p-8 lg:flex-row-reverse lg:items-stretch lg:px-8 lg:pt-8 lg:pb-0">
+        <div className="flex flex-1 flex-col justify-between gap-8 lg:items-end lg:pb-8 lg:text-right">
+          <IconCrane className="h-[50px] w-[47px] shrink-0 text-neutral-800 lg:self-end" />
+
+          <div>
+            <p className="font-nexa text-xs font-medium uppercase tracking-[0.2em] text-neutral-600 lg:text-right">
+              I am a
+            </p>
+            <h3 className="mt-1 font-qasbyne text-[clamp(2rem,4.5vw,3rem)] font-normal uppercase leading-none tracking-tight text-neutral-950 lg:text-right">
+              Developer
+            </h3>
+          </div>
+
+          <Link
+            href="/developer"
+            className={cn(dividerCardCtaClassName, "w-fit lg:self-end")}
+          >
+            Know More
+            <IconArrowUpRight className="h-4 w-4" />
+          </Link>
+        </div>
+
+        <CardImageColumn
+          portraitSrc="/images/Developer/image 42.svg"
+          patternSrc="/images/Developer/Group 4.svg"
+          portraitAlt="Smiling professional representing real estate developers"
+          objectPositionClass="object-[center_22%] sm:object-left"
+          className="lg:mr-4"
+        />
+      </div>
+    </article>
+  );
+}
+
+function BannerHalf({
+  side,
+  active,
+  reduceMotion,
+}: {
+  side: "left" | "right";
+  active: boolean;
+  reduceMotion: boolean;
+}) {
+  const isLeft = side === "left";
+  const shouldAnimate = active && !reduceMotion;
+
+  return (
+    <motion.div
+      aria-hidden
+      className="pointer-events-none absolute inset-0 z-20 overflow-hidden rounded-sm"
+      initial={false}
+      animate={{
+        clipPath: shouldAnimate
+          ? isLeft
+            ? LEFT_TORN_CLIP
+            : RIGHT_TORN_CLIP
+          : isLeft
+            ? LEFT_CLOSED_CLIP
+            : RIGHT_CLOSED_CLIP,
+        x: shouldAnimate ? (isLeft ? -150 : 150) : 0,
+      }}
+      transition={{
+        clipPath: {
+          duration: reduceMotion ? 0.01 : shouldAnimate ? SPLIT_DURATION : 0.16,
+          ease: [0.33, 1, 0.68, 1],
+        },
+        x: {
+          duration: reduceMotion ? 0.01 : shouldAnimate ? SLIDE_DURATION : 0.2,
+          delay: reduceMotion ? 0 : shouldAnimate ? SLIDE_DELAY : 0,
+          ease: [0.22, 1, 0.36, 1],
+        },
+      }}
+      style={{ willChange: "clip-path, transform" }}
+    >
+      <motion.div
+        className="absolute inset-0"
+        initial={false}
+        animate={{
+          rotateY: shouldAnimate ? (isLeft ? -92 : 92) : 0,
+          rotateZ: shouldAnimate ? (isLeft ? -2.5 : 2.5) : 0,
+          opacity: shouldAnimate ? 0 : 1,
+        }}
+        transition={{
+          rotateY: {
+            duration: reduceMotion ? 0.01 : shouldAnimate ? FLIP_DURATION : 0.2,
+            delay: reduceMotion ? 0 : shouldAnimate ? FLIP_DELAY : 0,
+            ease: [0.22, 1, 0.36, 1],
+          },
+          rotateZ: {
+            duration: reduceMotion ? 0.01 : shouldAnimate ? FLIP_DURATION : 0.2,
+            delay: reduceMotion ? 0 : shouldAnimate ? FLIP_DELAY : 0,
+            ease: [0.22, 1, 0.36, 1],
+          },
+          opacity: {
+            duration: reduceMotion ? 0.01 : shouldAnimate ? 0.12 : 0.16,
+            delay: reduceMotion ? 0 : shouldAnimate ? PIECE_FADE_DELAY : 0,
+            ease: "easeOut",
+          },
+        }}
+        style={{
+          transformOrigin: isLeft ? "left center" : "right center",
+          transformStyle: "preserve-3d",
+          backfaceVisibility: "hidden",
+          WebkitBackfaceVisibility: "hidden",
+          willChange: "transform, opacity",
+        }}
+      >
+        <Image
+          src={DIVIDER_BANNER_SRC}
+          alt=""
+          fill
+          className="select-none object-cover object-center"
+          sizes="(max-width: 1440px) 100vw, 90rem"
+          unoptimized
+          priority
+        />
+
+        <div
+          className={cn(
+            "absolute inset-y-0 w-12",
+            isLeft
+              ? "right-0 bg-gradient-to-r from-transparent to-black/20"
+              : "left-0 bg-gradient-to-l from-transparent to-black/20",
+          )}
+        />
+      </motion.div>
+    </motion.div>
+  );
+}
+
+function AnimatedCards({
+  active,
+  reduceMotion,
+  className,
+}: {
+  active: boolean;
+  reduceMotion: boolean;
+  className?: string;
+}) {
+  const buyerHidden = reduceMotion
+    ? { opacity: 1, rotateY: 0, x: 0 }
+    : { opacity: 0, rotateY: -90, x: -24 };
+
+  const developerHidden = reduceMotion
+    ? { opacity: 1, rotateY: 0, x: 0 }
+    : { opacity: 0, rotateY: 90, x: 24 };
+
+  const visible = { opacity: 1, rotateY: 0, x: 0 };
+
   return (
     <div className={cn("grid gap-4 sm:gap-6 lg:grid-cols-2 lg:gap-6", className)}>
-      <ProfileCard
-        articleId="buyer"
-        title="Buyer"
-        href="/buyer"
-        icon={
+      <div className="[perspective:1800px]">
+        <motion.div
+          initial={false}
+          animate={active ? visible : buyerHidden}
+          transition={{
+            duration: reduceMotion ? 0.01 : active ? 0.56 : 0.18,
+            delay: reduceMotion ? 0 : active ? CARD_LEFT_DELAY : 0,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          style={{
+            transformOrigin: "left center",
+            transformStyle: "preserve-3d",
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
+            willChange: "transform, opacity",
+          }}
+        >
+          <BuyerProfileCard articleId="buyer" />
+        </motion.div>
+      </div>
 
-          <Image
-            src="/images/Buyer/BuyerFilterIcon.svg"
-            alt=""
-            width={47}
-            height={50}
-            className="h-[50px] w-[47px] shrink-0 object-cover "
-            aria-hidden
-          />
-        }
-        portraitSrc="/images/Buyer/image 41.svg"
-        patternSrc="/images/Buyer/Group 4.svg"
-        portraitAlt="Smiling professional representing property buyers"
-        objectPositionClass="object-[center_22%] sm:object-right"
-        imageColumnClassName="lg:ml-4"
-      />
-      <ProfileCard
-        articleId="developer"
-        title="Developer"
-        href="/developer"
-        icon={
-          <Image
-            src="/images/Developer/DeveloperFilterIcon.svg"
-            alt=""
-            width={47}
-            height={50}
-            className="h-[50px] w-[47px] shrink-0 object-cover "
-            aria-hidden
-          />
-        }
-        reverseOnDesktop
-        portraitSrc="/images/Developer/image 42.svg"
-        patternSrc="/images/Developer/Group 4.svg"
-        portraitAlt="Smiling professional representing real estate developers"
-        objectPositionClass="object-[center_22%] sm:object-left"
-        imageColumnClassName="lg:mr-4"
-      />
+      <div className="[perspective:1800px]">
+        <motion.div
+          initial={false}
+          animate={active ? visible : developerHidden}
+          transition={{
+            duration: reduceMotion ? 0.01 : active ? 0.56 : 0.18,
+            delay: reduceMotion ? 0 : active ? CARD_RIGHT_DELAY : 0,
+            ease: [0.22, 1, 0.36, 1],
+          }}
+          style={{
+            transformOrigin: "right center",
+            transformStyle: "preserve-3d",
+            backfaceVisibility: "hidden",
+            WebkitBackfaceVisibility: "hidden",
+            willChange: "transform, opacity",
+          }}
+        >
+          <DeveloperProfileCard articleId="developer" />
+        </motion.div>
+      </div>
     </div>
   );
 }
 
 export function DividerSection() {
+  const sectionRef = useRef<HTMLElement | null>(null);
+  const inView = useInView(sectionRef, {
+    amount: 0.35,
+    margin: "-10% 0px -10% 0px",
+  });
+
+  const reduceMotion = useReducedMotion();
+  const shouldReduceMotion = Boolean(reduceMotion);
+
   return (
     <section
+      ref={sectionRef}
       id="services"
       className={cn(
         "relative py-0",
@@ -222,24 +381,46 @@ export function DividerSection() {
       </h2>
 
       <Container className="py-10 sm:py-12 lg:py-14">
-        <div className="relative w-full overflow-hidden rounded-sm border border-neutral-200 bg-neutral-100 shadow-[0_1px_0_0_rgb(0_0_0_/0.06)]">
+        <div className="relative w-full">
           <div
-            className="w-full"
-            style={{ paddingBottom: `${BANNER_ASPECT_PADDING_PCT}%` }}
-          />
-          <div className="absolute inset-0">
-            <Image
-              src={DIVIDER_BANNER_SRC}
-              alt=""
-              fill
-              className="object-cover object-center lg:h-[350px]"
-              sizes="(max-width: 1440px) 100vw, 90rem"
-              unoptimized
-              priority
-            />
+            className="overflow-hidden"
+            style={{
+              maxHeight: inView ? "0px" : `${BANNER_MAX_HEIGHT}px`,
+              opacity: inView ? 0 : 1,
+              transition: shouldReduceMotion
+                ? "max-height 0.01s linear, opacity 0.01s linear"
+                : inView
+                  ? `max-height 0.42s cubic-bezier(0.22,1,0.36,1) ${BANNER_COLLAPSE_DELAY}s, opacity 0.14s linear ${BANNER_FADE_DELAY}s`
+                  : "max-height 0.22s cubic-bezier(0.4,0,0.2,1), opacity 0.18s linear",
+            }}
+          >
+            <div className="relative [perspective:2200px]">
+              <div className="relative w-full overflow-hidden rounded-sm border border-neutral-200 bg-neutral-100 shadow-[0_1px_0_0_rgb(0_0_0_/0.06)]">
+                <div
+                  className="w-full"
+                  style={{ paddingBottom: `${BANNER_ASPECT_PADDING_PCT}%` }}
+                />
+
+                <BannerHalf
+                  side="left"
+                  active={inView}
+                  reduceMotion={shouldReduceMotion}
+                />
+                <BannerHalf
+                  side="right"
+                  active={inView}
+                  reduceMotion={shouldReduceMotion}
+                />
+              </div>
+            </div>
           </div>
+
+          <AnimatedCards
+            className="mt-6"
+            active={inView}
+            reduceMotion={shouldReduceMotion}
+          />
         </div>
-        <ProfileCards className="mt-6" />
       </Container>
     </section>
   );

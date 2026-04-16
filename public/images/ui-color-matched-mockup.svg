@@ -1,0 +1,154 @@
+<svg width="1400" height="2200" viewBox="0 0 1400 2200" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="pageBg" x1="0" y1="0" x2="0" y2="2200" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F7F4F1"/>
+      <stop offset="1" stop-color="#F2EEEA"/>
+    </linearGradient>
+    <linearGradient id="heroSky" x1="0" y1="0" x2="0" y2="1">
+      <stop stop-color="#F8F8F7"/>
+      <stop offset="1" stop-color="#D9D8D7"/>
+    </linearGradient>
+    <linearGradient id="glass" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#9EC8E7"/>
+      <stop offset="1" stop-color="#4E85B7"/>
+    </linearGradient>
+    <linearGradient id="cta" x1="0" y1="0" x2="1" y2="0">
+      <stop stop-color="#D8B0A4"/>
+      <stop offset="1" stop-color="#C39089"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="22" stdDeviation="24" flood-color="#000000" flood-opacity="0.08"/>
+    </filter>
+    <pattern id="gridDots" width="18" height="18" patternUnits="userSpaceOnUse">
+      <circle cx="1.5" cy="1.5" r="1.2" fill="#E7E0DB"/>
+    </pattern>
+  </defs>
+
+  <rect width="1400" height="2200" fill="#242120"/>
+  <rect x="80" y="40" width="1240" height="2120" rx="16" fill="url(#pageBg)" filter="url(#shadow)"/>
+
+  <rect x="80" y="40" width="1240" height="2120" rx="16" fill="url(#gridDots)" opacity="0.35"/>
+
+  <rect x="80" y="40" width="1240" height="54" fill="#A39495"/>
+  <rect x="80" y="94" width="1240" height="56" fill="#F9F6F3"/>
+  <circle cx="700" cy="121" r="19" stroke="#9A8D8E" stroke-width="2"/>
+  <text x="650" y="126" fill="#8A7D7E" font-family="Arial, Helvetica, sans-serif" font-size="12">THE GUARDIANS</text>
+  <text x="170" y="127" fill="#494443" font-family="Arial, Helvetica, sans-serif" font-size="11" letter-spacing="2">ABOUT</text>
+  <text x="250" y="127" fill="#494443" font-family="Arial, Helvetica, sans-serif" font-size="11" letter-spacing="2">SERVICES</text>
+  <text x="344" y="127" fill="#494443" font-family="Arial, Helvetica, sans-serif" font-size="11" letter-spacing="2">PROJECTS</text>
+  <text x="965" y="127" fill="#494443" font-family="Arial, Helvetica, sans-serif" font-size="11" letter-spacing="2">PARTNERS</text>
+  <text x="1068" y="127" fill="#494443" font-family="Arial, Helvetica, sans-serif" font-size="11" letter-spacing="2">TGREA</text>
+  <text x="1160" y="127" fill="#494443" font-family="Arial, Helvetica, sans-serif" font-size="11" letter-spacing="2">CAREER</text>
+
+  <rect x="80" y="150" width="1240" height="430" fill="url(#heroSky)"/>
+  <text x="700" y="260" text-anchor="middle" fill="#2D2426" font-family="Georgia, Times New Roman, serif" font-size="44">LOOKING TO SELL?</text>
+  <text x="700" y="302" text-anchor="middle" fill="#786C6D" font-family="Arial, Helvetica, sans-serif" font-size="16">LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT</text>
+  <rect x="610" y="332" width="180" height="40" fill="#1E1D1D"/>
+  <text x="700" y="357" text-anchor="middle" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="12" letter-spacing="2">EXPLORE NOW</text>
+
+  <rect x="200" y="420" width="1000" height="10" fill="#BBAFA7" opacity="0.4"/>
+  <rect x="130" y="520" width="1140" height="2" fill="#D7D0CB"/>
+
+  <rect x="250" y="390" width="110" height="170" fill="#B6B4B5"/>
+  <rect x="368" y="360" width="110" height="200" fill="#AAA8AA"/>
+  <rect x="486" y="400" width="110" height="160" fill="#C0BEBF"/>
+  <rect x="806" y="410" width="120" height="150" fill="#B1AFB0"/>
+  <rect x="934" y="360" width="120" height="200" fill="#A4A2A4"/>
+  <rect x="1062" y="390" width="120" height="170" fill="#BBB9BA"/>
+
+  <g stroke="#9E2E2A" stroke-width="4">
+    <line x1="286" y1="300" x2="318" y2="390"/>
+    <line x1="318" y1="390" x2="254" y2="470"/>
+    <line x1="424" y1="280" x2="424" y2="360"/>
+    <line x1="424" y1="360" x2="470" y2="452"/>
+    <line x1="870" y1="280" x2="890" y2="410"/>
+    <line x1="996" y1="270" x2="996" y2="360"/>
+    <line x1="996" y1="360" x2="946" y2="450"/>
+    <line x1="1122" y1="300" x2="1122" y2="390"/>
+  </g>
+
+  <g stroke="#656161" stroke-width="3">
+    <line x1="286" y1="300" x2="236" y2="332"/>
+    <line x1="424" y1="280" x2="374" y2="318"/>
+    <line x1="870" y1="280" x2="814" y2="322"/>
+    <line x1="996" y1="270" x2="940" y2="310"/>
+    <line x1="1122" y1="300" x2="1076" y2="338"/>
+  </g>
+
+  <text x="150" y="658" fill="#322B2C" font-family="Georgia, Times New Roman, serif" font-size="30">OUR SERVICES</text>
+  <text x="150" y="686" fill="#847776" font-family="Arial, Helvetica, sans-serif" font-size="12">LOREM IPSUM DOLOR SIT AMET CONSECTETUR</text>
+
+  <rect x="150" y="730" width="340" height="264" fill="#F6F3F0" stroke="#E0D9D3"/>
+  <rect x="530" y="730" width="340" height="264" fill="#F6F3F0" stroke="#E0D9D3"/>
+  <rect x="910" y="730" width="260" height="264" fill="#F6F3F0" stroke="#E0D9D3"/>
+
+  <rect x="560" y="760" width="280" height="180" fill="#FFFFFF" stroke="#EBE5E0"/>
+  <path d="M590 900 L760 760" stroke="#EAE4DF" stroke-width="4"/>
+  <path d="M620 900 L790 760" stroke="#EAE4DF" stroke-width="4"/>
+
+  <rect x="935" y="758" width="210" height="180" fill="#E7E4E2"/>
+  <path d="M960 914 L1098 782" stroke="#CFC9C4" stroke-width="3"/>
+  <path d="M980 924 L1120 792" stroke="#DBD5D1" stroke-width="3"/>
+
+  <text x="190" y="956" fill="#332C2C" font-family="Arial, Helvetica, sans-serif" font-size="18">SHOW MORE</text>
+  <rect x="188" y="916" width="118" height="24" fill="#1E1D1D"/>
+  <text x="245" y="932" text-anchor="middle" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="10" letter-spacing="2">SHOW MORE</text>
+
+  <text x="550" y="956" fill="#332C2C" font-family="Georgia, Times New Roman, serif" font-size="22">RESIDENTIAL</text>
+  <text x="940" y="956" fill="#332C2C" font-family="Georgia, Times New Roman, serif" font-size="18">BUSINESS SOLUTION</text>
+
+  <text x="150" y="1080" fill="#322B2C" font-family="Georgia, Times New Roman, serif" font-size="30">OUR WORK</text>
+  <rect x="150" y="1120" width="420" height="250" fill="#F6F3F0" stroke="#E0D9D3"/>
+  <text x="184" y="1180" fill="#2D2426" font-family="Georgia, Times New Roman, serif" font-size="28">The Guardians Assists</text>
+  <text x="184" y="1218" fill="#2D2426" font-family="Georgia, Times New Roman, serif" font-size="28">with Elime Community</text>
+  <text x="184" y="1250" fill="#2D2426" font-family="Georgia, Times New Roman, serif" font-size="28">Evolution</text>
+  <text x="184" y="1298" fill="#807372" font-family="Arial, Helvetica, sans-serif" font-size="13">LOREM IPSUM DOLOR SIT AMET, CONSECTETUR ADIPISCING ELIT,</text>
+  <text x="184" y="1318" fill="#807372" font-family="Arial, Helvetica, sans-serif" font-size="13">SED DO EIUSMOD TEMPOR INCIDIDUNT UT LABORE ET DOLORE.</text>
+  <rect x="184" y="1338" width="122" height="26" fill="#1E1D1D"/>
+  <text x="245" y="1355" text-anchor="middle" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="10" letter-spacing="2">READ MORE</text>
+
+  <rect x="610" y="1120" width="560" height="250" fill="url(#glass)"/>
+  <polygon points="840,1155 960,1120 1105,1370 980,1370" fill="#A8D2F0" opacity="0.95"/>
+  <polygon points="785,1200 900,1168 1016,1370 900,1370" fill="#8BB8DB" opacity="0.9"/>
+  <polygon points="740,1240 836,1210 912,1370 812,1370" fill="#6FA1CA" opacity="0.92"/>
+
+  <text x="150" y="1476" fill="#322B2C" font-family="Georgia, Times New Roman, serif" font-size="30">OUR LANDMARK PROJECTS</text>
+  <text x="982" y="1476" fill="#8C7F7F" font-family="Arial, Helvetica, sans-serif" font-size="14">Ongoing</text>
+  <text x="1062" y="1476" fill="#8C7F7F" font-family="Arial, Helvetica, sans-serif" font-size="14">Completed</text>
+
+  <rect x="150" y="1518" width="830" height="310" fill="#D4E7F8"/>
+  <rect x="1010" y="1518" width="160" height="310" fill="#D8D4D1"/>
+  <rect x="1188" y="1518" width="82" height="310" fill="#C8C4C2"/>
+  <rect x="180" y="1560" width="72" height="260" fill="#7FAED4"/>
+  <rect x="258" y="1532" width="92" height="288" fill="#A4C5DF"/>
+  <rect x="360" y="1496" width="112" height="324" fill="#8CB4D7"/>
+  <rect x="484" y="1548" width="76" height="272" fill="#A8CAE3"/>
+  <rect x="570" y="1468" width="148" height="352" fill="#78A5CB"/>
+  <rect x="730" y="1528" width="82" height="292" fill="#B4D1E6"/>
+  <rect x="824" y="1504" width="110" height="316" fill="#8EB8DA"/>
+
+  <text x="560" y="1706" text-anchor="middle" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="16" letter-spacing="2">MONTE SOUTH</text>
+  <text x="560" y="1732" text-anchor="middle" fill="#F4FAFF" font-family="Arial, Helvetica, sans-serif" font-size="11">LOREM IPSUM DOLOR SIT AMET</text>
+  <rect x="504" y="1768" width="112" height="26" fill="#1E1D1D"/>
+  <text x="560" y="1785" text-anchor="middle" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="10" letter-spacing="2">KNOW MORE</text>
+
+  <rect x="80" y="1968" width="1240" height="192" fill="#A39495"/>
+  <text x="138" y="2040" fill="#F6F2EE" font-family="Arial, Helvetica, sans-serif" font-size="14" letter-spacing="2">THE GUARDIANS</text>
+  <text x="138" y="2082" fill="#FFFFFF" font-family="Georgia, Times New Roman, serif" font-size="28">Lorem Ipsum Dolor?</text>
+  <text x="138" y="2116" fill="#FFF7F4" font-family="Georgia, Times New Roman, serif" font-size="28">Let’s Collaborate.</text>
+  <rect x="138" y="2130" width="132" height="22" fill="#D9B1A5"/>
+  <text x="204" y="2145" text-anchor="middle" fill="#3B302F" font-family="Arial, Helvetica, sans-serif" font-size="10" letter-spacing="2">CONTACT US</text>
+
+  <text x="560" y="2042" fill="#F6F2EE" font-family="Arial, Helvetica, sans-serif" font-size="12" letter-spacing="2">LOCATION</text>
+  <text x="560" y="2076" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="13">Mumbai</text>
+  <text x="560" y="2100" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="13">Pune</text>
+
+  <text x="798" y="2042" fill="#F6F2EE" font-family="Arial, Helvetica, sans-serif" font-size="12" letter-spacing="2">HAVE QUESTIONS?</text>
+  <text x="798" y="2076" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="13">hello@theguardians.com</text>
+  <text x="798" y="2100" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="13">+91 00 0000 0000</text>
+
+  <text x="1048" y="2042" fill="#F6F2EE" font-family="Arial, Helvetica, sans-serif" font-size="12" letter-spacing="2">QUICK LINKS</text>
+  <text x="1048" y="2076" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="13">About</text>
+  <text x="1048" y="2100" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="13">Projects</text>
+  <text x="1048" y="2124" fill="#FFFFFF" font-family="Arial, Helvetica, sans-serif" font-size="13">Services</text>
+</svg>
