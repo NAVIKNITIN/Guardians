@@ -78,7 +78,6 @@ body {
   font-weight: 400;
 }
 
-
 /* Shared CTA gradient from Figma (Know More button). */
 .btn-know-more-gradient {
   background-color: #f5a696;
@@ -337,33 +336,36 @@ body {
 .ls-widest {
   letter-spacing: 0.2em;
 }
-.qs-reg{
+.qs-reg {
   font-family: var(--font-qasbyne), ui-sans-serif, system-ui, sans-serif;
   font-weight: 300;
   font-style: normal;
 }
-.qs-med{
+.qs-med {
   font-family: var(--font-qasbyne), ui-sans-serif, system-ui, sans-serif;
   font-weight: 500;
   font-style: normal;
 }
-.qs-bold{
+.qs-bold {
   font-family: var(--font-qasbyne), ui-sans-serif, system-ui, sans-serif;
   font-weight: 700;
   font-style: normal;
 }
-.n-reg{
+.n-reg {
   font-family: var(--font-nexa), ui-sans-serif, system-ui, sans-serif;
   font-weight: 400;
   font-style: normal;
 }
-.n-bold{
+.n-bold {
   font-family: var(--font-nexa), ui-sans-serif, system-ui, sans-serif;
   font-weight: 350;
   font-style: normal;
 }
-.n-book{
+.n-book {
   font-family: var(--font-nexa), ui-sans-serif, system-ui, sans-serif;
   font-weight: 350;
   font-style: normal;
+}
+.heading-style {
+  margin-top: -100px;
 }

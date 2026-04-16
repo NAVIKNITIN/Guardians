@@ -19,7 +19,7 @@ export function AudienceHero({ content }: { content: MarketingHeroContent }) {
 
   return (
     <section
-      className="lg:pt-[130] relative isolate w-full min-w-0 min-h-[min(120vh,960px)] overflow-hidden bg-neutral-300 pt-10 pb-28 sm:min-h-[min(120vh,1000px)] sm:pt-14 sm:pb-32 lg:pt-16 lg:pb-40"
+      className="relative isolate w-full min-w-0 min-h-[min(120vh,960px)] overflow-hidden bg-neutral-300 pt-10 pb-28 sm:min-h-[min(120vh,1000px)] sm:pt-14 sm:pb-32 lg:pt-16 lg:pb-40"
       aria-labelledby={content.ariaHeadingId}
     >
       <div className="pointer-events-none absolute inset-0 z-0">
@@ -38,7 +38,7 @@ export function AudienceHero({ content }: { content: MarketingHeroContent }) {
       </div>
 
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-36 bg-gradient-to-t from-white/96 via-white/45 to-transparent sm:h-44 md:h-52"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-36 bg-gradient-to-t from-white/100 via-white/45 to-transparent sm:h-44 md:h-52"
         aria-hidden
       />
 
@@ -46,7 +46,7 @@ export function AudienceHero({ content }: { content: MarketingHeroContent }) {
         <div className="mx-auto flex min-w-0 max-w-[820px] flex-col items-center px-2 text-center sm:px-4">
           <h1
             id={content.ariaHeadingId}
-            className="break-words  font-qasbyne fw-100 text-[clamp(1.75rem,6vw,4.5rem)] uppercase leading-[1.05] tracking-[0.04em] sm:text-[clamp(2rem,6vw,4.5rem)]"
+            className="break-words  font-qasbyne fw-100 fs-70 text-[clamp(1.75rem,6vw,4.5rem)] uppercase leading-[1.05] tracking-[0.04em] sm:text-[clamp(2rem,6vw,4.5rem)]"
           >
             <span className="block">
               <span className="">{lead}</span>{" "}
@@ -55,14 +55,14 @@ export function AudienceHero({ content }: { content: MarketingHeroContent }) {
           </h1>
           <p
             className={cn(
-              "mx-auto mt-0 lg:max-w-[38rem] font-nexa  fs-18 lg:lh-23 leading-relaxed ",
-              " sm:mt-10 sm:text-base lg:mt-11 ",
+              "mx-auto mt-0 text-left lg:max-w-[38rem] font-nexa  fs-18 lg:lh-23 leading-relaxed ",
+              " sm:mt-10 sm:text-base lg:mt-8 ",
             )}
           >
             {content.body}
           </p>
           <div className="mt-10 flex justify-center sm:mt-12">
-            <MarketingEnquireLink href={content.enquireHref}>
+            <MarketingEnquireLink href={content.enquireHref} className="h-15 lg:px-10 px-5 fs-20 fw-500">
               {content.enquireLabel}
             </MarketingEnquireLink>
           </div>

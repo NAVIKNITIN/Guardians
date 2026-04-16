@@ -8,7 +8,7 @@ const HERO_IMAGE = "/images/Home/1.png";
 export function HeroSection() {
   return (
     <section
-      className=" sm:pt-14 lg:min-h-[650px] relative min-h-[560px] overflow-hidden pt-10 pb-0  lg:pt-20"
+      className=" sm:pt-14 lg:min-h-[600px] relative min-h-[560px] overflow-hidden pt-10"
       aria-labelledby="hero-heading"
     >
       {/* Full-bleed background image */}
@@ -17,13 +17,13 @@ export function HeroSection() {
           src={HERO_IMAGE}
           alt=""
           fill
-          className="object-cover object-center"
+          className="object-fill"
           sizes="100vw"
           priority
         />
       </div>
 
-      <Container className="relative z-10 pt-5">
+      <Container className="relative z-10 pt-15">
         <div className="mx-auto flex min-w-0 max-w-[760px] flex-col items-center px-1 text-center sm:px-0">
           <h1
             id="hero-heading"
@@ -41,13 +41,13 @@ export function HeroSection() {
           <p
             className={cn(
               "mx-auto mt-8 max-w-[42rem] font-nexa fw-300 leading-relaxed text-[#000000]",
-              "text-sm sm:mt-10 sm:text-base lg:mt-12 lg:text-lg lg:ml-[20px]",
+              "text-sm sm:mt-10 sm:text-base lg:mt-10 lg:text-lg lg:ml-[20px]",
             )}
           >
             We are one of the fastest growing Real Estate consulting company in
             India.
           </p>
-          <div className="lg:mt-8 flex justify-center sm:mt-12">
+          <div className="lg:mt-10 flex justify-center sm:mt-12">
             <GradientCtaButton
               href="#about"
               variant="know-more"
