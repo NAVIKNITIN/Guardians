@@ -194,8 +194,8 @@ export function FeaturedPartnerShowcase() {
             label="Previous partner"
             onClick={() => advance(-1)}
             className={cn(
-              "absolute left-10 top-1/2 z-30 -translate-y-1/2 cursor-pointer",
-              "h-9 w-9   text-white  hover:bg-white/10 sm:h-11 sm:w-11",
+              "absolute left-2 top-1/2 z-30 -translate-y-1/2 cursor-pointer sm:left-6 lg:left-10",
+              "h-8 w-8 text-white hover:bg-white/10 sm:h-11 sm:w-11",
             )}
           >
             <Image
@@ -210,8 +210,8 @@ export function FeaturedPartnerShowcase() {
             label="Next partner"
             onClick={() => advance(1)}
             className={cn(
-              "absolute right-10 top-1/2 z-30 -translate-y-1/2 cursor-pointer",
-              "h-9 w-9   text-white  hover:bg-white/10 sm:h-11 sm:w-11",
+              "absolute right-2 top-1/2 z-30 -translate-y-1/2 cursor-pointer sm:right-6 lg:right-10",
+              "h-8 w-8 text-white hover:bg-white/10 sm:h-11 sm:w-11",
             )}
           >
             <Image

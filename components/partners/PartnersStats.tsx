@@ -55,21 +55,23 @@ export const StatBlock = ({
       : String(value);
 
   return (
-    <div className="flex flex-col items-center justify-center bg-[#DADADB] px-6 py-10 text-center sm:py-12">
-      {/* Number */}
-      <p className="n-bold fs-56 lh-24  text-[clamp(2.25rem,5vw,3.5rem)]  leading-none tabular-nums text-[#8F8183]">
+    <div className="flex w-full min-w-0 flex-col items-center justify-center bg-[#DADADB] px-4 py-8 text-center sm:px-6 sm:py-12">
+      {/* Number — remove fixed fs-56/lh-24 so the clamp can actually scale on small screens */}
+      <p className="n-bold text-[clamp(2rem,9vw,3.5rem)] leading-none tabular-nums text-[#8F8183] sm:text-[clamp(2.25rem,5vw,3.5rem)]">
         {formatted}
         {stat.suffix && (
-          <span className="fs-56 lh-24 text-[clamp(2.25rem,5vw,3.5rem)]">{stat.suffix}</span>
+          <span className="text-[clamp(2rem,9vw,3.5rem)] sm:text-[clamp(2.25rem,5vw,3.5rem)]">
+            {stat.suffix}
+          </span>
         )}
         {stat.unit && (
-          <span className="ml-1 text-[clamp(1.25rem,2.5vw,2rem)] ">
+          <span className="ml-1 text-[clamp(1rem,4.5vw,2rem)] sm:text-[clamp(1.25rem,2.5vw,2rem)]">
             {stat.unit}
           </span>
         )}
       </p>
       {/* Label */}
-      <p className="mt-5 n-bold  text-[16px]  uppercase leading-snug tracking-wide text-[#202225] sm:text-xs">
+      <p className="mt-4 n-bold text-[0.75rem] uppercase leading-snug tracking-wide text-[#202225] sm:mt-5 sm:text-xs">
         {stat.label}
       </p>
     </div>
@@ -82,14 +84,14 @@ export function PartnersStats() {
 
   return (
     <section
-      className=" bg-brand-background pt-5 pb-25 sm:pt-5 sm:pb-25"
+      className="bg-brand-background pt-4 pb-12 sm:pt-5 sm:pb-25"
       aria-label="Key metrics"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full min-w-0 max-w-7xl px-4 sm:px-6 lg:px-8">
         <div
           ref={ref}
           className={cn(
-            "grid gap-4 sm:gap-5",
+            "grid gap-3 sm:gap-5",
             "grid-cols-1 sm:grid-cols-3",
           )}
         >

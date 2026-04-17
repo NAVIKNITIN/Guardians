@@ -86,17 +86,17 @@ export const TestimonialCard = ({ item }: { item: PartnersTestimonial }) => {
   return (
     <article
       className={cn(
-        "flex flex-col overflow-hidden",
+        "flex w-full min-w-0 max-w-full flex-col overflow-hidden",
         /* Dot-grid + linear gradient matching the design */
         "bg-[radial-gradient(circle_at_center,#BCBDC0_1px,transparent_1px),linear-gradient(110deg,rgba(188,189,192,0.2)_0%,rgba(143,129,131,0.2)_100%)]",
         "[background-size:14px_14px,100%_100%] [background-repeat:repeat,no-repeat]",
       )}
     >
       {/* Top content area */}
-      <div className="flex flex-1 flex-col p-8 sm:p-10 lg:p-12">
+      <div className="flex flex-1 flex-col p-6 sm:p-10 lg:p-12">
         {/* Brand logo badge */}
         <div className="inline-flex w-fit items-center justify-center rounded-full bg-white px-4 py-2 shadow-sm">
-          <div className="relative h-9 w-20">
+          <div className="relative h-8 w-18 sm:h-9 sm:w-20">
             <Image
               src={item.brandLogoSrc}
               alt={item.brandLogoAlt}
@@ -107,24 +107,27 @@ export const TestimonialCard = ({ item }: { item: PartnersTestimonial }) => {
           </div>
         </div>
 
-        <span className="mt-15 block text-brand-text-primary">
-          <Image src={"/images/invertedComma.svg"} alt="" width={27} height={27} className="object-cover clip-path-circle" />
+        <span className="mt-8 block text-brand-text-primary sm:mt-15">
+          <Image
+            src={"/images/invertedComma.svg"}
+            alt=""
+            width={27}
+            height={27}
+            className="clip-path-circle object-cover"
+          />
         </span>
 
-        <p className="fs-20 lh-24 n-bold leading-relaxed text-brand-text-primary mt-5">
+        <p className="mt-4 n-bold text-[clamp(0.9375rem,3vw,1.125rem)] leading-relaxed text-brand-text-primary sm:mt-5 sm:text-[1.125rem] sm:leading-6">
           {item.quote}
         </p>
       </div>
 
       {/* Dark footer bar */}
-      <div className="bg-[#161616] px-8 py-5 sm:px-10 lg:px-12">
-        <p className="n-reg  text-sm  text-[#BCBDC0]">{item.name}</p>
-        <p className="mt-0.5 n-reg  text-xs text-[#BCBDC0]">{item.role}</p>
-        <p className="mt-0.5 n-reg  text-xs text-[#BCBDC0]/70">
-          {item.location}
-        </p>
+      <div className="bg-[#161616] px-6 py-4 sm:px-10 sm:py-5 lg:px-12">
+        <p className="n-reg text-sm text-[#BCBDC0]">{item.name}</p>
+        <p className="mt-0.5 n-reg text-xs text-[#BCBDC0]">{item.role}</p>
+        <p className="mt-0.5 n-reg text-xs text-[#BCBDC0]/70">{item.location}</p>
       </div>
-
     </article>
   );
 }
@@ -145,19 +148,20 @@ export function PartnersTestimonials() {
 
   return (
     <section
-      className="border-t border-black/[0.06] bg-brand-background py-16 sm:py-20"
+      className="border-t border-black/[0.06] bg-brand-background py-12 sm:py-20"
       aria-labelledby="pc-testimonials-heading"
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full min-w-0 max-w-7xl px-4 sm:px-6 lg:px-8">
         {/* Header row */}
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
           <h2
             id="pc-testimonials-heading"
-            className={marketingClasses.headingDisplayMd}
+            className={cn(marketingClasses.headingDisplayMd, "max-w-full")}
           >
             What Our Clients Say
           </h2>
           <CarouselControls
+            className="w-auto"
             currentIndex={index}
             total={n}
             onPrev={() => advance(-1)}
@@ -175,7 +179,7 @@ export function PartnersTestimonials() {
         </div>
 
         {/* Mobile: single card */}
-        <div className="mt-8 md:hidden">
+        <div className="mt-6 md:hidden">
           <TestimonialCard item={items[index]!} />
         </div>
       </div>
