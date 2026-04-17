@@ -9,7 +9,7 @@ export const LOCAL_IMAGES = {
   citylife: "/images/citylife.svg",
   newsroom: "/images/newsroom.svg",
   magazine: "/images/magazine.svg",
-  workWithUs: "/images/workwithus.svg",
+  workWithUs: "/images/Frame 236.svg",
   holding: "/images/holdingImg.svg",
   tgreaHero: "/images/tgreaHero.svg",
   projectCompleted: "/images/Projects/completed.svg",

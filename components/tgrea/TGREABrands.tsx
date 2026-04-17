@@ -17,9 +17,10 @@ const brands = [
 
 /** Rose-gold gradient matching the Figma "Read More" buttons */
 const readMoreClassName = cn(
-  "inline-flex w-full max-w-xs items-center justify-center gap-3 px-8 py-4 sm:w-auto sm:max-w-none sm:justify-start sm:gap-4 sm:px-12 sm:py-5",
-  "n-reg  text-sm  uppercase tracking-[0.1em] text-white",
-  "transition-opacity duration-200 hover:opacity-90",
+  "inline-flex w-full max-w-xs items-center justify-center gap-3 px-6 py-3 sm:w-auto sm:max-w-none sm:justify-start sm:gap-4 sm:px-12 sm:py-5",
+  "n-bold uppercase tracking-[0.1em] text-white",
+  "text-[clamp(0.8125rem,3vw,1.25rem)] leading-[1.25rem] sm:leading-[1.5625rem]",
+  "transition-opacity duration-200 hover:opacity-90 mt-4 sm:mt-30",
 );
 
 const readMoreStyle = {
@@ -50,15 +51,15 @@ interface BrandRowProps {
 
 function BrandRow({ reverse, href }: BrandRowProps) {
   const textContent = (
-    <div className="flex flex-col items-start gap-8 py-8 lg:py-12">
+    <div className="flex w-full min-w-0 flex-col items-center gap-5 py-6 text-center sm:gap-8 sm:py-8 lg:items-start lg:py-12 lg:text-left md:min-h-[650px]">
       <Image
         src={BRAND_LOGO}
         alt="Ground Holding – Real Estate"
         width={223}
         height={80}
-        className="block h-auto w-[180px] object-cover lg:w-[223px]"
+        className="block h-auto w-[150px] object-cover sm:w-[180px] lg:w-[223px]"
       />
-      <p className="max-w-[488px] n-reg  text-base  leading-[1.5] text-[#161616]">
+      <p className="max-w-[488px] n-reg text-[clamp(0.875rem,3vw,1rem)] leading-[1.5] text-[#161616] sm:mt-10 sm:text-base md:mt-12">
         {DESCRIPTION}
       </p>
       <Link href={href} className={readMoreClassName} style={readMoreStyle}>
@@ -69,7 +70,7 @@ function BrandRow({ reverse, href }: BrandRowProps) {
   );
 
   const photoContent = (
-    <div className="relative aspect-[488/434] w-full overflow-hidden lg:aspect-auto lg:h-full lg:min-h-[434px]">
+    <div className="relative aspect-[488/434] w-full min-h-[220px] overflow-hidden lg:aspect-auto lg:h-full lg:min-h-[434px]">
       <Image
         src={BRAND_PHOTO}
         alt="Construction site at sunset"
@@ -80,11 +81,9 @@ function BrandRow({ reverse, href }: BrandRowProps) {
     </div>
   );
 
-  const photoCellClass = "mb-10 w-full lg:mb-0";
-
   return (
     <div
-      className={"grid grid-cols-1 gap-y-8 gap-x-0 lg:grid-cols-2 lg:gap-y-0"}
+      className={"grid grid-cols-1 gap-y-6 gap-x-0 sm:gap-y-8 lg:grid-cols-2 lg:gap-y-0"}
     >
       {reverse ? (
         <>
@@ -113,12 +112,12 @@ export function TGREABrands() {
   return (
     <section className="bg-white" aria-labelledby="our-brands-heading">
       {/* Section heading */}
-      <div className="py-12 text-center lg:py-16">
+      <div className="px-4 py-8 text-center sm:py-12 lg:py-16">
         <h2
           id="our-brands-heading"
           className={cn(
             "qs-reg nt-normal uppercase tracking-[0.05em] text-[#202225]",
-            "text-[clamp(2rem,4vw,3.125rem)] leading-[1]",
+            "text-[clamp(1.5rem,5vw,3.125rem)] leading-[1.05] sm:leading-none",
           )}
         >
           Our Brands
@@ -126,9 +125,9 @@ export function TGREABrands() {
       </div>
 
       {/* Brand rows */}
-      <div className="">
+      <div>
         {brands.map(({ id, reverse, href }) => (
-          <div className=" my-4 lg:mb-[70px]" key={id}>
+          <div className="my-2 sm:my-4 lg:mb-[70px]" key={id}>
             <BrandRow key={id} reverse={reverse} href={href} />
           </div>
         ))}

@@ -104,7 +104,7 @@ function ReasonCard({ card }: { card: ReasonCard }) {
 export function ReasonsToJoin() {
   return (
     <section
-      className=" bg-white mb-16 sm:mb-20  py-4 px-2 lg:px-10 "
+      className=" bg-white mb-16 sm:mb-20  px-2 lg:px-10 "
       aria-labelledby="reasons-heading"
     >
       <Container>
@@ -113,7 +113,7 @@ export function ReasonsToJoin() {
           id="reasons-heading"
           className={cn(
             "text-center  uppercase text-[#202225]",
-            "text-[clamp(1.75rem,2.8vw,3.75rem)] leading-[1.4] tracking-[0.05em]",
+            "text-[clamp(1.75rem,2.8vw,3.75rem)] leading-[1.4] tracking-[0.05em] qs-reg fs-50 lh-50 ls-10",
             "mb-5 lg:mb-5",
           )}
         >

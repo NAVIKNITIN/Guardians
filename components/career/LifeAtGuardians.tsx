@@ -6,7 +6,7 @@ import Image from "next/image";
 export function LifeAtGuardians() {
   return (
     <section
-      className="bg-white py-16 sm:py-16 lg:py-20 px-2 lg:px-10"
+      className="bg-white py-16 sm:py-16 lg:py-25 px-2 lg:px-20 sm:px-10"
       aria-labelledby="life-heading"
     >
       {/* ── Top split: heading left / description right ── */}
@@ -17,7 +17,7 @@ export function LifeAtGuardians() {
             id="life-heading"
             className={cn(
               " uppercase text-[#202225]",
-              "text-[clamp(2.25rem,3.8vw,4.375rem)] leading-[1] tracking-[0.05em]",
+              "text-[clamp(2.25rem,3.8vw,4.375rem)] leading-[1] tracking-[0.05em] qs-reg fs-70 lh-70 ls-10",
             )}
           >
             Life at<br />Guardians
