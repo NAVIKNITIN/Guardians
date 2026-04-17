@@ -21,7 +21,7 @@ export function ExploreBanner({ content }: { content: MarketingBannerContent }) 
             <h2
               id={headingId}
               className={cn(
-                "text-left n-reg  text-[clamp(1.375rem,3.5vw,2.125rem)] font-normal leading-[1.25] tracking-[-0.02em] text-brand-text-primary",
+                "text-left n-reg  text-[clamp(1.375rem,3.5vw,2.125rem)]  leading-[1.25] tracking-[-0.02em] text-brand-text-primary",
                 "sm:text-[clamp(1.5rem,3.2vw,2.25rem)]",
               )}
             >

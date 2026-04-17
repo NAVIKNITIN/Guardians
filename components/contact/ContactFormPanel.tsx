@@ -79,7 +79,7 @@ function ContactInfoBlock({ block }: { block: ContactBlock }) {
       {block.email && (
         <a
           href={`mailto:${block.email}`}
-          className="flex min-w-0 items-start gap-2 break-all n-reg  text-base font-normal text-[#161616] transition-opacity hover:opacity-70 sm:items-center sm:text-xl"
+          className="flex min-w-0 items-start gap-2 break-all n-reg  text-base  text-[#161616] transition-opacity hover:opacity-70 sm:items-center sm:text-xl"
         >
           <EmailIcon />
           {block.email}
@@ -88,7 +88,7 @@ function ContactInfoBlock({ block }: { block: ContactBlock }) {
       {block.phone && (
         <a
           href={block.telHref}
-          className="flex min-w-0 flex-wrap items-center gap-2 n-reg  text-base font-normal text-[#161616] transition-opacity hover:opacity-70 sm:text-xl"
+          className="flex min-w-0 flex-wrap items-center gap-2 n-reg  text-base  text-[#161616] transition-opacity hover:opacity-70 sm:text-xl"
         >
           <PhoneIcon />
           {block.phone}
@@ -164,10 +164,10 @@ export function ContactFormPanel() {
           {/* ── Left: contact info ─────────────────────────────────────── */}
           <div className="flex flex-col justify-center gap-10 lg:w-[45%] lg:flex-shrink-0">
             <header className="text-center lg:text-left">
-              <h2 className="qs-reg text-[clamp(2rem,4vw,3.125rem)] font-normal uppercase leading-[1.05] tracking-[0.05em] text-[#202225]">
+              <h2 className="qs-reg text-[clamp(2rem,4vw,3.125rem)]  uppercase leading-[1.05] tracking-[0.05em] text-[#202225]">
                 Let&apos;s connect!
               </h2>
-              <p className="mt-4 n-reg  text-base font-normal leading-relaxed text-[#161616] sm:text-lg">
+              <p className="mt-4 n-reg  text-base  leading-relaxed text-[#161616] sm:text-lg">
                 {CONNECT_INTRO}
               </p>
             </header>
@@ -271,7 +271,7 @@ export function ContactFormPanel() {
               {/* Submit */}
               <button
                 type="submit"
-                className="flex w-full items-center justify-center gap-5 py-[18px] n-reg  text-xl font-bold uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90"
+                className="flex w-full items-center justify-center gap-5 py-[18px] n-reg  text-xl  uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90"
                 style={{
                   background:
                     "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",

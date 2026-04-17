@@ -20,11 +20,11 @@ export function DeveloperServicesHero() {
       <div className="relative z-10 flex flex-col items-center justify-start gap-4 px-4 pb-10 pt-16 text-center qs-regsm:pt-20 lg:mt-[100px] lg:pb-0">
         <h1
           id="dev-services-heading"
-          className="max-w-[min(100%,22ch)] break-words qs-reg text-[clamp(1.75rem,6vw,4.375rem)] font-normal uppercase leading-none tracking-[0.05em] text-[#202225] sm:max-w-none sm:text-[clamp(2rem,6.5vw,4.375rem)]"
+          className="max-w-[min(100%,22ch)] break-words qs-reg text-[clamp(1.75rem,6vw,4.375rem)]  uppercase leading-none tracking-[0.05em] text-[#202225] sm:max-w-none sm:text-[clamp(2rem,6.5vw,4.375rem)]"
         >
           Developer&apos;s Services
         </h1>
-        <p className="n-reg  text-base font-normal text-black sm:text-lg max-w-2xl">
+        <p className="n-reg  text-base  text-black sm:text-lg max-w-2xl">
           We are one of the fastest growing Real Estate consulting company in India.
         </p>
       </div>

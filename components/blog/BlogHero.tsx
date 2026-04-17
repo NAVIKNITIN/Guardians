@@ -26,7 +26,7 @@ export function BlogHero() {
       <div className="relative z-10 flex h-full items-center justify-center px-4 text-center">
         <h1
           id="blog-hero-heading"
-          className="qs-reg font-normal uppercase text-white text-[clamp(2.5rem,6.5vw,4.375rem)] leading-[1] tracking-[0.05em]"
+          className="qs-reg  uppercase text-white text-[clamp(2.5rem,6.5vw,4.375rem)] leading-[1] tracking-[0.05em]"
         >
           Blogs
         </h1>

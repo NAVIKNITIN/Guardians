@@ -55,7 +55,7 @@ function SidePanel({
           <li key={i}>
             <a
               href="#"
-              className="n-reg  text-base font-bold leading-[1.5] text-[#161616] transition-opacity hover:opacity-70 line-clamp-2"
+              className="n-reg  text-base  leading-[1.5] text-[#161616] transition-opacity hover:opacity-70 line-clamp-2"
             >
               {item}
             </a>
@@ -75,7 +75,7 @@ export function BlogSidebar() {
         <input
           type="search"
           placeholder="Search"
-          className="w-full bg-transparent n-reg  text-base font-normal text-black/60 placeholder:text-black/60 focus:outline-none tracking-[-0.01em]"
+          className="w-full bg-transparent n-reg  text-base  text-black/60 placeholder:text-black/60 focus:outline-none tracking-[-0.01em]"
           aria-label="Search blog posts"
         />
       </div>

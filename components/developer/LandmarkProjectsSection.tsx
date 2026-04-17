@@ -90,7 +90,7 @@ export function LandmarkProjectsSection({
       <div className="flex flex-col gap-8 px-4 sm:flex-row sm:items-end sm:justify-between sm:gap-6 sm:px-6 lg:px-20">
         <h2
           id="landmark-heading"
-          className="min-w-0 shrink qs-reg text-[clamp(1.5rem,4.5vw,4.75rem)] fs-50 font-normal uppercase leading-[1.15] tracking-[0.06em] text-brand-text-primary sm:shrink-0 sm:whitespace-nowrap sm:text-[clamp(1.75rem,2.6vw,4.75rem)]"
+          className="min-w-0 shrink qs-reg text-[clamp(1.5rem,4.5vw,4.75rem)] fs-50  uppercase leading-[1.15] tracking-[0.06em] text-brand-text-primary sm:shrink-0 sm:whitespace-nowrap sm:text-[clamp(1.75rem,2.6vw,4.75rem)]"
         >
           {content.sectionTitle}
         </h2>
@@ -336,14 +336,14 @@ function ActiveProjectCard({
         className="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-t from-black/60 via-black/15 to-black/25"
         aria-hidden
       />
-      <div className="absolute left-5 top-5 z-[3] text-[11px] font-bold uppercase tracking-[0.28em] text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.45)] sm:left-7 sm:top-7 sm:text-xs">
+      <div className="absolute left-5 top-5 z-[3] text-[11px]  uppercase tracking-[0.28em] text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.45)] sm:left-7 sm:top-7 sm:text-xs">
         {project.brand}
       </div>
       <div className="absolute inset-x-0 bottom-0 z-[3] px-4 pb-6 pt-20 text-center text-white sm:px-8 sm:pb-8">
         <p className="text-[10px] font-medium uppercase tracking-[0.35em] text-white/95 sm:text-[11px]">
           {project.projectLine}
         </p>
-        <p className="mt-2 n-reg xt-2xl font-bold uppercase leading-none tracking-tight text-white drop-shadow-sm sm:text-3xl md:text-4xl lg:text-5xl">
+        <p className="mt-2 n-reg xt-2xl  uppercase leading-none tracking-tight text-white drop-shadow-sm sm:text-3xl md:text-4xl lg:text-5xl">
           {project.projectName}
         </p>
         <p className="mx-auto mt-3 max-w-2xl text-xs leading-relaxed text-white/90 sm:text-sm">

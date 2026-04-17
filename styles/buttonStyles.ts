@@ -10,7 +10,7 @@ export const primaryCtaClassName = cn(
 
 /** Marketing hero — solid black “Enquire now”. */
 export const heroEnquireCtaClassName = cn(
-  "inline-flex items-center justify-center gap-2 rounded-none border border-black bg-black px-8 py-3.5 text-[11px] font-bold uppercase tracking-[0.22em] text-white shadow-sm transition-colors duration-300 ease-out",
+  "inline-flex items-center justify-center gap-2 rounded-none border border-black bg-black px-8 py-3.5 text-[11px]  uppercase tracking-[0.22em] text-white shadow-sm transition-colors duration-300 ease-out",
   "min-w-[200px] hover:bg-neutral-900",
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
 );

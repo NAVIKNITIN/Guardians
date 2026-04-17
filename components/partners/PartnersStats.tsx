@@ -57,19 +57,19 @@ function StatBlock({
   return (
     <div className="flex flex-col items-center justify-center bg-[#DADADB] px-6 py-10 text-center sm:py-12">
       {/* Number */}
-      <p className="n-reg  text-[clamp(2.25rem,5vw,3.5rem)] font-bold leading-none tabular-nums text-[#8F8183]">
+      <p className="n-reg  text-[clamp(2.25rem,5vw,3.5rem)]  leading-none tabular-nums text-[#8F8183]">
         {formatted}
         {stat.suffix && (
           <span className="text-[clamp(2.25rem,5vw,3.5rem)]">{stat.suffix}</span>
         )}
         {stat.unit && (
-          <span className="ml-1 text-[clamp(1.25rem,2.5vw,2rem)] font-bold">
+          <span className="ml-1 text-[clamp(1.25rem,2.5vw,2rem)] ">
             {stat.unit}
           </span>
         )}
       </p>
       {/* Label */}
-      <p className="mt-3 n-reg  text-[11px] font-bold uppercase leading-snug tracking-wide text-[#202225] sm:text-xs">
+      <p className="mt-3 n-reg  text-[11px]  uppercase leading-snug tracking-wide text-[#202225] sm:text-xs">
         {stat.label}
       </p>
     </div>

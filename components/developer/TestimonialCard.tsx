@@ -44,12 +44,12 @@ export function TestimonialCard({
         <Image src={"/images/invertedComma.svg"} alt="" width={27} height={27} className="object-cover clip-path-circle" />
 
       </span>
-      <p className=" fs-20 lh-24 font-normal leading-relaxed text-brand-text-primary mt-5">
+      <p className=" fs-20 lh-24  leading-relaxed text-brand-text-primary mt-5">
         {item.quote}
       </p>
       <div className="mt-6 border-t border-black/10 pt-4">
         <p className="font-semibold text-brand-text-primary">{item.name}</p>
-        <p className="mt-1 text-xs font-normal  text-brand-text-primary">{item.role}</p>
+        <p className="mt-1 text-xs   text-brand-text-primary">{item.role}</p>
         <p className="mt-0.5 text-xs  text-brand-text-secondary">{item.location}</p>
       </div>
     </article>

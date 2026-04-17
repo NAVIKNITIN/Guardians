@@ -114,7 +114,7 @@ function BrandCard({
               </div>
             </div>
           </div>
-          <div className="-mt-1 text-[clamp(1.9rem,3vw,3.1rem)] font-bold lowercase tracking-[-0.05em]">
+          <div className="-mt-1 text-[clamp(1.9rem,3vw,3.1rem)]  lowercase tracking-[-0.05em]">
             holding
           </div>
         </div>
@@ -154,7 +154,7 @@ function BrandCard({
               <span className="absolute bottom-0 left-0 h-5 w-5 border-l-[5px] border-b-[5px] border-[#938788]" />
               <span className="absolute left-3 top-1 h-7 w-4 border-l-[5px] border-t-[5px] border-[#938788]" />
             </div>
-            <span className="text-[clamp(1.75rem,2.8vw,2.9rem)] font-bold uppercase tracking-[0.02em]">
+            <span className="text-[clamp(1.75rem,2.8vw,2.9rem)]  uppercase tracking-[0.02em]">
               Cavalry
             </span>
           </div>
@@ -166,7 +166,7 @@ function BrandCard({
   return (
     <article className="flex min-h-[138px] items-center justify-center border border-[#ece7e7] bg-white px-6 py-8 text-center">
       <div>
-        <h3 className="text-[clamp(1.3rem,2vw,2rem)] font-bold uppercase tracking-[0.04em] text-[#8f8183]">
+        <h3 className="text-[clamp(1.3rem,2vw,2rem)]  uppercase tracking-[0.04em] text-[#8f8183]">
           {title}
         </h3>
         <p className="mt-2 text-[0.64rem] uppercase tracking-[0.34em] text-[#a49a9b]">
@@ -311,7 +311,7 @@ export default function AboutPage() {
         <Container>
           <div className="mx-auto max-w-[1120px]">
             <div className="flex items-center justify-center gap-5">
-              <p className="text-[0.95rem] font-bold uppercase tracking-[0.22em] text-[#2a2626]">
+              <p className="text-[0.95rem]  uppercase tracking-[0.22em] text-[#2a2626]">
                 The Guardians Real Estate Advisory
               </p>
             </div>

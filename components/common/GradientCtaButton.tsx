@@ -18,7 +18,7 @@ const variantClassMap: Record<NonNullable<GradientCtaButtonProps["variant"]>, st
 };
 
 const baseClassName =
-  "group inline-flex items-center justify-center gap-4 px-8 py-3.5 n-reg  text-sm font-bold uppercase tracking-[0.1em] text-white shadow-md transition-all duration-300 ease-out";
+  "group inline-flex items-center justify-center gap-4 px-8 py-3.5 n-reg  text-sm  uppercase tracking-[0.1em] text-white shadow-md transition-all duration-300 ease-out";
 
 export function GradientCtaButton({
   children,

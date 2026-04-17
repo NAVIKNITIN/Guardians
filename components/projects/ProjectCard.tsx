@@ -56,7 +56,7 @@ export function ProjectCard({
               badgeClass,
             )}
           >
-            <span className="n-reg  text-[10px] font-bold uppercase tracking-[0.12em] text-white sm:text-xs">
+            <span className="n-bold  text-[10px] uppercase tracking-[0.12em] text-white sm:text-xs">
               {badge.label}
             </span>
           </div>
@@ -65,10 +65,10 @@ export function ProjectCard({
 
       <div className="flex items-center justify-between gap-4 bg-[#ecebeb] px-4 py-4 sm:px-5 sm:py-5">
         <div className="min-w-0 flex-1">
-          <p className="n-reg  text-base font-bold leading-snug text-[#161616] sm:text-lg">
+          <p className="n-reg  text-base  leading-snug text-[#161616] sm:text-lg">
             {title}
           </p>
-          <p className="mt-1 n-reg  text-sm font-normal leading-snug text-[#161616]/60 sm:text-[15px]">
+          <p className="mt-1 n-bold  text-sm  leading-snug text-[#161616]/60 sm:text-[15px]">
             {subtitle}
           </p>
         </div>

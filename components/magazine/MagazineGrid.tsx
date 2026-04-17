@@ -97,7 +97,7 @@ function MagazineCard({
       </div>
 
       {/* Title */}
-      <h3 className="mt-5 text-center n-reg  text-xl font-bold leading-[1.2] text-[#161616] line-clamp-3">
+      <h3 className="mt-5 text-center n-reg  text-xl  leading-[1.2] text-[#161616] line-clamp-3">
         {issue.title}
       </h3>
 
@@ -108,7 +108,7 @@ function MagazineCard({
         className={cn(
           "mt-5 flex items-center justify-center gap-5",
           "border border-black/30 px-12 py-[18px]",
-          "n-reg  text-base font-bold uppercase tracking-[0.1em] text-[#202225]",
+          "n-reg  text-base  uppercase tracking-[0.1em] text-[#202225]",
           "transition-colors hover:border-[#202225] hover:bg-[#202225] hover:text-white",
         )}
       >
@@ -149,7 +149,7 @@ export function MagazineGrid() {
         <div className="mt-12 flex justify-center px-1 sm:mt-16 lg:mt-20">
           <button
             type="button"
-            className="inline-flex w-full max-w-sm items-center justify-center gap-4 px-8 py-3.5 n-reg  text-base font-bold uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 sm:w-auto sm:max-w-none sm:gap-5 sm:px-12 sm:py-[18px] sm:text-xl"
+            className="inline-flex w-full max-w-sm items-center justify-center gap-4 px-8 py-3.5 n-reg  text-base  uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 sm:w-auto sm:max-w-none sm:gap-5 sm:px-12 sm:py-[18px] sm:text-xl"
             style={{
               background:
                 "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",

@@ -49,14 +49,14 @@ export function GrowWithUs() {
                     <h2
                         id="grow-heading"
                         className={cn(
-                            "qs-reg font-normal uppercase text-[#202225]",
+                            "qs-reg  uppercase text-[#202225]",
                             "text-[clamp(2rem,5vw,3.75rem)] leading-[1.08] tracking-[0.05em]",
                         )}
                     >
                         Come grow with us
                     </h2>
 
-                    <p className="mt-6 w-full max-w-[min(42rem,90vw)] n-reg xt-base font-normal leading-relaxed text-[#202225]/90 sm:text-lg">
+                    <p className="mt-6 w-full max-w-[min(42rem,90vw)] n-reg xt-base  leading-relaxed text-[#202225]/90 sm:text-lg">
                         The Guardians provide endless opportunities for professional growth in
                         promising times like these. A stimulating work environment, rich and
                         diverse exposure &amp; inspiring leadership are a few reasons that make
@@ -65,7 +65,7 @@ export function GrowWithUs() {
 
                     <a
                         href={`mailto:${HR_EMAIL}`}
-                        className="mt-8 inline-flex items-center gap-2.5 n-reg  text-sm font-bold text-[#202225] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#202225] sm:text-base"
+                        className="mt-8 inline-flex items-center gap-2.5 n-reg  text-sm  text-[#202225] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#202225] sm:text-base"
                     >
                         <IconEnvelopeOutline className="h-5 w-5 shrink-0 text-[#202225]" />
                         <span>{HR_EMAIL}</span>
@@ -74,7 +74,7 @@ export function GrowWithUs() {
                     <Link
                         href="/contact"
                         className={cn(
-                            "mt-10 inline-flex items-center gap-2 rounded-sm px-10 py-3.5 n-reg  text-xs font-bold uppercase tracking-[0.2em] text-white",
+                            "mt-10 inline-flex items-center gap-2 rounded-sm px-10 py-3.5 n-reg  text-xs  uppercase tracking-[0.2em] text-white",
                             "bg-linear-to-r from-[#e8b8a8] via-[#b86b5c] to-[#d9a090]",
                             "shadow-sm transition-[filter] hover:brightness-105",
                             "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#202225]",

@@ -216,7 +216,7 @@ function CaseStudySection({
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/35" />
 
-        <div className="absolute left-4 top-4 z-[1] flex max-w-[min(100%,280px)] flex-wrap items-start gap-2 text-[0.5rem] font-bold uppercase leading-tight tracking-[0.12em] text-white sm:left-5 sm:top-5 sm:text-[0.55rem] md:max-w-none md:text-[0.625rem]">
+        <div className="absolute left-4 top-4 z-[1] flex max-w-[min(100%,280px)] flex-wrap items-start gap-2 text-[0.5rem]  uppercase leading-tight tracking-[0.12em] text-white sm:left-5 sm:top-5 sm:text-[0.55rem] md:max-w-none md:text-[0.625rem]">
           <span className="max-w-[9rem] sm:max-w-none">
             The Guardians
             <br />
@@ -252,7 +252,7 @@ function CaseStudySection({
         )}
 
         <div className="absolute bottom-0 left-0 z-[1] p-4 sm:p-6">
-          <p className="n-reg xt-xl font-bold uppercase leading-[1.1] tracking-[0.06em] text-white sm:text-2xl md:text-3xl lg:text-4xl">
+          <p className="n-reg xt-xl  uppercase leading-[1.1] tracking-[0.06em] text-white sm:text-2xl md:text-3xl lg:text-4xl">
             <span className="block sm:inline">Client </span>
             <span className="mt-1 inline-block bg-black/45 px-2 py-1 sm:mt-0 sm:px-3">
               Chronicles
@@ -262,7 +262,7 @@ function CaseStudySection({
       </div>
 
       <div className="flex w-full min-w-0 flex-col items-start justify-start text-left">
-        <h2 className="text-[clamp(2rem,4vw,3.25rem)] font-normal uppercase leading-[1.05] tracking-[0.06em] text-[#202225]">
+        <h2 className="text-[clamp(2rem,4vw,3.25rem)]  uppercase leading-[1.05] tracking-[0.06em] text-[#202225]">
           Case Study
         </h2>
         <div className="mt-6 flex w-full flex-col gap-4">
@@ -299,7 +299,7 @@ function AmenityItem({
           className="h-20 w-20 object-cover"
         />
       </div>
-      <span className="n-reg  text-[11px] font-bold uppercase tracking-[0.08em] text-[#202225] sm:text-xs">
+      <span className="n-reg  text-[11px]  uppercase tracking-[0.08em] text-[#202225] sm:text-xs">
         {amenity.label}
       </span>
     </div>
@@ -358,7 +358,7 @@ function ProjectDetailPageContent() {
                 {project.title}
               </h1>
               {/* RERA */}
-              <p className="mt-3 n-reg  text-xs font-bold uppercase tracking-[0.1em] text-[#161616] underline sm:text-sm">
+              <p className="mt-3 n-reg  text-xs  uppercase tracking-[0.1em] text-[#161616] underline sm:text-sm">
                 Rera No.: {project.rera}
               </p>
             </div>
@@ -386,7 +386,7 @@ function ProjectDetailPageContent() {
                     : ""
                     } ${i > 0 ? "pl-3 sm:pl-4 lg:pl-6" : ""}`}
                 >
-                  <span className=" text-xs font-bold uppercase tracking-[0.1em] text-black/80 sm:text-sm ">
+                  <span className=" text-xs  uppercase tracking-[0.1em] text-black/80 sm:text-sm ">
                     {stat.label}
                   </span>
                   <span className="mt-1  text-[#8F8183]">
@@ -427,7 +427,7 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       <section className="bg-white px-4 py-12 sm:px-6 md:px-10 lg:px-20 lg:py-16">
         <Container>
-          <p className="!n-reg  text-xl font-bold leading-snug text-black sm:text-2xl lg:text-[2.25rem] lg:leading-[1.17]">
+          <p className="!n-reg  text-xl  leading-snug text-black sm:text-2xl lg:text-[2.25rem] lg:leading-[1.17]">
             {project.description}
           </p>
         </Container>
@@ -547,7 +547,7 @@ function ProjectDetailPageContent() {
                       </span>
                       <div className="flex shrink-0 items-center gap-3">
                         {item.type === "walk" ? <WalkIcon /> : <DriveIcon />}
-                        <span className="w-14 text-right n-reg  text-sm font-bold text-[#161616] sm:text-base">
+                        <span className="w-14 text-right n-reg  text-sm  text-[#161616] sm:text-base">
                           {item.time}
                         </span>
                       </div>
@@ -634,7 +634,7 @@ function ProjectDetailPageContent() {
 
                 <div className="mt-10 flex flex-col gap-6 border-t border-white/40 pt-8 sm:flex-row sm:gap-12">
                   <div>
-                    <p className="n-reg  text-xs font-bold uppercase tracking-[0.1em] text-white">
+                    <p className="n-reg  text-xs  uppercase tracking-[0.1em] text-white">
                       Location
                     </p>
                     <p className="mt-2 max-w-[16rem] n-reg  text-sm leading-relaxed text-white">
@@ -643,7 +643,7 @@ function ProjectDetailPageContent() {
                     </p>
                   </div>
                   <div>
-                    <p className="n-reg  text-xs font-bold uppercase tracking-[0.1em] text-white">
+                    <p className="n-reg  text-xs  uppercase tracking-[0.1em] text-white">
                       Contact
                     </p>
                     <p className="mt-2 n-reg  text-sm leading-relaxed text-white">
@@ -718,7 +718,7 @@ function ProjectDetailPageContent() {
 
                   {/* Message */}
                   <div className="border-t border-[#8F8183]/30 pt-6">
-                    <label className="block n-reg  text-sm font-bold text-[#202225]">
+                    <label className="block n-reg  text-sm  text-[#202225]">
                       Message
                     </label>
                     <textarea
@@ -735,7 +735,7 @@ function ProjectDetailPageContent() {
                   <div className="mt-8">
                     <button
                       type="button"
-                      className="inline-flex h-[52px] w-full items-center justify-center gap-4 px-8 n-reg  text-sm font-bold uppercase tracking-[0.1em] text-white sm:h-[55px] sm:w-auto sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
+                      className="inline-flex h-[52px] w-full items-center justify-center gap-4 px-8 n-reg  text-sm  uppercase tracking-[0.1em] text-white sm:h-[55px] sm:w-auto sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
                       style={{
                         background:
                           "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",
@@ -794,7 +794,7 @@ function FormField({
 }: FormFieldProps) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="n-reg xt-sm font-bold text-[#202225]">
+      <label className="n-reg xt-sm  text-[#202225]">
         {label}
       </label>
       <input
@@ -828,7 +828,7 @@ function SelectField({
 }: SelectFieldProps) {
   return (
     <div className="flex flex-col gap-1">
-      <label className="n-reg  text-sm font-bold text-[#202225]">
+      <label className="n-reg  text-sm  text-[#202225]">
         {label}
       </label>
       <div className="relative border-b border-[#8F8183] pb-1">

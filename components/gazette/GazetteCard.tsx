@@ -45,7 +45,7 @@ export function GazetteCard({ issue, onOpenFile }: { issue: GazetteIssue, onOpen
       </div>
 
       {/* Title */}
-      <h3 className="mt-5 text-center n-reg  text-xl font-bold leading-[1.2] text-[#161616] line-clamp-3">
+      <h3 className="mt-5 text-center n-reg  text-xl  leading-[1.2] text-[#161616] line-clamp-3">
         {issue.title}
       </h3>
 
@@ -56,7 +56,7 @@ export function GazetteCard({ issue, onOpenFile }: { issue: GazetteIssue, onOpen
         className={cn(
           "mt-5 flex items-center justify-center gap-5",
           "border border-black/30 px-12 py-[18px]",
-          "n-reg  text-base font-bold uppercase tracking-[0.1em] text-[#202225]",
+          "n-reg  text-base  uppercase tracking-[0.1em] text-[#202225]",
           "transition-colors hover:border-[#202225] hover:bg-[#202225] hover:text-white",
           "[&:hover_svg_path]:stroke-white",
         )}

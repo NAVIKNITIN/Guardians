@@ -69,10 +69,10 @@ export function WhyJoinSection() {
               key={pillar.id}
               className="group flex flex-col gap-4 bg-white p-8 transition-colors hover:bg-[#FAFAF9] sm:p-10"
             >
-              <span className="n-reg  text-xs font-bold tracking-[0.25em] text-[#8F8183]">
+              <span className="n-reg  text-xs  tracking-[0.25em] text-[#8F8183]">
                 {pillar.number}
               </span>
-              <h3 className="qs-reg text-xl font-normal uppercase tracking-[0.06em] text-[#202225] sm:text-2xl">
+              <h3 className="qs-reg text-xl  uppercase tracking-[0.06em] text-[#202225] sm:text-2xl">
                 {pillar.title}
               </h3>
               <div className="h-px w-10 bg-[#8F8183] transition-all duration-300 group-hover:w-16" />

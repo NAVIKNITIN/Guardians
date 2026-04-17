@@ -134,9 +134,15 @@ function filterProjects(
     configuration: string;
     stage: string;
     location: string | null;
+    query: string;
   },
 ) {
   return list.filter((p) => {
+    const searchTerm = opts.query.trim().toLowerCase();
+    if (searchTerm) {
+      const searchableText = `${p.title} ${p.subtitle} ${p.builder} ${p.budget} ${p.configuration}`.toLowerCase();
+      if (!searchableText.includes(searchTerm)) return false;
+    }
     if (opts.budget !== "All" && p.budget !== opts.budget) return false;
     if (opts.builder !== "All" && p.builder !== opts.builder) return false;
     if (opts.configuration !== "All" && p.configuration !== opts.configuration)
@@ -204,7 +210,7 @@ function SearchIcon() {
 }
 
 const filterSelectClass =
-  "relative inline-flex h-12 min-h-[48px] w-full min-w-0 max-w-full cursor-pointer appearance-none items-center border border-[#161616] bg-white pl-4 pr-9 n-reg  text-xs font-bold uppercase tracking-[0.08em] text-[#161616] outline-none transition-colors hover:bg-black/[0.02] sm:h-[51px] sm:min-w-[8.5rem] sm:max-w-none sm:pl-5 sm:pr-10 sm:text-sm sm:tracking-[0.1em] md:min-w-[9.5rem] md:text-base";
+  "relative inline-flex h-12 min-h-[48px] w-full min-w-0 max-w-full cursor-pointer appearance-none items-center border border-[#161616] bg-white pl-4 pr-9 n-reg  text-xs  uppercase tracking-[0.08em] text-[#161616] outline-none transition-colors hover:bg-black/[0.02] sm:h-[51px] sm:min-w-[8.5rem] sm:max-w-none sm:pl-5 sm:pr-10 sm:text-sm sm:tracking-[0.1em] md:min-w-[9.5rem] md:text-base";
 
 function FilterSelect({
   label,
@@ -243,11 +249,13 @@ function FilterSelect({
 function ProjectsPageContent() {
   const searchParams = useSearchParams();
 
+  const [showFilters, setShowFilters] = useState(true);
   const [filterBudget, setFilterBudget] = useState<string>("All");
   const [filterBuilder, setFilterBuilder] = useState<string>("All");
   const [filterConfiguration, setFilterConfiguration] =
     useState<string>("All");
   const [filterStage, setFilterStage] = useState<string>("All");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const [activeLocation, setActiveLocation] = useState<string | null>(
     "Chembur (E)",
@@ -267,6 +275,7 @@ function ProjectsPageContent() {
         configuration: filterConfiguration,
         stage: filterStage,
         location: activeLocation,
+        query: searchQuery,
       }),
     [
       filterBudget,
@@ -274,6 +283,7 @@ function ProjectsPageContent() {
       filterConfiguration,
       filterStage,
       activeLocation,
+      searchQuery,
     ],
   );
 
@@ -283,6 +293,8 @@ function ProjectsPageContent() {
     setFilterConfiguration("All");
     setFilterStage("All");
     setActiveLocation(null);
+    setSearchQuery("");
+    setShowFilters(false);
   }
 
   const heroBackgroundSrc =
@@ -302,17 +314,17 @@ function ProjectsPageContent() {
           fill
           priority
           unoptimized
-          className="object-cover"
+          className="object-fit"
           sizes="100vw"
         />
 
         <div className="relative z-[1] flex w-full min-w-0 flex-1 flex-col items-center justify-start  px-4 pb-8 pt-6 text-center sm:gap-6 sm:px-10 sm:py-14 sm:pb-14">
           <h1
-            className="max-w-[min(22ch,100%)] fs-70 qs-reg wrap-break-word qs-reg text-[clamp(1.75rem,5.5vw,3.75rem)] font-normal uppercase leading-[1.12] tracking-[0.06em] text-[#0a0a0a] sm:max-w-[100vw] sm:tracking-[0.07em] lg:text-[clamp(2.75rem,5vw,4rem)]"
+            className="max-w-[min(22ch,100%)] fs-70 qs-reg wrap-break-word qs-reg text-[clamp(1.75rem,5.5vw,3.75rem)]  uppercase leading-[1.12] tracking-[0.06em] text-[#0a0a0a] sm:max-w-[100vw] sm:tracking-[0.07em] lg:text-[clamp(2.75rem,5vw,4rem)]"
           >
             {filterStage} Projects
           </h1>
-          <p className=" lg:mt-0 max-w-3xl px-1 n-reg  text-[0.875rem] font-normal leading-relaxed text-[#0a0a0a] sm:text-lg lg:text-medium">
+          <p className=" lg:mt-0 max-w-3xl px-1 n-reg  text-[0.875rem]  leading-relaxed text-[#0a0a0a] sm:text-lg lg:text-medium">
             We are one of the fastest growing Real Estate consulting company in
             India.
           </p>
@@ -322,20 +334,28 @@ function ProjectsPageContent() {
       {/* ------------------------------------------------------------------ */}
       {/* FILTER BAR                                                          */}
       {/* ------------------------------------------------------------------ */}
-      <section className="border-b border-black/10 shadow-[0_-4px_4px_0_rgba(0,0,0,0.15)]">
+
+      {filterStage === "Ongoing" ? (<section className="border-b border-black/10 shadow-[0_-4px_4px_0_rgba(0,0,0,0.15)]">
         <Container className="py-4 sm:py-5 lg:py-6">
           <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4 lg:px-8 xl:px-12 2xl:px-16">
             <div className="flex min-w-0 flex-wrap items-center gap-3 sm:gap-5">
               <button
                 type="button"
-                className="inline-flex items-center gap-2 n-reg  text-sm font-black uppercase tracking-[0.1em] text-[#8F8183] sm:text-base"
+                onClick={() => setShowFilters((prev) => !prev)}
+                aria-expanded={showFilters}
+                aria-controls="projects-filter-dropdowns"
+                className="inline-flex cursor-pointer items-center gap-2 n-reg  text-sm font-black uppercase tracking-[0.1em] text-[#8F8183] sm:text-base"
               >
                 Filters
-                <ChevronUp className="text-[#8F8183]" />
+                {showFilters ? (
+                  <ChevronUp className="text-[#8F8183]" />
+                ) : (
+                  <ChevronDown className="text-[#8F8183]" />
+                )}
               </button>
               <button
                 type="button"
-                className="inline-flex items-center gap-2 n-reg  text-sm font-bold uppercase tracking-[0.1em] text-[#8F8183] sm:text-base"
+                className="inline-flex cursor-pointer items-center gap-2 n-reg  text-sm  uppercase tracking-[0.1em] text-[#8F8183] sm:text-base"
               >
                 Sort By
                 <ChevronDown className="text-[#8F8183]" />
@@ -344,66 +364,83 @@ function ProjectsPageContent() {
 
             <div className="flex h-10 min-h-[44px] w-full min-w-0 max-w-full items-center gap-2.5 border border-black/20 bg-white px-3 sm:h-[34px] sm:min-h-0 sm:max-w-[345px] sm:px-3.5">
               <SearchIcon />
-              <span className="n-reg  text-sm text-black/60 sm:text-base">
-                Search
-              </span>
+              <label htmlFor="projects-search" className="sr-only">
+                Search projects
+              </label>
+              <input
+                id="projects-search"
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search"
+                className="h-full w-full border-0 bg-transparent n-reg text-sm text-black/80 outline-none placeholder:text-black/60 sm:text-base"
+              />
             </div>
           </div>
 
-          <div className="my-3 h-px w-full max-w-[90%] bg-black/20 mx-auto sm:my-4" />
 
-          <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2 lg:gap-3 lg:px-8 xl:px-12 2xl:px-16">
-            <FilterSelect
-              label="Budget"
-              value={filterBudget}
-              onChange={setFilterBudget}
-              options={[...BUDGET_OPTIONS]}
-            />
-            <FilterSelect
-              label="Builder"
-              value={filterBuilder}
-              onChange={setFilterBuilder}
-              options={[...BUILDER_OPTIONS]}
-            />
+          {showFilters && (
+            <>
+              <div className="my-3 h-px w-full max-w-[90%] bg-black/20 mx-auto sm:my-4" />
 
-            {activeLocation && (
-              <div className="inline-flex h-12 min-h-[48px] w-full max-w-full flex-wrap items-center justify-between gap-2 border border-[#161616] bg-[#BCBDC0] px-4 n-reg  text-xs font-bold uppercase tracking-[0.08em] text-[#161616] sm:h-[51px] sm:min-h-0 sm:w-auto sm:max-w-none sm:px-5 sm:text-sm sm:tracking-[0.1em] md:text-base">
-                <span className="min-w-0 break-words">{activeLocation}</span>
-                <span className="mx-1 hidden h-[52px] w-px shrink-0 bg-[#161616] sm:inline-block" />
+              <div
+                id="projects-filter-dropdowns"
+                className="flex min-w-0 flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2 lg:gap-3 lg:px-8 xl:px-12 2xl:px-16"
+              >
+                <FilterSelect
+                  label="Budget"
+                  value={filterBudget}
+                  onChange={setFilterBudget}
+                  options={[...BUDGET_OPTIONS]}
+                />
+                <FilterSelect
+                  label="Builder"
+                  value={filterBuilder}
+                  onChange={setFilterBuilder}
+                  options={[...BUILDER_OPTIONS]}
+                />
+
+                {activeLocation && (
+                  <div className="inline-flex h-12 min-h-[48px] w-full max-w-full flex-wrap items-center justify-between gap-2 border border-[#161616] bg-[#BCBDC0] px-4 n-reg  text-xs  uppercase tracking-[0.08em] text-[#161616] sm:h-[51px] sm:min-h-0 sm:w-auto sm:max-w-none sm:px-5 sm:text-sm sm:tracking-[0.1em] md:text-base">
+                    <span className="min-w-0 break-words">{activeLocation}</span>
+                    <span className="mx-1 hidden h-[52px] w-px shrink-0 bg-[#161616] sm:inline-block" />
+                    <button
+                      type="button"
+                      onClick={() => setActiveLocation(null)}
+                      className="cursor-pointer text-xl  leading-none"
+                      aria-label="Remove filter"
+                    >
+                      X
+                    </button>
+                  </div>
+                )}
+
+                <FilterSelect
+                  label="Configuration"
+                  value={filterConfiguration}
+                  onChange={setFilterConfiguration}
+                  options={[...CONFIGURATION_OPTIONS]}
+                />
+                <FilterSelect
+                  label="Stage"
+                  value={filterStage}
+                  onChange={setFilterStage}
+                  options={[...STAGE_OPTIONS]}
+                />
+
                 <button
                   type="button"
-                  onClick={() => setActiveLocation(null)}
-                  className="text-xl font-bold leading-none"
-                  aria-label="Remove filter"
+                  className="w-full cursor-pointer py-2 text-left n-reg  text-sm text-black underline sm:ml-auto sm:w-auto sm:py-0 sm:text-base"
+                  onClick={clearAllFilters}
                 >
-                  X
+                  Clear all
                 </button>
               </div>
-            )}
-
-            <FilterSelect
-              label="Configuration"
-              value={filterConfiguration}
-              onChange={setFilterConfiguration}
-              options={[...CONFIGURATION_OPTIONS]}
-            />
-            <FilterSelect
-              label="Stage"
-              value={filterStage}
-              onChange={setFilterStage}
-              options={[...STAGE_OPTIONS]}
-            />
-
-            <button
-              type="button"
-              className="w-full py-2 text-left n-reg  text-sm text-black underline sm:ml-auto sm:w-auto sm:py-0 sm:text-base"
-              onClick={clearAllFilters}
-            >
-              Clear all
-            </button>
-          </div>
+            </>
+          )}
         </Container>
       </section>
+      ) : ""}
 
       {/* ------------------------------------------------------------------ */}
       {/* PROJECT GRID                                                        */}

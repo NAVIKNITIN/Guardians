@@ -27,13 +27,13 @@ export function CareerHero() {
         <h1
           id="career-hero-heading"
           className={cn(
-            "max-w-[18ch] break-words qs-reg font-normal uppercase text-[#202225] sm:max-w-none",
+            "max-w-[18ch] break-words qs-reg  uppercase text-[#202225] sm:max-w-none",
             "text-[clamp(2rem,6.5vw,4.375rem)] leading-[1] tracking-[0.05em] sm:text-[clamp(2.5rem,6.5vw,4.375rem)]",
           )}
         >
           Work With Us
         </h1>
-        <p className="mt-5 max-w-[646px] n-reg  text-base font-normal leading-snug text-black sm:text-lg">
+        <p className="mt-5 max-w-[646px] n-reg  text-base  leading-snug text-black sm:text-lg">
           We are one of the fastest growing Real Estate consulting company in
           India.
         </p>

@@ -24,12 +24,12 @@ export function BlogCard({ post }: { post: BlogPost }) {
   return (
     <article className="flex flex-col">
       {/* Date */}
-      <p className="n-reg  text-base font-normal leading-[1.5] text-[#161616]">
+      <p className="n-reg  text-base  leading-[1.5] text-[#161616]">
         {post.date}
       </p>
 
       {/* Title */}
-      <h3 className="mt-1.5 n-reg  text-xl font-bold leading-[1.2] text-[#161616] line-clamp-3">
+      <h3 className="mt-1.5 n-reg  text-xl  leading-[1.2] text-[#161616] line-clamp-3">
         {post.title}
       </h3>
 
@@ -47,7 +47,7 @@ export function BlogCard({ post }: { post: BlogPost }) {
       </div>
 
       {/* Excerpt */}
-      <p className="mt-4 n-reg  text-base font-normal leading-[1.5] text-[#161616] line-clamp-4">
+      <p className="mt-4 n-reg  text-base  leading-[1.5] text-[#161616] line-clamp-4">
         {post.excerpt}
       </p>
 
@@ -57,7 +57,7 @@ export function BlogCard({ post }: { post: BlogPost }) {
         className={cn(
           "mt-5 flex items-center justify-center gap-5",
           "border border-black/30 px-12 py-2.5",
-          "n-reg  text-base font-bold uppercase tracking-[0.1em] text-[#202225]",
+          "n-reg  text-base  uppercase tracking-[0.1em] text-[#202225]",
           "transition-colors hover:border-[#202225] hover:bg-[#202225] hover:text-white",
         )}
       >

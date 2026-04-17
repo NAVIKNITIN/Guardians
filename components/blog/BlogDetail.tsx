@@ -36,7 +36,7 @@ function RecentPostsSidebar() {
             <li key={i}>
               <Link
                 href="#"
-                className="n-reg  text-base font-bold leading-[1.5] text-[#161616] line-clamp-2 transition-opacity hover:opacity-70"
+                className="n-reg  text-base  leading-[1.5] text-[#161616] line-clamp-2 transition-opacity hover:opacity-70"
               >
                 {title}
               </Link>
@@ -67,7 +67,7 @@ export function BlogDetail({ post }: { post: BlogDetailPost }) {
         {/* Back to blog */}
         {/* <Link
           href="/blog"
-          className="mb-8 inline-flex items-center gap-2 n-reg  text-sm font-bold uppercase tracking-[0.1em] text-[#8F8183] transition-opacity hover:opacity-70"
+          className="mb-8 inline-flex items-center gap-2 n-reg  text-sm  uppercase tracking-[0.1em] text-[#8F8183] transition-opacity hover:opacity-70"
         >
           <BackArrow />
           Back to Blogs
@@ -75,10 +75,10 @@ export function BlogDetail({ post }: { post: BlogDetailPost }) {
 
         {/* ── Meta row: category + date ─────────────────────────────── */}
         <div className="flex items-center justify-between gap-4">
-          <span className="n-reg  text-xl font-normal text-[#161616]">
+          <span className="n-reg  text-xl  text-[#161616]">
             {post.category}
           </span>
-          <span className="n-reg  text-xl font-normal text-[#161616] text-right">
+          <span className="n-reg  text-xl  text-[#161616] text-right">
             {post.date}
           </span>
         </div>
@@ -106,7 +106,7 @@ export function BlogDetail({ post }: { post: BlogDetailPost }) {
         <div className="mt-12 flex flex-col gap-10 lg:flex-row ">
           {/* Article body */}
           <div className="min-w-0 flex-1">
-            <div className="n-reg  text-xl font-normal leading-[1.5] text-[#161616] whitespace-pre-line">
+            <div className="n-reg  text-xl  leading-[1.5] text-[#161616] whitespace-pre-line">
               {post.body}
             </div>
           </div>

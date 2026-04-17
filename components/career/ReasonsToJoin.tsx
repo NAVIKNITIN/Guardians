@@ -69,11 +69,11 @@ function ReasonCard({ card }: { card: ReasonCard }) {
 
       {/* Label content — pinned to bottom */}
       <div className="absolute inset-x-0 bottom-0 z-10 p-5">
-        <h3 className="n-reg  text-xl font-bold leading-snug text-white">
+        <h3 className="n-reg  text-xl  leading-snug text-white">
           {card.title}
         </h3>
         {card.subtitle && (
-          <p className="mt-1 n-reg  text-sm font-normal leading-normal text-white/90">
+          <p className="mt-1 n-reg  text-sm  leading-normal text-white/90">
             {card.subtitle}
           </p>
         )}

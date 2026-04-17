@@ -200,7 +200,7 @@ export function AdminLoginForm() {
 
         <button
           type="submit"
-          className="tracking-widest text-3xl cursor-pointer mt-8 h-[58px] w-full rounded-[16px] btn-primary-gradient  text-[1.08rem] font-bold uppercase tracking-[0.03em] text-white shadow-[0_18px_32px_rgba(239,111,82,0.24)] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-[1.02]"
+          className="tracking-widest text-3xl cursor-pointer mt-8 h-[58px] w-full rounded-[16px] btn-primary-gradient  text-[1.08rem]  uppercase tracking-[0.03em] text-white shadow-[0_18px_32px_rgba(239,111,82,0.24)] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-[1.02]"
         >
           Login
         </button>

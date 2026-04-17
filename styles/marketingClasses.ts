@@ -15,9 +15,9 @@ export const marketingClasses = {
   headingDisplay:
     "qs-reg text-[clamp(1.75rem,3vw,2.5rem)] fw-200 fs-50 uppercase leading-tight tracking-[0.08em] text-brand-text-primary mt-5  ",
   headingDisplayMd:
-    "qs-reg text-[clamp(1.75rem,3vw,2.35rem)] font-normal uppercase leading-tight tracking-[0.08em] text-brand-text-primary ",
+    "qs-reg text-[clamp(1.75rem,3vw,2.35rem)]  uppercase leading-tight tracking-[0.08em] text-brand-text-primary ",
   headingDisplaySm:
-    "qs-reg text-[clamp(1.5rem,2.5vw,2rem)] font-normal uppercase leading-tight tracking-[0.08em] text-brand-text-primary",
+    "qs-reg text-[clamp(1.5rem,2.5vw,2rem)]  uppercase leading-tight tracking-[0.08em] text-brand-text-primary",
   roundNavButton:
     "flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-black/15 bg-white text-brand-text-primary transition-colors hover:border-black/30",
 } as const;

@@ -62,8 +62,8 @@ function isActivePath(pathname: string, href: string) {
 
 function navStateClass(isActive: boolean) {
   return isActive
-    ? "n-reg  text-[#202225] font-bold fs-18 lh-100 ls-normal"
-    : "n-reg  text-[#202225] font-normal fs-18 lh-100 ls-normal";
+    ? "n-reg  text-[#202225]  fs-18 lh-100 ls-normal"
+    : "n-reg  text-[#202225]  fs-18 lh-100 ls-normal";
 }
 
 export function Navbar() {

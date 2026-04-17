@@ -96,7 +96,7 @@ export function DownloadModal({ isOpen, onClose, issueTitle }: DownloadModalProp
         {/* Heading */}
         <h2
           id="download-modal-title"
-          className="qs-reg text-[clamp(2rem,3.5vw,3.125rem)] font-normal uppercase tracking-[0.05em] text-[#202225] text-center"
+          className="qs-reg text-[clamp(2rem,3.5vw,3.125rem)]  uppercase tracking-[0.05em] text-[#202225] text-center"
         >
           Download file
         </h2>
@@ -192,7 +192,7 @@ export function DownloadModal({ isOpen, onClose, issueTitle }: DownloadModalProp
           {/* Submit */}
           <button
             type="submit"
-            className="mt-4 flex w-full items-center justify-center gap-5 py-[18px] n-reg  text-xl font-bold uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90"
+            className="mt-4 flex w-full items-center justify-center gap-5 py-[18px] n-reg  text-xl  uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90"
             style={{
               background:
                 "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",

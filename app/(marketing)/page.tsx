@@ -17,7 +17,7 @@ export default function HomePage() {
           stagger={0.11}
           fromColor="#c4c4c4"
           toColor="#111111"
-          className="space-y-0 n-reg  text-[clamp(1.55rem,3.5vw,2.55rem)] font-medium leading-[1.07] tracking-[-0.01em]"
+          className="space-y-0 n-reg  text-[clamp(1.55rem,3.5vw,2.55rem)] n-bold leading-[1.07] tracking-[-0.01em]"
           lines={[
             "We are one of the fastest growing Real Estate",
             "consulting company in India. It’s growth, today,",

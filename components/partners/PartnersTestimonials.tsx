@@ -113,14 +113,14 @@ function TestimonialCard({ item }: { item: PartnersTestimonial }) {
         </span>
 
         {/* Quote text */}
-        <p className="mt-3 n-reg  text-base font-bold leading-[1.5] text-[#161616] sm:text-lg">
+        <p className="mt-3 n-reg  text-base  leading-[1.5] text-[#161616] sm:text-lg">
           {item.quote}
         </p>
       </div>
 
       {/* Dark footer bar */}
       <div className="bg-[#161616] px-8 py-5 sm:px-10 lg:px-12">
-        <p className="n-reg  text-sm font-bold text-[#BCBDC0]">{item.name}</p>
+        <p className="n-reg  text-sm  text-[#BCBDC0]">{item.name}</p>
         <p className="mt-0.5 n-reg  text-xs text-[#BCBDC0]">{item.role}</p>
         <p className="mt-0.5 n-reg  text-xs text-[#BCBDC0]/70">
           {item.location}

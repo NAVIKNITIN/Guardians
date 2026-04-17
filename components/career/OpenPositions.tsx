@@ -106,7 +106,7 @@ function JobCard({ job }: { job: JobListing }) {
   return (
     <div className="group flex flex-col gap-4 border-b border-black/[0.06] py-7 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
       <div className="flex flex-col gap-1.5">
-        <h3 className="n-reg  text-lg font-bold text-[#202225] transition-colors group-hover:text-[#8F8183]">
+        <h3 className="n-reg  text-lg  text-[#202225] transition-colors group-hover:text-[#8F8183]">
           {job.title}
         </h3>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
@@ -135,7 +135,7 @@ function JobCard({ job }: { job: JobListing }) {
         href="/contact"
         className={cn(
           "inline-flex w-fit shrink-0 items-center gap-2",
-          "border border-[#202225] px-5 py-2.5 n-reg  text-xs font-bold uppercase tracking-[0.15em] text-[#202225]",
+          "border border-[#202225] px-5 py-2.5 n-reg  text-xs  uppercase tracking-[0.15em] text-[#202225]",
           "transition-all hover:bg-[#202225] hover:text-white",
           "sm:opacity-0 sm:transition-opacity sm:group-hover:opacity-100",
         )}
@@ -187,7 +187,7 @@ export function OpenPositions() {
               aria-selected={active === dept}
               onClick={() => setActive(dept)}
               className={cn(
-                "px-4 py-2 n-reg  text-xs font-bold uppercase tracking-[0.15em] transition-colors",
+                "px-4 py-2 n-reg  text-xs  uppercase tracking-[0.15em] transition-colors",
                 active === dept
                   ? "bg-[#202225] text-white"
                   : "bg-white text-[#202225] border border-black/[0.12] hover:border-[#202225]",

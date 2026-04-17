@@ -50,10 +50,10 @@ const quickLinkRows: { label: string; href: string }[][] = [
 ];
 
 const sectionTitleClass =
-  "n-reg  text-xs font-normal uppercase tracking-[0.1em] text-white sm:text-lg";
+  "n-reg  text-xs  uppercase tracking-[0.1em] text-white sm:text-lg";
 
 const dropdownButtonClass =
-  "flex w-full items-center justify-between gap-2 border-b border-white py-1.5 text-left n-reg  text-xs font-normal text-white transition-colors hover:text-white";
+  "flex w-full items-center justify-between gap-2 border-b border-white py-1.5 text-left n-reg  text-xs  text-white transition-colors hover:text-white";
 
 function QuickLinkRow({ items }: { items: { label: string; href: string }[] }) {
   return (
@@ -114,17 +114,17 @@ export function Footer() {
               />
             </div>
 
-            <h2 className="max-w-[26rem] n-reg  text-[clamp(1.5rem,3.2vw,2.35rem)] font-normal leading-[1.1] sm:mt-4">
-              <span className="font-bold text-[#BCBDC0] ">Lorem Ipsum Dolor? </span>
-              <span className="font-bold text-[#BCBDC0] ">
-                Let&apos;s <span className="font-bold text-[#F7F7F7]">Collaborate.</span>
+            <h2 className="max-w-[26rem] n-reg  text-[clamp(1.5rem,3.2vw,2.35rem)]  leading-[1.1] sm:mt-4">
+              <span className=" text-[#BCBDC0] ">Lorem Ipsum Dolor? </span>
+              <span className=" text-[#BCBDC0] ">
+                Let&apos;s <span className=" text-[#F7F7F7]">Collaborate.</span>
               </span>
             </h2>
 
             <Link
               href="/contact"
               className={cn(
-                "group inline-flex w-fit shrink-0 items-center gap-2 border border-white bg-transparent px-4 py-2.5 n-reg  text-sm font-bold text-white transition-colors sm:text-base",
+                "group inline-flex w-fit shrink-0 items-center gap-2 border border-white bg-transparent px-4 py-2.5 n-reg  text-sm  text-white transition-colors sm:text-base",
                 "hover:bg-white hover:text-neutral-900",
                 "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white",
               )}
