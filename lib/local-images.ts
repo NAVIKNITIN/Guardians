@@ -18,6 +18,7 @@ export const LOCAL_IMAGES = {
   retailService: "/images/Buyer/services/retail.svg",
   landService: "/images/Buyer/services/land.svg",
   projectImage: "/images/Projects/image 118.svg",
+  gazette: "/images/gazette.svg",
 } as const;
 
 /** Rotating placeholders for grids, galleries, and lists */

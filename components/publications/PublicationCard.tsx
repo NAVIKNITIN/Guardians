@@ -1,37 +1,30 @@
 import { cn } from "@/utils/cn";
 import Image from "next/image";
-import Link from "next/link";
 
-export type GazetteIssue = {
+export type PublicationIssue = {
   id: string;
   title: string;
   imageSrc: string;
   imageAlt: string;
-  href: string;
 };
 
-function CornerArrowIcon() {
-  return (
-    <svg
-      width="11"
-      height="11"
-      viewBox="0 0 11 11"
-      fill="none"
-      aria-hidden
-    >
-      <path
-        d="M0 0H10.6305V10.6303"
-        stroke="#202225"
-        strokeWidth="2"
-      />
-    </svg>
-  );
-}
+type PublicationCardProps = {
+  issue: PublicationIssue;
+  onOpenFile: (title: string) => void;
+  /** Button label — defaults to "Open File" */
+  buttonLabel?: string;
+  className?: string;
+};
 
-export function GazetteCard({ issue, onOpenFile }: { issue: GazetteIssue, onOpenFile: (title: string) => void }) {
+export function PublicationCard({
+  issue,
+  onOpenFile,
+  buttonLabel = "Open File",
+  className,
+}: PublicationCardProps) {
   return (
-    <article className="flex flex-col items-center">
-      {/* Portrait magazine cover */}
+    <article className={cn("flex flex-col items-center", className)}>
+      {/* Portrait magazine/gazette cover */}
       <div className="relative w-full overflow-hidden bg-neutral-200">
         <div className="aspect-[345/451]">
           <Image
@@ -45,7 +38,7 @@ export function GazetteCard({ issue, onOpenFile }: { issue: GazetteIssue, onOpen
       </div>
 
       {/* Title */}
-      <h3 className="mt-5 text-center n-reg  text-xl  leading-[1.2] text-[#161616] line-clamp-3">
+      <h3 className="mt-5 w-full text-center n-bold fs-20 lh-24 text-[#161616]">
         {issue.title}
       </h3>
 
@@ -54,20 +47,21 @@ export function GazetteCard({ issue, onOpenFile }: { issue: GazetteIssue, onOpen
         type="button"
         onClick={() => onOpenFile(issue.title)}
         className={cn(
-          "mt-5 flex items-center justify-center gap-5",
+          "mt-5 flex cursor-pointer items-center justify-center gap-5",
           "border border-black/30 px-12 py-[18px]",
-          "n-reg  text-base  uppercase tracking-[0.1em] text-[#202225]",
+          "n-bold fs-16 ls-10 lh-24 uppercase tracking-[0.1em] text-[#202225]",
           "transition-colors hover:border-[#202225] hover:bg-[#202225] hover:text-white",
           "[&:hover_svg_path]:stroke-white",
         )}
       >
-        Open File
+        {buttonLabel}
         <Image
           src="/images/arrow.svg"
-          alt="Open File"
+          alt=""
           width={15}
           height={15}
           className="object-cover"
+          aria-hidden
         />
       </button>
     </article>
