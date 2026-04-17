@@ -3,7 +3,6 @@
 import type { AwardSlide, AwardsSectionContent } from "@/data/audience-marketing";
 import { CarouselControls } from "@/components/ui/CarouselControls";
 import { SectionSurface } from "@/components/ui/SectionSurface";
-import { marketingClasses } from "@/styles/marketingClasses";
 import { useCycleIndex } from "@/hooks/useCycleIndex";
 import { cn } from "@/utils/cn";
 import { RollingText } from "@/components/ui/RollingText";
@@ -190,20 +189,23 @@ export function AwardsSection({
 
   return (
     <SectionSurface variant="stats" aria-labelledby="awards-heading" className="bg-transparent border-t-0 border-b-0 mt-10">
-      <div className="grid gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-10 xl:gap-14 px-2 md:px-10">
-        <div className="flex flex-col items-start text-left lg:col-span-3">
+      <div className="grid gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-10 xl:gap-14 px-3 sm:px-4 md:px-10">
+        <div className="flex w-full min-w-0 flex-col items-center text-center lg:col-span-3 lg:items-start lg:text-left">
           <Image
             src={content.starIconSrc}
             alt=""
             width={90}
             height={75}
-            className="h-16 w-auto shrink-0 object-cover object-left sm:h-18"
+            className="h-14 w-auto shrink-0 object-cover object-center sm:h-18 lg:object-left"
           />
           <h2
             id="awards-heading"
             className={cn(
-              "mt-5 lg:mt-[100] max-w-48 sm:max-w-none qs-reg fs-45 fw-200",
-              marketingClasses.headingDisplaySm,
+              "qs-reg fw-200",
+              "mt-5 w-full min-w-0 max-w-full px-0",
+              "text-balance uppercase leading-tight tracking-[0.08em] text-brand-text-primary",
+              /* Fluid type: no fixed fs-45 / max-w-48 — those clipped “Recognitions” on narrow screens */
+              "text-[clamp(1.125rem,calc(0.5rem+3.4vw),2.25rem)] sm:text-[clamp(1.35rem,calc(0.55rem+2.4vw),2.35rem)] lg:mt-[100] lg:text-[clamp(1.5rem,2.5vw,2rem)]",
             )}
           >
             {content.headingLine1}
@@ -264,8 +266,8 @@ export function AwardsSection({
           </div>
         </div>
 
-        <div className="flex min-h-0 flex-col lg:col-span-4 lg:h-full">
-          <div className="mb-8 flex shrink-0 justify-start lg:mb-10">
+        <div className="flex min-h-0 w-full min-w-0 flex-col items-center text-center lg:col-span-4 lg:h-full lg:items-stretch lg:text-left">
+          <div className="mb-8 flex w-full shrink-0 justify-center lg:mb-10 lg:justify-start">
             <CarouselControls
               currentIndex={index}
               total={total}
@@ -290,26 +292,26 @@ export function AwardsSection({
             />
           </div>
 
-          <div className="flex min-h-0 flex-1 flex-col justify-between  lg:mt-25">
-            <div>
+          <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col justify-between gap-6 lg:mt-25">
+            <div className="w-full min-w-0">
               <RollingText
                 value={slide.company}
                 direction={rollDir}
-                className="n-bold text-[18px] uppercase tracking-[0.05em] text-brand-text-primary "
+                className="n-bold text-[clamp(0.875rem,2.5vw,1.125rem)] uppercase tracking-[0.05em] text-brand-text-primary sm:text-[18px]"
               />
-              <div className="">
+              <div className="mt-2 w-full min-w-0">
                 <RollingText
                   block
                   value={slide.achievement}
                   direction={rollDir}
-                  className="n-bold text-[36px]  tracking-[0.02em] text-brand-text-primary"
+                  className="n-bold text-[clamp(1.5rem,6vw,2.25rem)] tracking-[0.02em] text-brand-text-primary sm:text-[36px]"
                 />
               </div>
             </div>
             <RollingText
               value={slide.year}
               direction={rollDir}
-              className="text-[10px]  uppercase tracking-[0.2em] text-brand-text-secondary lg:mb-5 n-bold fw-600"
+              className="n-bold text-[10px] uppercase tracking-[0.2em] text-brand-text-secondary lg:mb-5 fw-600"
             />
           </div>
         </div>

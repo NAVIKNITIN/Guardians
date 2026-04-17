@@ -5,7 +5,7 @@ import { DynamicMap } from "@/components/projects/DynamicMap";
 import type { MapMarker } from "@/components/projects/DynamicMap";
 import { LOCAL_IMAGES, localImageByIndex } from "@/lib/local-images";
 import Image from "next/image";
-import Link from "next/link";
+import { cn } from "@/utils/cn";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 
@@ -338,67 +338,69 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* HERO — project header                                            */}
       {/* ---------------------------------------------------------------- */}
-      <section className="lg:pt-[150px] relative overflow-hidden bg-white px-4 pt-10 sm:px-6 md:px-10 md:pt-20 lg:px-20 ">
+      <section className="relative overflow-hidden bg-white px-4 pt-8 pb-2 sm:px-6 sm:pt-10 md:px-10 md:pt-20 lg:px-20 lg:pt-[150px]">
         <Container className="pb-0">
-          <div className="relative flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div className="relative flex min-h-0 flex-col gap-5 lg:min-h-[min(12rem,1fr)] lg:flex-row lg:items-start lg:justify-between lg:gap-6">
             {/* Left — title block */}
             <div className="min-w-0 max-w-full pr-0 lg:max-w-[min(100%,42rem)] lg:pr-8">
               {/* Status dot + label */}
               <div className="mb-3 flex items-center gap-2">
-                <span className="h-2.5 mb-1 w-2.5 shrink-0 rounded-full bg-[#8F8183]" />
-                <span className="n-reg  text-base text-[#8F8183] sm:text-lg">
+                <span className="mb-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#8F8183]" />
+                <span className="n-reg text-sm text-[#8F8183] sm:text-lg">
                   {heroStatusLine}
                 </span>
               </div>
               {/* Project title */}
               <h1
-                className="break-words qs-reg text-[clamp(2rem,8vw,4.375rem)] uppercase leading-[1] tracking-[0.05em] text-[#202225] sm:text-[clamp(2.5rem,5vw,4.375rem)]"
+                className="wrap-break-word qs-reg text-[clamp(1.75rem,7vw,4.375rem)] uppercase leading-none tracking-[0.05em] text-[#202225] sm:text-[clamp(2.25rem,5vw,4.375rem)]"
                 style={{ whiteSpace: "pre-line" }}
               >
                 {project.title}
               </h1>
               {/* RERA */}
-              <p className="mt-3 n-bold  text-xs  uppercase tracking-[0.1em] text-[#161616] underline sm:text-sm">
+              <p className="mt-3 n-bold text-[0.6875rem] uppercase tracking-widest text-[#161616] underline sm:text-sm">
                 Rera No.: {project.rera}
               </p>
             </div>
 
-            {/* Right — developer logo (in flow on small screens; anchored on large) */}
-            <div className="mt-2 flex justify-end lg:absolute lg:bottom-0 lg:right-0 lg:mt-0">
+            {/* Right — developer logo (below title on small screens; bottom-right on large) */}
+            <div className="flex shrink-0 lg:justify-end pt-1 sm:pt-0  lg:absolute lg:bottom-0 lg:right-0 lg:pt-0">
               <Image
                 src={project.developerLogo}
                 alt="Godrej Properties"
                 width={160}
                 height={46}
-                className="h-auto w-[140px] object-cover sm:w-[160px] lg:w-[218px]"
+                className="h-auto w-[min(100%,140px)]  max-w-[200px] object-contain object-right sm:w-[160px] lg:w-[218px]"
               />
             </div>
 
           </div>
 
           {/* Stats bar */}
-          <div className="mt-6 border-t border-black">
-            <div className="grid grid-cols-2  lg:grid-cols-4">
+          <div className="mt-6 sm:mt-8 border-t border-black">
+            <div className="grid grid-cols-2 lg:grid-cols-4">
               {project.stats.map((stat, i) => (
                 <div
                   key={i}
-                  className={`flex  flex-col justify-center py-4 pr-3 sm:py-5 sm:pr-4 max-lg:nth-[n+3]:border-t max-lg:nth-[n+3]:border-black ${i < project.stats.length - 1
-                    ? " border-black"
-                    : ""
-                    } ${i > 0 ? "pl-3 sm:pl-4 lg:pl-6" : ""}`}
+                  className={cn(
+                    "flex min-h-0 min-w-0 flex-col justify-center gap-1.5 px-3 py-4 sm:gap-2 sm:px-4 sm:py-5 lg:px-6",
+                    i % 2 === 0 && "border-r border-black",
+                    i < 2 && "border-b border-black lg:border-b-0",
+                    i < 3 && "lg:border-r lg:border-black",
+                  )}
                 >
-                  <span className=" n-bold lh-26 text-black/80 sm:text-sm ">
+                  <span className="n-bold text-[0.625rem] uppercase leading-snug tracking-[0.08em] text-black/80 sm:text-xs lg:text-sm">
                     {stat.label}
                   </span>
-                  <span className="mt-1  text-[#8F8183] border-b border-black pb-2">
-                    <span className="fs-40 lh-40 sm:text-3xl lg:text-[2.625rem] leading-none">
+                  <span className="text-[#8F8183] border-b border-black pb-2 sm:pb-2.5">
+                    <span className="inline wrap-break-word text-lg leading-[1.2] tracking-tight sm:text-2xl sm:leading-none md:text-3xl lg:text-[2.625rem]">
                       {stat.value}
                     </span>
-                    {stat.unit && (
-                      <span className="text-base sm:text-xl lg:text-2xl ml-0.5">
+                    {stat.unit ? (
+                      <span className="ml-0.5 inline text-sm leading-none sm:text-base md:text-xl lg:text-2xl">
                         {stat.unit}
                       </span>
-                    )}
+                    ) : null}
                   </span>
                 </div>
               ))}

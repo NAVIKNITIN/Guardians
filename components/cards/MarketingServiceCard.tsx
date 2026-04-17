@@ -32,19 +32,19 @@ export function MarketingServiceCard({
         </div>
 
         <div className="flex flex-1 flex-col">
-          <h3 className="text-left  px-4  text-[24px] fw-700 lh-24 n-bold uppercase tracking-[0.14em] text-brand-text-primary sm:text-base">
+          <h3 className="px-4 text-center text-[24px] fw-700 lh-24 n-bold uppercase tracking-[0.14em] text-brand-text-primary sm:text-left sm:text-base">
             {card.title}
           </h3>
-          <div className="mt-4 flex min-h-20 flex-1 items-end justify-between">
-            <p className="min-w-0  lh-22 pl-4 flex-1 text-left n-reg -book fs-15 lh-18  text-brand-text-primary pb-2">
+          <div className="mt-4 flex min-h-20 flex-1 flex-col items-center gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-0">
+            <p className="min-w-0 flex-1 px-4 pb-2 text-center lh-22 n-reg -book fs-15 lh-18 text-brand-text-primary sm:pl-4 sm:pr-0 sm:text-left">
               {card.description}
             </p>
             <Link
               href={href}
-              className="inline-flex lg:min-h-[65] lg:min-w-[65] shrink-0 items-center justify-center bg-black text-white transition-colors hover:bg-neutral-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+              className="inline-flex h-16 w-24 shrink-0 items-center justify-center bg-black text-white transition-colors hover:bg-neutral-900 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black sm:h-15 sm:w-20 lg:h-[65px] lg:w-[65px]"
               aria-label={ariaLabel}
             >
-              <IconArrowUpRight className="h-5 w-5" />
+              <IconArrowUpRight className="h-6 w-6 sm:h-5 sm:w-5" />
             </Link>
           </div>
         </div>

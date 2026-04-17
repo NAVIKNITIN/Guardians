@@ -49,7 +49,8 @@ export function StatFigure({
   return (
     <p
       className={cn(
-        "n-book  text-3xl fw-200 tabular-nums text-brand-footer tracking-[-0.03em] sm:text-4xl md:text-[clamp(2.25rem,4vw,2.85rem)] md:tracking-[-0.04em]",
+        "n-book fw-200 tabular-nums text-brand-footer tracking-[-0.03em]",
+        "text-center text-[clamp(1.75rem,6.5vw,2.25rem)] whitespace-nowrap sm:whitespace-normal sm:text-4xl md:text-[clamp(2.25rem,4vw,2.85rem)] md:tracking-[-0.04em]",
       )}
     >
       {text}
@@ -67,16 +68,20 @@ export function DeveloperStatsSection({
   const metrics = content.metrics;
 
   return (
-    <div ref={ref} className="grid grid-cols-2 md:grid-cols-4">
+    <div
+      ref={ref}
+      className="grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 sm:gap-y-12 md:grid-cols-4 md:gap-y-14"
+    >
       {metrics.map((stat, idx) => (
         <div
           key={stat.label}
           className={cn(
-            "flex min-w-0 flex-col items-center justify-center text-center px-14 sm:px-16 lg:px-20 md:border-l md:border-black/[0.18] h-5 mb-8 md:mb-12 lg:mb-23 mt-2 md:mt-3 lg:mt-5",
+            "flex min-h-0 min-w-0 flex-col items-center justify-center gap-3 px-4 text-center sm:gap-3.5 sm:px-8 md:px-6 lg:px-12",
+            idx > 0 && "md:border-l md:border-black/[0.18]",
           )}
         >
           <StatFigure stat={stat} index={idx} isInView={isInView} />
-          <p className=" fs-10 lh-20 n-bold  uppercase leading-snug tracking-wide text-brand-text-primary sm:max-w-[12rem] sm:text-xs">
+          <p className="max-w-[16rem] fs-10 lh-20 n-bold uppercase leading-snug tracking-wide text-brand-text-primary sm:max-w-[12rem] sm:text-xs">
             {stat.label}
           </p>
         </div>

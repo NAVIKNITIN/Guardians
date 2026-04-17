@@ -249,46 +249,39 @@ export default function AboutPage() {
               </div>
             </div>
 
-            <div className="mt-16 grid items-start gap-y-10 lg:grid-cols-[1fr_1fr] lg:gap-x-18">
+            <div className="mt-16 grid items-start justify-items-center gap-y-10 text-center lg:grid-cols-[1fr_1fr] lg:justify-items-stretch lg:gap-x-18 lg:text-left">
               <div className="max-w-[470px] lg:pl-10">
-                <h3 className="max-w-[430px] n-bold fs-42 text-[clamp(1.72rem,2.1vw,2.6rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-[#1f1c1d]">
+                <h3 className="mx-auto max-w-[430px] lg:mx-0 n-bold fs-42 text-[clamp(1.72rem,2.1vw,2.6rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-[#1f1c1d]">
                   Revolutionising real
                   <br />
                   estate through
                   <br />
                   innovation
                 </h3>
-                <p className="mt-8 nexa-bold fs-16 lh-20 max-w-[355px] text-[14px] leading-[1.28] text-[#5f5a5b]">
+                <p className="mx-auto mt-8 max-w-[355px] text-[14px] leading-[1.28] text-[#5f5a5b] nexa-bold fs-16 lh-20 lg:mx-0">
                   Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                   ut labore et dolore magna aliqua, dolor sit amet, consectetur adipiscing elit, sed do
                   eiusmod tempor incididunt ut labore et dolore magna aliqua.
                 </p>
               </div>
 
-              <div className="grid w-full max-w-[590px] grid-cols-2 items-start gap-x-6 gap-y-10 sm:gap-x-12 sm:gap-y-12 lg:ml-auto">
-                {stats.map((stat, index) => (
+              <div className="grid w-full max-w-[590px] grid-cols-1 gap-x-8 gap-y-10 justify-items-center sm:grid-cols-2 sm:justify-items-stretch sm:gap-x-10 sm:gap-y-12 sm:text-left lg:ml-auto">
+                {stats.map((stat) => (
                   <div
                     key={stat.label}
-                    className={cn(
-                      "flex min-h-[88px] w-full min-w-0 max-w-[11.5rem] flex-col justify-start self-start sm:min-h-[94px] sm:w-[178px] sm:max-w-none",
-                      index < 2 && "min-h-[80px] sm:min-h-[88px]",
-                      stat.nowrap && "max-w-[10.5rem] sm:w-[170px]",
-                    )}
+                    className="flex min-h-0 w-full min-w-0 max-w-md flex-col items-center gap-2 self-stretch text-center sm:max-w-none sm:items-start"
                   >
                     <p
                       className={cn(
-                        "text-[2.55rem] font-semibold leading-[0.92] tracking-[-0.04em] text-[#9a8c8f]",
-                        stat.nowrap && "whitespace-nowrap text-[2.18rem] leading-[0.92]",
+                        "w-full max-w-full font-semibold leading-[0.95] tracking-[-0.04em] text-[#9a8c8f]",
+                        "text-[clamp(1.875rem,7vw,2.55rem)]",
+                        stat.nowrap &&
+                          "whitespace-nowrap text-[clamp(1.75rem,6.5vw,2.18rem)]",
                       )}
                     >
                       {stat.value}
                     </p>
-                    <p
-                      className={cn(
-                        "mt-1.5 text-[16px] n-bold leading-tight text-[#000000]",
-                        index < 2 && "mt-2",
-                      )}
-                    >
+                    <p className="w-full wrap-break-word text-[13px] n-bold leading-snug text-[#000000] sm:text-[16px] sm:leading-tight">
                       {stat.label}
                     </p>
                   </div>

@@ -210,7 +210,7 @@ function SearchIcon() {
 }
 
 const filterSelectClass =
-  "relative inline-flex h-12 min-h-[48px] w-full min-w-0 max-w-full cursor-pointer appearance-none items-center border border-[#0000000] bg-white pl-4 pr-9 n-bold  text-xs  uppercase tracking-[0.08em] text-[#161616] outline-none transition-colors hover:bg-black/[0.02] sm:h-[51px] sm:min-w-[8.5rem] sm:max-w-none sm:pl-5 sm:pr-10 sm:text-sm sm:tracking-[0.1em] md:min-w-[9.5rem] md:text-base";
+  "relative inline-flex h-12 min-h-[48px] w-full min-w-0 max-w-full cursor-pointer appearance-none items-center border border-[#0000000] bg-white pl-4 pr-9 n-bold text-[11px] uppercase tracking-[0.08em] text-[#161616] outline-none transition-colors hover:bg-black/[0.02] min-[400px]:text-xs sm:h-[51px] sm:min-w-[8.5rem] sm:max-w-none sm:pl-5 sm:pr-10 sm:text-sm sm:tracking-[0.1em] md:min-w-[9.5rem] md:text-base";
 
 function FilterSelect({
   label,
@@ -307,24 +307,26 @@ function ProjectsPageContent() {
       {/* ------------------------------------------------------------------ */}
       {/* HERO — combined projects landing                                    */}
       {/* ------------------------------------------------------------------ */}
-      <section className="lg:pt-[90px] relative isolate flex min-h-[600px] h-[min(72vw,600px)] flex-col overflow-hidden sm:min-h-[380px] sm:h-[420px] lg:h-[800px]">
+      <section
+        className="relative isolate flex min-h-[min(17.5rem,42svh)] h-[min(52svh,28rem)] flex-col overflow-hidden sm:min-h-[380px] sm:h-[420px] lg:h-[800px] lg:min-h-0 lg:pt-[90px]"
+      >
         <Image
           src={heroBackgroundSrc}
           alt=""
           fill
           priority
           unoptimized
-          className="object-fit"
+          className="object-cover object-center"
           sizes="100vw"
         />
 
-        <div className="relative z-[1] flex w-full min-w-0 flex-1 flex-col items-center justify-start  px-4 pb-8 pt-6 text-center sm:gap-2 sm:px-10 sm:py-14 sm:pb-14">
+        <div className="relative z-[1] flex w-full min-w-0 flex-1 flex-col items-center justify-center gap-2 px-4 pb-8 pt-8 text-center sm:justify-start sm:gap-2 sm:px-8 sm:py-14 sm:pb-14 md:px-10">
           <h1
-            className="max-w-[min(22ch,100%)] fs-70 qs-reg wrap-break-word qs-reg text-[clamp(1.75rem,5.5vw,3.75rem)]  uppercase leading-[1.12] tracking-[0.06em] text-[#0a0a0a] sm:max-w-[100vw] sm:tracking-[0.07em] lg:text-[clamp(2.75rem,5vw,4rem)]"
+            className="max-w-[min(22ch,100%)] wrap-break-word qs-reg text-[clamp(1.5rem,calc(0.9rem+4.2vw),3.75rem)] uppercase leading-[1.12] tracking-[0.06em] text-[#0a0a0a] sm:max-w-[min(100%,42rem)] sm:tracking-[0.07em] lg:text-[clamp(2.75rem,5vw,4rem)]"
           >
             {filterStage} Projects
           </h1>
-          <p className=" lg:mt-0 max-w-3xl px-1 n-reg  leading-relaxed text-[#0a0a0a] sm:text-lg lg:text-medium">
+          <p className="mt-1 max-w-3xl px-1 n-reg leading-relaxed text-[#0a0a0a] sm:mt-0 sm:text-lg lg:text-base">
             We are one of the fastest growing Real Estate consulting company in
             India.
           </p>
@@ -336,9 +338,9 @@ function ProjectsPageContent() {
       {/* ------------------------------------------------------------------ */}
 
       {filterStage === "Ongoing" && (<section className="border-b border-black/10 shadow-[0_-4px_4px_0_rgba(0,0,0,0.15)]">
-        <Container className="py-4 sm:py-5 lg:py-6">
-          <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4 lg:px-8 xl:px-12 2xl:px-16">
-            <div className="flex min-w-0 flex-wrap items-center gap-3 sm:gap-5">
+        <Container className="min-w-0 py-4 sm:py-5 lg:py-6">
+          <div className="flex min-w-0 flex-col items-center gap-3 text-center sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4 sm:text-left lg:px-8 xl:px-12 2xl:px-16">
+            <div className="flex min-w-0 flex-wrap items-center justify-center gap-3 sm:min-w-0 sm:justify-start sm:gap-5">
               <button
                 type="button"
                 onClick={() => setShowFilters((prev) => !prev)}
@@ -365,7 +367,7 @@ function ProjectsPageContent() {
               </button>
             </div>
 
-            <div className="flex h-10 min-h-[44px] w-full min-w-0 max-w-full items-center gap-2.5 border border-black/20 bg-white px-3 sm:h-[34px] sm:min-h-0 sm:max-w-[345px] sm:px-3.5">
+            <div className="flex h-11 min-h-[44px] w-full min-w-0 max-w-full items-center gap-2.5 border border-black/20 bg-white px-3 sm:h-[34px] sm:min-h-0 sm:max-w-[min(100%,345px)] sm:shrink-0 sm:px-3.5">
               <SearchIcon />
               <label htmlFor="projects-search" className="sr-only">
                 Search projects
@@ -388,7 +390,7 @@ function ProjectsPageContent() {
 
               <div
                 id="projects-filter-dropdowns"
-                className="flex min-w-0 flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2 lg:gap-3 lg:px-8 xl:px-12 2xl:px-16"
+                className="grid min-w-0 grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:flex sm:flex-row sm:flex-wrap sm:items-center sm:gap-2 lg:gap-3 lg:px-8 xl:px-12 2xl:px-16"
               >
                 <FilterSelect
                   label="Budget"
@@ -404,8 +406,8 @@ function ProjectsPageContent() {
                 />
 
                 {activeLocation && (
-                  <div className="inline-flex h-12 min-h-[48px] w-full max-w-full flex-wrap items-center justify-between gap-2 border border-[#161616] bg-[#BCBDC0] px-4 n-reg  text-xs  uppercase tracking-[0.08em] text-[#161616] sm:h-[51px] sm:min-h-0 sm:w-auto sm:max-w-none sm:px-5 sm:text-sm sm:tracking-[0.1em] md:text-base">
-                    <span className="min-w-0 break-words n-bold">{activeLocation}</span>
+                  <div className="inline-flex h-12 min-h-[48px] w-full max-w-full flex-wrap items-center justify-center gap-2 border border-[#161616] bg-[#BCBDC0] px-3 py-1 n-reg text-[11px] uppercase tracking-[0.08em] text-[#161616] min-[400px]:px-4 min-[400px]:text-xs sm:h-[51px] sm:min-h-0 sm:w-auto sm:max-w-none sm:justify-between sm:px-5 sm:py-0 sm:text-sm sm:tracking-[0.1em] md:text-base">
+                    <span className="min-w-0 wrap-break-word n-bold">{activeLocation}</span>
                     <span className="mx-1 hidden h-[52px] w-px shrink-0 bg-[#161616] sm:inline-block" />
                     <button
                       type="button"
@@ -433,7 +435,7 @@ function ProjectsPageContent() {
 
                 <button
                   type="button"
-                  className="w-full cursor-pointer py-2 text-left n-reg  text-sm text-black underline sm:ml-auto sm:w-auto sm:py-0 sm:text-base"
+                  className="col-span-full w-full basis-full cursor-pointer py-2 text-center n-reg text-sm text-black underline sm:ml-auto sm:w-auto sm:basis-auto sm:py-0 sm:text-left sm:text-base"
                   onClick={clearAllFilters}
                 >
                   Clear all
@@ -448,9 +450,9 @@ function ProjectsPageContent() {
       {/* ------------------------------------------------------------------ */}
       {/* PROJECT GRID                                                        */}
       {/* ------------------------------------------------------------------ */}
-      <section className="bg-white py-8 sm:py-10 lg:px-8 lg:py-23 xl:px-12 2xl:px-16">
-        <Container>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-10 xl:gap-[40px]">
+      <section className="bg-white py-8 sm:py-10 lg:px-8 lg:py-20 xl:px-12 2xl:px-16">
+        <Container className="min-w-0">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:gap-10 xl:gap-10">
             {visibleProjects.map((project) => (
               <ProjectCard
                 key={project.id}
@@ -469,7 +471,7 @@ function ProjectsPageContent() {
           </div>
 
           {visibleProjects.length === 0 ? (
-            <p className="mt-10 text-center n-reg  text-sm text-[#161616]/70">
+            <p className="mt-10 px-1 text-center n-reg text-sm leading-relaxed text-[#161616]/70 sm:px-0">
               No projects match these filters. Try adjusting or{" "}
               <button
                 type="button"
@@ -499,8 +501,8 @@ export default function ProjectsPage() {
   return (
     <Suspense
       fallback={
-        <main className="min-h-[50vh] bg-white lg:pt-[100px]">
-          <div className="flex h-[320px] items-center justify-center bg-[#BCBDC0]/30 sm:h-[400px] lg:h-[550px]">
+        <main className="min-h-[50vh] min-w-0 bg-white lg:pt-[100px]">
+          <div className="flex min-h-[min(17.5rem,42svh)] h-[min(52svh,28rem)] items-center justify-center bg-[#BCBDC0]/30 sm:h-[400px] sm:min-h-[380px] lg:h-[550px]">
             <span className="n-reg  text-sm text-[#202225]/60">Loading…</span>
           </div>
         </main>

@@ -54,7 +54,7 @@ export function ProjectCard({
         {stage != "Completed" && badge ? (
           <div
             className={cn(
-              "absolute  top-3 z-10 rounded-none px-4 py-1.5 sm:top-4 sm:px-4 sm:py-1.5 left-0",
+              "absolute left-1/2 top-3 z-10 -translate-x-1/2 rounded-none px-4 py-1.5 sm:left-0 sm:top-4 sm:translate-x-0 sm:px-4 sm:py-1.5",
               badgeClass,
             )}
           >
@@ -65,21 +65,21 @@ export function ProjectCard({
         ) : null}
       </div>
 
-      <div className="flex items-center justify-between gap-4 bg-[#ecebeb] px-4 py-4 sm:px-5 sm:py-5">
-        <div className="min-w-0 flex-1">
+      <div className="flex flex-col items-center justify-center gap-4 bg-[#ecebeb] px-4 py-4 text-center sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-5 sm:text-left">
+        <div className="min-w-0 w-full flex-1 sm:w-auto">
           <p className="n-bold leading-snug text-[#161616] sm:text-lg">
             {title}
           </p>
-          <p className="mt-1 n-reg  text-sm  leading-snug text-[#161616]/60 sm:text-[15px]">
+          <p className="mt-1 n-reg text-sm leading-snug text-[#161616]/60 sm:text-[15px]">
             {subtitle}
           </p>
         </div>
 
         <span
-          className="inline-flex h-15 w-20 shrink-0 items-center justify-center bg-black text-white transition-colors group-hover:bg-neutral-900"
+          className="inline-flex h-16 w-24 shrink-0 items-center justify-center bg-black text-white transition-colors group-hover:bg-neutral-900 sm:h-15 sm:w-20"
           aria-hidden
         >
-          <IconArrowUpRight className="h-5 w-5" />
+          <IconArrowUpRight className="h-6 w-6 sm:h-5 sm:w-5" />
         </span>
       </div>
     </Link>
