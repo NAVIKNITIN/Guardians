@@ -1,8 +1,7 @@
 import { Container } from "@/components/common/Container";
-import { IconArrowUpRight } from "@/components/common/icons";
+import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
-import Link from "next/link";
 
 const HR_EMAIL = "hr@theguardians.in";
 
@@ -29,7 +28,7 @@ function IconEnvelopeOutline({ className }: { className?: string }) {
 export function GrowWithUs() {
     return (
         <section
-            className="relative mx-4 mb-16 overflow-hidden border-t border-black/6 px-3 py-6 sm:mx-8 sm:mb-20 sm:px-4 sm:py-8 lg:mx-24 lg:mb-24 lg:px-10 xl:mx-40"
+            className="relative mx-4 mb-12 overflow-hidden border-t border-black/6 px-4 py-10 sm:mx-8 sm:mb-20 sm:px-4 sm:py-12 lg:mx-24 lg:mb-24 lg:px-10 xl:mx-40"
             aria-labelledby="grow-heading"
         >
             <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
@@ -49,14 +48,14 @@ export function GrowWithUs() {
                     <h2
                         id="grow-heading"
                         className={cn(
-                            "qs-reg  uppercase text-[#202225]",
-                            "text-[clamp(2rem,5vw,3.75rem)] leading-[1.08] tracking-[0.05em]",
+                            "qs-reg uppercase text-[#202225]",
+                            "text-[clamp(1.75rem,calc(1rem+3.5vw),3.75rem)] leading-[1.1] tracking-[0.05em]",
                         )}
                     >
                         Come grow with us
                     </h2>
 
-                    <p className="mt-6 w-full max-w-[min(42rem,90vw)] n-reg xt-base  leading-relaxed text-[#202225]/90 sm:text-lg">
+                    <p className="mt-5 w-full max-w-[min(50rem,90vw)] n-book text-sm leading-[1.55] text-[#202225]/90 sm:mt-6 sm:text-base lg:text-lg">
                         The Guardians provide endless opportunities for professional growth in
                         promising times like these. A stimulating work environment, rich and
                         diverse exposure &amp; inspiring leadership are a few reasons that make
@@ -65,24 +64,19 @@ export function GrowWithUs() {
 
                     <a
                         href={`mailto:${HR_EMAIL}`}
-                        className="mt-8 inline-flex items-center gap-2.5 n-reg  text-sm  text-[#202225] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#202225] sm:text-base"
+                        className="mt-6 inline-flex items-center gap-2 n-bold text-sm tracking-[0.05em] text-[#202225] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#202225] sm:mt-8 sm:gap-2.5 sm:text-base lg:text-lg"
                     >
-                        <IconEnvelopeOutline className="h-5 w-5 shrink-0 text-[#202225]" />
-                        <span>{HR_EMAIL}</span>
+                        <IconEnvelopeOutline className="h-4 w-4 shrink-0 text-[#202225] sm:h-5 sm:w-5" />
+                        <span className="break-all">{HR_EMAIL}</span>
                     </a>
 
-                    <Link
+                    <GradientCtaButton
                         href="/contact"
-                        className={cn(
-                            "mt-10 inline-flex items-center gap-2 rounded-sm px-10 py-3.5 n-reg  text-xs  uppercase tracking-[0.2em] text-white",
-                            "bg-linear-to-r from-[#e8b8a8] via-[#b86b5c] to-[#d9a090]",
-                            "shadow-sm transition-[filter] hover:brightness-105",
-                            "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#202225]",
-                        )}
+                        variant="know-more"
+                        className="mt-8 w-full max-w-xs sm:mt-10 sm:w-auto sm:max-w-none"
                     >
                         Enquire Now
-                        <IconArrowUpRight className="h-3.5 w-3.5" />
-                    </Link>
+                    </GradientCtaButton>
                 </div>
             </Container>
         </section>

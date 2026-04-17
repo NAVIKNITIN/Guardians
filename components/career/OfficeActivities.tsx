@@ -27,7 +27,7 @@ const ACTIVITIES = [
 export function OfficeActivities() {
   return (
     <section
-      className="bg-white mb-16 sm:mb-20  py-4 px-2 lg:px-10 "
+      className="bg-white mb-12 py-4 px-4 sm:mb-20 sm:px-6 lg:px-10"
       aria-labelledby="activities-heading"
     >
       <Container>
@@ -35,22 +35,23 @@ export function OfficeActivities() {
         <h2
           id="activities-heading"
           className={cn(
-            "text-center  uppercase text-[#202225]",
-            "text-[clamp(1.75rem,2.8vw,3.75rem)] leading-[1.4] tracking-[0.05em]",
-            "mb-10 lg:mb-12",
+            "text-center uppercase text-[#202225] qs-reg ls-8",
+            /* Fluid type — no fixed fs-50/lh-70 so the title scales on narrow phones */
+            "text-[clamp(1.5rem,calc(0.9rem+3vw),3.75rem)] leading-[1.15]",
+            "mb-8 sm:mb-10 lg:mb-12",
           )}
         >
           Office Activities
         </h2>
 
         {/* 3-column image grid */}
-        <div className="grid grid-cols-1 gap-5 sm:grid-cols-3 sm:gap-10">
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-10">
           {ACTIVITIES.map((activity) => (
-            <div key={activity.id} className="flex flex-col gap-4">
+            <div key={activity.id} className="flex flex-col gap-3 sm:gap-4">
               {/* Photo */}
               <div
                 className="relative w-full overflow-hidden bg-[#BCBDC0]"
-                style={{ height: "clamp(220px, 24vw, 350px)" }}
+                style={{ height: "clamp(200px, 24vw, 350px)" }}
               >
                 <Image
                   src={activity.imageSrc}
@@ -62,7 +63,7 @@ export function OfficeActivities() {
               </div>
 
               {/* Label */}
-              <p className="n-reg  text-lg  leading-snug text-[#202225]">
+              <p className="n-bold text-base leading-snug tracking-[0.1em] text-[#202225] sm:text-lg">
                 {activity.label}
               </p>
             </div>
