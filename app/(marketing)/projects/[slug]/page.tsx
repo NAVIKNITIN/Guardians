@@ -133,7 +133,7 @@ const project = {
     ],
   },
   amenitiesBg: LOCAL_IMAGES.holding,
-  bookVisitBg: LOCAL_IMAGES.partnerHero,
+  bookVisitBg: LOCAL_IMAGES.projectImage,
 };
 
 // ---------------------------------------------------------------------------
@@ -261,15 +261,15 @@ function CaseStudySection({
         </div>
       </div>
 
-      <div className="flex w-full min-w-0 flex-col items-start justify-start text-left">
-        <h2 className="text-[clamp(2rem,4vw,3.25rem)]  uppercase leading-[1.05] tracking-[0.06em] text-[#202225]">
+      <div className="flex w-full min-w-0 flex-col items-start justify-start text-left mt-4">
+        <h2 className="qs-reg text-[clamp(2rem,4vw,3.25rem)] lh-50 ls-5 uppercase  text-[#202225]">
           Case Study
         </h2>
-        <div className="mt-6 flex w-full flex-col gap-4">
+        <div className="mt-10 flex w-full flex-col gap-4">
           {paragraphs.map((p, i) => (
             <p
               key={i}
-              className="n-reg  text-sm leading-relaxed text-[#161616]/90 sm:text-base"
+              className="n-book fs-20 lh-24  text-sm leading-relaxed text-[#161616]/90 sm:text-base"
             >
               {p}
             </p>
@@ -299,7 +299,7 @@ function AmenityItem({
           className="h-20 w-20 object-cover"
         />
       </div>
-      <span className="n-reg  text-[11px]  uppercase tracking-[0.08em] text-[#202225] sm:text-xs">
+      <span className="n-bold  uppercase tracking-[0.08em] text-[#202225] sm:text-xs">
         {amenity.label}
       </span>
     </div>
@@ -338,14 +338,14 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* HERO — project header                                            */}
       {/* ---------------------------------------------------------------- */}
-      <section className="relative overflow-hidden bg-white px-4 pt-10 sm:px-6 md:px-10 md:pt-20 lg:px-20 lg:pt-[60px]">
+      <section className="lg:pt-[150px] relative overflow-hidden bg-white px-4 pt-10 sm:px-6 md:px-10 md:pt-20 lg:px-20 ">
         <Container className="pb-0">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+          <div className="relative flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
             {/* Left — title block */}
             <div className="min-w-0 max-w-full pr-0 lg:max-w-[min(100%,42rem)] lg:pr-8">
               {/* Status dot + label */}
-              <div className="mb-2 flex items-center gap-2">
-                <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-[#8F8183]" />
+              <div className="mb-3 flex items-center gap-2">
+                <span className="h-2.5 mb-1 w-2.5 shrink-0 rounded-full bg-[#8F8183]" />
                 <span className="n-reg  text-base text-[#8F8183] sm:text-lg">
                   {heroStatusLine}
                 </span>
@@ -358,13 +358,13 @@ function ProjectDetailPageContent() {
                 {project.title}
               </h1>
               {/* RERA */}
-              <p className="mt-3 n-reg  text-xs  uppercase tracking-[0.1em] text-[#161616] underline sm:text-sm">
+              <p className="mt-3 n-bold  text-xs  uppercase tracking-[0.1em] text-[#161616] underline sm:text-sm">
                 Rera No.: {project.rera}
               </p>
             </div>
 
             {/* Right — developer logo (in flow on small screens; anchored on large) */}
-            <div className="relative mt-2 shrink-0 self-start lg:absolute lg:right-4 lg:top-1 lg:mt-0 xl:right-20 2xl:right-40">
+            <div className="mt-2 flex justify-end lg:absolute lg:bottom-0 lg:right-0 lg:mt-0">
               <Image
                 src={project.developerLogo}
                 alt="Godrej Properties"
@@ -373,24 +373,25 @@ function ProjectDetailPageContent() {
                 className="h-auto w-[140px] object-cover sm:w-[160px] lg:w-[218px]"
               />
             </div>
+
           </div>
 
           {/* Stats bar */}
           <div className="mt-6 border-t border-black">
-            <div className="grid grid-cols-2 border-b border-black lg:grid-cols-4">
+            <div className="grid grid-cols-2  lg:grid-cols-4">
               {project.stats.map((stat, i) => (
                 <div
                   key={i}
-                  className={`flex flex-col justify-center py-4 pr-3 sm:py-5 sm:pr-4 max-lg:nth-[n+3]:border-t max-lg:nth-[n+3]:border-black ${i < project.stats.length - 1
-                    ? "border-r border-black"
+                  className={`flex  flex-col justify-center py-4 pr-3 sm:py-5 sm:pr-4 max-lg:nth-[n+3]:border-t max-lg:nth-[n+3]:border-black ${i < project.stats.length - 1
+                    ? " border-black"
                     : ""
                     } ${i > 0 ? "pl-3 sm:pl-4 lg:pl-6" : ""}`}
                 >
-                  <span className=" text-xs  uppercase tracking-[0.1em] text-black/80 sm:text-sm ">
+                  <span className=" n-bold lh-26 text-black/80 sm:text-sm ">
                     {stat.label}
                   </span>
-                  <span className="mt-1  text-[#8F8183]">
-                    <span className="text-2xl sm:text-3xl lg:text-[2.625rem] leading-none">
+                  <span className="mt-1  text-[#8F8183] border-b border-black pb-2">
+                    <span className="fs-40 lh-40 sm:text-3xl lg:text-[2.625rem] leading-none">
                       {stat.value}
                     </span>
                     {stat.unit && (
@@ -427,7 +428,7 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       <section className="bg-white px-4 py-12 sm:px-6 md:px-10 lg:px-20 lg:py-16">
         <Container>
-          <p className="!n-reg  text-xl  leading-snug text-black sm:text-2xl lg:text-[2.25rem] lg:leading-[1.17]">
+          <p className="n-bold text-xl  leading-snug text-black sm:text-2xl lg:text-[2.25rem] lg:leading-[1.17]">
             {project.description}
           </p>
         </Container>
@@ -542,12 +543,12 @@ function ProjectDetailPageContent() {
                 {project.locationItems.map((item, i) => (
                   <div key={i}>
                     <div className="flex items-start justify-between gap-3 py-3 sm:items-center sm:gap-4">
-                      <span className="min-w-0 flex-1 break-words n-reg  text-sm text-[#161616] sm:text-base">
+                      <span className="min-w-0 flex-1 break-words n-book fs-16 lh-24 text-[#161616] sm:text-base">
                         {item.name}
                       </span>
                       <div className="flex shrink-0 items-center gap-3">
                         {item.type === "walk" ? <WalkIcon /> : <DriveIcon />}
-                        <span className="w-14 text-right n-reg  text-sm  text-[#161616] sm:text-base">
+                        <span className="w-15 text-right n-bold text-[#161616] sm:text-base">
                           {item.time}
                         </span>
                       </div>
@@ -656,10 +657,10 @@ function ProjectDetailPageContent() {
               </div>
 
               {/* Right — form card */}
-              <div className="w-full min-w-0 max-w-full bg-white px-5 py-7 sm:px-8 sm:py-8 lg:w-[488px] lg:shrink-0 lg:px-10">
+              <div className="w-full min-w-0 max-w-full bg-white px-5 py-7 sm:px-8 sm:py-8 lg:w-[490px] lg:shrink-0 lg:px-10">
                 <div className="flex flex-col gap-0">
                   {/* Row 1: First / Last name */}
-                  <div className="grid grid-cols-1 gap-6 pb-6 sm:grid-cols-2 sm:gap-8">
+                  <div className="grid grid-cols-1 gap-6 pb-6 sm:grid-cols-2 sm:gap-8 n-bold lh-24 fs-14">
                     <FormField
                       label="First Name"
                       name="firstName"
@@ -677,7 +678,7 @@ function ProjectDetailPageContent() {
                   </div>
 
                   {/* Row 2: Email / Phone */}
-                  <div className="grid grid-cols-1 gap-6 border-t border-[#8F8183]/30 py-6 sm:grid-cols-2 sm:gap-8">
+                  <div className="grid grid-cols-1 gap-6 border-t border-[#8F8183]/30  n-bold lh-24 fs-14 py-6 sm:grid-cols-2 sm:gap-8">
                     <FormField
                       label="Email Address"
                       name="email"
@@ -697,7 +698,7 @@ function ProjectDetailPageContent() {
                   </div>
 
                   {/* Row 3: Location / Upload CV */}
-                  <div className="grid grid-cols-1 gap-6 border-t border-[#8F8183]/30 py-6 sm:grid-cols-2 sm:gap-8">
+                  <div className="grid grid-cols-1 gap-6 border-t n-bold lh-24 fs-14 border-[#8F8183]/30 py-6 sm:grid-cols-2 sm:gap-8">
                     <SelectField
                       label="Location"
                       name="location"
@@ -717,7 +718,7 @@ function ProjectDetailPageContent() {
                   </div>
 
                   {/* Message */}
-                  <div className="border-t border-[#8F8183]/30 pt-6">
+                  <div className="border-t border-[#8F8183]/30 pt-6 n-bold lh-24 fs-14">
                     <label className="block n-reg  text-sm  text-[#202225]">
                       Message
                     </label>
@@ -732,7 +733,7 @@ function ProjectDetailPageContent() {
                   </div>
 
                   {/* Submit */}
-                  <div className="mt-8">
+                  <div className="mt-8 flex justify-center">
                     <button
                       type="button"
                       className="inline-flex h-[52px] w-full items-center justify-center gap-4 px-8 n-reg  text-sm  uppercase tracking-[0.1em] text-white sm:h-[55px] sm:w-auto sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"

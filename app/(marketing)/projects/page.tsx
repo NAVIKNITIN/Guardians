@@ -20,7 +20,7 @@ const BUILDER_OPTIONS = [
   "Hiranandani",
 ] as const;
 const CONFIGURATION_OPTIONS = ["All", "1 BHK", "2 BHK", "3 BHK"] as const;
-const STAGE_OPTIONS = ["All", "Ongoing", "Completed"] as const;
+const STAGE_OPTIONS = ["Ongoing", "Completed"] as const;
 
 type ProjectRow = {
   id: number;
@@ -210,7 +210,7 @@ function SearchIcon() {
 }
 
 const filterSelectClass =
-  "relative inline-flex h-12 min-h-[48px] w-full min-w-0 max-w-full cursor-pointer appearance-none items-center border border-[#161616] bg-white pl-4 pr-9 n-reg  text-xs  uppercase tracking-[0.08em] text-[#161616] outline-none transition-colors hover:bg-black/[0.02] sm:h-[51px] sm:min-w-[8.5rem] sm:max-w-none sm:pl-5 sm:pr-10 sm:text-sm sm:tracking-[0.1em] md:min-w-[9.5rem] md:text-base";
+  "relative inline-flex h-12 min-h-[48px] w-full min-w-0 max-w-full cursor-pointer appearance-none items-center border border-[#0000000] bg-white pl-4 pr-9 n-bold  text-xs  uppercase tracking-[0.08em] text-[#161616] outline-none transition-colors hover:bg-black/[0.02] sm:h-[51px] sm:min-w-[8.5rem] sm:max-w-none sm:pl-5 sm:pr-10 sm:text-sm sm:tracking-[0.1em] md:min-w-[9.5rem] md:text-base";
 
 function FilterSelect({
   label,
@@ -233,7 +233,7 @@ function FilterSelect({
         className={filterSelectClass}
       >
         {options.map((o) => (
-          <option key={o} value={o}>
+          <option key={o} value={o} className="">
             {o === "All" ? label.toUpperCase() : o}
           </option>
         ))}
@@ -254,7 +254,7 @@ function ProjectsPageContent() {
   const [filterBuilder, setFilterBuilder] = useState<string>("All");
   const [filterConfiguration, setFilterConfiguration] =
     useState<string>("All");
-  const [filterStage, setFilterStage] = useState<string>("All");
+  const [filterStage, setFilterStage] = useState<string>("Ongoing");
   const [searchQuery, setSearchQuery] = useState("");
 
   const [activeLocation, setActiveLocation] = useState<string | null>(
@@ -291,10 +291,10 @@ function ProjectsPageContent() {
     setFilterBudget("All");
     setFilterBuilder("All");
     setFilterConfiguration("All");
-    setFilterStage("All");
+    setFilterStage("Ongoing");
     setActiveLocation(null);
     setSearchQuery("");
-    setShowFilters(false);
+    setShowFilters(true);
   }
 
   const heroBackgroundSrc =
@@ -318,13 +318,13 @@ function ProjectsPageContent() {
           sizes="100vw"
         />
 
-        <div className="relative z-[1] flex w-full min-w-0 flex-1 flex-col items-center justify-start  px-4 pb-8 pt-6 text-center sm:gap-6 sm:px-10 sm:py-14 sm:pb-14">
+        <div className="relative z-[1] flex w-full min-w-0 flex-1 flex-col items-center justify-start  px-4 pb-8 pt-6 text-center sm:gap-2 sm:px-10 sm:py-14 sm:pb-14">
           <h1
             className="max-w-[min(22ch,100%)] fs-70 qs-reg wrap-break-word qs-reg text-[clamp(1.75rem,5.5vw,3.75rem)]  uppercase leading-[1.12] tracking-[0.06em] text-[#0a0a0a] sm:max-w-[100vw] sm:tracking-[0.07em] lg:text-[clamp(2.75rem,5vw,4rem)]"
           >
             {filterStage} Projects
           </h1>
-          <p className=" lg:mt-0 max-w-3xl px-1 n-reg  text-[0.875rem]  leading-relaxed text-[#0a0a0a] sm:text-lg lg:text-medium">
+          <p className=" lg:mt-0 max-w-3xl px-1 n-reg  leading-relaxed text-[#0a0a0a] sm:text-lg lg:text-medium">
             We are one of the fastest growing Real Estate consulting company in
             India.
           </p>
@@ -335,7 +335,7 @@ function ProjectsPageContent() {
       {/* FILTER BAR                                                          */}
       {/* ------------------------------------------------------------------ */}
 
-      {filterStage === "Ongoing" ? (<section className="border-b border-black/10 shadow-[0_-4px_4px_0_rgba(0,0,0,0.15)]">
+      {filterStage === "Ongoing" && (<section className="border-b border-black/10 shadow-[0_-4px_4px_0_rgba(0,0,0,0.15)]">
         <Container className="py-4 sm:py-5 lg:py-6">
           <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4 lg:px-8 xl:px-12 2xl:px-16">
             <div className="flex min-w-0 flex-wrap items-center gap-3 sm:gap-5">
@@ -344,7 +344,10 @@ function ProjectsPageContent() {
                 onClick={() => setShowFilters((prev) => !prev)}
                 aria-expanded={showFilters}
                 aria-controls="projects-filter-dropdowns"
-                className="inline-flex cursor-pointer items-center gap-2 n-reg  text-sm font-black uppercase tracking-[0.1em] text-[#8F8183] sm:text-base"
+                className={`inline-flex cursor-pointer items-center gap-2 n-reg text-sm font-black uppercase tracking-[0.1em] sm:text-base ${showFilters
+                  ? "text-[#8F8183]  border-[#8F8183] n-bold "
+                  : "text-[#8F8183]/70"
+                  }`}
               >
                 Filters
                 {showFilters ? (
@@ -402,12 +405,12 @@ function ProjectsPageContent() {
 
                 {activeLocation && (
                   <div className="inline-flex h-12 min-h-[48px] w-full max-w-full flex-wrap items-center justify-between gap-2 border border-[#161616] bg-[#BCBDC0] px-4 n-reg  text-xs  uppercase tracking-[0.08em] text-[#161616] sm:h-[51px] sm:min-h-0 sm:w-auto sm:max-w-none sm:px-5 sm:text-sm sm:tracking-[0.1em] md:text-base">
-                    <span className="min-w-0 break-words">{activeLocation}</span>
+                    <span className="min-w-0 break-words n-bold">{activeLocation}</span>
                     <span className="mx-1 hidden h-[52px] w-px shrink-0 bg-[#161616] sm:inline-block" />
                     <button
                       type="button"
                       onClick={() => setActiveLocation(null)}
-                      className="cursor-pointer text-xl  leading-none"
+                      className="cursor-pointer text-xl  leading-none n-bold"
                       aria-label="Remove filter"
                     >
                       X
@@ -440,14 +443,14 @@ function ProjectsPageContent() {
           )}
         </Container>
       </section>
-      ) : ""}
+      )}
 
       {/* ------------------------------------------------------------------ */}
       {/* PROJECT GRID                                                        */}
       {/* ------------------------------------------------------------------ */}
-      <section className="bg-white py-8 sm:py-10 lg:px-8 lg:py-16 xl:px-12 2xl:px-16">
+      <section className="bg-white py-8 sm:py-10 lg:px-8 lg:py-23 xl:px-12 2xl:px-16">
         <Container>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-5 xl:gap-[20px]">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-10 xl:gap-[40px]">
             {visibleProjects.map((project) => (
               <ProjectCard
                 key={project.id}
@@ -460,6 +463,7 @@ function ProjectsPageContent() {
                     ? `/projects/${project.id}?status=completed`
                     : `/projects/${project.id}`
                 }
+                stage={filterStage}
               />
             ))}
           </div>

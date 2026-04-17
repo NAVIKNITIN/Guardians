@@ -15,6 +15,7 @@ export interface ProjectCardProps {
     label: string;
     variant: BadgeVariant;
   };
+  stage: string;
 }
 
 export function ProjectCard({
@@ -24,17 +25,18 @@ export function ProjectCard({
   subtitle,
   href = "#",
   badge,
+  stage
 }: ProjectCardProps) {
   const badgeClass =
     badge?.variant === "completed"
-      ? "bg-neutral-900/90"
-      : "bg-[#8B7268]/90";
+      ? "bg-[#202225]"
+      : "bg-[#8F8183]";
 
   return (
     <Link
       href={href}
       className={cn(
-        "group relative flex flex-col overflow-hidden rounded-lg bg-white",
+        "group relative flex flex-col overflow-hidden  bg-white",
         "shadow-[0_4px_24px_rgba(0,0,0,0.08)] transition-[box-shadow,transform] duration-300",
         "hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]",
       )}
@@ -49,14 +51,14 @@ export function ProjectCard({
           sizes="(min-width: 1280px) 400px, (min-width: 768px) 45vw, 100vw"
         />
 
-        {badge ? (
+        {stage != "Completed" && badge ? (
           <div
             className={cn(
-              "absolute left-3 top-3 z-10 rounded-sm px-3 py-1.5 sm:left-4 sm:top-4 sm:px-3.5 sm:py-2",
+              "absolute  top-3 z-10 rounded-none px-4 py-1.5 sm:top-4 sm:px-4 sm:py-1.5 left-0",
               badgeClass,
             )}
           >
-            <span className="n-bold  text-[10px] uppercase tracking-[0.12em] text-white sm:text-xs">
+            <span className="n-bold text-[11px] uppercase leading-none tracking-[0.14em] text-white sm:text-[12px]">
               {badge.label}
             </span>
           </div>
@@ -65,16 +67,16 @@ export function ProjectCard({
 
       <div className="flex items-center justify-between gap-4 bg-[#ecebeb] px-4 py-4 sm:px-5 sm:py-5">
         <div className="min-w-0 flex-1">
-          <p className="n-reg  text-base  leading-snug text-[#161616] sm:text-lg">
+          <p className="n-bold leading-snug text-[#161616] sm:text-lg">
             {title}
           </p>
-          <p className="mt-1 n-bold  text-sm  leading-snug text-[#161616]/60 sm:text-[15px]">
+          <p className="mt-1 n-reg  text-sm  leading-snug text-[#161616]/60 sm:text-[15px]">
             {subtitle}
           </p>
         </div>
 
         <span
-          className="inline-flex h-11 w-11 shrink-0 items-center justify-center bg-black text-white transition-colors group-hover:bg-neutral-900"
+          className="inline-flex h-15 w-20 shrink-0 items-center justify-center bg-black text-white transition-colors group-hover:bg-neutral-900"
           aria-hidden
         >
           <IconArrowUpRight className="h-5 w-5" />
