@@ -10,7 +10,7 @@ const ARTICLES: NewsArticle[] = [
   {
     id: "1",
     date: "12 Dec 2025",
-    title: "Revolutionising Real Estate — The Power of GIS Mapping in India",
+    title: "Revolutionising real estate - The Power of GIS mapping in India",
     excerpt: EXCERPT,
     imageSrc: localImageByIndex(0),
     imageAlt: "GIS mapping in real estate",
@@ -19,7 +19,7 @@ const ARTICLES: NewsArticle[] = [
   {
     id: "2",
     date: "10 Dec 2025",
-    title: "Revolutionising Real Estate — The Power of GIS Mapping in India",
+    title: "Revolutionising real estate - The Power of GIS mapping in India",
     excerpt: EXCERPT,
     imageSrc: localImageByIndex(1),
     imageAlt: "Real estate market insights",
@@ -28,7 +28,7 @@ const ARTICLES: NewsArticle[] = [
   {
     id: "3",
     date: "08 Dec 2025",
-    title: "Revolutionising Real Estate — The Power of GIS Mapping in India",
+    title: "Revolutionising real estate - The Power of GIS mapping in India",
     excerpt: EXCERPT,
     imageSrc: localImageByIndex(2),
     imageAlt: "Luxury real estate project",
@@ -37,7 +37,7 @@ const ARTICLES: NewsArticle[] = [
   {
     id: "4",
     date: "05 Dec 2025",
-    title: "Revolutionising Real Estate — The Power of GIS Mapping in India",
+    title: "Revolutionising real estate - The Power of GIS mapping in India",
     excerpt: EXCERPT,
     imageSrc: localImageByIndex(3),
     imageAlt: "High-rise residential development",
@@ -46,7 +46,7 @@ const ARTICLES: NewsArticle[] = [
   {
     id: "5",
     date: "02 Dec 2025",
-    title: "Revolutionising Real Estate — The Power of GIS Mapping in India",
+    title: "Revolutionising real estate - The Power of GIS mapping in India",
     excerpt: EXCERPT,
     imageSrc: localImageByIndex(4),
     imageAlt: "Corporate advisory services",
@@ -55,7 +55,7 @@ const ARTICLES: NewsArticle[] = [
   {
     id: "6",
     date: "29 Nov 2025",
-    title: "Revolutionising Real Estate — The Power of GIS Mapping in India",
+    title: "Revolutionising real estate - The Power of GIS mapping in India",
     excerpt: EXCERPT,
     imageSrc: localImageByIndex(5),
     imageAlt: "Real estate advisory professionals",
@@ -64,7 +64,7 @@ const ARTICLES: NewsArticle[] = [
   {
     id: "7",
     date: "25 Nov 2025",
-    title: "Revolutionising Real Estate — The Power of GIS Mapping in India",
+    title: "Revolutionising real estate - The Power of GIS mapping in India",
     excerpt: EXCERPT,
     imageSrc: localImageByIndex(6),
     imageAlt: "Modern residential towers",
@@ -73,7 +73,7 @@ const ARTICLES: NewsArticle[] = [
   {
     id: "8",
     date: "20 Nov 2025",
-    title: "Revolutionising Real Estate — The Power of GIS Mapping in India",
+    title: "Revolutionising real estate - The Power of GIS mapping in India",
     excerpt: EXCERPT,
     imageSrc: localImageByIndex(7),
     imageAlt: "Property development overview",
@@ -103,22 +103,22 @@ function ViewMoreIcon() {
 export function NewsroomGrid() {
   return (
     <section
-      className="bg-white px-3 py-12 sm:px-4 sm:py-16 lg:py-20 lg:px-8 xl:px-10"
+      className="bg-white px-4 py-10 sm:px-6 sm:py-16 lg:py-20 lg:px-8 xl:px-10"
       aria-label="News articles"
     >
       <Container>
         {/* 4-column articles grid — 2 rows */}
-        <div className="grid grid-cols-1 gap-x-12 gap-y-14 sm:grid-cols-2 lg:grid-cols-4 lg:gap-x-[65px] lg:gap-y-[54px]">
+        <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-12 lg:grid-cols-4 lg:gap-x-[65px] lg:gap-y-[54px]">
           {ARTICLES.map((article) => (
             <NewsCard key={article.id} article={article} />
           ))}
         </div>
 
         {/* VIEW MORE CTA */}
-        <div className="mt-12 flex justify-center px-1 sm:mt-14 lg:mt-16">
+        <div className="mt-10 flex justify-center px-1 sm:mt-14 lg:mt-16">
           <button
             type="button"
-            className="inline-flex w-full max-w-sm items-center justify-center gap-4 px-8 py-3.5 n-reg xt-base  uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 sm:w-auto sm:max-w-none sm:gap-5 sm:px-12 sm:py-[18px] sm:text-lg"
+            className="inline-flex w-full max-w-xs items-center justify-center gap-3 px-6 py-3 n-reg text-sm uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 sm:w-auto sm:max-w-none sm:gap-5 sm:px-12 sm:py-[18px] sm:text-base lg:text-lg"
             style={{
               background:
                 "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",
@@ -130,7 +130,7 @@ export function NewsroomGrid() {
               alt="View More"
               width={15}
               height={15}
-              className="object-cover"
+              className="h-3 w-3 object-cover sm:h-[15px] sm:w-[15px]"
             />
           </button>
         </div>
