@@ -308,7 +308,7 @@ function ProjectsPageContent() {
       {/* HERO — combined projects landing                                    */}
       {/* ------------------------------------------------------------------ */}
       <section
-        className="relative isolate flex min-h-[min(17.5rem,42svh)] h-[min(52svh,28rem)] flex-col overflow-hidden sm:min-h-[380px] sm:h-[420px] lg:h-[800px] lg:min-h-0 lg:pt-[90px]"
+        className="relative isolate md:flex min-h-[min(20rem,50svh)] h-[min(62svh,36rem)] flex-col overflow-hidden sm:min-h-[380px] sm:h-[620px] lg:h-[800px] lg:min-h-0 lg:pt-[90px]"
       >
         <Image
           src={heroBackgroundSrc}

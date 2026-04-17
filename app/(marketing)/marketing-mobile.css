@@ -54,6 +54,15 @@
     text-align: center;
   }
 
+  /* Project detail “Book a visit” card — undo centering for labels/inputs (see projects/[slug]/page.tsx) */
+  .marketing-mobile-root main .book-visit-form {
+    text-align: left !important;
+  }
+
+  .marketing-mobile-root main .book-visit-form .text-left {
+    text-align: left !important;
+  }
+
   /* Media never spills past the viewport */
   .marketing-mobile-root img,
   .marketing-mobile-root video,
