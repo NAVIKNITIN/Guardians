@@ -15,7 +15,7 @@ export const marketingClasses = {
   headingDisplay:
     "qs-reg text-[clamp(1.75rem,3vw,2.5rem)] fw-200 fs-50 uppercase leading-tight tracking-[0.08em] text-brand-text-primary mt-5  ",
   headingDisplayMd:
-    "qs-reg text-[clamp(1.75rem,3vw,2.35rem)]  uppercase leading-tight tracking-[0.08em] text-brand-text-primary ",
+    "qs-reg fs-50 text-[clamp(1.75rem,3vw,2.35rem)]  uppercase leading-tight tracking-[0.08em] text-brand-text-primary ",
   headingDisplaySm:
     "qs-reg text-[clamp(1.5rem,2.5vw,2rem)]  uppercase leading-tight tracking-[0.08em] text-brand-text-primary",
   roundNavButton:

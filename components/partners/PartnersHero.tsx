@@ -4,8 +4,7 @@ import { cn } from "@/utils/cn";
 export function PartnersHero() {
   return (
     <section
-      className="relative w-full min-w-0 overflow-x-clip bg-neutral-300"
-      style={{ minHeight: 362 }}
+      className="relative w-full min-w-0 overflow-x-clip  md:min-h-[550px]"
       aria-labelledby="partners-hero-heading"
     >
       {/* Geometric paper-cut background */}
@@ -23,10 +22,6 @@ export function PartnersHero() {
       {/* Gradient overlay — bottom fade to white */}
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-32"
-        style={{
-          background:
-            "linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.85) 100%)",
-        }}
         aria-hidden
       />
 
@@ -34,7 +29,7 @@ export function PartnersHero() {
       <div
         className={cn(
           "relative z-20 flex w-full min-w-0 items-center justify-center px-4 sm:px-6",
-          "min-h-[260px] sm:min-h-[310px] lg:min-h-[362px] bg-black/25",
+          " sm:min-h-[310px] lg:min-h-[550px] bg-black/25",
         )}
       >
         <h1
@@ -46,7 +41,7 @@ export function PartnersHero() {
             "text-center text-balance",
           )}
         >
-          <span className="text-white">Partners</span>
+          <span className="text-white qs-reg fs-70 lh-24">Partners</span>
           <span className="qs-reg"> &amp; Clients</span>
         </h1>
       </div>

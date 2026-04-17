@@ -82,7 +82,7 @@ const TESTIMONIALS: PartnersTestimonial[] = [
 
 const DESKTOP_VISIBLE = 2;
 
-function TestimonialCard({ item }: { item: PartnersTestimonial }) {
+export const TestimonialCard = ({ item }: { item: PartnersTestimonial }) => {
   return (
     <article
       className={cn(
@@ -107,13 +107,11 @@ function TestimonialCard({ item }: { item: PartnersTestimonial }) {
           </div>
         </div>
 
-        {/* Quote mark */}
-        <span className="mt-6 block n-reg  text-6xl leading-[0.7] text-[#161616]">
-          &ldquo;
+        <span className="mt-15 block text-brand-text-primary">
+          <Image src={"/images/invertedComma.svg"} alt="" width={27} height={27} className="object-cover clip-path-circle" />
         </span>
 
-        {/* Quote text */}
-        <p className="mt-3 n-reg  text-base  leading-[1.5] text-[#161616] sm:text-lg">
+        <p className="fs-20 lh-24 n-bold leading-relaxed text-brand-text-primary mt-5">
           {item.quote}
         </p>
       </div>
@@ -126,6 +124,7 @@ function TestimonialCard({ item }: { item: PartnersTestimonial }) {
           {item.location}
         </p>
       </div>
+
     </article>
   );
 }

@@ -37,7 +37,7 @@ const CARD_RIGHT_DELAY = 1.32;
 
 const dividerCardCtaClassName = cn(
   "inline-flex items-center justify-center gap-2 rounded-none border border-neutral-900 bg-white px-6 py-3",
-  "font-nexa text-[11px] font-semibold uppercase tracking-[0.22em] text-neutral-900",
+  "n-bold fs-24 ls-10 text-xs uppercase tracking-[0.22em] text-neutral-900",
   "transition-colors duration-300 hover:bg-neutral-900 hover:text-white",
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-neutral-900",
 );
@@ -118,10 +118,10 @@ function BuyerProfileCard({
           />
 
           <div>
-            <p className="font-nexa text-xs font-medium uppercase tracking-[0.2em] text-neutral-600">
+            <p className="n-bold fs-24 ls-10 text-xs uppercase tracking-[0.2em] text-neutral-600">
               I am a
             </p>
-            <h3 className="mt-1 qs-reg text-[clamp(2rem,4.5vw,3rem)]  uppercase leading-none tracking-tight text-neutral-950">
+            <h3 className="mt-1 qs-reg ls-10 text-[clamp(2rem,4.5vw,3rem)]  uppercase leading-none tracking-tight text-neutral-950">
               Buyer
             </h3>
           </div>
@@ -164,10 +164,10 @@ function DeveloperProfileCard({
           <IconCrane className="h-[50px] w-[47px] shrink-0 text-neutral-800 lg:self-end" />
 
           <div>
-            <p className="font-nexa text-xs font-medium uppercase tracking-[0.2em] text-neutral-600 lg:text-right">
+            <p className="n-bold fs-24 ls-10 text-xs uppercase tracking-[0.2em] text-neutral-600 lg:text-right">
               I am a
             </p>
-            <h3 className="mt-1 qs-reg text-[clamp(2rem,4.5vw,3rem)]  uppercase leading-none tracking-tight text-neutral-950 lg:text-right">
+            <h3 className="mt-1 qs-reg ls-10 text-[clamp(2rem,4.5vw,3rem)]  uppercase leading-none tracking-tight text-neutral-950 lg:text-right">
               Developer
             </h3>
           </div>
