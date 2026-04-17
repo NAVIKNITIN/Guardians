@@ -1,4 +1,5 @@
 import { Container } from "@/components/common/Container";
+import { cn } from "@/utils/cn";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -10,7 +11,8 @@ export type BlogDetailPost = {
   title: string;
   featuredImage: string;
   featuredImageAlt: string;
-  body: string;
+  /** Array of paragraphs — each entry renders as its own `<p>`. */
+  body: string[];
 };
 
 // ─── Recent Posts sidebar ────────────────────────────────────────────────────
@@ -26,17 +28,17 @@ const RECENT_POSTS = [
 function RecentPostsSidebar() {
   return (
     <aside className="w-full lg:w-[345px] lg:flex-shrink-0">
-      <div className="bg-[#F2F2F2] px-6 py-7">
-        <h3 className="n-reg  text-xl font-light uppercase tracking-[0.1em] text-[#161616]">
+      <div className="bg-[#F2F2F2] px-5 py-6 sm:px-6 sm:py-7">
+        <h3 className="n-reg text-lg font-light uppercase text-[#161616] sm:text-xl">
           Recent posts
         </h3>
         <div className="mt-3 border-t border-black/10" />
-        <ul className="mt-5 flex flex-col gap-[22px]">
+        <ul className="mt-4 flex flex-col gap-3 sm:mt-5">
           {RECENT_POSTS.map((title, i) => (
             <li key={i}>
               <Link
                 href="#"
-                className="n-reg  text-base  leading-[1.5] text-[#161616] line-clamp-2 transition-opacity hover:opacity-70"
+                className="n-bold fs-16 lh-24 text-[#161616] transition-opacity hover:opacity-70"
               >
                 {title}
               </Link>
@@ -62,35 +64,33 @@ function BackArrow() {
 
 export function BlogDetail({ post }: { post: BlogDetailPost }) {
   return (
-    <article className="bg-white py-20 lg:py-[20px]">
+    <article className="bg-white px-4 py-12 sm:my-10 sm:px-6 sm:py-16 md:my-25 md:px-10 md:py-20 lg:px-20 lg:py-[20px]">
       <Container>
-        {/* Back to blog */}
-        {/* <Link
-          href="/blog"
-          className="mb-8 inline-flex items-center gap-2 n-reg  text-sm  uppercase tracking-[0.1em] text-[#8F8183] transition-opacity hover:opacity-70"
-        >
-          <BackArrow />
-          Back to Blogs
-        </Link> */}
-
         {/* ── Meta row: category + date ─────────────────────────────── */}
         <div className="flex items-center justify-between gap-4">
-          <span className="n-reg  text-xl  text-[#161616]">
+          <span className="n-book text-sm leading-[1.4] text-[#161616] sm:text-base md:text-lg lg:text-[20px] lg:leading-[25px]">
             {post.category}
           </span>
-          <span className="n-reg  text-xl  text-[#161616] text-right">
+          <span className="n-book text-sm leading-[1.4] text-right text-[#161616] sm:text-base md:text-lg lg:text-[20px] lg:leading-[25px]">
             {post.date}
           </span>
         </div>
 
         {/* ── Title ────────────────────────────────────────────────────── */}
-        <h1 className="mt-4 qs-reg text-[clamp(1.75rem,4vw,3.125rem)] leading-[1] text-[#161616]">
+        <h1
+          className={cn(
+            "mt-3 n-bold text-[#161616] sm:mt-4",
+            /* Fluid type on mobile — pinned to 50px / 50px at lg+ to match the original fs-50 lh-50 */
+            "text-[clamp(1.75rem,calc(1rem+3.5vw),3.125rem)] leading-[1.1]",
+            "lg:text-[50px] lg:leading-[50px]",
+          )}
+        >
           {post.title}
         </h1>
 
-        {/* ── Featured image — 1195×371 aspect ratio ───────────────────── */}
-        <div className="relative mt-8 w-full overflow-hidden bg-neutral-200">
-          <div className="aspect-[1195/371]">
+        {/* ── Featured image — taller aspect on mobile, original 1195/371 on lg+ ─── */}
+        <div className="relative mt-6 w-full overflow-hidden bg-neutral-200 sm:mt-8">
+          <div className="aspect-[4/3] sm:aspect-[16/9] lg:aspect-[1195/371]">
             <Image
               src={post.featuredImage}
               alt={post.featuredImageAlt}
@@ -103,11 +103,13 @@ export function BlogDetail({ post }: { post: BlogDetailPost }) {
         </div>
 
         {/* ── Two-column: body + sidebar ────────────────────────────────── */}
-        <div className="mt-12 flex flex-col gap-10 lg:flex-row ">
+        <div className="mt-8 flex flex-col gap-8 sm:mt-12 sm:gap-10 lg:flex-row">
           {/* Article body */}
           <div className="min-w-0 flex-1">
-            <div className="n-reg  text-xl  leading-[1.5] text-[#161616] whitespace-pre-line">
-              {post.body}
+            <div className="flex flex-col gap-0 n-book text-base leading-[1.55] text-[#161616] sm:gap-0 sm:text-lg lg:text-[20px] ">
+              {post.body.map((paragraph, i) => (
+                <p key={i}>{paragraph}</p>
+              ))}
             </div>
           </div>
 

@@ -1,6 +1,5 @@
-import { cn } from "@/utils/cn";
+import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import Image from "next/image";
-import Link from "next/link";
 
 export type NewsArticle = {
   id: string;
@@ -11,26 +10,6 @@ export type NewsArticle = {
   imageAlt: string;
   href: string;
 };
-
-/** Corner-arrow icon matching the Figma "read more" button icon (11×11 L-bracket) */
-function CornerArrowIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      width="11"
-      height="11"
-      viewBox="0 0 11 11"
-      fill="none"
-      aria-hidden
-      className={className}
-    >
-      <path
-        d="M0 0H10.6305V10.6303"
-        stroke="#202225"
-        strokeWidth="2"
-      />
-    </svg>
-  );
-}
 
 export function NewsCard({ article }: { article: NewsArticle }) {
   return (
@@ -64,25 +43,14 @@ export function NewsCard({ article }: { article: NewsArticle }) {
       </p>
 
       {/* Read More button */}
-      <Link
+      <OutlineArrowButton
         href={article.href}
-        className={cn(
-          "mt-4 flex items-center justify-center gap-4 sm:mt-5 sm:gap-5",
-          "border border-black/30 px-6 py-2.5 sm:px-8",
-          "n-bold text-xs uppercase tracking-[0.1em] text-[#202225] sm:text-sm",
-          "transition-colors hover:border-[#202225] hover:bg-[#202225] hover:text-white",
-          "[&:hover_svg_path]:stroke-white",
-        )}
+        iconAlt="Read More"
+        className="mt-4 gap-4 px-6 py-2.5 text-xs sm:mt-5 sm:gap-5 sm:px-8 sm:text-sm"
+        iconClassName="h-3 w-3 sm:h-[15px] sm:w-[15px]"
       >
         Read More
-        <Image
-          src="/images/arrow.svg"
-          alt="Read More"
-          width={15}
-          height={15}
-          className="h-3 w-3 object-cover sm:h-[15px] sm:w-[15px]"
-        />
-      </Link>
+      </OutlineArrowButton>
     </article>
   );
 }

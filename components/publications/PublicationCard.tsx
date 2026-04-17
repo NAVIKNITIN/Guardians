@@ -1,3 +1,4 @@
+import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 
@@ -43,27 +44,12 @@ export function PublicationCard({
       </h3>
 
       {/* Open File button */}
-      <button
-        type="button"
+      <OutlineArrowButton
         onClick={() => onOpenFile(issue.title)}
-        className={cn(
-          "mt-5 flex cursor-pointer items-center justify-center gap-5",
-          "border border-black/30 px-12 py-[18px]",
-          "n-bold fs-16 ls-10 lh-24 uppercase tracking-[0.1em] text-[#202225]",
-          "transition-colors hover:border-[#202225] hover:bg-[#202225] hover:text-white",
-          "[&:hover_svg_path]:stroke-white",
-        )}
+        className="mt-5 px-12 py-[18px] fs-16 ls-10 lh-24"
       >
         {buttonLabel}
-        <Image
-          src="/images/arrow.svg"
-          alt=""
-          width={15}
-          height={15}
-          className="object-cover"
-          aria-hidden
-        />
-      </button>
+      </OutlineArrowButton>
     </article>
   );
 }

@@ -11,7 +11,7 @@ export function BlogHero() {
       {/* Layered background images */}
       <div className="absolute inset-0 z-0" aria-hidden>
         <Image
-          src={LOCAL_IMAGES.newsroom}
+          src={LOCAL_IMAGES.blog}
           alt=""
           fill
           className="object-cover object-center"

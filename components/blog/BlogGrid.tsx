@@ -102,12 +102,12 @@ function ViewMoreIcon() {
 export function BlogGrid() {
   return (
     <section
-      className="bg-white px-3 py-12 sm:px-4 sm:py-16 lg:py-10 lg:px-8 xl:px-10"
+      className="bg-white px-3 py-12 sm:px-4 sm:py-16 lg:py-20 lg:px-8 xl:px-10"
       aria-label="Blog posts"
     >
       <Container>
         {/* Filter bar */}
-        <div className="mb-6 flex flex-wrap items-center gap-4 border-b border-[#8F8183]/30 pb-4 sm:gap-8 md:gap-10">
+        <div className="mb-6 flex flex-wrap n-bold fs-20 ls-4 lh-24 items-center gap-4 border-b border-[#8F8183]/30 pb-4 sm:gap-8 md:gap-10">
           <FilterDropdown label="Category" />
           <FilterDropdown label="Year" />
         </div>
