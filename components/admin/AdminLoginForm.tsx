@@ -1,8 +1,20 @@
 "use client";
 
 import { IconChevronLeft } from "@/components/common/icons";
+import { apiClient } from "@/utils/api";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
+
+type LoginResponse = {
+  success: boolean;
+  message: string;
+  data?: {
+    id: number;
+    username: string;
+    role_type: string;
+  };
+};
 
 function IconBuilding({ className }: { className?: string }) {
   return (
@@ -102,7 +114,13 @@ function IconEyeSlash({ className }: { className?: string }) {
 }
 
 export function AdminLoginForm() {
+  // CHANGE: backend login state
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const router = useRouter();
 
   return (
     <section className="mx-auto w-full max-w-[412px]">
@@ -125,25 +143,52 @@ export function AdminLoginForm() {
 
       <form
         className="mt-11"
-        onSubmit={(event) => {
+        onSubmit={async (event) => {
           event.preventDefault();
+          setErrorMessage("");
+
+          try {
+            setIsSubmitting(true);
+
+            // CHANGE: login request backend ko helper ke through bhej rahe hain
+            const result = await apiClient.post<LoginResponse>("/users/login", {
+              username,
+              password,
+            });
+
+            // CHANGE: backend HTTP 200 ke saath success false bhi bhej sakta hai
+            if (!result.success) {
+              throw new Error(result.message || "Login failed");
+            }
+
+            // CHANGE: abhi token auth nahi hai, isliye success ke baad direct route change
+            router.push("/admin/projects");
+          } catch (error) {
+            setErrorMessage(
+              error instanceof Error ? error.message : "Something went wrong",
+            );
+          } finally {
+            setIsSubmitting(false);
+          }
         }}
       >
         <div>
           <label
-            htmlFor="email"
+            htmlFor="username"
             className="mb-3 block text-[1.04rem] font-semibold text-[#66615f]"
           >
-            Email Address
+            Username
           </label>
 
           <div className="flex h-[58px] items-center gap-3 rounded-[15px] border border-[#e6ddd8] bg-white px-4 shadow-[inset_0_1px_0_rgba(255,255,255,0.7)]">
             <IconMail className="h-5 w-5 shrink-0 text-[#98a2b3]" />
             <input
-              id="email"
-              name="email"
-              type="email"
-              placeholder="admin@realestate.com"
+              id="username"
+              name="username"
+              type="text"
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+              placeholder="admin"
               className="h-full w-full border-0 bg-transparent text-[1.05rem] text-[#4f4b49] outline-none placeholder:text-[#8a8a8a]"
             />
           </div>
@@ -163,6 +208,8 @@ export function AdminLoginForm() {
               id="password"
               name="password"
               type={showPassword ? "text" : "password"}
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
               placeholder="........"
               className="h-full w-full border-0 bg-transparent text-[1.05rem] tracking-[0.2em] text-[#4f4b49] outline-none placeholder:text-[#8a8a8a]"
             />
@@ -180,6 +227,12 @@ export function AdminLoginForm() {
             </button>
           </div>
         </div>
+
+        {errorMessage ? (
+          <p className="mt-4 text-sm font-medium text-[#d05c43]">
+            {errorMessage}
+          </p>
+        ) : null}
 
         <div className="mt-7 flex flex-col gap-4 text-[1.02rem] sm:flex-row sm:items-center sm:justify-between">
           <label className="flex items-center gap-3 text-[#4f5968]">
@@ -200,15 +253,16 @@ export function AdminLoginForm() {
 
         <button
           type="submit"
-          className="tracking-widest text-3xl cursor-pointer mt-8 h-[58px] w-full rounded-[16px] btn-primary-gradient  text-[1.08rem] font-bold uppercase tracking-[0.03em] text-white shadow-[0_18px_32px_rgba(239,111,82,0.24)] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-[1.02]"
+          disabled={isSubmitting}
+          className="tracking-widest text-3xl cursor-pointer mt-8 h-[58px] w-full rounded-[16px] btn-primary-gradient text-[1.08rem] font-bold uppercase tracking-[0.03em] text-white shadow-[0_18px_32px_rgba(239,111,82,0.24)] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-[1.02] disabled:cursor-not-allowed disabled:opacity-70"
         >
-          Login
+          {isSubmitting ? "Logging In..." : "Login"}
         </button>
       </form>
 
       <div className="mt-10 flex justify-center">
         <Link
-          href="/"
+          href="/?website=1"
           className="inline-flex items-center gap-2 text-[1.02rem] text-[#6b7280] transition-colors hover:text-[#414b5f]"
         >
           <IconChevronLeft className="h-4 w-4" />
