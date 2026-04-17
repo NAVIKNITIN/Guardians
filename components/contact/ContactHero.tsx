@@ -11,7 +11,7 @@ export function ContactHero() {
       {/* Background layers */}
       <div className="absolute inset-0 z-0" aria-hidden>
         <Image
-          src={LOCAL_IMAGES.heroPrimary}
+          src={LOCAL_IMAGES.contactHeroPrimary}
           alt=""
           fill
           className="object-cover object-center"
@@ -19,7 +19,7 @@ export function ContactHero() {
           priority
         />
         <Image
-          src={LOCAL_IMAGES.heroSecondary}
+          src={LOCAL_IMAGES.contactHeroSecondary}
           alt=""
           fill
           className="object-cover object-center mix-blend-darken"

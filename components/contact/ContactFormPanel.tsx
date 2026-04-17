@@ -47,7 +47,7 @@ type ContactBlock = {
 };
 
 const CONNECT_INTRO =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.";
+  "Lorem ipsum dolor sit amet consectetur. Congue nulla ut sit ac donec eros. Sed mauris malesuada risus.";
 
 const CONTACT_BLOCKS: ContactBlock[] = [
   {
@@ -72,14 +72,14 @@ const CONTACT_BLOCKS: ContactBlock[] = [
 
 function ContactInfoBlock({ block }: { block: ContactBlock }) {
   return (
-    <div className="flex flex-col ">
-      <h3 className="n-reg  text-lg font-semibold leading-tight text-[#161616] sm:text-2xl">
+    <div className="flex flex-col items-center text-center sm:py-2 md:py-5 lg:items-stretch lg:text-left">
+      <h3 className="n-bold text-lg leading-[1.25] text-[#161616] sm:text-xl md:text-2xl lg:text-[24px] lg:leading-[34px]">
         {block.title}
       </h3>
       {block.email && (
         <a
           href={`mailto:${block.email}`}
-          className="flex min-w-0 items-start gap-2 break-all n-reg  text-base  text-[#161616] transition-opacity hover:opacity-70 sm:items-center sm:text-xl"
+          className="mt-2 inline-flex min-w-0 items-start gap-2 break-words n-book text-sm leading-[1.35] text-[#161616] transition-opacity hover:opacity-70 sm:items-center sm:text-base md:text-lg lg:text-[20px] lg:leading-[24px]"
         >
           <EmailIcon />
           {block.email}
@@ -88,7 +88,7 @@ function ContactInfoBlock({ block }: { block: ContactBlock }) {
       {block.phone && (
         <a
           href={block.telHref}
-          className="flex min-w-0 flex-wrap items-center gap-2 n-reg  text-base  text-[#161616] transition-opacity hover:opacity-70 sm:text-xl"
+          className="inline-flex min-w-0 flex-wrap items-center gap-2 n-book text-sm leading-[1.35] text-[#161616] transition-opacity hover:opacity-70 sm:text-base md:text-lg lg:text-[20px] lg:leading-[24px]"
         >
           <PhoneIcon />
           {block.phone}
@@ -167,7 +167,7 @@ export function ContactFormPanel() {
               <h2 className="qs-reg text-[clamp(2rem,4vw,3.125rem)]  uppercase leading-[1.05] tracking-[0.05em] text-[#202225]">
                 Let&apos;s connect!
               </h2>
-              <p className="mt-4 n-reg  text-base  leading-relaxed text-[#161616] sm:text-lg">
+              <p className="mt-3 n-book text-sm leading-[1.5] text-[#161616] sm:mt-4 sm:text-base lg:text-[16px] lg:leading-[24px]">
                 {CONNECT_INTRO}
               </p>
             </header>
@@ -179,7 +179,7 @@ export function ContactFormPanel() {
           </div>
 
           {/* ── Right: enquiry form ────────────────────────────────────── */}
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0 flex-1 sm:mt-5 md:mt-17">
             <form onSubmit={handleSubmit} noValidate className="w-full">
               {/* User type selector — same width as fields below */}
               <div

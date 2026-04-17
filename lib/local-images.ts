@@ -21,6 +21,8 @@ export const LOCAL_IMAGES = {
   gazette: "/images/gazette.svg",
   blog: "/images/blog.svg",
   blogDetail: "/images/blog-detail.svg",
+  contactHeroPrimary: "/images/image 152.svg",
+  contactHeroSecondary: "/images/image 153.svg",
 } as const;
 
 /** Rotating placeholders for grids, galleries, and lists */
