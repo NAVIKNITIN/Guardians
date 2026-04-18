@@ -22,18 +22,17 @@ export function IconArrowUpRight({ className }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
+      viewBox="0 0 14 15"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.5"
+      strokeWidth="2"
       className={className}
       aria-hidden
     >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M4.5 19.5 19.5 4.5M19.5 4.5H8.25M19.5 4.5v11.25"
-      />
+      {/* Corner bracket (top + right edges) */}
+      <path d="M0.443481 1H13.0065V13.563" />
+      {/* Diagonal tail from bottom-left to top-right */}
+      <line x1="13.2702" y1="1.2701" x2="0.707171" y2="13.8331" />
     </svg>
   );
 }

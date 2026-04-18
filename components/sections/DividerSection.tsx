@@ -3,7 +3,7 @@
 import { Container } from "@/components/common/Container";
 import { IconArrowUpRight } from "@/components/common/icons";
 import { cn } from "@/utils/cn";
-import { motion, useMotionValue, useTransform, useSpring, useReducedMotion } from "framer-motion";
+import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
@@ -133,7 +133,7 @@ function DeveloperProfileCard({
     <article
       id={articleId}
       className={cn(
-        "group relative flex h-full min-h-0 flex-col overflow-hidden",
+        "group relative flex h-full min-h-0 flex-col overflow-hidden ",
         FIGMA_CARD_BG,
         className,
       )}
@@ -160,7 +160,7 @@ function DeveloperProfileCard({
       />
 
       {/* Content — image LEFT (67%), text RIGHT (33%) via flex-row-reverse */}
-      <div className="relative z-10 flex min-h-[300px] flex-1 flex-col px-6 pb-6 pt-5 sm:px-8 sm:pb-8 sm:pt-6 lg:min-h-0 lg:h-full lg:flex-row-reverse lg:items-stretch lg:gap-0 lg:pb-0 lg:pl-0 lg:pr-[30px] lg:pt-5">
+      <div className="relative z-10 flex min-h-[300px]  flex-1 flex-col px-6 pb-6 pt-5 sm:px-8 sm:pb-8 sm:pt-6 lg:min-h-0 lg:h-full lg:flex-row-reverse lg:items-stretch lg:gap-0 lg:pb-0 lg:pl-0 lg:pr-[30px] lg:pt-5">
         {/* Text column — 33% on desktop, right side */}
         <div className="flex w-full min-w-0 flex-1 flex-col items-end justify-between gap-6 self-stretch text-right lg:h-full lg:min-h-0 lg:flex-none lg:w-[33%] lg:max-w-[33%] lg:pb-[30px]">
           <div className="flex shrink-0 items-center self-end">
@@ -279,23 +279,33 @@ export function DividerSection() {
     return subscribeToScroll(update);
   }, [sectionProgress]);
 
-  const smoothProgress = useSpring(sectionProgress, { stiffness: 100, damping: 30 });
+  /**
+   * Stiff spring: eases tiny jitter / steppy frames without the old loose spring lag.
+   * Reduced motion: follow scroll exactly (no spring).
+   */
+  const springProgress = useSpring(sectionProgress, {
+    stiffness: 520,
+    damping: 52,
+    mass: 0.12,
+    restDelta: 0.0005,
+  });
+  const drive = reduceMotion ? sectionProgress : springProgress;
 
   const transformClamp = { clamp: true } as const;
 
-  /** Split / cards / banner — wider input spans so each phase scrubs across more scroll (with taller track below). */
-  const leftSplitX = useTransform(smoothProgress, [0.12, 0.55], ["0%", "-100%"], transformClamp);
-  const rightSplitX = useTransform(smoothProgress, [0.12, 0.55], ["0%", "100%"], transformClamp);
-  const cardsScale = useTransform(smoothProgress, [0.12, 0.52], [0.92, 1], transformClamp);
-  const cardsOpacity = useTransform(smoothProgress, [0.12, 0.52], [0, 1], transformClamp);
+  /** Split / cards / banner — slightly wider windows + tall track = smoother, longer scrub. */
+  const leftSplitX = useTransform(drive, [0.08, 0.58], ["0%", "-100%"], transformClamp);
+  const rightSplitX = useTransform(drive, [0.08, 0.58], ["0%", "100%"], transformClamp);
+  const cardsScale = useTransform(drive, [0.08, 0.54], [0.92, 1], transformClamp);
+  const cardsOpacity = useTransform(drive, [0.08, 0.54], [0, 1], transformClamp);
 
   /** After split + cards ramp, fade the banner layer out so cards are fully unobstructed. */
-  const bannerLayerOpacity = useTransform(smoothProgress, [0.45, 0.72], [1, 0], transformClamp);
+  const bannerLayerOpacity = useTransform(drive, [0.46, 0.76], [1, 0], transformClamp);
 
   return (
     <section
       ref={sectionRef}
-      className="relative min-h-[200vh] bg-[#F2F2F2]"
+      className="relative min-h-[320vh] bg-[#F2F2F2]"
     >
       <div
         className="sticky flex min-h-0 w-full items-center justify-center overflow-hidden bg-[#F2F2F2] pb-4 lg:pb-0"
@@ -315,7 +325,10 @@ export function DividerSection() {
                   scale: reduceMotion ? 1 : cardsScale,
                   opacity: reduceMotion ? 1 : cardsOpacity,
                 }}
-                className="relative z-10 grid min-h-0 min-w-0 grid-cols-1 grid-rows-2 items-stretch gap-2 overflow-hidden rounded-sm shadow-[0_2px_20px_rgba(0,0,0,0.06)] max-lg:scale-100! max-lg:opacity-100! lg:min-h-[350px] lg:grid-cols-2 lg:grid-rows-1 lg:gap-[40px]"
+                className={cn(
+                  "relative z-10 grid min-h-0 min-w-0 grid-cols-1 grid-rows-2 items-stretch gap-2 overflow-hidden rounded-sm shadow-[0_2px_20px_rgba(0,0,0,0.06)] max-lg:scale-100! max-lg:opacity-100! lg:min-h-[350px] lg:grid-cols-2 lg:grid-rows-1 lg:gap-[40px]",
+                  FIGMA_CARD_BG,
+                )}
               >
                 <BuyerProfileCard />
                 <DeveloperProfileCard />
