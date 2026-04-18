@@ -4,7 +4,6 @@ import type { OurWorkBandContent } from "@/data/audience-marketing";
 import { CarouselControls } from "@/components/ui/CarouselControls";
 import { MarketingEnquireLink } from "@/components/ui/MarketingEnquireLink";
 import { SectionSurface } from "@/components/ui/SectionSurface";
-import { marketingClasses } from "@/styles/marketingClasses";
 import { useCycleIndex } from "@/hooks/useCycleIndex";
 import { cn } from "@/utils/cn";
 import { AnimatePresence, motion } from "framer-motion";
@@ -12,6 +11,7 @@ import Image from "next/image";
 
 const slideTransition = { duration: 0.35, ease: [0.22, 1, 0.36, 1] as const };
 
+/** Figma: light neutral surface, serif “OUR WORK”, sans headline/body, black READ MORE, gray carousel. */
 export function OurWorkSection({ content }: { content: OurWorkBandContent }) {
   const slides = content.slides;
   const total = slides.length;
@@ -22,13 +22,18 @@ export function OurWorkSection({ content }: { content: OurWorkBandContent }) {
     <SectionSurface
       variant="muted"
       aria-labelledby="our-work-heading"
-      className="px-4 py-6 sm:px-6 sm:py-8 lg:px-20 lg:py-5"
+      className="bg-[#F4F4F4]  pb-14 sm:py-5 lg:py-5"
+      containerClassName="max-w-[1200px] px-5 sm:px-8 lg:px-12 xl:px-16"
     >
-      <div className="grid items-start gap-10 sm:gap-12 lg:grid-cols-2 lg:gap-12">
-        <div className="min-w-0 ">
-          <h2 id="our-work-heading" className={marketingClasses.headingDisplay}>
+      <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-0 xl:gap-x-20">
+        <div className="flex min-w-0 flex-col">
+          <h2
+            id="our-work-heading"
+            className="sm:mt-5 mt-10 font-qasbyne qs-reg text-[clamp(2rem,4.2vw,3.25rem)] uppercase leading-[1.05] tracking-[0.02em] text-brand-primary"
+          >
             {content.sectionTitle}
           </h2>
+
           <AnimatePresence mode="wait" initial={false}>
             <motion.div
               key={slide.id}
@@ -37,40 +42,52 @@ export function OurWorkSection({ content }: { content: OurWorkBandContent }) {
               exit={{ opacity: 0, y: -8 }}
               transition={slideTransition}
             >
-              <h3 className="mt-6 fs-28 leading-snug text-brand-text-primary sm:text-xl max-w-md n-bold ">
+              {/* ~40–50px below “OUR WORK” (Figma) */}
+              <h3 className="mt-10 max-w-xl n-bold text-[clamp(1.125rem,2.1vw,1.75rem)] leading-[1.3] text-[#000000] lg:mt-20">
                 {slide.title}
               </h3>
-              <p className="mt-4 fs-20 lh-24 fw-200 leading-relaxed text-[#161616] sm:text-base max-w-lg n-book ">
+              {/* ~20–30px headline → body */}
+              <p className="mt-6 lh-20 max-w-lg n-book text-[clamp(0.9375rem,1.15vw,1.0625rem)] leading-[1.65] text-[#454545]">
                 {slide.body}
               </p>
             </motion.div>
           </AnimatePresence>
+
           <MarketingEnquireLink
             href={content.readMoreHref}
-            className="lg:mt-12 mt-8 inline-flex px-7 n-reg fs-20"
+            variant="ourWork"
+            className="mt-16 lg:mt-20 w-full md:max-w-[276.1px] fs-18 fw-300 flex-row-reverse"
           >
             {content.readMoreLabel}
           </MarketingEnquireLink>
-          <div className="mt-22">
 
-            <CarouselControls
-              className="mt-5 gap-4"
-              currentIndex={index}
-              total={total}
-              onPrev={() => advance(-1)}
-              onNext={() => advance(1)}
-              prevLabel="Previous slide"
-              nextLabel="Next slide"
-            />
-          </div>
+          <CarouselControls
+            className="mt-10 lg:mt-20 flex items-center justify-start"
+            currentIndex={index}
+            total={total}
+            onPrev={() => advance(-1)}
+            onNext={() => advance(1)}
+            prevLabel="Previous slide"
+            nextLabel="Next slide"
+            buttonClassName={cn(
+              " shrink-0 rounded-full  bg-transparent",
+              "text-[#737373] hover:border-[#9e9e9e] hover:bg-black/[0.03]",
+            )}
+            counterClassName="min-w-[3.25rem] text-center text-sm tabular-nums text-[#737373] n-reg"
+          />
         </div>
 
-        <div className="relative">
-          <div className="relative aspect-square w-full max-w-xl overflow-hidden rounded-sm border border-black/[0.08] bg-neutral-200 shadow-sm lg:ml-auto">
+        <div className="relative flex w-full justify-center lg:justify-end">
+          <div
+            className={cn(
+              "relative aspect-square md:min-w-[580px] md:max-h-[610px] w-full overflow-hidden",
+              "bg-neutral-200/80",
+            )}
+          >
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={slide.id}
-                className="absolute inset-0"
+                className="absolute inset-0 "
                 initial={{ opacity: 0, scale: 1.02 }}
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0 }}
@@ -80,25 +97,12 @@ export function OurWorkSection({ content }: { content: OurWorkBandContent }) {
                   src={slide.imageSrc}
                   alt=""
                   fill
-                  className="object-cover object-center"
-                  sizes="(max-width: 1024px) 100vw, 50vw"
+                  className="object-cover object-center "
+                  sizes="(max-width: 1024px) 100vw, 42vw"
+
                 />
               </motion.div>
             </AnimatePresence>
-            <div
-              className="absolute inset-x-0 bottom-0 flex justify-center gap-1.5 pb-3"
-              aria-hidden
-            >
-              {slides.slice(0, 6).map((_, dot) => (
-                <span
-                  key={dot}
-                  className={cn(
-                    "h-1.5 w-1.5 rounded-full transition-colors",
-                    dot === index % 6 ? "bg-white" : "bg-white/40",
-                  )}
-                />
-              ))}
-            </div>
           </div>
         </div>
       </div>

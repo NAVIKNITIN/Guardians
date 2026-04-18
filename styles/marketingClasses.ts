@@ -3,19 +3,19 @@ import { cn } from "@/utils/cn";
 /** Shared marketing page surfaces & display type. */
 export const marketingClasses = {
   sectionMuted:
-    "border-t border-black/[0.06] bg-brand-background-muted py-16 sm:py-20 lg:py-24",
+    " bg-brand-background-muted py-16 sm:py-20 lg:py-24",
   section:
-    "border-t border-black/[0.06] bg-brand-background py-16 sm:py-20 lg:py-24",
+    " bg-brand-background py-16 sm:py-20 lg:py-24",
   sectionCompact:
-    "border-t border-black/[0.06] bg-brand-background py-16 sm:py-20",
+    " bg-brand-background py-16 sm:py-20",
   sectionPartners:
-    "border-t border-black/[0.06] bg-brand-background-subtle py-16 sm:py-20",
+    " bg-brand-background-subtle py-16 sm:py-20",
   sectionStats:
-    "border-t border-black/[0.06] bg-brand-background-muted py-14 sm:py-16",
+    " bg-brand-background-muted py-14 sm:py-16",
   headingDisplay:
-    "qs-reg text-[clamp(1.75rem,3vw,2.5rem)] fw-200 fs-50 uppercase leading-tight tracking-[0.08em] text-brand-text-primary mt-5  ",
+    "md:mt-20 qs-reg text-[clamp(1.75rem,3.5vw,3.125rem)] fs-5xl uppercase leading-tight ls-5 text-brand-text-primary mt-5",
   headingDisplayMd:
-    "qs-reg fs-50 text-[clamp(1.75rem,3vw,2.35rem)]  uppercase leading-tight tracking-[0.08em] text-brand-text-primary ",
+    "qs-reg text-[clamp(1.75rem,3.5vw,3.125rem)] uppercase leading-tight ls-5 text-brand-text-primary",
   headingDisplaySm:
     "qs-reg text-[clamp(1.5rem,2.5vw,2rem)]  uppercase leading-tight tracking-[0.08em] text-brand-text-primary",
   roundNavButton:

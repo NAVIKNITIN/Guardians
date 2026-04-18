@@ -8,6 +8,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { clamp as clamp01, subscribeToScroll } from "@/utils/scroll";
+import { containerSpacing } from "@/constants";
 
 export const DIVIDER_BANNER_SRC = "/images/Home/Banner1.svg";
 
@@ -97,7 +98,7 @@ function BuyerProfileCard({
             </p>
             <h3
               className={cn(
-                "mt-1 qs-reg fw-400 text-[clamp(1.875rem,3vw,2.625rem)] uppercase leading-[0.9] tracking-[0.05em]",
+                "mt-1 qs-reg text-[clamp(1.875rem,3vw,2.625rem)] uppercase leading-[0.9] ls-5",
                 FIGMA_TAUPE_TEXT,
               )}
             >
@@ -178,7 +179,7 @@ function DeveloperProfileCard({
             </p>
             <h3
               className={cn(
-                "mt-1 qs-reg fw-400 text-[clamp(1.875rem,3vw,2.625rem)] uppercase leading-[0.9] tracking-[0.05em]",
+                "mt-1 qs-reg text-[clamp(1.875rem,3vw,2.625rem)] uppercase leading-[0.9] ls-5",
                 FIGMA_TAUPE_TEXT,
               )}
             >
@@ -315,7 +316,7 @@ export function DividerSection() {
         {/* Full-bleed within max-w-brand: no horizontal padding so cards align with banner */}
         <Container className="relative w-full px-0 lg:min-h-0">
           {/* Cards + split banner share one relative box; sticky frame centers this block in the viewport below the nav */}
-          <div className="relative mx-auto w-full max-w-[1200px]">
+          <div className={`relative w-full ${containerSpacing}`}>
             <div className="relative w-full">
               {/* Cards at z-10; banner split overlay at z-20 above */}
               <motion.div

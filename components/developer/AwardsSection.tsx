@@ -201,11 +201,11 @@ export function AwardsSection({
           <h2
             id="awards-heading"
             className={cn(
-              "qs-reg fw-200",
+              "qs-reg",
               "mt-5 w-full min-w-0 max-w-full px-0",
               "text-balance uppercase leading-tight tracking-[0.08em] text-brand-text-primary",
               /* Fluid type: no fixed fs-45 / max-w-48 — those clipped “Recognitions” on narrow screens */
-              "text-[clamp(1.125rem,calc(0.5rem+3.4vw),2.25rem)] sm:text-[clamp(1.35rem,calc(0.55rem+2.4vw),2.35rem)] lg:mt-[100] lg:text-[clamp(1.5rem,2.5vw,2rem)]",
+              "text-[clamp(1.125rem,calc(0.5rem+3.4vw),2.25rem)] sm:text-[clamp(1.35rem,calc(0.55rem+2.4vw),2.35rem)] lg:mt-24 lg:text-[clamp(1.5rem,2.5vw,2rem)]",
             )}
           >
             {content.headingLine1}

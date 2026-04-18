@@ -15,9 +15,9 @@ export function MarketingServiceCard({
   ariaLabel,
 }: MarketingServiceCardProps) {
   return (
-    <li className="w-[min(17.5rem,calc(100vw-2.5rem))] shrink-0 snap-start sm:w-72 lg:min-w-[345px]">
+    <li className="w-[min(17.5rem,calc(100vw-2.5rem))] shrink-0 snap-start sm:w-72 lg:min-w-[386px]">
       <article className="flex h-full min-h-88 flex-col rounded-none bg-[#EEEEEE] transition-opacity hover:opacity-[0.97]">
-        <div className="p-4">
+        <div className="p-5">
           <div className="bg-white ">
             <div className="relative aspect-4/3 w-full overflow-hidden bg-neutral-200 min-h-[275px] ">
               <Image
@@ -32,11 +32,11 @@ export function MarketingServiceCard({
         </div>
 
         <div className="flex flex-1 flex-col">
-          <h3 className="px-4 text-center text-[24px] fw-700 lh-24 n-bold uppercase tracking-[0.14em] text-brand-text-primary sm:text-left sm:text-base">
+          <h3 className="px-4 text-center fs-24 lh-30 n-bold uppercase tracking-[0.14em] text-brand-text-primary sm:text-left sm:text-base">
             {card.title}
           </h3>
-          <div className="mt-4 flex min-h-20 flex-1 flex-col items-center gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-0">
-            <p className="min-w-0 flex-1 px-4 pb-2 text-center lh-22 n-reg -book fs-15 lh-18 text-brand-text-primary sm:pl-4 sm:pr-0 sm:text-left">
+          <div className=" flex min-h-20 flex-1 flex-col items-center gap-4 sm:flex-row sm:items-end sm:justify-between sm:gap-0">
+            <p className="min-w-0 flex-1 px-4 pb-4 text-center n-book fs-18 lh-18 text-brand-text-primary sm:pl-4 sm:pr-0 sm:text-left">
               {card.description}
             </p>
             <Link

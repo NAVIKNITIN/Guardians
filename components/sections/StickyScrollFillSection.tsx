@@ -128,7 +128,7 @@ export function StickyScrollFillSection({
       >
         <div
           className={cn(
-            "w-full space-y-1.5 px-4 text-center sm:px-6 lg:px-8",
+            "w-full space-y-1.5 text-center ",
             "fs-48 n-reg fw-700",
             className,
           )}

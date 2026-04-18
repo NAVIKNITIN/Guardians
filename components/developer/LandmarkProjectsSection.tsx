@@ -72,7 +72,7 @@ export function LandmarkProjectsSection({
   const active = projects[index]!;
 
   const restartAutoplay = useCallback(() => {
-    setAutoplayEpoch((e) => + 1);
+    setAutoplayEpoch((e) => e + 1);
   }, []);
 
   useEffect(() => {
@@ -90,7 +90,7 @@ export function LandmarkProjectsSection({
       <div className="flex flex-col gap-8 px-4 sm:flex-row sm:items-end sm:justify-between sm:gap-6 sm:px-6 lg:px-20">
         <h2
           id="landmark-heading"
-          className="min-w-0 shrink qs-reg text-[clamp(1.5rem,4.5vw,4.75rem)] fs-50  uppercase leading-[1.15] tracking-[0.06em] text-brand-text-primary sm:shrink-0 sm:whitespace-nowrap sm:text-[clamp(1.75rem,2.6vw,4.75rem)]"
+          className="min-w-0 shrink qs-reg text-[clamp(1.5rem,4.5vw,3.125rem)] uppercase leading-[1.15] ls-5 text-brand-text-primary sm:shrink-0 sm:whitespace-nowrap"
         >
           {content.sectionTitle}
         </h2>

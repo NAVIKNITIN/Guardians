@@ -43,7 +43,7 @@ const navRight = [
  * Figma nav links: Nexa Regular/Bold, 16px, color #202225.
  */
 const navLinkClass =
-  "n-reg not-italic text-[#202225] fs-16 lh-100 transition-opacity hover:opacity-75";
+  "n-reg not-italic text-[#202225] fs-18 lh-100 transition-opacity hover:opacity-75";
 
 const navLinkClassMobile =
   "n-reg not-italic text-[#202225] fs-18 lh-100 transition-opacity hover:opacity-75";

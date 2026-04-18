@@ -6,3 +6,7 @@ alwaysApply: true
 # Icons
 
 Do not add, import, or wire up new icons (SVG components, icon libraries, or decorative glyphs) unless the user has explicitly asked for a specific icon or approved the choice. Prefer existing assets and markup already in the file; if an icon is needed, ask which asset or component to use before implementing.
+
+# Fonts
+
+Refer to fonts.ts for reference how we are using it also refer to the global.css

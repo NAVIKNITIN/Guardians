@@ -1,5 +1,6 @@
 "use client";
 
+import { SectionSurface } from "@/components/ui/SectionSurface";
 import {
   formatDeveloperStatValue,
   type DeveloperStat,
@@ -68,25 +69,27 @@ export function DeveloperStatsSection({
   const metrics = content.metrics;
 
   return (
-    <div
-      ref={ref}
-      className="grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 sm:gap-y-12 md:grid-cols-4 md:gap-y-14"
-    >
-      {metrics.map((stat, idx) => (
-        <div
-          key={stat.label}
-          className={cn(
-            "flex min-h-0 min-w-0 flex-col items-center justify-center gap-3 px-4 text-center sm:gap-3.5 sm:px-8 md:px-6 lg:px-12",
-            idx > 0 && "md:border-l md:border-black/[0.18]",
-          )}
-        >
-          <StatFigure stat={stat} index={idx} isInView={isInView} />
-          <p className="max-w-[16rem] fs-10 lh-20 n-bold uppercase leading-snug tracking-wide text-brand-text-primary sm:max-w-[12rem] sm:text-xs">
-            {stat.label}
-          </p>
-        </div>
-      ))}
-    </div>
+    <SectionSurface variant="stats" aria-label="Key statistics">
+      <div
+        ref={ref}
+        className="grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 sm:gap-y-12 md:grid-cols-4 md:gap-y-14"
+      >
+        {metrics.map((stat, idx) => (
+          <div
+            key={stat.label}
+            className={cn(
+              "flex min-h-0 min-w-0 flex-col items-center justify-center gap-3 px-4 text-center sm:gap-3.5 sm:px-8 md:px-6 lg:px-12",
+              idx > 0 && "md:border-l md:border-black/[0.18]",
+            )}
+          >
+            <StatFigure stat={stat} index={idx} isInView={isInView} />
+            <p className="max-w-[16rem] fs-12 lh-20 n-bold uppercase leading-snug tracking-wide text-brand-text-primary sm:max-w-[12rem]">
+              {stat.label}
+            </p>
+          </div>
+        ))}
+      </div>
+    </SectionSurface>
   );
 }
 

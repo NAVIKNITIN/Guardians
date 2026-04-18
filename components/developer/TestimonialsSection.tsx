@@ -36,7 +36,7 @@ export function TestimonialsSection({
       <div className="mx-auto flex max-w-7xl flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
         <h2
           id="testimonials-heading"
-          className={cn(marketingClasses.headingDisplayMd, "min-w-0 flex-1 pr-2 q-req fw-100 fs-50")}
+          className={cn(marketingClasses.headingDisplayMd, "min-w-0 flex-1 pr-2")}
         >
           {content.sectionTitle}
         </h2>

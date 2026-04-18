@@ -33,7 +33,11 @@
 }
 
 @utility bg-dot-pattern {
-  background-image: radial-gradient(circle, rgba(32, 34, 37, 0.1) 1.5px, transparent 1.5px);
+  background-image: radial-gradient(
+    circle,
+    rgba(32, 34, 37, 0.1) 1.5px,
+    transparent 1.5px
+  );
   background-size: 35px 32px;
 }
 

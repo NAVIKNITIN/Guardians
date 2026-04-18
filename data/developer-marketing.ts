@@ -125,8 +125,9 @@ export const DEVELOPER_MARKETING_PAGE = {
     ],
   },
   ourWork: {
-    sectionTitle: "Our work",
+    sectionTitle: "OUR WORK",
     ...DEFAULT_READ_MORE,
+    readMoreLabel: "READ MORE",
     slides: [
       {
         id: "1",
