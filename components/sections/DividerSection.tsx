@@ -85,19 +85,19 @@ function BuyerProfileCard({
           <Image
             src="/images/Buyer/Vector.svg"
             alt=""
-            width={47}
+            width={48}
             height={50}
-            className={cn("h-[46px] w-[44px] shrink-0 object-contain", FIGMA_TAUPE_TEXT)}
+            className={cn("h-[50px] w-[48px] shrink-0 object-contain", FIGMA_TAUPE_TEXT)}
             aria-hidden
           />
 
           <div className="text-left">
-            <p className="n-bold text-sm uppercase tracking-[0.1em] text-[#000000] lg:text-[22px]">
+            <p className="n-bold text-sm uppercase tracking-[0.1em] text-[#000000] lg:text-[24px]">
               I am a
             </p>
             <h3
               className={cn(
-                "mt-1 qs-reg text-[clamp(1.875rem,3vw,2.625rem)] uppercase leading-[0.9] tracking-[0.05em]",
+                "mt-1 qs-reg fw-400 text-[clamp(1.875rem,3vw,2.625rem)] uppercase leading-[0.9] tracking-[0.05em]",
                 FIGMA_TAUPE_TEXT,
               )}
             >
@@ -163,24 +163,22 @@ function DeveloperProfileCard({
       <div className="relative z-10 flex min-h-[300px]  flex-1 flex-col px-6 pb-6 pt-5 sm:px-8 sm:pb-8 sm:pt-6 lg:min-h-0 lg:h-full lg:flex-row-reverse lg:items-stretch lg:gap-0 lg:pb-0 lg:pl-0 lg:pr-[30px] lg:pt-5">
         {/* Text column — 33% on desktop, right side */}
         <div className="flex w-full min-w-0 flex-1 flex-col items-end justify-between gap-6 self-stretch text-right lg:h-full lg:min-h-0 lg:flex-none lg:w-[33%] lg:max-w-[33%] lg:pb-[30px]">
-          <div className="flex shrink-0 items-center self-end">
-            <Image
-              src="/images/Developer/DeveloperFilterIcon.svg"
-              alt=""
-              width={47}
-              height={50}
-              className={cn("h-[46px] w-[44px] shrink-0 object-contain", FIGMA_TAUPE_TEXT)}
-              aria-hidden
-            />
-          </div>
+          <Image
+            src="/images/Developer/DeveloperFilterIcon.svg"
+            alt=""
+            width={48}
+            height={50}
+            className={cn("h-[50px] w-[48px] shrink-0 object-contain self-end", FIGMA_TAUPE_TEXT)}
+            aria-hidden
+          />
 
           <div>
-            <p className="n-bold text-sm uppercase tracking-[0.1em] text-[#000000] lg:text-[22px]">
+            <p className="n-bold text-sm uppercase tracking-[0.1em] text-[#000000] lg:text-[24px]">
               I am a
             </p>
             <h3
               className={cn(
-                "mt-1 qs-reg text-[clamp(1.875rem,3vw,2.625rem)] uppercase leading-[0.9] tracking-[0.05em]",
+                "mt-1 qs-reg fw-400 text-[clamp(1.875rem,3vw,2.625rem)] uppercase leading-[0.9] tracking-[0.05em]",
                 FIGMA_TAUPE_TEXT,
               )}
             >

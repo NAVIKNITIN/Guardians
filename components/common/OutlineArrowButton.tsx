@@ -68,6 +68,7 @@ export function OutlineArrowButton(props: OutlineArrowButtonProps) {
     );
   }
 
+  const btn = props as ButtonVariantProps;
   const {
     children,
     className,
@@ -75,7 +76,7 @@ export function OutlineArrowButton(props: OutlineArrowButtonProps) {
     iconAlt = "",
     type = "button",
     ...buttonProps
-  } = props;
+  } = btn;
 
   return (
     <button
