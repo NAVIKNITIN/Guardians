@@ -32,6 +32,11 @@
   background-size: 28px 28px;
 }
 
+@utility bg-dot-pattern {
+  background-image: radial-gradient(circle, rgba(32, 34, 37, 0.1) 1.5px, transparent 1.5px);
+  background-size: 35px 32px;
+}
+
 @utility max-content-760 {
   margin-inline: auto;
   display: flex;

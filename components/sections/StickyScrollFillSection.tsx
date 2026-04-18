@@ -64,13 +64,15 @@ function FillLine({
 }
 
 /**
- * Tall scroll track + top-sticky viewport panel. Progress is derived from window scroll through
- * the track (not Framer’s `useScroll` intersection), so 0→1 lines up with the end of the pin and
- * every line can reach full fill. Motion is limited to the gradient text spans below.
+ * Tall scroll track + sticky viewport panel (pinned below the site header). Content is vertically
+ * centered in the visible area. Progress is derived from window scroll through the track (not
+ * Framer’s `useScroll` intersection), so 0→1 lines up with the end of the pin and every line can
+ * reach full fill. Motion is limited to the gradient text spans below.
  */
 export function StickyScrollFillSection({
   lines,
-  trackClassName = "min-h-[150vh]",
+  /** Must be taller than `100dvh - header` or scroll range collapses and fill/sticky break. */
+  trackClassName = "min-h-[200vh]",
   className,
   fromColor = "#c4c4c4",
   toColor = "#111111",
@@ -94,7 +96,10 @@ export function StickyScrollFillSection({
         ),
       ) || 118;
       const usableVh = Math.max(1, vh - headerPx);
-      const range = Math.max(1, el.offsetHeight - usableVh);
+      /** Pin slack: track must be taller than the sticky viewport or this is ≤0 and fill breaks. */
+      const slack = el.offsetHeight - usableVh;
+      const range =
+        slack >= 1 ? slack : Math.max(usableVh * 0.45, 1);
       const p = clamp((scrollY - offsetTop) / range, 0, 1);
       sectionProgress.set(p);
     };
@@ -108,24 +113,23 @@ export function StickyScrollFillSection({
     <div
       ref={trackRef}
       className={cn(
-        "relative bg-brand-background ",
+        "relative bg-brand-background bg-dot-pattern",
         trackClassName,
       )}
     >
-      {/* Top-sticky viewport frame (not bottom-sticky on the tall track): the outer track is
-          only for scroll length; the inner panel fills the viewport and keeps copy anchored
-          low like before, without a multi-screen empty band between hero and text. */}
+      {/* Sticky frame below header: full remaining viewport height so copy can sit vertically
+          centered while the tall outer track only controls scroll length / pin duration. */}
       <div
-        className="sticky z-10 flex w-full flex-col justify-end bg-brand-background py-0"
+        className="sticky z-10 flex w-full min-h-0 flex-col justify-center bg-brand-background bg-dot-pattern py-0"
         style={{
           top: "var(--site-header-height)",
-          minHeight: "calc(50dvh - var(--site-header-height))",
+          minHeight: "calc(100dvh - var(--site-header-height))",
         }}
       >
         <div
           className={cn(
-            "w-full space-y-1.5 px-4 pt-10 text-center sm:px-6 sm:pt-12 lg:px-8 lg:pt-14",
-            "pb-2 sm:pb-3 lg:pb-4 fs-48 n-reg  fw-700 ",
+            "w-full space-y-1.5 px-4 text-center sm:px-6 lg:px-8",
+            "fs-48 n-reg fw-700",
             className,
           )}
         >

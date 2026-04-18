@@ -38,32 +38,43 @@ const navRight = [
   { label: "Career", href: "/career" },
 ];
 
-/** Primary nav labels tuned to Figma nav scale. */
+/**
+ * Primary nav base: font-family + color as fallback; size/weight overridden by navStateClass.
+ * Figma nav links: Nexa Regular/Bold, 16px, color #202225.
+ */
 const navLinkClass =
-  "n-reg  not-italic fs-16 lh-100 transition-colors hover:text-[#202225]";
+  "n-reg not-italic text-[#202225] fs-16 lh-100 transition-opacity hover:opacity-75";
 
 const navLinkClassMobile =
-  "n-reg  not-italic fs-18 lh-100 transition-colors hover:text-[#202225]";
+  "n-reg not-italic text-[#202225] fs-18 lh-100 transition-opacity hover:opacity-75";
 
-/** Desktop flyout rows — same type ramp as primary links (avoids UA / role=menu text sizing). */
+/**
+ * Desktop flyout rows — Nexa Regular, 15px, #202225. Hover: subtle bg + taupe text.
+ */
 const navDropdownItemClass = cn(
-  navLinkClass,
-  "pointer-events-auto relative z-10 block w-full px-4 py-2.5 text-left transition-colors hover:bg-black/[0.04] hover:text-brand-accent",
+  "n-reg not-italic text-[#202225] fs-15 lh-100",
+  "pointer-events-auto relative z-10 block w-full px-4 py-2.5 text-left",
+  "transition-colors hover:bg-black/[0.04] hover:text-[#8F8183]",
 );
 
 /** Top bar “Search” — Figma Group 63: box height 11px → 11/11 type (paste had no font block; color kept for bar contrast). */
 const searchLabelClass =
-  "n-reg  not-italic fw-600 text-[16px] leading-[16px] text-white/95 capitalize sm:text-xs sm:leading-none";
+  "n-reg not-italic fw-600 text-xs leading-none text-white/95 capitalize";
 
 function isActivePath(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+/**
+ * Active: Nexa Bold (fw-700), same colour/size.
+ * Inactive: Nexa Regular (fw-400).
+ * Figma nav: 16px Nexa, #202225.
+ */
 function navStateClass(isActive: boolean) {
   return isActive
-    ? "n-bold  text-[#202225]  fs-18 lh-100 ls-normal"
-    : "n-reg  text-[#202225]  fs-18 lh-100 ls-normal";
+    ? "n-bold text-[#202225] fs-16"
+    : "n-reg text-[#202225] fs-16";
 }
 
 export function Navbar() {
@@ -76,12 +87,12 @@ export function Navbar() {
   useBodyScrollLock(open);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#BCBDC0]/30 backdrop-blur-xl">
-      <div className="bg-[#8F8083] text-white/95 lg:py-2">
-        <Container className="flex h-8 items-center justify-end content-center sm:h-9">
+    <header className="sticky top-0 z-50 w-full bg-[#BCBDC0]/30 backdrop-blur-[9px]">
+      <div className="bg-[#8F8183] text-white/95">
+        <Container className="flex h-9 items-center justify-end">
           <Link
             href="#search"
-            className="inline-flex items-center gap-1 lg:px-25 transition-opacity hover:opacity-80"
+            className="inline-flex items-center gap-1.5 transition-opacity hover:opacity-80"
             aria-label="Search"
           >
             <IconSearch className="h-3 w-3 opacity-90 sm:h-3.5 sm:w-3.5" />
@@ -90,7 +101,7 @@ export function Navbar() {
         </Container>
       </div>
 
-      <div className="border-b border-white/20 bg-transparent">
+      <div className="border-t border-white/20 border-b border-white/10 bg-transparent">
         <Container className="relative">
           {/* Mobile: centered logo, menu control on the right */}
           <div className="relative flex min-h-[4.25rem] items-center justify-between py-3 sm:min-h-[4.5rem] xl:hidden">

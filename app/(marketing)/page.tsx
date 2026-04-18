@@ -11,7 +11,7 @@ export default function HomePage() {
   return (
     <>
       <HeroSection />
-      <div className="my-20">
+      <div className="">
         <StickyScrollFillSection
           as="h2"
           stagger={0.11}

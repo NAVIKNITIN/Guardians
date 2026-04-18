@@ -9,7 +9,7 @@ export function HeroSection() {
   return (
     <section
       className={cn(
-        "relative overflow-hidden",
+        "relative overflow-hidden bg-[#E4E4E4]",
         /* Cap height on short phones; fixed floors from sm upward */
         "min-h-[min(35rem,92svh)] sm:min-h-[560px] lg:min-h-[600px]",
         "pt-8 pb-12 sm:pt-14 sm:pb-14 lg:pb-16",
