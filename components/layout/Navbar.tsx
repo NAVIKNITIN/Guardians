@@ -73,7 +73,7 @@ function isActivePath(pathname: string, href: string) {
  */
 function navStateClass(isActive: boolean) {
   return isActive
-    ? "n-bold text-[#202225] fs-16"
+    ? "n-bold text-[#000000] fs-16 [text-shadow:0_4px_6px_rgba(0,0,0,0.3)]"
     : "n-reg text-[#202225] fs-16";
 }
 
