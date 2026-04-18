@@ -325,10 +325,7 @@ export function DividerSection() {
                   scale: reduceMotion ? 1 : cardsScale,
                   opacity: reduceMotion ? 1 : cardsOpacity,
                 }}
-                className={cn(
-                  "relative z-10 grid min-h-0 min-w-0 grid-cols-1 grid-rows-2 items-stretch gap-2 overflow-hidden rounded-sm shadow-[0_2px_20px_rgba(0,0,0,0.06)] max-lg:scale-100! max-lg:opacity-100! lg:min-h-[350px] lg:grid-cols-2 lg:grid-rows-1 lg:gap-[40px]",
-                  FIGMA_CARD_BG,
-                )}
+                className="relative z-10 grid min-h-0 min-w-0 grid-cols-1 grid-rows-2 items-stretch gap-2 overflow-hidden rounded-sm max-lg:scale-100! max-lg:opacity-100! lg:min-h-[350px] lg:grid-cols-2 lg:grid-rows-1 lg:gap-[40px]"
               >
                 <BuyerProfileCard />
                 <DeveloperProfileCard />
