@@ -1,4 +1,13 @@
+import { Playfair_Display } from "next/font/google";
 import localFont from "next/font/local";
+
+/** Figma hero headline — high-contrast serif (Playfair / Bodoni family). */
+export const playfairDisplay = Playfair_Display({
+  subsets: ["latin"],
+  weight: ["500", "600", "700"],
+  variable: "--font-playfair",
+  display: "swap",
+});
 
 export const nexaFont = localFont({
   src: [

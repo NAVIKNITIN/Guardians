@@ -8,8 +8,6 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { clamp as clamp01, subscribeToScroll } from "@/utils/scroll";
-import { containerSpacing } from "@/constants";
-
 export const DIVIDER_BANNER_SRC = "/images/Home/Banner1.svg";
 
 /** Design + behavior notes: `docs/DividerSection.md` (avoid regressions). */
@@ -26,11 +24,12 @@ const FIGMA_GRAD_OVERLAY_BUYER =
 const FIGMA_GRAD_OVERLAY_DEVELOPER =
   "bg-[linear-gradient(250deg,rgba(188,189,192,0.2),rgba(143,129,131,0.2))]";
 
+/** Row height cap; cards stretch to fill each grid column (full width of container, not fixed 578px). */
+const FIGMA_CARD_SIZE = "w-full min-w-0 lg:max-h-[350px]";
+
 /**
- * Figma card layout (578×350px):
- *  - Image column : 387/578 ≈ 67% of card width
- *  - Text column  : 191/578 ≈ 33% of card width
- *  - Card padding : top 20px | right/bottom 30px | text-facing side 30px
+ * Card layout (desktop): two columns per card, 50% / 50% (text vs portrait).
+ * Row: Buyer | Developer fill the grid (full container width); 20px gap. Banner overlay gap-0.
  */
 
 /* Figma: transparent fill, black border, charcoal label; "Know More" sentence case. */
@@ -54,6 +53,7 @@ function BuyerProfileCard({
       id={articleId}
       className={cn(
         "group relative flex h-full min-h-0 flex-col overflow-hidden",
+        FIGMA_CARD_SIZE,
         FIGMA_CARD_BG,
         className,
       )}
@@ -79,10 +79,10 @@ function BuyerProfileCard({
         aria-hidden
       />
 
-      {/* Content — text LEFT (33%), image RIGHT (67%) */}
-      <div className="relative z-10 flex min-h-[300px] flex-1 flex-col px-6 pb-6 pt-5 sm:px-8 sm:pb-8 sm:pt-6 lg:min-h-0 lg:h-full lg:flex-row lg:items-stretch lg:gap-0 lg:pb-0 lg:pl-[30px] lg:pr-0 lg:pt-5">
-        {/* Text column — 33% on desktop */}
-        <div className="flex w-full min-w-0 flex-1 flex-col items-start justify-between gap-6 self-stretch lg:h-full lg:min-h-0 lg:flex-none lg:w-[33%] lg:max-w-[33%] lg:pb-[30px]">
+      {/* Content — text LEFT (50%), image RIGHT (50%) */}
+      <div className="relative z-10 flex min-h-[300px] flex-1 flex-col px-6 pb-6 pt-5 sm:px-8 sm:pb-8 sm:pt-6 lg:min-h-0 lg:h-full lg:flex-row lg:items-stretch lg:gap-0 lg:px-0 lg:pb-0 lg:pt-5">
+        {/* Text column — 50% on desktop */}
+        <div className="flex w-full min-w-0 flex-1 flex-col items-start justify-between gap-6 self-stretch px-0 lg:h-full lg:min-h-0 lg:w-1/2 lg:max-w-[50%] lg:flex-none lg:pl-8 lg:pr-4 lg:pb-[30px]">
           <Image
             src="/images/Buyer/Vector.svg"
             alt=""
@@ -112,7 +112,7 @@ function BuyerProfileCard({
           </Link>
         </div>
 
-        {/* Image column — 67% on desktop, right side */}
+        {/* Image column — 50% on desktop, right side */}
         <CardImageColumn
           portraitSrc="/images/Buyer/image 41.svg"
           portraitAlt="Professional representing property buyers"
@@ -134,7 +134,8 @@ function DeveloperProfileCard({
     <article
       id={articleId}
       className={cn(
-        "group relative flex h-full min-h-0 flex-col overflow-hidden ",
+        "group relative flex h-full min-h-0 flex-col overflow-hidden",
+        FIGMA_CARD_SIZE,
         FIGMA_CARD_BG,
         className,
       )}
@@ -160,10 +161,10 @@ function DeveloperProfileCard({
         aria-hidden
       />
 
-      {/* Content — image LEFT (67%), text RIGHT (33%) via flex-row-reverse */}
-      <div className="relative z-10 flex min-h-[300px]  flex-1 flex-col px-6 pb-6 pt-5 sm:px-8 sm:pb-8 sm:pt-6 lg:min-h-0 lg:h-full lg:flex-row-reverse lg:items-stretch lg:gap-0 lg:pb-0 lg:pl-0 lg:pr-[30px] lg:pt-5">
-        {/* Text column — 33% on desktop, right side */}
-        <div className="flex w-full min-w-0 flex-1 flex-col items-end justify-between gap-6 self-stretch text-right lg:h-full lg:min-h-0 lg:flex-none lg:w-[33%] lg:max-w-[33%] lg:pb-[30px]">
+      {/* Content — image LEFT (50%), text RIGHT (50%) via flex-row-reverse */}
+      <div className="relative z-10 flex min-h-[300px] flex-1 flex-col px-6 pb-6 pt-5 sm:px-8 sm:pb-8 sm:pt-6 lg:min-h-0 lg:h-full lg:flex-row-reverse lg:items-stretch lg:gap-0 lg:px-0 lg:pb-0 lg:pt-5">
+        {/* Text column — 50% on desktop, right side */}
+        <div className="flex w-full min-w-0 flex-1 flex-col items-end justify-between gap-6 self-stretch px-0 text-right lg:h-full lg:min-h-0 lg:w-1/2 lg:max-w-[50%] lg:flex-none lg:pl-4 lg:pr-8 lg:pb-[30px]">
           <Image
             src="/images/Developer/DeveloperFilterIcon.svg"
             alt=""
@@ -193,7 +194,7 @@ function DeveloperProfileCard({
           </Link>
         </div>
 
-        {/* Image column — 67% on desktop, left side */}
+        {/* Image column — 50% on desktop, left side */}
         <CardImageColumn
           portraitSrc="/images/Developer/image 42.svg"
           portraitAlt="Professional representing real estate developers"
@@ -212,7 +213,7 @@ type CardImageColumnProps = {
 };
 
 /**
- * Image column — 67% of card width on desktop (Figma: 387/578px).
+ * Image column — 50% of card width on desktop.
  * On mobile it stacks below the text and takes full width.
  */
 function CardImageColumn({
@@ -225,7 +226,7 @@ function CardImageColumn({
     <div
       className={cn(
         "relative w-full min-h-[220px] shrink-0 overflow-hidden",
-        "lg:flex-none lg:h-full lg:min-h-0 lg:w-[67%] lg:max-w-[67%] lg:self-stretch",
+        "lg:flex-none lg:h-full lg:min-h-0 lg:w-1/2 lg:max-w-[50%] lg:self-stretch",
         className,
       )}
     >
@@ -237,7 +238,7 @@ function CardImageColumn({
           "object-cover grayscale mix-blend-multiply",
           objectPositionClass,
         )}
-        sizes="(max-width: 1024px) 100vw, 45vw"
+        sizes="(max-width: 1024px) 100vw, 25vw"
       />
     </div>
   );
@@ -307,7 +308,7 @@ export function DividerSection() {
       className="relative min-h-[320vh] bg-[#F2F2F2]"
     >
       <div
-        className="sticky flex min-h-0 w-full items-center justify-center overflow-hidden bg-[#F2F2F2] pb-4 lg:pb-0"
+        className="sticky flex min-h-0 w-full items-center justify-center overflow-hidden bg-[#F2F2F2] pb-0"
         style={{
           top: "var(--site-header-height)",
           minHeight: "calc(100dvh - var(--site-header-height))",
@@ -316,7 +317,7 @@ export function DividerSection() {
         {/* Full-bleed within max-w-brand: no horizontal padding so cards align with banner */}
         <Container className="relative w-full px-0 lg:min-h-0">
           {/* Cards + split banner share one relative box; sticky frame centers this block in the viewport below the nav */}
-          <div className={`relative w-full ${containerSpacing}`}>
+          <div className="relative w-full">
             <div className="relative w-full">
               {/* Cards at z-10; banner split overlay at z-20 above */}
               <motion.div
@@ -324,13 +325,13 @@ export function DividerSection() {
                   scale: reduceMotion ? 1 : cardsScale,
                   opacity: reduceMotion ? 1 : cardsOpacity,
                 }}
-                className="relative z-10 grid min-h-0 min-w-0 grid-cols-1 grid-rows-2 items-stretch gap-2 overflow-hidden rounded-sm max-lg:scale-100! max-lg:opacity-100! lg:min-h-[350px] lg:grid-cols-2 lg:grid-rows-1 lg:gap-[40px]"
+                className="relative z-10 grid min-h-0 min-w-0 grid-cols-1 grid-rows-2 items-stretch gap-[20px] overflow-hidden rounded-sm max-lg:scale-100! max-lg:opacity-100! lg:max-h-[350px] lg:min-h-[350px] lg:grid-cols-2 lg:grid-rows-1 lg:gap-[20px]"
               >
                 <BuyerProfileCard />
                 <DeveloperProfileCard />
               </motion.div>
 
-              {/* Split overlay */}
+              {/* Split overlay — gap-0: seamless single image; halves translate apart on scroll */}
               <motion.div
                 style={{ opacity: reduceMotion ? 0 : bannerLayerOpacity }}
                 className="pointer-events-none absolute inset-0 z-20 hidden min-h-full min-w-0 grid-cols-2 gap-0 overflow-hidden rounded-sm lg:grid"

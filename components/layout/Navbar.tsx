@@ -87,8 +87,8 @@ export function Navbar() {
   useBodyScrollLock(open);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#BCBDC0]/30 backdrop-blur-[9px]">
-      <div className="bg-[#8F8183] text-white/95">
+    <header className="sticky top-0 z-50 w-full border-b border-black/[0.06] bg-[#F2F2F2] shadow-[0_1px_0_rgba(0,0,0,0.04)]">
+      <div className="bg-[#8C7E7E] text-white/95">
         <Container className="flex h-9 items-center justify-end">
           <Link
             href="#search"
@@ -101,7 +101,7 @@ export function Navbar() {
         </Container>
       </div>
 
-      <div className="border-t border-white/20 border-b border-white/10 bg-transparent">
+      <div className="border-t border-white/10 bg-[#F2F2F2]">
         <Container className="relative">
           {/* Mobile: centered logo, menu control on the right */}
           <div className="relative flex min-h-[4.25rem] items-center justify-between py-3 sm:min-h-[4.5rem] xl:hidden">

@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { nexaFont, qasbyneFont } from "@/styles/fonts";
+import { nexaFont, playfairDisplay, qasbyneFont } from "@/styles/fonts";
 
 export const metadata: Metadata = {
   title: {
@@ -25,7 +25,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${nexaFont.variable} ${qasbyneFont.variable} h-full scroll-smooth`}
+      className={`${nexaFont.variable} ${qasbyneFont.variable} ${playfairDisplay.variable} h-full scroll-smooth`}
     >
       <body className="min-h-full bg-brand-background text-brand-text-primary font-sans">
         {children}

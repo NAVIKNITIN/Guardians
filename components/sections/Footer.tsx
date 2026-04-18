@@ -82,7 +82,7 @@ export function Footer() {
 
   return (
     <footer className="relative overflow-hidden bg-[#8F8183] n-reg  text-brand-text-inverse">
-      <Container className="relative min-w-0 py-8 sm:py-10 lg:py-3">
+      <div className="relative min-w-0 py-8 sm:py-10 lg:py-3 mx-auto w-full max-w-brand px-4 sm:px-6 lg:px-18 xl:px-16">
         {/* Watermark — positioned vs Container (same box as content), so it tracks centered layout on all breakpoints. */}
         <div className="pointer-events-none absolute inset-0 z-0 overflow-visible" aria-hidden>
           <Image
@@ -235,7 +235,7 @@ export function Footer() {
             </p>
           </div>
         </div>
-      </Container>
+      </div>
     </footer>
   );
 }

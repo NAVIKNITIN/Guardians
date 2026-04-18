@@ -39,6 +39,38 @@
     transparent 1.5px
   );
   background-size: 35px 32px;
+  /* Prefer `marketing-fixed-dot-bg` in the shell — `fixed` attachment breaks under overflow clipping. */
+  background-attachment: fixed;
+}
+
+/**
+ * Viewport-locked dot texture for marketing pages. Use on a `fixed inset-0` layer behind content
+ * so dots never move when tall sticky/scroll sections repaint.
+ */
+.marketing-fixed-dot-bg {
+  pointer-events: none;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background-color: var(--color-brand-background);
+  background-image: radial-gradient(
+    circle,
+    rgba(32, 34, 37, 0.1) 1.5px,
+    transparent 1.5px
+  );
+  background-size: 35px 32px;
+}
+
+/* Marketing hero top band — Figma: light gray + subtle diagonal hatch */
+@utility bg-hero-diagonal-soft {
+  background-color: #eaeaea;
+  background-image: repeating-linear-gradient(
+    -12deg,
+    transparent,
+    transparent 14px,
+    rgba(0, 0, 0, 0.045) 14px,
+    rgba(0, 0, 0, 0.045) 15px
+  );
 }
 
 @utility max-content-760 {
