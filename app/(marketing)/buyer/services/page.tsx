@@ -1,5 +1,5 @@
-import { BuyerServicesGrid } from "@/components/buyer-services/BuyerServicesGrid";
-import { BuyerServicesHero } from "@/components/buyer-services/BuyerServicesHero";
+import { ServicesGrid } from "@/components/services/ServicesGrid";
+import { ServicesHero } from "@/components/services/ServicesHero";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,8 +11,14 @@ export const metadata: Metadata = {
 export default function BuyerServicesPage() {
   return (
     <>
-      <BuyerServicesHero />
-      <BuyerServicesGrid />
+      <ServicesHero
+        title="Buyer's Services"
+        imageSrc="/images/Buyer/services/hero.svg"
+        headingId="buyer-services-heading"
+        ariaLabelledBy="buyer-services-heading"
+        titleClassName="max-w-[min(100%,20ch)]"
+      />
+      <ServicesGrid ariaLabel="Buyer services" />
     </>
   );
 }
