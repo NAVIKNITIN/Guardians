@@ -37,7 +37,7 @@ const brandCards = [
 ] as const;
 
 const heroImage = "/images/mumbai-skyline-bw.png";
-const brandPromiseOrnament = "/images/brand-promise-ornament.png";
+const brandPromiseOrnament = "/images/ornament.jpeg";
 
 // CHANGE: 4 images aur same text yahin page.tsx me rakha gaya hai.
 const leadershipSlides = [
@@ -276,7 +276,7 @@ export default function AboutPage() {
                         "w-full max-w-full font-semibold leading-[0.95] tracking-[-0.04em] text-[#9a8c8f]",
                         "text-[clamp(1.875rem,7vw,2.55rem)]",
                         stat.nowrap &&
-                          "whitespace-nowrap text-[clamp(1.75rem,6.5vw,2.18rem)]",
+                        "whitespace-nowrap text-[clamp(1.75rem,6.5vw,2.18rem)]",
                       )}
                     >
                       {stat.value}
