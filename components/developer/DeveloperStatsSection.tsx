@@ -72,14 +72,15 @@ export function DeveloperStatsSection({
     <SectionSurface variant="stats" aria-label="Key statistics">
       <div
         ref={ref}
-        className="grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 sm:gap-y-12 md:grid-cols-4 md:gap-y-14"
+        className="grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 sm:gap-y-12 md:grid-cols-4 md:gap-y-14 2xl:gap-x-8 2xl:gap-y-16"
       >
         {metrics.map((stat, idx) => (
           <div
             key={stat.label}
             className={cn(
               "flex min-h-0 min-w-0 flex-col items-center justify-center gap-3 px-4 text-center sm:gap-3.5 sm:px-8 md:px-6 lg:px-12",
-              idx > 0 && "md:border-l md:border-black/[0.18]",
+              idx > 0 &&
+                "relative md:before:absolute md:before:left-0 md:before:top-1/2 md:before:h-2.5 md:before:w-px md:before:-translate-y-1/2 md:before:bg-black/[0.18] md:before:content-['']",
             )}
           >
             <StatFigure stat={stat} index={idx} isInView={isInView} />
@@ -192,7 +193,7 @@ export function AboutLeadershipSection({
         Meet The Leadership
       </h2>
 
-      <div className="mt-8 border border-[#ece7e7] bg-[#f3f1f1] p-6 sm:p-8 lg:p-10">
+      <div className="mt-8 border-[#ece7e7] bg-[#f3f1f1] p-6 sm:p-8 lg:p-10">
         <div className="grid gap-8 lg:grid-cols-[420px_minmax(0,1fr)] lg:gap-10">
           <div className="relative min-h-[340px] overflow-hidden bg-[#d9d4d1] sm:min-h-[420px] lg:min-h-[520px]">
             <AnimatePresence custom={direction} initial={false} mode="wait">

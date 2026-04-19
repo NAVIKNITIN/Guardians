@@ -20,6 +20,8 @@
   --color-brand-footer: #8f8183;
   --color-brand-footer-dark: #2a2626;
   --max-width-brand: 90rem;
+  /* Wider cap on 2xl+ — applied in `Container` (not the default `max-w-brand` token). */
+  --max-width-brand-wide: 112rem;
   /* Default UI fonts: Nexa everywhere unless `font-qasbyne` is used */
   --font-sans: "font-nexa", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "font-nexa", ui-sans-serif, system-ui, sans-serif;

@@ -188,8 +188,8 @@ export function AwardsSection({
   }, [outgoingIndex]);
 
   return (
-    <SectionSurface variant="stats" aria-labelledby="awards-heading" className="bg-transparent border-t-0 border-b-0 mt-10">
-      <div className="grid gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-10 xl:gap-14 px-3 sm:px-4 md:px-10">
+    <SectionSurface variant="stats" aria-labelledby="awards-heading" className="mt-10 border-t-0 border-b-0 bg-transparent xl:mt-12 2xl:mt-14">
+      <div className="grid gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-10 xl:gap-14 2xl:gap-16">
         <div className="flex w-full min-w-0 flex-col items-center text-center lg:col-span-3 lg:items-start lg:text-left">
           <Image
             src={content.starIconSrc}

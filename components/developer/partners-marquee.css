@@ -1,15 +1,10 @@
 /* Co-located so keyframes + animation always ship with PartnersSection (Tailwind v4 pipeline-safe). */
 
-@keyframes partners-marquee-lr {
-  from {
-    transform: translate3d(-50%, 0, 0);
-  }
-  to {
-    transform: translate3d(0, 0, 0);
-  }
-}
-
-@keyframes partners-marquee-rl {
+/**
+ * Standard seamless loop: track is two identical halves (built in TS). Moving by -50%
+ * of the track width shifts exactly one half — when the animation resets, the frame matches.
+ */
+@keyframes partners-marquee {
   from {
     transform: translate3d(0, 0, 0);
   }
@@ -31,11 +26,11 @@
 }
 
 .partners-marquee__track--lr {
-  animation: partners-marquee-lr 50s linear infinite;
+  animation: partners-marquee 55s linear infinite;
 }
 
 .partners-marquee__track--rl {
-  animation: partners-marquee-rl 50s linear infinite;
+  animation: partners-marquee 55s linear infinite reverse;
 }
 
 .partners-marquee__track--lr:hover,
@@ -46,8 +41,8 @@
 @media (prefers-reduced-motion: reduce) {
   .partners-marquee__track--lr,
   .partners-marquee__track--rl {
-    animation: none;
-    transform: none;
+    animation: none !important;
+    transform: none !important;
     will-change: auto;
   }
 }

@@ -87,7 +87,7 @@ export function LandmarkProjectsSection({
 
   return (
     <SectionSurface variant="default" aria-labelledby="landmark-heading">
-      <div className="flex flex-col gap-8 px-4 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
+      <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
         <h2
           id="landmark-heading"
           className="min-w-0 shrink qs-reg text-[clamp(1.5rem,4.5vw,3.125rem)] uppercase leading-[1.15] ls-5 text-brand-text-primary sm:shrink-0 sm:whitespace-nowrap"
@@ -111,7 +111,7 @@ export function LandmarkProjectsSection({
       <div
         className={cn(
           "relative mt-4 md:mt-6",
-          /* Full-bleed: escape Container padding so the carousel touches viewport edges */
+          /* Full-bleed: escape section gutter so the carousel touches viewport edges */
           "left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-x-clip",
         )}
       >

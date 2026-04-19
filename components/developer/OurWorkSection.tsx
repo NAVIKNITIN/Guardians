@@ -1,14 +1,13 @@
 "use client";
 
 import type { OurWorkBandContent } from "@/data/audience-marketing";
+import { Container } from "@/components/common/Container";
 import { CarouselControls } from "@/components/ui/CarouselControls";
 import { MarketingEnquireLink } from "@/components/ui/MarketingEnquireLink";
-import { SectionSurface } from "@/components/ui/SectionSurface";
 import { useCycleIndex } from "@/hooks/useCycleIndex";
 import { cn } from "@/utils/cn";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { Container } from "../common/Container";
 
 const slideTransition = { duration: 0.35, ease: [0.22, 1, 0.36, 1] as const };
 
@@ -20,10 +19,12 @@ export function OurWorkSection({ content }: { content: OurWorkBandContent }) {
   const slide = slides[index]!;
 
   return (
-    <Container
-      className="bg-[#F4F4F4]  pb-14 sm:py-5 lg:py-5"
+    <section
+      className="w-full bg-[#F4F4F4] pb-14 sm:py-5 lg:py-5 2xl:py-8"
+      aria-labelledby="our-work-heading"
     >
-      <div className="grid items-start lg:grid-cols-2">
+      <Container className="min-w-0">
+        <div className="grid items-start lg:grid-cols-2">
         <div className="flex min-w-0 flex-col">
           <h2
             id="our-work-heading"
@@ -54,7 +55,7 @@ export function OurWorkSection({ content }: { content: OurWorkBandContent }) {
           <MarketingEnquireLink
             href={content.readMoreHref}
             variant="ourWork"
-            className="mt-20 inline-flex h-[55px] w-[276.01px] bg-[#161616] px-7lh-30 text-white lg:px-6"
+            className="mt-20 inline-flex h-[55px] w-[276.01px] bg-[#161616] px-7 lh-30 text-white lg:px-6"
           >
             {content.readMoreLabel}
           </MarketingEnquireLink>
@@ -104,6 +105,7 @@ export function OurWorkSection({ content }: { content: OurWorkBandContent }) {
           </div>
         </div>
       </div>
-    </Container>
+      </Container>
+    </section>
   );
 }

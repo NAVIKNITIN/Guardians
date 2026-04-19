@@ -12,11 +12,11 @@ export function ExploreBanner({ content }: { content: MarketingBannerContent }) 
 
   return (
     <section
-      className="my-10 "
+      className="w-full my-10 xl:my-12 2xl:my-16"
       aria-labelledby={headingId}
     >
-      <Container className="flex justify-center">
-        <div className="grid w-full max-w-[1000px]  overflow-hidden rounded-sm bg-[#f5f4f4] sm:gap-10 sm:p-0 lg:grid-cols-2 lg:gap-12 lg:pl-12 lg:pr-0 xl:gap-16 xl:pl-16 2xl:pl-20">
+      <Container className="flex min-w-0 justify-center">
+        <div className="grid w-full max-w-[1000px] overflow-hidden rounded-sm bg-[#f5f4f4] sm:gap-10 sm:p-0 lg:grid-cols-2 lg:gap-12 lg:pl-12 lg:pr-0 xl:gap-16 xl:pl-16 2xl:max-w-[min(1200px,100%)] 2xl:pl-20">
           <div className="flex flex-col gap-6 sm:gap-8 lg:max-w-none lg:pr-4 sm:pt-2 lg:pt-10">
             <h2
               id={headingId}

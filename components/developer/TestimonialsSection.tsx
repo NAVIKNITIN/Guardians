@@ -33,7 +33,7 @@ export function TestimonialsSection({
 
   return (
     <SectionSurface variant="compact" aria-labelledby="testimonials-heading">
-      <div className="mx-auto flex max-w-7xl flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between xl:gap-8 2xl:gap-10">
         <h2
           id="testimonials-heading"
           className={cn(marketingClasses.headingDisplayMd, "min-w-0 flex-1 pr-2")}
@@ -50,7 +50,7 @@ export function TestimonialsSection({
         />
       </div>
 
-      <div className="mt-10 hidden md:grid md:grid-cols-3 mx-auto max-w-7xl gap-4">
+      <div className="mt-10 hidden md:grid md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6">
         {desktopVisible.map((item) => (
           <TestimonialCard key={`${item.id}-${index}`} item={item} />
         ))}
