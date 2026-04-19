@@ -1,18 +1,52 @@
 import { cn } from "@/utils/cn";
 import type { HTMLAttributes, ReactNode } from "react";
 
-interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
+/**
+ * Horizontal padding scale — keep in sync with `marketingClasses.pageGutter` / `pageGutterLeft`.
+ *
+ * | Intent | Tailwind | Approx. viewport |
+ * |--------|----------|------------------|
+ * | Mobile | default | &lt; 480px |
+ * | Large mobile | xs | ≥ 480px |
+ * | Small tablet | sm | ≥ 640px |
+ * | Tablet | md | ≥ 768px |
+ * | Tablet landscape | tablet | ≥ 900px |
+ * | Laptop | lg | ≥ 1024px |
+ * | Large laptop | xl | ≥ 1280px |
+ * | Desktop | 2xl | ≥ 1536px |
+ * | Large desktop | xxl | ≥ 1680px |
+ * | Ultrawide | xxxl / 3xl | ≥ 1920px / 2160px |
+ */
+const paddingXBoth =
+  "px-5 xs:px-6 sm:px-8 md:px-10 tablet:px-12 lg:px-16 xl:px-24 2xl:px-32 xxl:px-44 xxxl:px-52 3xl:px-56";
+
+const paddingXLeftOnly =
+  "pl-5 pr-0 xs:pl-6 xs:pr-0 sm:pl-8 sm:pr-0 md:pl-10 md:pr-0 tablet:pl-12 tablet:pr-0 lg:pl-16 lg:pr-0 xl:pl-24 xl:pr-0 2xl:pl-32 2xl:pr-0 xxl:pl-44 xxl:pr-0 xxxl:pl-52 xxxl:pr-0 3xl:pl-56 3xl:pr-0";
+
+export type ContainerGutter = "both" | "left";
+
+export interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
+  /**
+   * Horizontal gutter: `both` (default) = symmetric padding; `left` = align to the site
+   * left edge only so content can extend flush to the right (e.g. carousels).
+   */
+  gutter?: ContainerGutter;
 }
 
-export function Container({ className, children, ...props }: ContainerProps) {
+export function Container({
+  className,
+  children,
+  gutter = "both",
+  ...props
+}: ContainerProps) {
   return (
     <div
       className={cn(
-        "mx-auto w-full max-w-brand px-4 sm:px-6 lg:px-20 xl:px-30 xxl:px-40 xxxl:px-50",
-        /* Extra-large viewports: use more horizontal space (was 90rem-only → heavy side margins). */
-        "2xl:max-w-[min(var(--max-width-brand-wide,112rem),calc(100vw-3rem))] 2xl:px-16",
-        "3xl:max-w-[min(var(--max-width-brand-wide,112rem),calc(100vw-3rem))] 3xl:px-20",
+        "mx-auto w-full max-w-brand",
+        gutter === "left" ? paddingXLeftOnly : paddingXBoth,
+        "2xl:max-w-[min(var(--max-width-brand-wide,112rem),calc(100vw-5rem))]",
+        "3xl:max-w-[min(var(--max-width-brand-wide,112rem),calc(100vw-14rem))]",
         className,
       )}
       {...props}

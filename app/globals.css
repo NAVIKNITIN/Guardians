@@ -22,9 +22,18 @@
   --max-width-brand: 90rem;
   /* Wider cap on 2xl+ — applied in `Container` (not the default `max-w-brand` token). */
   --max-width-brand-wide: 112rem;
+
+  /* Finer steps for `Container` gutters — between default `sm`/`md`/`lg` */
+  --breakpoint-xs: 30rem; /* 480px — large phones */
+  --breakpoint-tablet: 56.25rem; /* 900px — tablet landscape / small laptops */
+
+  /* Beyond default `2xl` (96rem) — used by `Container` and full-bleed alignment */
+  --breakpoint-xxl: 105rem; /* 1680px */
+  --breakpoint-xxxl: 120rem; /* 1920px */
+  --breakpoint-3xl: 135rem; /* 2160px */
   /* Default UI fonts: Nexa everywhere unless `font-qasbyne` is used */
-  --font-sans: "font-nexa", ui-sans-serif, system-ui, sans-serif;
-  --font-serif: "font-nexa", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "font-nexa";
+  --font-serif: "font-nexa";
 }
 
 @utility bg-grid-hero {
@@ -119,6 +128,8 @@ body {
   color: var(--foreground);
   font-family: "font-nexa", system-ui, sans-serif;
   font-weight: 400;
+  /* Full-bleed marketing sections use `w-screen`; clip at the viewport, not nested shells. */
+  overflow-x: hidden;
 }
 
 /* Shared CTA gradient from Figma (Know More button). */

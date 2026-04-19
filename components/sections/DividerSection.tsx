@@ -36,7 +36,7 @@ const FIGMA_CARD_SIZE = "w-full min-w-0 lg:max-h-[350px]";
 const dividerCardCtaClassName = cn(
   "inline-flex items-center justify-center gap-2.5 rounded-none border border-[#202225] bg-transparent px-5 py-[15px]",
   "n-bold text-[14px] leading-[22px] tracking-normal text-[#000000] lg:text-[18px]",
-  "transition-colors duration-300 hover:bg-black/5",
+  "transition-colors duration-300 hover:bg-black/5 h-[43px]",
 );
 
 // --- Fixed Profile Cards with 100% Height ---

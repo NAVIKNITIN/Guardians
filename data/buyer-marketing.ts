@@ -186,7 +186,7 @@ export const BUYER_MARKETING_PAGE = {
   },
   banner: {
     headline: "Lorem ipsum dolor sit amet, consectetur",
-    imageSrc: "/images/Buyer/image%2059.svg",
+    imageSrc: "/images/image 59.svg",
     ctaLabel: "Explore",
     ctaHref: "/projects",
     imageAlt: "",

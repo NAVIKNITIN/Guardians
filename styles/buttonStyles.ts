@@ -15,7 +15,8 @@ export const primaryCtaClassName = cn(
 export const heroEnquireCtaClassName = cn(
   "inline-flex items-center justify-center gap-5 rounded-none border border-[#161616] bg-[#161616] w-[306.01px] h-[55px] uppercase tracking-[0.1em] text-white transition-colors duration-300 ease-out",
   "hover:bg-neutral-900 fs-18 n-bold ls-8",
-  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black",
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black h-[55px]",
+  "w-[306.01px]"
 );
 
 /**

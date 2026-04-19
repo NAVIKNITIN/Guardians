@@ -69,22 +69,26 @@ export function DeveloperStatsSection({
   const metrics = content.metrics;
 
   return (
-    <SectionSurface variant="stats" aria-label="Key statistics">
+    <SectionSurface
+      variant="stats"
+      aria-label="Key statistics"
+      className="bg-transparent !py-10"
+    >
       <div
         ref={ref}
-        className="grid grid-cols-1 gap-x-4 gap-y-10 sm:grid-cols-2 sm:gap-y-12 md:grid-cols-4 md:gap-y-14 2xl:gap-x-8 2xl:gap-y-16"
+        className="grid grid-cols-1 gap-x-4  sm:grid-cols-2 md:grid-cols-4"
       >
         {metrics.map((stat, idx) => (
           <div
             key={stat.label}
             className={cn(
-              "flex min-h-0 min-w-0 flex-col items-center justify-center gap-3 px-4 text-center sm:gap-3.5 sm:px-8 md:px-6 lg:px-12",
+              "flex min-h-0 min-w-0 flex-col items-center justify-center px-4 text-center  sm:px-8 md:px-6 lg:px-12",
               idx > 0 &&
-                "relative md:before:absolute md:before:left-0 md:before:top-1/2 md:before:h-2.5 md:before:w-px md:before:-translate-y-1/2 md:before:bg-black/[0.18] md:before:content-['']",
+              "relative md:before:absolute md:before:left-0 md:before:top-1/2 md:before:h-5.5 md:before:w-px md:before:-translate-y-1/2 md:before:bg-[#8F8183] md:before:content-['']",
             )}
           >
             <StatFigure stat={stat} index={idx} isInView={isInView} />
-            <p className="max-w-[16rem] fs-12 lh-20 n-bold uppercase leading-snug tracking-wide text-brand-text-primary sm:max-w-[12rem]">
+            <p className="fs-12 lh-20 n-bold uppercase leading-snug tracking-wide text-black whitespace-nowrap">
               {stat.label}
             </p>
           </div>
@@ -189,13 +193,13 @@ export function AboutLeadershipSection({
 
   return (
     <div className="mx-auto w-full lg:px-20 lg:pb-10">
-      <h2 className="qs-reg fs-50 uppercase tracking-[0.05em] text-[#2a2626]">
+      <h2 className="qs-reg fs-50 uppercase tracking-[0.05em] text-[#000000]">
         Meet The Leadership
       </h2>
 
-      <div className="mt-8 border-[#ece7e7] bg-[#f3f1f1] p-6 sm:p-8 lg:p-10">
+      <div className=" border-[#000000]  p-6 sm:p-8 lg:p-10">
         <div className="grid gap-8 lg:grid-cols-[420px_minmax(0,1fr)] lg:gap-10">
-          <div className="relative min-h-[340px] overflow-hidden bg-[#d9d4d1] sm:min-h-[420px] lg:min-h-[520px]">
+          <div className="relative min-h-[340px] overflow-hidden  sm:min-h-[420px] lg:min-h-[520px]">
             <AnimatePresence custom={direction} initial={false} mode="wait">
               <motion.div
                 key={activeSlide.id}

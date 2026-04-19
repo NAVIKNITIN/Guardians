@@ -21,7 +21,11 @@ export const marketingClasses = {
   roundNavButton:
     "flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-black/15 bg-white text-brand-text-primary transition-colors hover:border-black/30",
   /** Matches `Container` horizontal padding without `max-w` — full-bleed section content alignment. */
-  pageGutter: "px-4 sm:px-6 lg:px-20 xl:px-30 2xl:px-16",
+  pageGutter:
+    "px-5 xs:px-6 sm:px-8 md:px-10 tablet:px-12 lg:px-16 xl:px-24 2xl:px-32 xxl:px-44 xxxl:px-52 3xl:px-56",
+  /** Same scale as `pageGutter` but left edge only — pair with full-bleed content on the right. */
+  pageGutterLeft:
+    "pl-5 pr-0 xs:pl-6 xs:pr-0 sm:pl-8 sm:pr-0 md:pl-10 md:pr-0 tablet:pl-12 tablet:pr-0 lg:pl-16 lg:pr-0 xl:pl-24 xl:pr-0 2xl:pl-32 2xl:pr-0 xxl:pl-44 xxl:pr-0 xxxl:pl-52 xxxl:pr-0 3xl:pl-56 3xl:pr-0",
 } as const;
 
 export function marketingSection(

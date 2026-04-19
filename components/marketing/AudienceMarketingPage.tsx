@@ -18,7 +18,7 @@ export function AudienceMarketingPage({
   return (
     <div
       className={cn(
-        "mx-auto flex w-full min-w-0 max-w-[100vw] flex-col overflow-x-clip",
+        "mx-auto flex w-full min-w-0 max-w-[100vw] flex-col overflow-x-visible",
         "[&>*]:min-w-0",
       )}
     >

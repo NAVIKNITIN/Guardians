@@ -112,7 +112,7 @@ const BookPageFront = memo(function BookPageFront({ slide }: { slide: AwardSlide
           alt=""
           fill
           className="object-cover object-center"
-          sizes="(max-width: 1024px) 100vw, 400px"
+          sizes="(max-width: 1024px) min(100vw, 385px), 385px"
         />
       </div>
     </div>
@@ -188,7 +188,7 @@ export function AwardsSection({
   }, [outgoingIndex]);
 
   return (
-    <SectionSurface variant="stats" aria-labelledby="awards-heading" className="mt-10 border-t-0 border-b-0 bg-transparent xl:mt-12 2xl:mt-14">
+    <SectionSurface variant="stats" aria-labelledby="awards-heading" className=" border-t-0 border-b-0 bg-transparent ">
       <div className="grid gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-10 xl:gap-14 2xl:gap-16">
         <div className="flex w-full min-w-0 flex-col items-center text-center lg:col-span-3 lg:items-start lg:text-left">
           <Image
@@ -196,16 +196,16 @@ export function AwardsSection({
             alt=""
             width={90}
             height={75}
-            className="h-14 w-auto shrink-0 object-cover object-center sm:h-18 lg:object-left"
+            className=" w-auto shrink-0 object-cover object-center  lg:object-left"
           />
           <h2
             id="awards-heading"
             className={cn(
-              "qs-reg",
-              "mt-5 w-full min-w-0 max-w-full px-0",
-              "text-balance uppercase leading-tight tracking-[0.08em] text-brand-text-primary",
+              "qs-reg fs-50 lh-50 mt-10 md:mt-30",
+              " w-full min-w-0 max-w-full px-0",
+              "text-balance uppercase leading-tight tracking-[0.08em] text-[#202225]",
               /* Fluid type: no fixed fs-45 / max-w-48 — those clipped “Recognitions” on narrow screens */
-              "text-[clamp(1.125rem,calc(0.5rem+3.4vw),2.25rem)] sm:text-[clamp(1.35rem,calc(0.55rem+2.4vw),2.35rem)] lg:mt-24 lg:text-[clamp(1.5rem,2.5vw,2rem)]",
+              "text-[clamp(1.125rem,calc(0.5rem+3.4vw),2.25rem)] sm:text-[clamp(1.35rem,calc(0.55rem+2.4vw),2.35rem)]  lg:text-[clamp(1.5rem,2.5vw,2rem)]",
             )}
           >
             {content.headingLine1}
@@ -218,8 +218,9 @@ export function AwardsSection({
         <div className="relative flex justify-center lg:col-span-5 lg:justify-center lg:pl-10">
           <div
             className={cn(
-              "relative mx-auto w-full ",
-              "aspect-4/5 max-h-[min(31rem,65.5vh)] min-h-0",
+              "relative mx-auto w-full max-w-[min(100%,385.33px)]",
+              /* Figma: award carousel frame 385.33 × 459 */
+              "aspect-[385.33/459] min-h-0 max-h-[min(459px,65.5vh)]",
             )}
           >
             <BookSpineStack />
@@ -278,7 +279,7 @@ export function AwardsSection({
               buttonClassName="border-0 bg-transparent hover:bg-transparent"
               counterClassName="min-w-[2.75rem] px-1 text-xs font-medium text-brand-text-primary sm:text-sm"
               renderCounter={({ currentIndex, total }) => (
-                <span className="inline-flex min-w-[2.75rem] items-baseline justify-center gap-0.5 px-1 text-xs font-medium text-brand-text-primary tabular-nums sm:text-sm">
+                <span className="inline-flex min-w-[2.75rem] text-[#141414] items-baseline justify-center gap-0.5 px-1 text-xs font-medium text-brand-text-primary tabular-nums sm:text-sm">
                   <RollingText
                     value={String(currentIndex + 1)}
                     direction={rollDir}
@@ -297,21 +298,21 @@ export function AwardsSection({
               <RollingText
                 value={slide.company}
                 direction={rollDir}
-                className="n-bold text-[clamp(0.875rem,2.5vw,1.125rem)] uppercase tracking-[0.05em] text-brand-text-primary sm:text-[18px]"
+                className="text-[#161616] n-bold text-[clamp(0.875rem,2.5vw,1.125rem)] uppercase tracking-[0.05em] text-brand-text-primary sm:text-[18px]"
               />
-              <div className="mt-2 w-full min-w-0">
+              <div className="w-full min-w-0">
                 <RollingText
                   block
                   value={slide.achievement}
                   direction={rollDir}
-                  className="n-bold text-[clamp(1.5rem,6vw,2.25rem)] tracking-[0.02em] text-brand-text-primary sm:text-[36px]"
+                  className="text-[#161616] n-bold text-[clamp(1.5rem,6vw,2.25rem)] tracking-[0.02em] text-brand-text-primary sm:text-[36px]"
                 />
               </div>
             </div>
             <RollingText
               value={slide.year}
               direction={rollDir}
-              className="n-bold text-[10px] uppercase tracking-[0.2em] text-brand-text-secondary lg:mb-5 fw-600"
+              className="n-bold text-[14px] uppercase tracking-[0.2em] text-brand-text-secondary lg:mb-5 fw-600"
             />
           </div>
         </div>

@@ -86,7 +86,11 @@ export function LandmarkProjectsSection({
   }, [n, tab, autoplayEpoch]);
 
   return (
-    <SectionSurface variant="default" aria-labelledby="landmark-heading">
+    <SectionSurface
+      variant="default"
+      aria-labelledby="landmark-heading"
+      className="pb-8 sm:pb-10 md:pb-12 lg:pb-14"
+    >
       <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
         <h2
           id="landmark-heading"
@@ -297,6 +301,44 @@ function PeekHalfSlide({
   );
 }
 
+/**
+ * Four stacked zigzag bands (Marathon-style mark): icon left of wordmark.
+ * Generous viewBox + `overflow-visible` so strokes / bottom band never clip when scaled.
+ */
+function LandmarkBrandZigzagIcon({ className }: { className?: string }) {
+  const stroke =
+    "stroke-current stroke-[2] [stroke-linecap:square] [stroke-linejoin:miter]";
+
+  return (
+    <svg
+      className={cn("shrink-0 overflow-visible text-white", className)}
+      viewBox="0 0 48 40"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet"
+      aria-hidden
+    >
+      <path
+        d="M1 4 L6 2 L11 4 L16 2 L21 4 L26 2 L31 4 L36 2 L41 4 L47 2"
+        className={stroke}
+      />
+      <path
+        d="M1 13 L6 11 L11 13 L16 11 L21 13 L26 11 L31 13 L36 11 L41 13 L47 11"
+        className={stroke}
+      />
+      <path
+        d="M1 22 L6 20 L11 22 L16 20 L21 22 L26 20 L31 22 L36 20 L41 22 L47 20"
+        className={stroke}
+      />
+      {/* Bottom band: deeper fill so it stays visible at small sizes (was ~2 units tall → “sliver”). */}
+      <path
+        fill="currentColor"
+        d="M1 36 L6 30 L11 36 L16 30 L21 36 L26 30 L31 36 L36 30 L41 36 L47 30 L47 36 L1 36 Z"
+      />
+    </svg>
+  );
+}
+
 function ActiveProjectCard({
   project,
   aspectClassName,
@@ -342,8 +384,11 @@ function ActiveProjectCard({
         className="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-t from-black/60 via-black/15 to-black/25"
         aria-hidden
       />
-      <div className="absolute left-5 top-5 z-[3]  qs-bold fs-20 ls-6 text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.45)] sm:left-7 sm:top-7">
-        {project.brand}
+      <div className="absolute left-5 right-8 top-5 z-[3] flex flex-row items-center gap-3 sm:left-7 sm:right-10 sm:top-7 sm:gap-4">
+        <LandmarkBrandZigzagIcon className="h-9 w-[2.75rem] drop-shadow-[0_1px_6px_rgba(0,0,0,0.45)] sm:h-10 sm:w-12" />
+        <span className="min-w-0 qs-bold fs-18 uppercase leading-none tracking-[0.06em] text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.45)]">
+          {project.brand}
+        </span>
       </div>
       <div className="absolute inset-x-0 bottom-0 z-[3] px-4 pb-4 text-center text-white sm:px-5 sm:pb-5 md:pb-6">
         <p className="fs-18 fw-100 text-[#E2E2E2]">

@@ -50,9 +50,13 @@ export function TestimonialsSection({
         />
       </div>
 
-      <div className="mt-10 hidden md:grid md:grid-cols-3 gap-4 xl:gap-5 2xl:gap-6">
+      <div className="mt-10 hidden md:grid md:grid-cols-3 md:items-stretch md:gap-4 xl:gap-5 2xl:gap-6">
         {desktopVisible.map((item) => (
-          <TestimonialCard key={`${item.id}-${index}`} item={item} />
+          <TestimonialCard
+            key={`${item.id}-${index}`}
+            item={item}
+            className="h-[459px] w-[385.33px] max-w-full"
+          />
         ))}
       </div>
       <div className="mt-10 md:hidden">
@@ -62,7 +66,7 @@ export function TestimonialsSection({
       <div className="mt-10 flex justify-center ">
         <MarketingEnquireLink
           href={content.viewMoreHref}
-          className="fs-16 n-bold"
+          className="fs-16 n-bold w-[272.01px] h-[55px]"
         >
           {content.viewMoreLabel}
         </MarketingEnquireLink>

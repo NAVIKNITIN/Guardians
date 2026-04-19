@@ -56,7 +56,7 @@ export const DEV_LANDMARK_COMPLETED: LandmarkProject[] = DEV_LANDMARK_ONGOING.ma
 );
 
 const AWARD_ROTATION_IMAGES = [
-  "/images/ourwork.svg",
+  "/images/Frame 78.svg",
   "/images/developer-hero.svg",
   "/images/Home/Banner1.svg",
   "/images/Developer/ourservices/1.svg",

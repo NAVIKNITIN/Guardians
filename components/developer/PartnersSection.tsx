@@ -18,7 +18,8 @@ export function PartnersSection({
   return (
     <section
       className={cn(
-        "w-full",
+        /* Full-bleed band: escape padded marketing shell so bg + marquee reach viewport edges */
+        "relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2",
         marketingSection("sectionPartners"),
         "py-14 sm:py-16 lg:py-10 2xl:py-14",
       )}
@@ -33,13 +34,7 @@ export function PartnersSection({
         </h2>
       </Container>
 
-      <div
-        className={cn(
-          "relative mt-10",
-          /* Full-bleed marquee: escape Container so tracks span the viewport */
-          "left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-x-clip",
-        )}
-      >
+      <div className="relative mt-10 overflow-x-clip">
         <div className="space-y-4">
           <LogoRow items={[...content.row1]} direction="lr" />
           <LogoRow items={[...content.row2]} direction="rl" />
@@ -48,11 +43,11 @@ export function PartnersSection({
 
       <Container>
         <div className="mt-12 flex flex-col items-center justify-center gap-4 px-1 sm:mt-16 sm:flex-row sm:flex-wrap sm:gap-6">
-          <p className="max-w-md text-center text-sm x-bold text-brand-text-secondary sm:text-base">
+          <p className="max-w-md text-center text-sm sm:text-base n-bold fs-20 text-[#8F8183]">
             {content.closing}
           </p>
           <MarketingEnquireLink
-            className="fs-16 n-bold"
+            className="w-[207.01px] h-[55px]"
             href={content.ctaHref}
           >
             {content.ctaLabel}
@@ -103,6 +98,8 @@ function LogoRow({
   );
 }
 
+/** Figma: outer card 223×95 (w×h); inner padding 20px horizontal, 10px vertical. */
+
 function LogoTile({
   item,
   decorative,
@@ -111,14 +108,22 @@ function LogoTile({
   decorative?: boolean;
 }) {
   return (
-    <div className="relative flex h-16 w-[9.5rem] items-center justify-center rounded-sm border border-black/[0.06] bg-white px-3 shadow-sm sm:w-40">
-      <Image
-        src={item.src}
-        alt={decorative ? "" : item.alt}
-        width={160}
-        height={48}
-        className="h-10 w-auto max-w-full object-cover object-center"
-      />
+    <div
+      className={cn(
+        "relative shrink-0 overflow-hidden rounded-sm border border-black/6 bg-white shadow-sm",
+        /* Outer frame 223×95; content area inset by Figma padding 20px (x) / 10px (y) */
+        "aspect-[245/95] w-[clamp(7.5rem,32vw,13.9375rem)] max-w-[13.9375rem]",
+      )}
+    >
+      <div className="absolute inset-[10px_20px]">
+        <Image
+          src={item.src}
+          alt={decorative ? "" : item.alt}
+          fill
+          sizes="(max-width: 480px) 120px, (max-width: 768px) 160px, 223px"
+          className="object-contain object-center"
+        />
+      </div>
     </div>
   );
 }
