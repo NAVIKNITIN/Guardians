@@ -111,11 +111,11 @@ export default function AboutPage() {
           <Image
             src={heroImage}
             alt="The Guardians city skyline"
-            width={1600}
-            height={900}
-            className="object-cover object-center "
+            // width={1600}
+            // height={900}
+            className="object-stretch object-center "
             sizes="100vw"
-            unoptimized
+            fill
             priority
           />
           <div className="absolute inset-x-0 top-[6%] text-center sm:top-[7%] lg:top-[7.5%] lg:pt-25">
