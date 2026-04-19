@@ -47,7 +47,44 @@ export const DEV_LANDMARK_ONGOING: LandmarkProject[] = [
   },
 ];
 
+export const DEV_LANDMARK_ONGOING_BUYER_MARKETING: LandmarkProject[] = [
+  {
+    id: "1",
+    brand: "MARATHON",
+    projectLine: "MARATHON GROUP'S",
+    projectName: "MONTE SOUTH",
+    location: "Byculla, Mumbai, Maharashtra ",
+    bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
+    imageSrc: "/images/image 67.svg",
+  },
+  {
+    id: "2",
+    brand: "MARATHON",
+    projectLine: "MARATHON GROUP'S",
+    projectName: "MONTE SOUTH",
+    location: "Byculla, Mumbai, Maharashtra ",
+    bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
+    imageSrc: "/images/image 67.svg",
+  },
+  {
+    id: "3",
+    brand: "MARATHON",
+    projectLine: "MARATHON GROUP'S",
+    projectName: "MONTE SOUTH",
+    location: "Byculla, Mumbai, Maharashtra ",
+    bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
+    imageSrc: "/images/image 67.svg",
+  },
+];
+
 export const DEV_LANDMARK_COMPLETED: LandmarkProject[] = DEV_LANDMARK_ONGOING.map(
+  (p) => ({
+    ...p,
+    id: `${p.id}-done`,
+    projectName: `${p.projectName} — delivered`,
+  }),
+);
+export const DEV_LANDMARK_COMPLETED_BUYER_MARKETING: LandmarkProject[] = DEV_LANDMARK_ONGOING.map(
   (p) => ({
     ...p,
     id: `${p.id}-done`,
