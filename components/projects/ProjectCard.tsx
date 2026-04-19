@@ -1,4 +1,8 @@
 import { IconArrowUpRight } from "@/components/common/icons";
+import {
+  arrowIconLinkIconClassName,
+  arrowIconTileClassName,
+} from "@/components/ui/ArrowIconLink";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/utils/cn";
@@ -76,10 +80,13 @@ export function ProjectCard({
         </div>
 
         <span
-          className="inline-flex h-16 w-24 shrink-0 items-center justify-center bg-black text-white transition-colors group-hover:bg-neutral-900 sm:h-15 sm:w-20"
+          className={cn(
+            arrowIconTileClassName,
+            "pointer-events-none group-hover:bg-neutral-900",
+          )}
           aria-hidden
         >
-          <IconArrowUpRight className="h-6 w-6 sm:h-5 sm:w-5" />
+          <IconArrowUpRight className={arrowIconLinkIconClassName} />
         </span>
       </div>
     </Link>

@@ -8,6 +8,7 @@ import { useCycleIndex } from "@/hooks/useCycleIndex";
 import { cn } from "@/utils/cn";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
+import { Container } from "../common/Container";
 
 const slideTransition = { duration: 0.35, ease: [0.22, 1, 0.36, 1] as const };
 
@@ -19,17 +20,14 @@ export function OurWorkSection({ content }: { content: OurWorkBandContent }) {
   const slide = slides[index]!;
 
   return (
-    <SectionSurface
-      variant="muted"
-      aria-labelledby="our-work-heading"
+    <Container
       className="bg-[#F4F4F4]  pb-14 sm:py-5 lg:py-5"
-      containerClassName="max-w-[1200px] px-5 sm:px-8 lg:px-12 xl:px-16"
     >
-      <div className="grid items-start gap-12 lg:grid-cols-2 lg:gap-x-16 lg:gap-y-0 xl:gap-x-20">
+      <div className="grid items-start lg:grid-cols-2">
         <div className="flex min-w-0 flex-col">
           <h2
             id="our-work-heading"
-            className="sm:mt-5 mt-10 font-qasbyne qs-reg text-[clamp(2rem,4.2vw,3.25rem)] uppercase leading-[1.05] tracking-[0.02em] text-brand-primary"
+            className="sm:mt-3 md:mt-6 font-qasbyne qs-reg text-[clamp(2rem,4.2vw,3.25rem)] uppercase leading-[1.05] tracking-[0.02em] text-[#202225]"
           >
             {content.sectionTitle}
           </h2>
@@ -43,11 +41,11 @@ export function OurWorkSection({ content }: { content: OurWorkBandContent }) {
               transition={slideTransition}
             >
               {/* ~40–50px below “OUR WORK” (Figma) */}
-              <h3 className="mt-10 max-w-xl n-bold text-[clamp(1.125rem,2.1vw,1.75rem)] leading-[1.3] text-[#000000] lg:mt-20">
+              <h3 className="mt-10 max-w-xl n-bold text-[clamp(1.125rem,2.1vw,1.75rem)] leading-[1.3] text-[#161616] lg:mt-20">
                 {slide.title}
               </h3>
               {/* ~20–30px headline → body */}
-              <p className="mt-6 lh-20 max-w-lg n-book text-[clamp(0.9375rem,1.15vw,1.0625rem)] leading-[1.65] text-[#454545]">
+              <p className="mt-6 lh-20 max-w-lg n-book lh-24 text-[clamp(0.9375rem,1.15vw,1.0625rem)] leading-[1.65] text-[#161616] md:max-h-[40px]">
                 {slide.body}
               </p>
             </motion.div>
@@ -56,13 +54,13 @@ export function OurWorkSection({ content }: { content: OurWorkBandContent }) {
           <MarketingEnquireLink
             href={content.readMoreHref}
             variant="ourWork"
-            className="mt-16 lg:mt-20 w-full md:max-w-[276.1px] fs-18 fw-300 flex-row-reverse"
+            className="mt-20 inline-flex h-[55px] w-[276.01px] bg-[#161616] px-7lh-30 text-white lg:px-6"
           >
             {content.readMoreLabel}
           </MarketingEnquireLink>
 
           <CarouselControls
-            className="mt-10 lg:mt-20 flex items-center justify-start"
+            className="mt-10 lg:mt-18 flex items-center justify-start"
             currentIndex={index}
             total={total}
             onPrev={() => advance(-1)}
@@ -80,7 +78,7 @@ export function OurWorkSection({ content }: { content: OurWorkBandContent }) {
         <div className="relative flex w-full justify-center lg:justify-end">
           <div
             className={cn(
-              "relative aspect-square md:min-w-[580px] md:max-h-[610px] w-full overflow-hidden",
+              "relative w-full md:w-[588px] md:h-[610px] overflow-hidden",
               "bg-neutral-200/80",
             )}
           >
@@ -106,6 +104,6 @@ export function OurWorkSection({ content }: { content: OurWorkBandContent }) {
           </div>
         </div>
       </div>
-    </SectionSurface>
+    </Container>
   );
 }

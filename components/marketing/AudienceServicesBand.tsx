@@ -1,9 +1,9 @@
 import { MarketingServiceCard } from "@/components/cards/MarketingServiceCard";
-import { SectionSurface } from "@/components/ui/SectionSurface";
 import { MarketingEnquireLink } from "@/components/ui";
 import type { ServicesBandContent } from "@/data/audience-marketing";
 import { marketingClasses } from "@/styles/marketingClasses";
 import { cn } from "@/utils/cn";
+import { Container } from "../common/Container";
 
 export function AudienceServicesBand({
   content,
@@ -11,9 +11,8 @@ export function AudienceServicesBand({
   content: ServicesBandContent;
 }) {
   return (
-    <SectionSurface
-      variant="default"
-      className="px-4 py-14 sm:px-6 sm:py-16 lg:px-20 lg:py-25 mt-10"
+    <Container
+      className="py-8 sm:py-12 lg:py-25"
       aria-labelledby="audience-services-heading"
     >
       <div className="grid gap-10 lg:grid-cols-12 lg:items-start lg:gap-10 xl:gap-12">
@@ -24,13 +23,12 @@ export function AudienceServicesBand({
           >
             {content.sectionTitle}
           </h2>
-          <p className="mt-4 max-w-sm n-book fs-18 lh-22 text-brand-text-primary">
+          <p className="mt-3 max-w-sm n-book fs-18 lh-22 text-[#000000]">
             {content.description}
           </p>
           <MarketingEnquireLink
             href={content.knowMoreHref}
-            // variant="ourWork"
-            className="mt-25 inline-flex lh-30 lg:px-12 px-7 fs-20 bg-[#161616] text-white"
+            className="mt-20 inline-flex h-[55px] w-[283.5px]"
           >
             {content.knowMoreLabel}
           </MarketingEnquireLink>
@@ -39,7 +37,9 @@ export function AudienceServicesBand({
         <div className="min-w-0 lg:col-span-8">
           <div
             className={cn(
-              "-mx-4 overflow-x-auto overscroll-x-contain scroll-smooth sm:-mx-6 sm:px-0 lg:mx-0",
+              "ml-2 overflow-x-auto scroll-smooth md:ml-15",
+              /* Pull strip to viewport right edge — mirrors `Container` px */
+              "-mr-4 sm:-mr-6 lg:-mr-20 xl:-mr-30",
               /* Scroll works; bar hidden in Firefox / Safari / Chrome / Edge */
               "[scrollbar-width:none]",
               "[-ms-overflow-style:none]",
@@ -48,7 +48,7 @@ export function AudienceServicesBand({
           >
             <ul
               role="list"
-              className="flex w-max snap-x snap-mandatory gap-4 px-4 sm:gap-5 sm:px-6 lg:gap-6 lg:px-0"
+              className="flex w-max snap-x snap-mandatory gap-4 pl-4 pr-0 sm:gap-5 sm:pl-5"
             >
               {content.cards.map((card) => (
                 <MarketingServiceCard
@@ -62,6 +62,6 @@ export function AudienceServicesBand({
           </div>
         </div>
       </div>
-    </SectionSurface>
+    </Container>
   );
 }

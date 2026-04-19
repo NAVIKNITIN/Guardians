@@ -35,7 +35,12 @@ export function PartnersSection({
         <p className="max-w-md text-center text-sm x-bold text-brand-text-secondary sm:text-base">
           {content.closing}
         </p>
-        <MarketingEnquireLink className="n-bold fs-16" href={content.ctaHref}>{content.ctaLabel}</MarketingEnquireLink>
+        <MarketingEnquireLink
+          className="fs-16 n-bold"
+          href={content.ctaHref}
+        >
+          {content.ctaLabel}
+        </MarketingEnquireLink>
       </div>
     </SectionSurface>
   );

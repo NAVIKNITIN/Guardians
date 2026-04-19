@@ -18,6 +18,7 @@ export type LandmarkProject = {
   projectLine: string;
   projectName: string;
   location: string;
+  bhkRange: string;
   imageSrc: string;
 };
 

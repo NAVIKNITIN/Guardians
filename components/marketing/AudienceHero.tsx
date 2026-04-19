@@ -49,17 +49,20 @@ export function AudienceHero({ content }: { content: MarketingHeroContent }) {
             className="break-words qs-reg text-[clamp(2rem,6vw,4.375rem)] uppercase leading-[1.05] ls-5"
           >
             <span className="block">
-              <span className="semi-black">{lead}</span>{" "}
-              <span className="semi-orange">{accent}</span>
+              <span className="text-[#202225]">{lead}</span>{" "}
+              <span className="text-[#8F8183]">{accent}</span>
             </span>
           </h1>
           <p
-            className="text-black fs-18 n-book lh-22 w-full max-w-[600px] mx-auto flex text-left md:mt-10 lg:mt-8"
+            className="text-black fs-18 n-book lh-22 w-full max-w-[600px] mx-auto flex text-left md:mt-5 lg:mt-7"
           >
             {content.body}
           </p>
-          <div className="mt-10 flex justify-center sm:mt-12">
-            <MarketingEnquireLink href={content.enquireHref} className="h-15 lg:px-10 px-5 fs-20 n-bold ls-10 bg-[#161616]">
+          <div className="mt-10 flex justify-center sm:mt-10">
+            <MarketingEnquireLink
+              href={content.enquireHref}
+              className="fs-20 n-bold ls-12 w-[306.01px] h-[55px] px-0"
+            >
               {content.enquireLabel}
             </MarketingEnquireLink>
           </div>

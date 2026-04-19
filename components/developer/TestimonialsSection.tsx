@@ -60,7 +60,10 @@ export function TestimonialsSection({
       </div>
 
       <div className="mt-10 flex justify-center ">
-        <MarketingEnquireLink href={content.viewMoreHref} className="n-bold fs-16">
+        <MarketingEnquireLink
+          href={content.viewMoreHref}
+          className="fs-16 n-bold"
+        >
           {content.viewMoreLabel}
         </MarketingEnquireLink>
       </div>

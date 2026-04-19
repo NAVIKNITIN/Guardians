@@ -13,7 +13,7 @@ export const marketingClasses = {
   sectionStats:
     " bg-brand-background-muted py-14 sm:py-16",
   headingDisplay:
-    "md:mt-20 qs-reg text-[clamp(1.75rem,3.5vw,3.125rem)] fs-5xl uppercase leading-tight ls-5 text-brand-text-primary mt-5",
+    "md:mt-26 qs-reg text-[clamp(1.75rem,3.5vw,3.125rem)] fs-5xl uppercase leading-tight ls-5 text-brand-text-primary mt-5 text-[#202225]",
   headingDisplayMd:
     "qs-reg text-[clamp(1.75rem,3.5vw,3.125rem)] uppercase leading-tight ls-5 text-brand-text-primary",
   headingDisplaySm:

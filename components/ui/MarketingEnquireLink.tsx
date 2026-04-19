@@ -24,17 +24,12 @@ export function MarketingEnquireLink({
   variant = "default",
   ...props
 }: MarketingEnquireLinkProps) {
-  const base =
-    variant === "ourWork" ? ourWorkReadMoreLinkClassName : heroEnquireCtaClassName;
-  const arrow =
-    variant === "ourWork" ? (
-      <IconArrowUpRight className="h-[14px] w-[14px] shrink-0 text-white" />
-    ) : (
-      <IconArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-    );
+  const arrow = (
+    <IconArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+  );
 
   return (
-    <Link {...props} className={cn(base, "group", className)}>
+    <Link {...props} className={cn(heroEnquireCtaClassName, "group", className)}>
       {children}
       {arrow}
     </Link>
