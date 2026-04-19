@@ -59,7 +59,7 @@ const navDropdownItemClass = cn(
 
 /** Top bar “Search” — Figma Group 63: box height 11px → 11/11 type (paste had no font block; color kept for bar contrast). */
 const searchLabelClass =
-  "n-reg not-italic fw-600 text-xs leading-none text-white/95 capitalize";
+  "n-bold not-italic fs-16 lh-25 leading-none text-white/95 capitalize";
 
 function isActivePath(pathname: string, href: string) {
   if (href === "/") return pathname === "/";
@@ -73,8 +73,8 @@ function isActivePath(pathname: string, href: string) {
  */
 function navStateClass(isActive: boolean) {
   return isActive
-    ? "n-bold text-[#000000] fs-16 [text-shadow:0_4px_6px_rgba(0,0,0,0.3)]"
-    : "n-reg text-[#202225] fs-16";
+    ? "n-bold text-[#000000] fs-18 " //if shadow is needed, add [text-shadow:0_4px_6px_rgba(0,0,0,0.3)]
+    : "n-book text-[#202225] fs-18";
 }
 
 export function Navbar() {
@@ -88,14 +88,14 @@ export function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-black/[0.06] bg-[#F2F2F2] shadow-[0_1px_0_rgba(0,0,0,0.04)]">
-      <div className="bg-[#8C7E7E] text-white/95">
-        <Container className="flex h-9 items-center justify-end">
+      <div className="bg-[#8F8183] text-white/95">
+        <Container className="flex h-[48px] items-center justify-end">
           <Link
             href="#search"
             className="inline-flex items-center gap-1.5 transition-opacity hover:opacity-80"
             aria-label="Search"
           >
-            <IconSearch className="h-3 w-3 opacity-90 sm:h-3.5 sm:w-3.5" />
+            <IconSearch className="h-5 w-5 opacity-90" />
             <span className={searchLabelClass}>Search</span>
           </Link>
         </Container>
@@ -151,9 +151,9 @@ export function Navbar() {
           </div>
 
           {/* Desktop: left nav | centered logo | right nav */}
-          <div className="hidden min-h-16 items-stretch py-2.5 lg:min-h-24 lg:py-3 xl:flex">
+          <div className="hidden h-[89px] items-stretch py-2.5  lg:py-3 xl:flex">
             <nav
-              className="flex min-w-0 flex-1 items-center justify-end gap-5 pr-5 lg:gap-10 lg:pr-7"
+              className="flex min-w-0 flex-1 items-center justify-end gap-4 pr-5 lg:gap-8 lg:pr-7"
               aria-label="Primary left"
             >
               {navLeft.map((item) => {
@@ -184,7 +184,7 @@ export function Navbar() {
                         }}
                       >
                         {item.label}
-                        <IconChevronDown className="h-3 w-3 shrink-0 text-[#202225]/50 transition-transform group-hover:translate-y-px" />
+                        <IconChevronDown className="h-3 w-3 shrink-0 text-[#202225] transition-transform group-hover:translate-y-px" />
                       </Link>
                       <div
                         className={cn(
@@ -257,7 +257,7 @@ export function Navbar() {
             </Link>
 
             <nav
-              className="flex min-w-0 flex-1 items-center justify-start gap-5 pl-5 lg:gap-10 lg:pl-7"
+              className="flex min-w-0 flex-1 items-center justify-start gap-4 pl-5 lg:gap-8 lg:pl-7"
               aria-label="Primary right"
             >
               {navRight.map((item) => (

@@ -1149,3 +1149,17 @@ body {
   font-size: 20px;
   letter-spacing: 0.1em;
 }
+
+.semi-black {
+  color: #202225;
+}
+.bg-semi-black {
+  background-color: #202225;
+}
+.semi-orange {
+  color: #8f8183;
+  text-decoration-color: #8f8183;
+}
+.bg-semi-orange {
+  background-color: #8f8183;
+}

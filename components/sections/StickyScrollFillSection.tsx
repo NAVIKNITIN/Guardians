@@ -129,7 +129,7 @@ export function StickyScrollFillSection({
         <div
           className={cn(
             "w-full space-y-1.5 text-center ",
-            "fs-48 n-reg fw-700",
+            "fs-48 n-bold",
             className,
           )}
         >

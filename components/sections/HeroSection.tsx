@@ -56,7 +56,7 @@ export function HeroSection() {
             <GradientCtaButton
               href="#about"
               variant="know-more"
-              className="btn-1 w-full min-w-0 max-w-[285px] max-h-[55px] rounded-none border-0 fw-700 text-sm lg:text-[20px] lg:px-[50px] lg:py-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B48183] sm:min-w-[180px] sm:max-w-none"
+              className="btn-1 w-full min-w-0 max-w-[285px] max-h-[55px] rounded-none border-0 n-bold text-sm lg:text-[20px] lg:px-[50px] lg:py-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B48183] sm:min-w-[180px] sm:max-w-none"
             >
               KNOW MORE
             </GradientCtaButton>

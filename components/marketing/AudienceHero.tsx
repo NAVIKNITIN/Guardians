@@ -49,12 +49,12 @@ export function AudienceHero({ content }: { content: MarketingHeroContent }) {
             className="break-words qs-reg text-[clamp(2rem,6vw,4.375rem)] uppercase leading-[1.05] ls-5"
           >
             <span className="block">
-              <span>{lead}</span>{" "}
-              <span className="text-[#7a6a5c]">{accent}</span>
+              <span className="semi-black">{lead}</span>{" "}
+              <span className="semi-orange">{accent}</span>
             </span>
           </h1>
           <p
-            className="mx-auto mt-6 text-center lg:max-w-[38rem] n-reg fs-18 lh-23 lg:mt-8"
+            className="text-black fs-18 n-book lh-22 w-full max-w-[600px] mx-auto flex text-left md:mt-10 lg:mt-8"
           >
             {content.body}
           </p>
