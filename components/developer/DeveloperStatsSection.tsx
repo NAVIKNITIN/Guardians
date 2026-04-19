@@ -30,16 +30,26 @@ import {
 import Image from "next/image";
 
 // CHANGE: slider state ke liye.
-import { startTransition, useRef, useState } from "react";
+import {
+  startTransition,
+  useRef,
+  useState,
+  type CSSProperties,
+} from "react";
 
 export function StatFigure({
   stat,
   index,
   isInView,
+  compact,
 }: {
   stat: DeveloperStat;
   index: number;
   isInView: boolean;
+  /**
+   * About-page inline column: avoid viewport-`md:` sizing (numbers explode in a narrow grid cell).
+   */
+  compact?: boolean;
 }) {
   const count = useCountUp(stat.end, isInView, {
     duration: 1800,
@@ -50,8 +60,10 @@ export function StatFigure({
   return (
     <p
       className={cn(
-        "n-book fw-200 tabular-nums text-brand-footer tracking-[-0.03em]",
-        "text-center text-[clamp(1.75rem,6.5vw,2.25rem)] whitespace-nowrap sm:whitespace-normal sm:text-4xl md:text-[clamp(2.25rem,4vw,2.85rem)] md:tracking-[-0.04em]",
+        "tabular-nums text-brand-footer",
+        compact
+          ? "n-book max-w-full wrap-break-word whitespace-normal text-left font-semibold text-[clamp(1.65rem,min(13cqw,4.2vw),2.65rem)] leading-none tracking-[-0.04em]"
+          : "n-book fw-200 tracking-[-0.03em] text-center text-[clamp(1.75rem,6.5vw,2.25rem)] whitespace-nowrap sm:whitespace-normal sm:text-4xl md:text-[clamp(2.25rem,4vw,2.85rem)] md:tracking-[-0.04em]",
       )}
     >
       {text}
@@ -61,12 +73,66 @@ export function StatFigure({
 
 export function DeveloperStatsSection({
   content,
+  layout = "band",
+  inlineColumns = 4,
 }: {
   content: StatsSectionContent;
+  /** `band`: full stats section with surface + container (marketing pages). `inline`: grid only for embedding (e.g. About two-column). */
+  layout?: "band" | "inline";
+  /** When `layout` is `inline`, cap the grid at this many columns (`md` never exceeds 4). Ignored for `band`. */
+  inlineColumns?: 2 | 4;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "0px 0px -12% 0px" });
   const metrics = content.metrics;
+
+  const isTwoColInline = layout === "inline" && inlineColumns === 2;
+
+  const gridClassName = cn(
+    "w-full min-w-0",
+    isTwoColInline
+      ? "grid grid-cols-1 justify-items-stretch gap-x-8 gap-y-10 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-12 md:grid-cols-2 lg:gap-x-14 lg:gap-y-16 fs-56 "
+      : "grid grid-cols-1 gap-x-4 sm:grid-cols-2 md:grid-cols-4",
+  );
+
+  const grid = (
+    <div ref={ref} className={gridClassName}>
+      {metrics.map((stat, idx) => (
+        <div
+          key={stat.label}
+          className={cn(
+            "flex min-h-0 min-w-0 flex-col",
+            isTwoColInline
+              ? "items-start gap-3 text-left"
+              : "items-center justify-center px-4 text-center sm:px-8 md:px-6 lg:px-12",
+            !isTwoColInline &&
+            idx > 0 &&
+            "relative md:before:absolute md:before:left-0 md:before:top-1/2 md:before:h-5.5 md:before:w-px md:before:-translate-y-1/2 md:before:bg-[#8F8183] md:before:content-['']",
+          )}
+        >
+          <StatFigure
+            stat={stat}
+            index={idx}
+            isInView={isInView}
+            compact={isTwoColInline}
+          />
+          <p
+            className={cn(
+              isTwoColInline
+                ? "max-w-[17rem] text-pretty text-sm leading-snug text-[#5f5a5b] n-book font-normal normal-case tracking-normal"
+                : "fs-12 lh-20 n-bold uppercase leading-snug tracking-wide text-black whitespace-nowrap",
+            )}
+          >
+            {stat.label}
+          </p>
+        </div>
+      ))}
+    </div>
+  );
+
+  if (layout === "inline") {
+    return grid;
+  }
 
   return (
     <SectionSurface
@@ -74,26 +140,7 @@ export function DeveloperStatsSection({
       aria-label="Key statistics"
       className="bg-transparent !py-10"
     >
-      <div
-        ref={ref}
-        className="grid grid-cols-1 gap-x-4  sm:grid-cols-2 md:grid-cols-4"
-      >
-        {metrics.map((stat, idx) => (
-          <div
-            key={stat.label}
-            className={cn(
-              "flex min-h-0 min-w-0 flex-col items-center justify-center px-4 text-center  sm:px-8 md:px-6 lg:px-12",
-              idx > 0 &&
-              "relative md:before:absolute md:before:left-0 md:before:top-1/2 md:before:h-5.5 md:before:w-px md:before:-translate-y-1/2 md:before:bg-[#8F8183] md:before:content-['']",
-            )}
-          >
-            <StatFigure stat={stat} index={idx} isInView={isInView} />
-            <p className="fs-12 lh-20 n-bold uppercase leading-snug tracking-wide text-black whitespace-nowrap">
-              {stat.label}
-            </p>
-          </div>
-        ))}
-      </div>
+      {grid}
     </SectionSurface>
   );
 }
@@ -148,6 +195,10 @@ const leadershipTopVariants = {
   }),
 };
 
+/** Portrait frame for leadership carousel (design: 519×550). */
+const LEADERSHIP_IMAGE_WIDTH = 519;
+const LEADERSHIP_IMAGE_HEIGHT = 550;
+
 // CHANGE: bottom name/role transition.
 const leadershipBottomVariants = {
   enter: (direction: 1 | -1) => ({
@@ -192,58 +243,68 @@ export function AboutLeadershipSection({
   };
 
   return (
-    <div className="mx-auto w-full lg:px-20 lg:pb-10">
-      <h2 className="qs-reg fs-50 uppercase tracking-[0.05em] text-[#000000]">
-        Meet The Leadership
-      </h2>
+    <div className="mx-auto w-full min-w-0  bg-[#F2F2F2]">
+      <div className=" border-[#000000]  ">
+        <div
+          className="grid gap-8 lg:grid-cols-[minmax(0,var(--leadership-image-w))_minmax(0,1fr)] lg:gap-10"
+          style={
+            {
+              "--leadership-image-w": `${LEADERSHIP_IMAGE_WIDTH}px`,
+            } as CSSProperties
+          }
+        >
+          <div className="relative w-full pl-[20px] pt-[20px] pb-[20px]">
+            <div
+              className="relative w-full overflow-hidden bg-neutral-200/80"
+              style={{
+                aspectRatio: `${LEADERSHIP_IMAGE_WIDTH} / ${LEADERSHIP_IMAGE_HEIGHT}`,
+              }}
+            >
+              <AnimatePresence custom={direction} initial={false} mode="wait">
+                <motion.div
+                  key={activeSlide.id}
+                  custom={direction}
+                  variants={shouldReduceMotion ? undefined : leadershipImageVariants}
+                  initial={shouldReduceMotion ? false : "enter"}
+                  animate="center"
+                  exit={shouldReduceMotion ? undefined : "exit"}
+                  transition={leadershipTransition}
+                  className="absolute inset-0"
+                >
+                  <Image
+                    src={activeSlide.imageSrc}
+                    alt={activeSlide.imageAlt}
+                    fill
+                    className={cn(
+                      "object-cover",
+                      activeSlide.imagePositionClassName,
+                    )}
+                    sizes={`(max-width: 1024px) 100vw, ${LEADERSHIP_IMAGE_WIDTH}px`}
+                    priority={activeIndex === 0}
+                  />
+                </motion.div>
+              </AnimatePresence>
 
-      <div className=" border-[#000000]  p-6 sm:p-8 lg:p-10">
-        <div className="grid gap-8 lg:grid-cols-[420px_minmax(0,1fr)] lg:gap-10">
-          <div className="relative min-h-[340px] overflow-hidden  sm:min-h-[420px] lg:min-h-[520px]">
-            <AnimatePresence custom={direction} initial={false} mode="wait">
-              <motion.div
-                key={activeSlide.id}
-                custom={direction}
-                variants={shouldReduceMotion ? undefined : leadershipImageVariants}
-                initial={shouldReduceMotion ? false : "enter"}
-                animate="center"
-                exit={shouldReduceMotion ? undefined : "exit"}
-                transition={leadershipTransition}
-                className="absolute inset-0"
-              >
-                <Image
-                  src={activeSlide.imageSrc}
-                  alt={activeSlide.imageAlt}
-                  fill
-                  className={cn(
-                    "object-cover",
-                    activeSlide.imagePositionClassName,
-                  )}
-                  sizes="(max-width: 1024px) 100vw, 420px"
-                  priority={activeIndex === 0}
-                />
-              </motion.div>
-            </AnimatePresence>
-
-            {/* dot wil work  */}
-            <div className="absolute inset-x-0 bottom-4 flex items-center justify-center gap-1.5">
-              {slides.map((slide, index) => (
-                <span
-                  key={slide.id}
-                  className={cn(
-                    "rounded-full transition-all duration-300",
-                    index === activeIndex
-                      ? "h-1.5 w-6 bg-white"
-                      : "h-1.5 w-1.5 bg-white/85",
-                  )}
-                />
-              ))}
+              {/* dot wil work  */}
+              <div className="absolute inset-x-0 bottom-4 flex items-center justify-center gap-1.5">
+                {slides.map((slide, index) => (
+                  <span
+                    key={slide.id}
+                    className={cn(
+                      "rounded-full transition-all duration-300",
+                      index === activeIndex
+                        ? "h-1.5 w-6 bg-white"
+                        : "h-1.5 w-1.5 bg-white/85",
+                    )}
+                  />
+                ))}
+              </div>
             </div>
           </div>
 
           {/*  */}
-          <div className="flex flex-col justify-between py-2 lg:py-4">
-            <div className="min-h-[250px] sm:min-h-[280px] lg:min-h-[300px]">
+          <div className="flex flex-col justify-between py-2 lg:py-6">
+            <div className="">
               <AnimatePresence custom={direction} initial={false} mode="wait">
                 <motion.div
                   key={`${activeSlide.id}-top`}
@@ -259,12 +320,12 @@ export function AboutLeadershipSection({
                       alt="quote"
                       src="/images/“.svg"
                       width={68}
-                      height={79}
+                      height={85}
                       className="object-cover"
                       sizes="100px"
                     />
                     <span>
-                      <h3 className="n-bold fs-35 lg:fs-42 lh-50 lg:lh-60 pl-4">
+                      <h3 className="n-bold fs-42 lg:fs-42 lh-50 lg:lh-60 pl-4">
                         {activeSlide.title}
                       </h3>
 
@@ -280,7 +341,7 @@ export function AboutLeadershipSection({
               </AnimatePresence>
             </div>
 
-            <div className="mt-10 min-h-[120px]">
+            <div className="mt-10 mr-10">
               <AnimatePresence custom={direction} initial={false} mode="wait">
                 <motion.div
                   key={`${activeSlide.id}-bottom`}
@@ -316,7 +377,7 @@ export function AboutLeadershipSection({
             </div>
 
             {/* onclick logic*/}
-            <div className="mt-7 flex items-center gap-4 text-[#a8a3a4]">
+            <div className=" flex items-center gap-8 text-[#a8a3a4] ">
               <button
                 type="button"
                 onClick={() => moveBy(-1)}
@@ -350,6 +411,6 @@ export function AboutLeadershipSection({
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 }
