@@ -1,4 +1,5 @@
 "use client";
+
 import { useRouter, useSearchParams } from "next/navigation";
 import type { ChangeEvent, ReactNode } from "react";
 import { useEffect, useState } from "react";
@@ -166,6 +167,35 @@ function parsePrice(value: string) {
 
 function toTextValue(value: string | number | null | undefined) {
   return value == null ? "" : String(value);
+}
+
+function mapProjectLocationsToSections(
+  locations: ProjectLocation[],
+): LocationConnectivitySection[] {
+  if (locations.length === 0) {
+    return [createEmptyLocationSection(1)];
+  }
+
+  return locations.map((location) => {
+    const shouldShowPlace = Boolean(
+      location.walking_time ||
+        location.driving_time ||
+        (location.place_name && location.place_name !== location.city),
+    );
+
+    return {
+      id: location.id,
+      fullAddress: location.address ?? "",
+      latitude: toTextValue(location.latitude),
+      longitude: toTextValue(location.longitude),
+      city: location.city ?? "",
+      state: location.state ?? "",
+      pincode: "",
+      place: shouldShowPlace ? location.place_name ?? "" : "",
+      walkingTime: location.walking_time ?? "",
+      drivingTime: location.driving_time ?? "",
+    };
+  });
 }
 
 function SectionCard({
@@ -410,24 +440,6 @@ export function AddProjectWizard() {
             return firstSeq - secondSeq;
           });
 
-        let primaryLocation =
-          project.locations.find(
-            (location) =>
-              Boolean(location.address) ||
-              location.latitude != null ||
-              location.longitude != null,
-          ) ?? null;
-
-        if (!primaryLocation && project.locations.length > 0) {
-          primaryLocation = project.locations[0];
-        }
-
-        const nearbyConnectivity = primaryLocation
-          ? project.locations.filter(
-              (location) => location.id !== primaryLocation?.id,
-            )
-          : [];
-
         const primaryConfiguration = project.configurations[0] ?? null;
 
         setExistingProjectFiles({
@@ -453,34 +465,9 @@ export function AddProjectWizard() {
             : "",
         });
 
-        const mappedLocationSections =
-          nearbyConnectivity.length > 0
-            ? nearbyConnectivity.map((item) => ({
-                id: item.id,
-                fullAddress: primaryLocation?.address ?? "",
-                latitude: toTextValue(primaryLocation?.latitude),
-                longitude: toTextValue(primaryLocation?.longitude),
-                city: item.city ?? primaryLocation?.city ?? "",
-                state: item.state ?? primaryLocation?.state ?? "",
-                pincode: "",
-                place: item.place_name ?? "",
-                walkingTime: item.walking_time ?? "",
-                drivingTime: item.driving_time ?? "",
-              }))
-            : [
-                {
-                  id: primaryLocation?.id ?? 1,
-                  fullAddress: primaryLocation?.address ?? "",
-                  latitude: toTextValue(primaryLocation?.latitude),
-                  longitude: toTextValue(primaryLocation?.longitude),
-                  city: primaryLocation?.city ?? "",
-                  state: primaryLocation?.state ?? "",
-                  pincode: "",
-                  place: "",
-                  walkingTime: "",
-                  drivingTime: "",
-                },
-              ];
+        const mappedLocationSections = mapProjectLocationsToSections(
+          project.locations,
+        );
 
         setLocationSections(mappedLocationSections);
 
@@ -688,68 +675,38 @@ export function AddProjectWizard() {
     const configurationName = form.configuration.trim();
     const normalizedPrice = parsePrice(form.startingPrice);
 
-    const locations = locationSections.flatMap((section) => {
-      const sectionLocations: Array<{
-        place_name: string;
-        city: string | null;
-        state: string | null;
-        country: string;
-        address: string | null;
-        latitude: string | null;
-        longitude: string | null;
-        walking_time?: string | null;
-        driving_time?: string | null;
-      }> = [];
-
-      const hasMainLocation = Boolean(
-        section.fullAddress.trim() ||
-          section.city.trim() ||
-          section.state.trim() ||
-          section.pincode.trim() ||
-          section.latitude.trim() ||
-          section.longitude.trim(),
-      );
-
-      if (hasMainLocation) {
-        sectionLocations.push({
-          place_name:
+    const locations = locationSections
+      .filter((section) =>
+        Boolean(
+          section.fullAddress.trim() ||
+            section.latitude.trim() ||
+            section.longitude.trim() ||
             section.city.trim() ||
-            form.projectName.trim() ||
-            "Project Location",
-          city: section.city.trim() || null,
-          state: section.state.trim() || null,
-          country: "India",
-          address:
-            [section.fullAddress.trim(), section.pincode.trim()]
-              .filter(Boolean)
-              .join(", ") || null,
-          latitude: section.latitude.trim() || null,
-          longitude: section.longitude.trim() || null,
-        });
-      }
-
-      const hasNearbyConnectivity = Boolean(
-        section.place.trim() ||
-          section.walkingTime.trim() ||
-          section.drivingTime.trim(),
-      );
-
-      if (hasNearbyConnectivity) {
-        sectionLocations.push({
-          place_name: section.place.trim() || "Nearby Landmark",
-          city: section.city.trim() || null,
-          state: section.state.trim() || null,
-          country: "India",
-          address: null,
-          latitude: null,
-          longitude: null,
-          walking_time: section.walkingTime.trim() || null,
-          driving_time: section.drivingTime.trim() || null,
-        });
-      }
-
-      return sectionLocations;
-    });
+            section.state.trim() ||
+            section.pincode.trim() ||
+            section.place.trim() ||
+            section.walkingTime.trim() ||
+            section.drivingTime.trim(),
+        ),
+      )
+      .map((section) => ({
+        place_name:
+          section.place.trim() ||
+          section.city.trim() ||
+          form.projectName.trim() ||
+          "Project Location",
+        city: section.city.trim() || null,
+        state: section.state.trim() || null,
+        country: "India",
+        address:
+          [section.fullAddress.trim(), section.pincode.trim()]
+            .filter(Boolean)
+            .join(", ") || null,
+        latitude: section.latitude.trim() || null,
+        longitude: section.longitude.trim() || null,
+        walking_time: section.walkingTime.trim() || null,
+        driving_time: section.drivingTime.trim() || null,
+      }));
 
     return {
       name: form.projectName.trim(),

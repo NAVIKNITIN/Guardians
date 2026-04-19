@@ -4,11 +4,43 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IconFolderStack, IconPlus } from "@/components/admin/panel/AdminIcons";
 
+type IconProps = {
+  className?: string;
+};
+
+function IconCalendarDays({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className} aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 3.75v3M15.75 3.75v3M3.75 8.25h16.5" />
+      <rect x="3.75" y="5.25" width="16.5" height="15" rx="2.25" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
+}
+
+function IconArticle({ className }: IconProps) {
+  return (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" className={className} aria-hidden>
+      <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 3.75h6.879c.398 0 .779.158 1.061.439l2.121 2.121c.281.282.439.663.439 1.061V19.5a.75.75 0 0 1-.75.75H6.75A2.25 2.25 0 0 1 4.5 18V6A2.25 2.25 0 0 1 6.75 3.75Z" />
+      <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9.75h7.5M8.25 13.5h7.5M8.25 17.25h4.5" />
+    </svg>
+  );
+}
+
 const navItems = [
   {
     href: "/admin/projects",
     label: "Projects",
     icon: IconFolderStack,
+  },
+  {
+    href: "/admin/book-visits",
+    label: "Book Visits",
+    icon: IconCalendarDays,
+  },
+  {
+    href: "/admin/articles",
+    label: "Articles",
+    icon: IconArticle,
   },
   {
     href: "/admin/add-project",
@@ -31,7 +63,7 @@ export function AdminSidebar() {
       <nav className="flex gap-3 overflow-x-auto px-4 py-5 lg:flex-1 lg:flex-col lg:gap-4 lg:px-4 lg:py-8">
         {navItems.map((item) => {
           const Icon = item.icon;
-          const active = pathname === item.href;
+          const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
 
           return (
             <Link

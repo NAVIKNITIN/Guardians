@@ -1,6 +1,17 @@
-import Image from "next/image";
-import { AdminLoginForm } from "@/components/admin/AdminLoginForm";
+"use client";
 
+import Image from "next/image";
+import dynamic from "next/dynamic";
+
+const AdminLoginForm = dynamic(
+  () =>
+    import("@/components/admin/AdminLoginForm").then(
+      (mod) => mod.AdminLoginForm,
+    ),
+  {
+    ssr: false,
+  },
+);
 const LOGIN_BG_SRC = "/images/admin/login-bg.png";
 
 export function AdminLoginPage() {
