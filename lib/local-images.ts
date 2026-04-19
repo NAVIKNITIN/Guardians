@@ -23,6 +23,16 @@ export const LOCAL_IMAGES = {
   blogDetail: "/images/blog-detail.svg",
   contactHeroPrimary: "/images/image 152.svg",
   contactHeroSecondary: "/images/image 153.svg",
+  /** Project listing thumbnails — files in `public/images/Projects/ongoing` */
+  img1: "/images/Projects/ongoing/image 106.svg",
+  img2: "/images/Projects/ongoing/image 107.svg",
+  img3: "/images/Projects/ongoing/image 108.svg",
+  img4: "/images/Projects/ongoing/image 109.svg",
+  /** `image 110.svg` not in repo; using `image 111.svg` */
+  img5: "/images/Projects/ongoing/image 111.svg",
+  img6: "/images/Projects/ongoing/image 112.svg",
+  img7: "/images/Projects/ongoing/image 113.svg",
+  img8: "/images/Projects/ongoing/Frame 189.svg",
 } as const;
 
 /** Rotating placeholders for grids, galleries, and lists */

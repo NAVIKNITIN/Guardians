@@ -3,7 +3,7 @@
 import { Container } from "@/components/common/Container";
 import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { ProjectCard } from "@/components/projects/ProjectCard";
-import { localImageByIndex } from "@/lib/local-images";
+import { LOCAL_IMAGES, localImageByIndex } from "@/lib/local-images";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
@@ -22,6 +22,9 @@ const BUILDER_OPTIONS = [
 const CONFIGURATION_OPTIONS = ["All", "1 BHK", "2 BHK", "3 BHK"] as const;
 const STAGE_OPTIONS = ["Ongoing", "Completed"] as const;
 
+/** Max project cards shown before “View More”. */
+const INITIAL_VISIBLE_CARDS = 10;
+
 type ProjectRow = {
   id: number;
   imageSrc: string;
@@ -36,7 +39,7 @@ type ProjectRow = {
 const projects: ProjectRow[] = [
   {
     id: 1,
-    imageSrc: localImageByIndex(0),
+    imageSrc: LOCAL_IMAGES.img1,
     title: "Lorem Ipsum Tower A",
     subtitle: "Piramal Realty, Chembur (E)",
     badge: { label: "1 Unit Left", variant: "units-left" },
@@ -46,7 +49,7 @@ const projects: ProjectRow[] = [
   },
   {
     id: 2,
-    imageSrc: localImageByIndex(1),
+    imageSrc: LOCAL_IMAGES.img2,
     title: "Lorem Ipsum Tower A",
     subtitle: "Piramal Realty, Chembur (E)",
     badge: { label: "Completed", variant: "completed" },
@@ -56,7 +59,7 @@ const projects: ProjectRow[] = [
   },
   {
     id: 3,
-    imageSrc: localImageByIndex(2),
+    imageSrc: LOCAL_IMAGES.img3,
     title: "Lorem Ipsum Tower A",
     subtitle: "Godrej Properties, Chembur (E)",
     badge: { label: "Completed", variant: "completed" },
@@ -66,7 +69,7 @@ const projects: ProjectRow[] = [
   },
   {
     id: 4,
-    imageSrc: localImageByIndex(3),
+    imageSrc: LOCAL_IMAGES.img4,
     title: "Lorem Ipsum Tower A",
     subtitle: "Piramal Realty, Chembur (E)",
     badge: { label: "3 Units Left", variant: "units-left" },
@@ -76,7 +79,7 @@ const projects: ProjectRow[] = [
   },
   {
     id: 5,
-    imageSrc: localImageByIndex(4),
+    imageSrc: LOCAL_IMAGES.img5,
     title: "Lorem Ipsum Tower A",
     subtitle: "Lodha Group, Chembur (E)",
     badge: undefined,
@@ -86,7 +89,7 @@ const projects: ProjectRow[] = [
   },
   {
     id: 6,
-    imageSrc: localImageByIndex(5),
+    imageSrc: LOCAL_IMAGES.img6,
     title: "Lorem Ipsum Tower A",
     subtitle: "Godrej Properties, Chembur (E)",
     badge: { label: "Completed", variant: "completed" },
@@ -96,7 +99,7 @@ const projects: ProjectRow[] = [
   },
   {
     id: 7,
-    imageSrc: localImageByIndex(6),
+    imageSrc: LOCAL_IMAGES.img7,
     title: "Lorem Ipsum Tower A",
     subtitle: "Hiranandani, Chembur (E)",
     badge: undefined,
@@ -106,7 +109,97 @@ const projects: ProjectRow[] = [
   },
   {
     id: 8,
-    imageSrc: localImageByIndex(7),
+    imageSrc: LOCAL_IMAGES.img8,
+    title: "Lorem Ipsum Tower B",
+    subtitle: "Lodha Group, Noida",
+    badge: undefined,
+    budget: "2-5 Cr",
+    builder: "Lodha Group",
+    configuration: "3 BHK",
+  },
+  {
+    id: 9,
+    imageSrc: LOCAL_IMAGES.img8,
+    title: "Lorem Ipsum Tower B",
+    subtitle: "Lodha Group, Noida",
+    badge: undefined,
+    budget: "2-5 Cr",
+    builder: "Lodha Group",
+    configuration: "3 BHK",
+  },
+  {
+    id: 17,
+    imageSrc: LOCAL_IMAGES.img8,
+    title: "Lorem Ipsum Tower B",
+    subtitle: "Lodha Group, Noida",
+    badge: undefined,
+    budget: "2-5 Cr",
+    builder: "Lodha Group",
+    configuration: "3 BHK",
+  },
+  {
+    id: 10,
+    imageSrc: LOCAL_IMAGES.img8,
+    title: "Lorem Ipsum Tower B",
+    subtitle: "Lodha Group, Noida",
+    badge: undefined,
+    budget: "2-5 Cr",
+    builder: "Lodha Group",
+    configuration: "3 BHK",
+  },
+  {
+    id: 11,
+    imageSrc: LOCAL_IMAGES.img8,
+    title: "Lorem Ipsum Tower B",
+    subtitle: "Lodha Group, Noida",
+    badge: undefined,
+    budget: "2-5 Cr",
+    builder: "Lodha Group",
+    configuration: "3 BHK",
+  },
+  {
+    id: 12,
+    imageSrc: LOCAL_IMAGES.img8,
+    title: "Lorem Ipsum Tower B",
+    subtitle: "Lodha Group, Noida",
+    badge: undefined,
+    budget: "2-5 Cr",
+    builder: "Lodha Group",
+    configuration: "3 BHK",
+  },
+  {
+    id: 13,
+    imageSrc: LOCAL_IMAGES.img8,
+    title: "Lorem Ipsum Tower B",
+    subtitle: "Lodha Group, Noida",
+    badge: undefined,
+    budget: "2-5 Cr",
+    builder: "Lodha Group",
+    configuration: "3 BHK",
+  },
+  {
+    id: 14,
+    imageSrc: LOCAL_IMAGES.img8,
+    title: "Lorem Ipsum Tower B",
+    subtitle: "Lodha Group, Noida",
+    badge: undefined,
+    budget: "2-5 Cr",
+    builder: "Lodha Group",
+    configuration: "3 BHK",
+  },
+  {
+    id: 15,
+    imageSrc: LOCAL_IMAGES.img8,
+    title: "Lorem Ipsum Tower B",
+    subtitle: "Lodha Group, Noida",
+    badge: undefined,
+    budget: "2-5 Cr",
+    builder: "Lodha Group",
+    configuration: "3 BHK",
+  },
+  {
+    id: 16,
+    imageSrc: LOCAL_IMAGES.img8,
     title: "Lorem Ipsum Tower B",
     subtitle: "Lodha Group, Noida",
     badge: undefined,
@@ -194,10 +287,17 @@ function ChevronUp({ className = "" }: { className?: string }) {
   );
 }
 
-/** Search icon */
-function SearchIcon() {
+/** Search icon — sized for 30px-tall field (spec ~345×30). */
+function SearchIcon({ className = "" }: { className?: string }) {
   return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <svg
+      className={`shrink-0 ${className}`}
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden
+    >
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -261,11 +361,25 @@ function ProjectsPageContent() {
     "Chembur (E)",
   );
 
+  const [visibleCardCount, setVisibleCardCount] =
+    useState(INITIAL_VISIBLE_CARDS);
+
   useEffect(() => {
     const stage = searchParams.get("stage");
     if (stage === "ongoing") setFilterStage("Ongoing");
     else if (stage === "completed") setFilterStage("Completed");
   }, [searchParams]);
+
+  useEffect(() => {
+    setVisibleCardCount(INITIAL_VISIBLE_CARDS);
+  }, [
+    filterBudget,
+    filterBuilder,
+    filterConfiguration,
+    filterStage,
+    activeLocation,
+    searchQuery,
+  ]);
 
   const visibleProjects = useMemo(
     () =>
@@ -286,6 +400,13 @@ function ProjectsPageContent() {
       searchQuery,
     ],
   );
+
+  const displayedProjects = useMemo(
+    () => visibleProjects.slice(0, visibleCardCount),
+    [visibleProjects, visibleCardCount],
+  );
+
+  const hasMoreProjects = visibleProjects.length > displayedProjects.length;
 
   function clearAllFilters() {
     setFilterBudget("All");
@@ -326,7 +447,7 @@ function ProjectsPageContent() {
           >
             {filterStage} Projects
           </h1>
-          <p className="mt-1 max-w-3xl px-1 n-reg leading-relaxed text-[#0a0a0a] sm:mt-0 sm:text-lg lg:text-base">
+          <p className="mt-1 max-w-3xl px-1 n-reg leading-relaxed text-[#000000] sm:mt-0 sm:text-lg lg:text-base">
             We are one of the fastest growing Real Estate consulting company in
             India.
           </p>
@@ -347,7 +468,7 @@ function ProjectsPageContent() {
                 aria-expanded={showFilters}
                 aria-controls="projects-filter-dropdowns"
                 className={`inline-flex cursor-pointer items-center gap-2 n-reg text-sm font-black uppercase tracking-[0.1em] sm:text-base ${showFilters
-                  ? "text-[#8F8183]  border-[#8F8183] n-bold "
+                  ? "text-[#8F8183]  border-[#8F8183] n-bold"
                   : "text-[#8F8183]/70"
                   }`}
               >
@@ -367,7 +488,7 @@ function ProjectsPageContent() {
               </button>
             </div>
 
-            <div className="flex h-11 min-h-[44px] w-full min-w-0 max-w-full items-center gap-2.5 border border-black/20 bg-white px-3 sm:h-[34px] sm:min-h-0 sm:max-w-[min(100%,345px)] sm:shrink-0 sm:px-3.5">
+            <div className="mx-auto flex h-[30px] w-full max-w-[345px] min-w-0 shrink-0 items-center gap-2 border border-black/20 bg-white px-3 sm:mx-0">
               <SearchIcon />
               <label htmlFor="projects-search" className="sr-only">
                 Search projects
@@ -378,7 +499,7 @@ function ProjectsPageContent() {
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder="Search"
-                className="h-full w-full border-0 bg-transparent n-reg text-sm text-black/80 outline-none placeholder:text-black/60 sm:text-base"
+                className="min-h-0 min-w-0 flex-1 border-0 bg-transparent py-0 n-reg text-sm leading-none text-black/80 outline-none placeholder:text-black/40"
               />
             </div>
           </div>
@@ -453,7 +574,7 @@ function ProjectsPageContent() {
       <section className="bg-white py-8 sm:py-10 lg:px-8 lg:py-20 xl:px-12 2xl:px-16">
         <Container className="min-w-0">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:gap-10 xl:gap-10">
-            {visibleProjects.map((project) => (
+            {displayedProjects.map((project) => (
               <ProjectCard
                 key={project.id}
                 imageSrc={project.imageSrc}
@@ -486,7 +607,17 @@ function ProjectsPageContent() {
 
           <div className="mt-10 flex justify-center px-2 sm:mt-12 lg:mt-16">
             <GradientCtaButton
-              className="h-[52px] w-full max-w-sm sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
+              type="button"
+              disabled={
+                visibleProjects.length === 0 ||
+                !hasMoreProjects
+              }
+              className="h-[52px] w-full max-w-sm disabled:pointer-events-none disabled:opacity-50 sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
+              onClick={() =>
+                setVisibleCardCount((n) =>
+                  Math.min(n + INITIAL_VISIBLE_CARDS, visibleProjects.length),
+                )
+              }
             >
               View More
             </GradientCtaButton>

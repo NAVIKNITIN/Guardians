@@ -58,7 +58,7 @@ export function ProjectCard({
         {stage != "Completed" && badge ? (
           <div
             className={cn(
-              "absolute left-1/2 top-3 z-10 -translate-x-1/2 rounded-none px-4 py-1.5 sm:left-0 sm:top-4 sm:translate-x-0 sm:px-4 sm:py-1.5",
+              "absolute mt-3 left-1/2 top-3 z-10 -translate-x-1/2 rounded-none px-4 py-1.5 sm:left-0 sm:top-4 sm:translate-x-0 sm:px-4 sm:py-1.5",
               badgeClass,
             )}
           >
@@ -71,10 +71,10 @@ export function ProjectCard({
 
       <div className="flex flex-col items-center justify-center gap-4 bg-[#ecebeb] px-4 py-4 text-center sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-5 sm:text-left">
         <div className="min-w-0 w-full flex-1 sm:w-auto">
-          <p className="n-bold leading-snug text-[#161616] sm:text-lg">
+          <p className="n-bold fs-24 leading-snug text-[#161616] sm:text-lg">
             {title}
           </p>
-          <p className="mt-1 n-reg text-sm leading-snug text-[#161616]/60 sm:text-[15px]">
+          <p className="mt-1 n-reg fs-20 text-sm leading-snug text-[#161616]/60 sm:text-[15px]">
             {subtitle}
           </p>
         </div>
@@ -82,7 +82,7 @@ export function ProjectCard({
         <span
           className={cn(
             arrowIconTileClassName,
-            "pointer-events-none group-hover:bg-neutral-900",
+            "pointer-events-none group-hover:bg-neutral-900 !w-[75px] !h-[55px]",
           )}
           aria-hidden
         >
