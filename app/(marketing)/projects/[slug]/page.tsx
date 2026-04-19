@@ -338,7 +338,7 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* HERO — project header                                            */}
       {/* ---------------------------------------------------------------- */}
-      <section className="relative overflow-hidden bg-white px-3 pt-8 pb-2 sm:px-6 sm:pt-10 md:px-10 md:pt-20 lg:px-20 lg:pt-[150px]">
+      <section className="relative overflow-hidden bg-white pt-8 pb-2 sm:pt-10 md:pt-20 lg:pt-[150px]">
         <Container className="min-w-0 pb-0">
           <div className="relative flex min-h-0 flex-col items-center gap-5 text-center lg:min-h-[min(12rem,1fr)] lg:flex-row lg:items-start lg:justify-between lg:gap-6 lg:text-left">
             {/* Left — title block */}
@@ -414,7 +414,8 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* BUILDING HERO IMAGE                                              */}
       {/* ---------------------------------------------------------------- */}
-      <section className="relative h-[min(42svh,22rem)] min-h-[200px] overflow-hidden pt-4 sm:h-[380px] lg:mt-20 lg:h-[550px]">
+      {/* Full-bleed — edge to edge (no Container) */}
+      <section className="relative h-[min(42svh,22rem)] min-h-[200px] w-full min-w-0 overflow-hidden pt-4 sm:h-[380px] lg:mt-20 lg:h-[550px]">
         <Image
           src={buildingHeroSrc}
           alt="Lorem Ipsum Towers"
@@ -428,7 +429,7 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* DESCRIPTION                                                      */}
       {/* ---------------------------------------------------------------- */}
-      <section className="bg-white px-3 py-10 sm:px-6 sm:py-12 md:px-10 lg:px-20 lg:py-16">
+      <section className="bg-white py-10 sm:py-12 lg:py-16">
         <Container className="min-w-0">
           <p className="n-bold text-center text-[clamp(1.0625rem,3.8vw,1.25rem)] leading-snug text-black sm:text-left sm:text-2xl lg:text-[2.25rem] lg:leading-[1.17]">
             {project.description}
@@ -439,7 +440,7 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* PHOTO GALLERY                                                    */}
       {/* ---------------------------------------------------------------- */}
-      <section className="bg-white px-3 pb-10 sm:px-6 sm:pb-12 md:px-10 lg:px-20 lg:pb-16">
+      <section className="bg-white pb-10 sm:pb-12 lg:pb-16">
         <Container className="min-w-0">
           <div className="flex flex-col gap-4">
             {/* Row 1: two halves */}
@@ -501,12 +502,12 @@ function ProjectDetailPageContent() {
       </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* PROJECT AMENITIES                                                */}
+      {/* PROJECT AMENITIES — full-width band; content uses same Container   */}
+      {/*    gutters as the rest of the page                                 */}
       {/* ---------------------------------------------------------------- */}
-      <section className="relative overflow-hidden bg-[#BCBDC0] py-12 sm:py-14 lg:py-20">
-
-        {/* Light overlay so text stays readable */}
-        <div className="absolute inset-0 bg-white/85" />
+      <section className="relative w-full min-w-0 overflow-hidden bg-[#BCBDC0] py-12 sm:py-14 lg:py-20">
+        {/* Light overlay — full width, behind content */}
+        <div className="pointer-events-none absolute inset-0 z-0 bg-white/85" />
 
         <Container className="relative z-10 min-w-0">
           <h2 className="mb-10 text-center qs-reg text-[clamp(1.75rem,4vw,2.625rem)] uppercase tracking-[0.05em] text-[#202225] lg:mb-14">
@@ -514,14 +515,14 @@ function ProjectDetailPageContent() {
           </h2>
 
           {/* Rows 1 & 2 — 4 columns on desktop */}
-          <div className="grid grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-10 lg:mx-20 lg:gap-x-12 lg:gap-y-12">
+          <div className="grid w-full grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-10 lg:gap-x-12 lg:gap-y-12">
             {project.amenities.slice(0, 8).map((amenity, i) => (
               <AmenityItem key={i} amenity={amenity} />
             ))}
           </div>
 
           {/* Row 3 — 2 items, left-aligned */}
-          <div className="mt-8 grid grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-10 lg:mx-20 lg:gap-x-12 lg:gap-y-12">
+          <div className="mt-8 grid w-full grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-10 lg:gap-x-12 lg:gap-y-12">
             {project.amenities.slice(8).map((amenity, i) => (
               <AmenityItem key={i} amenity={amenity} />
             ))}
@@ -532,7 +533,7 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* LOCATION                                                         */}
       {/* ---------------------------------------------------------------- */}
-      <section className="bg-white px-3 py-12 sm:px-6 sm:py-14 md:px-10 lg:px-20 lg:py-20">
+      <section className="bg-white py-12 sm:py-14 lg:py-20">
         <Container className="min-w-0">
           <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
             {/* Left — list */}
@@ -594,7 +595,7 @@ function ProjectDetailPageContent() {
       {/* CASE STUDY (completed projects only)                             */}
       {/* ---------------------------------------------------------------- */}
       {isFromCompleted ? (
-        <section className="bg-white px-3 py-10 sm:px-6 sm:py-12 md:px-10 lg:px-20 lg:py-16">
+        <section className="bg-white py-10 sm:py-12 lg:py-16">
           <Container className="min-w-0">
             <CaseStudySection
               posterSrc={project.caseStudy.posterSrc}
@@ -609,7 +610,7 @@ function ProjectDetailPageContent() {
       {/* BOOK A VISIT (ongoing projects only — hidden for completed)      */}
       {/* ---------------------------------------------------------------- */}
       {!isFromCompleted ? (
-        <section className="relative mb-10 min-h-0 overflow-hidden px-3 py-0 sm:px-6 md:px-10 lg:mb-20 lg:px-20">
+        <section className="relative mb-10 min-h-0 w-full min-w-0 overflow-hidden py-0 lg:mb-20">
           {/* Background */}
           <Image
             src={project.bookVisitBg}

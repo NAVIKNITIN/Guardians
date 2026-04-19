@@ -3,7 +3,7 @@
 import { Container } from "@/components/common/Container";
 import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { ProjectCard } from "@/components/projects/ProjectCard";
-import { LOCAL_IMAGES, localImageByIndex } from "@/lib/local-images";
+import { LOCAL_IMAGES } from "@/lib/local-images";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
@@ -207,6 +207,31 @@ const projects: ProjectRow[] = [
     builder: "Lodha Group",
     configuration: "3 BHK",
   },
+  // Completed-only demo rows (parity with ongoing list volume)
+  ...(
+    [
+      { id: 18, img: LOCAL_IMAGES.img1, builder: "Piramal Realty" as const, subtitle: "Piramal Realty, Chembur (E)", budget: "2-5 Cr" as const, configuration: "2 BHK" as const },
+      { id: 19, img: LOCAL_IMAGES.img2, builder: "Piramal Realty" as const, subtitle: "Piramal Realty, Chembur (E)", budget: "5+ Cr" as const, configuration: "3 BHK" as const },
+      { id: 20, img: LOCAL_IMAGES.img3, builder: "Godrej Properties" as const, subtitle: "Godrej Properties, Chembur (E)", budget: "2-5 Cr" as const, configuration: "2 BHK" as const },
+      { id: 21, img: LOCAL_IMAGES.img4, builder: "Piramal Realty" as const, subtitle: "Piramal Realty, Chembur (E)", budget: "Under 2 Cr" as const, configuration: "1 BHK" as const },
+      { id: 22, img: LOCAL_IMAGES.img5, builder: "Lodha Group" as const, subtitle: "Lodha Group, Chembur (E)", budget: "2-5 Cr" as const, configuration: "2 BHK" as const },
+      { id: 23, img: LOCAL_IMAGES.img6, builder: "Godrej Properties" as const, subtitle: "Godrej Properties, Chembur (E)", budget: "5+ Cr" as const, configuration: "3 BHK" as const },
+      { id: 24, img: LOCAL_IMAGES.img7, builder: "Hiranandani" as const, subtitle: "Hiranandani, Chembur (E)", budget: "Under 2 Cr" as const, configuration: "1 BHK" as const },
+      { id: 25, img: LOCAL_IMAGES.img8, builder: "Lodha Group" as const, subtitle: "Lodha Group, Chembur (E)", budget: "2-5 Cr" as const, configuration: "3 BHK" as const },
+      { id: 26, img: LOCAL_IMAGES.img1, builder: "Piramal Realty" as const, subtitle: "Piramal Realty, Chembur (E)", budget: "5+ Cr" as const, configuration: "3 BHK" as const },
+      { id: 27, img: LOCAL_IMAGES.img2, builder: "Godrej Properties" as const, subtitle: "Godrej Properties, Chembur (E)", budget: "2-5 Cr" as const, configuration: "2 BHK" as const },
+      { id: 28, img: LOCAL_IMAGES.img3, builder: "Hiranandani" as const, subtitle: "Hiranandani, Chembur (E)", budget: "Under 2 Cr" as const, configuration: "1 BHK" as const },
+    ] as const
+  ).map((row) => ({
+    id: row.id,
+    imageSrc: row.img,
+    title: "Lorem Ipsum Tower C",
+    subtitle: row.subtitle,
+    badge: { label: "Completed", variant: "completed" as const },
+    budget: row.budget,
+    builder: row.builder,
+    configuration: row.configuration,
+  })),
 ];
 
 function projectIsCompleted(p: ProjectRow) {
@@ -443,11 +468,11 @@ function ProjectsPageContent() {
 
         <div className="relative z-[1] flex w-full min-w-0 flex-1 flex-col items-center justify-center gap-2 px-4 pb-8 pt-8 text-center sm:justify-start sm:gap-2 sm:px-8 sm:py-14 sm:pb-14 md:px-10">
           <h1
-            className="max-w-[min(22ch,100%)] wrap-break-word qs-reg text-[clamp(1.5rem,calc(0.9rem+4.2vw),3.75rem)] uppercase leading-[1.12] tracking-[0.06em] text-[#0a0a0a] sm:max-w-[min(100%,42rem)] sm:tracking-[0.07em] lg:text-[clamp(2.75rem,5vw,4rem)]"
+            className=" whitespace-nowrap text-[clamp(1.1rem,calc(0.65rem+3.8vw),3.75rem)] uppercase leading-[1.12] tracking-[0.06em] text-[#0a0a0a] sm:tracking-[0.07em] lg:text-[clamp(2.75rem,5vw,4rem)] qs-reg fs-70"
           >
             {filterStage} Projects
           </h1>
-          <p className="mt-1 max-w-3xl px-1 n-reg leading-relaxed text-[#000000] sm:mt-0 sm:text-lg lg:text-base">
+          <p className="mt-1 max-w-3xl px-1 n-book fs-18 lh-22 text-black leading-relaxed text-[#000000] sm:mt-0 sm:text-lg lg:text-base">
             We are one of the fastest growing Real Estate consulting company in
             India.
           </p>
