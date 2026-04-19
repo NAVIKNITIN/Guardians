@@ -86,11 +86,7 @@ export function LandmarkProjectsSection({
   }, [n, tab, autoplayEpoch]);
 
   return (
-    <SectionSurface
-      variant="default"
-      aria-labelledby="landmark-heading"
-      className="pb-8 sm:pb-10 md:pb-12 lg:pb-14"
-    >
+    <SectionSurface variant="default" aria-labelledby="landmark-heading">
       <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
         <h2
           id="landmark-heading"
@@ -302,39 +298,24 @@ function PeekHalfSlide({
 }
 
 /**
- * Four stacked zigzag bands (Marathon-style mark): icon left of wordmark.
- * Generous viewBox + `overflow-visible` so strokes / bottom band never clip when scaled.
+ * Marathon-style mark: four wide, shallow ∧ chevrons with gaps (not tall skinny triangles).
+ * ViewBox is wide (≈3.25:1) so with `h-*` + `w-auto` it matches cap height beside `fs-18` wordmark.
  */
 function LandmarkBrandZigzagIcon({ className }: { className?: string }) {
-  const stroke =
-    "stroke-current stroke-[2] [stroke-linecap:square] [stroke-linejoin:miter]";
-
   return (
     <svg
-      className={cn("shrink-0 overflow-visible text-white", className)}
-      viewBox="0 0 48 40"
-      fill="none"
+      className={cn("inline-block shrink-0 overflow-visible align-middle text-white", className)}
+      viewBox="0 0 52 16"
+      fill="currentColor"
       xmlns="http://www.w3.org/2000/svg"
       preserveAspectRatio="xMidYMid meet"
       aria-hidden
     >
-      <path
-        d="M1 4 L6 2 L11 4 L16 2 L21 4 L26 2 L31 4 L36 2 L41 4 L47 2"
-        className={stroke}
-      />
-      <path
-        d="M1 13 L6 11 L11 13 L16 11 L21 13 L26 11 L31 13 L36 11 L41 13 L47 11"
-        className={stroke}
-      />
-      <path
-        d="M1 22 L6 20 L11 22 L16 20 L21 22 L26 20 L31 22 L36 20 L41 22 L47 20"
-        className={stroke}
-      />
-      {/* Bottom band: deeper fill so it stays visible at small sizes (was ~2 units tall → “sliver”). */}
-      <path
-        fill="currentColor"
-        d="M1 36 L6 30 L11 36 L16 30 L21 36 L26 30 L31 36 L36 30 L41 36 L47 30 L47 36 L1 36 Z"
-      />
+      {/* Shallow peaks (~1.3u) + clear band gaps — reads “flat” like the reference */}
+      <path d="M1 4L26 2.65L51 4z" />
+      <path d="M1 7.5L26 6.15L51 7.5z" />
+      <path d="M1 11L26 9.65L51 11z" />
+      <path d="M1 14.5L26 13.15L51 14.5z" />
     </svg>
   );
 }
@@ -361,7 +342,7 @@ function ActiveProjectCard({
           src={project.imageSrc}
           alt=""
           fill
-          className="object-cover object-center blur-2xl scale-105"
+          className="object-cover object-center blur-4xl scale-1.1"
           sizes={imageSizes}
           priority
         />
@@ -384,9 +365,17 @@ function ActiveProjectCard({
         className="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-t from-black/60 via-black/15 to-black/25"
         aria-hidden
       />
-      <div className="absolute left-5 right-8 top-5 z-[3] flex flex-row items-center gap-3 sm:left-7 sm:right-10 sm:top-7 sm:gap-4">
-        <LandmarkBrandZigzagIcon className="h-9 w-[2.75rem] drop-shadow-[0_1px_6px_rgba(0,0,0,0.45)] sm:h-10 sm:w-12" />
-        <span className="min-w-0 qs-bold fs-18 uppercase leading-none tracking-[0.06em] text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.45)]">
+      <div className="absolute left-5 right-8 top-5 z-[3] flex flex-row items-center gap-3 fs-18 sm:left-7 sm:right-10 sm:top-7 sm:gap-4">
+
+        <Image
+          src="/images/1234.png"
+          alt=""
+          width={20}
+          height={20}
+          className="object-cover object-center"
+          sizes="100vw"
+        />
+        <span className="min-w-0 qs-bold uppercase leading-none tracking-[0.06em] text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.45)]">
           {project.brand}
         </span>
       </div>
