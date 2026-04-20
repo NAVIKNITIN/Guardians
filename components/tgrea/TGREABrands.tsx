@@ -1,3 +1,4 @@
+import { Container } from "@/components/common/Container";
 import Image from "next/image";
 import Link from "next/link";
 import { cn } from "@/utils/cn";
@@ -57,7 +58,7 @@ function BrandRow({ reverse, href }: BrandRowProps) {
         alt="Ground Holding – Real Estate"
         width={223}
         height={80}
-        className="block h-auto w-[150px] object-cover sm:w-[180px] lg:w-[223px]"
+        className="block h-auto w-[150px] object-contain object-left sm:w-[180px] lg:w-[223px]"
       />
       <p className="max-w-[488px] n-reg text-[clamp(0.875rem,3vw,1rem)] leading-[1.5] text-[#161616] sm:mt-10 sm:text-base md:mt-12">
         {DESCRIPTION}
@@ -70,7 +71,7 @@ function BrandRow({ reverse, href }: BrandRowProps) {
   );
 
   const photoContent = (
-    <div className="relative aspect-[488/434] w-full min-h-[220px] overflow-hidden lg:aspect-auto lg:h-full lg:min-h-[434px]">
+    <div className="relative min-h-[240px] w-full min-w-0 overflow-hidden sm:min-h-[320px] lg:aspect-auto lg:min-h-0 lg:h-full">
       <Image
         src={BRAND_PHOTO}
         alt="Construction site at sunset"
@@ -81,29 +82,25 @@ function BrandRow({ reverse, href }: BrandRowProps) {
     </div>
   );
 
+  /**
+   * Mobile: stack with image first (`order-1` / `order-2`).
+   * Desktop: explicit grid columns — `order` on grid items is unreliable for column swap in some cases.
+   */
+  const photoCellClass = reverse
+    ? "order-1 lg:order-none lg:col-start-1 lg:row-start-1"
+    : "order-1 lg:order-none lg:col-start-2 lg:row-start-1";
+  const textCellClass = reverse
+    ? "order-2 lg:order-none lg:col-start-2 lg:row-start-1"
+    : "order-2 lg:order-none lg:col-start-1 lg:row-start-1";
+
   return (
-    <div
-      className={"grid grid-cols-1 gap-y-6 gap-x-0 sm:gap-y-8 lg:grid-cols-2 lg:gap-y-0"}
-    >
-      {reverse ? (
-        <>
-          {/* Photo on left */}
-          <div className="order-1 lg:order-1">{photoContent}</div>
-          {/* Text on right */}
-          <div className="order-2 flex items-center px-4 sm:px-8 lg:order-2 lg:px-16">
-            {textContent}
-          </div>
-        </>
-      ) : (
-        <>
-          {/* Text on left */}
-          <div className="order-2 flex items-center px-4 sm:px-8 lg:order-1 lg:px-16">
-            {textContent}
-          </div>
-          {/* Photo on right */}
-          <div className="order-1 lg:order-2">{photoContent}</div>
-        </>
-      )}
+    <div className="grid min-h-0 min-w-0 grid-cols-1 gap-x-0 gap-y-6 sm:gap-y-8 lg:grid-cols-2 lg:gap-x-8 lg:gap-y-0 xl:gap-x-10">
+      <div className={cn("flex min-h-0 min-w-0 items-stretch", photoCellClass)}>
+        {photoContent}
+      </div>
+      <div className={cn("flex min-h-0 min-w-0 items-center", textCellClass)}>
+        {textContent}
+      </div>
     </div>
   );
 }
@@ -112,23 +109,25 @@ export function TGREABrands() {
   return (
     <section className="bg-white" aria-labelledby="our-brands-heading">
       {/* Section heading */}
-      <div className="px-4 py-8 text-center sm:py-12 lg:py-16">
+      <Container className="min-w-0 py-8 text-center">
         <h2
           id="our-brands-heading"
           className={cn(
             "qs-reg nt-normal uppercase tracking-[0.05em] text-[#202225]",
-            "text-[clamp(1.5rem,5vw,3.125rem)] leading-[1.05] sm:leading-none",
+            "text-[clamp(1.5rem,5vw,3.125rem)] leading-[1.05] sm:leading-none sm:pt-5 lg:pt-10",
           )}
         >
           Our Brands
         </h2>
-      </div>
+      </Container>
 
       {/* Brand rows */}
-      <div>
+      <div className="mt-2 md:mt-6 mb-5 md:mb-30">
         {brands.map(({ id, reverse, href }) => (
           <div className="my-2 sm:my-4 lg:mb-[70px]" key={id}>
-            <BrandRow key={id} reverse={reverse} href={href} />
+            <Container className="min-w-0">
+              <BrandRow reverse={reverse} href={href} />
+            </Container>
           </div>
         ))}
       </div>
