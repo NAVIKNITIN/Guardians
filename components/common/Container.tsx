@@ -20,9 +20,6 @@ import type { HTMLAttributes, ReactNode } from "react";
 const paddingXBoth =
   "px-5 xs:px-6 sm:px-8 md:px-10 tablet:px-12 lg:px-16 xl:px-24 2xl:px-32 xxl:px-44 xxxl:px-52 3xl:px-56";
 
-const paddingXLeftOnly =
-  "pl-5 pr-0 xs:pl-6 xs:pr-0 sm:pl-8 sm:pr-0 md:pl-10 md:pr-0 tablet:pl-12 tablet:pr-0 lg:pl-16 lg:pr-0 xl:pl-24 xl:pr-0 2xl:pl-32 2xl:pr-0 xxl:pl-44 xxl:pr-0 xxxl:pl-52 xxxl:pr-0 3xl:pl-56 3xl:pr-0";
-
 export type ContainerGutter = "both" | "left";
 
 export interface ContainerProps extends HTMLAttributes<HTMLDivElement> {
@@ -44,7 +41,7 @@ export function Container({
     <div
       className={cn(
         "mx-auto w-full max-w-brand",
-        gutter === "left" ? paddingXLeftOnly : paddingXBoth,
+        paddingXBoth,
         "2xl:max-w-[min(var(--max-width-brand-wide,112rem),calc(100vw-5rem))]",
         "3xl:max-w-[min(var(--max-width-brand-wide,112rem),calc(100vw-14rem))]",
         className,

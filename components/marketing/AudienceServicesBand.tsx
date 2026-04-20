@@ -27,16 +27,11 @@ export function AudienceServicesBand({
   );
 
   return (
-    <section aria-labelledby="audience-services-heading" className="w-full">
-      {/*
-        `gutter="left"` = same horizontal scale as `Container` (`paddingXLeftOnly` / `pageGutterLeft`).
-        `max-w-none mx-0` + 2xl/3xl overrides: full-bleed width so the carousel can reach the viewport right edge.
-      */}
+    <section aria-labelledby="audience-services-heading" className="justify-center items-center flex">
       <Container
         gutter="left"
         className={cn(
-          "w-full max-w-none py-8 sm:py-12 lg:py-25",
-          "2xl:max-w-none 3xl:max-w-none",
+          "w-full  py-8 sm:py-12 lg:py-25",
         )}
       >
         <div
@@ -45,7 +40,7 @@ export function AudienceServicesBand({
             "lg:flex-row lg:items-start lg:gap-10 xl:gap-12 2xl:gap-16",
           )}
         >
-          <div className="min-w-0 shrink-0 lg:w-4/12 lg:max-w-xl md:pl-15">
+          <div className="min-w-0 shrink-0 lg:w-4/12 lg:max-w-xl ">
             <h2
               id="audience-services-heading"
               className={marketingClasses.headingDisplay}
@@ -65,8 +60,9 @@ export function AudienceServicesBand({
 
           <div
             className={cn(
-              /* Grow into all space to the right of the copy column (full-bleed to viewport edge via `gutter="left"`) */
+              /* Break out of container on the right so cards touch viewport edge. */
               "min-h-0 min-w-0 w-full flex-1 basis-0",
+              "lg:mr-[calc(50%-50vw)]",
               "overflow-x-auto scroll-smooth",
               "[scrollbar-width:none]",
               "[-ms-overflow-style:none]",
