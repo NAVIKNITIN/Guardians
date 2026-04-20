@@ -28,57 +28,59 @@ function IconEnvelopeOutline({ className }: { className?: string }) {
 export function GrowWithUs() {
     return (
         <section
-            className="relative mx-4 mb-12 overflow-hidden border-t border-black/6 px-4 py-10 sm:mx-8 sm:mb-20 sm:px-4 sm:py-12 lg:mx-24 lg:mb-24 lg:px-10 xl:mx-40"
+            className="relative overflow-hidden  mb-12 md:mb-20 lg:mb-24"
             aria-labelledby="grow-heading"
         >
-            <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
-                <Image
-                    src="/images/bg-arrow.svg"
-                    alt=""
-                    fill
-                    className="object-cover object-center"
-                    sizes="100vw"
-                />
-                <div className="absolute inset-0 bg-[#BCBDC0]/20" />
-                <div className="absolute inset-0 bg-white/80" />
-            </div>
-
-            <Container className="relative z-10">
-                <div className="mx-auto flex max-w-4xl flex-col items-center text-center">
-                    <h2
-                        id="grow-heading"
-                        className={cn(
-                            "qs-reg uppercase text-[#202225]",
-                            "text-[clamp(1.75rem,calc(1rem+3.5vw),3.75rem)] leading-[1.1] tracking-[0.05em]",
-                        )}
-                    >
-                        Come grow with us
-                    </h2>
-
-                    <p className="mt-5 w-full max-w-[min(50rem,90vw)] n-book text-sm leading-[1.55] text-[#202225]/90 sm:mt-6 sm:text-base lg:text-lg">
-                        The Guardians provide endless opportunities for professional growth in
-                        promising times like these. A stimulating work environment, rich and
-                        diverse exposure &amp; inspiring leadership are a few reasons that make
-                        The Guardians a great place to work.
-                    </p>
-
-                    <a
-                        href={`mailto:${HR_EMAIL}`}
-                        className="mt-6 inline-flex items-center gap-2 n-bold text-sm tracking-[0.05em] text-[#202225] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#202225] sm:mt-8 sm:gap-2.5 sm:text-base lg:text-lg"
-                    >
-                        <IconEnvelopeOutline className="h-4 w-4 shrink-0 text-[#202225] sm:h-5 sm:w-5" />
-                        <span className="break-all">{HR_EMAIL}</span>
-                    </a>
-
-                    <GradientCtaButton
-                        href="/contact"
-                        variant="know-more"
-                        className="mt-8 w-full max-w-xs sm:mt-10 sm:w-auto sm:max-w-none"
-                    >
-                        Enquire Now
-                    </GradientCtaButton>
+            <div className="relative mx-auto lg:max-w-[953px] lg:max-h-[400px]">
+                <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
+                    <Image
+                        src="/images/bg-arrow.svg"
+                        alt=""
+                        fill
+                        className="object-cover object-center"
+                        sizes="100vw"
+                    />
+                    <div className="absolute inset-0 bg-[#BCBDC0]/20" />
+                    <div className="absolute inset-0 bg-white/80" />
                 </div>
-            </Container>
+
+                <Container className="relative z-10">
+                    <div className="mx-auto flex flex-col items-center text-center ">
+                        <h2
+                            id="grow-heading"
+                            className={cn(
+                                "qs-reg uppercase text-[#202225]",
+                                "fs-50 lh-70 ls-6 mt-2 md:mt-4 lg:mt-10",
+                            )}
+                        >
+                            Come grow with us
+                        </h2>
+
+                        <p className="mt-5 w-full max-w-[min(55rem,92vw)] n-book fs-16 text-[#161616]sm:mt-6 sm:text-base lg:text-lg">
+                            The Guardians provide endless opportunities for professional growth in
+                            promising times like these. A stimulating work environment, rich and
+                            diverse exposure &amp; inspiring leadership are a few reasons that make
+                            The Guardians a great place to work.
+                        </p>
+
+                        <a
+                            href={`mailto:${HR_EMAIL}`}
+                            className="mt-6 inline-flex items-center gap-2 n-bold text-sm tracking-[0.05em] text-[#161616] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#202225] sm:mt-8 sm:gap-2.5 sm:text-base lg:text-lg"
+                        >
+                            <IconEnvelopeOutline className="h-4 w-4 shrink-0 text-[#161616] sm:h-5 sm:w-5" />
+                            <span className="break-all">{HR_EMAIL}</span>
+                        </a>
+
+                        <GradientCtaButton
+                            href="/contact"
+                            variant="know-more"
+                            className="my-4 md:my-6 lg:mt-8 lg:mb-12"
+                        >
+                            Enquire Now
+                        </GradientCtaButton>
+                    </div>
+                </Container>
+            </div>
         </section>
     );
 }

@@ -19,7 +19,7 @@ const REASONS: ReasonCard[] = [
   {
     id: "culture",
     title: "Client-First Advisory Culture",
-    imageSrc: localImageByIndex(0),
+    imageSrc: "/images/partners/career/1.svg",
     imageAlt: "Advisory culture at The Guardians",
     flex: 260,
   },
@@ -27,7 +27,7 @@ const REASONS: ReasonCard[] = [
     id: "transactions",
     title: "Exposure to High-Value Transactions",
     subtitle: "We work with some of the largest and most complex real estate transactions in India.",
-    imageSrc: localImageByIndex(1),
+    imageSrc: "/images/partners/career/2.svg",
     imageAlt: "High-value transactions exposure",
     flex: 260,
   },
@@ -35,7 +35,7 @@ const REASONS: ReasonCard[] = [
     id: "growth",
     title: "Professional Growth Over Hierarchy",
     subtitle: "Progress is driven by skill, ownership, and performance.",
-    imageSrc: localImageByIndex(2),
+    imageSrc: "/images/partners/career/3.svg",
     imageAlt: "Professional growth environment",
     flex: 260,
     showArrow: true,
@@ -43,7 +43,7 @@ const REASONS: ReasonCard[] = [
   {
     id: "process",
     title: "Refined, Process-Driven Environment",
-    imageSrc: localImageByIndex(3),
+    imageSrc: "/images/partners/career/4.svg",
     imageAlt: "Refined process-driven environment",
     flex: 260,
   },
@@ -125,7 +125,7 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
 export function ReasonsToJoin() {
   return (
     <section
-      className="bg-white mb-12 px-4 sm:mb-20 sm:px-6 lg:px-10"
+      className="bg-white mb-12  sm:mb-20  pt-4 md:pt-10 lg:pt-25"
       aria-labelledby="reasons-heading"
     >
       <Container>
@@ -134,8 +134,7 @@ export function ReasonsToJoin() {
           id="reasons-heading"
           className={cn(
             "text-center uppercase text-[#202225] qs-reg ls-10",
-            /* Fluid type — no fixed fs-50/lh-50 so the title scales on narrow phones */
-            "text-[clamp(1.5rem,calc(0.9rem+3vw),3.75rem)] leading-[1.15] tracking-[0.05em]",
+            "qs-reg fs-50 leading-[1.15] ls-8",
             "mb-6 sm:mb-5",
           )}
         >
@@ -145,7 +144,7 @@ export function ReasonsToJoin() {
         {/* 4-card photo row */}
         <div
           className={cn(
-            "flex flex-col gap-3 sm:h-[clamp(260px,35vw,450px)] sm:flex-row sm:gap-4",
+            "flex flex-col gap-3 sm:h-[clamp(260px,35vw,450px)] sm:flex-row sm:gap-4 mt-4 md:mt-8 lg:mt-10",
           )}
         >
           {REASONS.map((card) => (

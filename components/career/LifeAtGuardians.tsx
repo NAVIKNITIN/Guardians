@@ -6,11 +6,11 @@ import Image from "next/image";
 export function LifeAtGuardians() {
   return (
     <section
-      className="bg-white py-12 px-4 sm:py-16 sm:px-10 lg:py-25 lg:px-20"
+      className="bg-white "
       aria-labelledby="life-heading"
     >
       {/* ── Top split: heading left / description right ── */}
-      <Container>
+      <Container className="pt-12 px-4 sm:pt-16 sm:px-10 lg:pt-25 lg:px-20 pb-4 md:pb-10">
         <div className="grid gap-6 sm:gap-10 lg:grid-cols-[365fr_710fr] lg:items-start lg:gap-16 xl:gap-20">
           {/* Left – Qasbyne heading */}
           <h2
@@ -18,14 +18,14 @@ export function LifeAtGuardians() {
             className={cn(
               "uppercase text-[#202225] qs-reg ls-10",
               /* Fluid type — no fixed fs-70/lh-70 so the title scales on narrow phones */
-              "text-[clamp(2rem,calc(1rem+4.5vw),4.375rem)] leading-[1.05] tracking-[0.05em]",
+              "text-[clamp(2rem,calc(1rem+5.5vw),3.75rem)] leading-[1.05] tracking-[0.05em]",
             )}
           >
             Life at<br />Guardians
           </h2>
 
           {/* Right – body description */}
-          <p className="n-reg text-base leading-[1.5] text-[#161616] sm:text-lg lg:text-xl">
+          <p className="n-book lh-24 text-base leading-[1.5] text-[#161616] sm:text-lg lg:text-xl">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor
             sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -35,7 +35,7 @@ export function LifeAtGuardians() {
       </Container>
 
       {/* ── Full-width-ish large image ── */}
-      <div className="mx-auto mt-8 sm:mt-10 lg:mt-12 px-0 sm:px-2 lg:px-10">
+      <Container className="">
         <div
           className="relative w-full overflow-hidden bg-[#BCBDC0]"
           style={{ height: "clamp(200px, 32vw, 400px)" }}
@@ -48,7 +48,7 @@ export function LifeAtGuardians() {
             sizes="(max-width: 1280px) 100vw, 1196px"
           />
         </div>
-      </div>
+      </Container>
     </section>
   );
 }
