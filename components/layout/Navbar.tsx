@@ -68,7 +68,7 @@ function isActivePath(pathname: string, href: string) {
 
 function isActiveHref(
   pathname: string,
-  searchParams: ReadonlyURLSearchParams,
+  searchParams: ReturnType<typeof useSearchParams>,
   href: string,
 ) {
   const [basePath, queryString] = href.split("?");
@@ -113,7 +113,7 @@ export function Navbar() {
   useBodyScrollLock(open);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-black/[0.06] bg-[#F2F2F2] shadow-[0_1px_0_rgba(0,0,0,0.04)]">
+    <header className="sticky top-0 z-50 w-full border-b border-white/25 bg-[#BCBDC0]/30 backdrop-blur-[9px]">
       <div className="bg-[#8F8183] text-white/95">
         <Container className="flex h-[48px] items-center justify-end">
           <Link
@@ -127,7 +127,7 @@ export function Navbar() {
         </Container>
       </div>
 
-      <div className="border-t border-white/10 bg-[#F2F2F2]">
+      <div className="border-t border-t-white/30 border-b border-b-white/10 bg-transparent">
         <Container className="relative">
           {/* Mobile: centered logo, menu control on the right */}
           <div className="relative flex min-h-[4.25rem] items-center justify-between py-3 sm:min-h-[4.5rem] xl:hidden">
