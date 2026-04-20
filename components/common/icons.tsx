@@ -22,18 +22,17 @@ export function IconArrowUpRight({ className }: { className?: string }) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
+      viewBox="0 0 14 15"
       fill="none"
       stroke="currentColor"
-      strokeWidth="1.5"
+      strokeWidth="2"
       className={className}
       aria-hidden
     >
-      <path
-        strokeLinecap="round"
-        strokeLinejoin="round"
-        d="M4.5 19.5 19.5 4.5M19.5 4.5H8.25M19.5 4.5v11.25"
-      />
+      {/* Corner bracket (top + right edges) */}
+      <path d="M0.443481 1H13.0065V13.563" />
+      {/* Diagonal tail from bottom-left to top-right */}
+      <line x1="13.2702" y1="1.2701" x2="0.707171" y2="13.8331" />
     </svg>
   );
 }
@@ -155,6 +154,27 @@ export function IconCrane({ className }: { className?: string }) {
         strokeLinecap="round"
         strokeLinejoin="round"
         d="M12 21v-8.25M12 12.75 4.5 4.5M12 12.75 19.5 4.5M4.5 4.5h15M6 4.5V3h12v1.5"
+      />
+    </svg>
+  );
+}
+
+/** Line house — pairs with `IconCrane` on developer profile cards (Figma). */
+export function IconHouseOutline({ className }: { className?: string }) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.25"
+      className={className}
+      aria-hidden
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M2.25 12 11.47 2.97a.75.75 0 0 1 1.06 0L21.75 12M4.5 10.5V21a.75.75 0 0 0 .75.75h4.5v-6a.75.75 0 0 1 .75-.75h3a.75.75 0 0 1 .75.75v6h4.5a.75.75 0 0 0 .75-.75V10.5"
       />
     </svg>
   );

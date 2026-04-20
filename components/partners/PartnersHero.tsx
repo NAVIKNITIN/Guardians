@@ -4,8 +4,7 @@ import { cn } from "@/utils/cn";
 export function PartnersHero() {
   return (
     <section
-      className="relative w-full min-w-0 overflow-x-clip bg-neutral-300"
-      style={{ minHeight: 362 }}
+      className="relative w-full min-w-0 overflow-x-clip md:min-h-[550px]"
       aria-labelledby="partners-hero-heading"
     >
       {/* Geometric paper-cut background */}
@@ -23,31 +22,27 @@ export function PartnersHero() {
       {/* Gradient overlay — bottom fade to white */}
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-32"
-        style={{
-          background:
-            "linear-gradient(to bottom, transparent 0%, rgba(255,255,255,0.85) 100%)",
-        }}
         aria-hidden
       />
 
       {/* Centered heading */}
       <div
         className={cn(
-          "relative z-20 flex w-full min-w-0 items-center justify-center px-4 sm:px-6",
-          "min-h-[260px] sm:min-h-[310px] lg:min-h-[362px] bg-black/25",
+          "relative z-20 flex w-full min-w-0 items-center justify-center bg-black/25 px-4 py-14 sm:px-6",
+          "min-h-[min(18rem,44svh)] sm:min-h-[310px] sm:py-0 lg:min-h-[550px]",
         )}
       >
         <h1
           id="partners-hero-heading"
           className={cn(
             "max-w-full uppercase text-[#202225]",
-            /* Lower floor than 2rem so long title fits narrow phones without horizontal scroll */
-            "text-[clamp(1.125rem,5.5vw+0.35rem,4.375rem)] leading-[1.06] tracking-[0.05em]",
+            /* Fluid type — no fixed fs-70/lh-24 so the title scales on narrow phones */
             "text-center text-balance",
+            "qs-reg text-[clamp(1.5rem,calc(0.65rem+5vw),4.375rem)] leading-[1.08] tracking-[0.05em] sm:leading-[1.06]",
           )}
         >
           <span className="text-white">Partners</span>
-          <span className="font-qasbyne"> &amp; Clients</span>
+          <span> &amp; Clients</span>
         </h1>
       </div>
     </section>

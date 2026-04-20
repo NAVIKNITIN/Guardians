@@ -106,21 +106,21 @@ function JobCard({ job }: { job: JobListing }) {
   return (
     <div className="group flex flex-col gap-4 border-b border-black/[0.06] py-7 sm:flex-row sm:items-center sm:justify-between sm:gap-6">
       <div className="flex flex-col gap-1.5">
-        <h3 className="font-nexa text-lg font-bold text-[#202225] transition-colors group-hover:text-[#8F8183]">
+        <h3 className="n-reg  text-lg  text-[#202225] transition-colors group-hover:text-[#8F8183]">
           {job.title}
         </h3>
         <div className="flex flex-wrap items-center gap-x-4 gap-y-1">
-          <span className="font-nexa text-xs text-brand-text-secondary">
+          <span className="n-reg  text-xs text-brand-text-secondary">
             {job.location}
           </span>
           <span className="h-1 w-1 rounded-full bg-brand-text-muted" aria-hidden />
-          <span className="font-nexa text-xs text-brand-text-secondary">
+          <span className="n-reg  text-xs text-brand-text-secondary">
             {job.experience}
           </span>
           <span className="h-1 w-1 rounded-full bg-brand-text-muted" aria-hidden />
           <span
             className={cn(
-              "inline-flex items-center rounded-full px-2.5 py-0.5 font-nexa text-[10px] font-semibold uppercase tracking-wide",
+              "inline-flex items-center rounded-full px-2.5 py-0.5 n-reg  text-[10px] font-semibold uppercase tracking-wide",
               job.type === "Full-time"
                 ? "bg-[#DADADB] text-[#202225]"
                 : "bg-[#8F8183]/15 text-[#8F8183]",
@@ -135,7 +135,7 @@ function JobCard({ job }: { job: JobListing }) {
         href="/contact"
         className={cn(
           "inline-flex w-fit shrink-0 items-center gap-2",
-          "border border-[#202225] px-5 py-2.5 font-nexa text-xs font-bold uppercase tracking-[0.15em] text-[#202225]",
+          "border border-[#202225] px-5 py-2.5 n-reg  text-xs  uppercase tracking-[0.15em] text-[#202225]",
           "transition-all hover:bg-[#202225] hover:text-white",
           "sm:opacity-0 sm:transition-opacity sm:group-hover:opacity-100",
         )}
@@ -168,7 +168,7 @@ export function OpenPositions() {
           >
             Open Positions
           </h2>
-          <p className="font-nexa text-sm text-brand-text-secondary">
+          <p className="n-reg  text-sm text-brand-text-secondary">
             {filtered.length} role{filtered.length !== 1 ? "s" : ""} available
           </p>
         </div>
@@ -187,7 +187,7 @@ export function OpenPositions() {
               aria-selected={active === dept}
               onClick={() => setActive(dept)}
               className={cn(
-                "px-4 py-2 font-nexa text-xs font-bold uppercase tracking-[0.15em] transition-colors",
+                "px-4 py-2 n-reg  text-xs  uppercase tracking-[0.15em] transition-colors",
                 active === dept
                   ? "bg-[#202225] text-white"
                   : "bg-white text-[#202225] border border-black/[0.12] hover:border-[#202225]",
@@ -203,7 +203,7 @@ export function OpenPositions() {
           {filtered.length > 0 ? (
             filtered.map((job) => <JobCard key={job.id} job={job} />)
           ) : (
-            <p className="py-12 text-center font-nexa text-sm text-brand-text-secondary">
+            <p className="py-12 text-center n-reg  text-sm text-brand-text-secondary">
               No open positions in this department right now. Check back soon.
             </p>
           )}

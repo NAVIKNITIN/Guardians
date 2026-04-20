@@ -26,6 +26,7 @@ const REASONS: ReasonCard[] = [
   {
     id: "transactions",
     title: "Exposure to High-Value Transactions",
+    subtitle: "We work with some of the largest and most complex real estate transactions in India.",
     imageSrc: localImageByIndex(1),
     imageAlt: "High-value transactions exposure",
     flex: 260,
@@ -36,7 +37,7 @@ const REASONS: ReasonCard[] = [
     subtitle: "Progress is driven by skill, ownership, and performance.",
     imageSrc: localImageByIndex(2),
     imageAlt: "Professional growth environment",
-    flex: 356,
+    flex: 260,
     showArrow: true,
   },
   {
@@ -48,11 +49,18 @@ const REASONS: ReasonCard[] = [
   },
 ];
 
-function ReasonCard({ card }: { card: ReasonCard }) {
+export function ReasonCard({ card }: { card: ReasonCard }) {
   return (
     <div
-      className="group relative min-h-[200px] overflow-hidden bg-white sm:min-h-0"
-      style={{ flex: card.flex, minWidth: 0 }}
+      className={cn(
+        "group relative min-h-[200px] min-w-0 shrink basis-0 overflow-hidden bg-white sm:min-h-0",
+        /* Base flex-grow comes from --reason-grow; sm+ hover bumps it way up so */
+        /* the hovered card expands while its siblings proportionally compress. */
+        "grow-(--reason-grow) sm:hover:grow-900",
+        "transition-[flex-grow] duration-600 ease-[cubic-bezier(0.22,1,0.36,1)]",
+        "will-change-[flex-grow]",
+      )}
+      style={{ ["--reason-grow" as string]: card.flex } as React.CSSProperties}
     >
       {/* Photo — cropped to card height */}
       <div className="absolute inset-0 z-0">
@@ -60,42 +68,55 @@ function ReasonCard({ card }: { card: ReasonCard }) {
           src={card.imageSrc}
           alt={card.imageAlt}
           fill
-          className="object-cover object-center transition-transform duration-700 group-hover:scale-105"
+          className="object-cover object-center transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
-        {/* Dark gradient from bottom for label legibility */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-transparent" />
+        {/* Dark gradient — slightly deeper on hover to keep copy legible as it reveals */}
+        <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent transition-colors duration-500 group-hover:from-black/80 group-hover:via-black/35" />
       </div>
 
       {/* Label content — pinned to bottom */}
       <div className="absolute inset-x-0 bottom-0 z-10 p-5">
-        <h3 className="font-nexa text-xl font-bold leading-snug text-white">
+        <h3 className="n-reg text-xl leading-snug text-white transition-transform duration-500 ease-out group-hover:-translate-y-0.5">
           {card.title}
         </h3>
+
+        {/* Subtitle — kept for cards that have it; fades in smoothly on hover */}
         {card.subtitle && (
-          <p className="mt-1 font-nexa text-sm font-normal leading-normal text-white/90">
+          <p
+            className={cn(
+              "mt-1 n-reg text-sm leading-normal text-white/90",
+              "transition-all duration-500 ease-out",
+              "max-h-0 -translate-y-1 overflow-hidden opacity-0 group-hover:max-h-20 group-hover:translate-y-0 group-hover:opacity-100",
+            )}
+          >
             {card.subtitle}
           </p>
         )}
-        {card.showArrow && (
-          <div className="mt-3">
-            <svg
-              width="51"
-              height="12"
-              viewBox="0 0 51 12"
-              fill="none"
-              aria-hidden
-            >
-              <path
-                d="M0 6H49M49 6L44 1M49 6L44 11"
-                stroke="#ffffff"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </div>
-        )}
+
+        {/* Arrow — always shown on featured card; fades in on hover for the rest */}
+        <div
+          className={cn(
+            "mt-3 transition-all duration-500 ease-out",
+            "translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100",
+          )}
+        >
+          <svg
+            width="51"
+            height="12"
+            viewBox="0 0 51 12"
+            fill="none"
+            aria-hidden
+          >
+            <path
+              d="M0 6H49M49 6L44 1M49 6L44 11"
+              stroke="#ffffff"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+        </div>
       </div>
     </div>
   );
@@ -104,7 +125,7 @@ function ReasonCard({ card }: { card: ReasonCard }) {
 export function ReasonsToJoin() {
   return (
     <section
-      className=" bg-white mb-16 sm:mb-20  py-4 px-2 lg:px-10 "
+      className="bg-white mb-12 px-4 sm:mb-20 sm:px-6 lg:px-10"
       aria-labelledby="reasons-heading"
     >
       <Container>
@@ -112,9 +133,10 @@ export function ReasonsToJoin() {
         <h2
           id="reasons-heading"
           className={cn(
-            "text-center  uppercase text-[#202225]",
-            "text-[clamp(1.75rem,2.8vw,3.75rem)] leading-[1.4] tracking-[0.05em]",
-            "mb-5 lg:mb-5",
+            "text-center uppercase text-[#202225] qs-reg ls-10",
+            /* Fluid type — no fixed fs-50/lh-50 so the title scales on narrow phones */
+            "text-[clamp(1.5rem,calc(0.9rem+3vw),3.75rem)] leading-[1.15] tracking-[0.05em]",
+            "mb-6 sm:mb-5",
           )}
         >
           Reasons to Join Guardians

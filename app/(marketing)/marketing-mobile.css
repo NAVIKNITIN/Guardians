@@ -1,0 +1,141 @@
+/**
+ * Mobile / small-screen overrides for the `(marketing)` route group only.
+ * Scoped with `.marketing-mobile-root` (see layout.tsx) so shared components stay unchanged.
+ */
+
+/* -------------------------------------------------------------------------- */
+/* Phones & small devices (Tailwind `sm` and below)                             */
+/* -------------------------------------------------------------------------- */
+@media (max-width: 639px) {
+  /* Anchor scroll-padding to a shorter header on small screens (marketing routes only). */
+  html:has(.marketing-mobile-root) {
+    --site-header-height: 88px;
+  }
+
+  .marketing-mobile-root {
+    padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
+  }
+
+  .marketing-mobile-root main {
+    min-width: 0;
+    text-align: center;
+  }
+
+  .marketing-mobile-root footer {
+    text-align: center;
+  }
+
+  /* Keep form fields readable (inherit would center placeholder/input text). */
+  .marketing-mobile-root input:not([type="checkbox"]):not([type="radio"]),
+  .marketing-mobile-root select,
+  .marketing-mobile-root textarea {
+    text-align: left;
+  }
+
+  /* Left-stacked flex columns → centered on small screens */
+  .marketing-mobile-root main .flex.flex-col.items-start {
+    align-items: center;
+  }
+
+  /* Typical marketing sections: center grid content in each cell */
+  .marketing-mobile-root main section.grid {
+    justify-items: center;
+  }
+
+  /* Horizontal carousels / snap rows should keep their own alignment */
+  .marketing-mobile-root main ul[class*="snap"],
+  .marketing-mobile-root main [class*="overflow-x-auto"].flex {
+    justify-content: flex-start;
+    align-items: stretch;
+  }
+
+  /* Tailwind `text-left` blocks — center on small marketing screens */
+  .marketing-mobile-root main .text-left {
+    text-align: center;
+  }
+
+  /* Project detail “Book a visit” card — undo centering for labels/inputs (see projects/[slug]/page.tsx) */
+  .marketing-mobile-root main .book-visit-form {
+    text-align: left !important;
+  }
+
+  .marketing-mobile-root main .book-visit-form .text-left {
+    text-align: left !important;
+  }
+
+  /* Media never spills past the viewport */
+  .marketing-mobile-root img,
+  .marketing-mobile-root video,
+  .marketing-mobile-root iframe,
+  .marketing-mobile-root canvas,
+  .marketing-mobile-root picture {
+    max-width: 100%;
+  }
+
+  .marketing-mobile-root .leaflet-container {
+    width: 100% !important;
+    min-height: 220px;
+    z-index: 0;
+  }
+
+  /* Primary layout container (see `Container`) */
+  .marketing-mobile-root .mx-auto.max-w-brand {
+    padding-left: max(0.875rem, env(safe-area-inset-left));
+    padding-right: max(0.875rem, env(safe-area-inset-right));
+  }
+
+  /* Long copy / URLs */
+  .marketing-mobile-root p,
+  .marketing-mobile-root li,
+  .marketing-mobile-root .wrap-break-word {
+    overflow-wrap: anywhere;
+  }
+
+  /* Home: large vertical band after hero */
+  .marketing-mobile-root main > .my-20 {
+    margin-top: 3rem;
+    margin-bottom: 3rem;
+  }
+
+  /* Sticky gradient headline track — slightly shorter on phones */
+  .marketing-mobile-root .min-h-\[150vh\] {
+    min-height: 118vh;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Tablets & small laptops (between phone and `lg`)                           */
+/* -------------------------------------------------------------------------- */
+@media (min-width: 640px) and (max-width: 1023px) {
+  html:has(.marketing-mobile-root) {
+    --site-header-height: 104px;
+  }
+
+  .marketing-mobile-root {
+    padding-inline: env(safe-area-inset-left) env(safe-area-inset-right);
+  }
+
+  .marketing-mobile-root .mx-auto.max-w-brand {
+    padding-left: max(1.25rem, env(safe-area-inset-left));
+    padding-right: max(1.25rem, env(safe-area-inset-right));
+  }
+
+  .marketing-mobile-root .leaflet-container {
+    min-height: 280px;
+  }
+
+  .marketing-mobile-root .min-h-\[150vh\] {
+    min-height: 135vh;
+  }
+}
+
+/* -------------------------------------------------------------------------- */
+/* Reduced motion: shorten tall scroll tracks when user prefers less motion    */
+/* -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  @media (max-width: 1023px) {
+    .marketing-mobile-root .min-h-\[150vh\] {
+      min-height: auto;
+    }
+  }
+}

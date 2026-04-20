@@ -1,0 +1,15 @@
+---
+description: Header (Navbar) and Footer are final—do not edit unless explicitly requested
+alwaysApply: true
+---
+
+# Header and footer are locked
+
+These files are **complete and pixel-tuned**. Treat them as **read-only**.
+
+- **Header:** `components/layout/Navbar.tsx`
+- **Footer:** `components/sections/Footer.tsx`
+
+Do **not** change them for refactors, spacing, copy, imports, or “small” fixes. Only edit if the user **explicitly** asks to modify the header or footer.
+
+For site-wide layout or marketing changes, prefer other routes (`app/(marketing)/*`, `components/sections/*` outside the footer, etc.) or ask the user before touching these files.

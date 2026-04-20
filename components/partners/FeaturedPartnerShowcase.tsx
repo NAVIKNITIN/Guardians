@@ -1,9 +1,14 @@
 "use client";
 
+import { RoundIconButton } from "@/components/ui/RoundIconButton";
 import { useCycleIndex } from "@/hooks/useCycleIndex";
 import { localImageByIndex } from "@/lib/local-images";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
+
+/** Same assets as `CarouselControls` (prev/next chevrons). */
+const CAROUSEL_PREV = "/images/leftwhitecaraousel.svg";
+const CAROUSEL_NEXT = "/images/rightwhitecaraousel.svg";
 
 export type PartnerShowcaseItem = {
   id: string;
@@ -118,7 +123,7 @@ export function FeaturedPartnerShowcase() {
 
   return (
     <section
-      className="w-full min-w-0 overflow-x-clip py-10 sm:py-14 lg:py-16"
+      className="w-full min-w-0 overflow-x-clip py-10 sm:py-14 lg:py-26"
       aria-label="Featured partners showcase"
     >
       <div className="mx-auto w-full min-w-0 max-w-[min(1237px,100%)] px-4 sm:px-6 lg:px-8 xl:px-0">
@@ -154,7 +159,7 @@ export function FeaturedPartnerShowcase() {
           <div className="absolute inset-x-0 top-[14%] z-20 flex justify-center px-4">
             <h2
               className={cn(
-                "font-qasbyne font-normal uppercase text-white",
+                "qs-reg nt-normal uppercase text-white",
                 "text-[clamp(1.75rem,4vw,3.125rem)] leading-[1.4] tracking-[0.05em]",
                 "drop-shadow-[0_2px_12px_rgba(0,0,0,0.35)]",
                 "text-center",
@@ -176,7 +181,7 @@ export function FeaturedPartnerShowcase() {
                     src={logo.src}
                     alt={logo.alt}
                     fill
-                    className="object-contain object-center brightness-0 invert"
+                    className="object-contain object-center  invert"
                     sizes="(max-width: 640px) 25vw, 128px"
                   />
                 </div>
@@ -184,51 +189,39 @@ export function FeaturedPartnerShowcase() {
             </div>
           </div>
 
-          {/* Navigation arrows */}
-          <button
-            type="button"
+          {/* Navigation — same pattern as `CarouselControls` (RoundIconButton + carousel SVGs) */}
+          <RoundIconButton
+            label="Previous partner"
             onClick={() => advance(-1)}
-            aria-label="Previous partner"
-            className="absolute left-4 top-1/2 z-30 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full border border-white/50 text-white transition-colors hover:border-white hover:bg-white/10 sm:h-11 sm:w-11"
+            className={cn(
+              "absolute left-2 top-1/2 z-30 -translate-y-1/2 cursor-pointer sm:left-6 lg:left-10",
+              "h-8 w-8 text-white hover:bg-white/10 sm:h-11 sm:w-11",
+            )}
           >
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 30 30"
-              fill="none"
-              aria-hidden
-            >
-              <path
-                opacity="0.6"
-                d="M15 21L9 15M9 15L15 9M9 15H21M0 15C0 23.2843 6.71573 30 15 30C23.2843 30 30 23.2843 30 15C30 6.71573 23.2843 0 15 0C6.71573 0 0 6.71573 0 15Z"
-                stroke="white"
-                strokeWidth="1.72"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
-          <button
-            type="button"
+            <Image
+              src={CAROUSEL_PREV}
+              alt=""
+              width={40}
+              height={40}
+              className="object-cover"
+            />
+          </RoundIconButton>
+          <RoundIconButton
+            label="Next partner"
             onClick={() => advance(1)}
-            aria-label="Next partner"
-            className="absolute right-4 top-1/2 z-30 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full border border-white/50 text-white transition-colors hover:border-white hover:bg-white/10 sm:h-11 sm:w-11"
+            className={cn(
+              "absolute right-2 top-1/2 z-30 -translate-y-1/2 cursor-pointer sm:right-6 lg:right-10",
+              "h-8 w-8 text-white hover:bg-white/10 sm:h-11 sm:w-11",
+            )}
           >
-            <svg
-              width="18"
-              height="18"
-              viewBox="0 0 30 30"
-              fill="none"
-              aria-hidden
-            >
-              <path
-                opacity="0.6"
-                d="M15 21L21 15M21 15L15 9M21 15H9M30 15C30 23.2843 23.2843 30 15 30C6.71573 30 0 23.2843 0 15C0 6.71573 6.71573 0 15 0C23.2843 0 30 6.71573 30 15Z"
-                stroke="white"
-                strokeWidth="1.72"
-                strokeLinejoin="round"
-              />
-            </svg>
-          </button>
+            <Image
+              src={CAROUSEL_NEXT}
+              alt=""
+              width={40}
+              height={40}
+              className="bg-transparent object-cover"
+            />
+          </RoundIconButton>
         </div>
 
         {/* ── Tab strip: scroll horizontally on small screens; equal columns on xl+ ── */}
@@ -246,7 +239,7 @@ export function FeaturedPartnerShowcase() {
                 aria-selected={i === index}
                 onClick={() => setIndex(i)}
                 className={cn(
-                  "flex shrink-0 items-center justify-center px-3 py-3 transition-colors sm:px-4 sm:py-4 md:py-5",
+                  "flex shrink-0 items-center justify-center cursor-pointer px-3 py-3 transition-colors sm:px-4 sm:py-4 md:py-5",
                   "min-w-[5.75rem] sm:min-w-[7.5rem]",
                   "xl:min-w-0 xl:flex-1 xl:basis-0 xl:shrink",
                   "border-r border-black/[0.08] last:border-r-0",

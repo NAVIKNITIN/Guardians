@@ -1,8 +1,9 @@
 "use client";
 
 import { Container } from "@/components/common/Container";
+import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { ProjectCard } from "@/components/projects/ProjectCard";
-import { localImageByIndex } from "@/lib/local-images";
+import { LOCAL_IMAGES } from "@/lib/local-images";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
@@ -19,7 +20,10 @@ const BUILDER_OPTIONS = [
   "Hiranandani",
 ] as const;
 const CONFIGURATION_OPTIONS = ["All", "1 BHK", "2 BHK", "3 BHK"] as const;
-const STAGE_OPTIONS = ["All", "Ongoing", "Completed"] as const;
+const STAGE_OPTIONS = ["Ongoing", "Completed"] as const;
+
+/** Max project cards shown before “View More”. */
+const INITIAL_VISIBLE_CARDS = 10;
 
 type ProjectRow = {
   id: number;
@@ -35,7 +39,7 @@ type ProjectRow = {
 const projects: ProjectRow[] = [
   {
     id: 1,
-    imageSrc: localImageByIndex(0),
+    imageSrc: LOCAL_IMAGES.img1,
     title: "Lorem Ipsum Tower A",
     subtitle: "Piramal Realty, Chembur (E)",
     badge: { label: "1 Unit Left", variant: "units-left" },
@@ -45,7 +49,7 @@ const projects: ProjectRow[] = [
   },
   {
     id: 2,
-    imageSrc: localImageByIndex(1),
+    imageSrc: LOCAL_IMAGES.img2,
     title: "Lorem Ipsum Tower A",
     subtitle: "Piramal Realty, Chembur (E)",
     badge: { label: "Completed", variant: "completed" },
@@ -55,7 +59,7 @@ const projects: ProjectRow[] = [
   },
   {
     id: 3,
-    imageSrc: localImageByIndex(2),
+    imageSrc: LOCAL_IMAGES.img3,
     title: "Lorem Ipsum Tower A",
     subtitle: "Godrej Properties, Chembur (E)",
     badge: { label: "Completed", variant: "completed" },
@@ -65,7 +69,7 @@ const projects: ProjectRow[] = [
   },
   {
     id: 4,
-    imageSrc: localImageByIndex(3),
+    imageSrc: LOCAL_IMAGES.img4,
     title: "Lorem Ipsum Tower A",
     subtitle: "Piramal Realty, Chembur (E)",
     badge: { label: "3 Units Left", variant: "units-left" },
@@ -75,7 +79,7 @@ const projects: ProjectRow[] = [
   },
   {
     id: 5,
-    imageSrc: localImageByIndex(4),
+    imageSrc: LOCAL_IMAGES.img5,
     title: "Lorem Ipsum Tower A",
     subtitle: "Lodha Group, Chembur (E)",
     badge: undefined,
@@ -85,7 +89,7 @@ const projects: ProjectRow[] = [
   },
   {
     id: 6,
-    imageSrc: localImageByIndex(5),
+    imageSrc: LOCAL_IMAGES.img6,
     title: "Lorem Ipsum Tower A",
     subtitle: "Godrej Properties, Chembur (E)",
     badge: { label: "Completed", variant: "completed" },
@@ -95,7 +99,7 @@ const projects: ProjectRow[] = [
   },
   {
     id: 7,
-    imageSrc: localImageByIndex(6),
+    imageSrc: LOCAL_IMAGES.img7,
     title: "Lorem Ipsum Tower A",
     subtitle: "Hiranandani, Chembur (E)",
     badge: undefined,
@@ -105,7 +109,7 @@ const projects: ProjectRow[] = [
   },
   {
     id: 8,
-    imageSrc: localImageByIndex(7),
+    imageSrc: LOCAL_IMAGES.img8,
     title: "Lorem Ipsum Tower B",
     subtitle: "Lodha Group, Noida",
     badge: undefined,
@@ -113,6 +117,121 @@ const projects: ProjectRow[] = [
     builder: "Lodha Group",
     configuration: "3 BHK",
   },
+  {
+    id: 9,
+    imageSrc: LOCAL_IMAGES.img8,
+    title: "Lorem Ipsum Tower B",
+    subtitle: "Lodha Group, Noida",
+    badge: undefined,
+    budget: "2-5 Cr",
+    builder: "Lodha Group",
+    configuration: "3 BHK",
+  },
+  {
+    id: 17,
+    imageSrc: LOCAL_IMAGES.img8,
+    title: "Lorem Ipsum Tower B",
+    subtitle: "Lodha Group, Noida",
+    badge: undefined,
+    budget: "2-5 Cr",
+    builder: "Lodha Group",
+    configuration: "3 BHK",
+  },
+  {
+    id: 10,
+    imageSrc: LOCAL_IMAGES.img8,
+    title: "Lorem Ipsum Tower B",
+    subtitle: "Lodha Group, Noida",
+    badge: undefined,
+    budget: "2-5 Cr",
+    builder: "Lodha Group",
+    configuration: "3 BHK",
+  },
+  {
+    id: 11,
+    imageSrc: LOCAL_IMAGES.img8,
+    title: "Lorem Ipsum Tower B",
+    subtitle: "Lodha Group, Noida",
+    badge: undefined,
+    budget: "2-5 Cr",
+    builder: "Lodha Group",
+    configuration: "3 BHK",
+  },
+  {
+    id: 12,
+    imageSrc: LOCAL_IMAGES.img8,
+    title: "Lorem Ipsum Tower B",
+    subtitle: "Lodha Group, Noida",
+    badge: undefined,
+    budget: "2-5 Cr",
+    builder: "Lodha Group",
+    configuration: "3 BHK",
+  },
+  {
+    id: 13,
+    imageSrc: LOCAL_IMAGES.img8,
+    title: "Lorem Ipsum Tower B",
+    subtitle: "Lodha Group, Noida",
+    badge: undefined,
+    budget: "2-5 Cr",
+    builder: "Lodha Group",
+    configuration: "3 BHK",
+  },
+  {
+    id: 14,
+    imageSrc: LOCAL_IMAGES.img8,
+    title: "Lorem Ipsum Tower B",
+    subtitle: "Lodha Group, Noida",
+    badge: undefined,
+    budget: "2-5 Cr",
+    builder: "Lodha Group",
+    configuration: "3 BHK",
+  },
+  {
+    id: 15,
+    imageSrc: LOCAL_IMAGES.img8,
+    title: "Lorem Ipsum Tower B",
+    subtitle: "Lodha Group, Noida",
+    badge: undefined,
+    budget: "2-5 Cr",
+    builder: "Lodha Group",
+    configuration: "3 BHK",
+  },
+  {
+    id: 16,
+    imageSrc: LOCAL_IMAGES.img8,
+    title: "Lorem Ipsum Tower B",
+    subtitle: "Lodha Group, Noida",
+    badge: undefined,
+    budget: "2-5 Cr",
+    builder: "Lodha Group",
+    configuration: "3 BHK",
+  },
+  // Completed-only demo rows (parity with ongoing list volume)
+  ...(
+    [
+      { id: 18, img: LOCAL_IMAGES.img1, builder: "Piramal Realty" as const, subtitle: "Piramal Realty, Chembur (E)", budget: "2-5 Cr" as const, configuration: "2 BHK" as const },
+      { id: 19, img: LOCAL_IMAGES.img2, builder: "Piramal Realty" as const, subtitle: "Piramal Realty, Chembur (E)", budget: "5+ Cr" as const, configuration: "3 BHK" as const },
+      { id: 20, img: LOCAL_IMAGES.img3, builder: "Godrej Properties" as const, subtitle: "Godrej Properties, Chembur (E)", budget: "2-5 Cr" as const, configuration: "2 BHK" as const },
+      { id: 21, img: LOCAL_IMAGES.img4, builder: "Piramal Realty" as const, subtitle: "Piramal Realty, Chembur (E)", budget: "Under 2 Cr" as const, configuration: "1 BHK" as const },
+      { id: 22, img: LOCAL_IMAGES.img5, builder: "Lodha Group" as const, subtitle: "Lodha Group, Chembur (E)", budget: "2-5 Cr" as const, configuration: "2 BHK" as const },
+      { id: 23, img: LOCAL_IMAGES.img6, builder: "Godrej Properties" as const, subtitle: "Godrej Properties, Chembur (E)", budget: "5+ Cr" as const, configuration: "3 BHK" as const },
+      { id: 24, img: LOCAL_IMAGES.img7, builder: "Hiranandani" as const, subtitle: "Hiranandani, Chembur (E)", budget: "Under 2 Cr" as const, configuration: "1 BHK" as const },
+      { id: 25, img: LOCAL_IMAGES.img8, builder: "Lodha Group" as const, subtitle: "Lodha Group, Chembur (E)", budget: "2-5 Cr" as const, configuration: "3 BHK" as const },
+      { id: 26, img: LOCAL_IMAGES.img1, builder: "Piramal Realty" as const, subtitle: "Piramal Realty, Chembur (E)", budget: "5+ Cr" as const, configuration: "3 BHK" as const },
+      { id: 27, img: LOCAL_IMAGES.img2, builder: "Godrej Properties" as const, subtitle: "Godrej Properties, Chembur (E)", budget: "2-5 Cr" as const, configuration: "2 BHK" as const },
+      { id: 28, img: LOCAL_IMAGES.img3, builder: "Hiranandani" as const, subtitle: "Hiranandani, Chembur (E)", budget: "Under 2 Cr" as const, configuration: "1 BHK" as const },
+    ] as const
+  ).map((row) => ({
+    id: row.id,
+    imageSrc: row.img,
+    title: "Lorem Ipsum Tower C",
+    subtitle: row.subtitle,
+    badge: { label: "Completed", variant: "completed" as const },
+    budget: row.budget,
+    builder: row.builder,
+    configuration: row.configuration,
+  })),
 ];
 
 function projectIsCompleted(p: ProjectRow) {
@@ -133,9 +252,15 @@ function filterProjects(
     configuration: string;
     stage: string;
     location: string | null;
+    query: string;
   },
 ) {
   return list.filter((p) => {
+    const searchTerm = opts.query.trim().toLowerCase();
+    if (searchTerm) {
+      const searchableText = `${p.title} ${p.subtitle} ${p.builder} ${p.budget} ${p.configuration}`.toLowerCase();
+      if (!searchableText.includes(searchTerm)) return false;
+    }
     if (opts.budget !== "All" && p.budget !== opts.budget) return false;
     if (opts.builder !== "All" && p.builder !== opts.builder) return false;
     if (opts.configuration !== "All" && p.configuration !== opts.configuration)
@@ -187,20 +312,17 @@ function ChevronUp({ className = "" }: { className?: string }) {
   );
 }
 
-/** Arrow up-right icon for "View More" button */
-function ArrowUpRight() {
+/** Search icon — sized for 30px-tall field (spec ~345×30). */
+function SearchIcon({ className = "" }: { className?: string }) {
   return (
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-      <path d="M0 0H14.4958V14.4958" stroke="white" strokeWidth="2" />
-      <line x1="0" y1="14" x2="14" y2="0" stroke="white" strokeWidth="2" />
-    </svg>
-  );
-}
-
-/** Search icon */
-function SearchIcon() {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+    <svg
+      className={`shrink-0 ${className}`}
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      aria-hidden
+    >
       <path
         fillRule="evenodd"
         clipRule="evenodd"
@@ -213,7 +335,7 @@ function SearchIcon() {
 }
 
 const filterSelectClass =
-  "relative inline-flex h-12 min-h-[48px] w-full min-w-0 max-w-full cursor-pointer appearance-none items-center border border-[#161616] bg-white pl-4 pr-9 font-nexa text-xs font-bold uppercase tracking-[0.08em] text-[#161616] outline-none transition-colors hover:bg-black/[0.02] sm:h-[51px] sm:min-w-[8.5rem] sm:max-w-none sm:pl-5 sm:pr-10 sm:text-sm sm:tracking-[0.1em] md:min-w-[9.5rem] md:text-base";
+  "relative inline-flex h-12 min-h-[48px] w-full min-w-0 max-w-full cursor-pointer appearance-none items-center border border-[#0000000] bg-white pl-4 pr-9 n-bold text-[11px] uppercase tracking-[0.08em] text-[#161616] outline-none transition-colors hover:bg-black/[0.02] min-[400px]:text-xs sm:h-[51px] sm:min-w-[8.5rem] sm:max-w-none sm:pl-5 sm:pr-10 sm:text-sm sm:tracking-[0.1em] md:min-w-[9.5rem] md:text-base";
 
 function FilterSelect({
   label,
@@ -236,7 +358,7 @@ function FilterSelect({
         className={filterSelectClass}
       >
         {options.map((o) => (
-          <option key={o} value={o}>
+          <option key={o} value={o} className="">
             {o === "All" ? label.toUpperCase() : o}
           </option>
         ))}
@@ -252,21 +374,37 @@ function FilterSelect({
 function ProjectsPageContent() {
   const searchParams = useSearchParams();
 
+  const [showFilters, setShowFilters] = useState(true);
   const [filterBudget, setFilterBudget] = useState<string>("All");
   const [filterBuilder, setFilterBuilder] = useState<string>("All");
   const [filterConfiguration, setFilterConfiguration] =
     useState<string>("All");
-  const [filterStage, setFilterStage] = useState<string>("All");
+  const [filterStage, setFilterStage] = useState<string>("Ongoing");
+  const [searchQuery, setSearchQuery] = useState("");
 
   const [activeLocation, setActiveLocation] = useState<string | null>(
     "Chembur (E)",
   );
+
+  const [visibleCardCount, setVisibleCardCount] =
+    useState(INITIAL_VISIBLE_CARDS);
 
   useEffect(() => {
     const stage = searchParams.get("stage");
     if (stage === "ongoing") setFilterStage("Ongoing");
     else if (stage === "completed") setFilterStage("Completed");
   }, [searchParams]);
+
+  useEffect(() => {
+    setVisibleCardCount(INITIAL_VISIBLE_CARDS);
+  }, [
+    filterBudget,
+    filterBuilder,
+    filterConfiguration,
+    filterStage,
+    activeLocation,
+    searchQuery,
+  ]);
 
   const visibleProjects = useMemo(
     () =>
@@ -276,6 +414,7 @@ function ProjectsPageContent() {
         configuration: filterConfiguration,
         stage: filterStage,
         location: activeLocation,
+        query: searchQuery,
       }),
     [
       filterBudget,
@@ -283,15 +422,25 @@ function ProjectsPageContent() {
       filterConfiguration,
       filterStage,
       activeLocation,
+      searchQuery,
     ],
   );
+
+  const displayedProjects = useMemo(
+    () => visibleProjects.slice(0, visibleCardCount),
+    [visibleProjects, visibleCardCount],
+  );
+
+  const hasMoreProjects = visibleProjects.length > displayedProjects.length;
 
   function clearAllFilters() {
     setFilterBudget("All");
     setFilterBuilder("All");
     setFilterConfiguration("All");
-    setFilterStage("All");
+    setFilterStage("Ongoing");
     setActiveLocation(null);
+    setSearchQuery("");
+    setShowFilters(true);
   }
 
   const heroBackgroundSrc =
@@ -304,24 +453,26 @@ function ProjectsPageContent() {
       {/* ------------------------------------------------------------------ */}
       {/* HERO — combined projects landing                                    */}
       {/* ------------------------------------------------------------------ */}
-      <section className="relative isolate flex min-h-[400px] h-[min(72vw,560px)] flex-col overflow-hidden sm:min-h-[380px] sm:h-[420px] lg:h-[560px]">
+      <section
+        className="relative isolate md:flex min-h-[min(20rem,50svh)] h-[min(62svh,36rem)] flex-col overflow-hidden sm:min-h-[380px] sm:h-[620px] lg:h-[800px] lg:min-h-0 lg:pt-[90px]"
+      >
         <Image
           src={heroBackgroundSrc}
           alt=""
           fill
           priority
           unoptimized
-          className="object-cover"
+          className="object-cover object-center"
           sizes="100vw"
         />
 
-        <div className="relative z-[1] flex w-full min-w-0 flex-1 flex-col items-center justify-start gap-2 px-4 pb-8 pt-6 text-center sm:gap-6 sm:px-10 sm:py-14 sm:pb-14">
+        <div className="relative z-[1] flex w-full min-w-0 flex-1 flex-col items-center justify-center gap-2 px-4 pb-8 pt-8 text-center sm:justify-start sm:gap-2 sm:px-8 sm:py-14 sm:pb-14 md:px-10">
           <h1
-            className="max-w-[min(22ch,100%)] break-words font-qasbyne text-[clamp(1.75rem,5.5vw,3.75rem)] font-normal uppercase leading-[1.12] tracking-[0.06em] text-[#0a0a0a] sm:max-w-[100vw] sm:tracking-[0.07em] lg:text-[clamp(2.75rem,5vw,4rem)]"
+            className=" whitespace-nowrap text-[clamp(1.1rem,calc(0.65rem+3.8vw),3.75rem)] uppercase leading-[1.12] tracking-[0.06em] text-[#0a0a0a] sm:tracking-[0.07em] lg:text-[clamp(2.75rem,5vw,4rem)] qs-reg fs-70"
           >
             {filterStage} Projects
           </h1>
-          <p className=" lg:mt-0 max-w-xl px-1 font-nexa text-[0.875rem] font-normal leading-relaxed text-[#0a0a0a] sm:text-lg lg:text-xl">
+          <p className="mt-1 max-w-3xl px-1 n-book fs-18 lh-22 text-black leading-relaxed text-[#000000] sm:mt-0 sm:text-lg lg:text-base">
             We are one of the fastest growing Real Estate consulting company in
             India.
           </p>
@@ -331,96 +482,124 @@ function ProjectsPageContent() {
       {/* ------------------------------------------------------------------ */}
       {/* FILTER BAR                                                          */}
       {/* ------------------------------------------------------------------ */}
-      <section className="border-b border-black/10 shadow-[0_-4px_4px_0_rgba(0,0,0,0.15)]">
-        <Container className="py-4 sm:py-5 lg:py-6">
-          <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4 lg:px-8 xl:px-12 2xl:px-16">
-            <div className="flex min-w-0 flex-wrap items-center gap-3 sm:gap-5">
+
+      {filterStage === "Ongoing" && (<section className="border-b border-black/10 shadow-[0_-4px_4px_0_rgba(0,0,0,0.15)]">
+        <Container className="min-w-0 py-4 sm:py-5 lg:py-6">
+          <div className="flex min-w-0 flex-col items-center gap-3 text-center sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4 sm:text-left lg:px-8 xl:px-12 2xl:px-16">
+            <div className="flex min-w-0 flex-wrap items-center justify-center gap-3 sm:min-w-0 sm:justify-start sm:gap-5">
               <button
                 type="button"
-                className="inline-flex items-center gap-2 font-nexa text-sm font-black uppercase tracking-[0.1em] text-[#8F8183] sm:text-base"
+                onClick={() => setShowFilters((prev) => !prev)}
+                aria-expanded={showFilters}
+                aria-controls="projects-filter-dropdowns"
+                className={`inline-flex cursor-pointer items-center gap-2 n-reg text-sm font-black uppercase tracking-[0.1em] sm:text-base ${showFilters
+                  ? "text-[#8F8183]  border-[#8F8183] n-bold"
+                  : "text-[#8F8183]/70"
+                  }`}
               >
                 Filters
-                <ChevronUp className="text-[#8F8183]" />
+                {showFilters ? (
+                  <ChevronUp className="text-[#8F8183]" />
+                ) : (
+                  <ChevronDown className="text-[#8F8183]" />
+                )}
               </button>
               <button
                 type="button"
-                className="inline-flex items-center gap-2 font-nexa text-sm font-bold uppercase tracking-[0.1em] text-[#8F8183] sm:text-base"
+                className="inline-flex cursor-pointer items-center gap-2 n-reg  text-sm  uppercase tracking-[0.1em] text-[#8F8183] sm:text-base"
               >
                 Sort By
                 <ChevronDown className="text-[#8F8183]" />
               </button>
             </div>
 
-            <div className="flex h-10 min-h-[44px] w-full min-w-0 max-w-full items-center gap-2.5 border border-black/20 bg-white px-3 sm:h-[34px] sm:min-h-0 sm:max-w-[345px] sm:px-3.5">
+            <div className="mx-auto flex h-[30px] w-full max-w-[345px] min-w-0 shrink-0 items-center gap-2 border border-black/20 bg-white px-3 sm:mx-0">
               <SearchIcon />
-              <span className="font-nexa text-sm text-black/60 sm:text-base">
-                Search
-              </span>
+              <label htmlFor="projects-search" className="sr-only">
+                Search projects
+              </label>
+              <input
+                id="projects-search"
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search"
+                className="min-h-0 min-w-0 flex-1 border-0 bg-transparent py-0 n-reg text-sm leading-none text-black/80 outline-none placeholder:text-black/40"
+              />
             </div>
           </div>
 
-          <div className="my-3 h-px w-full max-w-[90%] bg-black/20 mx-auto sm:my-4" />
 
-          <div className="flex min-w-0 flex-col gap-3 sm:flex-row sm:flex-wrap sm:items-center sm:gap-2 lg:gap-3 lg:px-8 xl:px-12 2xl:px-16">
-            <FilterSelect
-              label="Budget"
-              value={filterBudget}
-              onChange={setFilterBudget}
-              options={[...BUDGET_OPTIONS]}
-            />
-            <FilterSelect
-              label="Builder"
-              value={filterBuilder}
-              onChange={setFilterBuilder}
-              options={[...BUILDER_OPTIONS]}
-            />
+          {showFilters && (
+            <>
+              <div className="my-3 h-px w-full max-w-[90%] bg-black/20 mx-auto sm:my-4" />
 
-            {activeLocation && (
-              <div className="inline-flex h-12 min-h-[48px] w-full max-w-full flex-wrap items-center justify-between gap-2 border border-[#161616] bg-[#BCBDC0] px-4 font-nexa text-xs font-bold uppercase tracking-[0.08em] text-[#161616] sm:h-[51px] sm:min-h-0 sm:w-auto sm:max-w-none sm:px-5 sm:text-sm sm:tracking-[0.1em] md:text-base">
-                <span className="min-w-0 break-words">{activeLocation}</span>
-                <span className="mx-1 hidden h-[52px] w-px shrink-0 bg-[#161616] sm:inline-block" />
+              <div
+                id="projects-filter-dropdowns"
+                className="grid min-w-0 grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:flex sm:flex-row sm:flex-wrap sm:items-center sm:gap-2 lg:gap-3 lg:px-8 xl:px-12 2xl:px-16"
+              >
+                <FilterSelect
+                  label="Budget"
+                  value={filterBudget}
+                  onChange={setFilterBudget}
+                  options={[...BUDGET_OPTIONS]}
+                />
+                <FilterSelect
+                  label="Builder"
+                  value={filterBuilder}
+                  onChange={setFilterBuilder}
+                  options={[...BUILDER_OPTIONS]}
+                />
+
+                {activeLocation && (
+                  <div className="inline-flex h-12 min-h-[48px] w-full max-w-full flex-wrap items-center justify-center gap-2 border border-[#161616] bg-[#BCBDC0] px-3 py-1 n-reg text-[11px] uppercase tracking-[0.08em] text-[#161616] min-[400px]:px-4 min-[400px]:text-xs sm:h-[51px] sm:min-h-0 sm:w-auto sm:max-w-none sm:justify-between sm:px-5 sm:py-0 sm:text-sm sm:tracking-[0.1em] md:text-base">
+                    <span className="min-w-0 wrap-break-word n-bold">{activeLocation}</span>
+                    <span className="mx-1 hidden h-[52px] w-px shrink-0 bg-[#161616] sm:inline-block" />
+                    <button
+                      type="button"
+                      onClick={() => setActiveLocation(null)}
+                      className="cursor-pointer text-xl  leading-none n-bold"
+                      aria-label="Remove filter"
+                    >
+                      X
+                    </button>
+                  </div>
+                )}
+
+                <FilterSelect
+                  label="Configuration"
+                  value={filterConfiguration}
+                  onChange={setFilterConfiguration}
+                  options={[...CONFIGURATION_OPTIONS]}
+                />
+                <FilterSelect
+                  label="Stage"
+                  value={filterStage}
+                  onChange={setFilterStage}
+                  options={[...STAGE_OPTIONS]}
+                />
+
                 <button
                   type="button"
-                  onClick={() => setActiveLocation(null)}
-                  className="text-xl font-bold leading-none"
-                  aria-label="Remove filter"
+                  className="col-span-full w-full basis-full cursor-pointer py-2 text-center n-reg text-sm text-black underline sm:ml-auto sm:w-auto sm:basis-auto sm:py-0 sm:text-left sm:text-base"
+                  onClick={clearAllFilters}
                 >
-                  X
+                  Clear all
                 </button>
               </div>
-            )}
-
-            <FilterSelect
-              label="Configuration"
-              value={filterConfiguration}
-              onChange={setFilterConfiguration}
-              options={[...CONFIGURATION_OPTIONS]}
-            />
-            <FilterSelect
-              label="Stage"
-              value={filterStage}
-              onChange={setFilterStage}
-              options={[...STAGE_OPTIONS]}
-            />
-
-            <button
-              type="button"
-              className="w-full py-2 text-left font-nexa text-sm text-black underline sm:ml-auto sm:w-auto sm:py-0 sm:text-base"
-              onClick={clearAllFilters}
-            >
-              Clear all
-            </button>
-          </div>
+            </>
+          )}
         </Container>
       </section>
+      )}
 
       {/* ------------------------------------------------------------------ */}
       {/* PROJECT GRID                                                        */}
       {/* ------------------------------------------------------------------ */}
-      <section className="bg-white py-8 sm:py-10 lg:px-8 lg:py-16 xl:px-12 2xl:px-16">
-        <Container>
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:gap-5 xl:gap-[20px]">
-            {visibleProjects.map((project) => (
+      <section className="bg-white py-8 sm:py-10 lg:px-8 lg:py-20 xl:px-12 2xl:px-16">
+        <Container className="min-w-0">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:gap-10 xl:gap-10">
+            {displayedProjects.map((project) => (
               <ProjectCard
                 key={project.id}
                 imageSrc={project.imageSrc}
@@ -432,12 +611,13 @@ function ProjectsPageContent() {
                     ? `/projects/${project.id}?status=completed`
                     : `/projects/${project.id}`
                 }
+                stage={filterStage}
               />
             ))}
           </div>
 
           {visibleProjects.length === 0 ? (
-            <p className="mt-10 text-center font-nexa text-sm text-[#161616]/70">
+            <p className="mt-10 px-1 text-center n-reg text-sm leading-relaxed text-[#161616]/70 sm:px-0">
               No projects match these filters. Try adjusting or{" "}
               <button
                 type="button"
@@ -451,17 +631,21 @@ function ProjectsPageContent() {
           ) : null}
 
           <div className="mt-10 flex justify-center px-2 sm:mt-12 lg:mt-16">
-            <button
+            <GradientCtaButton
               type="button"
-              className="inline-flex h-[52px] w-full max-w-sm items-center justify-center gap-4 px-8 font-nexa text-sm font-bold uppercase tracking-[0.1em] text-white sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
-              style={{
-                background:
-                  "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",
-              }}
+              disabled={
+                visibleProjects.length === 0 ||
+                !hasMoreProjects
+              }
+              className="h-[52px] w-full max-w-sm disabled:pointer-events-none disabled:opacity-50 sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
+              onClick={() =>
+                setVisibleCardCount((n) =>
+                  Math.min(n + INITIAL_VISIBLE_CARDS, visibleProjects.length),
+                )
+              }
             >
               View More
-              <ArrowUpRight />
-            </button>
+            </GradientCtaButton>
           </div>
         </Container>
       </section>
@@ -473,9 +657,9 @@ export default function ProjectsPage() {
   return (
     <Suspense
       fallback={
-        <main className="min-h-[50vh] bg-white">
-          <div className="flex h-[320px] items-center justify-center bg-[#BCBDC0]/30 sm:h-[400px] lg:h-[550px]">
-            <span className="font-nexa text-sm text-[#202225]/60">Loading…</span>
+        <main className="min-h-[50vh] min-w-0 bg-white lg:pt-[100px]">
+          <div className="flex min-h-[min(17.5rem,42svh)] h-[min(52svh,28rem)] items-center justify-center bg-[#BCBDC0]/30 sm:h-[400px] sm:min-h-[380px] lg:h-[550px]">
+            <span className="n-reg  text-sm text-[#202225]/60">Loading…</span>
           </div>
         </main>
       }

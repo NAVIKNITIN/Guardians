@@ -17,6 +17,12 @@ export const DEFAULT_VIEW_MORE = {
   viewMoreLabel: "View more",
 } as const;
 
+export const DEFAULT_KNOW_MORE = {
+  knowMoreHref: CONTACT,
+  knowMoreLabel: "KNOW more",
+} as const;
+
+
 export function partnerLogoSrc(filename: string): string {
   return `/images/Developer/partners/${encodeURIComponent(filename)}`;
 }

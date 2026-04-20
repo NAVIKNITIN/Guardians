@@ -2,8 +2,9 @@ import type {
   PartnerLogo,
   PartnersSectionContent,
 } from "@/data/audience-marketing";
+import { Container } from "@/components/common/Container";
 import { MarketingEnquireLink } from "@/components/ui/MarketingEnquireLink";
-import { SectionSurface } from "@/components/ui/SectionSurface";
+import { marketingSection } from "@/styles/marketingClasses";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 
@@ -15,26 +16,57 @@ export function PartnersSection({
   content: PartnersSectionContent;
 }) {
   return (
-    <SectionSurface variant="partners" aria-labelledby="partners-heading">
-      <h2
-        id="partners-heading"
-        className="mx-auto max-w-4xl text-center font-bold uppercase leading-relaxed tracking-[0.2em] text-brand-text-primary sm:text-xs"
-      >
-        {content.headlineLine1} <br /> {content.headlineLine2}
-      </h2>
-      <div className="mt-10 space-y-4">
-        <LogoRow items={[...content.row1]} direction="lr" />
-        <LogoRow items={[...content.row2]} direction="rl" />
+    <section
+      className={cn(
+        /* Full-bleed band: escape padded marketing shell so bg + marquee reach viewport edges */
+        "relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2",
+        marketingSection("sectionPartners"),
+        "py-14 sm:py-16 lg:py-10 2xl:py-14",
+      )}
+      aria-labelledby="partners-heading"
+    >
+      <Container>
+        <h2
+          id="partners-heading"
+          className="mx-auto max-w-4xl text-center n-bold fs-20 uppercase  tracking-[0.05em] text-brand-text-primary sm:text-xs fs-20"
+        >
+          {content.headlineLine1} <br /> {content.headlineLine2}
+        </h2>
+      </Container>
+
+      <div className="relative mt-10 overflow-x-clip">
+        <div className="space-y-4">
+          <LogoRow items={[...content.row1]} direction="lr" />
+          <LogoRow items={[...content.row2]} direction="rl" />
+        </div>
       </div>
 
-      <div className="mt-12 flex flex-col items-center justify-center gap-4 px-1 sm:mt-16 sm:flex-row sm:flex-wrap sm:gap-6">
-        <p className="max-w-md text-center text-sm font-bold text-brand-text-secondary sm:text-base">
-          {content.closing}
-        </p>
-        <MarketingEnquireLink href={content.ctaHref}>{content.ctaLabel}</MarketingEnquireLink>
-      </div>
-    </SectionSurface>
+      <Container>
+        <div className="mt-12 flex flex-col items-center justify-center gap-4 px-1 sm:mt-16 sm:flex-row sm:flex-wrap sm:gap-6">
+          <p className="max-w-md text-center text-sm sm:text-base n-bold fs-20 text-[#8F8183]">
+            {content.closing}
+          </p>
+          <MarketingEnquireLink
+            className="w-[207.01px] h-[55px]"
+            href={content.ctaHref}
+          >
+            {content.ctaLabel}
+          </MarketingEnquireLink>
+        </div>
+      </Container>
+    </section>
   );
+}
+
+/** Two identical halves (each half = repeated logo sets) so translate -50% loops without a visible seam. */
+function buildMarqueeLoop(items: readonly PartnerLogo[]) {
+  if (items.length === 0) return [];
+  const repeatsPerHalf = items.length <= 4 ? 4 : 2;
+  const half: PartnerLogo[] = [];
+  for (let r = 0; r < repeatsPerHalf; r++) {
+    half.push(...items);
+  }
+  return [...half, ...half];
 }
 
 function LogoRow({
@@ -44,7 +76,7 @@ function LogoRow({
   items: readonly PartnerLogo[];
   direction: "lr" | "rl";
 }) {
-  const loop = [...items, ...items];
+  const loop = buildMarqueeLoop(items);
 
   return (
     <div className="partners-marquee__viewport" aria-hidden role="presentation">
@@ -66,6 +98,8 @@ function LogoRow({
   );
 }
 
+/** Figma: outer card 223×95 (w×h); inner padding 20px horizontal, 10px vertical. */
+
 function LogoTile({
   item,
   decorative,
@@ -74,14 +108,22 @@ function LogoTile({
   decorative?: boolean;
 }) {
   return (
-    <div className="relative flex h-16 w-[9.5rem] items-center justify-center rounded-sm border border-black/[0.06] bg-white px-3 shadow-sm sm:w-40">
-      <Image
-        src={item.src}
-        alt={decorative ? "" : item.alt}
-        width={160}
-        height={48}
-        className="h-10 w-auto max-w-full object-cover object-center"
-      />
+    <div
+      className={cn(
+        "relative shrink-0 overflow-hidden rounded-sm border border-black/6 bg-white shadow-sm",
+        /* Outer frame 223×95; content area inset by Figma padding 20px (x) / 10px (y) */
+        "aspect-[245/95] w-[clamp(7.5rem,32vw,13.9375rem)] max-w-[13.9375rem]",
+      )}
+    >
+      <div className="absolute inset-[10px_20px]">
+        <Image
+          src={item.src}
+          alt={decorative ? "" : item.alt}
+          fill
+          sizes="(max-width: 480px) 120px, (max-width: 768px) 160px, 223px"
+          className="object-contain object-center"
+        />
+      </div>
     </div>
   );
 }

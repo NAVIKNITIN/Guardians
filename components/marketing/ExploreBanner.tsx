@@ -3,8 +3,12 @@ import { IconArrowUpRight } from "@/components/common/icons";
 import { heroEnquireCtaClassName } from "@/styles/buttonStyles";
 import type { MarketingBannerContent } from "@/data/audience-marketing";
 import { cn } from "@/utils/cn";
-import Image from "next/image";
 import Link from "next/link";
+
+/** CSS `url()` must not contain raw spaces — breaks loading (e.g. `/images/image 59.svg`). */
+function cssBackgroundUrl(src: string) {
+  return `url("${encodeURI(src)}")`;
+}
 
 export function ExploreBanner({ content }: { content: MarketingBannerContent }) {
   const headingId =
@@ -12,16 +16,24 @@ export function ExploreBanner({ content }: { content: MarketingBannerContent }) 
 
   return (
     <section
-      className="border-y border-black/[0.06] py-10 sm:py-14 md:py-16 lg:py-20"
+      className="w-full my-10 xl:my-12 2xl:my-16"
       aria-labelledby={headingId}
     >
-      <Container>
-        <div className="grid grid-cols-1 items-center gap-8 rounded-sm bg-[#f5f4f4] p-5 sm:gap-10 sm:p-8 lg:grid-cols-2 lg:gap-12 lg:pl-12 lg:pr-8 xl:gap-16 xl:pl-16 2xl:pl-20">
-          <div className="flex min-w-0 max-w-xl flex-col gap-6 sm:gap-8 lg:max-w-none lg:pr-4">
+      <Container className="flex min-w-0 justify-center">
+        {/* Figma: banner frame 994 × 300 */}
+        <div
+          className={cn(
+            "grid w-full max-w-[994px] overflow-hidden rounded-sm bg-[#f5f4f4]",
+            "sm:gap-10 sm:p-0",
+            /* `minmax(0,1fr)` keeps columns true 50/50; plain `1fr` lets min-content widen the text column and squeezes the image */
+            "lg:grid-cols-[minmax(0,1fr)_minmax(0,1fr)] lg:h-[300px] lg:gap-12 lg:pl-12 lg:pr-0 xl:gap-16 xl:pl-16 2xl:pl-20",
+          )}
+        >
+          <div className="flex min-w-0 flex-col justify-center gap-6 sm:gap-8 sm:pt-2 lg:h-full lg:max-w-none lg:pr-4 lg:pt-0">
             <h2
               id={headingId}
               className={cn(
-                "text-left font-nexa text-[clamp(1.375rem,3.5vw,2.125rem)] font-normal leading-[1.25] tracking-[-0.02em] text-brand-text-primary",
+                "min-w-0 text-balance text-left n-reg text-[clamp(1.375rem,3.5vw,2.125rem)] leading-[1.25] tracking-[-0.02em] text-brand-text-primary",
                 "sm:text-[clamp(1.5rem,3.2vw,2.25rem)]",
               )}
             >
@@ -30,7 +42,7 @@ export function ExploreBanner({ content }: { content: MarketingBannerContent }) 
             <div>
               <Link
                 href={content.ctaHref}
-                className={cn(heroEnquireCtaClassName, "group w-fit")}
+                className={cn(heroEnquireCtaClassName, "w-[243.5px] h-[55px]")}
               >
                 {content.ctaLabel}
                 <IconArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
@@ -38,17 +50,21 @@ export function ExploreBanner({ content }: { content: MarketingBannerContent }) 
             </div>
           </div>
 
-          <div className="relative min-h-[min(52vw,280px)] w-full overflow-hidden rounded-sm sm:min-h-[260px] lg:min-h-[min(28vw,340px)]">
-            <Image
-              src={content.imageSrc}
-              alt={content.imageAlt ?? ""}
-              fill
-              className="object-cover object-center lg:object-right"
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              priority={false}
-            />
+          {/* Figma image area ~497×300 within 994×300 banner — bg cover fills box */}
+          <div
+            className={cn(
+              "relative h-[300px] w-full min-w-0 overflow-hidden rounded-sm",
+              "bg-cover bg-right bg-no-repeat",
+            )}
+            style={{
+              backgroundImage: cssBackgroundUrl(content.imageSrc),
+            }}
+            role={content.imageAlt ? "img" : undefined}
+            aria-label={content.imageAlt || undefined}
+            aria-hidden={!content.imageAlt}
+          >
             <div
-              className="pointer-events-none absolute inset-y-0 left-0 z-[1] w-[45%] max-w-[min(280px,55%)] bg-gradient-to-r from-[#f4f4f4] via-[#f4f4f4]/85 to-transparent lg:w-[38%]"
+              className="pointer-events-none absolute inset-y-0 left-0 z-10 w-[28%] max-w-[200px] bg-linear-to-r from-[#f5f4f4] via-[#f5f4f4]/80 to-transparent sm:w-[32%] lg:w-[30%]"
               aria-hidden
             />
           </div>

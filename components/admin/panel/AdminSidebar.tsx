@@ -55,7 +55,7 @@ export function AdminSidebar() {
   return (
     <aside className="bg-[#121212] text-white lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-[320px] lg:flex-col lg:border-r lg:border-white/10">
       <div className="border-b border-white/10 px-6 py-6 lg:px-8 lg:py-10">
-        <Link href="/admin/projects" className="font-qasbyne text-[3rem] leading-none text-white">
+        <Link href="/admin/projects" className="qs-reg text-[3rem] leading-none text-white">
           Estate<span className="text-[#f07c61]">.</span>
         </Link>
       </div>

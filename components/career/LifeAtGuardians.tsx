@@ -6,25 +6,26 @@ import Image from "next/image";
 export function LifeAtGuardians() {
   return (
     <section
-      className="bg-white py-16 sm:py-16 lg:py-20 px-2 lg:px-10"
+      className="bg-white py-12 px-4 sm:py-16 sm:px-10 lg:py-25 lg:px-20"
       aria-labelledby="life-heading"
     >
       {/* ── Top split: heading left / description right ── */}
       <Container>
-        <div className="grid gap-10 lg:grid-cols-[365fr_710fr] lg:items-start lg:gap-16 xl:gap-20">
+        <div className="grid gap-6 sm:gap-10 lg:grid-cols-[365fr_710fr] lg:items-start lg:gap-16 xl:gap-20">
           {/* Left – Qasbyne heading */}
           <h2
             id="life-heading"
             className={cn(
-              " uppercase text-[#202225]",
-              "text-[clamp(2.25rem,3.8vw,4.375rem)] leading-[1] tracking-[0.05em]",
+              "uppercase text-[#202225] qs-reg ls-10",
+              /* Fluid type — no fixed fs-70/lh-70 so the title scales on narrow phones */
+              "text-[clamp(2rem,calc(1rem+4.5vw),4.375rem)] leading-[1.05] tracking-[0.05em]",
             )}
           >
             Life at<br />Guardians
           </h2>
 
           {/* Right – body description */}
-          <p className="font-nexa text-lg font-normal leading-[1.5] text-[#161616] sm:text-xl">
+          <p className="n-reg text-base leading-[1.5] text-[#161616] sm:text-lg lg:text-xl">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
             eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor
             sit amet, consectetur adipiscing elit, sed do eiusmod tempor
@@ -34,10 +35,10 @@ export function LifeAtGuardians() {
       </Container>
 
       {/* ── Full-width-ish large image ── */}
-      <div className="mx-auto mt-10  lg:mt-12 px-2 lg:px-10">
+      <div className="mx-auto mt-8 sm:mt-10 lg:mt-12 px-0 sm:px-2 lg:px-10">
         <div
           className="relative w-full overflow-hidden bg-[#BCBDC0]"
-          style={{ height: "clamp(240px, 28vw, 400px)" }}
+          style={{ height: "clamp(200px, 32vw, 400px)" }}
         >
           <Image
             src={LOCAL_IMAGES.workWithUs}

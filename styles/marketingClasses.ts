@@ -3,23 +3,29 @@ import { cn } from "@/utils/cn";
 /** Shared marketing page surfaces & display type. */
 export const marketingClasses = {
   sectionMuted:
-    "border-t border-black/[0.06] bg-brand-background-muted py-16 sm:py-20 lg:py-24",
+    " bg-brand-background-muted py-16 sm:py-20 lg:py-24 2xl:py-28",
   section:
-    "border-t border-black/[0.06] bg-brand-background py-16 sm:py-20 lg:py-24",
+    " bg-brand-background py-16 sm:py-20 lg:py-24 2xl:py-28",
   sectionCompact:
-    "border-t border-black/[0.06] bg-brand-background py-16 sm:py-20",
+    " bg-brand-background py-16 sm:py-20 2xl:py-24",
   sectionPartners:
-    "border-t border-black/[0.06] bg-brand-background-subtle py-16 sm:py-20",
+    " bg-brand-background-subtle py-16 sm:py-20 2xl:py-24",
   sectionStats:
-    "border-t border-black/[0.06] bg-brand-background-muted py-14 sm:py-16",
+    " bg-brand-background-muted py-14 sm:py-16 2xl:py-20",
   headingDisplay:
-    "font-qasbyne text-[clamp(1.75rem,3vw,2.5rem)] font-normal uppercase leading-tight tracking-[0.08em] text-brand-text-primary",
+    "md:mt-26 qs-reg text-[clamp(1.75rem,3.5vw,3.125rem)] fs-5xl uppercase leading-tight ls-5 text-brand-text-primary mt-5 text-[#202225]",
   headingDisplayMd:
-    "font-qasbyne text-[clamp(1.75rem,3vw,2.35rem)] font-normal uppercase leading-tight tracking-[0.08em] text-brand-text-primary",
+    "qs-reg text-[clamp(1.75rem,3.5vw,3.125rem)] uppercase leading-tight ls-5 text-brand-text-primary",
   headingDisplaySm:
-    "font-qasbyne text-[clamp(1.5rem,2.5vw,2rem)] font-normal uppercase leading-tight tracking-[0.08em] text-brand-text-primary",
+    "qs-reg text-[clamp(1.5rem,2.5vw,2rem)]  uppercase leading-tight tracking-[0.08em] text-brand-text-primary",
   roundNavButton:
     "flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-black/15 bg-white text-brand-text-primary transition-colors hover:border-black/30",
+  /** Matches `Container` horizontal padding without `max-w` — full-bleed section content alignment. */
+  pageGutter:
+    "px-5 xs:px-6 sm:px-8 md:px-10 tablet:px-12 lg:px-16 xl:px-24 2xl:px-32 xxl:px-44 xxxl:px-52 3xl:px-56",
+  /** Same scale as `pageGutter` but left edge only — pair with full-bleed content on the right. */
+  pageGutterLeft:
+    "pl-5 pr-0 xs:pl-6 xs:pr-0 sm:pl-8 sm:pr-0 md:pl-10 md:pr-0 tablet:pl-12 tablet:pr-0 lg:pl-16 lg:pr-0 xl:pl-24 xl:pr-0 2xl:pl-32 2xl:pr-0 xxl:pl-44 xxl:pr-0 xxxl:pl-52 xxxl:pr-0 3xl:pl-56 3xl:pr-0",
 } as const;
 
 export function marketingSection(

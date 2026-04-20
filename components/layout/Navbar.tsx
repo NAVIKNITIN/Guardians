@@ -6,6 +6,7 @@ import { cn } from "@/utils/cn";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import Image from "next/image";
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { useState } from "react";
 
 const navLeft = [
@@ -37,15 +38,48 @@ const navRight = [
   { label: "Career", href: "/career" },
 ];
 
-/** Matches reference: ~14–16px, medium weight, charcoal #1A1A1A */
+/**
+ * Primary nav base: font-family + color as fallback; size/weight overridden by navStateClass.
+ * Figma nav links: Nexa Regular/Bold, 16px, color #202225.
+ */
 const navLinkClass =
-  "text-sm !font-[1] leading-snug tracking-normal text-[#1A1A1A] transition-colors hover:text-brand-accent lg:text-[15px] 2xl:text-base";
+  "n-reg not-italic text-[#202225] fs-18 lh-100 transition-opacity hover:opacity-75";
 
 const navLinkClassMobile =
-  "text-[15px] font-medium leading-snug tracking-normal text-[#1A1A1A] transition-colors hover:text-brand-accent";
+  "n-reg not-italic text-[#202225] fs-18 lh-100 transition-opacity hover:opacity-75";
+
+/**
+ * Desktop flyout rows — Nexa Regular, 15px, #202225. Hover: subtle bg + taupe text.
+ */
+const navDropdownItemClass = cn(
+  "n-reg not-italic text-[#202225] fs-15 lh-100",
+  "pointer-events-auto relative z-10 block w-full px-4 py-2.5 text-left",
+  "transition-colors hover:bg-black/[0.04] hover:text-[#8F8183]",
+);
+
+/** Top bar “Search” — Figma Group 63: box height 11px → 11/11 type (paste had no font block; color kept for bar contrast). */
+const searchLabelClass =
+  "n-bold not-italic fs-16 lh-25 leading-none text-white/95 capitalize";
+
+function isActivePath(pathname: string, href: string) {
+  if (href === "/") return pathname === "/";
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
+
+/**
+ * Active: Nexa Bold (fw-700), same colour/size.
+ * Inactive: Nexa Regular (fw-400).
+ * Figma nav: 16px Nexa, #202225.
+ */
+function navStateClass(isActive: boolean) {
+  return isActive
+    ? "n-bold text-[#000000] fs-18 " //if shadow is needed, add [text-shadow:0_4px_6px_rgba(0,0,0,0.3)]
+    : "n-book text-[#202225] fs-18";
+}
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const pathname = usePathname();
   /** After a submenu link is clicked, hide the flyout until pointer leaves the trigger (hover/focus-within otherwise keeps it open). */
   const [closedDesktopDropdown, setClosedDesktopDropdown] = useState<
     string | null
@@ -53,21 +87,21 @@ export function Navbar() {
   useBodyScrollLock(open);
 
   return (
-    <header className="sticky top-0 z-50 w-full border-t border-[#1A1A1A]/10 bg-[#FAFAFA]">
-      <div className="bg-brand-bar/90 text-[11px] font-medium tracking-wide text-white/95 sm:text-xs">
-        <Container className="flex h-9 items-center justify-end sm:h-10">
+    <header className="sticky top-0 z-50 w-full border-b border-black/[0.06] bg-[#F2F2F2] shadow-[0_1px_0_rgba(0,0,0,0.04)]">
+      <div className="bg-[#8F8183] text-white/95">
+        <Container className="flex h-[48px] items-center justify-end">
           <Link
             href="#search"
-            className="inline-flex items-center gap-2 transition-opacity hover:opacity-80"
+            className="inline-flex items-center gap-1.5 transition-opacity hover:opacity-80"
             aria-label="Search"
           >
-            <IconSearch className="h-3.5 w-3.5 opacity-90 sm:h-4 sm:w-4" />
-            <span className="capitalize">Search</span>
+            <IconSearch className="h-5 w-5 opacity-90" />
+            <span className={searchLabelClass}>Search</span>
           </Link>
         </Container>
       </div>
 
-      <div className="border-b border-black/[0.06] bg-[#FAFAFA] backdrop-blur-md">
+      <div className="border-t border-white/10 bg-[#F2F2F2]">
         <Container className="relative">
           {/* Mobile: centered logo, menu control on the right */}
           <div className="relative flex min-h-[4.25rem] items-center justify-between py-3 sm:min-h-[4.5rem] xl:hidden">
@@ -118,9 +152,9 @@ export function Navbar() {
           </div>
 
           {/* Desktop: left nav | centered logo | right nav */}
-          <div className="hidden min-h-[5.25rem] items-stretch py-4 lg:min-h-[5.5rem] lg:py-5 xl:flex">
+          <div className="hidden h-[89px] items-stretch py-2.5  lg:py-3 xl:flex">
             <nav
-              className="flex min-w-0 flex-1 items-center justify-end gap-7 pr-6 lg:gap-9 lg:pr-10"
+              className="flex min-w-0 flex-1 items-center justify-end gap-4 pr-5 lg:gap-8 lg:pr-7"
               aria-label="Primary left"
             >
               {navLeft.map((item) => {
@@ -131,12 +165,16 @@ export function Navbar() {
 
                 if (hasMenu && dropdownItems) {
                   const dismissed = closedDesktopDropdown === item.label;
+                  const isItemActive =
+                    isActivePath(pathname, item.href) ||
+                    dropdownItems.some((sub) => isActivePath(pathname, sub.href));
                   return (
                     <div key={item.label} className="group relative shrink-0">
                       <Link
                         href={item.href}
                         className={cn(
                           navLinkClass,
+                          navStateClass(isItemActive),
                           "inline-flex items-center gap-1.5",
                         )}
                         aria-haspopup="true"
@@ -147,7 +185,7 @@ export function Navbar() {
                         }}
                       >
                         {item.label}
-                        <IconChevronDown className="h-3 w-3 shrink-0 text-[#1A1A1A]/50 transition-transform group-hover:translate-y-px" />
+                        <IconChevronDown className="h-3 w-3 shrink-0 text-[#202225] transition-transform group-hover:translate-y-px" />
                       </Link>
                       <div
                         className={cn(
@@ -158,7 +196,7 @@ export function Navbar() {
                         role="presentation"
                       >
                         <ul
-                          className="min-w-[12.5rem] rounded border border-black/[0.06] bg-[#FAFAFA] py-2 shadow-md"
+                          className="list-none min-w-[12.5rem] rounded border border-black/[0.06] bg-[#FAFAFA] p-0 py-2 text-[#202225] shadow-md"
                           role="menu"
                         >
                           {dropdownItems.map((sub) => (
@@ -166,7 +204,7 @@ export function Navbar() {
                               <Link
                                 role="menuitem"
                                 href={sub.href}
-                                className="pointer-events-auto relative z-10 block px-4 py-2.5 text-sm leading-snug text-[#1A1A1A] transition-colors hover:bg-black/[0.04] hover:text-brand-accent"
+                                className={navDropdownItemClass}
                                 onClick={() => {
                                   // Defer so the Link’s navigation runs before we hide the panel;
                                   // sync state can drop pointer-events and break the first click.
@@ -191,12 +229,13 @@ export function Navbar() {
                     href={item.href}
                     className={cn(
                       navLinkClass,
+                      navStateClass(isActivePath(pathname, item.href)),
                       "group inline-flex shrink-0 items-center gap-1.5",
                     )}
                   >
                     {item.label}
                     {item.dropdown ? (
-                      <IconChevronDown className="h-3 w-3 shrink-0 text-[#1A1A1A]/50 transition-transform group-hover:translate-y-px" />
+                      <IconChevronDown className="h-3 w-3 shrink-0 text-[#202225]/50 transition-transform group-hover:translate-y-px" />
                     ) : null}
                   </Link>
                 );
@@ -204,23 +243,22 @@ export function Navbar() {
             </nav>
 
             <Link
-              // CHANGE: keep the website logo on the marketing home instead of bouncing back to admin login.
-              href="/?website=1"
+              href="/"
               className="flex shrink-0 items-center justify-center self-center px-2 lg:px-5"
               aria-label="The Guardians home"
             >
               <Image
                 src="/images/Home/Logo.png"
                 alt="The Guardians Real Estate Advisory"
-                width={260}
-                height={60}
-                className="h-10 w-auto object-cover sm:h-11 lg:h-[3.25rem]"
-                sizes="(min-width: 1280px) 260px, 0px"
+                width={252}
+                height={58}
+                className="h-10 w-auto object-cover lg:h-14"
+                sizes="(min-width: 1280px) 252px, 0px"
               />
             </Link>
 
             <nav
-              className="flex min-w-0 flex-1 items-center justify-start gap-7 pl-6 lg:gap-9 lg:pl-10"
+              className="flex min-w-0 flex-1 items-center justify-start gap-4 pl-5 lg:gap-8 lg:pl-7"
               aria-label="Primary right"
             >
               {navRight.map((item) => (
@@ -229,6 +267,7 @@ export function Navbar() {
                   href={item.href}
                   className={cn(
                     navLinkClass,
+                    navStateClass(isActivePath(pathname, item.href)),
                     "shrink-0",
                     item.label === "TGREA" && "uppercase",
                   )}
@@ -249,7 +288,7 @@ export function Navbar() {
         )}
       >
         <Container className="flex flex-col gap-4 py-6">
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 ">
             {navLeft.map((item) => {
               const dropdownItems =
                 "dropdownItems" in item ? item.dropdownItems : undefined;
@@ -262,13 +301,14 @@ export function Navbar() {
                     href={item.href}
                     className={cn(
                       navLinkClassMobile,
+                      navStateClass(isActivePath(pathname, item.href)),
                       "inline-flex items-center gap-1.5",
                     )}
                     onClick={() => setOpen(false)}
                   >
                     {item.label}
                     {item.dropdown ? (
-                      <IconChevronDown className="h-3.5 w-3.5 shrink-0 text-[#1A1A1A]/50" />
+                      <IconChevronDown className="h-3.5 w-3.5 shrink-0 text-[#202225]/50" />
                     ) : null}
                   </Link>
                   {hasMenu && dropdownItems
@@ -278,7 +318,8 @@ export function Navbar() {
                         href={sub.href}
                         className={cn(
                           navLinkClassMobile,
-                          "border-l-2 border-black/[0.08] pl-4 text-[14px] text-[#1A1A1A]/85",
+                          navStateClass(isActivePath(pathname, sub.href)),
+                          "border-l-2 border-black/[0.08] pl-4",
                         )}
                         onClick={() => setOpen(false)}
                       >
@@ -290,13 +331,14 @@ export function Navbar() {
               );
             })}
           </div>
-          <div className="flex flex-col gap-3 border-t border-black/[0.06] pt-4">
+          <div className=" items-center justify-center align-middle flex flex-col gap-3 border-t border-black/[0.06] pt-4">
             {navRight.map((item) => (
               <Link
                 key={item.label}
                 href={item.href}
                 className={cn(
                   navLinkClassMobile,
+                  navStateClass(isActivePath(pathname, item.href)),
                   item.label === "TGREA" && "uppercase",
                 )}
                 onClick={() => setOpen(false)}

@@ -8,6 +8,7 @@ import type {
 import {
   CONTACT,
   DEFAULT_HERO_CTA,
+  DEFAULT_KNOW_MORE,
   DEFAULT_READ_MORE,
   DEFAULT_VIEW_MORE,
   partnersBand,
@@ -18,28 +19,61 @@ const PLACEHOLDER_SERVICE_DESC =
 
 export const DEV_LANDMARK_ONGOING: LandmarkProject[] = [
   {
-    id: "ms",
+    id: "1",
     brand: "MARATHON",
     projectLine: "MARATHON GROUP'S",
     projectName: "MONTE SOUTH",
-    location: "Byculla, Mumbai, Maharashtra | 2, 2.5, 3 & 3.5 BHK Residences",
-    imageSrc: LOCAL_IMAGES.holding,
+    location: "Byculla, Mumbai, Maharashtra ",
+    bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
+    imageSrc: "/images/image 44.svg",
   },
   {
-    id: "p2",
-    brand: "SKYLINE",
-    projectLine: "RESIDENTIAL TOWER",
-    projectName: "ELEVATE ONE",
-    location: "Western Suburbs, Mumbai",
-    imageSrc: LOCAL_IMAGES.partnerHero,
+    id: "2",
+    brand: "MARATHON",
+    projectLine: "MARATHON GROUP'S",
+    projectName: "MONTE SOUTH",
+    location: "Byculla, Mumbai, Maharashtra ",
+    bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
+    imageSrc: "/images/image 44.svg",
   },
   {
-    id: "p3",
-    brand: "URBAN",
-    projectLine: "MIXED-USE",
-    projectName: "HARBOUR VIEW",
-    location: "Navi Mumbai",
-    imageSrc: LOCAL_IMAGES.citylife,
+    id: "3",
+    brand: "MARATHON",
+    projectLine: "MARATHON GROUP'S",
+    projectName: "MONTE SOUTH",
+    location: "Byculla, Mumbai, Maharashtra ",
+    bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
+    imageSrc: "/images/image 44.svg",
+  },
+];
+
+export const DEV_LANDMARK_ONGOING_BUYER_MARKETING: LandmarkProject[] = [
+  {
+    id: "1",
+    brand: "MARATHON",
+    projectLine: "MARATHON GROUP'S",
+    projectName: "MONTE SOUTH",
+    location: "Byculla, Mumbai, Maharashtra ",
+    bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
+    imageSrc: "/images/image 67.svg",
+  },
+  {
+    id: "2",
+    brand: "MARATHON",
+    projectLine: "MARATHON GROUP'S",
+    projectName: "MONTE SOUTH",
+    location: "Byculla, Mumbai, Maharashtra ",
+    bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
+    imageSrc: "/images/image 67.svg",
+  },
+  {
+    id: "3",
+    brand: "MARATHON",
+    projectLine: "MARATHON GROUP'S",
+    projectName: "MONTE SOUTH",
+    location: "Byculla, Mumbai, Maharashtra ",
+    bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
+    imageSrc: "/images/image 67.svg",
   },
 ];
 
@@ -50,9 +84,16 @@ export const DEV_LANDMARK_COMPLETED: LandmarkProject[] = DEV_LANDMARK_ONGOING.ma
     projectName: `${p.projectName} — delivered`,
   }),
 );
+export const DEV_LANDMARK_COMPLETED_BUYER_MARKETING: LandmarkProject[] = DEV_LANDMARK_ONGOING.map(
+  (p) => ({
+    ...p,
+    id: `${p.id}-done`,
+    projectName: `${p.projectName} — delivered`,
+  }),
+);
 
 const AWARD_ROTATION_IMAGES = [
-  "/images/ourwork.svg",
+  "/images/Frame 78.svg",
   "/images/developer-hero.svg",
   "/images/Home/Banner1.svg",
   "/images/Developer/ourservices/1.svg",
@@ -82,7 +123,8 @@ export const DEVELOPER_MARKETING_PAGE = {
     sectionTitle: "Our services",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
-    ...DEFAULT_READ_MORE,
+    knowMoreHref: CONTACT,
+    knowMoreLabel: DEFAULT_KNOW_MORE.knowMoreLabel,
     cards: [
       {
         id: "residential",
@@ -99,37 +141,38 @@ export const DEVELOPER_MARKETING_PAGE = {
       {
         id: "market",
         title: "Market intelligence",
-        src: LOCAL_IMAGES.marketService,
+        src: "/images/Developer/ourservices/2.svg",
         description: PLACEHOLDER_SERVICE_DESC,
       },
       {
         id: "partner",
         title: "Partner network",
-        src: LOCAL_IMAGES.buyerServicesHero,
+        src: "/images/Developer/ourservices/2.svg",
         description: PLACEHOLDER_SERVICE_DESC,
       },
       {
         id: "institutional",
         title: "Institutional sales",
-        src: LOCAL_IMAGES.retailService,
+        src: "/images/Developer/ourservices/2.svg",
         description: PLACEHOLDER_SERVICE_DESC,
       },
       {
         id: "advisory",
         title: "Structured advisory",
-        src: LOCAL_IMAGES.landService,
+        src: "/images/Developer/ourservices/2.svg",
         description: PLACEHOLDER_SERVICE_DESC,
       },
     ],
   },
   ourWork: {
-    sectionTitle: "Our work",
+    sectionTitle: "OUR WORK",
     ...DEFAULT_READ_MORE,
+    readMoreLabel: "READ MORE",
     slides: [
       {
         id: "1",
         title: "The Guardians Assists with Elme Communities’ Evolution.",
-        body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris.",
+        body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
         imageSrc: "/images/ourwork.svg",
       },
       {

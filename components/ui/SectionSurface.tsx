@@ -28,7 +28,8 @@ export type SectionSurfaceProps = {
 };
 
 /**
- * Standard bordered marketing `<section>` + `Container` — keeps vertical rhythm consistent.
+ * Full-width marketing `<section>` (background + vertical rhythm) with inner content
+ * constrained to the site `Container` (brand max-width + horizontal padding).
  */
 export function SectionSurface({
   variant = "default",
@@ -41,10 +42,16 @@ export function SectionSurface({
   return (
     <section
       id={id}
-      className={cn(marketingSection(variantMap[variant]), className)}
+      className={cn(
+        "w-full",
+        marketingSection(variantMap[variant]),
+        className,
+      )}
       {...aria}
     >
-      <Container className={containerClassName}>{children}</Container>
+      <Container className={cn("min-w-0", containerClassName)}>
+        {children}
+      </Container>
     </section>
   );
 }

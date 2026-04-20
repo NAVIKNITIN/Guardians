@@ -78,7 +78,7 @@ export function ProjectsPageContent() {
             <IconFolderStack className="h-7 w-7" />
           </div>
 
-          <h2 className="font-qasbyne text-[clamp(2.4rem,4vw,3.4rem)] leading-none text-[#081a43]">
+          <h2 className="qs-reg text-[clamp(2.4rem,4vw,3.4rem)] leading-none text-[#081a43]">
             All Projects
           </h2>
         </div>

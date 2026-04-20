@@ -3,7 +3,6 @@
 import type { AwardSlide, AwardsSectionContent } from "@/data/audience-marketing";
 import { CarouselControls } from "@/components/ui/CarouselControls";
 import { SectionSurface } from "@/components/ui/SectionSurface";
-import { marketingClasses } from "@/styles/marketingClasses";
 import { useCycleIndex } from "@/hooks/useCycleIndex";
 import { cn } from "@/utils/cn";
 import { RollingText } from "@/components/ui/RollingText";
@@ -21,24 +20,27 @@ function BookSpineStack({ className }: { className?: string }) {
       {[3, 2, 1].map((step) => (
         <div
           key={step}
-          className="absolute rounded-sm border border-black/[0.07] bg-gradient-to-br from-neutral-100 to-neutral-200/90 shadow-sm"
+          className="absolute rounded-sm border border-black/[0.06] bg-gradient-to-b from-neutral-50 to-neutral-200/95 shadow-[0_8px_22px_rgba(0,0,0,0.12)]"
           style={{
-            inset: 0,
-            transform: `translate(${step * 5}px, ${step * 5}px)`,
+            left: `${step * 2.4}%`,
+            right: `${step * 2.4}%`,
+            top: `${-step * 2.8}%`,
+            bottom: `${step * 1.2}%`,
+            transform: `translateY(${step * 2}px)`,
             zIndex: -step,
           }}
         />
       ))}
-      {/* Spine thread — vertical stitch line where “pages” meet */}
+      {/* Spine thread — subtle inner stitch lines */}
       <div
-        className="absolute top-[8%] bottom-[8%] left-[14%] w-px opacity-40"
+        className="absolute top-[7%] bottom-[7%] left-[13%] w-px opacity-28"
         style={{
           background:
             "repeating-linear-gradient(to bottom, #8f8183 0px, #8f8183 3px, transparent 3px, transparent 6px)",
         }}
       />
       <div
-        className="absolute top-[8%] bottom-[8%] left-[calc(14%+5px)] w-px opacity-25"
+        className="absolute top-[7%] bottom-[7%] left-[calc(13%+6px)] w-px opacity-16"
         style={{
           background:
             "repeating-linear-gradient(to bottom, #bcbdc0 0px, #bcbdc0 2px, transparent 2px, transparent 5px)",
@@ -110,7 +112,7 @@ const BookPageFront = memo(function BookPageFront({ slide }: { slide: AwardSlide
           alt=""
           fill
           className="object-cover object-center"
-          sizes="(max-width: 1024px) 100vw, 400px"
+          sizes="(max-width: 1024px) min(100vw, 385px), 385px"
         />
       </div>
     </div>
@@ -186,21 +188,24 @@ export function AwardsSection({
   }, [outgoingIndex]);
 
   return (
-    <SectionSurface variant="default" aria-labelledby="awards-heading">
-      <div className="grid gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-10 xl:gap-14 px-2 md:px-10 lg:px-20">
-        <div className="flex flex-col items-start text-left lg:col-span-3">
+    <SectionSurface variant="stats" aria-labelledby="awards-heading" className=" border-t-0 border-b-0 bg-transparent ">
+      <div className="grid gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-10 xl:gap-14 2xl:gap-16">
+        <div className="flex w-full min-w-0 flex-col items-center text-center lg:col-span-3 lg:items-start lg:text-left">
           <Image
             src={content.starIconSrc}
             alt=""
-            width={91}
+            width={90}
             height={75}
-            className="h-16 w-auto shrink-0 object-cover object-left sm:h-18"
+            className=" w-auto shrink-0 object-cover object-center  lg:object-left"
           />
           <h2
             id="awards-heading"
             className={cn(
-              "mt-5 lg:mt-[70px] max-w-48 sm:max-w-none font-qasbyne",
-              marketingClasses.headingDisplaySm,
+              "qs-reg fs-50 lh-50 mt-10 md:mt-30",
+              " w-full min-w-0 max-w-full px-0",
+              "text-balance uppercase leading-tight tracking-[0.08em] text-[#202225]",
+              /* Fluid type: no fixed fs-45 / max-w-48 — those clipped “Recognitions” on narrow screens */
+              "text-[clamp(1.125rem,calc(0.5rem+3.4vw),2.25rem)] sm:text-[clamp(1.35rem,calc(0.55rem+2.4vw),2.35rem)]  lg:text-[clamp(1.5rem,2.5vw,2rem)]",
             )}
           >
             {content.headingLine1}
@@ -210,11 +215,12 @@ export function AwardsSection({
         </div>
 
         {/* Book-style page turn + spine stack behind */}
-        <div className="relative flex justify-center lg:col-span-5 lg:justify-center">
+        <div className="relative flex justify-center lg:col-span-5 lg:justify-center lg:pl-10">
           <div
             className={cn(
-              "relative mx-auto w-full max-w-[280px] sm:max-w-[300px]",
-              "aspect-4/5 max-h-[min(22rem,52.5vh)] min-h-0",
+              "relative mx-auto w-full max-w-[min(100%,385.33px)]",
+              /* Figma: award carousel frame 385.33 × 459 */
+              "aspect-[385.33/459] min-h-0 max-h-[min(459px,65.5vh)]",
             )}
           >
             <BookSpineStack />
@@ -261,8 +267,8 @@ export function AwardsSection({
           </div>
         </div>
 
-        <div className="flex min-h-0 flex-col lg:col-span-4 lg:h-full">
-          <div className="mb-8 flex shrink-0 justify-start lg:mb-10">
+        <div className="flex min-h-0 w-full min-w-0 flex-col items-center text-center lg:col-span-4 lg:h-full lg:items-stretch lg:text-left">
+          <div className="mb-8 flex w-full shrink-0 justify-center lg:mb-10 lg:justify-start">
             <CarouselControls
               currentIndex={index}
               total={total}
@@ -273,7 +279,7 @@ export function AwardsSection({
               buttonClassName="border-0 bg-transparent hover:bg-transparent"
               counterClassName="min-w-[2.75rem] px-1 text-xs font-medium text-brand-text-primary sm:text-sm"
               renderCounter={({ currentIndex, total }) => (
-                <span className="inline-flex min-w-[2.75rem] items-baseline justify-center gap-0.5 px-1 text-xs font-medium text-brand-text-primary tabular-nums sm:text-sm">
+                <span className="inline-flex min-w-[2.75rem] text-[#141414] items-baseline justify-center gap-0.5 px-1 text-xs font-medium text-brand-text-primary tabular-nums sm:text-sm">
                   <RollingText
                     value={String(currentIndex + 1)}
                     direction={rollDir}
@@ -287,26 +293,26 @@ export function AwardsSection({
             />
           </div>
 
-          <div className="flex min-h-0 flex-1 flex-col justify-between gap-8">
-            <div>
+          <div className="flex min-h-0 w-full min-w-0 flex-1 flex-col justify-between gap-6 lg:mt-25">
+            <div className="w-full min-w-0">
               <RollingText
                 value={slide.company}
                 direction={rollDir}
-                className="text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-text-primary"
+                className="text-[#161616] n-bold text-[clamp(0.875rem,2.5vw,1.125rem)] uppercase tracking-[0.05em] text-brand-text-primary sm:text-[18px]"
               />
-              <div className="mt-4">
+              <div className="w-full min-w-0">
                 <RollingText
                   block
                   value={slide.achievement}
                   direction={rollDir}
-                  className="font-qasbyne text-[clamp(1.5rem,2.1vw,2.75rem)] font-normal leading-[1.15] tracking-[0.02em] text-brand-text-primary"
+                  className="text-[#161616] n-bold text-[clamp(1.5rem,6vw,2.25rem)] tracking-[0.02em] text-brand-text-primary sm:text-[36px]"
                 />
               </div>
             </div>
             <RollingText
               value={slide.year}
               direction={rollDir}
-              className="text-[10px] font-semibold uppercase tracking-[0.2em] text-brand-text-secondary"
+              className="n-bold text-[14px] uppercase tracking-[0.2em] text-brand-text-secondary lg:mb-5 fw-600"
             />
           </div>
         </div>

@@ -6,7 +6,7 @@ import Image from "next/image";
 
 function resolveHeadline(content: MarketingHeroContent) {
   const defaults = content.isBuyer
-    ? { lead: "Looking To", accent: "Buy" }
+    ? { lead: "Looking To", accent: "Buy?" }
     : { lead: "Looking to", accent: "sell?" };
   return {
     lead: content.headingLead ?? defaults.lead,
@@ -19,7 +19,7 @@ export function AudienceHero({ content }: { content: MarketingHeroContent }) {
 
   return (
     <section
-      className="relative isolate w-full min-w-0 min-h-[min(90vh,860px)] overflow-hidden bg-neutral-300 pt-10 pb-28 sm:min-h-[min(100vh,1000px)] sm:pt-14 sm:pb-32 lg:pt-16 lg:pb-40"
+      className="relative isolate w-full min-w-0 min-h-[min(120vh,960px)] overflow-hidden bg-neutral-300 pt-10 pb-28 sm:min-h-[min(120vh,1000px)] sm:pt-14 sm:pb-32 lg:pt-30 lg:pb-40 2xl:pt-36 2xl:pb-44"
       aria-labelledby={content.ariaHeadingId}
     >
       <div className="pointer-events-none absolute inset-0 z-0">
@@ -27,7 +27,7 @@ export function AudienceHero({ content }: { content: MarketingHeroContent }) {
           src={content.backgroundImageSrc}
           alt=""
           fill
-          className="object-cover object-center saturate-[0.82] contrast-[1.03]"
+          className="object-cover object-center"
           sizes="100vw"
           priority
         />
@@ -38,7 +38,7 @@ export function AudienceHero({ content }: { content: MarketingHeroContent }) {
       </div>
 
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-36 bg-gradient-to-t from-white/96 via-white/45 to-transparent sm:h-44 md:h-52"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-36 bg-gradient-to-t from-white/100 via-white/45 to-transparent sm:h-44 md:h-52"
         aria-hidden
       />
 
@@ -46,23 +46,23 @@ export function AudienceHero({ content }: { content: MarketingHeroContent }) {
         <div className="mx-auto flex min-w-0 max-w-[820px] flex-col items-center px-2 text-center sm:px-4">
           <h1
             id={content.ariaHeadingId}
-            className="break-words font-qasbyne text-[clamp(1.75rem,6vw,4.5rem)] uppercase leading-[1.05] tracking-[0.04em] sm:text-[clamp(2rem,6vw,4.5rem)]"
+            className="break-words qs-reg text-[clamp(2rem,6vw,4.375rem)] uppercase leading-[1.05] ls-5"
           >
             <span className="block">
-              <span className="font-normal text-[#0a0a0a]">{lead}</span>{" "}
-              <span className="font-light text-[#7a6a5c]">{accent}</span>
+              <span className="text-[#202225]">{lead}</span>{" "}
+              <span className="text-[#8F8183]">{accent}</span>
             </span>
           </h1>
           <p
-            className={cn(
-              "mx-auto mt-8 max-w-[40rem] font-nexa font-normal leading-relaxed text-[#1a1a1a]/92",
-              "text-sm sm:mt-10 sm:text-base lg:mt-11 lg:text-[17px]",
-            )}
+            className="text-black fs-18 n-book lh-22 w-full max-w-[600px] mx-auto flex text-left md:mt-5 lg:mt-7"
           >
             {content.body}
           </p>
-          <div className="mt-10 flex justify-center sm:mt-12">
-            <MarketingEnquireLink href={content.enquireHref}>
+          <div className="mt-10 flex justify-center sm:mt-10">
+            <MarketingEnquireLink
+              href={content.enquireHref}
+              className="fs-20 n-bold ls-12 w-[306.01px] h-[55px] px-0"
+            >
               {content.enquireLabel}
             </MarketingEnquireLink>
           </div>

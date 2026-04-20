@@ -5,7 +5,7 @@ import { DynamicMap } from "@/components/projects/DynamicMap";
 import type { MapMarker } from "@/components/projects/DynamicMap";
 import { LOCAL_IMAGES, localImageByIndex } from "@/lib/local-images";
 import Image from "next/image";
-import Link from "next/link";
+import { cn } from "@/utils/cn";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useState } from "react";
 
@@ -133,7 +133,7 @@ const project = {
     ],
   },
   amenitiesBg: LOCAL_IMAGES.holding,
-  bookVisitBg: LOCAL_IMAGES.partnerHero,
+  bookVisitBg: LOCAL_IMAGES.projectImage,
 };
 
 // ---------------------------------------------------------------------------
@@ -205,7 +205,7 @@ function CaseStudySection({
   paragraphs: string[];
 }) {
   return (
-    <div className="grid grid-cols-1 items-start gap-10 lg:grid-cols-2 lg:gap-14">
+    <div className="grid grid-cols-1 items-start gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-14">
       <div className="relative aspect-video w-full overflow-hidden bg-[#1a1a1a] shadow-[0_8px_40px_rgba(0,0,0,0.12)]">
         <Image
           src={posterSrc}
@@ -216,7 +216,7 @@ function CaseStudySection({
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/35" />
 
-        <div className="absolute left-4 top-4 z-[1] flex max-w-[min(100%,280px)] flex-wrap items-start gap-2 text-[0.5rem] font-bold uppercase leading-tight tracking-[0.12em] text-white sm:left-5 sm:top-5 sm:text-[0.55rem] md:max-w-none md:text-[0.625rem]">
+        <div className="absolute left-4 top-4 z-[1] flex max-w-[min(100%,280px)] flex-wrap items-start gap-2 text-[0.5rem]  uppercase leading-tight tracking-[0.12em] text-white sm:left-5 sm:top-5 sm:text-[0.55rem] md:max-w-none md:text-[0.625rem]">
           <span className="max-w-[9rem] sm:max-w-none">
             The Guardians
             <br />
@@ -252,7 +252,7 @@ function CaseStudySection({
         )}
 
         <div className="absolute bottom-0 left-0 z-[1] p-4 sm:p-6">
-          <p className="font-nexa text-xl font-bold uppercase leading-[1.1] tracking-[0.06em] text-white sm:text-2xl md:text-3xl lg:text-4xl">
+          <p className="n-reg xt-xl  uppercase leading-[1.1] tracking-[0.06em] text-white sm:text-2xl md:text-3xl lg:text-4xl">
             <span className="block sm:inline">Client </span>
             <span className="mt-1 inline-block bg-black/45 px-2 py-1 sm:mt-0 sm:px-3">
               Chronicles
@@ -261,15 +261,15 @@ function CaseStudySection({
         </div>
       </div>
 
-      <div className="flex w-full min-w-0 flex-col items-start justify-start text-left">
-        <h2 className="text-[clamp(2rem,4vw,3.25rem)] font-normal uppercase leading-[1.05] tracking-[0.06em] text-[#202225]">
+      <div className="flex w-full min-w-0 flex-col items-center justify-start text-center lg:items-start lg:text-left">
+        <h2 className="qs-reg text-[clamp(1.75rem,5vw,3.25rem)] lh-50 ls-5 uppercase text-[#202225] sm:text-[clamp(2rem,4vw,3.25rem)]">
           Case Study
         </h2>
-        <div className="mt-6 flex w-full flex-col gap-4">
+        <div className="mt-8 flex w-full flex-col gap-4 sm:mt-10">
           {paragraphs.map((p, i) => (
             <p
               key={i}
-              className="font-nexa text-sm leading-relaxed text-[#161616]/90 sm:text-base"
+              className="n-book fs-20 lh-24 text-sm leading-relaxed text-[#161616]/90 sm:text-base"
             >
               {p}
             </p>
@@ -289,17 +289,17 @@ function AmenityItem({
   amenity: { label: string; imageSrc: string };
 }) {
   return (
-    <div className="flex flex-col items-center gap-3 text-center">
-      <div className="relative h-20 w-20 shrink-0">
+    <div className="flex flex-col items-center gap-2 text-center sm:gap-3">
+      <div className="relative h-16 w-16 shrink-0 sm:h-20 sm:w-20">
         <Image
           src={amenity.imageSrc}
           alt=""
           width={80}
           height={80}
-          className="h-20 w-20 object-cover"
+          className="h-16 w-16 object-cover sm:h-20 sm:w-20"
         />
       </div>
-      <span className="font-nexa text-[11px] font-bold uppercase tracking-[0.08em] text-[#202225] sm:text-xs">
+      <span className="n-bold text-[10px] uppercase leading-tight tracking-[0.08em] text-[#202225] sm:text-xs">
         {amenity.label}
       </span>
     </div>
@@ -338,66 +338,69 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* HERO — project header                                            */}
       {/* ---------------------------------------------------------------- */}
-      <section className="relative overflow-hidden bg-white px-4 pt-10 sm:px-6 md:px-10 md:pt-20 lg:px-20 lg:pt-[60px]">
-        <Container className="pb-0">
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-start lg:justify-between">
+      <section className="relative overflow-hidden bg-white pt-8 pb-2 sm:pt-10 md:pt-20 lg:pt-[150px]">
+        <Container className="min-w-0 pb-0">
+          <div className="relative flex min-h-0 flex-col items-center gap-5 text-center lg:min-h-[min(12rem,1fr)] lg:flex-row lg:items-start lg:justify-between lg:gap-6 lg:text-left">
             {/* Left — title block */}
-            <div className="min-w-0 max-w-full pr-0 lg:max-w-[min(100%,42rem)] lg:pr-8">
+            <div className="min-w-0 w-full max-w-full pr-0 text-center lg:max-w-[min(100%,42rem)] lg:pr-8 lg:text-left">
               {/* Status dot + label */}
-              <div className="mb-2 flex items-center gap-2">
-                <span className="h-2.5 w-2.5 shrink-0 rounded-full bg-[#8F8183]" />
-                <span className="font-nexa text-base text-[#8F8183] sm:text-lg">
+              <div className="mb-3 flex items-center justify-center gap-2 lg:justify-start">
+                <span className="mb-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#8F8183]" />
+                <span className="n-reg text-sm text-[#8F8183] sm:text-lg">
                   {heroStatusLine}
                 </span>
               </div>
               {/* Project title */}
               <h1
-                className="break-words font-qasbyne text-[clamp(2rem,8vw,4.375rem)] uppercase leading-[1] tracking-[0.05em] text-[#202225] sm:text-[clamp(2.5rem,5vw,4.375rem)]"
+                className="wrap-break-word qs-reg text-[clamp(1.75rem,7vw,4.375rem)] uppercase leading-none tracking-[0.05em] text-[#202225] sm:text-[clamp(2.25rem,5vw,4.375rem)]"
                 style={{ whiteSpace: "pre-line" }}
               >
                 {project.title}
               </h1>
               {/* RERA */}
-              <p className="mt-3 font-nexa text-xs font-bold uppercase tracking-[0.1em] text-[#161616] underline sm:text-sm">
+              <p className="mt-3 n-bold text-[0.6875rem] uppercase tracking-widest text-[#161616] underline sm:text-sm">
                 Rera No.: {project.rera}
               </p>
             </div>
 
-            {/* Right — developer logo (in flow on small screens; anchored on large) */}
-            <div className="relative mt-2 shrink-0 self-start lg:absolute lg:right-4 lg:top-1 lg:mt-0 xl:right-20 2xl:right-40">
+            {/* Right — developer logo (below title on small screens; bottom-right on large) */}
+            <div className="flex w-full shrink-0 justify-center pt-3 sm:pt-2 lg:absolute lg:bottom-0 lg:right-0 lg:w-auto lg:justify-end lg:pt-0">
               <Image
                 src={project.developerLogo}
                 alt="Godrej Properties"
                 width={160}
                 height={46}
-                className="h-auto w-[140px] object-cover sm:w-[160px] lg:w-[218px]"
+                className="h-auto w-[min(100%,160px)] max-w-[200px] object-contain object-center sm:w-[160px] lg:w-[218px] lg:object-right"
               />
             </div>
+
           </div>
 
-          {/* Stats bar */}
-          <div className="mt-6 border-t border-black">
-            <div className="grid grid-cols-2 border-b border-black lg:grid-cols-4">
+          {/* Stats bar — 1 col on mobile, 2×2 from sm, 1×4 from lg */}
+          <div className="mt-6 sm:mt-8 border-t border-black">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
               {project.stats.map((stat, i) => (
                 <div
                   key={i}
-                  className={`flex flex-col justify-center py-4 pr-3 sm:py-5 sm:pr-4 max-lg:nth-[n+3]:border-t max-lg:nth-[n+3]:border-black ${i < project.stats.length - 1
-                    ? "border-r border-black"
-                    : ""
-                    } ${i > 0 ? "pl-3 sm:pl-4 lg:pl-6" : ""}`}
+                  className={cn(
+                    "flex min-h-0 min-w-0 flex-col justify-center gap-1.5 border-b border-black px-3 py-4 text-center last:border-b-0 sm:gap-2 sm:border-b-0 sm:px-4 sm:py-5 sm:text-left lg:px-6",
+                    i % 2 === 0 && "sm:border-r sm:border-black",
+                    i < 2 && "sm:border-b sm:border-black lg:border-b-0",
+                    i < 3 && "lg:border-r lg:border-black",
+                  )}
                 >
-                  <span className=" text-xs font-bold uppercase tracking-[0.1em] text-black/80 sm:text-sm ">
+                  <span className="n-bold text-[0.5625rem] uppercase leading-snug tracking-[0.08em] text-black/80 sm:text-xs lg:text-sm">
                     {stat.label}
                   </span>
-                  <span className="mt-1  text-[#8F8183]">
-                    <span className="text-2xl sm:text-3xl lg:text-[2.625rem] leading-none">
+                  <span className="text-[#8F8183] border-b border-black pb-2 sm:pb-2.5">
+                    <span className="inline wrap-break-word text-[clamp(1rem,4.5vw,1.125rem)] leading-[1.2] tracking-tight sm:text-2xl sm:leading-none md:text-3xl lg:text-[2.625rem]">
                       {stat.value}
                     </span>
-                    {stat.unit && (
-                      <span className="text-base sm:text-xl lg:text-2xl ml-0.5">
+                    {stat.unit ? (
+                      <span className="ml-0.5 inline text-xs leading-none sm:text-base md:text-xl lg:text-2xl">
                         {stat.unit}
                       </span>
-                    )}
+                    ) : null}
                   </span>
                 </div>
               ))}
@@ -411,7 +414,8 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* BUILDING HERO IMAGE                                              */}
       {/* ---------------------------------------------------------------- */}
-      <section className="relative h-[280px] overflow-hidden sm:h-[380px] lg:h-[550px] pt-4 lg:mt-20">
+      {/* Full-bleed — edge to edge (no Container) */}
+      <section className="relative h-[min(42svh,22rem)] min-h-[200px] w-full min-w-0 overflow-hidden pt-4 sm:h-[380px] lg:mt-20 lg:h-[550px]">
         <Image
           src={buildingHeroSrc}
           alt="Lorem Ipsum Towers"
@@ -425,9 +429,9 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* DESCRIPTION                                                      */}
       {/* ---------------------------------------------------------------- */}
-      <section className="bg-white px-4 py-12 sm:px-6 md:px-10 lg:px-20 lg:py-16">
-        <Container>
-          <p className="!font-nexa text-xl font-bold leading-snug text-black sm:text-2xl lg:text-[2.25rem] lg:leading-[1.17]">
+      <section className="bg-white py-10 sm:py-12 lg:py-16">
+        <Container className="min-w-0">
+          <p className="n-bold text-center text-[clamp(1.0625rem,3.8vw,1.25rem)] leading-snug text-black sm:text-left sm:text-2xl lg:text-[2.25rem] lg:leading-[1.17]">
             {project.description}
           </p>
         </Container>
@@ -436,8 +440,8 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* PHOTO GALLERY                                                    */}
       {/* ---------------------------------------------------------------- */}
-      <section className="bg-white px-4 pb-12 sm:px-6 md:px-10 lg:px-20 lg:pb-16">
-        <Container>
+      <section className="bg-white pb-10 sm:pb-12 lg:pb-16">
+        <Container className="min-w-0">
           <div className="flex flex-col gap-4">
             {/* Row 1: two halves */}
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
@@ -498,27 +502,27 @@ function ProjectDetailPageContent() {
       </section>
 
       {/* ---------------------------------------------------------------- */}
-      {/* PROJECT AMENITIES                                                */}
+      {/* PROJECT AMENITIES — full-width band; content uses same Container   */}
+      {/*    gutters as the rest of the page                                 */}
       {/* ---------------------------------------------------------------- */}
-      <section className="relative overflow-hidden py-14 lg:py-20  bg-[#BCBDC0]">
+      <section className="relative w-full min-w-0 overflow-hidden bg-[#BCBDC0] py-12 sm:py-14 lg:py-20">
+        {/* Light overlay — full width, behind content */}
+        <div className="pointer-events-none absolute inset-0 z-0 bg-white/85" />
 
-        {/* Light overlay so text stays readable */}
-        <div className="absolute inset-0 bg-white/85" />
-
-        <Container className="relative z-10">
-          <h2 className="mb-10 text-center font-qasbyne text-[clamp(1.75rem,4vw,2.625rem)] uppercase tracking-[0.05em] text-[#202225] lg:mb-14">
+        <Container className="relative z-10 min-w-0">
+          <h2 className="mb-10 text-center qs-reg text-[clamp(1.75rem,4vw,2.625rem)] uppercase tracking-[0.05em] text-[#202225] lg:mb-14">
             Project Amenities
           </h2>
 
           {/* Rows 1 & 2 — 4 columns on desktop */}
-          <div className="grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-10 lg:gap-x-12 lg:gap-y-12 lg:mx-20">
+          <div className="grid w-full grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-10 lg:gap-x-12 lg:gap-y-12">
             {project.amenities.slice(0, 8).map((amenity, i) => (
               <AmenityItem key={i} amenity={amenity} />
             ))}
           </div>
 
           {/* Row 3 — 2 items, left-aligned */}
-          <div className="mt-8 grid grid-cols-2 gap-x-4 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-10 lg:gap-x-12 lg:gap-y-12 lg:mx-20">
+          <div className="mt-8 grid w-full grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-10 lg:gap-x-12 lg:gap-y-12">
             {project.amenities.slice(8).map((amenity, i) => (
               <AmenityItem key={i} amenity={amenity} />
             ))}
@@ -529,25 +533,25 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* LOCATION                                                         */}
       {/* ---------------------------------------------------------------- */}
-      <section className="bg-white px-4 py-14 sm:px-6 md:px-10 lg:px-20 lg:py-20">
-        <Container>
+      <section className="bg-white py-12 sm:py-14 lg:py-20">
+        <Container className="min-w-0">
           <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
             {/* Left — list */}
-            <div className="min-w-0 flex-1">
-              <h2 className="mb-6 font-qasbyne text-[clamp(1.75rem,5vw,4.375rem)] uppercase tracking-[0.05em] text-[#202225] sm:mb-8">
+            <div className="min-w-0 w-full flex-1">
+              <h2 className="mb-6 text-center qs-reg text-[clamp(1.75rem,5vw,4.375rem)] uppercase tracking-[0.05em] text-[#202225] sm:mb-8 sm:text-left">
                 Location
               </h2>
 
               <div className="flex flex-col">
                 {project.locationItems.map((item, i) => (
                   <div key={i}>
-                    <div className="flex items-start justify-between gap-3 py-3 sm:items-center sm:gap-4">
-                      <span className="min-w-0 flex-1 break-words font-nexa text-sm text-[#161616] sm:text-base">
+                    <div className="flex flex-col gap-2 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+                      <span className="min-w-0 flex-1 wrap-break-word text-center n-book fs-16 lh-24 text-[#161616] sm:text-left sm:text-base">
                         {item.name}
                       </span>
-                      <div className="flex shrink-0 items-center gap-3">
+                      <div className="flex shrink-0 items-center justify-center gap-3 sm:justify-end">
                         {item.type === "walk" ? <WalkIcon /> : <DriveIcon />}
-                        <span className="w-14 text-right font-nexa text-sm font-bold text-[#161616] sm:text-base">
+                        <span className="min-w-[3.5rem] text-center n-bold text-[#161616] sm:min-w-[3.75rem] sm:text-right sm:text-base">
                           {item.time}
                         </span>
                       </div>
@@ -561,7 +565,7 @@ function ProjectDetailPageContent() {
             </div>
 
             {/* Right — dynamic map */}
-            <div className="relative h-[min(50vh,380px)] w-full min-h-[280px] shrink-0 overflow-hidden sm:h-[360px] lg:h-auto lg:min-h-[550px] lg:w-[49%]">
+            <div className="relative h-[min(52vh,24rem)] w-full min-h-[220px] shrink-0 overflow-hidden sm:h-[360px] sm:min-h-[280px] lg:h-auto lg:min-h-[550px] lg:w-[49%]">
               <DynamicMap
                 center={project.mapCenter}
                 zoom={project.mapZoom}
@@ -591,8 +595,8 @@ function ProjectDetailPageContent() {
       {/* CASE STUDY (completed projects only)                             */}
       {/* ---------------------------------------------------------------- */}
       {isFromCompleted ? (
-        <section className="bg-white px-4 py-12 sm:px-6 md:px-10 lg:px-20 lg:py-16">
-          <Container>
+        <section className="bg-white py-10 sm:py-12 lg:py-16">
+          <Container className="min-w-0">
             <CaseStudySection
               posterSrc={project.caseStudy.posterSrc}
               videoUrl={project.caseStudy.videoUrl}
@@ -606,7 +610,7 @@ function ProjectDetailPageContent() {
       {/* BOOK A VISIT (ongoing projects only — hidden for completed)      */}
       {/* ---------------------------------------------------------------- */}
       {!isFromCompleted ? (
-        <section className="relative mb-10 min-h-0 overflow-hidden px-4 py-0 sm:px-6 md:px-10 lg:mb-20 lg:px-20">
+        <section className="relative mb-10 min-h-0 w-full min-w-0 overflow-hidden py-0 lg:mb-20">
           {/* Background */}
           <Image
             src={project.bookVisitBg}
@@ -617,36 +621,36 @@ function ProjectDetailPageContent() {
           />
           <div className="absolute inset-0 bg-[#202225]/50" />
 
-          <Container className="relative z-10 py-12 sm:py-16 lg:py-20">
+          <Container className="relative z-10 min-w-0 py-12 sm:py-16 lg:py-20">
             <div className="flex flex-col gap-10 lg:flex-row lg:gap-16">
               {/* Left — info */}
-              <div className="flex min-w-0 flex-1 flex-col justify-between">
-                <div>
-                  <h2 className="font-qasbyne text-[clamp(2rem,6vw,4.375rem)] uppercase leading-none tracking-[0.05em] text-white sm:text-[clamp(2.5rem,5vw,4.375rem)]">
+              <div className="flex min-w-0 flex-1 flex-col items-center justify-between text-center lg:items-start lg:text-left">
+                <div className="w-full">
+                  <h2 className="qs-reg text-[clamp(1.75rem,6vw,4.375rem)] uppercase leading-none tracking-[0.05em] text-white sm:text-[clamp(2.5rem,5vw,4.375rem)]">
                     Book A Visit
                   </h2>
-                  <p className="mt-5 max-w-[30rem] font-nexa text-sm leading-relaxed text-white sm:text-base">
+                  <p className="mx-auto mt-5 max-w-[30rem] n-reg text-sm leading-relaxed text-white sm:text-base lg:mx-0">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                     do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     dolor sit amet, consectetur adipiscing elit.
                   </p>
                 </div>
 
-                <div className="mt-10 flex flex-col gap-6 border-t border-white/40 pt-8 sm:flex-row sm:gap-12">
-                  <div>
-                    <p className="font-nexa text-xs font-bold uppercase tracking-[0.1em] text-white">
+                <div className="mt-10 flex flex-col gap-6 border-t border-white/40 pt-8 sm:flex-row sm:gap-12 sm:text-left">
+                  <div className="w-full sm:w-auto">
+                    <p className="n-reg text-xs uppercase tracking-[0.1em] text-white">
                       Location
                     </p>
-                    <p className="mt-2 max-w-[16rem] font-nexa text-sm leading-relaxed text-white">
+                    <p className="mx-auto mt-2 max-w-[16rem] n-reg text-sm leading-relaxed text-white sm:mx-0">
                       C-602 &amp; 603, ONE BKC, G Block, Bandra Kurla Complex,
                       Bandra (E), Mumbai - 400051
                     </p>
                   </div>
-                  <div>
-                    <p className="font-nexa text-xs font-bold uppercase tracking-[0.1em] text-white">
+                  <div className="w-full sm:w-auto">
+                    <p className="n-reg text-xs uppercase tracking-[0.1em] text-white">
                       Contact
                     </p>
-                    <p className="mt-2 font-nexa text-sm leading-relaxed text-white">
+                    <p className="mt-2 n-reg text-sm leading-relaxed text-white">
                       022-68770076
                       <br />
                       022-6877005
@@ -655,11 +659,11 @@ function ProjectDetailPageContent() {
                 </div>
               </div>
 
-              {/* Right — form card */}
-              <div className="w-full min-w-0 max-w-full bg-white px-5 py-7 sm:px-8 sm:py-8 lg:w-[488px] lg:shrink-0 lg:px-10">
-                <div className="flex flex-col gap-0">
+              {/* Right — form card (`.book-visit-form` scopes mobile CSS so fields stay left-aligned) */}
+              <div className="book-visit-form w-full min-w-0 max-w-full bg-white px-5 py-7 text-left sm:px-8 sm:py-8 lg:w-[490px] lg:shrink-0 lg:px-10">
+                <div className="flex w-full flex-col items-stretch gap-0 text-left">
                   {/* Row 1: First / Last name */}
-                  <div className="grid grid-cols-1 gap-6 pb-6 sm:grid-cols-2 sm:gap-8">
+                  <div className="grid grid-cols-1 gap-6 pb-6 sm:grid-cols-2 sm:gap-8 n-bold lh-24 fs-14">
                     <FormField
                       label="First Name"
                       name="firstName"
@@ -677,7 +681,7 @@ function ProjectDetailPageContent() {
                   </div>
 
                   {/* Row 2: Email / Phone */}
-                  <div className="grid grid-cols-1 gap-6 border-t border-[#8F8183]/30 py-6 sm:grid-cols-2 sm:gap-8">
+                  <div className="grid grid-cols-1 gap-6 border-t border-[#8F8183]/30  n-bold lh-24 fs-14 py-6 sm:grid-cols-2 sm:gap-8">
                     <FormField
                       label="Email Address"
                       name="email"
@@ -697,7 +701,7 @@ function ProjectDetailPageContent() {
                   </div>
 
                   {/* Row 3: Location / Upload CV */}
-                  <div className="grid grid-cols-1 gap-6 border-t border-[#8F8183]/30 py-6 sm:grid-cols-2 sm:gap-8">
+                  <div className="grid grid-cols-1 gap-6 border-t n-bold lh-24 fs-14 border-[#8F8183]/30 py-6 sm:grid-cols-2 sm:gap-8">
                     <SelectField
                       label="Location"
                       name="location"
@@ -717,8 +721,8 @@ function ProjectDetailPageContent() {
                   </div>
 
                   {/* Message */}
-                  <div className="border-t border-[#8F8183]/30 pt-6">
-                    <label className="block font-nexa text-sm font-bold text-[#202225]">
+                  <div className="border-t border-[#8F8183]/30 pt-6 text-left n-bold lh-24 fs-14">
+                    <label className="block text-left n-reg text-sm text-[#202225]">
                       Message
                     </label>
                     <textarea
@@ -727,15 +731,15 @@ function ProjectDetailPageContent() {
                       value={form.message}
                       onChange={handleChange}
                       rows={2}
-                      className="mt-2 w-full resize-none border-b border-[#8F8183] bg-transparent font-nexa text-sm text-[#202020] placeholder-[#202020]/40 outline-none"
+                      className="mt-2 w-full resize-none border-b border-[#8F8183] bg-transparent text-left n-reg text-sm text-[#202020] placeholder-[#202020]/40 outline-none"
                     />
                   </div>
 
                   {/* Submit */}
-                  <div className="mt-8">
+                  <div className="mt-8 flex justify-center">
                     <button
                       type="button"
-                      className="inline-flex h-[52px] w-full items-center justify-center gap-4 px-8 font-nexa text-sm font-bold uppercase tracking-[0.1em] text-white sm:h-[55px] sm:w-auto sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
+                      className="inline-flex h-[52px] w-full items-center justify-center gap-4 px-8 n-reg  text-sm  uppercase tracking-[0.1em] text-white sm:h-[55px] sm:w-auto sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
                       style={{
                         background:
                           "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",
@@ -762,7 +766,7 @@ export default function ProjectDetailPage() {
       fallback={
         <main className="min-h-[50vh] bg-white pt-[137px]">
           <Container>
-            <p className="font-nexa text-sm text-[#8F8183]">Loading…</p>
+            <p className="n-reg  text-sm text-[#8F8183]">Loading…</p>
           </Container>
         </main>
       }
@@ -793,8 +797,8 @@ function FormField({
   type = "text",
 }: FormFieldProps) {
   return (
-    <div className="flex flex-col gap-1">
-      <label className="font-nexa text-sm font-bold text-[#202225]">
+    <div className="flex flex-col gap-1 text-left">
+      <label className="text-left n-reg xt-sm text-[#202225]">
         {label}
       </label>
       <input
@@ -803,7 +807,7 @@ function FormField({
         placeholder={placeholder}
         value={value}
         onChange={onChange}
-        className="border-b border-[#8F8183] bg-transparent pb-1 font-nexa text-sm text-[#202020] placeholder-[#202020]/40 outline-none"
+        className="border-b border-[#8F8183] bg-transparent pb-1 text-left n-reg text-sm text-[#202020] placeholder-[#202020]/40 outline-none"
       />
     </div>
   );
@@ -827,8 +831,8 @@ function SelectField({
   options,
 }: SelectFieldProps) {
   return (
-    <div className="flex flex-col gap-1">
-      <label className="font-nexa text-sm font-bold text-[#202225]">
+    <div className="flex flex-col gap-1 text-left">
+      <label className="text-left n-reg text-sm text-[#202225]">
         {label}
       </label>
       <div className="relative border-b border-[#8F8183] pb-1">
@@ -836,7 +840,7 @@ function SelectField({
           name={name}
           value={value}
           onChange={onChange}
-          className="w-full appearance-none bg-transparent font-nexa text-sm text-[#202020]/40 outline-none"
+          className="w-full appearance-none bg-transparent text-left n-reg text-sm text-[#202020]/40 outline-none"
         >
           <option value="" disabled>
             {placeholder}

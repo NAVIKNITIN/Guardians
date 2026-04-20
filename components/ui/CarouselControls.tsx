@@ -55,9 +55,9 @@ export function CarouselControls({
         <Image
           src={CAROUSEL_PREV}
           alt=""
-          width={20}
-          height={20}
-          className="h-5 object-cover"
+          width={25}
+          height={25}
+          className="object-cover"
         />
       </RoundIconButton>
       {showCounter ? (
@@ -82,9 +82,9 @@ export function CarouselControls({
         <Image
           src={CAROUSEL_NEXT}
           alt=""
-          width={20}
-          height={20}
-          className="h-5 bg-transparent object-cover"
+          width={25}
+          height={25}
+          className=" bg-transparent object-cover"
         />
       </RoundIconButton>
     </div>

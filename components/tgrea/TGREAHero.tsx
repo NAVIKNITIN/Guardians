@@ -7,7 +7,7 @@ const HERO_BG =
 export function TGREAHero() {
   return (
     <section
-      className="relative min-h-[min(90vh,640px)] overflow-hidden bg-neutral-200 sm:min-h-[520px]"
+      className="relative w-full min-w-0 overflow-hidden bg-neutral-200 min-h-[min(32rem,80svh)] md:min-h-[700px]"
       aria-labelledby="tgrea-hero-heading"
     >
       {/* Background cityscape */}
@@ -16,7 +16,8 @@ export function TGREAHero() {
           src={HERO_BG}
           alt=""
           fill
-          className="object-cover object-center"
+          /* `object-fill` distorts the cityscape on phones — cover on mobile, fill on desktop */
+          className="object-cover object-center md:object-fill"
           sizes="100vw"
           priority
         />
@@ -25,12 +26,12 @@ export function TGREAHero() {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 flex min-h-[min(72vh,560px)] flex-col items-center justify-center px-4 py-14 text-center sm:min-h-[560px] sm:py-20">
+      <div className="relative z-10 flex min-h-[inherit] flex-col items-center justify-center px-4 py-12 text-center sm:mt-15 sm:py-20">
         <h1
           id="tgrea-hero-heading"
           className={cn(
-            "max-w-[min(100%,20ch)] break-words font-qasbyne font-normal uppercase tracking-[0.05em] text-[#202225] sm:max-w-none",
-            "text-[clamp(2rem,6vw,4.375rem)] leading-[1] sm:text-[clamp(2.5rem,6vw,4.375rem)]",
+            "max-w-[min(100%,20ch)] wrap-break-word qs-reg font-normal uppercase tracking-[0.05em] text-[#202225] sm:max-w-none",
+            "text-[clamp(1.75rem,7vw,4.375rem)] leading-[1.05] sm:text-[clamp(2.5rem,6vw,4.375rem)] sm:leading-none",
           )}
         >
           The Guardians
@@ -38,8 +39,8 @@ export function TGREAHero() {
 
         <p
           className={cn(
-            "mt-4 font-nexa font-bold uppercase tracking-[0.1em] text-[#202225]",
-            "text-[clamp(0.875rem,1.5vw,1.25rem)]",
+            "mt-3 n-bold uppercase tracking-[0.1em] text-[#202225] sm:mt-4",
+            "text-[clamp(0.8125rem,3.4vw,1.25rem)]",
           )}
         >
           Real Estate Advisory
@@ -47,8 +48,8 @@ export function TGREAHero() {
 
         <p
           className={cn(
-            "mt-6 max-w-2xl font-nexa font-normal text-black",
-            "text-[clamp(0.875rem,1.5vw,1.125rem)] leading-[1.4]",
+            "mt-4 max-w-2xl n-reg font-normal text-black sm:mt-6",
+            "text-[clamp(0.875rem,3vw,1.125rem)] leading-[1.5] sm:leading-[1.4]",
           )}
         >
           We are one of the fastest growing Real Estate consulting company in

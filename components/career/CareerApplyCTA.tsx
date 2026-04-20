@@ -23,7 +23,7 @@ export function CareerApplyCTA() {
       <Container className="relative z-10">
         <div className="mx-auto max-w-3xl text-center">
           {/* Eyebrow */}
-          <p className="font-nexa text-xs font-bold uppercase tracking-[0.3em] text-[#8F8183]">
+          <p className="n-reg  text-xs  uppercase tracking-[0.3em] text-[#8F8183]">
             Don&apos;t see your role?
           </p>
 
@@ -31,7 +31,7 @@ export function CareerApplyCTA() {
           <h2
             id="cta-heading"
             className={cn(
-              "mt-4 font-qasbyne font-normal uppercase text-white",
+              "mt-4 qs-reg  uppercase text-white",
               "text-[clamp(2rem,5vw,3.5rem)] leading-[1.06] tracking-[0.04em]",
             )}
           >
@@ -39,7 +39,7 @@ export function CareerApplyCTA() {
             <span className="text-[#8F8183]">Great Talent</span>
           </h2>
 
-          <p className="mx-auto mt-6 max-w-xl font-nexa text-sm leading-relaxed text-white/70 sm:text-base">
+          <p className="mx-auto mt-6 max-w-xl n-reg  text-sm leading-relaxed text-white/70 sm:text-base">
             Send us your profile and let us know what you can bring to The
             Guardians. We review every application and reach out when the right
             opportunity arises.
@@ -51,7 +51,7 @@ export function CareerApplyCTA() {
               href="/contact"
               className={cn(
                 "inline-flex items-center gap-2",
-                "border border-white bg-white px-8 py-3.5 font-nexa text-xs font-bold uppercase tracking-[0.2em] text-[#202225]",
+                "border border-white bg-white px-8 py-3.5 n-reg  text-xs  uppercase tracking-[0.2em] text-[#202225]",
                 "transition-colors hover:bg-[#DADADB]",
                 "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white",
               )}
@@ -63,7 +63,7 @@ export function CareerApplyCTA() {
               href="mailto:hr@theguardians.in"
               className={cn(
                 "inline-flex items-center gap-2",
-                "border border-white/40 bg-transparent px-8 py-3.5 font-nexa text-xs font-bold uppercase tracking-[0.2em] text-white",
+                "border border-white/40 bg-transparent px-8 py-3.5 n-reg  text-xs  uppercase tracking-[0.2em] text-white",
                 "transition-colors hover:border-white",
                 "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white",
               )}
@@ -80,10 +80,10 @@ export function CareerApplyCTA() {
               { label: "HR Email", value: "hr@theguardians.in" },
             ].map((item) => (
               <div key={item.label} className="flex flex-col items-center gap-1 text-center">
-                <span className="font-nexa text-[10px] font-bold uppercase tracking-[0.2em] text-[#8F8183]">
+                <span className="n-reg  text-[10px]  uppercase tracking-[0.2em] text-[#8F8183]">
                   {item.label}
                 </span>
-                <span className="font-nexa text-sm text-white/80">{item.value}</span>
+                <span className="n-reg  text-sm text-white/80">{item.value}</span>
               </div>
             ))}
           </div>

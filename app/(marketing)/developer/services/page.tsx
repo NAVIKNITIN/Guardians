@@ -1,5 +1,5 @@
-import { DeveloperServicesGrid } from "@/components/developer-services/DeveloperServicesGrid";
-import { DeveloperServicesHero } from "@/components/developer-services/DeveloperServicesHero";
+import { ServicesGrid } from "@/components/services/ServicesGrid";
+import { ServicesHero } from "@/components/services/ServicesHero";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -11,8 +11,13 @@ export const metadata: Metadata = {
 export default function DeveloperServicesPage() {
   return (
     <>
-      <DeveloperServicesHero />
-      <DeveloperServicesGrid />
+      <ServicesHero
+        title="Developer's Services"
+        imageSrc="/images/Developer/services/hero.svg"
+        headingId="dev-services-heading"
+        ariaLabelledBy="dev-services-heading"
+      />
+      <ServicesGrid ariaLabel="Developer services" />
     </>
   );
 }

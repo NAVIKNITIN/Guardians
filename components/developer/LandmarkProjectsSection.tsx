@@ -90,12 +90,13 @@ export function LandmarkProjectsSection({
       <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
         <h2
           id="landmark-heading"
-          className="min-w-0 shrink font-qasbyne text-[clamp(1.5rem,4.5vw,4.75rem)] font-normal uppercase leading-[1.15] tracking-[0.06em] text-brand-text-primary sm:shrink-0 sm:whitespace-nowrap sm:text-[clamp(1.75rem,2.6vw,4.75rem)]"
+          className="min-w-0 shrink qs-reg text-[clamp(1.5rem,4.5vw,3.125rem)] uppercase leading-[1.15] ls-5 text-brand-text-primary sm:shrink-0 sm:whitespace-nowrap"
         >
           {content.sectionTitle}
         </h2>
         <UnderlineTabs
           value={tab}
+          equalTabWidth
           onChange={(v) => {
             setTab(v);
             setIndex(0);
@@ -103,21 +104,21 @@ export function LandmarkProjectsSection({
             restartAutoplay();
           }}
           options={options}
-          className="shrink-0 sm:pb-0.5"
+          className="shrink-0 sm:pb-0.5 text-[#8F8183]"
         />
       </div>
 
       <div
         className={cn(
-          "relative mt-12 md:mt-14",
-          /* Full-bleed: escape Container padding so the carousel touches viewport edges */
+          "relative mt-4 md:mt-6",
+          /* Full-bleed: escape section gutter so the carousel touches viewport edges */
           "left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-x-clip",
         )}
       >
         {/*
           Desktop: 13% | 1fr | 13% | 8% — side peeks + `PeekStrip` tail on the far right (+3% vs 5%).
         */}
-        <div className="grid w-full grid-cols-1 md:grid-cols-[minmax(0,12.5%)_minmax(0,1fr)_minmax(0,12.5%)_minmax(0,8%)] md:items-stretch md:gap-3 lg:gap-4">
+        <div className="grid w-full grid-cols-1 md:grid-cols-[minmax(0,12.5%)_minmax(0,1fr)_minmax(0,12.5%)_minmax(0,8%)] md:items-stretch md:gap-4">
           <PeekHalfSlide
             project={projects[prev]!}
             onClick={() => {
@@ -193,8 +194,13 @@ export function LandmarkProjectsSection({
         </div>
       </div>
 
-      <div className="mt-10 flex justify-center">
-        <MarketingEnquireLink href={content.ctaHref}>{content.ctaLabel}</MarketingEnquireLink>
+      <div className="mt-12 flex justify-center ">
+        <MarketingEnquireLink
+          className="w-[250px] h-[52px]"
+          href={content.ctaHref}
+        >
+          {content.ctaLabel}
+        </MarketingEnquireLink>
       </div>
     </SectionSurface>
   );
@@ -291,6 +297,29 @@ function PeekHalfSlide({
   );
 }
 
+/**
+ * Marathon-style mark: four wide, shallow ∧ chevrons with gaps (not tall skinny triangles).
+ * ViewBox is wide (≈3.25:1) so with `h-*` + `w-auto` it matches cap height beside `fs-18` wordmark.
+ */
+function LandmarkBrandZigzagIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={cn("inline-block shrink-0 overflow-visible align-middle text-white", className)}
+      viewBox="0 0 52 16"
+      fill="currentColor"
+      xmlns="http://www.w3.org/2000/svg"
+      preserveAspectRatio="xMidYMid meet"
+      aria-hidden
+    >
+      {/* Shallow peaks (~1.3u) + clear band gaps — reads “flat” like the reference */}
+      <path d="M1 4L26 2.65L51 4z" />
+      <path d="M1 7.5L26 6.15L51 7.5z" />
+      <path d="M1 11L26 9.65L51 11z" />
+      <path d="M1 14.5L26 13.15L51 14.5z" />
+    </svg>
+  );
+}
+
 function ActiveProjectCard({
   project,
   aspectClassName,
@@ -313,14 +342,14 @@ function ActiveProjectCard({
           src={project.imageSrc}
           alt=""
           fill
-          className="object-cover object-center blur-2xl scale-105"
+          className="object-cover object-center blur-4xl scale-1.1"
           sizes={imageSizes}
           priority
         />
       </div>
-      {/* Same photo sharp, clipped to center strip (100px margins on md+) */}
+      {/* Same photo sharp, clipped to center strip (wider side blur margins on md+) */}
       <div
-        className="absolute inset-0 z-[1] max-md:[clip-path:inset(0)] md:[clip-path:inset(0_100px_0_100px)]"
+        className="absolute inset-0 z-[1] max-md:[clip-path:inset(0)] md:[clip-path:inset(0_200px_0_200px)]"
         aria-hidden
       >
         <Image
@@ -336,18 +365,36 @@ function ActiveProjectCard({
         className="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-t from-black/60 via-black/15 to-black/25"
         aria-hidden
       />
-      <div className="absolute left-5 top-5 z-[3] text-[11px] font-bold uppercase tracking-[0.28em] text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.45)] sm:left-7 sm:top-7 sm:text-xs">
-        {project.brand}
+      <div className="absolute left-5 right-8 top-5 z-[3] flex flex-row items-center gap-3 fs-18 sm:left-7 sm:right-10 sm:top-7 sm:gap-4">
+
+        <Image
+          src="/images/1234.png"
+          alt=""
+          width={20}
+          height={20}
+          className="object-cover object-center"
+          sizes="100vw"
+        />
+        <span className="min-w-0 qs-bold uppercase leading-none tracking-[0.06em] text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.45)]">
+          {project.brand}
+        </span>
       </div>
-      <div className="absolute inset-x-0 bottom-0 z-[3] px-4 pb-6 pt-20 text-center text-white sm:px-8 sm:pb-8">
-        <p className="text-[10px] font-medium uppercase tracking-[0.35em] text-white/95 sm:text-[11px]">
+      <div className="absolute inset-x-0 bottom-0 z-[3] px-4 pb-4 text-center text-white sm:px-5 sm:pb-5 md:pb-6">
+        <p className="fs-18 fw-100 text-[#E2E2E2]">
           {project.projectLine}
         </p>
-        <p className="mt-2 font-nexa text-2xl font-bold uppercase leading-none tracking-tight text-white drop-shadow-sm sm:text-3xl md:text-4xl lg:text-5xl">
+        <p className=" n-bold fs-48 lh-50 ls-6 text-white drop-shadow-sm ">
           {project.projectName}
         </p>
-        <p className="mx-auto mt-3 max-w-2xl text-xs leading-relaxed text-white/90 sm:text-sm">
-          {project.location}
+        <p className="mx-auto mt-2 flex max-w-2xl flex-wrap items-center justify-center gap-x-2 gap-y-1 fs-18 ls-6 fw-100 text-[#E2E2E2] sm:mt-2.5 sm:gap-x-3">
+          <span className="min-w-0 text-pretty">{project.location.trim()}</span>
+          <span
+            className="shrink-0 px-1 text-[#E2E2E2]/85 sm:px-1.5"
+            aria-hidden
+          >
+            |
+          </span>
+          <span className="min-w-0 text-pretty">{project.bhkRange}</span>
         </p>
       </div>
     </div>

@@ -1,0 +1,12 @@
+---
+description: Home page is fixed—do not edit app/(marketing)/page.tsx
+alwaysApply: true
+---
+
+# Home page (`app/(marketing)/page.tsx`)
+
+This file is the **marketing home page**. It is **fixed and fine-tuned**—treat it as read-only.
+
+- Do **not** change `app/(marketing)/page.tsx` for refactors, tweaks, reordering sections, or “small” edits. Only touch it if the user **explicitly** asks to modify this file.
+- Put home-page work in **section components** (`components/sections/*`), **`app/(marketing)/layout.tsx`**, root **`app/layout.tsx`**, or other appropriate files.
+- Keep drafts, copy ideas, and notes under **`.cursor/`** instead of editing this route file for documentation or experiments.

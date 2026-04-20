@@ -1,3 +1,9 @@
+export {
+  ArrowIconLink,
+  arrowIconLinkIconClassName,
+  arrowIconLinkSurfaceClassName,
+  arrowIconTileClassName,
+} from "./ArrowIconLink";
 export { CarouselControls } from "./CarouselControls";
 export { PeekStrip } from "./PeekStrip";
 export { MarketingEnquireLink } from "./MarketingEnquireLink";

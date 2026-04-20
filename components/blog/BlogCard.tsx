@@ -1,6 +1,5 @@
-import { cn } from "@/utils/cn";
+import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import Image from "next/image";
-import Link from "next/link";
 
 export type BlogPost = {
   id: string;
@@ -12,24 +11,16 @@ export type BlogPost = {
   href: string;
 };
 
-function CornerArrowIcon() {
-  return (
-    <svg width="11" height="11" viewBox="0 0 11 11" fill="none" aria-hidden>
-      <path d="M0 0H10.6305V10.6303" stroke="currentColor" strokeWidth="2" />
-    </svg>
-  );
-}
-
 export function BlogCard({ post }: { post: BlogPost }) {
   return (
     <article className="flex flex-col">
       {/* Date */}
-      <p className="font-nexa text-base font-normal leading-[1.5] text-[#161616]">
+      <p className="n-reg  text-base  leading-[1.5] text-[#161616]">
         {post.date}
       </p>
 
       {/* Title */}
-      <h3 className="mt-1.5 font-nexa text-xl font-bold leading-[1.2] text-[#161616] line-clamp-3">
+      <h3 className="mt-1.5 n-bold fs-20 ls-5 lh-24  text-[#161616] line-clamp-3">
         {post.title}
       </h3>
 
@@ -47,29 +38,14 @@ export function BlogCard({ post }: { post: BlogPost }) {
       </div>
 
       {/* Excerpt */}
-      <p className="mt-4 font-nexa text-base font-normal leading-[1.5] text-[#161616] line-clamp-4">
+      <p className="mt-4 n-reg  text-base  leading-[1.5] text-[#161616] line-clamp-4">
         {post.excerpt}
       </p>
 
       {/* Read More button */}
-      <Link
-        href={`/blog/${post.id}`}
-        className={cn(
-          "mt-5 flex items-center justify-center gap-5",
-          "border border-black/30 px-12 py-2.5",
-          "font-nexa text-base font-bold uppercase tracking-[0.1em] text-[#202225]",
-          "transition-colors hover:border-[#202225] hover:bg-[#202225] hover:text-white",
-        )}
-      >
+      <OutlineArrowButton href={`/blog/${post.id}`} className="mt-5">
         Read More
-        <Image
-          src="/images/arrow.svg"
-          alt="View More"
-          width={15}
-          height={15}
-          className="object-cover"
-        />
-      </Link>
+      </OutlineArrowButton>
     </article>
   );
 }
