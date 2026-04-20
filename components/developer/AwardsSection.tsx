@@ -148,7 +148,9 @@ const bookFlipReduced = {
 
 export function AwardsSection({
   content,
+  isBuyer,
 }: {
+  isBuyer: boolean;
   content: AwardsSectionContent;
 }) {
   const slides = content.slides;
@@ -188,7 +190,11 @@ export function AwardsSection({
   }, [outgoingIndex]);
 
   return (
-    <SectionSurface variant="stats" aria-labelledby="awards-heading" className=" border-t-0 border-b-0 bg-transparent ">
+    <SectionSurface
+      variant="stats"
+      aria-labelledby="awards-heading"
+      className="border-t-0 border-b-0 bg-transparent "
+    >
       <div className="grid gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-10 xl:gap-14 2xl:gap-16">
         <div className="flex w-full min-w-0 flex-col items-center text-center lg:col-span-3 lg:items-start lg:text-left">
           <Image

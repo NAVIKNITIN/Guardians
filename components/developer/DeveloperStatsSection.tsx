@@ -75,12 +75,14 @@ export function DeveloperStatsSection({
   content,
   layout = "band",
   inlineColumns = 4,
+  isBuyer,
 }: {
   content: StatsSectionContent;
   /** `band`: full stats section with surface + container (marketing pages). `inline`: grid only for embedding (e.g. About two-column). */
   layout?: "band" | "inline";
   /** When `layout` is `inline`, cap the grid at this many columns (`md` never exceeds 4). Ignored for `band`. */
   inlineColumns?: 2 | 4;
+  isBuyer: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "0px 0px -12% 0px" });
@@ -96,7 +98,7 @@ export function DeveloperStatsSection({
   );
 
   const grid = (
-    <div ref={ref} className={gridClassName}>
+    <div ref={ref} className={cn(gridClassName)}>
       {metrics.map((stat, idx) => (
         <div
           key={stat.label}
@@ -136,9 +138,8 @@ export function DeveloperStatsSection({
 
   return (
     <SectionSurface
-      variant="stats"
       aria-label="Key statistics"
-      className="bg-transparent !py-10"
+      className="bg-transparent !py-0"
     >
       {grid}
     </SectionSurface>

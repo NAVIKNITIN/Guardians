@@ -18,7 +18,7 @@ export function AudienceMarketingPage({
   return (
     <div
       className={cn(
-        "mx-auto flex w-full min-w-0 max-w-[100vw] flex-col overflow-x-visible",
+        "mx-auto flex w-full min-w-0 max-w-[100vw] flex-col overflow-x-visible gap-10 md:gap-16 lg:gap-20 xl:gap-25 2xl:gap-25",
         "[&>*]:min-w-0",
       )}
     >
@@ -26,14 +26,14 @@ export function AudienceMarketingPage({
         key={content.hero.ariaHeadingId}
         content={content.hero}
       />
-      {content.services ? <AudienceServicesBand content={content.services} /> : null}
-      {content.ourWork ? <OurWorkSection content={content.ourWork} /> : null}
+      {content.services ? <AudienceServicesBand content={content.services} isBuyer={content.hero.isBuyer} /> : null}
+      {content.ourWork ? <OurWorkSection content={content.ourWork} isBuyer={content.hero.isBuyer} /> : null}
       {content.landmark ? <LandmarkProjectsSection content={content.landmark} isBuyer={content.hero.isBuyer} /> : null}
-      {content.stats ? <AudienceStatsSection content={content.stats} /> : null}
-      {content.partners ? <PartnersSection content={content.partners} /> : null}
-      {content.testimonials ? <TestimonialsSection content={content.testimonials} /> : null}
-      {content.awards ? <AwardsSection content={content.awards} /> : null}
-      {content.banner ? <ExploreBanner content={content.banner} /> : null}
+      {content.stats ? <AudienceStatsSection content={content.stats} isBuyer={content.hero.isBuyer} /> : null}
+      {content.partners ? <PartnersSection content={content.partners} isBuyer={content.hero.isBuyer} /> : null}
+      {content.testimonials ? <TestimonialsSection content={content.testimonials} isBuyer={content.hero.isBuyer} /> : null}
+      {content.awards ? <AwardsSection content={content.awards} isBuyer={content.hero.isBuyer} /> : null}
+      {content.banner ? <ExploreBanner content={content.banner} isBuyer={content.hero.isBuyer} /> : null}
     </div>
   );
 }

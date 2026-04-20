@@ -7,8 +7,10 @@ import { cn } from "@/utils/cn";
 
 export function AudienceServicesBand({
   content,
+  isBuyer,
 }: {
   content: ServicesBandContent;
+  isBuyer: boolean;
 }) {
   const cardsStrip = (
     <ul
@@ -31,7 +33,7 @@ export function AudienceServicesBand({
       <Container
         gutter="left"
         className={cn(
-          "w-full  py-8 sm:py-12 lg:py-25",
+          "w-full py-0",
         )}
       >
         <div

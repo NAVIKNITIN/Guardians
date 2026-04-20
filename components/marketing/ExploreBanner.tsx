@@ -10,13 +10,13 @@ function cssBackgroundUrl(src: string) {
   return `url("${encodeURI(src)}")`;
 }
 
-export function ExploreBanner({ content }: { content: MarketingBannerContent }) {
+export function ExploreBanner({ content, isBuyer }: { content: MarketingBannerContent, isBuyer: boolean }) {
   const headingId =
     content.ariaHeadingId ?? "marketing-explore-banner-heading";
 
   return (
     <section
-      className="w-full my-10 xl:my-12 2xl:my-16"
+      className="w-full my-0"
       aria-labelledby={headingId}
     >
       <Container className="flex min-w-0 justify-center">

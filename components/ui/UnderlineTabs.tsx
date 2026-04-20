@@ -35,7 +35,7 @@ export function UnderlineTabs<T extends string>({
       className={cn(
         "flex n-reg",
         equalTabWidth
-          ? "h-8 min-h-8 max-h-8 w-[305px] shrink-0 gap-0 overflow-hidden leading-none ml-auto"
+          ? " w-[325px] shrink-0 gap-0 overflow-hidden leading-none ml-auto"
           : "fs-20 gap-10 border-b border-neutral-200",
         className,
       )}
@@ -57,7 +57,7 @@ export function UnderlineTabs<T extends string>({
             >
               <span
                 className={cn(
-                  "n-reg fs-18 text-center leading-none",
+                  "n-reg fs-18 text-center leading-none pb-2",
                   selected
                     ? "text-[#8F8183] n-bold"
                     : "text-[#8F8183] hover:text-[#8F8183]/85",
