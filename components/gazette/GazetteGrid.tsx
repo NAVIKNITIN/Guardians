@@ -53,7 +53,7 @@ export function GazetteGrid() {
 
   return (
     <section
-      className="bg-white px-3 py-12 sm:px-4 sm:py-16 lg:py-25 lg:px-8 xl:px-10"
+      className="bg-white px-3 py-12 sm:py-16 lg:py-20"
       aria-label="Gazette issues"
     >
       <Container>
@@ -70,7 +70,7 @@ export function GazetteGrid() {
 
         {/* VIEW MORE CTA */}
         <div className="mt-12 flex justify-center px-1 sm:mt-16 lg:mt-20">
-          <PublicationLoadMoreButton>View More</PublicationLoadMoreButton>
+          <PublicationLoadMoreButton className="px-12 py-4 fs-16 ls-10 lh-24 n-bold">View More</PublicationLoadMoreButton>
         </div>
       </Container>
 
