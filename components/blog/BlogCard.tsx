@@ -38,7 +38,7 @@ export function BlogCard({ post }: { post: BlogPost }) {
       </div>
 
       {/* Excerpt */}
-      <p className="mt-4 n-reg  text-base  leading-[1.5] text-[#161616] line-clamp-4">
+      <p className="mt-4 n-book fs-16 lh-24 text-[#161616] line-clamp-4">
         {post.excerpt}
       </p>
 
