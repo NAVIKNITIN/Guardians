@@ -1,9 +1,36 @@
 "use client";
 
+import { useEffect, useState } from "react";
+import { apiClient } from "@/utils/api";
 import { IconMapPin } from "@/components/admin/panel/AdminIcons";
 
 type IconProps = {
   className?: string;
+};
+
+type BookVisitApiItem = {
+  id: number;
+  first_name: string;
+  last_name: string | null;
+  email: string;
+  phone_no: string;
+  location: string | null;
+  message: string | null;
+  cv_file_url: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+type BookVisitsResponse = {
+  success: boolean;
+  message: string;
+  data: {
+    current_page: number;
+    per_page: number;
+    total: number;
+    last_page: number;
+    data: BookVisitApiItem[];
+  };
 };
 
 type BookVisit = {
@@ -14,6 +41,7 @@ type BookVisit = {
   phone: string;
   location: string;
   message: string;
+  cvFileUrl: string | null;
   cvLabel?: string;
   detailsLabel?: string;
 };
@@ -81,6 +109,75 @@ function IconDocumentText({ className }: IconProps) {
   );
 }
 
+function IconChevronLeft({ className }: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      className={className}
+      aria-hidden
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="m14.25 6.75-5.25 5.25 5.25 5.25"
+      />
+    </svg>
+  );
+}
+
+function IconChevronRight({ className }: IconProps) {
+  return (
+    <svg
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="1.8"
+      className={className}
+      aria-hidden
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="m9.75 6.75 5.25 5.25-5.25 5.25"
+      />
+    </svg>
+  );
+}
+
+function formatVisitDate(value: string) {
+  const parsedDate = new Date(value);
+
+  if (Number.isNaN(parsedDate.getTime())) {
+    return value;
+  }
+
+  return parsedDate.toLocaleDateString("en-IN", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  });
+}
+
+function mapVisit(item: BookVisitApiItem): BookVisit {
+  const fullName = [item.first_name, item.last_name ?? ""]
+    .join(" ")
+    .trim();
+
+  return {
+    id: item.id,
+    name: fullName || "Unnamed Visitor",
+    date: formatVisitDate(item.created_at),
+    email: item.email,
+    phone: item.phone_no,
+    location: item.location ?? "Location not provided",
+    message: item.message ?? "No message provided.",
+    cvFileUrl: item.cv_file_url,
+  };
+}
+
 function VisitCard({ visit }: { visit: BookVisit }) {
   return (
     <article className="rounded-[28px] border border-[#dbe4f0] bg-white p-6 shadow-[0_10px_24px_rgba(15,23,42,0.04)] sm:p-8">
@@ -113,13 +210,26 @@ function VisitCard({ visit }: { visit: BookVisit }) {
       </div>
 
       <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <button
-          type="button"
-          className="inline-flex items-center gap-3 text-[1.05rem] font-medium text-[#5e6f8b]"
-        >
-          <IconDocumentText className="h-6 w-6" />
-          <span>{visit.cvLabel ?? "Download CV"}</span>
-        </button>
+        {visit.cvFileUrl ? (
+          <a
+            href={visit.cvFileUrl}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex items-center gap-3 text-[1.05rem] font-medium text-[#5e6f8b]"
+          >
+            <IconDocumentText className="h-6 w-6" />
+            <span>{visit.cvLabel ?? "Download CV"}</span>
+          </a>
+        ) : (
+          <button
+            type="button"
+            disabled
+            className="inline-flex items-center gap-3 text-[1.05rem] font-medium text-[#a0a9b8] disabled:cursor-not-allowed"
+          >
+            <IconDocumentText className="h-6 w-6" />
+            <span>No CV Uploaded</span>
+          </button>
+        )}
 
         <button
           type="button"
@@ -132,20 +242,117 @@ function VisitCard({ visit }: { visit: BookVisit }) {
   );
 }
 
-export function BookVisitsPageContent({
-  visits = [],
-}: {
-  visits?: BookVisit[];
-}) {
+export function BookVisitsPageContent() {
+  const [visits, setVisits] = useState<BookVisit[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    let isMounted = true;
+
+    async function loadVisits() {
+      try {
+        setIsLoading(true);
+        setErrorMessage("");
+
+        const result = await apiClient.get<BookVisitsResponse>(
+          `/book-visits?per_page=6&page=${currentPage}`,
+        );
+
+        if (!isMounted) return;
+
+        setVisits(result.data.data.map(mapVisit));
+        setLastPage(Math.max(1, result.data.last_page));
+      } catch (error) {
+        if (!isMounted) return;
+
+        setErrorMessage(
+          error instanceof Error ? error.message : "Failed to load book visits.",
+        );
+      } finally {
+        if (isMounted) {
+          setIsLoading(false);
+        }
+      }
+    }
+
+    loadVisits();
+
+    return () => {
+      isMounted = false;
+    };
+  }, [currentPage]);
+
+  function goToPage(page: number) {
+    if (page < 1 || page > lastPage) return;
+    setCurrentPage(page);
+  }
+
   return (
-    <section className="mx-auto min-h-[420px] max-w-[1420px]">
-      {visits.length > 0 ? (
-        <div className="grid gap-6 xl:grid-cols-2">
-          {visits.map((visit) => (
-            <VisitCard key={visit.id} visit={visit} />
-          ))}
+    <section className="mx-auto min-h-[420px] max-w-[1420px] space-y-6">
+      {errorMessage ? (
+        <div className="rounded-[20px] border border-[#f3d3cb] bg-[#fff6f3] px-5 py-4 text-[1rem] font-medium text-[#c25b45]">
+          {errorMessage}
         </div>
       ) : null}
+
+      {isLoading ? (
+        <div className="rounded-[28px] border border-[#dbe4f0] bg-white px-6 py-12 text-center text-[1.08rem] text-[#6d7d98] shadow-[0_10px_24px_rgba(15,23,42,0.04)]">
+          Loading book visits...
+        </div>
+      ) : visits.length > 0 ? (
+        <>
+          <div className="grid gap-6 xl:grid-cols-2">
+            {visits.map((visit) => (
+              <VisitCard key={visit.id} visit={visit} />
+            ))}
+          </div>
+
+          <div className="flex items-center justify-center gap-3">
+            <button
+              type="button"
+              onClick={() => goToPage(currentPage - 1)}
+              disabled={currentPage === 1}
+              className="inline-flex h-[54px] w-[54px] items-center justify-center rounded-[16px] border border-[#e6eaf0] bg-white text-[#6b7280] transition hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <IconChevronLeft className="h-5 w-5" />
+            </button>
+
+            {Array.from({ length: lastPage }, (_, index) => index + 1).map(
+              (page) => (
+                <button
+                  key={page}
+                  type="button"
+                  onClick={() => goToPage(page)}
+                  className={[
+                    "inline-flex h-[54px] w-[54px] items-center justify-center rounded-[16px] text-[1.05rem] font-semibold transition",
+                    currentPage === page
+                      ? "btn-primary-gradient text-white"
+                      : "border border-[#e6eaf0] bg-white text-[#111827] hover:bg-[#f8fafc]",
+                  ].join(" ")}
+                >
+                  {page}
+                </button>
+              ),
+            )}
+
+            <button
+              type="button"
+              onClick={() => goToPage(currentPage + 1)}
+              disabled={currentPage === lastPage}
+              className="inline-flex h-[54px] w-[54px] items-center justify-center rounded-[16px] border border-[#e6eaf0] bg-white text-[#6b7280] transition hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              <IconChevronRight className="h-5 w-5" />
+            </button>
+          </div>
+        </>
+      ) : (
+        <div className="rounded-[28px] border border-[#dbe4f0] bg-white px-6 py-12 text-center text-[1.08rem] text-[#6d7d98] shadow-[0_10px_24px_rgba(15,23,42,0.04)]">
+          No book visits found.
+        </div>
+      )}
     </section>
   );
 }
