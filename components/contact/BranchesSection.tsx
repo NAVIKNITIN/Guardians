@@ -1,13 +1,6 @@
 import { Container } from "@/components/common/Container";
+import { cn } from "@/utils/cn";
 import Image from "next/image";
-
-function CornerArrow() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden>
-      <path d="M0 0H14.4958V14.4958" stroke="white" strokeWidth="2" />
-    </svg>
-  );
-}
 
 type Branch = {
   name: string;
@@ -41,25 +34,27 @@ const BRANCHES: Branch[] = [
 function BranchCard({ branch }: { branch: Branch }) {
   return (
     <div className="flex h-full flex-col items-center text-center">
-      <h3 className="n-bold text-2xl leading-[1.1] text-[#161616] md:text-[28px] lg:text-[32px] lg:leading-[35px]">
+      {/* Figma: branch title — bold sans, step below “BRANCHES”, above body */}
+      <h3 className="n-bold fs-22 lh-28 text-[#161616] sm:fs-24 sm:lh-30 md:fs-26 md:lh-32 lg:fs-28 lg:lh-35">
         {branch.name}
       </h3>
       <div className="mt-3 flex min-h-0 w-full flex-1 flex-col justify-between gap-5 sm:mt-4 sm:gap-6">
-        <p className="n-book text-base leading-[1.45] text-[#161616] sm:text-lg md:text-[20px] md:leading-[24px]">
+        {/* Figma: address — regular, smallest column text (~16–18px, ~1.45–1.5 LH) */}
+        <p className="n-book fs-16 lh-24 text-[#161616] sm:fs-17 sm:lh-26 md:fs-18 md:lh-28">
           {branch.address}
         </p>
+        {/* Figma: “GOOGLE MAP” — compact caps, gradient bar */}
         <a
           href={branch.mapUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="inline-flex w-full max-w-sm shrink-0 items-center justify-center gap-4 self-center px-6 py-3.5 n-reg text-base uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 sm:w-auto sm:max-w-none sm:gap-5 sm:px-12 sm:py-[18px] sm:text-xl"
-          style={{
-            background:
-              "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",
-          }}
+          className={cn(
+            "btn-primary-gradient inline-flex w-full max-w-sm shrink-0 items-center justify-center gap-3 self-center px-6 py-3 sm:w-auto sm:max-w-none sm:gap-4 sm:px-10 sm:py-3.5",
+            "n-bold fs-14 lh-18 uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 sm:fs-15 sm:lh-21",
+          )}
         >
           Google Map
-          <span className="inline-block">
+          <span className="inline-block" aria-hidden>
             <Image
               src="/images/arrowwhite.svg"
               alt=""
@@ -78,12 +73,11 @@ export function BranchesSection() {
   return (
     <section className="bg-white pb-16 pt-4 sm:pb-20 lg:pb-24 lg:pt-[40px]" aria-label="Office branches">
       <Container>
-        {/* Section heading */}
-        <h2 className="qs-reg mb-10 text-center uppercase tracking-[0.05em] text-[#202225] text-[clamp(2rem,4vw,3.125rem)] leading-[1.05] sm:mb-12 lg:mb-16">
+        {/* Figma: “BRANCHES” — serif caps, same band as other qs-reg section titles */}
+        <h2 className="qs-reg mb-10 text-center text-[clamp(2rem,4vw,3.125rem)] uppercase leading-[1.05] tracking-[0.05em] text-[#202225] sm:mb-12 lg:mb-16">
           Branches
         </h2>
 
-        {/* 3-column grid (stacks on small screens, 3-up from md+) */}
         <div className="grid grid-cols-1 items-stretch gap-10 sm:gap-8 md:grid-cols-3 lg:gap-10">
           {BRANCHES.map((branch) => (
             <BranchCard key={branch.name} branch={branch} />
