@@ -75,14 +75,15 @@ export function DeveloperStatsSection({
   content,
   layout = "band",
   inlineColumns = 4,
-  isBuyer,
+  isBuyer: _isBuyer = false,
 }: {
   content: StatsSectionContent;
   /** `band`: full stats section with surface + container (marketing pages). `inline`: grid only for embedding (e.g. About two-column). */
   layout?: "band" | "inline";
   /** When `layout` is `inline`, cap the grid at this many columns (`md` never exceeds 4). Ignored for `band`. */
   inlineColumns?: 2 | 4;
-  isBuyer: boolean;
+  /** Used by audience marketing pages; reserved for future buyer/developer styling. */
+  isBuyer?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "0px 0px -12% 0px" });
