@@ -224,7 +224,7 @@ export function ServicesGrid({
   knowMoreHref = "#",
 }: ServicesGridProps) {
   return (
-    <section className="mb-2 bg-white lg:mb-[80px]" aria-label={ariaLabel}>
+    <section className="mb-2 bg-white my-10 md:my-16 lg:my-20 xl:my-25" aria-label={ariaLabel}>
       <div className="flex flex-col lg:grid lg:grid-cols-[43%_1fr] lg:gap-5">
         <div className="flex min-h-0 flex-col gap-[30px] bg-white py-[30px] lg:grid lg:grid-rows-4 lg:gap-6 lg:py-0">
           {tiles.map((tile) => (
