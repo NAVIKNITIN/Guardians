@@ -249,7 +249,7 @@ export function AboutLeadershipSection({
     <div className="mx-auto w-full min-w-0  bg-[#F2F2F2]">
       <div className=" border-[#000000]  ">
         <div
-          className="grid gap-8 lg:grid-cols-[minmax(0,var(--leadership-image-w))_minmax(0,1fr)] lg:gap-10"
+          className="p-2 grid gap-8 lg:grid-cols-[minmax(0,var(--leadership-image-w))_minmax(0,1fr)] lg:gap-10"
           style={
             {
               "--leadership-image-w": `${LEADERSHIP_IMAGE_WIDTH}px`,
@@ -306,7 +306,7 @@ export function AboutLeadershipSection({
           </div>
 
           {/*  */}
-          <div className="flex flex-col justify-between py-2 lg:py-6">
+          <div className="flex flex-col justify-between py-2 lg:py-6 md:mr-6">
             <div className="">
               <AnimatePresence custom={direction} initial={false} mode="wait">
                 <motion.div
@@ -328,14 +328,14 @@ export function AboutLeadershipSection({
                       sizes="100px"
                     />
                     <span>
-                      <h3 className="n-bold fs-42 lg:fs-42 lh-50 lg:lh-60 pl-4">
+                      <h3 className="n-bold fs-42 lg:fs-42 lh-50 lg:lh-60 pl-4 pr-1">
                         {activeSlide.title}
                       </h3>
 
 
                     </span>
                   </div>
-                  <p className="mt-7 max-w-[560px] fs-16 lh-24 n-book fw-100 leading-8 text-[#5d5859] sm:text-[15px]">
+                  <p className="mt-7 fs-16 lh-24 n-book fw-100 leading-8 text-[#5d5859] sm:text-[15px]">
                     {activeSlide.body}
                   </p>
 
@@ -344,7 +344,7 @@ export function AboutLeadershipSection({
               </AnimatePresence>
             </div>
 
-            <div className="mt-10 mr-10">
+            <div className="mt-10 ">
               <AnimatePresence custom={direction} initial={false} mode="wait">
                 <motion.div
                   key={`${activeSlide.id}-bottom`}
