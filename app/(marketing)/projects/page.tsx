@@ -483,7 +483,7 @@ function ProjectsPageContent() {
       {/* FILTER BAR                                                          */}
       {/* ------------------------------------------------------------------ */}
 
-      {filterStage === "Ongoing" && (<section className="border-b border-black/10 shadow-[0_-4px_4px_0_rgba(0,0,0,0.15)]">
+      <section className="border-b border-black/10 shadow-[0_-4px_4px_0_rgba(0,0,0,0.15)]">
         <Container className="min-w-0 py-4 sm:py-5 lg:py-6">
           <div className="flex min-w-0 flex-col items-center gap-3 text-center sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4 sm:text-left lg:px-8 xl:px-12 2xl:px-16">
             <div className="flex min-w-0 flex-wrap items-center justify-center gap-3 sm:min-w-0 sm:justify-start sm:gap-5">
@@ -591,7 +591,6 @@ function ProjectsPageContent() {
           )}
         </Container>
       </section>
-      )}
 
       {/* ------------------------------------------------------------------ */}
       {/* PROJECT GRID                                                        */}

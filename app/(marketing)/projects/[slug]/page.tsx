@@ -34,12 +34,12 @@ const project = {
   description:
     "We are one of the fastest growing Real Estate consulting company in India. It's growth, today, has far outrun most of the other real estate advisory company across the country.",
   gallery: [
-    { src: localImageByIndex(0), span: "half" as const },
-    { src: localImageByIndex(1), span: "half" as const },
-    { src: localImageByIndex(2), span: "full" as const },
-    { src: localImageByIndex(3), span: "third" as const },
-    { src: localImageByIndex(4), span: "third" as const },
-    { src: localImageByIndex(5), span: "third" as const },
+    { src: LOCAL_IMAGES.img9, span: "half" as const },
+    { src: LOCAL_IMAGES.img10, span: "half" as const },
+    { src: LOCAL_IMAGES.img11, span: "full" as const },
+    { src: LOCAL_IMAGES.img12, span: "third" as const },
+    { src: LOCAL_IMAGES.img13, span: "third" as const },
+    { src: LOCAL_IMAGES.img14, span: "third" as const },
   ],
   amenities: [
     { label: "Gymnasium", imageSrc: amenityImage("1.svg") },
@@ -208,61 +208,16 @@ function CaseStudySection({
     <div className="grid grid-cols-1 items-start gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-14">
       <div className="relative aspect-video w-full overflow-hidden bg-[#1a1a1a] shadow-[0_8px_40px_rgba(0,0,0,0.12)]">
         <Image
-          src={posterSrc}
+          src={LOCAL_IMAGES.img17}
           alt=""
           fill
           className="object-cover object-center"
           sizes="(min-width: 1024px) 50vw, 100vw"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/20 to-black/35" />
-
-        <div className="absolute left-4 top-4 z-[1] flex max-w-[min(100%,280px)] flex-wrap items-start gap-2 text-[0.5rem]  uppercase leading-tight tracking-[0.12em] text-white sm:left-5 sm:top-5 sm:text-[0.55rem] md:max-w-none md:text-[0.625rem]">
-          <span className="max-w-[9rem] sm:max-w-none">
-            The Guardians
-            <br />
-            Real Estate Advisory
-          </span>
-          <span className="mt-0.5 px-0.5 text-base font-light opacity-90 sm:text-lg">
-            ×
-          </span>
-          <span className="max-w-[8rem] sm:max-w-none">
-            Dosti
-            <br />
-            Friends for Life
-          </span>
-        </div>
-
-        {videoUrl ? (
-          <a
-            href={videoUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="absolute left-1/2 top-1/2 z-[1] flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#202225] shadow-lg ring-4 ring-white/30 transition hover:scale-105 hover:bg-white/95"
-            aria-label="Play Client Chronicles video"
-          >
-            <CaseStudyPlayIcon />
-          </a>
-        ) : (
-          <span
-            className="pointer-events-none absolute left-1/2 top-1/2 z-[1] flex h-14 w-14 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-white text-[#202225] shadow-lg ring-4 ring-white/30"
-            aria-hidden
-          >
-            <CaseStudyPlayIcon />
-          </span>
-        )}
-
-        <div className="absolute bottom-0 left-0 z-[1] p-4 sm:p-6">
-          <p className="n-reg xt-xl  uppercase leading-[1.1] tracking-[0.06em] text-white sm:text-2xl md:text-3xl lg:text-4xl">
-            <span className="block sm:inline">Client </span>
-            <span className="mt-1 inline-block bg-black/45 px-2 py-1 sm:mt-0 sm:px-3">
-              Chronicles
-            </span>
-          </p>
-        </div>
       </div>
 
       <div className="flex w-full min-w-0 flex-col items-center justify-start text-center lg:items-start lg:text-left">
-        <h2 className="qs-reg text-[clamp(1.75rem,5vw,3.25rem)] lh-50 ls-5 uppercase text-[#202225] sm:text-[clamp(2rem,4vw,3.25rem)]">
+        <h2 className="mt-3 md:mt-5 lg:mt-6 qs-reg text-[clamp(1.75rem,5vw,3.25rem)] lh-50 ls-5 uppercase text-[#202225] sm:text-[clamp(2rem,4vw,3.25rem)]">
           Case Study
         </h2>
         <div className="mt-8 flex w-full flex-col gap-4 sm:mt-10">
@@ -315,7 +270,7 @@ function ProjectDetailPageContent() {
   const searchParams = useSearchParams();
   const isFromCompleted = searchParams.get("status") === "completed";
   const heroStatusLine = isFromCompleted ? "Completed Project" : project.status;
-  const buildingHeroSrc = isFromCompleted ? COMPLETED_HERO_BG : project.heroImage;
+  const buildingHeroSrc = "/images/Projects/ongoing/Frame 188.svg";
 
   const [form, setForm] = useState({
     firstName: "",
@@ -340,11 +295,11 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       <section className="relative overflow-hidden bg-white pt-8 pb-2 sm:pt-10 md:pt-20 lg:pt-[150px]">
         <Container className="min-w-0 pb-0">
-          <div className="relative flex min-h-0 flex-col items-center gap-5 text-center lg:min-h-[min(12rem,1fr)] lg:flex-row lg:items-start lg:justify-between lg:gap-6 lg:text-left">
+          <div className="relative flex min-h-0 flex-col items-centertext-center lg:min-h-[min(12rem,1fr)] lg:flex-row lg:items-start lg:justify-between  gap-4  lg:gap-4 lg:text-left">
             {/* Left — title block */}
             <div className="min-w-0 w-full max-w-full pr-0 text-center lg:max-w-[min(100%,42rem)] lg:pr-8 lg:text-left">
               {/* Status dot + label */}
-              <div className="mb-3 flex items-center justify-center gap-2 lg:justify-start">
+              <div className="mb-1 flex items-center justify-center gap-2 lg:justify-start">
                 <span className="mb-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#8F8183]" />
                 <span className="n-reg text-sm text-[#8F8183] sm:text-lg">
                   {heroStatusLine}
@@ -358,7 +313,7 @@ function ProjectDetailPageContent() {
                 {project.title}
               </h1>
               {/* RERA */}
-              <p className="mt-3 n-bold text-[0.6875rem] uppercase tracking-widest text-[#161616] underline sm:text-sm">
+              <p className="mt-3 n-bold text-[0.6875rem] uppercase tracking-widest text-[#161616] underline underline-offset-4 sm:text-sm">
                 Rera No.: {project.rera}
               </p>
             </div>
@@ -378,22 +333,19 @@ function ProjectDetailPageContent() {
 
           {/* Stats bar — 1 col on mobile, 2×2 from sm, 1×4 from lg */}
           <div className="mt-6 sm:mt-8 border-t border-black">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-10">
               {project.stats.map((stat, i) => (
                 <div
                   key={i}
                   className={cn(
-                    "flex min-h-0 min-w-0 flex-col justify-center gap-1.5 border-b border-black px-3 py-4 text-center last:border-b-0 sm:gap-2 sm:border-b-0 sm:px-4 sm:py-5 sm:text-left lg:px-6",
-                    i % 2 === 0 && "sm:border-r sm:border-black",
-                    i < 2 && "sm:border-b sm:border-black lg:border-b-0",
-                    i < 3 && "lg:border-r lg:border-black",
+                    "flex min-h-0 min-w-0 flex-col justify-center gap-1.5 border-b border-black py-4 text-center last:border-b-0 sm:gap-2 sm:border-b-0  sm:text-left ",
                   )}
                 >
-                  <span className="n-bold text-[0.5625rem] uppercase leading-snug tracking-[0.08em] text-black/80 sm:text-xs lg:text-sm">
+                  <span className="n-bold text-[0.5225rem] uppercase leading-snug tracking-[0.08em] text-black sm:text-xs lg:text-sm">
                     {stat.label}
                   </span>
-                  <span className="text-[#8F8183] border-b border-black pb-2 sm:pb-2.5">
-                    <span className="inline wrap-break-word text-[clamp(1rem,4.5vw,1.125rem)] leading-[1.2] tracking-tight sm:text-2xl sm:leading-none md:text-3xl lg:text-[2.625rem]">
+                  <span className="text-[#8F8183] border-b border-black pb-2 sm:pb-2.5 n-reg">
+                    <span className=" inline wrap-break-word text-[clamp(1rem,4.5vw,1.125rem)] leading-[1.2] tracking-tight sm:text-2xl sm:leading-none md:text-3xl lg:text-[2.625rem]">
                       {stat.value}
                     </span>
                     {stat.unit ? (
@@ -429,7 +381,7 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* DESCRIPTION                                                      */}
       {/* ---------------------------------------------------------------- */}
-      <section className="bg-white py-10 sm:py-12 lg:py-16">
+      <section className="bg-white py-10 sm:py-12 lg:py-16 mt-1 md:mt-5 lg:mt-10 ">
         <Container className="min-w-0">
           <p className="n-bold text-center text-[clamp(1.0625rem,3.8vw,1.25rem)] leading-snug text-black sm:text-left sm:text-2xl lg:text-[2.25rem] lg:leading-[1.17]">
             {project.description}
@@ -440,11 +392,11 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* PHOTO GALLERY                                                    */}
       {/* ---------------------------------------------------------------- */}
-      <section className="bg-white pb-10 sm:pb-12 lg:pb-16">
+      <section className="bg-white pb-10 sm:pb-12 lg:pb-16 sm:mt-1 md:mt-10">
         <Container className="min-w-0">
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-6">
             {/* Row 1: two halves */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               {project.gallery
                 .filter((g) => g.span === "half")
                 .map((img, i) => (
@@ -480,7 +432,7 @@ function ProjectDetailPageContent() {
               ))}
 
             {/* Row 3: three thirds */}
-            <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
+            <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
               {project.gallery
                 .filter((g) => g.span === "third")
                 .map((img, i) => (
@@ -505,17 +457,17 @@ function ProjectDetailPageContent() {
       {/* PROJECT AMENITIES — full-width band; content uses same Container   */}
       {/*    gutters as the rest of the page                                 */}
       {/* ---------------------------------------------------------------- */}
-      <section className="relative w-full min-w-0 overflow-hidden bg-[#BCBDC0] py-12 sm:py-14 lg:py-20">
+      <section className="relative w-full min-w-0 overflow-hidden bg-[#BCBDC0] py-5 sm:py-10 lg:py-10 md:mt-10">
         {/* Light overlay — full width, behind content */}
         <div className="pointer-events-none absolute inset-0 z-0 bg-white/85" />
 
         <Container className="relative z-10 min-w-0">
-          <h2 className="mb-10 text-center qs-reg text-[clamp(1.75rem,4vw,2.625rem)] uppercase tracking-[0.05em] text-[#202225] lg:mb-14">
+          <h2 className=" text-center qs-reg text-[clamp(1.75rem,4vw,3.225rem)] uppercase tracking-[0.05em] text-[#202225] ">
             Project Amenities
           </h2>
 
           {/* Rows 1 & 2 — 4 columns on desktop */}
-          <div className="grid w-full grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-10 lg:gap-x-12 lg:gap-y-12">
+          <div className="grid w-full grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-5 lg:gap-x-12 lg:gap-y-10 mt-4 md:mt-10">
             {project.amenities.slice(0, 8).map((amenity, i) => (
               <AmenityItem key={i} amenity={amenity} />
             ))}
@@ -533,23 +485,23 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* LOCATION                                                         */}
       {/* ---------------------------------------------------------------- */}
-      <section className="bg-white py-12 sm:py-14 lg:py-20">
+      <section className="bg-white py-12 sm:py-14 lg:py-25">
         <Container className="min-w-0">
           <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
             {/* Left — list */}
-            <div className="min-w-0 w-full flex-1">
-              <h2 className="mb-6 text-center qs-reg text-[clamp(1.75rem,5vw,4.375rem)] uppercase tracking-[0.05em] text-[#202225] sm:mb-8 sm:text-left">
+            <div className="min-w-0 w-full flex-1 pb-2 md:pb-7">
+              <h2 className="mb-6 text-center qs-reg text-[clamp(1.75rem,5vw,4.375rem)] uppercase tracking-[0.05em] text-[#202225] sm:mb-8 sm:text-left ">
                 Location
               </h2>
 
-              <div className="flex flex-col">
+              <div className="flex flex-col ">
                 {project.locationItems.map((item, i) => (
                   <div key={i}>
-                    <div className="flex flex-col gap-2 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+                    <div className="flex flex-col gap-2 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4 ">
                       <span className="min-w-0 flex-1 wrap-break-word text-center n-book fs-16 lh-24 text-[#161616] sm:text-left sm:text-base">
                         {item.name}
                       </span>
-                      <div className="flex shrink-0 items-center justify-center gap-3 sm:justify-end">
+                      <div className="flex shrink-0 items-center justify-center gap-2 sm:justify-end">
                         {item.type === "walk" ? <WalkIcon /> : <DriveIcon />}
                         <span className="min-w-[3.5rem] text-center n-bold text-[#161616] sm:min-w-[3.75rem] sm:text-right sm:text-base">
                           {item.time}
@@ -557,7 +509,7 @@ function ProjectDetailPageContent() {
                       </div>
                     </div>
                     {i < project.locationItems.length - 1 && (
-                      <div className="h-px w-full bg-black/10" />
+                      <div className="w-full border-t border-[#000000]" />
                     )}
                   </div>
                 ))}
@@ -595,7 +547,7 @@ function ProjectDetailPageContent() {
       {/* CASE STUDY (completed projects only)                             */}
       {/* ---------------------------------------------------------------- */}
       {isFromCompleted ? (
-        <section className="bg-white py-10 sm:py-12 lg:py-16">
+        <section className="bg-white mb-10 md:mb-20 lg:mb-30">
           <Container className="min-w-0">
             <CaseStudySection
               posterSrc={project.caseStudy.posterSrc}
@@ -610,7 +562,7 @@ function ProjectDetailPageContent() {
       {/* BOOK A VISIT (ongoing projects only — hidden for completed)      */}
       {/* ---------------------------------------------------------------- */}
       {!isFromCompleted ? (
-        <section className="relative mb-10 min-h-0 w-full min-w-0 overflow-hidden py-0 lg:mb-20">
+        <section className="relative mb-10 min-h-0 w-full min-w-0 overflow-hidden py-0 lg:mb-30">
           {/* Background */}
           <Image
             src={project.bookVisitBg}
@@ -629,28 +581,28 @@ function ProjectDetailPageContent() {
                   <h2 className="qs-reg text-[clamp(1.75rem,6vw,4.375rem)] uppercase leading-none tracking-[0.05em] text-white sm:text-[clamp(2.5rem,5vw,4.375rem)]">
                     Book A Visit
                   </h2>
-                  <p className="mx-auto mt-5 max-w-[30rem] n-reg text-sm leading-relaxed text-white sm:text-base lg:mx-0">
+                  <p className="mx-auto mt-10  n-reg text-sm leading-relaxed text-white sm:text-base lg:mx-0">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                     do eiusmod tempor incididunt ut labore et dolore magna aliqua.
                     dolor sit amet, consectetur adipiscing elit.
                   </p>
                 </div>
 
-                <div className="mt-10 flex flex-col gap-6 border-t border-white/40 pt-8 sm:flex-row sm:gap-12 sm:text-left">
+                <div className="mt-10 flex flex-col gap-6 border-t border-white pt-8 sm:flex-row sm:gap-12 md:gap-30 lg:gap-50 sm:text-left w-full items-center justify-start ">
                   <div className="w-full sm:w-auto">
-                    <p className="n-reg text-xs uppercase tracking-[0.1em] text-white">
+                    <p className="n-bold fs-16 lh-24 uppercase tracking-[0.1em] text-white">
                       Location
                     </p>
-                    <p className="mx-auto mt-2 max-w-[16rem] n-reg text-sm leading-relaxed text-white sm:mx-0">
+                    <p className="mx-auto mt-2 max-w-[16rem] n-book text-sm leading-relaxed text-white sm:mx-0">
                       C-602 &amp; 603, ONE BKC, G Block, Bandra Kurla Complex,
                       Bandra (E), Mumbai - 400051
                     </p>
                   </div>
                   <div className="w-full sm:w-auto">
-                    <p className="n-reg text-xs uppercase tracking-[0.1em] text-white">
+                    <p className="n-bold fs-16 lh-24 uppercase tracking-[0.1em] text-white">
                       Contact
                     </p>
-                    <p className="mt-2 n-reg text-sm leading-relaxed text-white">
+                    <p className="mt-2 n-book text-sm leading-relaxed text-white">
                       022-68770076
                       <br />
                       022-6877005
@@ -670,6 +622,7 @@ function ProjectDetailPageContent() {
                       placeholder="Enter your first name"
                       value={form.firstName}
                       onChange={handleChange}
+
                     />
                     <FormField
                       label="Last Name"
@@ -705,7 +658,7 @@ function ProjectDetailPageContent() {
                     <SelectField
                       label="Location"
                       name="location"
-                      placeholder="Select City"
+                      placeholder="Select Opening"
                       value={form.location}
                       onChange={handleChange}
                       options={["Mumbai", "Pune", "Delhi", "Bangalore"]}
@@ -717,6 +670,7 @@ function ProjectDetailPageContent() {
                       value={form.cv}
                       onChange={handleChange}
                       options={[]}
+                      wrapperClassName="border-[#000000]"
                     />
                   </div>
 
@@ -798,7 +752,7 @@ function FormField({
 }: FormFieldProps) {
   return (
     <div className="flex flex-col gap-1 text-left">
-      <label className="text-left n-reg xt-sm text-[#202225]">
+      <label className="text-left n-bold fs-14 lh-24 text-[#202225]">
         {label}
       </label>
       <input
@@ -820,6 +774,7 @@ interface SelectFieldProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   options: string[];
+  wrapperClassName?: string;
 }
 
 function SelectField({
@@ -829,13 +784,19 @@ function SelectField({
   value,
   onChange,
   options,
+  wrapperClassName,
 }: SelectFieldProps) {
   return (
     <div className="flex flex-col gap-1 text-left">
       <label className="text-left n-reg text-sm text-[#202225]">
         {label}
       </label>
-      <div className="relative border-b border-[#8F8183] pb-1">
+      <div
+        className={cn(
+          "relative border-b border-[#8F8183] pb-1",
+          wrapperClassName,
+        )}
+      >
         <select
           name={name}
           value={value}

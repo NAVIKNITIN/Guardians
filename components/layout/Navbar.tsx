@@ -6,7 +6,7 @@ import { cn } from "@/utils/cn";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import Image from "next/image";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useSearchParams } from "next/navigation";
 import { useState } from "react";
 
 const navLeft = [
@@ -66,6 +66,31 @@ function isActivePath(pathname: string, href: string) {
   return pathname === href || pathname.startsWith(`${href}/`);
 }
 
+function isActiveHref(
+  pathname: string,
+  searchParams: ReadonlyURLSearchParams,
+  href: string,
+) {
+  const [basePath, queryString] = href.split("?");
+  if (!isActivePath(pathname, basePath)) return false;
+  if (!queryString) return true;
+
+  const targetParams = new URLSearchParams(queryString);
+
+  return Array.from(targetParams.entries()).every(([key, value]) => {
+    // On `/projects` with no explicit stage query, default selection is ongoing.
+    if (
+      basePath === "/projects" &&
+      key === "stage" &&
+      value === "ongoing" &&
+      searchParams.get("stage") === null
+    ) {
+      return true;
+    }
+    return searchParams.get(key) === value;
+  });
+}
+
 /**
  * Active: Nexa Bold (fw-700), same colour/size.
  * Inactive: Nexa Regular (fw-400).
@@ -80,6 +105,7 @@ function navStateClass(isActive: boolean) {
 export function Navbar() {
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
+  const searchParams = useSearchParams();
   /** After a submenu link is clicked, hide the flyout until pointer leaves the trigger (hover/focus-within otherwise keeps it open). */
   const [closedDesktopDropdown, setClosedDesktopDropdown] = useState<
     string | null
@@ -165,8 +191,10 @@ export function Navbar() {
                 if (hasMenu && dropdownItems) {
                   const dismissed = closedDesktopDropdown === item.label;
                   const isItemActive =
-                    isActivePath(pathname, item.href) ||
-                    dropdownItems.some((sub) => isActivePath(pathname, sub.href));
+                    isActiveHref(pathname, searchParams, item.href) ||
+                    dropdownItems.some((sub) =>
+                      isActiveHref(pathname, searchParams, sub.href),
+                    );
                   return (
                     <div key={item.label} className="group relative shrink-0">
                       <Link
@@ -203,7 +231,12 @@ export function Navbar() {
                               <Link
                                 role="menuitem"
                                 href={sub.href}
-                                className={navDropdownItemClass}
+                                className={cn(
+                                  navDropdownItemClass,
+                                  isActiveHref(pathname, searchParams, sub.href)
+                                    ? "n-bold text-[#000000]"
+                                    : "n-reg text-[#202225]",
+                                )}
                                 onClick={() => {
                                   // Defer so the Link’s navigation runs before we hide the panel;
                                   // sync state can drop pointer-events and break the first click.
@@ -300,7 +333,7 @@ export function Navbar() {
                     href={item.href}
                     className={cn(
                       navLinkClassMobile,
-                      navStateClass(isActivePath(pathname, item.href)),
+                      navStateClass(isActiveHref(pathname, searchParams, item.href)),
                       "inline-flex items-center gap-1.5",
                     )}
                     onClick={() => setOpen(false)}
@@ -317,7 +350,9 @@ export function Navbar() {
                         href={sub.href}
                         className={cn(
                           navLinkClassMobile,
-                          navStateClass(isActivePath(pathname, sub.href)),
+                          navStateClass(
+                            isActiveHref(pathname, searchParams, sub.href),
+                          ),
                           "border-l-2 border-black/[0.08] pl-4",
                         )}
                         onClick={() => setOpen(false)}

@@ -33,6 +33,15 @@ export const LOCAL_IMAGES = {
   img6: "/images/Projects/ongoing/image 112.svg",
   img7: "/images/Projects/ongoing/image 113.svg",
   img8: "/images/Projects/ongoing/Frame 189.svg",
+  img9: "/images/Projects/Frame 230.svg", // project details screen images
+  img10: "/images/Projects/Frame 231.svg",
+  img11: "/images/Projects/Frame 232.svg",
+  img12: "/images/Projects/Frame 233.svg",
+  img13: "/images/Projects/Frame 234.svg",
+  img14: "/images/Projects/Frame 235.svg",
+  img15: "/images/Projects/Frame 236.svg",
+  img16: "/images/Projects/Frame 237.svg",
+  img17: "/images/Projects/Frame 240.svg",
 } as const;
 
 /** Rotating placeholders for grids, galleries, and lists */

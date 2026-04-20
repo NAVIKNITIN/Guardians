@@ -48,8 +48,10 @@ const CAROUSEL_ASPECT = "aspect-[144/65]";
 
 export function LandmarkProjectsSection({
   content,
+  isBuyer,
 }: {
   content: LandmarkSectionContent;
+  isBuyer: boolean;
 }) {
   const [tab, setTab] = useState<Tab>("ongoing");
   const [index, setIndex] = useState(0);
@@ -84,9 +86,9 @@ export function LandmarkProjectsSection({
     }, AUTO_ADVANCE_MS);
     return () => clearInterval(id);
   }, [n, tab, autoplayEpoch]);
-
+  console.log(isBuyer);
   return (
-    <SectionSurface variant="default" aria-labelledby="landmark-heading">
+    <SectionSurface variant="default" aria-labelledby="landmark-heading" className={!isBuyer ? `lg:pt-20` : `lg:pt-10`}>
       <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
         <h2
           id="landmark-heading"

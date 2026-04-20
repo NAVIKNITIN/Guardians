@@ -7,6 +7,8 @@ import { DEVELOPER_MARKETING_PAGE } from "./developer-marketing";
  */
 export const BUYER_MARKETING_PAGE = {
   ...DEVELOPER_MARKETING_PAGE,
+  ourWork: undefined,
+  testimonials: undefined,
   hero: {
     ...DEVELOPER_MARKETING_PAGE.hero,
     isBuyer: true,

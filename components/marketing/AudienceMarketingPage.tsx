@@ -28,7 +28,7 @@ export function AudienceMarketingPage({
       />
       {content.services ? <AudienceServicesBand content={content.services} /> : null}
       {content.ourWork ? <OurWorkSection content={content.ourWork} /> : null}
-      {content.landmark ? <LandmarkProjectsSection content={content.landmark} /> : null}
+      {content.landmark ? <LandmarkProjectsSection content={content.landmark} isBuyer={content.hero.isBuyer} /> : null}
       {content.stats ? <AudienceStatsSection content={content.stats} /> : null}
       {content.partners ? <PartnersSection content={content.partners} /> : null}
       {content.testimonials ? <TestimonialsSection content={content.testimonials} /> : null}
