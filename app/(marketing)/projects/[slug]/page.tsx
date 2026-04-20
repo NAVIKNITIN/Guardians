@@ -502,7 +502,7 @@ function ProjectDetailPageContent() {
                         {item.name}
                       </span>
                       <div className="flex shrink-0 items-center justify-center gap-2 sm:justify-end">
-                        {item.type === "walk" ? <WalkIcon /> : <DriveIcon />}
+                        <Image src={item.type === "walk" ? "/images/location.svg" : "/images/drive.svg"} alt="" width={13} height={18} className="object-cover" />
                         <span className="min-w-[3.5rem] text-center n-bold text-[#161616] sm:min-w-[3.75rem] sm:text-right sm:text-base">
                           {item.time}
                         </span>

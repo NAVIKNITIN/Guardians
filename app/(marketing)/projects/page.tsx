@@ -485,7 +485,7 @@ function ProjectsPageContent() {
 
       <section className=" shadow-[0_-4px_4px_0_rgba(0,0,0,0.15)]">
         <Container className="min-w-0 py-4 sm:py-5 lg:py-6">
-          <div className="flex min-w-0 flex-col items-center gap-3 text-center sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4 sm:text-left lg:px-8 xl:px-12 2xl:px-16">
+          <div className="pt-10 flex min-w-0 flex-col items-center gap-3 text-center sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4 sm:text-left lg:px-8 xl:px-12 2xl:px-16">
             <div className="flex min-w-0 flex-wrap items-center justify-center gap-3 sm:min-w-0 sm:justify-start sm:gap-5">
               <button
                 type="button"
@@ -494,7 +494,7 @@ function ProjectsPageContent() {
                 aria-controls="projects-filter-dropdowns"
                 className={`inline-flex cursor-pointer items-center gap-2 n-reg text-sm font-black uppercase tracking-[0.1em] sm:text-base ${showFilters
                   ? "text-[#8F8183]  border-[#8F8183] n-bold"
-                  : "text-[#8F8183]/70"
+                  : "text-[#8F8183]"
                   }`}
               >
                 Filters
@@ -532,7 +532,7 @@ function ProjectsPageContent() {
 
           {showFilters && (
             <>
-              <div className="my-3 h-px w-full max-w-[90%] bg-black/20 mx-auto sm:my-4" />
+              <div className="my-3 h-px w-full max-w-[92%] bg-black mx-auto sm:my-4" />
 
               <div
                 id="projects-filter-dropdowns"
@@ -555,11 +555,11 @@ function ProjectsPageContent() {
                 {activeLocation && (
                   <div className="inline-flex h-12 min-h-[48px] w-full max-w-full flex-wrap items-center justify-center gap-2 border border-[#161616] bg-[#BCBDC0] px-3 py-1 n-reg text-[11px] uppercase tracking-[0.08em] text-[#161616] min-[400px]:px-4 min-[400px]:text-xs sm:h-[51px] sm:min-h-0 sm:w-auto sm:max-w-none sm:justify-between sm:px-5 sm:py-0 sm:text-sm sm:tracking-[0.1em] md:text-base">
                     <span className="min-w-0 wrap-break-word n-bold">{activeLocation}</span>
-                    <span className="mx-1 hidden h-[52px] w-px shrink-0 bg-[#161616] sm:inline-block" />
+                    <span className="mx-1 hidden h-[50px] w-px shrink-0 bg-[#161616] sm:inline-block" />
                     <button
                       type="button"
                       onClick={() => setActiveLocation(null)}
-                      className="cursor-pointer text-xl  leading-none n-bold"
+                      className="cursor-pointer text-xl  leading-none n-bold ml-2"
                       aria-label="Remove filter"
                     >
                       X
