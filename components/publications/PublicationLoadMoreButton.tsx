@@ -23,8 +23,8 @@ export function PublicationLoadMoreButton({
       className={cn(
         "btn-primary-gradient",
         "inline-flex w-full max-w-sm items-center justify-center gap-4 px-8 py-3.5",
-        "n-reg text-base uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90",
-        "sm:w-auto sm:max-w-none sm:gap-5 sm:px-12 sm:py-[18px] sm:text-xl",
+        "n-bold fs-20 lh-24 uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90",
+        "sm:w-auto sm:max-w-none sm:gap-5 sm:px-12 sm:py-[18px] sm:text-base lg:text-lg",
         className,
       )}
       {...buttonProps}
