@@ -62,8 +62,8 @@ export function StatFigure({
       className={cn(
         "tabular-nums text-brand-footer",
         compact
-          ? "n-book max-w-full wrap-break-word whitespace-normal text-left font-semibold text-[clamp(1.65rem,min(13cqw,4.2vw),2.65rem)] leading-none tracking-[-0.04em]"
-          : "n-book fw-200 tracking-[-0.03em] text-center text-[clamp(1.75rem,6.5vw,2.25rem)] whitespace-nowrap sm:whitespace-normal sm:text-4xl md:text-[clamp(2.25rem,4vw,2.85rem)] md:tracking-[-0.04em]",
+          ? "n-bold max-w-full wrap-break-word whitespace-normal text-left font-semibold text-[clamp(1.65rem,min(13cqw,4.2vw),2.65rem)] leading-none tracking-[-0.04em]"
+          : "n-book  tracking-[-0.03em] text-center text-[clamp(1.75rem,6.5vw,2.25rem)] whitespace-nowrap sm:whitespace-normal sm:text-4xl md:text-[clamp(2.25rem,4vw,2.85rem)] md:tracking-[-0.04em]",
       )}
     >
       {text}
@@ -125,6 +125,7 @@ export function DeveloperStatsSection({
                 ? "max-w-[17rem] text-pretty text-sm leading-snug text-[#5f5a5b] n-book font-normal normal-case tracking-normal"
                 : "fs-12 lh-20 n-bold uppercase leading-snug tracking-wide text-black whitespace-nowrap",
             )}
+
           >
             {stat.label}
           </p>
