@@ -29,10 +29,10 @@ const PARTNERS: PartnerShowcaseItem[] = [
     name: "Adani Realty",
     imageSrc: localImageByIndex(0),
     subLogos: [
-      { src: "/images/Developer/partners/Group 32.svg", alt: "Partner logo" },
-      { src: "/images/Developer/partners/Group 33.svg", alt: "Partner logo" },
-      { src: "/images/Developer/partners/Group 34.svg", alt: "Partner logo" },
-      { src: "/images/Developer/partners/Group 36.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 40.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 30.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 33.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 44.svg", alt: "Partner logo" },
     ],
     tabLogoSrc: "/images/Developer/partners/Group 32.svg",
     tabLogoAlt: "Adani Realty",
@@ -42,10 +42,10 @@ const PARTNERS: PartnerShowcaseItem[] = [
     name: "Godrej Properties",
     imageSrc: localImageByIndex(1),
     subLogos: [
-      { src: "/images/Developer/partners/Group 38.svg", alt: "Partner logo" },
-      { src: "/images/Developer/partners/Group 39.svg", alt: "Partner logo" },
-      { src: "/images/Developer/partners/Group 42.svg", alt: "Partner logo" },
-      { src: "/images/Developer/partners/Group 44.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 40.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 30.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 33.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 44.svg", alt: "Partner logo" },
     ],
     tabLogoSrc: "/images/Developer/partners/Group 33.svg",
     tabLogoAlt: "Godrej Properties",
@@ -55,10 +55,10 @@ const PARTNERS: PartnerShowcaseItem[] = [
     name: "Marathon Group",
     imageSrc: localImageByIndex(2),
     subLogos: [
-      { src: "/images/Developer/partners/Group 47.svg", alt: "Partner logo" },
-      { src: "/images/Developer/partners/Group 48.svg", alt: "Partner logo" },
-      { src: "/images/Developer/partners/Group 49.svg", alt: "Partner logo" },
-      { src: "/images/Developer/partners/Group 50.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 40.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 30.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 33.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 44.svg", alt: "Partner logo" },
     ],
     tabLogoSrc: "/images/Developer/partners/Group 34.svg",
     tabLogoAlt: "Marathon Group",
@@ -68,10 +68,10 @@ const PARTNERS: PartnerShowcaseItem[] = [
     name: "Sunteck Realty",
     imageSrc: localImageByIndex(3),
     subLogos: [
-      { src: "/images/Developer/partners/Group 32.svg", alt: "Partner logo" },
-      { src: "/images/Developer/partners/Group 36.svg", alt: "Partner logo" },
-      { src: "/images/Developer/partners/Group 38.svg", alt: "Partner logo" },
-      { src: "/images/Developer/partners/Group 42.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 40.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 30.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 33.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 44.svg", alt: "Partner logo" },
     ],
     tabLogoSrc: "/images/Developer/partners/Group 36.svg",
     tabLogoAlt: "Sunteck Realty",
@@ -81,10 +81,10 @@ const PARTNERS: PartnerShowcaseItem[] = [
     name: "Piramal Realty",
     imageSrc: localImageByIndex(4),
     subLogos: [
-      { src: "/images/Developer/partners/Group 44.svg", alt: "Partner logo" },
-      { src: "/images/Developer/partners/Group 47.svg", alt: "Partner logo" },
-      { src: "/images/Developer/partners/Group 48.svg", alt: "Partner logo" },
-      { src: "/images/Developer/partners/Group 50.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 40.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 30.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 33.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 44.svg", alt: "Partner logo" },
     ],
     tabLogoSrc: "/images/Developer/partners/Group 38.svg",
     tabLogoAlt: "Piramal Realty",
@@ -94,10 +94,10 @@ const PARTNERS: PartnerShowcaseItem[] = [
     name: "Ashford Group",
     imageSrc: localImageByIndex(5),
     subLogos: [
-      { src: "/images/Developer/partners/Group 39.svg", alt: "Partner logo" },
-      { src: "/images/Developer/partners/Group 33.svg", alt: "Partner logo" },
-      { src: "/images/Developer/partners/Group 49.svg", alt: "Partner logo" },
-      { src: "/images/Developer/partners/Group 34.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 40.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 30.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 33.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 44.svg", alt: "Partner logo" },
     ],
     tabLogoSrc: "/images/Developer/partners/Group 39.svg",
     tabLogoAlt: "Ashford Group",
@@ -107,10 +107,10 @@ const PARTNERS: PartnerShowcaseItem[] = [
     name: "Crescent Group",
     imageSrc: localImageByIndex(6),
     subLogos: [
-      { src: "/images/Developer/partners/Group 42.svg", alt: "Partner logo" },
-      { src: "/images/Developer/partners/Group 44.svg", alt: "Partner logo" },
-      { src: "/images/Developer/partners/Group 32.svg", alt: "Partner logo" },
-      { src: "/images/Developer/partners/Group 38.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 40.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 30.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 33.svg", alt: "Partner logo" },
+      { src: "/images/partners/Group 44.svg", alt: "Partner logo" },
     ],
     tabLogoSrc: "/images/Developer/partners/Group 42.svg",
     tabLogoAlt: "Crescent Group",
@@ -129,8 +129,8 @@ export function FeaturedPartnerShowcase() {
       <div className="mx-auto w-full min-w-0 max-w-[min(1237px,100%)] px-4 sm:px-6 lg:px-8 xl:px-0">
         {/* ── Main Slide ── */}
         <div
-          className="relative w-full min-h-[260px] max-w-full overflow-hidden shadow-[0_0_20px_rgba(0,0,0,0.25)] sm:min-h-[320px] md:min-h-0"
-          style={{ aspectRatio: "1237/562" }}
+          className="relative w-full  max-w-full overflow-hidden shadow-[0_0_20px_rgba(0,0,0,0.25)]  md:min-h-0"
+          style={{ aspectRatio: "1237/462" }}
         >
           {/* Background image (blurred building) */}
           <div className="absolute inset-0 z-0">
@@ -170,7 +170,7 @@ export function FeaturedPartnerShowcase() {
           </div>
 
           {/* Sub-logos row — wrap + max-width so narrow viewports don’t overflow */}
-          <div className="absolute inset-x-0 bottom-[12%] z-20 flex justify-center px-3 sm:bottom-[18%] sm:px-6">
+          <div className="absolute inset-x-0 bottom-[46%] z-20 flex justify-center px-3 sm:bottom-[46%] sm:px-6">
             <div className="flex max-w-full min-w-0 flex-wrap items-center justify-center gap-3 sm:gap-8 md:gap-10 lg:gap-14">
               {current.subLogos.map((logo, i) => (
                 <div
@@ -181,7 +181,7 @@ export function FeaturedPartnerShowcase() {
                     src={logo.src}
                     alt={logo.alt}
                     fill
-                    className="object-contain object-center  invert"
+                    className="object-contain object-center "
                     sizes="(max-width: 640px) 25vw, 128px"
                   />
                 </div>
@@ -227,7 +227,7 @@ export function FeaturedPartnerShowcase() {
         {/* ── Tab strip: scroll horizontally on small screens; equal columns on xl+ ── */}
         <div className="w-full min-w-0 max-w-full">
           <div
-            className="flex w-full min-w-0 overflow-x-auto overscroll-x-contain scroll-smooth [-webkit-overflow-scrolling:touch] [scrollbar-width:thin] xl:overflow-visible"
+            className="flex shadow-[0_0_20px_rgba(0,0,0,0.25)] w-full min-w-0 overflow-x-auto overscroll-x-contain scroll-smooth [-webkit-overflow-scrolling:touch] [scrollbar-width:thin] xl:overflow-visible"
             role="tablist"
             aria-label="Select partner"
           >
