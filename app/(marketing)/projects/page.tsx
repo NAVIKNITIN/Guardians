@@ -483,7 +483,7 @@ function ProjectsPageContent() {
       {/* FILTER BAR                                                          */}
       {/* ------------------------------------------------------------------ */}
 
-      <section className="border-b border-black/10 shadow-[0_-4px_4px_0_rgba(0,0,0,0.15)]">
+      <section className=" shadow-[0_-4px_4px_0_rgba(0,0,0,0.15)]">
         <Container className="min-w-0 py-4 sm:py-5 lg:py-6">
           <div className="flex min-w-0 flex-col items-center gap-3 text-center sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4 sm:text-left lg:px-8 xl:px-12 2xl:px-16">
             <div className="flex min-w-0 flex-wrap items-center justify-center gap-3 sm:min-w-0 sm:justify-start sm:gap-5">
@@ -546,10 +546,11 @@ function ProjectsPageContent() {
                 />
                 <FilterSelect
                   label="Builder"
-                  value={filterBuilder}
-                  onChange={setFilterBuilder}
-                  options={[...BUILDER_OPTIONS]}
+                  value={filterBudget}
+                  onChange={setFilterBudget}
+                  options={[...BUDGET_OPTIONS]}
                 />
+
 
                 {activeLocation && (
                   <div className="inline-flex h-12 min-h-[48px] w-full max-w-full flex-wrap items-center justify-center gap-2 border border-[#161616] bg-[#BCBDC0] px-3 py-1 n-reg text-[11px] uppercase tracking-[0.08em] text-[#161616] min-[400px]:px-4 min-[400px]:text-xs sm:h-[51px] sm:min-h-0 sm:w-auto sm:max-w-none sm:justify-between sm:px-5 sm:py-0 sm:text-sm sm:tracking-[0.1em] md:text-base">
@@ -595,7 +596,7 @@ function ProjectsPageContent() {
       {/* ------------------------------------------------------------------ */}
       {/* PROJECT GRID                                                        */}
       {/* ------------------------------------------------------------------ */}
-      <section className="bg-white py-8 sm:py-10 lg:px-8 lg:py-20 xl:px-12 2xl:px-16">
+      <section className="bg-white py-8 sm:py-10 lg:px-8 lg:py-10 xl:px-12 2xl:px-16">
         <Container className="min-w-0">
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:gap-10 xl:gap-10">
             {displayedProjects.map((project) => (
