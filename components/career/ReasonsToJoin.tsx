@@ -21,12 +21,13 @@ const REASONS: ReasonCard[] = [
     title: "Client-First Advisory Culture",
     imageSrc: "/images/partners/career/1.svg",
     imageAlt: "Advisory culture at The Guardians",
+    subtitle: "Progress is driven by skill, ownership, and performance.",
     flex: 260,
   },
   {
     id: "transactions",
     title: "Exposure to High-Value Transactions",
-    subtitle: "We work with some of the largest and most complex real estate transactions in India.",
+    subtitle: "Progress is driven by skill, ownership, and performance.",
     imageSrc: "/images/partners/career/2.svg",
     imageAlt: "High-value transactions exposure",
     flex: 260,
@@ -43,6 +44,7 @@ const REASONS: ReasonCard[] = [
   {
     id: "process",
     title: "Refined, Process-Driven Environment",
+    subtitle: "Progress is driven by skill, ownership, and performance.",
     imageSrc: "/images/partners/career/4.svg",
     imageAlt: "Refined process-driven environment",
     flex: 260,
@@ -71,13 +73,13 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
           className="object-cover object-center transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
-        {/* Dark gradient — slightly deeper on hover to keep copy legible as it reveals */}
-        <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent transition-colors duration-500 group-hover:from-black/80 group-hover:via-black/35" />
+        {/* Light by default; transitions to dark on hover. */}
+        <div className="absolute inset-0 bg-linear-to-t  to-transparent transition-colors duration-500 " />
       </div>
 
       {/* Label content — pinned to bottom */}
       <div className="absolute inset-x-0 bottom-0 z-10 p-5">
-        <h3 className="n-reg text-xl leading-snug text-white transition-transform duration-500 ease-out group-hover:-translate-y-0.5">
+        <h3 className="n-bold text-xl leading-snug text-[#202225] transition-transform duration-500 ease-out group-hover:-translate-y-0.5">
           {card.title}
         </h3>
 
@@ -85,7 +87,7 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
         {card.subtitle && (
           <p
             className={cn(
-              "mt-1 n-reg text-sm leading-normal text-white/90",
+              "mt-1 n-book text-sm leading-normal text-[#202225]",
               "transition-all duration-500 ease-out",
               "max-h-0 -translate-y-1 overflow-hidden opacity-0 group-hover:max-h-20 group-hover:translate-y-0 group-hover:opacity-100",
             )}
@@ -98,7 +100,7 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
         <div
           className={cn(
             "mt-3 transition-all duration-500 ease-out",
-            "translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100",
+            " translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100",
           )}
         >
           <svg
@@ -110,7 +112,7 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
           >
             <path
               d="M0 6H49M49 6L44 1M49 6L44 11"
-              stroke="#ffffff"
+              stroke="#000000"
               strokeWidth="1.8"
               strokeLinecap="round"
               strokeLinejoin="round"

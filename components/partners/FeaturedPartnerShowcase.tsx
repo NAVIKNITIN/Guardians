@@ -140,7 +140,7 @@ export function FeaturedPartnerShowcase() {
               alt=""
               fill
               className="object-cover"
-              style={{ filter: "blur(6px)", transform: "scale(1.04)" }}
+              style={{ filter: "blur(2px)", transform: "scale(1.04)" }}
               sizes="(max-width: 1280px) 100vw, 1237px"
             />
           </div>
@@ -170,7 +170,25 @@ export function FeaturedPartnerShowcase() {
           </div>
 
           {/* Sub-logos row — wrap + max-width so narrow viewports don’t overflow */}
-          <div className="absolute inset-x-0 bottom-[46%] z-20 flex justify-center px-3 sm:bottom-[46%] sm:px-6">
+          <div className="absolute inset-x-0  z-20 flex justify-center px-3 bottom-[38%] md:bottom-[40%] sm:px-6">
+
+            <RoundIconButton
+              label="Previous partner"
+              onClick={() => advance(-1)}
+              className={cn(
+                "absolute left-2 top-1/2 z-30 -translate-y-1/2 cursor-pointer sm:left-6 lg:left-10",
+                "h-8 w-8 text-white hover:bg-white/10 sm:h-11 sm:w-11 mt-2",
+              )}
+            >
+              <Image
+                src={CAROUSEL_PREV}
+                alt=""
+                width={40}
+                height={40}
+                className="object-cover"
+              />
+            </RoundIconButton>
+
             <div className="flex max-w-full min-w-0 flex-wrap items-center justify-center gap-3 sm:gap-8 md:gap-10 lg:gap-14">
               {current.subLogos.map((logo, i) => (
                 <div
@@ -188,30 +206,12 @@ export function FeaturedPartnerShowcase() {
               ))}
             </div>
           </div>
-
-          {/* Navigation — same pattern as `CarouselControls` (RoundIconButton + carousel SVGs) */}
-          <RoundIconButton
-            label="Previous partner"
-            onClick={() => advance(-1)}
-            className={cn(
-              "absolute left-2 top-1/2 z-30 -translate-y-1/2 cursor-pointer sm:left-6 lg:left-10",
-              "h-8 w-8 text-white hover:bg-white/10 sm:h-11 sm:w-11",
-            )}
-          >
-            <Image
-              src={CAROUSEL_PREV}
-              alt=""
-              width={40}
-              height={40}
-              className="object-cover"
-            />
-          </RoundIconButton>
           <RoundIconButton
             label="Next partner"
             onClick={() => advance(1)}
             className={cn(
               "absolute right-2 top-1/2 z-30 -translate-y-1/2 cursor-pointer sm:right-6 lg:right-10",
-              "h-8 w-8 text-white hover:bg-white/10 sm:h-11 sm:w-11",
+              "h-8 w-8 text-white hover:bg-white/10 sm:h-11 sm:w-11 mt-5",
             )}
           >
             <Image
@@ -222,12 +222,15 @@ export function FeaturedPartnerShowcase() {
               className="bg-transparent object-cover"
             />
           </RoundIconButton>
+
+          {/* Navigation — same pattern as `CarouselControls` (RoundIconButton + carousel SVGs) */}
+
         </div>
 
         {/* ── Tab strip: scroll horizontally on small screens; equal columns on xl+ ── */}
         <div className="w-full min-w-0 max-w-full">
           <div
-            className="flex shadow-[0_0_20px_rgba(0,0,0,0.25)] w-full min-w-0 overflow-x-auto overscroll-x-contain scroll-smooth [-webkit-overflow-scrolling:touch] [scrollbar-width:thin] xl:overflow-visible"
+            className="flex h-[100] shadow-[0_0_20px_rgba(0,0,0,0.25)] w-full min-w-0 overflow-x-auto overscroll-x-contain scroll-smooth [-webkit-overflow-scrolling:touch] [scrollbar-width:thin] xl:overflow-visible"
             role="tablist"
             aria-label="Select partner"
           >
@@ -244,7 +247,7 @@ export function FeaturedPartnerShowcase() {
                   "xl:min-w-0 xl:flex-1 xl:basis-0 xl:shrink",
                   "border-r border-black/[0.08] last:border-r-0",
                   i === index
-                    ? "bg-white shadow-inner"
+                    ? "bg-white shadow-inner z-30"
                     : "bg-[#DADADB] hover:bg-white/70",
                 )}
               >
