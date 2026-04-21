@@ -59,7 +59,7 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
         /* Base flex-grow comes from --reason-grow; sm+ hover bumps it way up so */
         /* the hovered card expands while its siblings proportionally compress. */
         "grow-(--reason-grow) sm:hover:grow-900",
-        "transition-[flex-grow] duration-600 ease-[cubic-bezier(0.22,1,0.36,1)]",
+        "transition-[flex-grow] duration-1100 ease-[cubic-bezier(0.22,1,0.36,1)]",
         "will-change-[flex-grow]",
       )}
       style={{ ["--reason-grow" as string]: card.flex } as React.CSSProperties}
@@ -70,16 +70,16 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
           src={card.imageSrc}
           alt={card.imageAlt}
           fill
-          className="object-cover object-center transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
+          className="object-cover object-center transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
         {/* Light by default; transitions to dark on hover. */}
-        <div className="absolute inset-0 bg-linear-to-t  to-transparent transition-colors duration-500 " />
+        <div className="absolute inset-0 bg-linear-to-t to-transparent transition-colors duration-900 ease-[cubic-bezier(0.22,1,0.36,1)]" />
       </div>
 
       {/* Label content — pinned to bottom */}
       <div className="absolute inset-x-0 bottom-0 z-10 p-5">
-        <h3 className="n-bold text-xl leading-snug text-[#202225] transition-transform duration-500 ease-out group-hover:-translate-y-0.5">
+        <h3 className="n-bold text-xl leading-snug text-[#202225] transition-transform duration-850 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-0.5">
           {card.title}
         </h3>
 
@@ -88,7 +88,7 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
           <p
             className={cn(
               "mt-1 n-book text-sm leading-normal text-[#202225]",
-              "transition-all duration-500 ease-out",
+              "transition-all duration-900 ease-[cubic-bezier(0.22,1,0.36,1)]",
               "max-h-0 -translate-y-1 overflow-hidden opacity-0 group-hover:max-h-20 group-hover:translate-y-0 group-hover:opacity-100",
             )}
           >
@@ -99,7 +99,7 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
         {/* Arrow — always shown on featured card; fades in on hover for the rest */}
         <div
           className={cn(
-            "mt-3 transition-all duration-500 ease-out",
+            "mt-3 transition-all duration-900 ease-[cubic-bezier(0.22,1,0.36,1)]",
             " translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100",
           )}
         >

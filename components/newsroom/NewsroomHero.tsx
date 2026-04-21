@@ -10,19 +10,19 @@ export function NewsroomHero() {
     >
       {/* Full-bleed hero background */}
       <div
-        className="absolute inset-0 z-0 mt-0 lg:mt-[-150px]"
+        // className="absolute inset-0 z-0 mt-0 lg:mt-[-150px]"
         aria-hidden
       >
         <Image
           src="/images/newsroom.svg"
           alt="Newsroom"
           fill
-          className="object-cover object-center"
+          className="object-cover object-center mt-[-1.6rem]"
           sizes="100vw"
           priority
         />
         {/* Dark overlay to ensure white text legibility */}
-        <div className="absolute inset-0 bg-black/50" />
+        <div className="absolute inset-0 " />
       </div>
 
       {/* Centered heading */}

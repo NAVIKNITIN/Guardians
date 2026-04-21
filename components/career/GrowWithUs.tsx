@@ -3,7 +3,7 @@ import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 
-const HR_EMAIL = "hr@theguardians.in";
+const HR_EMAIL = "hr@theguardians.com";
 
 function IconEnvelopeOutline({ className }: { className?: string }) {
     return (

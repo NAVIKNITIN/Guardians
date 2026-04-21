@@ -334,7 +334,7 @@ export function AboutLeadershipSection({
 
                     </span>
                   </div>
-                  <p className="mt-7 fs-16 lh-24 n-book fw-100 leading-8 text-[#5d5859] sm:text-[15px]">
+                  <p className="mt-7 max-w-[560px] fs-16 lh-24 n-book fw-100 leading-8 text-[#5d5859] sm:text-[15px] ">
                     {activeSlide.body}
                   </p>
 

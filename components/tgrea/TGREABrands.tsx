@@ -52,7 +52,7 @@ interface BrandRowProps {
 
 function BrandRow({ reverse, href }: BrandRowProps) {
   const textContent = (
-    <div className="flex w-full min-w-0 flex-col items-center gap-5 py-6 text-center sm:gap-8 sm:py-8 lg:items-start lg:py-12 lg:text-left md:min-h-[650px]">
+    <div className="flex w-full min-w-0 flex-col items-center py-6 text-center sm:py-8 lg:items-start lg:py-12 lg:text-left md:min-h-[650px]">
       <Image
         src={BRAND_LOGO}
         alt="Ground Holding – Real Estate"

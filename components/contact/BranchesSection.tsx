@@ -74,7 +74,7 @@ export function BranchesSection() {
     <section className="bg-white pb-16 pt-4 sm:pb-20 lg:pb-24 lg:pt-[40px]" aria-label="Office branches">
       <Container>
         {/* Figma: “BRANCHES” — serif caps, same band as other qs-reg section titles */}
-        <h2 className="qs-reg mb-10 text-center text-[clamp(2rem,4vw,3.125rem)] uppercase leading-[1.05] tracking-[0.05em] text-[#202225] sm:mb-12 lg:mb-16">
+        <h2 className="qs-reg mb-10 text-center text-[clamp(2rem,4vw,3.125rem)] uppercase leading-[1.05] tracking-[0.05em] text-[#202225] sm:mb-5 lg:mb-8">
           Branches
         </h2>
 

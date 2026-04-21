@@ -123,7 +123,7 @@ export const TestimonialCard = ({ item }: { item: PartnersTestimonial }) => {
       {/* Dark footer bar — Figma: black bar, white type, left-aligned */}
       <div className="bg-black px-6 py-4 sm:px-10 sm:py-5 lg:px-12">
         <p className="n-bold text-sm text-white">{item.name}</p>
-        <p className="mt-0.5 n-reg text-xs text-white">{item.role}</p>
+        <p className="mt-0.5 n-reg text-sm text-white">{item.role}</p>
         <p className="mt-0.5 n-reg text-xs text-white/80">{item.location}</p>
       </div>
     </article>
