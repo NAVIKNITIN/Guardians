@@ -62,7 +62,7 @@ export function OfficeActivities() {
               </div>
 
               {/* Label */}
-              <p className="n-bold text-base leading-snug tracking-[0.1em] text-[#202225] sm:text-lg">
+              <p className="n-bold text-base  text-[#202225] sm:text-lg">
                 {activity.label}
               </p>
             </div>
