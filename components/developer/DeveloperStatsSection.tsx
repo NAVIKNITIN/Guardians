@@ -95,7 +95,7 @@ export function DeveloperStatsSection({
     "w-full min-w-0",
     isTwoColInline
       ? "grid grid-cols-1 justify-items-stretch gap-x-8 gap-y-10 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-12 md:grid-cols-2 lg:gap-x-14 lg:gap-y-16 fs-56 "
-      : "grid grid-cols-1 gap-x-4 sm:grid-cols-2 md:grid-cols-4",
+      : "grid grid-cols-1 gap-x-4 gap-y-0 sm:grid-cols-2 md:grid-cols-4",
   );
 
   const grid = (
@@ -107,7 +107,7 @@ export function DeveloperStatsSection({
             "flex min-h-0 min-w-0 flex-col",
             isTwoColInline
               ? "items-start gap-3 text-left"
-              : "items-center justify-center px-4 text-center sm:px-8 md:px-6 lg:px-12",
+              : "items-center justify-center px-4 py-0 text-center sm:px-8 md:px-6 lg:px-12",
             !isTwoColInline &&
             idx > 0 &&
             "relative md:before:absolute md:before:left-0 md:before:top-1/2 md:before:h-5.5 md:before:w-px md:before:-translate-y-1/2 md:before:bg-[#8F8183] md:before:content-['']",
@@ -125,7 +125,6 @@ export function DeveloperStatsSection({
                 ? "max-w-[17rem] text-pretty text-sm leading-snug text-[#5f5a5b] n-book font-normal normal-case tracking-normal"
                 : "fs-12 lh-20 n-bold uppercase leading-snug tracking-wide text-black whitespace-nowrap",
             )}
-
           >
             {stat.label}
           </p>
@@ -141,7 +140,7 @@ export function DeveloperStatsSection({
   return (
     <SectionSurface
       aria-label="Key statistics"
-      className="bg-transparent !py-0"
+      className="bg-transparent !my-0 !py-0"
     >
       {grid}
     </SectionSurface>
