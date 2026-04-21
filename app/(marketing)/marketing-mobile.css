@@ -101,6 +101,10 @@
   .marketing-mobile-root .min-h-\[150vh\] {
     min-height: 118vh;
   }
+
+  .marketing-mobile-root .min-h-\[155vh\] {
+    min-height: 118vh;
+  }
 }
 
 /* -------------------------------------------------------------------------- */
@@ -127,6 +131,10 @@
   .marketing-mobile-root .min-h-\[150vh\] {
     min-height: 135vh;
   }
+
+  .marketing-mobile-root .min-h-\[175vh\] {
+    min-height: 135vh;
+  }
 }
 
 /* -------------------------------------------------------------------------- */
@@ -135,6 +143,14 @@
 @media (prefers-reduced-motion: reduce) {
   @media (max-width: 1023px) {
     .marketing-mobile-root .min-h-\[150vh\] {
+      min-height: auto;
+    }
+
+    .marketing-mobile-root .min-h-\[155vh\] {
+      min-height: auto;
+    }
+
+    .marketing-mobile-root .min-h-\[175vh\] {
       min-height: auto;
     }
   }

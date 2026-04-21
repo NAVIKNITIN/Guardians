@@ -1,0 +1,40 @@
+---
+description: Home marketing sections — responsive patterns, splits, and where to edit
+alwaysApply: true
+---
+
+# Home marketing sections (Hero, sticky copy, divider)
+
+Do **not** change `app/(marketing)/page.tsx` unless the user explicitly asks (see `marketing-home-page.mdc`). Implement changes in **`components/sections/*`** and **`components/marketing/*`**.
+
+## Conditional rendering (viewport)
+
+| Component | Breakpoint | Behavior |
+|-----------|------------|----------|
+| `DividerSection` | `min-width: 1024px` (`lg`) | `DividerSectionDesktop` vs `DividerSectionMobile` (split banner vs full-bleed banner + cards). |
+| `HeroSection` | `1024px` | `HeroSectionDesktop` vs `HeroSectionMobile`. First paint / SSR: desktop tree until `useEffect` runs (`isLg !== false`). |
+| `HomeStickyScrollCopy` | `768px` (`md`) | 4-line vs 8-line copy (`HomeStickyScrollCopyDesktop` vs `HomeStickyScrollCopyMobile`). Same hydration pattern. |
+
+Shared UI lives in **`divider-section/DividerSectionCards.tsx`**, **`hero-section/HeroSectionShared.tsx`**, **`home-sticky-scroll/homeStickyScrollLines.ts`**.
+
+## `StickyScrollFillSection` (sticky gradient headline)
+
+- Typography is **CSS-only** via **`stickyScrollCopyTypography`** in `StickyScrollFillSection.tsx`: fluid `clamp` + `vw` on small viewports; **`lg` 48px**, **`xl` 52px**, **`2xl` 56px**; responsive leading and padding/track height (`defaultTrackClassName`).
+- Do **not** reintroduce per-branch font hacks (e.g. `largeTypeFromMd`). Home wrappers pass **`className="space-y-0 n-bold"`** only so line spacing/weight stay under control without overriding the shared scale.
+
+## Hero “Know More” CTA (desktop)
+
+- In **`HeroSectionDesktop`**, do **not** combine **`w-full`** with **`sm:max-w-none`** on the gradient CTA — it stretches the button full column width. Prefer **`inline-flex w-auto shrink-0`** (and **`whitespace-nowrap`** as needed). Mobile hero can keep full-width constraints.
+
+## Responsive tokens (hero)
+
+- **`components/sections/hero-section/heroResponsiveClasses.ts`** — single source for hero shell (`heroSectionShellMobile` / `heroSectionShellDesktop`), title (`heroTitleTypography`), subtitle (`heroSubtitleTypography`), CTA row spacing, desktop Know More button (`heroDesktopKnowMoreButton`). Edit here when tuning **mobile → 2xl**.
+
+## Sticky copy
+
+- **`StickyScrollFillSection.tsx`** — `stickyScrollCopyTypography` + `defaultTrackClassName` (already stepped by breakpoint).
+
+## When changing behavior
+
+- Prefer adjusting **shared** section files and **responsive Tailwind** over duplicating scroll math.
+- After layout/typography changes on these sections, run **`npm run build`**.

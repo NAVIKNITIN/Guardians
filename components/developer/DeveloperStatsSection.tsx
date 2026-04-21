@@ -62,7 +62,12 @@ export function StatFigure({
       className={cn(
         "tabular-nums text-brand-footer",
         compact
-          ? "n-bold max-w-full wrap-break-word whitespace-normal text-left font-semibold text-[clamp(1.65rem,min(13cqw,4.2vw),2.65rem)] leading-none tracking-[-0.04em]"
+          ? cn(
+              "n-bold max-w-full wrap-break-word whitespace-normal text-left font-semibold leading-none tracking-[-0.04em]",
+              "text-[clamp(1.65rem,min(13cqw,4.2vw),2.65rem)]",
+              "xl:text-[clamp(1.75rem,min(12cqw,3.4vw),2.85rem)]",
+              "2xl:text-[clamp(1.85rem,min(11cqw,3vw),3rem)]",
+            )
           : "n-book  tracking-[-0.03em] text-center text-[clamp(1.75rem,6.5vw,2.25rem)] whitespace-nowrap sm:whitespace-normal sm:text-4xl md:text-[clamp(2.25rem,4vw,2.85rem)] md:tracking-[-0.04em]",
       )}
     >
@@ -94,7 +99,7 @@ export function DeveloperStatsSection({
   const gridClassName = cn(
     "w-full min-w-0",
     isTwoColInline
-      ? "grid grid-cols-1 justify-items-stretch gap-x-8 gap-y-10 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-12 md:grid-cols-2 lg:gap-x-14 lg:gap-y-16 fs-56 "
+      ? "grid grid-cols-1 justify-items-stretch gap-x-8 gap-y-10 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-12 md:grid-cols-2 lg:gap-x-14 lg:gap-y-16 xl:gap-x-16 xl:gap-y-[4.5rem] 2xl:gap-x-20 2xl:gap-y-20 fs-56 "
       : "grid grid-cols-1 gap-x-4 sm:grid-cols-2 md:grid-cols-4",
   );
 
@@ -122,7 +127,10 @@ export function DeveloperStatsSection({
           <p
             className={cn(
               isTwoColInline
-                ? "max-w-[17rem] text-pretty text-sm leading-snug text-[#5f5a5b] n-book font-normal normal-case tracking-normal"
+                ? cn(
+                    "max-w-[17rem] text-pretty leading-snug text-[#5f5a5b] n-book font-normal normal-case tracking-normal",
+                    "text-xs sm:text-sm md:text-[15px] lg:text-sm xl:text-base 2xl:text-[1.0625rem]",
+                  )
                 : "fs-12 lh-20 n-bold uppercase leading-snug tracking-wide text-black whitespace-nowrap",
             )}
 

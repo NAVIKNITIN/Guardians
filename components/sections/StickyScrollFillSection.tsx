@@ -5,6 +5,27 @@ import { useEffect, useRef, type ElementType, type ReactNode } from "react";
 import { cn } from "@/utils/cn";
 import { clamp, subscribeToScroll } from "@/utils/scroll";
 
+/**
+ * Headline scale for sticky gradient copy — viewport buckets only (no JS).
+ * mobile → sm (tablet) → md → lg (laptop) → xl (desktop) → 2xl (large / ultrawide).
+ */
+const stickyScrollCopyTypography = cn(
+  "tracking-[-0.01em]",
+  /* Narrow phones: readable floor, grows with vw */
+  "text-[clamp(1.125rem,0.55rem+3.2vw,1.5rem)] leading-[1.28]",
+  "min-[400px]:text-[clamp(1.2rem,0.5rem+3.4vw,1.875rem)] min-[400px]:leading-[1.26]",
+  "sm:text-[clamp(1.35rem,0.65rem+3vw,2.125rem)] sm:leading-[1.24]",
+  "md:text-[clamp(1.5rem,0.75rem+2.6vw,2.75rem)] md:leading-[1.22]",
+  /* Laptop+ anchor to design (48px), then step up on wide monitors */
+  "lg:text-[48px] lg:leading-[1.22]",
+  "xl:text-[52px] xl:leading-[1.2]",
+  "2xl:text-[56px] 2xl:leading-[1.18]",
+);
+
+/** Scroll track height scales slightly so pin duration feels similar on tall monitors. */
+const defaultTrackClassName =
+  "min-h-[155vh] sm:min-h-[170vh] md:min-h-[175vh] lg:min-h-[200vh] xl:min-h-[205vh] 2xl:min-h-[210vh]";
+
 interface StickyScrollFillSectionProps {
   lines: string[];
   /** Tailwind min-height on the scroll track (controls how long the pin + fill lasts). */
@@ -49,7 +70,7 @@ function FillLine({
 
   return (
     <motion.span
-      className="block overflow-visible pb-[0.08em]"
+      className="block overflow-visible wrap-break-word pb-[0.08em]"
       style={{
         backgroundImage,
         WebkitBackgroundClip: "text",
@@ -72,7 +93,7 @@ function FillLine({
 export function StickyScrollFillSection({
   lines,
   /** Must be taller than `100dvh - header` or scroll range collapses and fill/sticky break. */
-  trackClassName = "min-h-[200vh]",
+  trackClassName = defaultTrackClassName,
   className,
   fromColor = "#c4c4c4",
   toColor = "#111111",
@@ -128,8 +149,11 @@ export function StickyScrollFillSection({
       >
         <div
           className={cn(
-            "w-full space-y-2 text-center",
-            "fs-48 n-bold",
+            "w-full min-w-0 max-w-full text-center",
+            "space-y-1.5 sm:space-y-2 md:space-y-2 lg:space-y-2 xl:space-y-2.5",
+            "px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16",
+            stickyScrollCopyTypography,
+            "n-bold",
             className,
           )}
         >
