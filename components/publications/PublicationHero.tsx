@@ -47,7 +47,7 @@ export function PublicationHero({
       </div>
 
       {/* Centered heading */}
-      <div className="relative z-10 flex h-full items-center justify-center px-4 text-center">
+      <div className="relative z-10 flex h-full items-center justify-center px-4 text-center pt-[3%]">
         <h1
           id={headingId}
           className={cn(

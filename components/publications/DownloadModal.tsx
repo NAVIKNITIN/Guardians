@@ -25,14 +25,6 @@ function RadioCircle({ checked }: { checked: boolean }) {
   );
 }
 
-function CornerArrowIcon({ color = "white" }: { color?: string }) {
-  return (
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden>
-      <path d="M0 0H14.4958V14.4958" stroke={color} strokeWidth="2" />
-    </svg>
-  );
-}
-
 function ChevronDown() {
   return (
     <svg width="8" height="4" viewBox="0 0 8 4" fill="none" aria-hidden>
@@ -102,7 +94,7 @@ export function DownloadModal({ isOpen, onClose, issueTitle }: DownloadModalProp
         </h2>
 
         {/* Description */}
-        <p className="mt-4 text-center n-reg  text-base text-[#202225]/80 tracking-[-0.01em]">
+        <p className=" text-center n-reg  text-base text-[#202225] tracking-[-0.01em]">
           Lorem ipsum dolor sit amet consectetur. Congue nulla ut sit ac donec eros. Sed mauris malesuada risus.
         </p>
 
@@ -192,7 +184,7 @@ export function DownloadModal({ isOpen, onClose, issueTitle }: DownloadModalProp
           {/* Submit */}
           <button
             type="submit"
-            className="mt-4 flex w-full items-center justify-center gap-5 py-[18px] n-reg  text-xl  uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90"
+            className="mt-4 flex w-full items-center justify-center gap-5 py-[18px] n-bold  text-xl  uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90"
             style={{
               background:
                 "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",

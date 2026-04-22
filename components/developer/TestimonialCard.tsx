@@ -19,7 +19,7 @@ export function TestimonialCard({
   return (
     <article
       className={cn(
-        "mx-[20px] flex h-full min-h-0 flex-col p-6 shadow-sm",
+        " flex h-full min-h-0 flex-col p-6 shadow-sm",
         /* Dot grid over linear fill: #BCBDC0 → #8F8183 (left → right) */
         "bg-[radial-gradient(circle_at_center,#BCBDC0_1px,transparent_1px),linear-gradient(to_right,#edeced_0%,#BCBDC0_300%)] [background-size:14px_14px,100%_100%] [background-repeat:repeat,no-repeat]",
         className,

@@ -20,7 +20,7 @@ type PublicationCardProps = {
 export function PublicationCard({
   issue,
   onOpenFile,
-  buttonLabel = "Open File",
+  buttonLabel = "Download",
   className,
 }: PublicationCardProps) {
   return (
@@ -46,7 +46,8 @@ export function PublicationCard({
       {/* Open File button */}
       <OutlineArrowButton
         onClick={() => onOpenFile(issue.title)}
-        className="mt-5 px-12 py-[18px] fs-16 ls-10 lh-24"
+        className="mt-5 px-12 py-4 fs-16 ls-10 lh-24"
+        iconClassName="w-[13px] h-[13px]"
       >
         {buttonLabel}
       </OutlineArrowButton>

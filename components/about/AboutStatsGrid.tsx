@@ -14,7 +14,7 @@ export function AboutStatsGrid({
   content = ABOUT_STATS_CONTENT,
 }: AboutStatsGridProps) {
   return (
-    <div className="@container w-full min-w-0 max-w-full lg:ml-auto">
+    <div className="@container w-[40%] min-w-0 max-w-full absolute right-0 md:right-10 pr-4%">
       <DeveloperStatsSection
         layout="inline"
         inlineColumns={2}

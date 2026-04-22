@@ -18,8 +18,6 @@ export function CareerHero() {
           sizes="100vw"
           priority
         />
-        {/* Gradient overlays matching Figma's layered images effect */}
-        <div className="absolute inset-0 bg-black/25" />
       </div>
 
       {/* Centered text */}
@@ -34,7 +32,7 @@ export function CareerHero() {
         >
           Work With Us
         </h1>
-        <p className="mt-4 max-w-[700px] n-reg text-sm text-black sm:mt-5 sm:text-lg">
+        <p className="mt-4 max-w-[700px] n-reg text-sm text-black sm:mt-1 sm:text-lg">
           We are one of the fastest growing Real Estate consulting company in
           India.
         </p>

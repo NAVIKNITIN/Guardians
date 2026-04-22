@@ -33,7 +33,7 @@ export function ServicesHero({
 }: ServicesHeroProps) {
   return (
     <section
-      className="relative mb-4 min-h-[360px] overflow-hidden sm:min-h-[420px] lg:mb-[80px] lg:min-h-[513px]"
+      className="relative mb-4 overflow-hidden lg:mb-[80px] h-[650px]"
       aria-labelledby={ariaLabelledBy}
     >
       <div className="absolute inset-0 z-0" aria-hidden>
@@ -47,18 +47,17 @@ export function ServicesHero({
         />
       </div>
 
-      <div className="relative z-10 flex min-h-[inherit] flex-col items-center justify-start gap-3 px-4 pb-8 pt-12 text-center qs-reg sm:gap-4 sm:pb-10 sm:pt-16 md:pt-20 lg:mt-[100px] lg:min-h-0 lg:pb-0">
+      <div className="relative z-10 flex min-h-[inherit] flex-col items-center justify-start gap-1.5 px-4 pb-8 pt-12 text-center qs-reg sm:gap-2 sm:pb-10 sm:pt-16 md:pt-20 lg:mt-[100px] lg:min-h-0 lg:pb-0">
         <h1
           id={headingId}
           className={cn(
-            "max-w-[min(100%,22ch)] break-words qs-reg uppercase leading-none tracking-[0.05em] text-[#202225]",
-            "text-[clamp(1.75rem,6vw,4.375rem)] sm:max-w-none sm:text-[clamp(2rem,6.5vw,4.375rem)]",
+            "max-w-[min(100%,22ch)] break-words qs-reg fs-70 lh-50 uppercase leading-none tracking-[0.05em] text-[#202225]",
             titleClassName,
           )}
         >
           {title}
         </h1>
-        <p className="n-reg  text-base  text-black sm:text-lg max-w-2xl">
+        <p className="n-reg fs-18 lh-24 text-black max-w-2xl mt-2 md:mt-4 lg:mt-4">
           {subtitle}
         </p>
       </div>

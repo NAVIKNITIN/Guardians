@@ -14,7 +14,9 @@ const DESKTOP_VISIBLE = 3;
 
 export function TestimonialsSection({
   content,
+  isBuyer,
 }: {
+  isBuyer: boolean;
   content: TestimonialsSectionContent;
 }) {
   const items = content.items;
@@ -32,7 +34,11 @@ export function TestimonialsSection({
   );
 
   return (
-    <SectionSurface variant="compact" aria-labelledby="testimonials-heading">
+    <SectionSurface
+      variant="compact"
+      aria-labelledby="testimonials-heading"
+      className="!py-0"
+    >
       <div className="flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between xl:gap-8 2xl:gap-10">
         <h2
           id="testimonials-heading"

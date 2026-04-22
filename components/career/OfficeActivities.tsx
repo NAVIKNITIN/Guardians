@@ -7,19 +7,19 @@ const ACTIVITIES = [
   {
     id: "league",
     label: "Guardians' Premier League",
-    imageSrc: localImageByIndex(0),
+    imageSrc: "/images/career/1.svg",
     imageAlt: "Guardians' Premier League cricket match",
   },
   {
     id: "csr",
     label: "CSR Activities",
-    imageSrc: localImageByIndex(1),
+    imageSrc: "/images/career/2.svg",
     imageAlt: "CSR Activities by The Guardians team",
   },
   {
     id: "game",
     label: "Game Room",
-    imageSrc: localImageByIndex(2),
+    imageSrc: "/images/career/3.svg",
     imageAlt: "Guardians office game room",
   },
 ] as const;
@@ -36,9 +36,8 @@ export function OfficeActivities() {
           id="activities-heading"
           className={cn(
             "text-center uppercase text-[#202225] qs-reg ls-8",
-            /* Fluid type — no fixed fs-50/lh-70 so the title scales on narrow phones */
-            "text-[clamp(1.5rem,calc(0.9rem+3vw),3.75rem)] leading-[1.15]",
-            "mb-8 sm:mb-10 lg:mb-12",
+            "qs-reg fs-50 leading-[1.15] ls-8",
+            "mb-4 md:mb-8 lg:mb-10",
           )}
         >
           Office Activities
@@ -63,7 +62,7 @@ export function OfficeActivities() {
               </div>
 
               {/* Label */}
-              <p className="n-bold text-base leading-snug tracking-[0.1em] text-[#202225] sm:text-lg">
+              <p className="n-bold text-base  text-[#202225] sm:text-lg">
                 {activity.label}
               </p>
             </div>

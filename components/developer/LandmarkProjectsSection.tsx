@@ -13,6 +13,7 @@ import { cn } from "@/utils/cn";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import { Container } from "../common/Container";
 
 /** Slower horizontal slide: forward = new image moves in from the right, old exits left. */
 const activeCardSlide = {
@@ -48,8 +49,10 @@ const CAROUSEL_ASPECT = "aspect-[144/65]";
 
 export function LandmarkProjectsSection({
   content,
+  isBuyer: _isBuyer,
 }: {
   content: LandmarkSectionContent;
+  isBuyer: boolean;
 }) {
   const [tab, setTab] = useState<Tab>("ongoing");
   const [index, setIndex] = useState(0);
@@ -84,9 +87,8 @@ export function LandmarkProjectsSection({
     }, AUTO_ADVANCE_MS);
     return () => clearInterval(id);
   }, [n, tab, autoplayEpoch]);
-
   return (
-    <SectionSurface variant="default" aria-labelledby="landmark-heading">
+    <Container gutter="left" aria-labelledby="landmark-heading" className="my-0">
       <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
         <h2
           id="landmark-heading"
@@ -202,7 +204,7 @@ export function LandmarkProjectsSection({
           {content.ctaLabel}
         </MarketingEnquireLink>
       </div>
-    </SectionSurface>
+    </Container>
   );
 }
 
@@ -222,7 +224,7 @@ function PeekTailStrip({
       onClick={onClick}
       aria-label={`Show project ${project.projectName}`}
       className={cn(
-        "relative flex h-full min-h-0 w-full min-w-0 overflow-hidden rounded-sm border border-black/[0.06] bg-neutral-200 p-0 shadow-sm",
+        "relative flex h-full min-h-0 w-full min-w-0 overflow-hidden  border border-black/[0.06] bg-neutral-200 p-0 shadow-sm",
         className,
       )}
     >
@@ -269,7 +271,7 @@ function PeekHalfSlide({
       onClick={onClick}
       aria-label={`Show project ${project.projectName}`}
       className={cn(
-        "relative flex h-full min-h-0 w-full min-w-0 overflow-hidden rounded-sm border border-black/[0.06] bg-neutral-200 shadow-sm",
+        "relative flex h-full min-h-0 w-full min-w-0 overflow-hidden  border border-black/[0.06] bg-neutral-200 shadow-sm",
         className,
       )}
     >
@@ -297,29 +299,6 @@ function PeekHalfSlide({
   );
 }
 
-/**
- * Marathon-style mark: four wide, shallow ∧ chevrons with gaps (not tall skinny triangles).
- * ViewBox is wide (≈3.25:1) so with `h-*` + `w-auto` it matches cap height beside `fs-18` wordmark.
- */
-function LandmarkBrandZigzagIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={cn("inline-block shrink-0 overflow-visible align-middle text-white", className)}
-      viewBox="0 0 52 16"
-      fill="currentColor"
-      xmlns="http://www.w3.org/2000/svg"
-      preserveAspectRatio="xMidYMid meet"
-      aria-hidden
-    >
-      {/* Shallow peaks (~1.3u) + clear band gaps — reads “flat” like the reference */}
-      <path d="M1 4L26 2.65L51 4z" />
-      <path d="M1 7.5L26 6.15L51 7.5z" />
-      <path d="M1 11L26 9.65L51 11z" />
-      <path d="M1 14.5L26 13.15L51 14.5z" />
-    </svg>
-  );
-}
-
 function ActiveProjectCard({
   project,
   aspectClassName,
@@ -332,7 +311,7 @@ function ActiveProjectCard({
   return (
     <div
       className={cn(
-        "relative w-full overflow-hidden rounded-sm border border-black/[0.06] bg-neutral-200 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.18)]",
+        "relative w-full overflow-hidden  border border-black/[0.06] bg-neutral-200 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.18)]",
         aspectClassName,
       )}
     >
@@ -383,18 +362,18 @@ function ActiveProjectCard({
         <p className="fs-18 fw-100 text-[#E2E2E2]">
           {project.projectLine}
         </p>
-        <p className=" n-bold fs-48 lh-50 ls-6 text-white drop-shadow-sm ">
+        <p className=" n-bold fs-48 lh-50 ls-6 text-white drop-shadow-sm mb-10 ">
           {project.projectName}
         </p>
-        <p className="mx-auto mt-2 flex max-w-2xl flex-wrap items-center justify-center gap-x-2 gap-y-1 fs-18 ls-6 fw-100 text-[#E2E2E2] sm:mt-2.5 sm:gap-x-3">
+        <p className="mx-auto mt-2 flex max-w-2xl flex-wrap items-center justify-center gap-x-2 gap-y-1 fs-16 n-bold sm:mt-2.5 sm:gap-x-3">
           <span className="min-w-0 text-pretty">{project.location.trim()}</span>
           <span
-            className="shrink-0 px-1 text-[#E2E2E2]/85 sm:px-1.5"
+            className="shrink-0 px-1 text-[#E2E2E2]/85 sm:px-1.5 fs-16 n-bold"
             aria-hidden
           >
             |
           </span>
-          <span className="min-w-0 text-pretty">{project.bhkRange}</span>
+          <span className="min-w-0 text-pretty fs-16 n-bold">{project.bhkRange}</span>
         </p>
       </div>
     </div>

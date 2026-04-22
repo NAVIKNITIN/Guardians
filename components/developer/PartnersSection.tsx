@@ -12,16 +12,15 @@ import "./partners-marquee.css";
 
 export function PartnersSection({
   content,
+  isBuyer,
 }: {
+  isBuyer: boolean;
   content: PartnersSectionContent;
 }) {
   return (
     <section
       className={cn(
-        /* Full-bleed band: escape padded marketing shell so bg + marquee reach viewport edges */
-        "relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2",
-        marketingSection("sectionPartners"),
-        "py-14 sm:py-16 lg:py-10 2xl:py-14",
+        "relative left-1/2 w-screen max-w-[100vw] -translate-x-1/2 bg-brand-background-subtle py-4 md:py-7 lg:py-12",
       )}
       aria-labelledby="partners-heading"
     >

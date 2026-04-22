@@ -19,15 +19,16 @@ const REASONS: ReasonCard[] = [
   {
     id: "culture",
     title: "Client-First Advisory Culture",
-    imageSrc: localImageByIndex(0),
+    imageSrc: "/images/partners/career/1.svg",
     imageAlt: "Advisory culture at The Guardians",
+    subtitle: "Progress is driven by skill, ownership, and performance.",
     flex: 260,
   },
   {
     id: "transactions",
     title: "Exposure to High-Value Transactions",
-    subtitle: "We work with some of the largest and most complex real estate transactions in India.",
-    imageSrc: localImageByIndex(1),
+    subtitle: "Progress is driven by skill, ownership, and performance.",
+    imageSrc: "/images/partners/career/2.svg",
     imageAlt: "High-value transactions exposure",
     flex: 260,
   },
@@ -35,7 +36,7 @@ const REASONS: ReasonCard[] = [
     id: "growth",
     title: "Professional Growth Over Hierarchy",
     subtitle: "Progress is driven by skill, ownership, and performance.",
-    imageSrc: localImageByIndex(2),
+    imageSrc: "/images/partners/career/3.svg",
     imageAlt: "Professional growth environment",
     flex: 260,
     showArrow: true,
@@ -43,7 +44,8 @@ const REASONS: ReasonCard[] = [
   {
     id: "process",
     title: "Refined, Process-Driven Environment",
-    imageSrc: localImageByIndex(3),
+    subtitle: "Progress is driven by skill, ownership, and performance.",
+    imageSrc: "/images/partners/career/4.svg",
     imageAlt: "Refined process-driven environment",
     flex: 260,
   },
@@ -57,7 +59,7 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
         /* Base flex-grow comes from --reason-grow; sm+ hover bumps it way up so */
         /* the hovered card expands while its siblings proportionally compress. */
         "grow-(--reason-grow) sm:hover:grow-900",
-        "transition-[flex-grow] duration-600 ease-[cubic-bezier(0.22,1,0.36,1)]",
+        "transition-[flex-grow] duration-1100 ease-[cubic-bezier(0.22,1,0.36,1)]",
         "will-change-[flex-grow]",
       )}
       style={{ ["--reason-grow" as string]: card.flex } as React.CSSProperties}
@@ -68,16 +70,16 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
           src={card.imageSrc}
           alt={card.imageAlt}
           fill
-          className="object-cover object-center transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
+          className="object-cover object-center transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
-        {/* Dark gradient — slightly deeper on hover to keep copy legible as it reveals */}
-        <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent transition-colors duration-500 group-hover:from-black/80 group-hover:via-black/35" />
+        {/* Light by default; transitions to dark on hover. */}
+        <div className="absolute inset-0 bg-linear-to-t to-transparent transition-colors duration-900 ease-[cubic-bezier(0.22,1,0.36,1)]" />
       </div>
 
       {/* Label content — pinned to bottom */}
       <div className="absolute inset-x-0 bottom-0 z-10 p-5">
-        <h3 className="n-reg text-xl leading-snug text-white transition-transform duration-500 ease-out group-hover:-translate-y-0.5">
+        <h3 className="n-bold text-xl leading-snug text-[#202225] transition-transform duration-850 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-0.5">
           {card.title}
         </h3>
 
@@ -85,8 +87,8 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
         {card.subtitle && (
           <p
             className={cn(
-              "mt-1 n-reg text-sm leading-normal text-white/90",
-              "transition-all duration-500 ease-out",
+              "mt-1 n-book text-sm leading-normal text-[#202225]",
+              "transition-all duration-900 ease-[cubic-bezier(0.22,1,0.36,1)]",
               "max-h-0 -translate-y-1 overflow-hidden opacity-0 group-hover:max-h-20 group-hover:translate-y-0 group-hover:opacity-100",
             )}
           >
@@ -97,8 +99,8 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
         {/* Arrow — always shown on featured card; fades in on hover for the rest */}
         <div
           className={cn(
-            "mt-3 transition-all duration-500 ease-out",
-            "translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100",
+            "mt-3 transition-all duration-900 ease-[cubic-bezier(0.22,1,0.36,1)]",
+            " translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100",
           )}
         >
           <svg
@@ -110,7 +112,7 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
           >
             <path
               d="M0 6H49M49 6L44 1M49 6L44 11"
-              stroke="#ffffff"
+              stroke="#000000"
               strokeWidth="1.8"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -125,7 +127,7 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
 export function ReasonsToJoin() {
   return (
     <section
-      className="bg-white mb-12 px-4 sm:mb-20 sm:px-6 lg:px-10"
+      className="bg-white mb-12  sm:mb-20  pt-4 md:pt-10 lg:pt-25"
       aria-labelledby="reasons-heading"
     >
       <Container>
@@ -134,8 +136,7 @@ export function ReasonsToJoin() {
           id="reasons-heading"
           className={cn(
             "text-center uppercase text-[#202225] qs-reg ls-10",
-            /* Fluid type — no fixed fs-50/lh-50 so the title scales on narrow phones */
-            "text-[clamp(1.5rem,calc(0.9rem+3vw),3.75rem)] leading-[1.15] tracking-[0.05em]",
+            "qs-reg fs-50 leading-[1.15] ls-8",
             "mb-6 sm:mb-5",
           )}
         >
@@ -145,7 +146,7 @@ export function ReasonsToJoin() {
         {/* 4-card photo row */}
         <div
           className={cn(
-            "flex flex-col gap-3 sm:h-[clamp(260px,35vw,450px)] sm:flex-row sm:gap-4",
+            "flex flex-col gap-3 sm:h-[clamp(260px,35vw,450px)] sm:flex-row sm:gap-4 mt-4 md:mt-8 lg:mt-10",
           )}
         >
           {REASONS.map((card) => (
