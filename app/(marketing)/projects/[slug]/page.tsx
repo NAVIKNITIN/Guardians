@@ -1,5 +1,6 @@
 "use client";
-
+// CHANGE: API helper import
+import { apiClient } from "@/utils/api";
 import { Container } from "@/components/common/Container";
 import { DynamicMap } from "@/components/projects/DynamicMap";
 import type { MapMarker } from "@/components/projects/DynamicMap";
@@ -7,7 +8,7 @@ import { LOCAL_IMAGES, localImageByIndex } from "@/lib/local-images";
 import Image from "next/image";
 import { cn } from "@/utils/cn";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useState } from "react";
+import { Suspense, useState, type ChangeEvent } from "react";
 
 // ---------------------------------------------------------------------------
 // Static project data (would come from CMS / API in production)
@@ -22,8 +23,7 @@ const project = {
   status: "Ongoing Project",
   title: "Lorem Ipsum\nTowers",
   rera: "P51700012556",
-  developerLogo:
-    "/images/Projects/Group 45.svg",
+  developerLogo: "/images/Projects/Group 45.svg",
   stats: [
     { label: "Area", value: "37,850", unit: "sq. ft." },
     { label: "Type", value: "1, 2 & 3 BHK", unit: "" },
@@ -49,7 +49,10 @@ const project = {
     { label: "Rooftop Lounge", imageSrc: amenityImage("Group 3176.svg") },
     { label: "Landscaped Garden", imageSrc: amenityImage("Group 3182.svg") },
     { label: "High Speed Elevators", imageSrc: amenityImage("Group 3183.svg") },
-    { label: "Latest Fire Safety System", imageSrc: amenityImage("Group 3184.svg") },
+    {
+      label: "Latest Fire Safety System",
+      imageSrc: amenityImage("Group 3184.svg"),
+    },
     {
       label: "High Speed Elevators",
       imageSrc: amenityImage("Group 3183.svg"),
@@ -129,7 +132,7 @@ const project = {
     /** Set to a watch URL to turn the play control into a link */
     videoUrl: "",
     paragraphs: [
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor sit amet, consectetur adipiscing elit."
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor sit amet, consectetur adipiscing elit.",
     ],
   },
   amenitiesBg: LOCAL_IMAGES.holding,
@@ -141,9 +144,20 @@ const project = {
 // ---------------------------------------------------------------------------
 function WalkIcon() {
   return (
-    <svg width="13" height="18" viewBox="0 0 13 18" fill="none" className="shrink-0 text-[#8F8183]">
+    <svg
+      width="13"
+      height="18"
+      viewBox="0 0 13 18"
+      fill="none"
+      className="shrink-0 text-[#8F8183]"
+    >
       <circle cx="6.5" cy="2.5" r="2.5" fill="currentColor" />
-      <path d="M6.5 6L4 14h2l1-4 1 4h2L8 6" stroke="currentColor" strokeWidth="1" fill="none" />
+      <path
+        d="M6.5 6L4 14h2l1-4 1 4h2L8 6"
+        stroke="currentColor"
+        strokeWidth="1"
+        fill="none"
+      />
       <path d="M4 9.5l-2 3M9 9.5l2 3" stroke="currentColor" strokeWidth="1" />
     </svg>
   );
@@ -151,7 +165,17 @@ function WalkIcon() {
 
 function DriveIcon() {
   return (
-    <svg width="17" height="14" viewBox="0 0 17 14" fill="none" className="shrink-0 text-[#8F8183]" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round">
+    <svg
+      width="17"
+      height="14"
+      viewBox="0 0 17 14"
+      fill="none"
+      className="shrink-0 text-[#8F8183]"
+      stroke="currentColor"
+      strokeWidth="1"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
       <path d="M2.55 7.875H5.1M0 4.375L1.7 5.25L2.78 1.915C3.003 1.226 3.114.882 3.321.627 3.504.403 3.738.229 4.003.121 4.303 0 4.655 0 5.36 0h6.279c.705 0 1.057 0 1.357.121.265.107.499.281.681.506.207.254.319.599.542 1.288L15.3 5.25 17 4.375M11.9 7.875H14.45M4.08 5.25h8.84c1.428 0 2.142 0 2.688.286.48.252.87.653 1.114 1.147C17 7.245 17 7.98 17 9.45v2.363c0 .406 0 .609-.033.778-.134.694-.661 1.237-1.335 1.375-.164.034-.361.034-.756.034h-.426c-.939 0-1.7-.784-1.7-1.75 0-.242-.19-.437-.425-.437H4.675c-.235 0-.425.195-.425.438 0 .965-.761 1.749-1.7 1.749H2.125c-.395 0-.593 0-.757-.034C.694 13.828.167 13.286.033 12.591 0 12.422 0 12.219 0 11.813V9.45C0 7.98 0 7.245.278 6.683c.244-.494.634-.895 1.114-1.147C1.938 5.25 2.652 5.25 4.08 5.25z" />
     </svg>
   );
@@ -175,7 +199,12 @@ function ArrowUpRight() {
 function ChevronDown() {
   return (
     <svg width="17" height="10" viewBox="0 0 17 10" fill="none">
-      <path d="M1 1L8.5 9L16 1" stroke="#202020" strokeWidth="1.5" strokeOpacity="0.4" />
+      <path
+        d="M1 1L8.5 9L16 1"
+        stroke="#202020"
+        strokeWidth="1.5"
+        strokeOpacity="0.4"
+      />
     </svg>
   );
 }
@@ -311,11 +340,42 @@ function AmenityItem({
 // ---------------------------------------------------------------------------
 const COMPLETED_HERO_BG = "/images/Projects/completed.svg";
 
+// CHANGE: API response type
+type BookVisitCreateResponse = {
+  success: boolean;
+  message: string;
+  data: {
+    id: number;
+    first_name: string;
+    last_name: string | null;
+    email: string;
+    phone_no: string;
+    location: string | null;
+    message: string | null;
+    cv_file_url: string | null;
+    created_at: string;
+    updated_at: string;
+  };
+};
+type FileUploadResponse = {
+  success: boolean;
+  message: string;
+  data: {
+    id: number;
+    file_url: string;
+    file_name: string;
+    file_type: string;
+    sequence_no: number | null;
+  };
+};
+
 function ProjectDetailPageContent() {
   const searchParams = useSearchParams();
   const isFromCompleted = searchParams.get("status") === "completed";
   const heroStatusLine = isFromCompleted ? "Completed Project" : project.status;
-  const buildingHeroSrc = isFromCompleted ? COMPLETED_HERO_BG : project.heroImage;
+  const buildingHeroSrc = isFromCompleted
+    ? COMPLETED_HERO_BG
+    : project.heroImage;
 
   const [form, setForm] = useState({
     firstName: "",
@@ -326,11 +386,136 @@ function ProjectDetailPageContent() {
     cv: "",
     message: "",
   });
+  const [cvFileId, setCvFileId] = useState<number | null>(null);
+  const [cvFileName, setCvFileName] = useState("");
+  const [isUploadingCv, setIsUploadingCv] = useState(false);
+
+  // CHANGE: submit state only, no UI redesign
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   function handleChange(
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>,
+    e: React.ChangeEvent<
+      HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement
+    >,
   ) {
     setForm((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+  }
+  async function handleCvUpload(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0];
+
+    if (!file) return;
+
+    const maxFileSizeInBytes = 5 * 1024 * 1024;
+    const allowedTypes = ["application/pdf"];
+
+    if (!allowedTypes.includes(file.type)) {
+      setCvFileId(null);
+      setCvFileName("");
+      event.target.value = "";
+      alert("Only PDF files are allowed.");
+      return;
+    }
+
+    if (file.size > maxFileSizeInBytes) {
+      setCvFileId(null);
+      setCvFileName("");
+      event.target.value = "";
+      alert("PDF size must be less than 5 MB.");
+      return;
+    }
+
+    try {
+      setIsUploadingCv(true);
+      setCvFileName("Uploading...");
+
+      const formData = new FormData();
+      formData.append("file", file);
+      formData.append("file_type", "CV");
+
+      const result = await apiClient.request<FileUploadResponse>(
+        "/files/upload",
+        {
+          method: "POST",
+          body: formData,
+        },
+      );
+
+      if (!result.success) {
+        throw new Error(result.message || "File upload failed.");
+      }
+
+      setCvFileId(result.data.id);
+      setCvFileName(result.data.file_name || file.name);
+    } catch (error) {
+      setCvFileId(null);
+      setCvFileName("");
+      event.target.value = "";
+      alert(error instanceof Error ? error.message : "File upload failed.");
+    } finally {
+      setIsUploadingCv(false);
+    }
+  }
+
+  // CHANGE: submit public form -> backend book-visits
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+
+    if (!form.firstName.trim()) {
+      alert("First name is required.");
+      return;
+    }
+
+    if (!form.email.trim()) {
+      alert("Email is required.");
+      return;
+    }
+
+    if (!form.phone.trim()) {
+      alert("Phone number is required.");
+      return;
+    }
+
+    try {
+      setIsSubmitting(true);
+
+      const payload = {
+        first_name: form.firstName.trim(),
+        last_name: form.lastName.trim() || null,
+        email: form.email.trim(),
+        phone_no: form.phone.trim(),
+        location: form.location || null,
+        upload_cv_file_id: cvFileId,
+        message: form.message.trim() || null,
+      };
+
+      const result = await apiClient.post<BookVisitCreateResponse>(
+        "/book-visits",
+        payload,
+      );
+
+      if (!result.success) {
+        throw new Error(result.message || "Failed to submit book visit.");
+      }
+
+      alert("Book visit submitted successfully.");
+
+      setForm({
+        firstName: "",
+        lastName: "",
+        email: "",
+        phone: "",
+        location: "",
+        cv: "",
+        message: "",
+      });
+      setCvFileId(null);
+      setCvFileName("");
+      setIsUploadingCv(false);
+    } catch (error) {
+      alert(error instanceof Error ? error.message : "Something went wrong.");
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -373,7 +558,6 @@ function ProjectDetailPageContent() {
                 className="h-auto w-[min(100%,160px)] max-w-[200px] object-contain object-center sm:w-[160px] lg:w-[218px] lg:object-right"
               />
             </div>
-
           </div>
 
           {/* Stats bar — 1 col on mobile, 2×2 from sm, 1×4 from lg */}
@@ -408,8 +592,6 @@ function ProjectDetailPageContent() {
           </div>
         </Container>
       </section>
-
-
 
       {/* ---------------------------------------------------------------- */}
       {/* BUILDING HERO IMAGE                                              */}
@@ -452,12 +634,7 @@ function ProjectDetailPageContent() {
                     key={i}
                     className="relative h-[220px] overflow-hidden bg-[#BCBDC0] sm:h-[280px] lg:h-[400px]"
                   >
-                    <Image
-                      src={img.src}
-                      alt=""
-                      fill
-                      className="object-cover"
-                    />
+                    <Image src={img.src} alt="" fill className="object-cover" />
                   </div>
                 ))}
             </div>
@@ -488,12 +665,7 @@ function ProjectDetailPageContent() {
                     key={i}
                     className="relative h-[220px] overflow-hidden bg-[#BCBDC0] sm:h-[280px] lg:h-[400px]"
                   >
-                    <Image
-                      src={img.src}
-                      alt=""
-                      fill
-                      className="object-cover"
-                    />
+                    <Image src={img.src} alt="" fill className="object-cover" />
                   </div>
                 ))}
             </div>
@@ -578,12 +750,15 @@ function ProjectDetailPageContent() {
                     isMain: true,
                   } as MapMarker,
                   // Nearby location markers
-                  ...project.locationItems.map((item) => ({
-                    lat: item.lat,
-                    lng: item.lng,
-                    label: `${item.name} — ${item.time}`,
-                    isMain: false,
-                  } as MapMarker)),
+                  ...project.locationItems.map(
+                    (item) =>
+                      ({
+                        lat: item.lat,
+                        lng: item.lng,
+                        label: `${item.name} — ${item.time}`,
+                        isMain: false,
+                      }) as MapMarker,
+                  ),
                 ]}
                 className="h-full w-full"
               />
@@ -631,8 +806,8 @@ function ProjectDetailPageContent() {
                   </h2>
                   <p className="mx-auto mt-5 max-w-[30rem] n-reg text-sm leading-relaxed text-white sm:text-base lg:mx-0">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
-                    do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-                    dolor sit amet, consectetur adipiscing elit.
+                    do eiusmod tempor incididunt ut labore et dolore magna
+                    aliqua. dolor sit amet, consectetur adipiscing elit.
                   </p>
                 </div>
 
@@ -660,7 +835,10 @@ function ProjectDetailPageContent() {
               </div>
 
               {/* Right — form card (`.book-visit-form` scopes mobile CSS so fields stay left-aligned) */}
-              <div className="book-visit-form w-full min-w-0 max-w-full bg-white px-5 py-7 text-left sm:px-8 sm:py-8 lg:w-[490px] lg:shrink-0 lg:px-10">
+              <form
+                onSubmit={handleSubmit}
+                className="book-visit-form w-full min-w-0 max-w-full bg-white px-5 py-7 text-left sm:px-8 sm:py-8 lg:w-[490px] lg:shrink-0 lg:px-10"
+              >
                 <div className="flex w-full flex-col items-stretch gap-0 text-left">
                   {/* Row 1: First / Last name */}
                   <div className="grid grid-cols-1 gap-6 pb-6 sm:grid-cols-2 sm:gap-8 n-bold lh-24 fs-14">
@@ -710,14 +888,37 @@ function ProjectDetailPageContent() {
                       onChange={handleChange}
                       options={["Mumbai", "Pune", "Delhi", "Bangalore"]}
                     />
-                    <SelectField
-                      label="Upload CV"
-                      name="cv"
-                      placeholder="Choose File"
-                      value={form.cv}
-                      onChange={handleChange}
-                      options={[]}
-                    />
+                    <div className="flex flex-col gap-1 text-left">
+                      <label className="text-left n-reg text-sm text-[#202225]">
+                        Upload CV
+                      </label>
+
+                      <div className="relative border-b border-[#8F8183] pb-1">
+                        <label className="block cursor-pointer pr-16 text-left n-reg text-sm text-[#202020]/40">
+                          {isUploadingCv
+                            ? "Uploading..."
+                            : cvFileName || "Choose File"}
+
+                          <span className="absolute right-0 top-1/2 -translate-y-1/2 text-sm font-semibold text-[#d88373]">
+                            Upload
+                          </span>
+
+                          <input
+                            type="file"
+                            accept=".pdf,application/pdf"
+                            onChange={handleCvUpload}
+                            disabled={isUploadingCv}
+                            className="hidden"
+                          />
+                        </label>
+                      </div>
+
+                      {cvFileId ? (
+                        <p className="mt-1 text-left n-reg text-xs text-[#2f7a4b]">
+                          File uploaded successfully.
+                        </p>
+                      ) : null}
+                    </div>
                   </div>
 
                   {/* Message */}
@@ -738,21 +939,22 @@ function ProjectDetailPageContent() {
                   {/* Submit */}
                   <div className="mt-8 flex justify-center">
                     <button
-                      type="button"
-                      className="inline-flex h-[52px] w-full items-center justify-center gap-4 px-8 n-reg  text-sm  uppercase tracking-[0.1em] text-white sm:h-[55px] sm:w-auto sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
+                      suppressHydrationWarning
+                      type="submit"
+                      disabled={isSubmitting}
+                      className="inline-flex h-[52px] w-full items-center justify-center gap-4 px-8 n-reg  text-sm  uppercase tracking-[0.1em] text-white sm:h-[55px] sm:w-auto sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl disabled:cursor-not-allowed disabled:opacity-70"
                       style={{
                         background:
                           "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",
                       }}
                     >
-                      Submit
+                      {isSubmitting ? "Submitting..." : "Submit"}
                       <ArrowUpRight />
                     </button>
                   </div>
                 </div>
-              </div>
+              </form>
             </div>
-
           </Container>
         </section>
       ) : null}
@@ -798,10 +1000,9 @@ function FormField({
 }: FormFieldProps) {
   return (
     <div className="flex flex-col gap-1 text-left">
-      <label className="text-left n-reg xt-sm text-[#202225]">
-        {label}
-      </label>
+      <label className="text-left n-reg xt-sm text-[#202225]">{label}</label>
       <input
+        suppressHydrationWarning
         type={type}
         name={name}
         placeholder={placeholder}
@@ -832,11 +1033,10 @@ function SelectField({
 }: SelectFieldProps) {
   return (
     <div className="flex flex-col gap-1 text-left">
-      <label className="text-left n-reg text-sm text-[#202225]">
-        {label}
-      </label>
+      <label className="text-left n-reg text-sm text-[#202225]">{label}</label>
       <div className="relative border-b border-[#8F8183] pb-1">
         <select
+          suppressHydrationWarning
           name={name}
           value={value}
           onChange={onChange}

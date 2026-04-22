@@ -76,6 +76,7 @@ type ProjectLocation = {
   state: string | null;
   country: string | null;
   address: string | null;
+  pincode: string |null;
   latitude: string | number | null;
   longitude: string | number | null;
   walking_time: string | null;
@@ -190,7 +191,7 @@ function mapProjectLocationsToSections(
       longitude: toTextValue(location.longitude),
       city: location.city ?? "",
       state: location.state ?? "",
-      pincode: "",
+      pincode: location.pincode ?? "",
       place: shouldShowPlace ? location.place_name ?? "" : "",
       walkingTime: location.walking_time ?? "",
       drivingTime: location.driving_time ?? "",
@@ -698,10 +699,8 @@ export function AddProjectWizard() {
         city: section.city.trim() || null,
         state: section.state.trim() || null,
         country: "India",
-        address:
-          [section.fullAddress.trim(), section.pincode.trim()]
-            .filter(Boolean)
-            .join(", ") || null,
+        address: section.fullAddress.trim() || null,
+        pincode: section.pincode.trim() || null,
         latitude: section.latitude.trim() || null,
         longitude: section.longitude.trim() || null,
         walking_time: section.walkingTime.trim() || null,
@@ -1094,7 +1093,7 @@ export function AddProjectWizard() {
                       Nearby Connectivity
                     </h3>
                     <p className="text-[1rem] text-[#8a94a8]">
-                      Har Add Connectivity par poora naya location block add hoga.
+                      
                     </p>
                   </div>
                 </div>

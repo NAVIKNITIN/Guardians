@@ -9,12 +9,28 @@ const queries = ["Business", "HR", "Channel Partner"] as const;
 
 /** Figma: left sub-col Facebook/Instagram, right sub-col Twitter/X & LinkedIn */
 const socialLeftCol = [
-  { label: "Facebook", href: "https://facebook.com", iconSrc: "/images/facebook.svg" },
-  { label: "Instagram", href: "https://instagram.com", iconSrc: "/images/instagram.svg" },
+  {
+    label: "Facebook",
+    href: "https://facebook.com",
+    iconSrc: "/images/facebook.svg",
+  },
+  {
+    label: "Instagram",
+    href: "https://instagram.com",
+    iconSrc: "/images/instagram.svg",
+  },
 ] as const;
 const socialRightCol = [
-  { label: "Twitter/X", href: "https://twitter.com", iconSrc: "/images/twitter.svg" },
-  { label: "LinkedIn", href: "https://linkedin.com", iconSrc: "/images/linkedIn.svg" },
+  {
+    label: "Twitter/X",
+    href: "https://twitter.com",
+    iconSrc: "/images/twitter.svg",
+  },
+  {
+    label: "LinkedIn",
+    href: "https://linkedin.com",
+    iconSrc: "/images/linkedIn.svg",
+  },
 ] as const;
 
 const quickLinkRows: { label: string; href: string }[][] = [
@@ -55,9 +71,14 @@ function QuickLinkRow({ items }: { items: { label: string; href: string }[] }) {
   return (
     <p className="flex w-full min-w-0 flex-wrap items-center justify-center gap-x-1.5 gap-y-0.5 n-book fs-14 lh-25 text-white sm:justify-start">
       {items.map((item, i) => (
-        <span key={item.href} className="inline-flex items-center gap-x-1.5 n-book fs-14 ">
+        <span
+          key={item.href}
+          className="inline-flex items-center gap-x-1.5 n-book fs-14 "
+        >
           {i > 0 && (
-            <span className="select-none" aria-hidden>·</span>
+            <span className="select-none" aria-hidden>
+              ·
+            </span>
           )}
           <Link
             href={item.href}
@@ -76,7 +97,6 @@ export function Footer() {
     <footer className="relative overflow-hidden bg-[#8F8183] text-white">
       {/* Horizontal inset + max width: shared <Container>. Vertical rhythm: outer py + grid py-4. */}
       <Container className="relative py-8 sm:py-10 lg:py-3">
-
         {/* Watermark — Guardian logo mark, bottom-left of the brand column area */}
         <div
           className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
@@ -118,7 +138,7 @@ export function Footer() {
                 alt="The Guardians Real Estate Advisory"
                 width={275}
                 height={75}
-                className=" shrink-0 object-contain object-left "
+                className="h-auto w-auto shrink-0 object-contain object-left"
                 priority={false}
               />
 
@@ -136,9 +156,7 @@ export function Footer() {
                 )}
               >
                 <span className="text-[#BCBDC0]">Lorem Ipsum Dolor? </span>
-                <span className="text-[#BCBDC0]">
-                  Let&apos;s{" "}
-                </span>
+                <span className="text-[#BCBDC0]">Let&apos;s </span>
                 <span className="n-bold text-[#F7F7F7]">Collaborate.</span>
               </h2>
 
@@ -175,7 +193,11 @@ export function Footer() {
                 <ul className={dropdownListCls}>
                   {locations.map((city) => (
                     <li key={city}>
-                      <button type="button" className={dropdownRowCls}>
+                      <button
+                        suppressHydrationWarning
+                        type="button"
+                        className={dropdownRowCls}
+                      >
                         <span>{city}</span>
                         <IconChevronDown className="h-4 w-4 shrink-0 text-white" />
                       </button>

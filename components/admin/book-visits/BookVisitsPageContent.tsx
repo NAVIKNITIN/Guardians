@@ -162,9 +162,7 @@ function formatVisitDate(value: string) {
 }
 
 function mapVisit(item: BookVisitApiItem): BookVisit {
-  const fullName = [item.first_name, item.last_name ?? ""]
-    .join(" ")
-    .trim();
+  const fullName = [item.first_name, item.last_name ?? ""].join(" ").trim();
 
   return {
     id: item.id,
@@ -213,6 +211,7 @@ function VisitCard({ visit }: { visit: BookVisit }) {
         {visit.cvFileUrl ? (
           <a
             href={visit.cvFileUrl}
+            download
             target="_blank"
             rel="noreferrer"
             className="inline-flex items-center gap-3 text-[1.05rem] font-medium text-[#5e6f8b]"
@@ -269,7 +268,9 @@ export function BookVisitsPageContent() {
         if (!isMounted) return;
 
         setErrorMessage(
-          error instanceof Error ? error.message : "Failed to load book visits.",
+          error instanceof Error
+            ? error.message
+            : "Failed to load book visits.",
         );
       } finally {
         if (isMounted) {
