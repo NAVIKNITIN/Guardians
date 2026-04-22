@@ -49,13 +49,13 @@ function SidePanel({
       <h3 className="n-reg xt-xl font-light uppercase tracking-[0.1em] text-[#161616]">
         {title}
       </h3>
-      <div className="mt-3 border-t border-black/10" />
+      <div className="mt-3   border-t border-black/10" />
       <ul className="mt-5 flex flex-col gap-[22px]">
         {items.map((item, i) => (
           <li key={i}>
             <a
               href="#"
-              className="n-reg  text-base  leading-[1.5] text-[#161616] transition-opacity hover:opacity-70 line-clamp-2"
+              className="n-bold  text-base  leading-[1.5] text-[#161616] transition-opacity hover:opacity-70 line-clamp-2"
             >
               {item}
             </a>

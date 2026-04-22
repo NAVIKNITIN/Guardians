@@ -62,8 +62,8 @@ export function StatFigure({
       className={cn(
         "tabular-nums text-brand-footer",
         compact
-          ? "n-book max-w-full wrap-break-word whitespace-normal text-left font-semibold text-[clamp(1.65rem,min(13cqw,4.2vw),2.65rem)] leading-none tracking-[-0.04em]"
-          : "n-book fw-200 tracking-[-0.03em] text-center text-[clamp(1.75rem,6.5vw,2.25rem)] whitespace-nowrap sm:whitespace-normal sm:text-4xl md:text-[clamp(2.25rem,4vw,2.85rem)] md:tracking-[-0.04em]",
+          ? "n-bold max-w-full wrap-break-word whitespace-normal text-left font-semibold text-[clamp(1.65rem,min(13cqw,4.2vw),2.65rem)] leading-none tracking-[-0.04em]"
+          : "n-book  tracking-[-0.03em] text-center text-[clamp(1.75rem,6.5vw,2.25rem)] whitespace-nowrap sm:whitespace-normal sm:text-4xl md:text-[clamp(2.25rem,4vw,2.85rem)] md:tracking-[-0.04em]",
       )}
     >
       {text}
@@ -75,12 +75,15 @@ export function DeveloperStatsSection({
   content,
   layout = "band",
   inlineColumns = 4,
+  isBuyer: _isBuyer = false,
 }: {
   content: StatsSectionContent;
   /** `band`: full stats section with surface + container (marketing pages). `inline`: grid only for embedding (e.g. About two-column). */
   layout?: "band" | "inline";
   /** When `layout` is `inline`, cap the grid at this many columns (`md` never exceeds 4). Ignored for `band`. */
   inlineColumns?: 2 | 4;
+  /** Used by audience marketing pages; reserved for future buyer/developer styling. */
+  isBuyer?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
   const isInView = useInView(ref, { once: true, margin: "0px 0px -12% 0px" });
@@ -92,11 +95,11 @@ export function DeveloperStatsSection({
     "w-full min-w-0",
     isTwoColInline
       ? "grid grid-cols-1 justify-items-stretch gap-x-8 gap-y-10 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-12 md:grid-cols-2 lg:gap-x-14 lg:gap-y-16 fs-56 "
-      : "grid grid-cols-1 gap-x-4 sm:grid-cols-2 md:grid-cols-4",
+      : "grid grid-cols-1 gap-x-4 gap-y-0 sm:grid-cols-2 md:grid-cols-4",
   );
 
   const grid = (
-    <div ref={ref} className={gridClassName}>
+    <div ref={ref} className={cn(gridClassName)}>
       {metrics.map((stat, idx) => (
         <div
           key={stat.label}
@@ -104,7 +107,7 @@ export function DeveloperStatsSection({
             "flex min-h-0 min-w-0 flex-col",
             isTwoColInline
               ? "items-start gap-3 text-left"
-              : "items-center justify-center px-4 text-center sm:px-8 md:px-6 lg:px-12",
+              : "items-center justify-center px-4 py-0 text-center sm:px-8 md:px-6 lg:px-12",
             !isTwoColInline &&
             idx > 0 &&
             "relative md:before:absolute md:before:left-0 md:before:top-1/2 md:before:h-5.5 md:before:w-px md:before:-translate-y-1/2 md:before:bg-[#8F8183] md:before:content-['']",
@@ -136,9 +139,8 @@ export function DeveloperStatsSection({
 
   return (
     <SectionSurface
-      variant="stats"
       aria-label="Key statistics"
-      className="bg-transparent !py-10"
+      className="bg-transparent !my-0 !py-0"
     >
       {grid}
     </SectionSurface>
@@ -246,7 +248,7 @@ export function AboutLeadershipSection({
     <div className="mx-auto w-full min-w-0  bg-[#F2F2F2]">
       <div className=" border-[#000000]  ">
         <div
-          className="grid gap-8 lg:grid-cols-[minmax(0,var(--leadership-image-w))_minmax(0,1fr)] lg:gap-10"
+          className="p-2 grid gap-8 lg:grid-cols-[minmax(0,var(--leadership-image-w))_minmax(0,1fr)] lg:gap-10"
           style={
             {
               "--leadership-image-w": `${LEADERSHIP_IMAGE_WIDTH}px`,
@@ -303,7 +305,7 @@ export function AboutLeadershipSection({
           </div>
 
           {/*  */}
-          <div className="flex flex-col justify-between py-2 lg:py-6">
+          <div className="flex flex-col justify-between py-2 lg:py-6 md:mr-6">
             <div className="">
               <AnimatePresence custom={direction} initial={false} mode="wait">
                 <motion.div
@@ -325,14 +327,14 @@ export function AboutLeadershipSection({
                       sizes="100px"
                     />
                     <span>
-                      <h3 className="n-bold fs-42 lg:fs-42 lh-50 lg:lh-60 pl-4">
+                      <h3 className="n-bold fs-42 lg:fs-42 lh-50 lg:lh-60 pl-4 pr-1">
                         {activeSlide.title}
                       </h3>
 
 
                     </span>
                   </div>
-                  <p className="mt-7 max-w-[560px] fs-16 lh-24 n-book fw-100 leading-8 text-[#5d5859] sm:text-[15px]">
+                  <p className="mt-7 max-w-[560px] fs-16 lh-24 n-book fw-100 leading-8 text-[#5d5859] sm:text-[15px] ">
                     {activeSlide.body}
                   </p>
 
@@ -341,7 +343,7 @@ export function AboutLeadershipSection({
               </AnimatePresence>
             </div>
 
-            <div className="mt-10 mr-10">
+            <div className="mt-10 ">
               <AnimatePresence custom={direction} initial={false} mode="wait">
                 <motion.div
                   key={`${activeSlide.id}-bottom`}

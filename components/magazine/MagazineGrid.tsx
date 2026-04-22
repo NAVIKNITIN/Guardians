@@ -53,12 +53,12 @@ export function MagazineGrid() {
 
   return (
     <section
-      className="bg-white px-3 py-12 sm:px-4 sm:py-16 lg:py-20 lg:px-8 xl:px-10"
+      className="bg-white px-3 py-12 sm:py-16 lg:py-20"
       aria-label="Magazine issues"
     >
       <Container>
         {/* 3-column grid */}
-        <div className="grid grid-cols-1 gap-x-10 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-[52px] lg:gap-y-16">
+        <div className="grid grid-cols-1 gap-x-10 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-20 lg:gap-y-16">
           {ISSUES.map((issue) => (
             <PublicationCard
               key={issue.id}
@@ -70,7 +70,7 @@ export function MagazineGrid() {
 
         {/* LOAD MORE CTA */}
         <div className="mt-12 flex justify-center px-1 sm:mt-16 lg:mt-20">
-          <PublicationLoadMoreButton>Load More</PublicationLoadMoreButton>
+          <PublicationLoadMoreButton className="px-12 py-4 fs-16 ls-10 lh-24 n-bold">View More</PublicationLoadMoreButton>
         </div>
       </Container>
 

@@ -55,23 +55,23 @@ export const StatBlock = ({
       : String(value);
 
   return (
-    <div className="flex w-full min-w-0 flex-col items-center justify-center bg-[#DADADB] px-4 py-8 text-center sm:px-6 sm:py-12">
+    <div className="flex w-full min-w-0 flex-col items-center justify-center bg-[#DADADB] px-4 py-8 text-center mt-10 md:mt-15 lg:mt-20">
       {/* Number — remove fixed fs-56/lh-24 so the clamp can actually scale on small screens */}
       <p className="n-bold text-[clamp(2rem,9vw,3.5rem)] leading-none tabular-nums text-[#8F8183] sm:text-[clamp(2.25rem,5vw,3.5rem)]">
         {formatted}
         {stat.suffix && (
-          <span className="text-[clamp(2rem,9vw,3.5rem)] sm:text-[clamp(2.25rem,5vw,3.5rem)]">
+          <span className="text-[clamp(1rem,5vw,1.75rem)]  leading-[20px]">
             {stat.suffix}
           </span>
         )}
         {stat.unit && (
-          <span className="ml-1 text-[clamp(1rem,4.5vw,2rem)] sm:text-[clamp(1.25rem,2.5vw,2rem)]">
+          <span className="ml-1 text-[clamp(0.875rem,3.5vw,1.5rem)] sm:text-[clamp(1rem,2vw,1.5rem)]">
             {stat.unit}
           </span>
         )}
       </p>
       {/* Label */}
-      <p className="mt-4 n-bold text-[0.75rem] uppercase leading-snug tracking-wide text-[#202225] sm:mt-5 sm:text-xs">
+      <p className="mt-1 n-bold text-[0.75rem] uppercase leading-snug tracking-wide text-[#202225] sm:text-xs">
         {stat.label}
       </p>
     </div>

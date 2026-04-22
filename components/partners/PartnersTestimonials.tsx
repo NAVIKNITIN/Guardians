@@ -20,7 +20,7 @@ export type PartnersTestimonial = {
 const TESTIMONIALS: PartnersTestimonial[] = [
   {
     id: "1",
-    brandLogoSrc: "/images/Developer/partners/Group 32.svg",
+    brandLogoSrc: "/images/partners/image 50.svg",
     brandLogoAlt: "Adani Realty",
     quote:
       "Lorem ipsum dolor sit amet consectetur. Aliquam vel consectetur feugiat nibh sed eget lacus sed. Turpis sit bibendum nisl egestas nunc lacinia sit gravida fringilla.",
@@ -30,7 +30,7 @@ const TESTIMONIALS: PartnersTestimonial[] = [
   },
   {
     id: "2",
-    brandLogoSrc: "/images/Developer/partners/Group 33.svg",
+    brandLogoSrc: "/images/partners/image 50.svg",
     brandLogoAlt: "Godrej Properties",
     quote:
       "Lorem ipsum dolor sit amet consectetur. Aliquam vel consectetur feugiat nibh sed eget lacus sed. Turpis sit bibendum nisl egestas nunc lacinia sit gravida fringilla.",
@@ -40,7 +40,7 @@ const TESTIMONIALS: PartnersTestimonial[] = [
   },
   {
     id: "3",
-    brandLogoSrc: "/images/Developer/partners/Group 34.svg",
+    brandLogoSrc: "/images/partners/image 50.svg",
     brandLogoAlt: "Marathon Group",
     quote:
       "Lorem ipsum dolor sit amet consectetur. Aliquam vel consectetur feugiat nibh sed eget lacus sed. Turpis sit bibendum nisl egestas nunc lacinia sit gravida fringilla.",
@@ -50,7 +50,7 @@ const TESTIMONIALS: PartnersTestimonial[] = [
   },
   {
     id: "4",
-    brandLogoSrc: "/images/Developer/partners/Group 36.svg",
+    brandLogoSrc: "/images/partners/image 50.svg",
     brandLogoAlt: "Sunteck Realty",
     quote:
       "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa quae ab illo inventore veritatis.",
@@ -60,7 +60,7 @@ const TESTIMONIALS: PartnersTestimonial[] = [
   },
   {
     id: "5",
-    brandLogoSrc: "/images/Developer/partners/Group 38.svg",
+    brandLogoSrc: "/images/partners/image 50.svg",
     brandLogoAlt: "Piramal Realty",
     quote:
       "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
@@ -70,7 +70,7 @@ const TESTIMONIALS: PartnersTestimonial[] = [
   },
   {
     id: "6",
-    brandLogoSrc: "/images/Developer/partners/Group 39.svg",
+    brandLogoSrc: "/images/partners/image 50.svg",
     brandLogoAlt: "Ashford Group",
     quote:
       "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi.",
@@ -95,16 +95,14 @@ export const TestimonialCard = ({ item }: { item: PartnersTestimonial }) => {
       {/* Top content area */}
       <div className="flex flex-1 flex-col p-6 sm:p-10 lg:p-12">
         {/* Brand logo badge */}
-        <div className="inline-flex w-fit items-center justify-center rounded-full bg-white px-4 py-2 shadow-sm">
-          <div className="relative h-8 w-18 sm:h-9 sm:w-20">
-            <Image
-              src={item.brandLogoSrc}
-              alt={item.brandLogoAlt}
-              fill
-              className="object-cover object-center"
-              sizes="80px"
-            />
-          </div>
+        <div className="flex w-fit max-w-full min-w-[170px] items-center justify-center rounded-full bg-white py-2 shadow-sm">
+          <Image
+            src={item.brandLogoSrc}
+            alt={item.brandLogoAlt}
+            width={200}
+            height={60}
+            className="w-auto h-12 object-contain object-left sm:h-12 sm:max-h-11 "
+          />
         </div>
 
         <span className="mt-8 block text-brand-text-primary sm:mt-15">
@@ -122,11 +120,11 @@ export const TestimonialCard = ({ item }: { item: PartnersTestimonial }) => {
         </p>
       </div>
 
-      {/* Dark footer bar */}
-      <div className="bg-[#161616] px-6 py-4 sm:px-10 sm:py-5 lg:px-12">
-        <p className="n-reg text-sm text-[#BCBDC0]">{item.name}</p>
-        <p className="mt-0.5 n-reg text-xs text-[#BCBDC0]">{item.role}</p>
-        <p className="mt-0.5 n-reg text-xs text-[#BCBDC0]/70">{item.location}</p>
+      {/* Dark footer bar — Figma: black bar, white type, left-aligned */}
+      <div className="bg-black px-6 py-4 sm:px-10 sm:py-5 lg:px-12">
+        <p className="n-bold text-sm text-white">{item.name}</p>
+        <p className="mt-0.5 n-reg text-sm text-white">{item.role}</p>
+        <p className="mt-0.5 n-reg text-xs text-white/80">{item.location}</p>
       </div>
     </article>
   );
@@ -148,7 +146,7 @@ export function PartnersTestimonials() {
 
   return (
     <section
-      className="border-t border-black/[0.06] bg-brand-background py-12 sm:py-20"
+      className=" bg-brand-background"
       aria-labelledby="pc-testimonials-heading"
     >
       <div className="mx-auto w-full min-w-0 max-w-7xl px-4 sm:px-6 lg:px-8">

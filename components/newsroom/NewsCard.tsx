@@ -20,7 +20,7 @@ export function NewsCard({ article }: { article: NewsArticle }) {
       </p>
 
       {/* Title */}
-      <h3 className="mt-2 line-clamp-3 n-reg text-base leading-[1.25] text-[#161616] sm:mt-3 sm:text-lg lg:text-xl">
+      <h3 className="mt-2 line-clamp-3 n-bold fs-20 lh-24 text-[#161616] sm:mt-3 sm:text-lg lg:text-xl">
         {article.title}
       </h3>
 
@@ -46,7 +46,7 @@ export function NewsCard({ article }: { article: NewsArticle }) {
       <OutlineArrowButton
         href={article.href}
         iconAlt="Read More"
-        className="mt-4 gap-4 px-6 py-2.5 text-xs sm:mt-5 sm:gap-5 sm:px-8 sm:text-sm"
+        className="mt-4 gap-4 px-6 py-2.5 fs-16 lh-24 sm:mt-5 sm:gap-5 sm:px-8 sm:text-sm"
         iconClassName="h-3 w-3 sm:h-[15px] sm:w-[15px]"
       >
         Read More

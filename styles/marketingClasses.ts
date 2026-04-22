@@ -3,15 +3,15 @@ import { cn } from "@/utils/cn";
 /** Shared marketing page surfaces & display type. */
 export const marketingClasses = {
   sectionMuted:
-    " bg-brand-background-muted py-16 sm:py-20 lg:py-24 2xl:py-28",
+    " bg-brand-background-muted ",
   section:
-    " bg-brand-background py-16 sm:py-20 lg:py-24 2xl:py-28",
+    " bg-brand-background ",
   sectionCompact:
-    " bg-brand-background py-16 sm:py-20 2xl:py-24",
+    " bg-brand-background ",
   sectionPartners:
-    " bg-brand-background-subtle py-16 sm:py-20 2xl:py-24",
+    " bg-brand-background-subtle ",
   sectionStats:
-    " bg-brand-background-muted py-14 sm:py-16 2xl:py-20",
+    " bg-brand-background-muted ",
   headingDisplay:
     "md:mt-26 qs-reg text-[clamp(1.75rem,3.5vw,3.125rem)] fs-5xl uppercase leading-tight ls-5 text-brand-text-primary mt-5 text-[#202225]",
   headingDisplayMd:

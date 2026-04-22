@@ -1,6 +1,7 @@
 "use client";
 
 import { cn } from "@/utils/cn";
+import { PublicationLoadMoreButton } from "@/components/publications/PublicationLoadMoreButton";
 import { useState } from "react";
 import Image from "next/image";
 
@@ -73,13 +74,13 @@ const CONTACT_BLOCKS: ContactBlock[] = [
 function ContactInfoBlock({ block }: { block: ContactBlock }) {
   return (
     <div className="flex flex-col items-center text-center sm:py-2 md:py-5 lg:items-stretch lg:text-left">
-      <h3 className="n-bold text-lg leading-[1.25] text-[#161616] sm:text-xl md:text-2xl lg:text-[24px] lg:leading-[34px]">
+      <h3 className="n-bold fs-20 lh-24 text-[#161616] mb-2">
         {block.title}
       </h3>
       {block.email && (
         <a
           href={`mailto:${block.email}`}
-          className="mt-2 inline-flex min-w-0 items-start gap-2 break-words n-book text-sm leading-[1.35] text-[#161616] transition-opacity hover:opacity-70 sm:items-center sm:text-base md:text-lg lg:text-[20px] lg:leading-[24px]"
+          className="n-book fs-18 flex items-center gap-2 break-words n-book text-sm leading-[1.35] text-[#161616] transition-opacity hover:opacity-70 sm:items-center sm:text-base md:text-lg lg:text-[20px] lg:leading-[24px]"
         >
           <EmailIcon />
           {block.email}
@@ -88,7 +89,7 @@ function ContactInfoBlock({ block }: { block: ContactBlock }) {
       {block.phone && (
         <a
           href={block.telHref}
-          className="inline-flex min-w-0 flex-wrap items-center gap-2 n-book text-sm leading-[1.35] text-[#161616] transition-opacity hover:opacity-70 sm:text-base md:text-lg lg:text-[20px] lg:leading-[24px]"
+          className="n-book fs-18 flex items-center gap-2 mt-1  text-sm leading-[1.35] text-[#161616] transition-opacity hover:opacity-70 sm:text-base md:text-lg lg:text-[20px] lg:leading-[24px]"
         >
           <PhoneIcon />
           {block.phone}
@@ -129,8 +130,9 @@ function RadioOption({
 
 // ─── Shared input style ───────────────────────────────────────────────────────
 
+/** Figma: panel #F2F2F2; fields one step darker for contrast */
 const inputCls =
-  "w-full border border-black/20 bg-black/5 px-3.5 py-3 n-reg  text-base text-black/60 placeholder:text-black/60 focus:outline-none focus:border-black/40 transition-colors";
+  "w-full border border-black/[0.14] bg-[#E8E8E8] px-3.5 py-3 n-reg text-base text-[#161616] placeholder:text-[#161616]/50 focus:outline-none focus:border-black/35 transition-colors";
 
 // ─── Main panel ──────────────────────────────────────────────────────────────
 
@@ -157,21 +159,25 @@ export function ContactFormPanel() {
   }
 
   return (
-    <section className="bg-[#F2F2F2] py-12 sm:py-14 lg:py-16" aria-label="Contact form">
-      <div className="mx-auto w-full max-w-[1014px] px-4 sm:px-6">
-        <div className="flex flex-col gap-12 lg:flex-row lg:gap-10 xl:gap-16">
+    <section
+      className="bg-white px-4 py-12 sm:px-6 sm:py-14 lg:py-20"
+      aria-label="Contact form"
+    >
+      {/* Figma: single #F2F2F2 card on white, generous inner padding */}
+      <div className="mt-10 mx-auto w-full max-w-[1014px] bg-[#F2F2F2] px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14">
+        <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-12 xl:gap-16">
 
           {/* ── Left: contact info ─────────────────────────────────────── */}
-          <div className="flex flex-col justify-center gap-10 lg:w-[45%] lg:flex-shrink-0">
+          <div className="flex flex-col justify-center gap-8 lg:w-[45%] lg:shrink-0 lg:gap-10">
             <header className="text-center lg:text-left">
-              <h2 className="qs-reg text-[clamp(2rem,4vw,3.125rem)]  uppercase leading-[1.05] tracking-[0.05em] text-[#202225]">
+              <h2 className="qs-reg text-[clamp(2rem,4vw,3.125rem)] uppercase leading-[1.05] tracking-[0.05em] text-[#202225]">
                 Let&apos;s connect!
               </h2>
-              <p className="mt-3 n-book text-sm leading-[1.5] text-[#161616] sm:mt-4 sm:text-base lg:text-[16px] lg:leading-[24px]">
+              <p className="mt-3 n-book text-sm  text-[#161616] sm:mt-4 ">
                 {CONNECT_INTRO}
               </p>
             </header>
-            <div className="flex flex-col gap-4">
+            <div className="flex flex-col gap-6 sm:gap-7">
               {CONTACT_BLOCKS.map((block) => (
                 <ContactInfoBlock key={block.title} block={block} />
               ))}
@@ -179,11 +185,15 @@ export function ContactFormPanel() {
           </div>
 
           {/* ── Right: enquiry form ────────────────────────────────────── */}
-          <div className="min-w-0 flex-1 sm:mt-5 md:mt-17">
-            <form onSubmit={handleSubmit} noValidate className="w-full">
+          <div className="min-w-0 flex-1 mt-4 md:mt-10 lg:mt-16 ">
+            <form
+              onSubmit={handleSubmit}
+              noValidate
+              className="w-full text-left"
+            >
               {/* User type selector — same width as fields below */}
               <div
-                className="mb-6 flex w-full flex-wrap items-center gap-x-8 gap-y-3 sm:gap-x-10"
+                className="mb-6 flex w-full flex-wrap items-center gap-x-6 gap-y-3 sm:gap-x-10"
                 role="group"
                 aria-label="I am a"
               >
@@ -212,7 +222,7 @@ export function ContactFormPanel() {
                     onChange={handleChange}
                     className={cn(
                       inputCls,
-                      "w-[min(100%,92px)] cursor-pointer appearance-none pr-7 text-black/80",
+                      "w-[min(100%,92px)] cursor-pointer appearance-none pr-7",
                     )}
                     aria-label="Country calling code"
                   >
@@ -243,7 +253,7 @@ export function ContactFormPanel() {
                   className={cn(
                     inputCls,
                     "cursor-pointer appearance-none pr-10 text-left",
-                    form.country ? "text-[#161616]" : "text-black/60",
+                    form.country ? "text-[#161616]" : "text-[#161616]/50",
                   )}
                   aria-label="Country"
                 >
@@ -271,7 +281,7 @@ export function ContactFormPanel() {
               {/* Submit */}
               <button
                 type="submit"
-                className="flex w-full items-center justify-center gap-5 py-[18px] n-reg  text-xl  uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90"
+                className="flex w-full items-center justify-center gap-5 py-[18px] n-bold fs-20 lh-24  uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90"
                 style={{
                   background:
                     "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",

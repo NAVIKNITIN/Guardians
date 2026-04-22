@@ -34,14 +34,14 @@ const leadershipSlides = [
     imageAlt: "Leadership portrait 1",
     title: "We stay ahead of the curve with strategy",
     body:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor sit amet,",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     name: "Jayesh Rathod",
     role: "Co-Founder & Director",
     imagePositionClassName: "object-center",
   },
   {
     id: "leader-2",
-    imageSrc: "/images/about/Leader2.png",
+    imageSrc: "/images/about/Leader.png",
     imageAlt: "Leadership portrait 2",
     title: "We stay ahead of the curve with strategy",
     body:
@@ -52,7 +52,7 @@ const leadershipSlides = [
   },
   {
     id: "leader-3",
-    imageSrc: "/images/about/Leader3.png",
+    imageSrc: "/images/about/Leader.png",
     imageAlt: "Leadership portrait 3",
     title: "We stay ahead of the curve with strategy",
     body:
@@ -63,7 +63,7 @@ const leadershipSlides = [
   },
   {
     id: "leader-4",
-    imageSrc: "/images/about/Leader4.png",
+    imageSrc: "/images/about/Leader.png",
     imageAlt: "Leadership portrait 4",
     title: "We stay ahead of the curve with strategy",
     body:
@@ -105,15 +105,15 @@ export default function AboutPage() {
     <div className="min-w-0 bg-white text-[#2a2626] md:mb-25">
       <section
         id="about"
-        className="border-b border-[#d8d2d2] bg-[linear-gradient(180deg,#fbfbfb_0%,#f7f5f5_50%,#efeded_100%)] lg:h-[650px]"
+        className="border-b border-[#d8d2d2] bg-[linear-gradient(180deg,#fbfbfb_0%,#f7f5f5_50%,#efeded_100%)] "
       >
-        <div className="relative h-[650px] overflow-hidden">
+        <div className="relative h-[750px] overflow-hidden">
           <Image
             src={heroImage}
             alt="The Guardians city skyline"
             // width={1600}
             // height={900}
-            className="object-stretch object-center "
+            className="object-cover object-center "
             sizes="100vw"
             fill
             priority

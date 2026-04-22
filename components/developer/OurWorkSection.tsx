@@ -12,7 +12,7 @@ import Image from "next/image";
 const slideTransition = { duration: 0.35, ease: [0.22, 1, 0.36, 1] as const };
 
 /** Figma: light neutral surface, serif “OUR WORK”, sans headline/body, black READ MORE, gray carousel. */
-export function OurWorkSection({ content }: { content: OurWorkBandContent }) {
+export function OurWorkSection({ content, isBuyer }: { content: OurWorkBandContent, isBuyer: boolean }) {
   const slides = content.slides;
   const total = slides.length;
   const { index, advance } = useCycleIndex(total, 0);
@@ -20,7 +20,7 @@ export function OurWorkSection({ content }: { content: OurWorkBandContent }) {
 
   return (
     <section
-      className="w-full bg-[#F4F4F4] pb-14 sm:py-5 lg:py-5 2xl:py-8"
+      className="w-full bg-[#F4F4F4] py-2 md:py-4 lg:py-4 xl:py-5"
       aria-labelledby="our-work-heading"
     >
       <Container className="min-w-0">
@@ -28,7 +28,7 @@ export function OurWorkSection({ content }: { content: OurWorkBandContent }) {
           <div className="flex min-w-0 flex-col">
             <h2
               id="our-work-heading"
-              className="sm:mt-3 md:mt-6 font-qasbyne qs-reg text-[clamp(2rem,4.2vw,3.25rem)] uppercase leading-[1.05] tracking-[0.02em] text-[#202225]"
+              className="sm:mt-3 md:mt-6 qs-reg text-[clamp(2rem,4.2vw,3.25rem)] uppercase leading-[1.05] tracking-[0.02em] text-[#202225]"
             >
               {content.sectionTitle}
             </h2>

@@ -1,7 +1,7 @@
 import { Container } from "@/components/common/Container";
+import { PublicationLoadMoreButton } from "@/components/publications/PublicationLoadMoreButton";
 import { localImageByIndex } from "@/lib/local-images";
 import { NewsCard, type NewsArticle } from "./NewsCard";
-import Image from "next/image";
 
 const EXCERPT =
   "Lorem ipsum dolor sit amet consectetur. Augue molestie etiam lacus velit. Eget urna sagittis faucibus mauris id lacinia sit amet volutpat.";
@@ -81,25 +81,6 @@ const ARTICLES: NewsArticle[] = [
   },
 ];
 
-/** Corner-arrow icon for the "VIEW MORE" CTA — white version */
-function ViewMoreIcon() {
-  return (
-    <svg
-      width="15"
-      height="15"
-      viewBox="0 0 15 15"
-      fill="none"
-      aria-hidden
-    >
-      <path
-        d="M0 0H14.4958V14.4958"
-        stroke="white"
-        strokeWidth="2"
-      />
-    </svg>
-  );
-}
-
 export function NewsroomGrid() {
   return (
     <section
@@ -115,24 +96,10 @@ export function NewsroomGrid() {
         </div>
 
         {/* VIEW MORE CTA */}
-        <div className="mt-10 flex justify-center px-1 sm:mt-14 lg:mt-16">
-          <button
-            type="button"
-            className="inline-flex w-full max-w-xs items-center justify-center gap-3 px-6 py-3 n-reg text-sm uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 sm:w-auto sm:max-w-none sm:gap-5 sm:px-12 sm:py-[18px] sm:text-base lg:text-lg"
-            style={{
-              background:
-                "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",
-            }}
-          >
+        <div className="mt-10 flex justify-center  sm:mt-14 lg:mt-16  ">
+          <PublicationLoadMoreButton type="button" className="h-[52px]">
             View More
-            <Image
-              src="/images/arrowwhite.svg"
-              alt="View More"
-              width={15}
-              height={15}
-              className="h-3 w-3 object-cover sm:h-[15px] sm:w-[15px]"
-            />
-          </button>
+          </PublicationLoadMoreButton>
         </div>
       </Container>
     </section>

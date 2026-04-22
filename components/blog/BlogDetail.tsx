@@ -29,11 +29,11 @@ function RecentPostsSidebar() {
   return (
     <aside className="w-full lg:w-[345px] lg:flex-shrink-0">
       <div className="bg-[#F2F2F2] px-5 py-6 sm:px-6 sm:py-7">
-        <h3 className="n-reg text-lg font-light uppercase text-[#161616] sm:text-xl">
+        <h3 className="n-reg fs-20 lh-24 uppercase text-[#161616] sm:text-xl">
           Recent posts
         </h3>
         <div className="mt-3 border-t border-black/10" />
-        <ul className="mt-4 flex flex-col gap-3 sm:mt-5">
+        <ul className="mt-4 flex flex-col gap-1 sm:mt-5">
           {RECENT_POSTS.map((title, i) => (
             <li key={i}>
               <Link
@@ -64,7 +64,7 @@ function BackArrow() {
 
 export function BlogDetail({ post }: { post: BlogDetailPost }) {
   return (
-    <article className="bg-white px-4 py-12 sm:my-10 sm:px-6 sm:py-16 md:my-25 md:px-10 md:py-20 lg:px-20 lg:py-[20px]">
+    <article className="bg-white  py-12 sm:my-10 sm:py-16 md:my-25 md:py-20  lg:py-[20px]">
       <Container>
         {/* ── Meta row: category + date ─────────────────────────────── */}
         <div className="flex items-center justify-between gap-4">
@@ -79,10 +79,9 @@ export function BlogDetail({ post }: { post: BlogDetailPost }) {
         {/* ── Title ────────────────────────────────────────────────────── */}
         <h1
           className={cn(
-            "mt-3 n-bold text-[#161616] sm:mt-4",
+            "mt-10 n-bold text-[#161616] ",
             /* Fluid type on mobile — pinned to 50px / 50px at lg+ to match the original fs-50 lh-50 */
-            "text-[clamp(1.75rem,calc(1rem+3.5vw),3.125rem)] leading-[1.1]",
-            "lg:text-[50px] lg:leading-[50px]",
+            "fs-50 lh-50",
           )}
         >
           {post.title}
@@ -106,7 +105,7 @@ export function BlogDetail({ post }: { post: BlogDetailPost }) {
         <div className="mt-8 flex flex-col gap-8 sm:mt-12 sm:gap-10 lg:flex-row">
           {/* Article body */}
           <div className="min-w-0 flex-1">
-            <div className="flex flex-col gap-0 n-book text-base leading-[1.55] text-[#161616] sm:gap-0 sm:text-lg lg:text-[20px] ">
+            <div className="flex flex-col gap-0 n-book fs-16 lh-24 text-[#161616] sm:gap-0 sm:text-lg lg:text-[20px] ">
               {post.body.map((paragraph, i) => (
                 <p key={i}>{paragraph}</p>
               ))}
