@@ -4,6 +4,8 @@ import type { ChangeEvent, FormEvent, KeyboardEvent, ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { IconPlus } from "@/components/admin/panel/AdminIcons";
 import { apiClient } from "@/utils/api";
+const hiddenScrollbarClass =
+  "[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden";
 
 type IconProps = {
   className?: string;
@@ -462,7 +464,7 @@ function AddArticleModal({
 
     if (!file) return;
 
-    const maxFileSizeInBytes = 2 * 1024 * 1024;
+    const maxFileSizeInBytes = 5 * 1024 * 1024;
     const allowedTypes = ["image/jpeg", "image/png"];
 
     if (!allowedTypes.includes(file.type)) {
@@ -476,7 +478,7 @@ function AddArticleModal({
     if (file.size > maxFileSizeInBytes) {
       setFileValue("");
       setSelectedFileName("");
-      setErrorMessage("Image size must be less than 2 MB.");
+      setErrorMessage("Image size must be less than 5 MB.");
       event.target.value = "";
       return;
     }
@@ -587,8 +589,11 @@ function AddArticleModal({
   if (!open) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#0f172a]/35 p-4 backdrop-blur-[3px]">
-      <div className="w-full max-w-[760px] rounded-[28px] bg-white p-6 shadow-[0_28px_60px_rgba(15,23,42,0.18)] sm:p-8">
+    <div
+      className={`fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-[#0f172a]/35 p-4 backdrop-blur-[3px] sm:items-center ${hiddenScrollbarClass}`}>
+      <div
+  className={`my-6 max-h-[calc(100vh-2rem)] w-full max-w-[760px] overflow-y-auto rounded-[28px] bg-white p-6 shadow-[0_28px_60px_rgba(15,23,42,0.18)] sm:p-8 ${hiddenScrollbarClass}`}>
+
         <div className="flex items-start justify-between gap-4">
           <h2 className="font-qasbyne text-[clamp(2rem,3vw,3rem)] leading-none text-[#111827]">
             {isViewMode
@@ -638,7 +643,9 @@ function AddArticleModal({
               <div className="space-y-3">
                 <label className="flex h-[58px] cursor-pointer items-center justify-between rounded-[16px] border border-[#e7ebf1] bg-[#f8f9fc] px-5 text-[1.05rem] text-[#44506a] transition hover:border-[#f09684] hover:bg-white">
                   <span>
-                    {isUploadingFile ? "Uploading..." : selectedFileName || "Upload"}
+                    {isUploadingFile
+                      ? "Uploading..."
+                      : selectedFileName || "Upload"}
                   </span>
 
                   <span className="text-sm font-semibold text-[#f07c61]">
