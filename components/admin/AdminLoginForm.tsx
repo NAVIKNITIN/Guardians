@@ -1,7 +1,8 @@
 "use client";
 
 import { IconChevronLeft } from "@/components/common/icons";
-import { apiClient } from "@/utils/api";
+import { login as loginRequest } from "@/src/api/services/authService";
+import { login as setLoggedIn } from "@/src/utils/auth";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
@@ -151,16 +152,17 @@ export function AdminLoginForm() {
             setIsSubmitting(true);
 
             // CHANGE: login request backend ko helper ke through bhej rahe hain
-            const result = await apiClient.post<LoginResponse>("/users/login", {
+            const result = (await loginRequest({
               username,
               password,
-            });
+            })) as LoginResponse;
 
             // CHANGE: backend HTTP 200 ke saath success false bhi bhej sakta hai
             if (!result.success) {
               throw new Error(result.message || "Login failed");
             }
 
+            setLoggedIn();
             // CHANGE: abhi token auth nahi hai, isliye success ke baad direct route change
             router.push("/admin/projects");
           } catch (error) {
@@ -261,7 +263,7 @@ export function AdminLoginForm() {
 
       <div className="mt-10 flex justify-center">
         <Link
-          href="/?website=1"
+          href="/"
           className="inline-flex items-center gap-2 text-[1.02rem] text-[#6b7280] transition-colors hover:text-[#414b5f]"
         >
           <IconChevronLeft className="h-4 w-4" />

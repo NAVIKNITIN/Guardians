@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IconFolderStack } from "@/components/admin/panel/AdminIcons";
-import { apiClient } from "@/utils/api";
+import { listProjects } from "@/src/api/services/projectService";
 
 type ProjectItem = {
   id: number;
@@ -42,7 +42,7 @@ export function ProjectsPageContent() {
         setIsLoading(true);
         setErrorMessage("");
 
-        const result = await apiClient.get<ProjectsListResponse>("/projects");
+        const result = (await listProjects()) as ProjectsListResponse;
 
         if (!result.success) {
           throw new Error("Failed to load projects");
@@ -93,7 +93,7 @@ export function ProjectsPageContent() {
             </Link>
 
             <Link
-              href="/?website=1"
+              href="/"
               className="inline-flex h-[58px] items-center justify-center rounded-[18px] border border-[#f09684] px-8 text-lg font-semibold text-[#f07c61] transition hover:bg-[#fff5f1]"
             >
               Back to Website

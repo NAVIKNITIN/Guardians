@@ -3,7 +3,15 @@
 import { useRouter, useSearchParams } from "next/navigation";
 import type { ChangeEvent, ReactNode } from "react";
 import { useEffect, useState } from "react";
-import { apiClient } from "@/utils/api";
+import {
+  uploadFile as uploadFileRequest,
+  uploadFilesBulk,
+} from "@/src/api/services/fileService";
+import {
+  createProject,
+  getProjectById,
+  updateProject,
+} from "@/src/api/services/projectService";
 import {
   IconCheckSeal,
   IconImageSquare,
@@ -420,9 +428,9 @@ export function AddProjectWizard() {
         setIsLoadingProject(true);
         setErrorMessage("");
 
-        const result = await apiClient.get<ProjectDetailsResponse>(
-          `/projects/${projectId}`,
-        );
+        const result = (await getProjectById(
+          projectId!,
+        )) as ProjectDetailsResponse;
 
         if (!result.success) {
           throw new Error("Failed to load project details.");
@@ -616,10 +624,9 @@ export function AddProjectWizard() {
     formData.append("file", file);
     formData.append("file_type", fileType);
 
-    const result = await apiClient.postForm<SingleFileUploadResponse>(
-      "/files/upload",
+    const result = (await uploadFileRequest(
       formData,
-    );
+    )) as SingleFileUploadResponse;
 
     if (!result.success) {
       throw new Error(`Failed to upload ${fileType.toLowerCase()} file.`);
@@ -639,10 +646,9 @@ export function AddProjectWizard() {
       formData.append("sequence_no[]", String(index + 1));
     });
 
-    const result = await apiClient.postForm<MultiFileUploadResponse>(
-      "/files/bulk-upload",
+    const result = (await uploadFilesBulk(
       formData,
-    );
+    )) as MultiFileUploadResponse;
 
     if (!result.success) {
       throw new Error("Failed to upload gallery images.");
@@ -803,12 +809,9 @@ export function AddProjectWizard() {
 
       const payload = buildProjectPayload(projectFileIds, uploadedAmenities);
 
-      const result = isEditMode
-        ? await apiClient.put<ProjectMutationResponse>(
-            `/projects/${projectId}`,
-            payload,
-          )
-        : await apiClient.post<ProjectMutationResponse>("/projects", payload);
+      const result = (isEditMode
+        ? await updateProject(projectId!, payload)
+        : await createProject(payload)) as ProjectMutationResponse;
 
       if (!result.success) {
         throw new Error(

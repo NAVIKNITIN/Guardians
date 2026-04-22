@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import { redirect } from "next/navigation";
 import { DividerSection } from "@/components/sections/DividerSection";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { StickyScrollFillSection } from "@/components/sections/StickyScrollFillSection";
@@ -8,19 +7,7 @@ export const metadata: Metadata = {
   title: { absolute: "The Guardians | Real Estate Advisory" },
 };
 
-export default async function HomePage({
-  searchParams,
-}: {
-  searchParams: Promise<{ website?: string }>;
-}) {
-  const { website } = await searchParams;
-
-  // CHANGE: root route defaults to admin login; website home is still available
-  // without creating a new file by using /?website=1.
-  if (website !== "1") {
-    redirect("/admin/login");
-  }
-
+export default function HomePage() {
   return (
     <>
       <HeroSection />

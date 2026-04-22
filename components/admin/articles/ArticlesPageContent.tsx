@@ -3,7 +3,12 @@
 import type { ChangeEvent, FormEvent, KeyboardEvent, ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { IconPlus } from "@/components/admin/panel/AdminIcons";
-import { apiClient } from "@/utils/api";
+import {
+  createArticle,
+  listArticles,
+  updateArticle,
+} from "@/src/api/services/articleService";
+import { uploadFile } from "@/src/api/services/fileService";
 const hiddenScrollbarClass =
   "[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden";
 
@@ -492,13 +497,7 @@ function AddArticleModal({
       formData.append("file", file);
       formData.append("file_type", "HERO");
 
-      const result = await apiClient.request<FileUploadResponse>(
-        "/files/upload",
-        {
-          method: "POST",
-          body: formData,
-        },
-      );
+      const result = (await uploadFile(formData)) as FileUploadResponse;
 
       if (!result.success) {
         throw new Error(result.message || "Image upload failed.");
@@ -558,13 +557,9 @@ function AddArticleModal({
         categories,
       };
 
-      const result =
-        isEditMode && initialArticle
-          ? await apiClient.put<ArticleMutationResponse>(
-              `/articles/${initialArticle.id}`,
-              payload,
-            )
-          : await apiClient.post<ArticleMutationResponse>("/articles", payload);
+      const result = (isEditMode && initialArticle
+        ? await updateArticle(initialArticle.id, payload)
+        : await createArticle(payload)) as ArticleMutationResponse;
 
       if (!result.success) {
         throw new Error(
@@ -798,9 +793,9 @@ export function ArticlesPageContent() {
           params.set("year", appliedYearFilter);
         }
 
-        const result = await apiClient.get<ArticleListResponse>(
-          `/articles?${params.toString()}`,
-        );
+        const result = (await listArticles(
+          params.toString(),
+        )) as ArticleListResponse;
 
         if (!isMounted) return;
 

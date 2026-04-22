@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { apiClient } from "@/utils/api";
+import { getAllVisits } from "@/src/api/services/visitService";
 import { IconMapPin } from "@/components/admin/panel/AdminIcons";
 
 type IconProps = {
@@ -256,9 +256,10 @@ export function BookVisitsPageContent() {
         setIsLoading(true);
         setErrorMessage("");
 
-        const result = await apiClient.get<BookVisitsResponse>(
-          `/book-visits?per_page=6&page=${currentPage}`,
-        );
+        const result = (await getAllVisits({
+          per_page: 6,
+          page: currentPage,
+        })) as BookVisitsResponse;
 
         if (!isMounted) return;
 

@@ -1,6 +1,7 @@
 "use client";
 // CHANGE: API helper import
-import { apiClient } from "@/utils/api";
+import { createVisit } from "@/src/api/services/visitService";
+import { uploadFile } from "@/src/api/services/fileService";
 import { Container } from "@/components/common/Container";
 import { DynamicMap } from "@/components/projects/DynamicMap";
 import type { MapMarker } from "@/components/projects/DynamicMap";
@@ -385,13 +386,7 @@ function ProjectDetailPageContent() {
       formData.append("file", file);
       formData.append("file_type", "CV");
 
-      const result = await apiClient.request<FileUploadResponse>(
-        "/files/upload",
-        {
-          method: "POST",
-          body: formData,
-        },
-      );
+      const result = (await uploadFile(formData)) as FileUploadResponse;
 
       if (!result.success) {
         throw new Error(result.message || "File upload failed.");
@@ -441,10 +436,7 @@ function ProjectDetailPageContent() {
         message: form.message.trim() || null,
       };
 
-      const result = await apiClient.post<BookVisitCreateResponse>(
-        "/book-visits",
-        payload,
-      );
+      const result = (await createVisit(payload)) as BookVisitCreateResponse;
 
       if (!result.success) {
         throw new Error(result.message || "Failed to submit book visit.");
