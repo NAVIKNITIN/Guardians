@@ -132,6 +132,155 @@ body {
   overflow-x: hidden;
 }
 
+/**
+ * Themed scrollbars (taupe thumb) — `overflow` strips, dialogs, and `html` (see `app/layout.tsx`).
+ * WebKit: both `width` and `height` so vertical (page) and horizontal (card strips) pick up the track.
+ */
+.scrollbar-brand {
+  scrollbar-width: thin;
+  scrollbar-gutter: stable;
+  scrollbar-color: var(--color-brand-footer) rgba(0, 0, 0, 0.06);
+}
+.scrollbar-brand::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+.scrollbar-brand::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 9999px;
+}
+.scrollbar-brand::-webkit-scrollbar-thumb {
+  background: var(--color-brand-footer);
+  border-radius: 9999px;
+}
+.scrollbar-brand::-webkit-scrollbar-thumb:hover {
+  filter: brightness(0.9);
+}
+
+/**
+ * Reusable Expanding Panels system.
+ * Apply to any wrapper + child cards:
+ * - `.expanding-container`
+ * - `.expanding-panel`
+ * - `.expanding-panel.active`
+ * - `.expanding-content`
+ */
+.expanding-container {
+  display: flex;
+  width: 100%;
+  gap: 0.5rem;
+}
+
+.expanding-panel {
+  flex: 0.5;
+  min-width: 0;
+  position: relative;
+  overflow: hidden;
+  border-radius: 0;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center;
+  transform-origin: center;
+  transition:
+    flex 1s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.expanding-panel::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  background: linear-gradient(
+    to top,
+    rgba(0, 0, 0, 0.58) 0%,
+    rgba(0, 0, 0, 0.2) 48%,
+    rgba(0, 0, 0, 0.18) 100%
+  );
+  pointer-events: none;
+}
+
+.expanding-panel.active {
+  flex: 5.2;
+}
+
+.expanding-panel:hover {
+  transform: scale(1.02);
+}
+
+.landmark-panel-left {
+  /* Show only the inner half of the left collapsed card. */
+  clip-path: inset(0 0 0 50%);
+}
+
+.landmark-rotator.landmark-rotating-right .landmark-panel-left {
+  animation: landmark-wipe-left 280ms ease both;
+}
+
+.landmark-rotator.landmark-rotating-left .landmark-panel-right {
+  animation: landmark-wipe-right 280ms ease both;
+}
+
+@keyframes landmark-wipe-left {
+  0% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(-40px) scale(0.94);
+  }
+}
+
+@keyframes landmark-wipe-right {
+  0% {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(40px) scale(0.94);
+  }
+}
+
+.expanding-content {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 3;
+  opacity: 0;
+  transform: translateY(10px);
+  transition:
+    opacity 0.5s ease,
+    transform 0.7s ease;
+}
+
+.expanding-panel.active .expanding-content {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.5s;
+}
+
+@media (max-width: 767px) {
+  .landmark-panel-left {
+    clip-path: inset(0);
+  }
+
+  .expanding-container {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .expanding-panel {
+    flex: 0 0 4.5rem;
+  }
+
+  .expanding-panel.active {
+    flex: 3.4;
+  }
+}
+
 /* Shared CTA gradient from Figma (Know More button). */
 .btn-know-more-gradient {
   background-color: #f5a696;

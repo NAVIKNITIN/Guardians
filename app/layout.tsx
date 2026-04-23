@@ -28,7 +28,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${nexaFont.variable} ${qasbyneFont.variable} ${playfairDisplay.variable} h-full scroll-smooth`}
+      className={`${nexaFont.variable} ${qasbyneFont.variable} ${playfairDisplay.variable} h-full scroll-smooth scrollbar-brand`}
     >
       <body className="min-h-full bg-brand-background text-brand-text-primary font-sans">
         <ErrorBoundary>{children}</ErrorBoundary>

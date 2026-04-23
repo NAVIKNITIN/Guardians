@@ -82,7 +82,7 @@ export function ProjectCard({
         <span
           className={cn(
             arrowIconTileClassName,
-            "pointer-events-none group-hover:bg-neutral-900 !w-[75px] !h-[55px]",
+            "pointer-events-none group-hover:brightness-90 !h-[55px] !w-[75px]",
           )}
           aria-hidden
         >

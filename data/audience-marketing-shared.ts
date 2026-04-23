@@ -56,6 +56,6 @@ export function partnersBand(
     row2: DEV_PARTNER_ROW2,
     closing: "…AND MANY MORE TO",
     ctaHref: CONTACT,
-    ctaLabel: "Know",
+    ctaLabel: "Know More",
   };
 }

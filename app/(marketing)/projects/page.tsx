@@ -363,7 +363,7 @@ function FilterSelect({
           </option>
         ))}
       </select>
-      <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-2.5 w-2.5 -translate-y-1/2 text-[#202225] sm:right-3" />
+      <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-2.5 w-2.5 -translate-y-1/2 text-brand-footer sm:right-3" />
     </label>
   );
 }
@@ -493,23 +493,23 @@ function ProjectsPageContent() {
                 aria-expanded={showFilters}
                 aria-controls="projects-filter-dropdowns"
                 className={`inline-flex cursor-pointer items-center gap-2 n-reg text-sm font-black uppercase tracking-[0.1em] sm:text-base ${showFilters
-                  ? "text-[#8F8183]  border-[#8F8183] n-bold"
-                  : "text-[#8F8183]"
+                  ? "text-brand-footer border-brand-footer n-bold"
+                  : "text-brand-footer"
                   }`}
               >
                 Filters
                 {showFilters ? (
-                  <ChevronUp className="text-[#8F8183]" />
+                  <ChevronUp className="text-brand-footer" />
                 ) : (
-                  <ChevronDown className="text-[#8F8183]" />
+                  <ChevronDown className="text-brand-footer" />
                 )}
               </button>
               <button
                 type="button"
-                className="inline-flex cursor-pointer items-center gap-2 n-reg  text-sm  uppercase tracking-[0.1em] text-[#8F8183] sm:text-base"
+                className="inline-flex cursor-pointer items-center gap-2 n-reg text-sm uppercase tracking-[0.1em] text-brand-footer sm:text-base"
               >
                 Sort By
-                <ChevronDown className="text-[#8F8183]" />
+                <ChevronDown className="text-brand-footer" />
               </button>
             </div>
 

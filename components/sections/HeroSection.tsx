@@ -8,6 +8,7 @@ const HERO_IMAGE = "/images/Home/1.png";
 export function HeroSection() {
   return (
     <section
+      id="marketing-hero"
       className={cn(
         "relative overflow-hidden bg-[#E4E4E4]",
         /* Cap height on short phones; fixed floors from sm upward */

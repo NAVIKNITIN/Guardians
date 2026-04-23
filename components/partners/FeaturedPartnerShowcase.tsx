@@ -230,7 +230,7 @@ export function FeaturedPartnerShowcase() {
         {/* ── Tab strip: scroll horizontally on small screens; equal columns on xl+ ── */}
         <div className="w-full min-w-0 max-w-full">
           <div
-            className="flex h-[100px] items-end shadow-[0_0_20px_rgba(0,0,0,0.25)] w-full min-w-0 overflow-x-auto overscroll-x-contain scroll-smooth [-webkit-overflow-scrolling:touch] [scrollbar-width:thin] xl:overflow-visible"
+            className="scrollbar-brand flex h-[100px] items-end shadow-[0_0_20px_rgba(0,0,0,0.25)] w-full min-w-0 overflow-x-auto overscroll-x-contain scroll-smooth [-webkit-overflow-scrolling:touch] xl:overflow-visible"
             role="tablist"
             aria-label="Select partner"
           >

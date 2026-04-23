@@ -45,6 +45,24 @@ export const DEV_LANDMARK_ONGOING: LandmarkProject[] = [
     bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
     imageSrc: "/images/image 44.svg",
   },
+  {
+    id: "4",
+    brand: "MARATHON",
+    projectLine: "MARATHON GROUP'S",
+    projectName: "MONTE SOUTH",
+    location: "Byculla, Mumbai, Maharashtra ",
+    bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
+    imageSrc: "/images/image 44.svg",
+  },
+  // {
+  //   id: "5",
+  //   brand: "MARATHON",
+  //   projectLine: "MARATHON GROUP'S",
+  //   projectName: "MONTE SOUTH",
+  //   location: "Byculla, Mumbai, Maharashtra ",
+  //   bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
+  //   imageSrc: "/images/image 44.svg",
+  // },
 ];
 
 export const DEV_LANDMARK_ONGOING_BUYER_MARKETING: LandmarkProject[] = [
@@ -75,6 +93,24 @@ export const DEV_LANDMARK_ONGOING_BUYER_MARKETING: LandmarkProject[] = [
     bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
     imageSrc: "/images/image 67.svg",
   },
+  {
+    id: "4",
+    brand: "MARATHON",
+    projectLine: "MARATHON GROUP'S",
+    projectName: "MONTE SOUTH",
+    location: "Byculla, Mumbai, Maharashtra ",
+    bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
+    imageSrc: "/images/image 67.svg",
+  },
+  // {
+  //   id: "5",
+  //   brand: "MARATHON",
+  //   projectLine: "MARATHON GROUP'S",
+  //   projectName: "MONTE SOUTH",
+  //   location: "Byculla, Mumbai, Maharashtra ",
+  //   bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
+  //   imageSrc: "/images/image 67.svg",
+  // },
 ];
 
 export const DEV_LANDMARK_COMPLETED: LandmarkProject[] = DEV_LANDMARK_ONGOING.map(

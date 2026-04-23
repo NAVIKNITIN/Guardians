@@ -63,12 +63,8 @@ export function AudienceServicesBand({
           <div
             className={cn(
               /* Break out of container on the right so cards touch viewport edge. */
-              "min-h-0 min-w-0 w-full flex-1 basis-0",
               "lg:mr-[calc(50%-50vw)]",
-              "overflow-x-auto scroll-smooth",
-              "[scrollbar-width:none]",
-              "[-ms-overflow-style:none]",
-              "[&::-webkit-scrollbar]:hidden",
+              marketingClasses.horizontalScroll,
             )}
           >
             {cardsStrip}

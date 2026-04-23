@@ -1,6 +1,17 @@
+import {
+  arrowIconLinkIconClassName,
+  arrowIconLinkSurfaceClassName,
+  arrowIconTileClassName,
+} from "@/components/ui/ArrowIconLink";
 import { cn } from "@/utils/cn";
 
-/** Shared marketing page surfaces & display type. */
+/**
+ * Shared marketing layout + display classes.
+ *
+ * **Project theme UI (taupe `#8f8183` / `--color-brand-footer`):**
+ * - **Arrow link tiles** — `arrowLinkTile`, `arrowLinkSurface`, `arrowLinkIcon` (source: `components/ui/ArrowIconLink.tsx`).
+ * - **Scrollbars (page + overflow strips)** — `horizontalScroll` and root `<html class="scrollbar-brand">` in `app/layout.tsx` (see `app/globals.css`).
+ */
 export const marketingClasses = {
   sectionMuted:
     " bg-brand-background-muted ",
@@ -26,6 +37,16 @@ export const marketingClasses = {
   /** Same scale as `pageGutter` but left edge only — pair with full-bleed content on the right. */
   pageGutterLeft:
     "pl-5 pr-0 xs:pl-6 xs:pr-0 sm:pl-8 sm:pr-0 md:pl-10 md:pr-0 tablet:pl-12 tablet:pr-0 lg:pl-16 lg:pr-0 xl:pl-24 xl:pr-0 2xl:pl-32 2xl:pr-0 xxl:pl-44 xxl:pr-0 xxxl:pl-52 xxxl:pr-0 3xl:pl-56 3xl:pr-0",
+  /** Full-bleed horizontal strips — taupe thumb via `.scrollbar-brand` in `globals.css` (see `/projects` filter styling). */
+  horizontalScroll:
+    "overflow-x-auto scroll-smooth overscroll-x-contain [-webkit-overflow-scrolling:touch] scrollbar-brand",
+
+  /** Square taupe tile (base) — pair with `group-hover:brightness-90` inside a card `Link` if needed. */
+  arrowLinkTile: arrowIconTileClassName,
+  /** Tile + hover + focus ring — default for standalone `ArrowIconLink`. */
+  arrowLinkSurface: arrowIconLinkSurfaceClassName,
+  /** Arrow glyph size inside the tile. */
+  arrowLinkIcon: arrowIconLinkIconClassName,
 } as const;
 
 export function marketingSection(
