@@ -25,11 +25,11 @@ export function MarketingEnquireLink({
   ...props
 }: MarketingEnquireLinkProps) {
   const arrow = (
-    <IconArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+    <IconArrowUpRight className="cta-icon-hover h-4 w-4" />
   );
 
   return (
-    <Link {...props} className={cn(heroEnquireCtaClassName, "group", className)}>
+    <Link {...props} className={cn(heroEnquireCtaClassName, "group cta-hover-trigger", className)}>
       {children}
       {arrow}
     </Link>

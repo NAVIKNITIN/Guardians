@@ -307,6 +307,36 @@ body {
   );
 }
 
+@keyframes cta-icon-hover-shift {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  45% {
+    transform: translate3d(4px, -4px, 0);
+  }
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+.cta-icon-hover {
+  will-change: transform;
+}
+
+.cta-hover-trigger:hover .cta-icon-hover,
+.cta-hover-trigger:focus-visible .cta-icon-hover {
+  animation: cta-icon-hover-shift 1s ease;
+}
+
+.marketing-first-section-height {
+  height: clamp(560px, 45vw, 1250px);
+}
+
+/* Full-bleed hero images: prefer showing the top (sky, headline art) over vertical center-crop. */
+.marketing-first-section-height :is(img, video) {
+  object-position: top center !important;
+}
+
 /* Font size: 8px–100px */
 .fs-8 {
   font-size: 8px;

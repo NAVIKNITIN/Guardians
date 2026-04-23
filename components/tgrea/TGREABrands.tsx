@@ -63,9 +63,9 @@ function BrandRow({ reverse, href }: BrandRowProps) {
       <p className="max-w-[488px] n-reg text-[clamp(0.875rem,3vw,1rem)] leading-[1.5] text-[#161616] sm:mt-10 sm:text-base md:mt-12">
         {DESCRIPTION}
       </p>
-      <Link href={href} className={readMoreClassName} style={readMoreStyle}>
+      <Link href={href} className={cn(readMoreClassName, "group cta-hover-trigger")} style={readMoreStyle}>
         Read more
-        <ArrowUpRight />
+        <Image src="/images/arrowwhite.svg" alt="Arrow" width={15} height={15} className="cta-icon-hover object-cover" />
       </Link>
     </div>
   );

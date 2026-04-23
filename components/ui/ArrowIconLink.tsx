@@ -13,10 +13,10 @@ export const arrowIconTileClassName =
 /** Full `ArrowIconLink` surface: tile + hover + focus ring. */
 export const arrowIconLinkSurfaceClassName = cn(
   arrowIconTileClassName,
-  "hover:brightness-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-footer",
+  "group cta-hover-trigger hover:brightness-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-footer",
 );
 
-export const arrowIconLinkIconClassName = "h-6 w-6 sm:h-5 sm:w-5";
+export const arrowIconLinkIconClassName = "cta-icon-hover h-6 w-6 sm:h-5 sm:w-5";
 
 export type ArrowIconLinkProps = Omit<
   ComponentProps<typeof Link>,

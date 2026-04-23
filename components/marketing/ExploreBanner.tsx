@@ -48,9 +48,9 @@ export function ExploreBanner({ content, isBuyer }: { content: MarketingBannerCo
               {content.headline}
             </h2>
             <div>
-              <Link href={content.ctaHref} className={cn(heroEnquireCtaClassName, "h-[55px] w-[243.5px]")}>
+              <Link href={content.ctaHref} className={cn(heroEnquireCtaClassName, "group cta-hover-trigger h-[55px] w-[243.5px]")}>
                 {content.ctaLabel}
-                <IconArrowUpRight className="h-4 w-4 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                <IconArrowUpRight className="cta-icon-hover h-4 w-4" />
               </Link>
             </div>
           </div>

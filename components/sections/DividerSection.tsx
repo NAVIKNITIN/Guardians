@@ -106,9 +106,9 @@ function BuyerProfileCard({
             </h3>
           </div>
 
-          <Link href="/buyer" className={cn(dividerCardCtaClassName, "w-fit shrink-0")}>
+          <Link href="/buyer" className={cn(dividerCardCtaClassName, "group cta-hover-trigger w-fit shrink-0")}>
             Know More
-            <IconArrowUpRight className="h-[13px] w-[13px] shrink-0" />
+            <IconArrowUpRight className="cta-icon-hover h-[13px] w-[13px] shrink-0" />
           </Link>
         </div>
 
@@ -188,9 +188,9 @@ function DeveloperProfileCard({
             </h3>
           </div>
 
-          <Link href="/developer" className={cn(dividerCardCtaClassName, "w-fit shrink-0 self-end")}>
+          <Link href="/developer" className={cn(dividerCardCtaClassName, "group cta-hover-trigger w-fit shrink-0 self-end")}>
             Know More
-            <IconArrowUpRight className="h-[13px] w-[13px] shrink-0" />
+            <IconArrowUpRight className="cta-icon-hover h-[13px] w-[13px] shrink-0" />
           </Link>
         </div>
 

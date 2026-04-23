@@ -134,14 +134,14 @@ function JobCard({ job }: { job: JobListing }) {
       <Link
         href="/contact"
         className={cn(
-          "inline-flex w-fit shrink-0 items-center gap-2",
+          "group cta-hover-trigger inline-flex w-fit shrink-0 items-center gap-2",
           "border border-[#202225] px-5 py-2.5 n-reg  text-xs  uppercase tracking-[0.15em] text-[#202225]",
           "transition-all hover:bg-[#202225] hover:text-white",
           "sm:opacity-0 sm:transition-opacity sm:group-hover:opacity-100",
         )}
       >
         Apply Now
-        <IconArrowUpRight className="h-3.5 w-3.5" />
+        <IconArrowUpRight className="cta-icon-hover h-3.5 w-3.5" />
       </Link>
     </div>
   );
