@@ -1,11 +1,10 @@
 "use client";
 
 import { Container } from "@/components/common/Container";
-import { IconArrowUpRight } from "@/components/common/icons";
+import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import { cn } from "@/utils/cn";
 import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
 import { useEffect, useRef } from "react";
 import { clamp as clamp01, subscribeToScroll } from "@/utils/scroll";
 export const DIVIDER_BANNER_SRC = "/images/Home/Banner1.svg";
@@ -32,11 +31,9 @@ const FIGMA_CARD_SIZE = "w-full min-w-0 lg:max-h-[350px]";
  * Row: Buyer | Developer fill the grid (full container width); 20px gap. Banner overlay gap-0.
  */
 
-/* Figma: transparent fill, black border, charcoal label; "Know More" sentence case. */
-const dividerCardCtaClassName = cn(
-  "inline-flex items-center justify-center gap-2.5 rounded-none border border-[#202225] bg-transparent px-5 py-[15px]",
-  "n-bold text-[14px] leading-[22px] tracking-normal text-[#000000] lg:text-[18px]",
-  "transition-colors duration-300 hover:bg-black/5 h-[43px]",
+const dividerKnowMoreButtonClassName = cn(
+  "h-[43px] w-fit shrink-0 gap-2.5 rounded-none border border-[#202225] px-5 py-[15px]",
+  "normal-case text-[14px] leading-[22px] tracking-normal text-[#000000] n-bold lg:text-[18px]",
 );
 
 // --- Fixed Profile Cards with 100% Height ---
@@ -52,7 +49,7 @@ function BuyerProfileCard({
     <article
       id={articleId}
       className={cn(
-        "group relative flex h-full min-h-0 flex-col overflow-hidden",
+        "relative flex h-full min-h-0 flex-col overflow-hidden",
         FIGMA_CARD_SIZE,
         FIGMA_CARD_BG,
         className,
@@ -106,10 +103,14 @@ function BuyerProfileCard({
             </h3>
           </div>
 
-          <Link href="/buyer" className={cn(dividerCardCtaClassName, "group cta-hover-trigger w-fit shrink-0")}>
+          <OutlineArrowButton
+            href="/buyer"
+            className={dividerKnowMoreButtonClassName}
+            iconClassName="h-[13px] w-[13px]"
+            iconAlt=""
+          >
             Know More
-            <IconArrowUpRight className="cta-icon-hover h-[13px] w-[13px] shrink-0" />
-          </Link>
+          </OutlineArrowButton>
         </div>
 
         {/* Image column — 50% on desktop, right side */}
@@ -134,7 +135,7 @@ function DeveloperProfileCard({
     <article
       id={articleId}
       className={cn(
-        "group relative flex h-full min-h-0 flex-col overflow-hidden",
+        "relative flex h-full min-h-0 flex-col overflow-hidden",
         FIGMA_CARD_SIZE,
         FIGMA_CARD_BG,
         className,
@@ -188,10 +189,14 @@ function DeveloperProfileCard({
             </h3>
           </div>
 
-          <Link href="/developer" className={cn(dividerCardCtaClassName, "group cta-hover-trigger w-fit shrink-0 self-end")}>
+          <OutlineArrowButton
+            href="/developer"
+            className={cn(dividerKnowMoreButtonClassName, "self-end")}
+            iconClassName="h-[13px] w-[13px]"
+            iconAlt=""
+          >
             Know More
-            <IconArrowUpRight className="cta-icon-hover h-[13px] w-[13px] shrink-0" />
-          </Link>
+          </OutlineArrowButton>
         </div>
 
         {/* Image column — 50% on desktop, left side */}

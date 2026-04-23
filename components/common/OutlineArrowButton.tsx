@@ -25,7 +25,8 @@ type ButtonVariantProps = CommonProps &
 export type OutlineArrowButtonProps = LinkVariantProps | ButtonVariantProps;
 
 const baseClassName = cn(
-  "group cta-hover-trigger flex items-center justify-center gap-5",
+  /* Named group so nested `group` on cards does not trigger arrow styles on card hover */
+  "group/outline cta-hover-trigger flex items-center justify-center gap-5",
   "border border-black/30 px-12 py-2.5",
   "n-bold text-base uppercase tracking-[0.1em] text-[#202225]",
   "transition-colors hover:border-[#202225] hover:bg-[#202225] hover:text-white",
@@ -45,7 +46,7 @@ function ArrowIcon({
       width={15}
       height={15}
       className={cn(
-        "cta-icon-hover object-cover transition-[filter] duration-300 group-hover:invert",
+        "cta-icon-hover object-cover transition-[filter] duration-300 group-hover/outline:invert",
         className,
       )}
       aria-hidden={alt === ""}
