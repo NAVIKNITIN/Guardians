@@ -164,7 +164,7 @@ export function ContactFormPanel() {
       aria-label="Contact form"
     >
       {/* Figma: single #F2F2F2 card on white, generous inner padding */}
-      <div className="mt-10 mx-auto w-full max-w-[1014px] bg-[#F2F2F2] px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14">
+      <div className="mt-5 mx-auto w-full max-w-[1014px] bg-[#F2F2F2] px-5 py-10 sm:px-8 sm:py-12 lg:px-10 lg:py-14">
         <div className="flex flex-col gap-10 lg:flex-row lg:items-start lg:gap-12 xl:gap-16">
 
           {/* ── Left: contact info ─────────────────────────────────────── */}

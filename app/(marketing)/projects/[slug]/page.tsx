@@ -241,7 +241,7 @@ function CaseStudySection({
           src={LOCAL_IMAGES.img17}
           alt=""
           fill
-          className="object-cover object-center"
+          className=""
           sizes="(min-width: 1024px) 50vw, 100vw"
         />
       </div>
@@ -468,7 +468,7 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* HERO — project header                                            */}
       {/* ---------------------------------------------------------------- */}
-      <section className="relative overflow-hidden bg-white pt-8 pb-2 sm:pt-10 md:pt-20 lg:pt-[150px]">
+      <section className="relative overflow-hidden bg-white pt-8 pb-2 sm:pt-10 md:pt-20 lg:pt-[80px]">
         <Container className="min-w-0 pb-0">
           <div className="relative flex min-h-0 flex-col items-centertext-center lg:min-h-[min(12rem,1fr)] lg:flex-row lg:items-start lg:justify-between  gap-4  lg:gap-4 lg:text-left">
             {/* Left — title block */}
@@ -544,7 +544,7 @@ function ProjectDetailPageContent() {
           src={buildingHeroSrc}
           alt="Lorem Ipsum Towers"
           fill
-          className="object-cover object-center"
+          className=""
           priority
           unoptimized={isFromCompleted}
         />
@@ -593,7 +593,7 @@ function ProjectDetailPageContent() {
                     src={img.src}
                     alt=""
                     fill
-                    className="object-cover object-center"
+                    className=""
                   />
                 </div>
               ))}
@@ -733,7 +733,7 @@ function ProjectDetailPageContent() {
             src={project.bookVisitBg}
             alt=""
             fill
-            className="object-cover object-center"
+            className=""
             sizes="100vw"
           />
           <div className="absolute inset-0 bg-[#202225]/50" />

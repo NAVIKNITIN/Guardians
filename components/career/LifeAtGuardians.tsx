@@ -44,7 +44,7 @@ export function LifeAtGuardians() {
             src={LOCAL_IMAGES.workWithUs}
             alt="Life at The Guardians — team at work"
             fill
-            className="object-cover object-center"
+            className=""
             sizes="(max-width: 1280px) 100vw, 1196px"
           />
         </div>

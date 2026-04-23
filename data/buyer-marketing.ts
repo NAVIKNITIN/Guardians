@@ -1,4 +1,5 @@
 import { CONTACT } from "./audience-marketing-shared";
+import { getAudienceHero } from "@/utils/marketing-hero";
 import type { LandmarkProject, MarketingPageContent } from "./audience-marketing-types";
 import { DEV_LANDMARK_COMPLETED, DEVELOPER_MARKETING_PAGE } from "./developer-marketing";
 
@@ -81,12 +82,7 @@ export const BUYER_LANDMARK_COMPLETED_BUYER_MARKETING: LandmarkProject[] = BUYER
 export const BUYER_MARKETING_PAGE = {
   ...DEVELOPER_MARKETING_PAGE,
   ourWork: undefined,
-  hero: {
-    ...DEVELOPER_MARKETING_PAGE.hero,
-    isBuyer: true,
-    backgroundImageSrc: "/images/Buyer/hero.svg",
-    ariaHeadingId: "buyer-hero-heading",
-  },
+  hero: getAudienceHero("buyer"),
   testimonials: undefined,
   banner: {
     headline: "Lorem ipsum dolor sit amet, consectetur",

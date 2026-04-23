@@ -1,12 +1,17 @@
-import { LOCAL_IMAGES } from "@/lib/local-images";
-import { PublicationHero } from "@/components/publications/PublicationHero";
+import { MarketingPageHero } from "@/components/marketing/MarketingPageHero";
+import type { ComponentProps } from "react";
 
-export function GazetteHero() {
-  return (
-    <PublicationHero
-      title="Gazette"
-      headingId="gazette-hero-heading"
-      imageSrc={LOCAL_IMAGES.gazette}
-    />
-  );
+/** Props forwarded to `MarketingPageHero` — `gazette` data comes from `utils/static.json` → `marketingHeroes.gazette`. */
+type GazetteHeroProps = Omit<ComponentProps<typeof MarketingPageHero>, "heroId" | "projectsStage">;
+
+const defaultProps: Partial<GazetteHeroProps> = {
+  heightPx: 600,
+  shiftExtraContentTopPx: 0,
+  shiftUnderHeader: true,
+  shiftTillSearch: true,
+  negativePadding: true,
+};
+
+export function GazetteHero(props: GazetteHeroProps) {
+  return <MarketingPageHero heroId="gazette" {...defaultProps} {...props} negativePadding={50} />;
 }

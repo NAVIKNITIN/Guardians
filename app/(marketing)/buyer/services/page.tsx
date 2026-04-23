@@ -11,13 +11,7 @@ export const metadata: Metadata = {
 export default function BuyerServicesPage() {
   return (
     <>
-      <ServicesHero
-        title="Buyer's Services"
-        imageSrc="/images/Buyer/services/hero.svg"
-        headingId="buyer-services-heading"
-        ariaLabelledBy="buyer-services-heading"
-        titleClassName="max-w-[min(100%,20ch)]"
-      />
+      <ServicesHero audience="buyer" />
       <ServicesGrid ariaLabel="Buyer services" />
     </>
   );

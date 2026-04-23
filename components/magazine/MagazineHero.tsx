@@ -1,12 +1,5 @@
-import { LOCAL_IMAGES } from "@/lib/local-images";
-import { PublicationHero } from "@/components/publications/PublicationHero";
+import { MarketingPageHero } from "@/components/marketing/MarketingPageHero";
 
 export function MagazineHero() {
-  return (
-    <PublicationHero
-      title="Magazine"
-      headingId="magazine-hero-heading"
-      imageSrc={LOCAL_IMAGES.magazine}
-    />
-  );
+  return <MarketingPageHero heroId="magazine" heightPx={500} shiftExtraContentTopPx={0} shiftUnderHeader={true} shiftTillSearch={false} negativePadding={50} />;
 }

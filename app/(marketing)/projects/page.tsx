@@ -2,6 +2,7 @@
 
 import { Container } from "@/components/common/Container";
 import { GradientCtaButton } from "@/components/common/GradientCtaButton";
+import { MarketingPageHero } from "@/components/marketing/MarketingPageHero";
 import { ProjectCard } from "@/components/projects/ProjectCard";
 import { LOCAL_IMAGES } from "@/lib/local-images";
 import Image from "next/image";
@@ -443,41 +444,16 @@ function ProjectsPageContent() {
     setShowFilters(true);
   }
 
-  const heroBackgroundSrc =
-    filterStage === "Completed"
-      ? "/images/Projects/completed.svg"
-      : "/images/Projects/ongoing/bg-hero.svg";
-
   return (
     <main>
-      {/* ------------------------------------------------------------------ */}
-      {/* HERO — combined projects landing                                    */}
-      {/* ------------------------------------------------------------------ */}
-      <section
-        className="relative isolate md:flex min-h-[min(20rem,50svh)] h-[min(62svh,36rem)] flex-col overflow-hidden sm:min-h-[380px] sm:h-[620px] lg:h-[800px] lg:min-h-0 lg:pt-[90px]"
-      >
-        <Image
-          src={heroBackgroundSrc}
-          alt=""
-          fill
-          priority
-          unoptimized
-          className="object-cover object-center"
-          sizes="100vw"
-        />
-
-        <div className="relative z-[1] flex w-full min-w-0 flex-1 flex-col items-center justify-center gap-2 px-4 pb-8 pt-8 text-center sm:justify-start sm:gap-2 sm:px-8 sm:py-14 sm:pb-14 md:px-10">
-          <h1
-            className=" whitespace-nowrap text-[clamp(1.1rem,calc(0.65rem+3.8vw),3.75rem)] uppercase leading-[1.12] tracking-[0.06em] text-[#0a0a0a] sm:tracking-[0.07em] lg:text-[clamp(2.75rem,5vw,4rem)] qs-reg fs-70"
-          >
-            {filterStage} Projects
-          </h1>
-          <p className="mt-1 max-w-3xl px-1 n-book fs-18 lh-22 text-black leading-relaxed text-[#000000] sm:mt-0 sm:text-lg lg:text-base">
-            We are one of the fastest growing Real Estate consulting company in
-            India.
-          </p>
-        </div>
-      </section>
+      <MarketingPageHero
+        heroId="projects"
+        projectsStage={filterStage as "Ongoing" | "Completed"}
+        heightPx={650}
+        shiftUnderHeader={false}
+        shiftTillSearch={false}
+        shiftExtraContentTopPx={70}
+      />
 
       {/* ------------------------------------------------------------------ */}
       {/* FILTER BAR                                                          */}

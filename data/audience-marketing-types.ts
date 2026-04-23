@@ -69,6 +69,12 @@ export type MarketingHeroContent = {
   headingLead?: string;
   /** Light accent segment — overrides default from `isBuyer` */
   headingAccent?: string;
+  /**
+   * With shift-under-header layout, extra top padding (px) after the header offset.
+   * Omit for default (32 in `MarketingAudienceHero`); set `0` to disable. Overridable
+   * per usage via the `shiftExtraContentTopPx` prop on `AudienceHero`.
+   */
+  shiftExtraContentTopPx?: number;
 };
 
 export type ServicesBandContent = {

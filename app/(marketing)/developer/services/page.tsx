@@ -11,12 +11,7 @@ export const metadata: Metadata = {
 export default function DeveloperServicesPage() {
   return (
     <>
-      <ServicesHero
-        title="Developer's Services"
-        imageSrc="/images/Developer/services/hero.svg"
-        headingId="dev-services-heading"
-        ariaLabelledBy="dev-services-heading"
-      />
+      <ServicesHero audience="developer" />
       <ServicesGrid ariaLabel="Developer services" />
     </>
   );

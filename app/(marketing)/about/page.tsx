@@ -8,6 +8,7 @@ import {
 
 import { AboutStatsGrid } from "@/components/about/AboutStatsGrid";
 import { GradientCtaButton } from "@/components/common/GradientCtaButton";
+import { MarketingPageHero } from "@/components/marketing/MarketingPageHero";
 import Image from "next/image";
 import type { Metadata } from "next";
 
@@ -107,29 +108,7 @@ export default function AboutPage() {
         id="about"
         className="border-b border-[#d8d2d2] bg-[linear-gradient(180deg,#fbfbfb_0%,#f7f5f5_50%,#efeded_100%)] "
       >
-        <div className="relative h-[750px] overflow-hidden">
-          <Image
-            src={heroImage}
-            alt="The Guardians city skyline"
-            // width={1600}
-            // height={900}
-            className="object-cover object-center "
-            sizes="100vw"
-            fill
-            priority
-          />
-          <div className="absolute inset-x-0 top-[6%] text-center sm:top-[7%] lg:top-[7.5%] lg:pt-25">
-            <Container className="min-w-0">
-              <h1 className="break-words px-1 qs-reg fs-70 uppercase leading-[0.94] tracking-[0.02em]">
-
-                <span className="ml-2 inline-block sm:ml-3 sm:inline text-[#202225]"><span className="text-[#8F8183]">Who</span> We Are?</span>
-              </h1>
-              <p className="mx-auto mt-4 max-w-[min(1180px,100%)] text-[15px] leading-[1.15] text-[#000000] fs-18 lh-22 n-book">
-                We are one of the fastest growing Real Estate consulting company in India.
-              </p>
-            </Container>
-          </div>
-        </div>
+        <MarketingPageHero heroId="about" heightPx={650} shiftUnderHeader={true} shiftTillSearch={false} shiftExtraContentTopPx={60} />
       </section>
 
       <section className="mt-10 py-14 sm:py-16 lg:py-10">

@@ -76,7 +76,7 @@ function BrandRow({ reverse, href }: BrandRowProps) {
         src={BRAND_PHOTO}
         alt="Construction site at sunset"
         fill
-        className="object-cover object-center"
+        className=""
         sizes="(max-width: 1024px) 100vw, 50vw"
       />
     </div>

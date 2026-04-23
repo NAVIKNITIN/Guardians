@@ -24,7 +24,7 @@ export function AdminLoginPage() {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-center"
+          className=""
         />
 
         <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(246,241,239,0.52)_0%,rgba(246,241,239,0.34)_26%,rgba(246,241,239,0.18)_52%,rgba(246,241,239,0.26)_100%)]" />

@@ -1,4 +1,5 @@
 import { LOCAL_IMAGES, localImageByIndex } from "@/lib/local-images";
+import { getAudienceHero } from "@/utils/marketing-hero";
 import type {
   AwardSlide,
   DeveloperStat,
@@ -7,7 +8,6 @@ import type {
 } from "./audience-marketing-types";
 import {
   CONTACT,
-  DEFAULT_HERO_CTA,
   DEFAULT_KNOW_MORE,
   DEFAULT_READ_MORE,
   DEFAULT_VIEW_MORE,
@@ -148,13 +148,7 @@ const DEV_AWARD_SLIDES: AwardSlide[] = Array.from({ length: 25 }, (_, i) => ({
 }));
 
 export const DEVELOPER_MARKETING_PAGE = {
-  hero: {
-    isBuyer: false,
-    backgroundImageSrc: "/images/Mask group.svg",
-    body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    ...DEFAULT_HERO_CTA,
-    ariaHeadingId: "developer-hero-heading",
-  },
+  hero: getAudienceHero("developer"),
   services: {
     sectionTitle: "Our services",
     description:

@@ -39,7 +39,6 @@ export function LandmarkProjectsSection({
     () => (tab === "ongoing" ? content.ongoing : content.completed),
     [tab, content],
   );
-  console.log(projects);
   return (
     <Container gutter="left" aria-labelledby="landmark-heading" className="my-0">
       <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between sm:gap-6">

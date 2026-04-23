@@ -124,8 +124,9 @@ export function Navbar() {
       {/*
         Search bar sits in normal document flow (not sticky) so it scrolls away;
         the main bar below is sticky and pins to the top while scrolling.
+        z-[200] above the sticky header (z-50) and in-nav dropdowns so the bar stays on top if layers overlap.
       */}
-      <div className="w-full bg-[#8F8183] text-white/95">
+      <div className="relative z-[200] w-full bg-[#8F8183] text-white/95">
         <Container className="flex h-[48px] items-center justify-end">
           <form
             role="search"
@@ -191,10 +192,13 @@ export function Navbar() {
         </Container>
       </div>
 
-      <header className="sticky top-0 z-50 w-full border-b border-white/25 bg-[#e0e0e1]">
-        {/* Previous header shell (little transparent + blur) — was:
-            sticky top-0 z-50 w-full border-b border-white/25 bg-[#BCBDC0]/30 backdrop-blur-[9px] */}
-        {/* Previous inner row when shell used glass: border-t/white/30 border-b/white/10 bg-transparent */}
+      {/* Figma: fill #BCBDC0 @ 30%, background blur 18px */}
+      <header
+        className={cn(
+          "sticky top-0 z-50 w-full border-b border-white/25 bg-[#BCBDC0]",
+          "bg-[#BCBDC0]/30 backdrop-blur-[18px] [-webkit-backdrop-filter:blur(9px)]",
+        )}
+      >
         <div className="border-t border-t-white/30 border-b border-b-white/10">
           <Container className="relative">
             {/* Mobile: centered logo, menu control on the right */}
@@ -246,7 +250,7 @@ export function Navbar() {
             </div>
 
             {/* Desktop: left nav | centered logo | right nav */}
-            <div className="hidden h-[89px] items-stretch py-2.5  lg:py-3 xl:flex">
+            <div className="hidden h-[89px] items-stretch py-2.5 lg:py-3 xl:flex">
               <nav
                 className="flex min-w-0 flex-1 items-center justify-end gap-4 pr-5 lg:gap-8 lg:pr-7"
                 aria-label="Primary left"

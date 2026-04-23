@@ -111,7 +111,7 @@ const BookPageFront = memo(function BookPageFront({ slide }: { slide: AwardSlide
           src={slide.imageSrc}
           alt=""
           fill
-          className="object-cover object-center"
+          className=""
           sizes="(max-width: 1024px) min(100vw, 385px), 385px"
         />
       </div>

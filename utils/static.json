@@ -1,0 +1,126 @@
+{
+  "marketingHeroes": {
+    "home": {
+      "variant": "home",
+      "sectionId": "marketing-hero",
+      "headingId": "hero-heading",
+      "backgroundImage": "/images/Home/1.png",
+      "imageClassName": "object-cover object-center lg:object-fill",
+      "lines": [
+        { "line1": "LOREM IPSUM", "accent": "DOLOR" },
+        { "line2": "SIT AMET" }
+      ],
+      "subtitle": "We are one of the fastest growing Real Estate consulting company in India.",
+      "cta": { "href": "#about", "label": "KNOW MORE" }
+    },
+    "blog": {
+      "variant": "overlayTitle",
+      "headingId": "blog-hero-heading",
+      "backgroundImage": "/images/blog.svg",
+      "title": "Blogs",
+      "overlayClassName": "bg-black/40",
+      "titleClassName": "qs-reg uppercase text-white text-[clamp(2.5rem,6.5vw,4.375rem)] leading-[1] tracking-[0.05em]"
+    },
+    "contact": {
+      "variant": "contact",
+      "headingId": "contact-hero-heading",
+      "primaryImage": "/images/image 152.svg",
+      "secondaryImage": "/images/image 153.svg",
+      "secondaryImageClassName": "object-cover object-center mix-blend-darken"
+    },
+    "career": {
+      "variant": "career",
+      "headingId": "career-hero-heading",
+      "backgroundImage": "/images/workwithus.svg",
+      "imageAlt": "Work With Us",
+      "title": "Work With Us",
+      "subtitle": "We are one of the fastest growing Real Estate consulting company in India."
+    },
+    "newsroom": {
+      "variant": "newsroom",
+      "headingId": "newsroom-hero-heading",
+      "backgroundImage": "/images/newsroom.svg",
+      "imageAlt": "Newsroom",
+      "title": "Newsroom",
+      "imageClassName": "object-cover object-center mt-[-1.6rem]"
+    },
+    "partners": {
+      "variant": "partners",
+      "headingId": "partners-hero-heading",
+      "backgroundImage": "/images/partner-client-heor.png"
+    },
+    "gazette": {
+      "variant": "publication",
+      "headingId": "gazette-hero-heading",
+      "backgroundImage": "/images/gazette.svg",
+      "imageClassName": "object-cover object-center",
+      "title": "Gazette"
+    },
+    "magazine": {
+      "variant": "publication",
+      "headingId": "magazine-hero-heading",
+      "backgroundImage": "/images/magazine.svg",
+      "imageClassName": "object-cover object-center",
+      "title": "Magazine"
+    },
+    "tgrea": {
+      "variant": "tgrea",
+      "headingId": "tgrea-hero-heading",
+      "backgroundImage": "/images/tgreaHero.svg",
+      "imageClassName": "object-stretch object-center",
+      "title": "The Guardians",
+      "tagline": "Real Estate Advisory",
+      "body": "We are one of the fastest growing Real Estate consulting company in India."
+    },
+    "about": {
+      "variant": "about",
+      "backgroundImage": "/images/image 77.svg",
+      "imageAlt": "The Guardians city skyline",
+      "headingHtml": { "prefix": "Who", "rest": " We Are?" },
+      "subtitle": "We are one of the fastest growing Real Estate consulting company in India."
+    },
+    "servicesBuyer": {
+      "variant": "services",
+      "headingId": "buyer-services-heading",
+      "ariaLabelledBy": "buyer-services-heading",
+      "title": "Buyer's Services",
+      "titleClassName": "max-w-[min(100%,20ch)]",
+      "subtitle": "We are one of the fastest growing Real Estate consulting company in India.",
+      "backgroundImage": "/images/Buyer/services/hero.svg"
+    },
+    "servicesDeveloper": {
+      "variant": "services",
+      "headingId": "dev-services-heading",
+      "ariaLabelledBy": "dev-services-heading",
+      "title": "Developer's Services",
+      "subtitle": "We are one of the fastest growing Real Estate consulting company in India.",
+      "backgroundImage": "/images/Developer/services/hero.svg"
+    },
+    "projects": {
+      "variant": "projects",
+      "subtitle": "We are one of the fastest growing Real Estate consulting company in India.",
+      "images": {
+        "ongoing": "/images/Projects/ongoing/bg-hero.svg",
+        "completed": "/images/completed-project.svg"
+      }
+    }
+  },
+  "audienceHeroes": {
+    "developer": {
+      "isBuyer": false,
+      "backgroundImageSrc": "/images/Mask group.svg",
+      "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "enquireHref": "/contact",
+      "enquireLabel": "Enquire now",
+      "ariaHeadingId": "developer-hero-heading"
+    },
+    "buyer": {
+      "isBuyer": true,
+      "backgroundImageSrc": "/images/Buyer/hero.svg",
+      "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "enquireHref": "/contact",
+      "enquireLabel": "Enquire now",
+      "ariaHeadingId": "buyer-hero-heading"
+    }
+  }
+}

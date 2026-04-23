@@ -152,7 +152,7 @@ function CommercialPanel({
         src={imageSrc}
         alt=""
         fill
-        className="object-cover object-center"
+        className=""
         sizes="(max-width: 1024px) 100vw, 57vw"
       />
       <div
@@ -249,32 +249,32 @@ export function ServicesGrid({
     panelsByTile && panelsByTile.length > 0
       ? panelsByTile
       : tiles.map((tile) => ({
-          title: tile.label,
-          items: [
-            {
-              title: `${tile.label} Overview`,
-              description: `Comprehensive advisory support for ${tile.label.toLowerCase()}, tailored to your goals and transaction stage.`,
-            },
-            ...accordionItems.slice(1),
-          ],
-          imageSrc: tile.imageSrc || accordionImageSrc,
-          knowMoreHref: tile.href && tile.href !== "#" ? tile.href : knowMoreHref,
-        }));
+        title: tile.label,
+        items: [
+          {
+            title: `${tile.label} Overview`,
+            description: `Comprehensive advisory support for ${tile.label.toLowerCase()}, tailored to your goals and transaction stage.`,
+          },
+          ...accordionItems.slice(1),
+        ],
+        imageSrc: tile.imageSrc || accordionImageSrc,
+        knowMoreHref: tile.href && tile.href !== "#" ? tile.href : knowMoreHref,
+      }));
 
   const activePanel =
     activeIndex === null
       ? {
-          title: accordionTitle,
-          items: accordionItems,
-          imageSrc: accordionImageSrc,
-          knowMoreHref,
-        }
+        title: accordionTitle,
+        items: accordionItems,
+        imageSrc: accordionImageSrc,
+        knowMoreHref,
+      }
       : resolvedPanels[activeIndex] ?? {
-          title: accordionTitle,
-          items: accordionItems,
-          imageSrc: accordionImageSrc,
-          knowMoreHref,
-        };
+        title: accordionTitle,
+        items: accordionItems,
+        imageSrc: accordionImageSrc,
+        knowMoreHref,
+      };
 
   return (
     <section className="mb-2 bg-white my-10 md:my-16 lg:my-20 xl:my-25" aria-label={ariaLabel}>

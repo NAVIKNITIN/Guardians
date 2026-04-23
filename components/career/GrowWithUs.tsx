@@ -37,7 +37,7 @@ export function GrowWithUs() {
                         src="/images/bg-arrow.svg"
                         alt=""
                         fill
-                        className="object-cover object-center"
+                        className=""
                         sizes="100vw"
                     />
                     <div className="absolute inset-0 bg-[#BCBDC0]/20" />

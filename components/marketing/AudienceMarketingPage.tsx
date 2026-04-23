@@ -25,6 +25,10 @@ export function AudienceMarketingPage({
       <AudienceHero
         key={content.hero.ariaHeadingId}
         content={content.hero}
+        heightPx={1122}
+        shiftUnderHeader={true}
+        shiftTillSearch={true}
+        shiftExtraContentTopPx={60}
       />
       {content.services ? <AudienceServicesBand content={content.services} isBuyer={content.hero.isBuyer} /> : null}
       {content.ourWork ? <OurWorkSection content={content.ourWork} isBuyer={content.hero.isBuyer} /> : null}
