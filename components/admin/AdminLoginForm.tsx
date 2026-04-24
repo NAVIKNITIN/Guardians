@@ -125,7 +125,7 @@ export function AdminLoginForm() {
 
   return (
     <section className="mx-auto w-full max-w-[412px]">
-      <div className="mx-auto flex h-[74px] w-[74px] items-center justify-center rounded-full bg-[#f09684] bg-[linear-gradient(270deg,#ffa995_5%,#d88373_15%,#f09684_50%,#d27e6c_85%,#ffa995_95%)] text-white shadow-[0_14px_30px_rgba(240,150,132,0.28)]">
+      <div className="mx-auto flex h-[74px] w-[74px] items-center justify-center rounded-full btn-primary-gradient text-white shadow-[0_14px_30px_rgba(240,150,132,0.28)]">
         <IconBuilding className="h-9 w-9 text-[#ffe9e1]" />
       </div>
 
@@ -134,12 +134,8 @@ export function AdminLoginForm() {
       </h1>
 
       <div
-        className="mx-auto mt-5 h-[3px] w-[70px] rounded-full"
-        style={{
-          backgroundColor: "#f09684",
-          backgroundImage:
-            "linear-gradient(270deg, #ffa995 5%, #d88373 15%, #f09684 50%, #d27e6c 85%, #ffa995 95%)",
-        }}
+        className="mx-auto mt-5 h-[3px] w-[70px] rounded-full btn-primary-gradient"
+        aria-hidden
       />
 
       <form
@@ -255,7 +251,7 @@ export function AdminLoginForm() {
 
         <button
           type="submit"
-          className="tracking-widest text-3xl cursor-pointer mt-8 h-[58px] w-full rounded-[16px] btn-primary-gradient  text-[1.08rem] font-bold uppercase tracking-[0.03em] text-white shadow-[0_18px_32px_rgba(239,111,82,0.24)] transition-all duration-300 hover:-translate-y-0.5 hover:brightness-[1.02]"
+          className="tracking-widest text-3xl cursor-pointer mt-8 h-[58px] w-full rounded-[16px] btn-grad text-[1.08rem] font-bold uppercase tracking-[0.03em] text-white shadow-[0_18px_32px_rgba(239,111,82,0.24)]"
         >
           {isSubmitting ? "Logging In..." : "Login"}
         </button>

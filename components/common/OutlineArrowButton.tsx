@@ -26,10 +26,10 @@ export type OutlineArrowButtonProps = LinkVariantProps | ButtonVariantProps;
 
 const baseClassName = cn(
   /* Named group so nested `group` on cards does not trigger arrow styles on card hover */
-  "group/outline cta-hover-trigger flex items-center justify-center gap-5",
-  "border border-black/30 px-12 py-2.5",
-  "n-bold text-base uppercase tracking-[0.1em] text-[#202225]",
-  "transition-colors hover:border-[#202225] hover:bg-[#202225] hover:text-white",
+  "group/outline cta-hover-trigger outline-arrow-grad-anim flex items-center justify-center gap-5 text-center",
+  "rounded-none border-0 px-[45px] py-[15px]",
+  "n-bold text-base uppercase tracking-[0.1em] text-white",
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50",
 );
 
 function ArrowIcon({
@@ -46,7 +46,7 @@ function ArrowIcon({
       width={15}
       height={15}
       className={cn(
-        "cta-icon-hover object-cover transition-[filter] duration-300 group-hover/outline:invert",
+        "cta-icon-hover invert object-cover transition-[filter] duration-300",
         className,
       )}
       aria-hidden={alt === ""}
@@ -55,9 +55,7 @@ function ArrowIcon({
 }
 
 /**
- * Outlined CTA with an arrow icon that inverts colors on hover.
- * Used as "Read More", "Open File", etc. across cards.
- *
+ * Dark “Know more” CTA with black/gray gradient sweep (see `globals.css` `.outline-arrow-grad-anim`).
  * Renders a `<Link>` when `href` is provided, otherwise a `<button>`.
  */
 export function OutlineArrowButton(props: OutlineArrowButtonProps) {

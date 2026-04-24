@@ -863,11 +863,7 @@ function ProjectDetailPageContent() {
                       suppressHydrationWarning
                       type="submit"
                       disabled={isSubmitting}
-                      className="inline-flex h-[52px] w-full items-center justify-center gap-4 px-8 n-reg  text-sm  uppercase tracking-[0.1em] text-white sm:h-[55px] sm:w-auto sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl disabled:cursor-not-allowed disabled:opacity-70"
-                      style={{
-                        background:
-                          "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",
-                      }}
+                      className="btn-grad inline-flex h-[52px] w-full items-center justify-center gap-4 px-8 n-reg  text-sm  uppercase tracking-[0.1em] text-white sm:h-[55px] sm:w-auto sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl disabled:cursor-not-allowed disabled:opacity-70"
                     >
                       {isSubmitting ? "Submitting..." : "Submit"}
                       <ArrowUpRight />

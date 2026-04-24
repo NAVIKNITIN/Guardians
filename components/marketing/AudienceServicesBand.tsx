@@ -64,7 +64,7 @@ export function AudienceServicesBand({
             className={cn(
               /* Break out of container on the right so cards touch viewport edge. */
               "lg:mr-[calc(50%-50vw)]",
-              marketingClasses.horizontalScroll,
+              marketingClasses.horizontalScrollTall,
             )}
           >
             {cardsStrip}

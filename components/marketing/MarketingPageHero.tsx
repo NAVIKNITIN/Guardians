@@ -477,7 +477,7 @@ function HomeHero({
         />
       </div>
       <div
-        className="pointer-events-none absolute -left-[479.28px] -top-[752.71px] z-[1] h-[1333px] w-[2000px]  rounded-none mix-blend-soft-light"
+        className="pointer-events-none absolute -left-[479.28px] -top-[752.71px] z-[1] h-[10033px] w-[20000000px]  rounded-none mix-blend-soft-light"
         aria-hidden
       >
         <div className="relative h-full w-full min-h-0">
@@ -525,7 +525,7 @@ function HomeHero({
             <GradientCtaButton
               href={cta.href}
               variant="know-more"
-              className="btn-1 w-full min-w-0 max-w-[285px] max-h-[55px] rounded-none border-0 n-bold text-sm lg:text-[20px] lg:px-[50px] lg:py-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B48183] sm:min-w-[180px] sm:max-w-none"
+              className="btn-1 w-full min-w-0 max-w-[285px] max-h-[55px] text-sm lg:text-[20px] lg:px-[50px] lg:py-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B48183] sm:min-w-[180px] sm:max-w-none"
             >
               {cta.label}
             </GradientCtaButton>

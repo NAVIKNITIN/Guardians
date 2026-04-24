@@ -1,5 +1,6 @@
 import { Container } from "@/components/common/Container";
 import { IconArrowUpRight, IconChevronDown } from "@/components/common/icons";
+import { FooterMediaDropdown } from "@/components/sections/FooterMediaDropdown";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 import Link from "next/link";
@@ -42,10 +43,6 @@ const quickLinkRows: { label: string; href: string }[][] = [
   [
     { label: "Projects", href: "#projects" },
     { label: "Partners & Clients", href: "/partners" },
-  ],
-  [
-    { label: "Career", href: "/career" },
-    { label: "Media", href: "/newsroom" },
   ],
 ];
 
@@ -286,6 +283,20 @@ export function Footer() {
                   {quickLinkRows.map((row, idx) => (
                     <QuickLinkRow key={idx} items={row} />
                   ))}
+                  <p className="flex w-full min-w-0 flex-wrap items-center justify-center gap-x-1.5 gap-y-0.5 n-book fs-14 lh-25 text-white sm:justify-start">
+                    <span className="inline-flex items-center gap-x-1.5 n-book fs-14">
+                      <Link
+                        href="/career"
+                        className="n-reg text-white transition-colors hover:text-white/80"
+                      >
+                        Career
+                      </Link>
+                    </span>
+                    <span className="select-none" aria-hidden>
+                      ·
+                    </span>
+                    <FooterMediaDropdown />
+                  </p>
                 </div>
               </div>
             </div>

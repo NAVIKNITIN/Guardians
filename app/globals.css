@@ -192,6 +192,28 @@ body {
   filter: brightness(0.9);
 }
 
+/** Same taupe treatment as `.scrollbar-brand`, with a thicker track (horizontal strips like Our services). */
+.scrollbar-brand-tall {
+  scrollbar-width: auto;
+  scrollbar-gutter: stable;
+  scrollbar-color: var(--color-brand-footer) rgba(0, 0, 0, 0.06);
+}
+.scrollbar-brand-tall::-webkit-scrollbar {
+  width: 12px;
+  height: 12px;
+}
+.scrollbar-brand-tall::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 9999px;
+}
+.scrollbar-brand-tall::-webkit-scrollbar-thumb {
+  background: var(--color-brand-footer);
+  border-radius: 9999px;
+}
+.scrollbar-brand-tall::-webkit-scrollbar-thumb:hover {
+  filter: brightness(0.9);
+}
+
 /**
  * Reusable Expanding Panels system.
  * Apply to any wrapper + child cards:
@@ -316,30 +338,149 @@ body {
   }
 }
 
-/* Shared CTA gradient from Figma (Know More button). */
+/**
+ * CTA “filled” look — default: horizontal `to right, #ec6f66, #f3a183, #ec6f66`.
+ * With JS (`html.js-directional-grad`), hover/focus gradient sweep follows pointer side:
+ * from left = L→R, from right = R→L (`DirectionalButtonGradientClient`).
+ * Use `.btn-grad` or the legacy `.btn-primary-gradient` / `.btn-know-more-gradient`.
+ * Does not set margin, padding, font, radius, or shadow so call sites keep those utilities.
+ */
+.btn-grad,
+.btn-primary-gradient,
 .btn-know-more-gradient {
-  background-color: #f5a696;
+  background-color: #ec6f66;
   background-image: linear-gradient(
-    90deg,
-    #ffa995 5%,
-    #d88373 15%,
-    #f5a696 50%,
-    #d27e6c 85%,
-    #ffa995 95%
+    to right,
+    #ec6f66 0%,
+    #f3a183 51%,
+    #ec6f66 100%
   );
+  background-size: 100% 100%;
+  background-position: center center;
+  transition: background-size 0.5s ease, background-position 0.5s ease;
 }
 
-/* Shared CTA gradient used for primary action buttons. */
-.btn-primary-gradient {
-  background-color: #f09684;
+/**
+ * Dark marketing CTA (Figma #1D2124) — idle is solid; hover/focus use the same coral
+ * gradient sweep as other CTAs (`btn-grad--dark` in `DirectionalButtonGradientClient`).
+ */
+.btn-grad--dark {
+  background-color: #1d2124;
+  background-image: none;
+  background-size: 100% 100%;
+  background-position: center center;
+  color: #fff;
+  transition: background-size 0.5s ease, background-position 0.5s ease;
+}
+
+a.btn-grad--dark {
+  text-decoration: none;
+}
+
+a.btn-grad,
+a.btn-primary-gradient,
+a.btn-know-more-gradient {
+  text-decoration: none;
+}
+
+/**
+ * `OutlineArrowButton` — self-contained black/gray sweep (Bourbon).
+ * Not driven by `DirectionalButtonGradientClient` so it always works with JS enabled.
+ * Idle: position left; :hover / :focus-visible: position right (0.5s).
+ */
+.outline-arrow-grad-anim {
+  background-color: #000;
   background-image: linear-gradient(
-    270deg,
-    #ffa995 5%,
-    #d88373 15%,
-    #f09684 50%,
-    #d27e6c 85%,
-    #ffa995 95%
+    to right,
+    #000000 0%,
+    #434343 51%,
+    #000000 100%
   );
+  background-size: 200% auto;
+  background-position: left center;
+  background-repeat: no-repeat;
+  color: #fff;
+  text-decoration: none;
+  box-shadow: 0 0 20px #eee;
+  transition:
+    background-position 0.5s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+}
+
+.outline-arrow-grad-anim:hover,
+.outline-arrow-grad-anim:focus-visible {
+  background-position: right center;
+  color: #fff;
+  text-decoration: none;
+}
+
+a.outline-arrow-grad-anim {
+  text-decoration: none;
+}
+
+/* Directional L↔R gradient on hover: `DirectionalButtonGradientClient` (sets `html.js-directional-grad`). */
+/* Without JS, simple L→R on hover / focus. */
+html:not(.js-directional-grad) .btn-grad:hover,
+html:not(.js-directional-grad) .btn-grad:focus-visible,
+html:not(.js-directional-grad) .btn-primary-gradient:hover,
+html:not(.js-directional-grad) .btn-primary-gradient:focus-visible,
+html:not(.js-directional-grad) .btn-know-more-gradient:hover,
+html:not(.js-directional-grad) .btn-know-more-gradient:focus-visible {
+  background-size: 200% 100%;
+  background-position: right center;
+}
+
+html:not(.js-directional-grad) .btn-grad--dark:hover,
+html:not(.js-directional-grad) .btn-grad--dark:focus-visible {
+  background-color: transparent;
+  background-image: linear-gradient(
+    to right,
+    #ec6f66 0%,
+    #f3a183 51%,
+    #ec6f66 100%
+  );
+  background-size: 200% 100%;
+  background-position: right center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn-grad,
+  .btn-primary-gradient,
+  .btn-know-more-gradient,
+  .btn-grad--dark {
+    transition: none;
+  }
+
+  html:not(.js-directional-grad) .btn-grad:hover,
+  html:not(.js-directional-grad) .btn-grad:focus-visible,
+  html:not(.js-directional-grad) .btn-primary-gradient:hover,
+  html:not(.js-directional-grad) .btn-primary-gradient:focus-visible,
+  html:not(.js-directional-grad) .btn-know-more-gradient:hover,
+  html:not(.js-directional-grad) .btn-know-more-gradient:focus-visible {
+    background-size: 100% 100%;
+    background-position: center center;
+  }
+
+  .btn-grad--dark,
+  html:not(.js-directional-grad) .btn-grad--dark:hover,
+  html:not(.js-directional-grad) .btn-grad--dark:focus-visible {
+    background-color: #1d2124;
+    background-image: none;
+  }
+
+  .outline-arrow-grad-anim {
+    transition: none;
+    background-image: none;
+    background-color: #000;
+    background-position: center center;
+    box-shadow: none;
+  }
+
+  .outline-arrow-grad-anim:hover,
+  .outline-arrow-grad-anim:focus-visible {
+    background-color: #202225;
+  }
 }
 
 @keyframes cta-icon-hover-shift {
@@ -1370,9 +1511,10 @@ body {
     #ffa995 95%
   );
 }
+/* Home hero / marketing “KNOW MORE” (pairs with `GradientCtaButton` + Figma) */
 .btn-1 {
   font-family: var(--font-nexa);
-  font-weight: 400;
+  font-weight: 600;
   font-size: 20px;
   letter-spacing: 0.1em;
 }

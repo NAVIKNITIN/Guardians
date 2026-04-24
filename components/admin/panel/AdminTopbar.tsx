@@ -25,7 +25,7 @@ export function AdminTopbar({
             />
           </label>
 
-          <div className="flex h-[60px] w-[60px] items-center justify-center rounded-full bg-[#f09684] text-white shadow-[0_18px_30px_rgba(240,150,132,0.24)]">
+          <div className="btn-grad flex h-[60px] w-[60px] items-center justify-center rounded-full text-white shadow-[0_18px_30px_rgba(240,150,132,0.24)]">
             <IconUserCircle className="h-6 w-6" />
           </div>
         </div>

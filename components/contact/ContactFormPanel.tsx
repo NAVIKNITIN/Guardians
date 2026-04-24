@@ -281,11 +281,7 @@ export function ContactFormPanel() {
               {/* Submit */}
               <button
                 type="submit"
-                className="flex w-full items-center justify-center gap-5 py-[18px] n-bold fs-20 lh-24  uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90"
-                style={{
-                  background:
-                    "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",
-                }}
+                className="btn-grad flex w-full items-center justify-center gap-5 py-[18px] n-bold fs-20 lh-24  uppercase tracking-[0.1em] text-white"
               >
                 Submit
                 <span className="inline-block" aria-hidden>

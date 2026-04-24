@@ -55,7 +55,7 @@ export function ProjectCard({
           sizes="(min-width: 1280px) 400px, (min-width: 768px) 45vw, 100vw"
         />
 
-        {badge ? (
+        {badge && stage !== "Completed" ? (
           <div
             className={cn(
               "absolute mt-3 left-1/2 top-3 z-10 -translate-x-1/2 rounded-none px-4 py-1.5 sm:left-0 sm:top-4 sm:translate-x-0 sm:px-4 sm:py-1.5",

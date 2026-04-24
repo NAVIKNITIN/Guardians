@@ -4,6 +4,8 @@ import Link from "next/link";
 import { cn } from "@/utils/cn";
 
 const BRAND_LOGO = "/images/holdingLogo.svg";
+const BRAND_LOGO2 = "/images/tgrea2.svg";
+const BRAND_LOGO3 = "/images/tgrea3.svg";
 
 const BRAND_PHOTO = "/images/holdingImg.svg";
 
@@ -11,23 +13,18 @@ const DESCRIPTION =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et.";
 
 const brands = [
-  { id: 1, reverse: false, href: "#" },
-  { id: 2, reverse: true, href: "#" },
-  { id: 3, reverse: false, href: "#" },
+  { id: 1, reverse: false, href: "#", logoBG: "/images/holdingLogo.svg", logo: "/images/holdingImg.svg" },
+  { id: 2, reverse: true, href: "#", logoBG: "/images/Group 70.svg", logo: "/images/tgrea3.svg" },
+  { id: 3, reverse: false, href: "#", logoBG: "/images/Group 66.svg", logo: "/images/tgrea2.svg" },
 ];
 
-/** Rose-gold gradient matching the Figma "Read More" buttons */
+/** Read more — shared `btn-grad` (see `globals.css`) */
 const readMoreClassName = cn(
-  "inline-flex w-full max-w-xs items-center justify-center gap-3 px-6 py-3 sm:w-auto sm:max-w-none sm:justify-start sm:gap-4 sm:px-12 sm:py-5",
+  "btn-grad inline-flex w-full max-w-xs items-center justify-center gap-3 px-6 py-3 sm:w-auto sm:max-w-none sm:justify-start sm:gap-4 sm:px-12 sm:py-5",
   "n-bold uppercase tracking-[0.1em] text-white",
   "text-[clamp(0.8125rem,3vw,1.25rem)] leading-[1.25rem] sm:leading-[1.5625rem]",
-  "transition-opacity duration-200 hover:opacity-90 mt-4 sm:mt-30",
+  "mt-4 sm:mt-30",
 );
-
-const readMoreStyle = {
-  background:
-    "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",
-} as const;
 
 function ArrowUpRight() {
   return (
@@ -48,13 +45,15 @@ function ArrowUpRight() {
 interface BrandRowProps {
   reverse: boolean;
   href: string;
+  logoBG: string;
+  logo: string;
 }
 
-function BrandRow({ reverse, href }: BrandRowProps) {
+function BrandRow({ reverse, href, logoBG, logo }: BrandRowProps) {
   const textContent = (
     <div className="flex w-full min-w-0 flex-col items-center py-6 text-center sm:py-8 lg:items-start lg:py-12 lg:text-left md:min-h-[650px]">
       <Image
-        src={BRAND_LOGO}
+        src={logoBG}
         alt="Ground Holding – Real Estate"
         width={223}
         height={80}
@@ -63,7 +62,7 @@ function BrandRow({ reverse, href }: BrandRowProps) {
       <p className="max-w-[488px] n-reg text-[clamp(0.875rem,3vw,1rem)] leading-[1.5] text-[#161616] sm:mt-10 sm:text-base md:mt-12">
         {DESCRIPTION}
       </p>
-      <Link href={href} className={cn(readMoreClassName, "group cta-hover-trigger")} style={readMoreStyle}>
+      <Link href={href} className={cn(readMoreClassName, "group cta-hover-trigger")}>
         Read more
         <Image src="/images/arrowwhite.svg" alt="Arrow" width={15} height={15} className="cta-icon-hover object-cover" />
       </Link>
@@ -73,7 +72,7 @@ function BrandRow({ reverse, href }: BrandRowProps) {
   const photoContent = (
     <div className="relative min-h-[240px] w-full min-w-0 overflow-hidden sm:min-h-[320px] lg:aspect-auto lg:min-h-0 lg:h-full">
       <Image
-        src={BRAND_PHOTO}
+        src={logo}
         alt="Construction site at sunset"
         fill
         className=""
@@ -123,10 +122,10 @@ export function TGREABrands() {
 
       {/* Brand rows */}
       <div className="mt-2 md:mt-6 mb-5 md:mb-30">
-        {brands.map(({ id, reverse, href }) => (
+        {brands.map(({ id, reverse, href, logoBG, logo }) => (
           <div className="my-2 sm:my-4 lg:mb-[70px]" key={id}>
             <Container className="min-w-0">
-              <BrandRow reverse={reverse} href={href} />
+              <BrandRow reverse={reverse} href={href} logoBG={logoBG} logo={logo} />
             </Container>
           </div>
         ))}

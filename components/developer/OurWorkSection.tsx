@@ -55,7 +55,7 @@ export function OurWorkSection({ content, isBuyer }: { content: OurWorkBandConte
             <MarketingEnquireLink
               href={content.readMoreHref}
               variant="ourWork"
-              className="mt-20 inline-flex h-[55px] w-[276.01px] bg-[#161616] px-7 lh-30 text-white lg:px-6 "
+              className="mt-20 inline-flex h-[55px] w-[276.01px] px-7 lh-30 text-white lg:px-6"
             >
               {content.readMoreLabel}
             </MarketingEnquireLink>

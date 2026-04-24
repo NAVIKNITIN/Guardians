@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { DirectionalButtonGradientClient } from "@/components/effects/DirectionalButtonGradientClient";
 import { ErrorBoundary } from "@/src/components/ErrorBoundary";
 import { nexaFont, playfairDisplay, qasbyneFont } from "@/styles/fonts";
 import { ToastContainer } from "react-toastify";
@@ -31,6 +32,7 @@ export default function RootLayout({
       className={`${nexaFont.variable} ${qasbyneFont.variable} ${playfairDisplay.variable} h-full scroll-smooth scrollbar-brand`}
     >
       <body className="min-h-full bg-brand-background text-brand-text-primary font-sans">
+        <DirectionalButtonGradientClient />
         <ErrorBoundary>{children}</ErrorBoundary>
         <ToastContainer
           position="top-right"

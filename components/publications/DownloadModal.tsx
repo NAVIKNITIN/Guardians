@@ -184,11 +184,7 @@ export function DownloadModal({ isOpen, onClose, issueTitle }: DownloadModalProp
           {/* Submit */}
           <button
             type="submit"
-            className="mt-4 flex w-full items-center justify-center gap-5 py-[18px] n-bold  text-xl  uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90"
-            style={{
-              background:
-                "linear-gradient(270deg, #FFA995 5%, #D88373 15%, #F09684 50%, #D27E6C 85%, #FFA995 95%)",
-            }}
+            className="btn-grad mt-4 flex w-full items-center justify-center gap-5 py-[18px] n-bold  text-xl  uppercase tracking-[0.1em] text-white"
           >
             Submit
             <Image

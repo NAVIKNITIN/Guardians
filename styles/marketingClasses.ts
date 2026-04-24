@@ -10,7 +10,7 @@ import { cn } from "@/utils/cn";
  *
  * **Project theme UI (taupe `#8f8183` / `--color-brand-footer`):**
  * - **Arrow link tiles** — `arrowLinkTile`, `arrowLinkSurface`, `arrowLinkIcon` (source: `components/ui/ArrowIconLink.tsx`).
- * - **Scrollbars (page + overflow strips)** — `horizontalScroll` and root `<html class="scrollbar-brand">` in `app/layout.tsx` (see `app/globals.css`).
+ * - **Scrollbars (page + overflow strips)** — `horizontalScroll` / `horizontalScrollTall` and root `<html class="scrollbar-brand">` in `app/layout.tsx` (see `app/globals.css`).
  */
 export const marketingClasses = {
   sectionMuted:
@@ -40,6 +40,9 @@ export const marketingClasses = {
   /** Full-bleed horizontal strips — taupe thumb via `.scrollbar-brand` in `globals.css` (see `/projects` filter styling). */
   horizontalScroll:
     "overflow-x-auto scroll-smooth overscroll-x-contain [-webkit-overflow-scrolling:touch] scrollbar-brand",
+  /** Same as `horizontalScroll` with a thicker horizontal scrollbar (e.g. Our services card strip). */
+  horizontalScrollTall:
+    "overflow-x-auto scroll-smooth overscroll-x-contain [-webkit-overflow-scrolling:touch] scrollbar-brand-tall",
 
   /** Square taupe tile (base) — pair with `group-hover:brightness-90` inside a card `Link` if needed. */
   arrowLinkTile: arrowIconTileClassName,

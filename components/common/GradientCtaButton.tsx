@@ -17,8 +17,9 @@ const variantClassMap: Record<NonNullable<GradientCtaButtonProps["variant"]>, st
   "know-more": "btn-know-more-gradient",
 };
 
+/** Figma idle: 0px radius, no border/shadow, white label + em-sized arrow, Nexa semibold, +tracking */
 const baseClassName =
-  "group cta-hover-trigger inline-flex items-center justify-center gap-4 px-8 py-3.5 n-reg  text-sm  uppercase tracking-[0.1em] text-white shadow-md transition-all duration-300 ease-out";
+  "group cta-hover-trigger btn-grad inline-flex items-center justify-center gap-4 rounded-none border-0 px-8 py-3.5 shadow-none n-bold text-sm uppercase tracking-[0.1em] text-white";
 
 export function GradientCtaButton({
   children,
@@ -39,7 +40,7 @@ export function GradientCtaButton({
         {showArrow ? (
           <IconArrowUpRight
             className={cn(
-              "cta-icon-hover h-4 w-4",
+              "cta-icon-hover h-[1em] w-[1em] shrink-0",
               iconClassName,
             )}
           />
@@ -54,7 +55,7 @@ export function GradientCtaButton({
       {showArrow ? (
         <IconArrowUpRight
           className={cn(
-            "cta-icon-hover h-4 w-4",
+            "cta-icon-hover h-[1em] w-[1em] shrink-0",
             iconClassName,
           )}
         />
