@@ -177,7 +177,7 @@ export function AdminTopbar({
                 aria-haspopup="menu"
                 aria-expanded={openMenu}
                 onClick={() => setOpenMenu((prev) => !prev)}
-                className="btn-grad flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full text-white shadow-[0_12px_20px_rgba(240,150,132,0.2)] transition-transform hover:scale-105"
+                className="btn-primary-gradient flex h-[50px] w-[50px] cursor-pointer items-center justify-center rounded-full border border-[#f3b4a4] bg-[#ec6f66] text-white shadow-[0_12px_20px_rgba(240,150,132,0.28)] transition-transform hover:scale-105"
               >
                 <IconUserCircle className="h-5 w-5" />
               </button>
