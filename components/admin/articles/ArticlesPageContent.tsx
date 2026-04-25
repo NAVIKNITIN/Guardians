@@ -1,5 +1,6 @@
 "use client";
 
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import type { ChangeEvent, FormEvent, KeyboardEvent, ReactNode } from "react";
 import { useEffect, useState } from "react";
 import { IconPlus } from "@/components/admin/panel/AdminIcons";
@@ -864,19 +865,20 @@ export function ArticlesPageContent() {
 
   return (
     <>
-      <section className="mx-auto max-w-[1420px] space-y-8">
-        <div className="flex justify-start">
+      <section className="w-full space-y-5">
+        <ScrollReveal direction="up" distance={20} className="flex justify-start">
           <button
             type="button"
             onClick={handleOpenCreate}
-            className="inline-flex h-[58px] items-center justify-center gap-3 rounded-[18px] px-8 text-[1.15rem] font-semibold text-white btn-primary-gradient shadow-[0_18px_32px_rgba(240,150,132,0.22)]"
+            className="inline-flex h-[50px] items-center justify-center gap-2.5 rounded-[14px] px-6 text-[0.98rem] font-semibold text-white btn-primary-gradient shadow-[0_14px_26px_rgba(240,150,132,0.22)]"
           >
             <IconPlus className="h-5 w-5" />
             <span>Add Article</span>
           </button>
-        </div>
+        </ScrollReveal>
 
-        <section className="rounded-[28px] border border-[#e7ecf3] bg-white p-6 shadow-[0_10px_24px_rgba(15,23,42,0.04)] sm:p-8">
+        <ScrollReveal direction="up" delay={0.04} distance={20}>
+        <section className="rounded-[22px] border border-[#e7ecf3] bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.04)] sm:p-6">
           <div className="grid gap-5 xl:grid-cols-2">
             <FilterField label="Type">
               <FilterSelect
@@ -895,16 +897,17 @@ export function ArticlesPageContent() {
             </FilterField>
           </div>
 
-          <div className="mt-6">
+          <div className="mt-4">
             <button
               type="button"
               onClick={handleApplyFilter}
-              className="inline-flex h-[54px] items-center justify-center rounded-[16px] px-8 text-[1.08rem] font-semibold text-white btn-primary-gradient shadow-[0_18px_30px_rgba(240,150,132,0.22)]"
+              className="inline-flex h-[48px] items-center justify-center rounded-[14px] px-6 text-[0.96rem] font-semibold text-white btn-primary-gradient shadow-[0_14px_24px_rgba(240,150,132,0.22)]"
             >
               Apply Filter
             </button>
           </div>
         </section>
+        </ScrollReveal>
 
         {errorMessage ? (
           <div className="rounded-[20px] border border-[#f3d3cb] bg-[#fff6f3] px-5 py-4 text-[1rem] font-medium text-[#c25b45]">
@@ -912,27 +915,28 @@ export function ArticlesPageContent() {
           </div>
         ) : null}
 
-        <section className="overflow-hidden rounded-[28px] border border-[#e7ecf3] bg-white shadow-[0_10px_24px_rgba(15,23,42,0.04)]">
+        <ScrollReveal direction="up" delay={0.08} distance={20}>
+        <section className="overflow-hidden rounded-[22px] border border-[#e7ecf3] bg-white shadow-[0_10px_24px_rgba(15,23,42,0.04)]">
           <div className="overflow-x-auto">
             <table className="w-full min-w-[1120px]">
               <thead className="border-b border-[#e9edf3] bg-white">
                 <tr className="text-left">
-                  <th className="px-4 py-5 text-[1rem] font-semibold text-[#111827] sm:px-6">
+                  <th className="px-4 py-4 text-[0.95rem] font-semibold text-[#111827] sm:px-5">
                     Title
                   </th>
-                  <th className="px-4 py-5 text-[1rem] font-semibold text-[#111827] sm:px-6">
+                  <th className="px-4 py-4 text-[0.95rem] font-semibold text-[#111827] sm:px-5">
                     Type
                   </th>
-                  <th className="px-4 py-5 text-[1rem] font-semibold text-[#111827] sm:px-6">
+                  <th className="px-4 py-4 text-[0.95rem] font-semibold text-[#111827] sm:px-5">
                     Categories
                   </th>
-                  <th className="px-4 py-5 text-[1rem] font-semibold text-[#111827] sm:px-6">
+                  <th className="px-4 py-4 text-[0.95rem] font-semibold text-[#111827] sm:px-5">
                     Created Date
                   </th>
-                  <th className="px-4 py-5 text-[1rem] font-semibold text-[#111827] sm:px-6">
+                  <th className="px-4 py-4 text-[0.95rem] font-semibold text-[#111827] sm:px-5">
                     Status
                   </th>
-                  <th className="px-4 py-5 text-[1rem] font-semibold text-[#111827] sm:px-6">
+                  <th className="px-4 py-4 text-[0.95rem] font-semibold text-[#111827] sm:px-5">
                     Actions
                   </th>
                 </tr>
@@ -952,16 +956,16 @@ export function ArticlesPageContent() {
                   articles.map((article) => (
                     <tr
                       key={article.id}
-                      className="border-b border-[#eef2f6] last:border-b-0"
+                      className="border-b border-[#eef2f6] transition-colors hover:bg-[#f8fafc] last:border-b-0"
                     >
-                      <td className="px-4 py-5 align-top text-[1rem] font-semibold text-[#161b22] sm:px-6">
+                      <td className="px-4 py-4 align-top text-[0.94rem] font-semibold text-[#161b22] sm:px-5">
                         {article.title}
                       </td>
 
-                      <td className="px-4 py-5 align-top sm:px-6">
+                      <td className="px-4 py-4 align-top sm:px-5">
                         <span
                           className={[
-                            "inline-flex rounded-[14px] px-4 py-2 text-[0.95rem] font-semibold",
+                            "inline-flex rounded-[12px] px-3 py-1.5 text-[0.86rem] font-semibold",
                             typeBadgeClasses[article.type],
                           ].join(" ")}
                         >
@@ -969,12 +973,12 @@ export function ArticlesPageContent() {
                         </span>
                       </td>
 
-                      <td className="px-4 py-5 align-top sm:px-6">
+                      <td className="px-4 py-4 align-top sm:px-5">
                         <div className="flex max-w-[300px] flex-wrap gap-2">
                           {article.categories.map((category) => (
                             <span
                               key={category}
-                              className="inline-flex rounded-[14px] border border-[#dbe2ec] bg-[#f8fafc] px-3 py-1.5 text-[0.95rem] font-medium text-[#526178]"
+                              className="inline-flex rounded-[12px] border border-[#dbe2ec] bg-[#f8fafc] px-2.5 py-1 text-[0.82rem] font-medium text-[#526178]"
                             >
                               {category}
                             </span>
@@ -982,14 +986,14 @@ export function ArticlesPageContent() {
                         </div>
                       </td>
 
-                      <td className="px-4 py-5 align-top text-[1rem] text-[#4b5563] sm:px-6">
+                      <td className="px-4 py-4 align-top text-[0.9rem] text-[#4b5563] sm:px-5">
                         {article.createdDate}
                       </td>
 
-                      <td className="px-4 py-5 align-top sm:px-6">
+                      <td className="px-4 py-4 align-top sm:px-5">
                         <span
                           className={[
-                            "inline-flex rounded-[14px] px-4 py-2 text-[0.95rem] font-semibold",
+                            "inline-flex rounded-[12px] px-3 py-1.5 text-[0.86rem] font-semibold",
                             statusBadgeClasses[article.status],
                           ].join(" ")}
                         >
@@ -997,8 +1001,8 @@ export function ArticlesPageContent() {
                         </span>
                       </td>
 
-                      <td className="px-4 py-5 align-top sm:px-6">
-                        <div className="flex items-center gap-5 text-[#111827]">
+                      <td className="px-4 py-4 align-top sm:px-5">
+                        <div className="flex items-center gap-4 text-[#111827]">
                           <button
                             type="button"
                             onClick={() => handleOpenView(article)}
@@ -1039,13 +1043,14 @@ export function ArticlesPageContent() {
             </table>
           </div>
         </section>
+        </ScrollReveal>
 
-        <div className="flex items-center justify-center gap-3">
+        <ScrollReveal direction="up" delay={0.12} className="flex items-center justify-center gap-2.5">
           <button
             type="button"
             onClick={() => goToPage(currentPage - 1)}
             disabled={currentPage === 1}
-            className="inline-flex h-[54px] w-[54px] items-center justify-center rounded-[16px] border border-[#e6eaf0] bg-white text-[#6b7280] transition hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex h-[48px] w-[48px] items-center justify-center rounded-[14px] border border-[#e6eaf0] bg-white text-[#6b7280] transition hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-50"
           >
             <IconChevronLeft className="h-5 w-5" />
           </button>
@@ -1057,7 +1062,7 @@ export function ArticlesPageContent() {
                 type="button"
                 onClick={() => goToPage(page)}
                 className={[
-                  "inline-flex h-[54px] w-[54px] items-center justify-center rounded-[16px] text-[1.15rem] font-semibold transition",
+                  "inline-flex h-[48px] w-[48px] items-center justify-center rounded-[14px] text-[1rem] font-semibold transition",
                   currentPage === page
                     ? "btn-primary-gradient text-white"
                     : "border border-[#e6eaf0] bg-white text-[#111827] hover:bg-[#f8fafc]",
@@ -1072,11 +1077,11 @@ export function ArticlesPageContent() {
             type="button"
             onClick={() => goToPage(currentPage + 1)}
             disabled={currentPage === lastPage}
-            className="inline-flex h-[54px] w-[54px] items-center justify-center rounded-[16px] border border-[#e6eaf0] bg-white text-[#6b7280] transition hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-50"
+            className="inline-flex h-[48px] w-[48px] items-center justify-center rounded-[14px] border border-[#e6eaf0] bg-white text-[#6b7280] transition hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-50"
           >
             <IconChevronRight className="h-5 w-5" />
           </button>
-        </div>
+        </ScrollReveal>
       </section>
 
       <AddArticleModal

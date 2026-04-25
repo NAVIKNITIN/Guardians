@@ -1,5 +1,6 @@
 "use client";
 
+import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import { IconChevronLeft } from "@/components/common/icons";
 import { login as loginRequest } from "@/src/api/services/authService";
 import { login as setLoggedIn } from "@/src/utils/auth";
@@ -125,18 +126,20 @@ export function AdminLoginForm() {
 
   return (
     <section className="mx-auto w-full max-w-[412px]">
-      <div className="mx-auto flex h-[74px] w-[74px] items-center justify-center rounded-full btn-primary-gradient text-white shadow-[0_14px_30px_rgba(240,150,132,0.28)]">
-        <IconBuilding className="h-9 w-9 text-[#ffe9e1]" />
-      </div>
+      <StaggerContainer className="contents" staggerChildren={0.1}>
+        <div className="mx-auto flex h-[74px] w-[74px] items-center justify-center rounded-full btn-primary-gradient text-white shadow-[0_14px_30px_rgba(240,150,132,0.28)] transition-transform duration-300 hover:scale-105">
+          <IconBuilding className="h-9 w-9 text-[#ffe9e1]" />
+        </div>
 
-      <h1 className="mt-6 text-center qs-reg text-[clamp(2.6rem,4vw,3.45rem)] leading-none text-[#3f3a39]">
-        Admin Login
-      </h1>
+        <h1 className="mt-6 text-center qs-reg text-[clamp(2.6rem,4vw,3.45rem)] leading-none text-[#3f3a39]">
+          Admin Login
+        </h1>
 
-      <div
-        className="mx-auto mt-5 h-[3px] w-[70px] rounded-full btn-primary-gradient"
-        aria-hidden
-      />
+        <div
+          className="mx-auto mt-5 h-[3px] w-[70px] rounded-full btn-primary-gradient"
+          aria-hidden
+        />
+      </StaggerContainer>
 
       <form
         className="mt-11"
@@ -251,7 +254,7 @@ export function AdminLoginForm() {
 
         <button
           type="submit"
-          className="tracking-widest text-3xl cursor-pointer mt-8 h-[58px] w-full rounded-[16px] btn-grad text-[1.08rem] font-bold uppercase tracking-[0.03em] text-white shadow-[0_18px_32px_rgba(239,111,82,0.24)]"
+          className="text-3xl cursor-pointer mt-8 h-[58px] w-full rounded-[16px] btn-grad text-[1.08rem] font-bold uppercase tracking-widest text-white shadow-[0_18px_32px_rgba(239,111,82,0.24)]"
         >
           {isSubmitting ? "Logging In..." : "Login"}
         </button>

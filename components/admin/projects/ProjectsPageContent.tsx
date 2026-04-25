@@ -1,5 +1,7 @@
 "use client";
 
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { IconFolderStack } from "@/components/admin/panel/AdminIcons";
@@ -71,35 +73,38 @@ export function ProjectsPageContent() {
   }, []);
 
   return (
-    <section className="mx-auto max-w-[1420px]">
-      <div className="rounded-[30px] border border-[#e7e4df] bg-white shadow-[0_8px_18px_rgba(22,20,19,0.06)]">
-        <div className="flex items-center gap-4 border-b border-[#efede9] px-6 py-7 sm:px-9">
-          <div className="flex h-[62px] w-[62px] items-center justify-center rounded-[18px] bg-[#fff3ed] text-[#f07c61]">
-            <IconFolderStack className="h-7 w-7" />
+    <section className="w-full">
+      <ScrollReveal direction="up" distance={24}>
+        <div className="overflow-hidden rounded-[24px] border border-[#e5ebf3] bg-white shadow-[0_12px_28px_rgba(13,30,70,0.08)]">
+        <div className="flex flex-col gap-4 border-b border-[#edf2f8] px-5 py-4 sm:px-7 lg:flex-row lg:items-center lg:justify-between">
+          <div className="flex items-center gap-3">
+            <div className="flex h-[52px] w-[52px] items-center justify-center rounded-[16px] bg-[#fff3ed] text-[#f07c61]">
+              <IconFolderStack className="h-6 w-6" />
+            </div>
+
+            <h2 className="qs-reg text-[clamp(1.9rem,3.2vw,2.6rem)] leading-none text-[#0d1e46]">
+              All Projects
+            </h2>
           </div>
 
-          <h2 className="qs-reg text-[clamp(2.4rem,4vw,3.4rem)] leading-none text-[#081a43]">
-            All Projects
-          </h2>
-        </div>
-
-        <div className="space-y-6 px-6 py-7 sm:px-9 sm:py-8">
-          <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-end">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center lg:justify-end">
             <Link
               href="/admin/add-project"
-              className="inline-flex h-[58px] items-center justify-center rounded-[18px] px-8 text-lg font-semibold text-white btn-primary-gradient shadow-[0_20px_32px_rgba(240,150,132,0.22)]"
+              className="inline-flex h-[48px] cursor-pointer items-center justify-center rounded-[14px] px-6 text-[0.94rem] font-semibold text-white btn-primary-gradient shadow-[0_12px_22px_rgba(240,150,132,0.2)]"
             >
               Add Project
             </Link>
 
             <Link
               href="/"
-              className="inline-flex h-[58px] items-center justify-center rounded-[18px] border border-[#f09684] px-8 text-lg font-semibold text-[#f07c61] transition hover:bg-[#fff5f1]"
+              className="inline-flex h-[48px] cursor-pointer items-center justify-center rounded-[14px] border border-[#f09684] px-6 text-[0.94rem] font-semibold text-[#f07c61] transition hover:bg-[#fff5f1]"
             >
               Back to Website
             </Link>
           </div>
+        </div>
 
+        <div className="space-y-4 px-5 py-5 sm:px-7 sm:py-6">
           {isLoading ? (
             <div className="flex min-h-[260px] items-center justify-center rounded-[24px] bg-[#fffdfa] text-center">
               <p className="text-[1.12rem] font-medium text-[#5d6678]">
@@ -120,19 +125,19 @@ export function ProjectsPageContent() {
               </p>
             </div>
           ) : (
-            <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-              {projects.map((project) => (
+            <StaggerContainer className="grid gap-4 md:grid-cols-2 xl:grid-cols-3" staggerChildren={0.08}>
+              {projects.map((project, index) => (
+                <ScrollReveal key={project.id} direction="up" delay={index * 0.03} distance={18}>
                 <article
-                  key={project.id}
-                  className="rounded-[24px] border border-[#ece7e1] bg-[#fffdfa] p-6 shadow-[0_6px_14px_rgba(22,20,19,0.04)]"
+                  className="rounded-[18px] border border-[#e8edf5] bg-[#fcfdff] p-2.5 shadow-[0_5px_12px_rgba(13,30,70,0.05)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#d7e0ee] hover:shadow-[0_14px_24px_rgba(13,30,70,0.12)]"
                 >
-                  <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-start justify-between gap-2.5">
                     <div>
-                      <h3 className="font-qasbyne text-[2rem] leading-none text-[#081a43]">
+                      <h3 className="font-qasbyne text-[1.65rem] leading-none text-[#0d1e46]">
                         {project.name}
                       </h3>
 
-                      <p className="mt-3 text-sm font-medium text-[#7b879b]">
+                      <p className="mt-2.5 text-sm font-medium text-[#7b879b]">
                         Project ID: {project.id}
                       </p>
                     </div>
@@ -149,7 +154,7 @@ export function ProjectsPageContent() {
                     </span>
                   </div>
 
-                  <div className="mt-5 space-y-2 text-sm text-[#5d6678]">
+                  <div className="mt-2.5 space-y-2.5 text-sm text-[#5d6678]">
                     <p>
                       <span className="font-semibold text-[#44506a]">Type:</span>{" "}
                       {project.type || "N/A"}
@@ -166,50 +171,52 @@ export function ProjectsPageContent() {
                     </p>
                   </div>
 
-                  <div className="mt-6 grid grid-cols-2 gap-3 text-sm text-[#5d6678]">
-                    <div className="rounded-[16px] bg-white px-4 py-3">
+                  <div className="mt-2.5 grid grid-cols-2 gap-2.5 text-sm text-[#5d6678]">
+                    <div className="rounded-[12px] bg-white px-2.5 py-2.5">
                       <p className="font-semibold text-[#44506a]">
                         {project.configurations?.length ?? 0}
                       </p>
-                      <p className="mt-1">Configurations</p>
+                      <p className="mt-2">Configurations</p>
                     </div>
 
-                    <div className="rounded-[16px] bg-white px-4 py-3">
+                    <div className="rounded-[12px] bg-white px-2.5 py-2.5">
                       <p className="font-semibold text-[#44506a]">
                         {project.locations?.length ?? 0}
                       </p>
-                      <p className="mt-1">Locations</p>
+                      <p className="mt-2">Locations</p>
                     </div>
 
-                    <div className="rounded-[16px] bg-white px-4 py-3">
+                    <div className="rounded-[12px] bg-white px-2.5 py-2.5">
                       <p className="font-semibold text-[#44506a]">
                         {project.amenities?.length ?? 0}
                       </p>
-                      <p className="mt-1">Amenities</p>
+                      <p className="mt-2">Amenities</p>
                     </div>
 
-                    <div className="rounded-[16px] bg-white px-4 py-3">
+                    <div className="rounded-[12px] bg-white px-2.5 py-2.5">
                       <p className="font-semibold text-[#44506a]">
                         {project.files?.length ?? 0}
                       </p>
-                      <p className="mt-1">Files</p>
+                      <p className="mt-2">Files</p>
                     </div>
                   </div>
 
-                  <div className="mt-6 flex gap-3">
+                  <div className="mt-2.5 flex gap-2.5">
                     <Link
                       href={`/admin/add-project?id=${project.id}`}
-                      className="inline-flex h-[50px] flex-1 items-center justify-center rounded-[16px] border border-[#f09684] px-5 text-sm font-semibold text-[#f07c61] transition hover:bg-[#fff5f1]"
+                      className="inline-flex h-[44px] flex-1 items-center justify-center rounded-[12px] border border-[#f09684] px-4 text-[0.86rem] font-semibold text-[#f07c61] transition hover:bg-[#fff5f1]"
                     >
                       Update Project
                     </Link>
                   </div>
                 </article>
+                </ScrollReveal>
               ))}
-            </div>
+            </StaggerContainer>
           )}
         </div>
       </div>
+      </ScrollReveal>
     </section>
   );
 }

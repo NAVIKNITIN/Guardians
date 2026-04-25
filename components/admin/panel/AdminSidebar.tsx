@@ -1,8 +1,9 @@
 "use client";
 
+import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { IconFolderStack, IconPlus } from "@/components/admin/panel/AdminIcons";
+import { IconFolderStack } from "@/components/admin/panel/AdminIcons";
 
 type IconProps = {
   className?: string;
@@ -42,41 +43,47 @@ const navItems = [
     label: "Articles",
     icon: IconArticle,
   },
-  {
-    href: "/admin/add-project",
-    label: "Add Project",
-    icon: IconPlus,
-  },
 ] as const;
 
 export function AdminSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="bg-[#121212] text-white lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-[320px] lg:flex-col lg:border-r lg:border-white/10">
-      <div className="border-b border-white/10 px-6 py-6 lg:px-8 lg:py-10">
-        <Link href="/admin/projects" className="qs-reg text-[3rem] leading-none text-white">
-          Estate<span className="text-[#f07c61]">.</span>
+    <aside className="bg-[#0f1219] text-white lg:sticky lg:top-0 lg:flex lg:h-screen lg:w-[320px] lg:flex-col lg:border-r lg:border-white/10">
+      <div className="border-b border-white/10 px-6 py-5 lg:px-8 lg:py-7">
+        <Link href="/admin/projects" className="inline-flex">
+          <Image
+            src="/images/Logo1.svg"
+            alt="The Guardians"
+            width={220}
+            height={60}
+            className="h-auto w-[170px] object-contain object-left"
+            priority={false}
+          />
         </Link>
       </div>
 
-      <nav className="flex gap-3 overflow-x-auto px-4 py-5 lg:flex-1 lg:flex-col lg:gap-4 lg:px-4 lg:py-8">
+      <nav className="flex gap-2.5 overflow-x-auto px-3 py-4 lg:flex-1 lg:flex-col lg:gap-2.5 lg:px-3 lg:py-5">
         {navItems.map((item) => {
           const Icon = item.icon;
-          const active = pathname === item.href || pathname.startsWith(`${item.href}/`);
+          const isProjectsItem = item.href === "/admin/projects";
+          const active =
+            pathname === item.href ||
+            pathname.startsWith(`${item.href}/`) ||
+            (isProjectsItem && pathname.startsWith("/admin/add-project"));
 
           return (
             <Link
               key={item.href}
               href={item.href}
               className={[
-                "inline-flex items-center gap-4 rounded-[20px] px-6 py-5 text-[1.15rem] font-medium whitespace-nowrap transition-all",
+                "inline-flex items-center gap-3 rounded-[14px] px-4 py-3 text-[0.94rem] font-medium whitespace-nowrap transition-all",
                 active
-                  ? "btn-primary-gradient text-white shadow-[0_18px_32px_rgba(240,150,132,0.22)]"
-                  : "text-[#aab2bf] hover:bg-white/5 hover:text-white",
+                  ? "btn-primary-gradient text-white shadow-[0_16px_28px_rgba(240,150,132,0.2)]"
+                  : "text-[#aab2bf] hover:bg-white/6 hover:text-white",
               ].join(" ")}
             >
-              <Icon className="h-6 w-6 shrink-0" />
+              <Icon className="h-5 w-5 shrink-0" />
               <span>{item.label}</span>
             </Link>
           );

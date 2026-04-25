@@ -1,5 +1,7 @@
 "use client";
 
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import { useEffect, useState } from "react";
 import { getAllVisits } from "@/src/api/services/visitService";
 import { IconMapPin } from "@/components/admin/panel/AdminIcons";
@@ -178,7 +180,7 @@ function mapVisit(item: BookVisitApiItem): BookVisit {
 
 function VisitCard({ visit }: { visit: BookVisit }) {
   return (
-    <article className="rounded-[28px] border border-[#dbe4f0] bg-white p-6 shadow-[0_10px_24px_rgba(15,23,42,0.04)] sm:p-8">
+    <article className="rounded-[28px] border border-[#dbe4f0] bg-white p-6 shadow-[0_10px_24px_rgba(15,23,42,0.04)] transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_18px_34px_rgba(15,23,42,0.09)] sm:p-8">
       <div className="space-y-2">
         <h2 className="text-[2.05rem] font-semibold leading-tight text-[#1f2a44]">
           {visit.name}
@@ -293,11 +295,13 @@ export function BookVisitsPageContent() {
   }
 
   return (
-    <section className="mx-auto min-h-[420px] max-w-[1420px] space-y-6">
+    <section className="min-h-[420px] w-full space-y-4">
       {errorMessage ? (
+        <ScrollReveal direction="up" distance={20}>
         <div className="rounded-[20px] border border-[#f3d3cb] bg-[#fff6f3] px-5 py-4 text-[1rem] font-medium text-[#c25b45]">
           {errorMessage}
         </div>
+        </ScrollReveal>
       ) : null}
 
       {isLoading ? (
@@ -306,18 +310,20 @@ export function BookVisitsPageContent() {
         </div>
       ) : visits.length > 0 ? (
         <>
-          <div className="grid gap-6 xl:grid-cols-2">
-            {visits.map((visit) => (
-              <VisitCard key={visit.id} visit={visit} />
+          <StaggerContainer className="grid gap-4 xl:grid-cols-2" staggerChildren={0.08}>
+            {visits.map((visit, index) => (
+              <ScrollReveal key={visit.id} direction="up" delay={index * 0.03} distance={18}>
+                <VisitCard visit={visit} />
+              </ScrollReveal>
             ))}
-          </div>
+          </StaggerContainer>
 
-          <div className="flex items-center justify-center gap-3">
+          <ScrollReveal direction="up" delay={0.08} className="flex items-center justify-center gap-2.5">
             <button
               type="button"
               onClick={() => goToPage(currentPage - 1)}
               disabled={currentPage === 1}
-              className="inline-flex h-[54px] w-[54px] items-center justify-center rounded-[16px] border border-[#e6eaf0] bg-white text-[#6b7280] transition hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex h-[48px] w-[48px] items-center justify-center rounded-[14px] border border-[#e6eaf0] bg-white text-[#6b7280] transition hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-50"
             >
               <IconChevronLeft className="h-5 w-5" />
             </button>
@@ -329,7 +335,7 @@ export function BookVisitsPageContent() {
                   type="button"
                   onClick={() => goToPage(page)}
                   className={[
-                    "inline-flex h-[54px] w-[54px] items-center justify-center rounded-[16px] text-[1.05rem] font-semibold transition",
+                    "inline-flex h-[48px] w-[48px] items-center justify-center rounded-[14px] text-[0.98rem] font-semibold transition",
                     currentPage === page
                       ? "btn-primary-gradient text-white"
                       : "border border-[#e6eaf0] bg-white text-[#111827] hover:bg-[#f8fafc]",
@@ -344,11 +350,11 @@ export function BookVisitsPageContent() {
               type="button"
               onClick={() => goToPage(currentPage + 1)}
               disabled={currentPage === lastPage}
-              className="inline-flex h-[54px] w-[54px] items-center justify-center rounded-[16px] border border-[#e6eaf0] bg-white text-[#6b7280] transition hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-50"
+              className="inline-flex h-[48px] w-[48px] items-center justify-center rounded-[14px] border border-[#e6eaf0] bg-white text-[#6b7280] transition hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-50"
             >
               <IconChevronRight className="h-5 w-5" />
             </button>
-          </div>
+          </ScrollReveal>
         </>
       ) : (
         <div className="rounded-[28px] border border-[#dbe4f0] bg-white px-6 py-12 text-center text-[1.08rem] text-[#6d7d98] shadow-[0_10px_24px_rgba(15,23,42,0.04)]">

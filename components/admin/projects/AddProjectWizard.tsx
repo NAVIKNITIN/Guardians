@@ -1,5 +1,6 @@
 "use client";
 
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { ChangeEvent, ReactNode } from "react";
 import { useEffect, useState } from "react";
@@ -23,6 +24,7 @@ import {
   IconSparkles,
   IconUpload,
 } from "@/components/admin/panel/AdminIcons";
+import { motion } from "framer-motion";
 
 type StepId = "basic" | "details" | "location";
 
@@ -84,7 +86,7 @@ type ProjectLocation = {
   state: string | null;
   country: string | null;
   address: string | null;
-  pincode: string |null;
+  pincode: string | null;
   latitude: string | number | null;
   longitude: string | number | null;
   walking_time: string | null;
@@ -146,8 +148,24 @@ const steps = [
   { id: "location", label: "Location & Connectivity" },
 ] as const;
 
+const BUTTON_PRIMARY_CLASS =
+  "inline-flex cursor-pointer items-center justify-center gap-2.5 rounded-[14px] text-[0.96rem] font-semibold text-white btn-primary-gradient shadow-[0_14px_24px_rgba(240,150,132,0.22)]";
+
+const BUTTON_OUTLINE_CLASS =
+  "inline-flex cursor-pointer items-center justify-center rounded-[16px] border border-[#f09684] px-6 text-[1rem] font-semibold text-[#f07c61] transition hover:bg-[#fff5f1]";
+
 function createLocalId() {
   return Date.now() + Math.floor(Math.random() * 1000);
+}
+
+function createEmptyAmenity(id = createLocalId()): Amenity {
+  return {
+    id,
+    name: "",
+    imageFileName: "",
+    imageFile: null,
+    existingImageId: null,
+  };
 }
 
 function createEmptyLocationSection(
@@ -188,8 +206,8 @@ function mapProjectLocationsToSections(
   return locations.map((location) => {
     const shouldShowPlace = Boolean(
       location.walking_time ||
-        location.driving_time ||
-        (location.place_name && location.place_name !== location.city),
+      location.driving_time ||
+      (location.place_name && location.place_name !== location.city),
     );
 
     return {
@@ -217,8 +235,15 @@ function SectionCard({
   children: ReactNode;
 }) {
   return (
-    <section className="rounded-[30px] border border-[#e7e4df] bg-white shadow-[0_8px_18px_rgba(22,20,19,0.06)]">
-      <div className="flex items-center gap-4 border-b border-[#efede9] px-6 py-7 sm:px-9">
+    <motion.section
+      className="rounded-[30px] border border-[#e7e4df] bg-white shadow-[0_8px_18px_rgba(22,20,19,0.06)]"
+      initial={{ opacity: 0, y: 10 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, }}
+      transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+      whileHover={{ y: -1 }}
+    >
+      <div className="flex items-center gap-4 border-b border-[#efede9] p-2 md:p-4">
         <div className="flex h-[62px] w-[62px] items-center justify-center rounded-[18px] bg-[#fff3ed] text-[#f07c61]">
           {icon}
         </div>
@@ -228,8 +253,8 @@ function SectionCard({
         </h2>
       </div>
 
-      <div className="space-y-6 px-6 py-7 sm:px-9 sm:py-8">{children}</div>
-    </section>
+      <div className="space-y-6 px-2 py-2 md:px-4 md:py-4">{children}</div>
+    </motion.section>
   );
 }
 
@@ -365,6 +390,43 @@ function AmenityImageField({
   );
 }
 
+function AddItemButton({
+  label,
+  onClick,
+}: {
+  label: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`${BUTTON_PRIMARY_CLASS} h-[50px] px-6`}
+    >
+      <IconPlus className="h-5 w-5" />
+      {label}
+    </button>
+  );
+}
+
+function RemoveItemButton({
+  label,
+  onClick,
+}: {
+  label: string;
+  onClick: () => void;
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`${BUTTON_OUTLINE_CLASS} h-[54px]`}
+    >
+      {label}
+    </button>
+  );
+}
+
 export function AddProjectWizard() {
   const router = useRouter();
   const searchParams = useSearchParams();
@@ -398,15 +460,7 @@ export function AddProjectWizard() {
     startingPrice: "",
   });
 
-  const [amenities, setAmenities] = useState<Amenity[]>([
-    {
-      id: 1,
-      name: "",
-      imageFileName: "",
-      imageFile: null,
-      existingImageId: null,
-    },
-  ]);
+  const [amenities, setAmenities] = useState<Amenity[]>([createEmptyAmenity(1)]);
 
   const [locationSections, setLocationSections] = useState<
     LocationConnectivitySection[]
@@ -483,23 +537,15 @@ export function AddProjectWizard() {
         setAmenities(
           project.amenities.length > 0
             ? project.amenities.map((item) => ({
-                id: item.id,
-                name: item.name,
-                imageFileName: item.amenities_image_id
-                  ? "Existing image linked"
-                  : "",
-                imageFile: null,
-                existingImageId: item.amenities_image_id,
-              }))
-            : [
-                {
-                  id: 1,
-                  name: "",
-                  imageFileName: "",
-                  imageFile: null,
-                  existingImageId: null,
-                },
-              ],
+              id: item.id,
+              name: item.name,
+              imageFileName: item.amenities_image_id
+                ? "Existing image linked"
+                : "",
+              imageFile: null,
+              existingImageId: item.amenities_image_id,
+            }))
+            : [createEmptyAmenity(1)],
         );
       } catch (error) {
         if (!isMounted) return;
@@ -575,16 +621,7 @@ export function AddProjectWizard() {
   }
 
   function addAmenity() {
-    setAmenities((current) => [
-      ...current,
-      {
-        id: createLocalId(),
-        name: "",
-        imageFileName: "",
-        imageFile: null,
-        existingImageId: null,
-      },
-    ]);
+    setAmenities((current) => [...current, createEmptyAmenity()]);
   }
 
   function updateAmenityName(id: number, value: string) {
@@ -600,10 +637,10 @@ export function AddProjectWizard() {
       current.map((item) =>
         item.id === id
           ? {
-              ...item,
-              imageFileName: file ? file.name : "",
-              imageFile: file,
-            }
+            ...item,
+            imageFileName: file ? file.name : "",
+            imageFile: file,
+          }
           : item,
       ),
     );
@@ -686,14 +723,14 @@ export function AddProjectWizard() {
       .filter((section) =>
         Boolean(
           section.fullAddress.trim() ||
-            section.latitude.trim() ||
-            section.longitude.trim() ||
-            section.city.trim() ||
-            section.state.trim() ||
-            section.pincode.trim() ||
-            section.place.trim() ||
-            section.walkingTime.trim() ||
-            section.drivingTime.trim(),
+          section.latitude.trim() ||
+          section.longitude.trim() ||
+          section.city.trim() ||
+          section.state.trim() ||
+          section.pincode.trim() ||
+          section.place.trim() ||
+          section.walkingTime.trim() ||
+          section.drivingTime.trim(),
         ),
       )
       .map((section) => ({
@@ -725,12 +762,12 @@ export function AddProjectWizard() {
       configurations:
         configurationName && normalizedPrice > 0
           ? [
-              {
-                bhk_type: configurationName,
-                price_min: normalizedPrice,
-                price_max: normalizedPrice,
-              },
-            ]
+            {
+              bhk_type: configurationName,
+              price_min: normalizedPrice,
+              price_max: normalizedPrice,
+            },
+          ]
           : [],
       locations,
       amenities: amenityPayload,
@@ -838,37 +875,77 @@ export function AddProjectWizard() {
     setStep(steps[currentStepIndex + 1].id);
   }
 
+  const basicFields: Array<{
+    key: "projectName" | "reraNumber";
+    placeholder: string;
+  }> = [
+      { key: "projectName", placeholder: "Project Name" },
+      { key: "reraNumber", placeholder: "RERA Number" },
+    ];
+
+  const detailsFields: Array<{
+    key: "areaSqft" | "propertyType" | "configuration" | "startingPrice";
+    placeholder: string;
+  }> = [
+      { key: "areaSqft", placeholder: "Area (sq.ft)" },
+      { key: "propertyType", placeholder: "Property Type" },
+      { key: "configuration", placeholder: "Configuration" },
+      { key: "startingPrice", placeholder: "Starting Price" },
+    ];
+
+  const locationCoordinateFields: Array<{
+    key: "latitude" | "longitude";
+    placeholder: string;
+  }> = [
+      { key: "latitude", placeholder: "Latitude" },
+      { key: "longitude", placeholder: "Longitude" },
+    ];
+
+  const locationAddressFields: Array<{
+    key: "city" | "state" | "pincode";
+    placeholder: string;
+  }> = [
+      { key: "city", placeholder: "City" },
+      { key: "state", placeholder: "State" },
+      { key: "pincode", placeholder: "Pincode" },
+    ];
+
+  const locationConnectivityFields: Array<{
+    key: "place" | "walkingTime" | "drivingTime";
+    placeholder: string;
+  }> = [
+      { key: "place", placeholder: "Place / Landmark" },
+      { key: "walkingTime", placeholder: "Walking Time" },
+      { key: "drivingTime", placeholder: "Driving Time" },
+    ];
+
   return (
-    <section className="mx-auto max-w-[1420px] space-y-8">
-      <div className="rounded-[24px] border border-[#f0e2dc] bg-[#fff8f5] px-6 py-4 text-[1rem] font-medium text-[#7a5a50] shadow-[0_4px_10px_rgba(22,20,19,0.03)]">
-        {isEditMode
-          ? "Update Mode: Existing project is loaded for editing."
-          : "Create Mode: Add a new project."}
-      </div>
+    <section className="w-full space-y-5">
+      <ScrollReveal direction="up" delay={0.04} distance={18}>
+        <div className="rounded-[22px] border border-[#e7e4df] bg-white p-2.5 shadow-[0_8px_18px_rgba(22,20,19,0.06)]">
+          <div className="grid gap-2.5 lg:grid-cols-3">
+            {steps.map((item) => {
+              const active = item.id === step;
 
-      <div className="rounded-[28px] border border-[#e7e4df] bg-white p-3 shadow-[0_8px_18px_rgba(22,20,19,0.06)]">
-        <div className="grid gap-3 lg:grid-cols-3">
-          {steps.map((item) => {
-            const active = item.id === step;
-
-            return (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => setStep(item.id)}
-                className={[
-                  "rounded-[20px] px-6 py-5 text-[1.15rem] font-semibold transition",
-                  active
-                    ? "btn-primary-gradient text-white shadow-[0_18px_30px_rgba(240,150,132,0.22)]"
-                    : "text-[#556179] hover:bg-[#faf6f3]",
-                ].join(" ")}
-              >
-                {item.label}
-              </button>
-            );
-          })}
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setStep(item.id)}
+                  className={[
+                    "rounded-[14px] cursor-pointer px-2.5 py-1.5 text-[0.98rem] font-semibold transition md:px-5 md:py-3.5",
+                    active
+                      ? "btn-primary-gradient text-white shadow-[0_18px_30px_rgba(240,150,132,0.22)]"
+                      : "text-[#556179] hover:bg-[#faf6f3]",
+                  ].join(" ")}
+                >
+                  {item.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
-      </div>
+      </ScrollReveal>
 
       {step === "basic" ? (
         <>
@@ -876,17 +953,15 @@ export function AddProjectWizard() {
             icon={<IconInfoCircle className="h-7 w-7" />}
             title="Basic Information"
           >
-            <div className="grid gap-5 lg:grid-cols-2">
-              <TextInput
-                placeholder="Project Name"
-                value={form.projectName}
-                onChange={(value) => updateField("projectName", value)}
-              />
-              <TextInput
-                placeholder="RERA Number"
-                value={form.reraNumber}
-                onChange={(value) => updateField("reraNumber", value)}
-              />
+            <div className="grid gap-2.5 md:gap-5 lg:grid-cols-2">
+              {basicFields.map((field) => (
+                <TextInput
+                  key={field.key}
+                  placeholder={field.placeholder}
+                  value={form[field.key]}
+                  onChange={(value) => updateField(field.key, value)}
+                />
+              ))}
             </div>
           </SectionCard>
 
@@ -926,26 +1001,14 @@ export function AddProjectWizard() {
             title="Project Highlights"
           >
             <div className="grid gap-5 lg:grid-cols-2">
-              <TextInput
-                placeholder="Area (sq.ft)"
-                value={form.areaSqft}
-                onChange={(value) => updateField("areaSqft", value)}
-              />
-              <TextInput
-                placeholder="Property Type"
-                value={form.propertyType}
-                onChange={(value) => updateField("propertyType", value)}
-              />
-              <TextInput
-                placeholder="Configuration"
-                value={form.configuration}
-                onChange={(value) => updateField("configuration", value)}
-              />
-              <TextInput
-                placeholder="Starting Price"
-                value={form.startingPrice}
-                onChange={(value) => updateField("startingPrice", value)}
-              />
+              {detailsFields.map((field) => (
+                <TextInput
+                  key={field.key}
+                  placeholder={field.placeholder}
+                  value={form[field.key]}
+                  onChange={(value) => updateField(field.key, value)}
+                />
+              ))}
             </div>
           </SectionCard>
 
@@ -996,27 +1059,17 @@ export function AddProjectWizard() {
 
                   {amenities.length > 1 ? (
                     <div className="mt-4 flex justify-end">
-                      <button
-                        type="button"
+                      <RemoveItemButton
+                        label="Remove Amenity"
                         onClick={() => removeAmenity(item.id)}
-                        className="inline-flex h-[54px] items-center justify-center rounded-[16px] border border-[#f09684] px-6 text-[1rem] font-semibold text-[#f07c61] transition hover:bg-[#fff5f1]"
-                      >
-                        Remove Amenity
-                      </button>
+                      />
                     </div>
                   ) : null}
                 </div>
               ))}
 
               <div className="flex justify-end">
-                <button
-                  type="button"
-                  onClick={addAmenity}
-                  className="inline-flex h-[58px] items-center justify-center gap-3 rounded-[18px] px-7 text-[1.1rem] font-semibold text-white btn-primary-gradient shadow-[0_18px_30px_rgba(240,150,132,0.22)]"
-                >
-                  <IconPlus className="h-5 w-5" />
-                  Add Amenity
-                </button>
+                <AddItemButton label="Add Amenity" onClick={addAmenity} />
               </div>
             </div>
           </SectionCard>
@@ -1024,7 +1077,7 @@ export function AddProjectWizard() {
       ) : null}
 
       {step === "location" ? (
-        <div className="space-y-6">
+        <div className="space-y-4">
           {locationSections.map((section, index) => (
             <SectionCard
               key={section.id}
@@ -1045,44 +1098,29 @@ export function AddProjectWizard() {
               />
 
               <div className="grid gap-5 lg:grid-cols-2">
-                <TextInput
-                  placeholder="Latitude"
-                  value={section.latitude}
-                  onChange={(value) =>
-                    updateLocationSection(section.id, "latitude", value)
-                  }
-                />
-                <TextInput
-                  placeholder="Longitude"
-                  value={section.longitude}
-                  onChange={(value) =>
-                    updateLocationSection(section.id, "longitude", value)
-                  }
-                />
+                {locationCoordinateFields.map((field) => (
+                  <TextInput
+                    key={field.key}
+                    placeholder={field.placeholder}
+                    value={section[field.key]}
+                    onChange={(value) =>
+                      updateLocationSection(section.id, field.key, value)
+                    }
+                  />
+                ))}
               </div>
 
               <div className="grid gap-5 lg:grid-cols-3">
-                <TextInput
-                  placeholder="City"
-                  value={section.city}
-                  onChange={(value) =>
-                    updateLocationSection(section.id, "city", value)
-                  }
-                />
-                <TextInput
-                  placeholder="State"
-                  value={section.state}
-                  onChange={(value) =>
-                    updateLocationSection(section.id, "state", value)
-                  }
-                />
-                <TextInput
-                  placeholder="Pincode"
-                  value={section.pincode}
-                  onChange={(value) =>
-                    updateLocationSection(section.id, "pincode", value)
-                  }
-                />
+                {locationAddressFields.map((field) => (
+                  <TextInput
+                    key={field.key}
+                    placeholder={field.placeholder}
+                    value={section[field.key]}
+                    onChange={(value) =>
+                      updateLocationSection(section.id, field.key, value)
+                    }
+                  />
+                ))}
               </div>
 
               <div className="border-t border-[#efede9] pt-6">
@@ -1095,65 +1133,41 @@ export function AddProjectWizard() {
                     <h3 className="text-[1.45rem] font-semibold text-[#33425e]">
                       Nearby Connectivity
                     </h3>
-                    <p className="text-[1rem] text-[#8a94a8]">
-                      
-                    </p>
                   </div>
                 </div>
 
                 <div className="grid gap-5 lg:grid-cols-3">
-                  <TextInput
-                    placeholder="Place / Landmark"
-                    value={section.place}
-                    onChange={(value) =>
-                      updateLocationSection(section.id, "place", value)
-                    }
-                  />
-                  <TextInput
-                    placeholder="Walking Time"
-                    value={section.walkingTime}
-                    onChange={(value) =>
-                      updateLocationSection(section.id, "walkingTime", value)
-                    }
-                  />
-                  <TextInput
-                    placeholder="Driving Time"
-                    value={section.drivingTime}
-                    onChange={(value) =>
-                      updateLocationSection(section.id, "drivingTime", value)
-                    }
-                  />
+                  {locationConnectivityFields.map((field) => (
+                    <TextInput
+                      key={field.key}
+                      placeholder={field.placeholder}
+                      value={section[field.key]}
+                      onChange={(value) =>
+                        updateLocationSection(section.id, field.key, value)
+                      }
+                    />
+                  ))}
                 </div>
               </div>
 
               {locationSections.length > 1 ? (
                 <div className="flex justify-end">
-                  <button
-                    type="button"
+                  <RemoveItemButton
+                    label="Remove Full Section"
                     onClick={() => removeLocationSection(section.id)}
-                    className="inline-flex h-[54px] items-center justify-center rounded-[16px] border border-[#f09684] px-6 text-[1rem] font-semibold text-[#f07c61] transition hover:bg-[#fff5f1]"
-                  >
-                    Remove Full Section
-                  </button>
+                  />
                 </div>
               ) : null}
             </SectionCard>
           ))}
 
           <div className="flex justify-end">
-            <button
-              type="button"
-              onClick={addLocationSection}
-              className="inline-flex h-[58px] items-center justify-center gap-3 rounded-[18px] px-7 text-[1.1rem] font-semibold text-white btn-primary-gradient shadow-[0_18px_30px_rgba(240,150,132,0.22)]"
-            >
-              <IconPlus className="h-5 w-5" />
-              Add Connectivity
-            </button>
+            <AddItemButton label="Add Connectivity" onClick={addLocationSection} />
           </div>
         </div>
       ) : null}
 
-      <div className="space-y-4">
+      <div className="space-y-3">
         {errorMessage ? (
           <p className="text-sm font-medium text-[#d05c43]">{errorMessage}</p>
         ) : null}
@@ -1163,7 +1177,7 @@ export function AddProjectWizard() {
             type="button"
             onClick={goToNextStep}
             disabled={isSubmitting || isLoadingProject}
-            className="inline-flex h-[60px] w-full items-center justify-center gap-3 rounded-[20px] px-8 text-[1.15rem] font-semibold text-white btn-primary-gradient shadow-[0_18px_30px_rgba(240,150,132,0.22)] transition disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto"
+            className={`${BUTTON_PRIMARY_CLASS} h-[52px] w-full px-7 text-[0.98rem] transition disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto`}
           >
             {isLastStep ? (
               <IconCheckSeal className="h-5 w-5" />

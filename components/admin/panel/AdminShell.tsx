@@ -3,6 +3,8 @@
 import { usePathname } from "next/navigation";
 import { AdminSidebar } from "@/components/admin/panel/AdminSidebar";
 import { AdminTopbar } from "@/components/admin/panel/AdminTopbar";
+import { AdminPageContainer } from "@/components/admin/panel/AdminPageContainer";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 
 export function AdminShell({
   children,
@@ -10,6 +12,7 @@ export function AdminShell({
   children: React.ReactNode;
 }>) {
   const pathname = usePathname();
+  const prefersReducedMotion = useReducedMotion();
 
   const pageConfig = pathname.startsWith("/admin/book-visits")
     ? {
@@ -32,7 +35,7 @@ export function AdminShell({
           };
 
   return (
-    <div className="min-h-screen bg-[#f6f7f8] text-[#44506a] lg:grid lg:grid-cols-[320px_minmax(0,1fr)]">
+    <div className="min-h-screen bg-[radial-gradient(circle_at_top,#ffffff_0%,#f5f7fb_45%,#eef2f7_100%)] text-[#44506a] lg:grid lg:grid-cols-[320px_minmax(0,1fr)]">
       <AdminSidebar />
 
       <div className="min-w-0">
@@ -40,7 +43,18 @@ export function AdminShell({
           title={pageConfig.title}
           searchPlaceholder={pageConfig.searchPlaceholder}
         />
-        <main className="px-4 py-6 sm:px-8 lg:px-12 lg:py-8">{children}</main>
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.main
+            key={pathname}
+            className="min-w-0"
+            initial={prefersReducedMotion ? false : { opacity: 0, y: 12, filter: "blur(4px)" }}
+            animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+            exit={prefersReducedMotion ? undefined : { opacity: 0, y: -8, filter: "blur(2px)" }}
+            transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <AdminPageContainer>{children}</AdminPageContainer>
+          </motion.main>
+        </AnimatePresence>
       </div>
     </div>
   );

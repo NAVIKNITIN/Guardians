@@ -1,5 +1,6 @@
 "use client";
 
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 
@@ -33,9 +34,11 @@ export function AdminLoginPage() {
       </div>
 
       <div className="relative z-10 flex min-h-screen items-center justify-center px-4 py-10 sm:px-6">
-        <div className="w-full max-w-[510px] rounded-[28px] border border-white/70 bg-white/88 p-6 shadow-[0_24px_70px_rgba(83,51,40,0.16)] backdrop-blur-[16px] sm:p-10">
-          <AdminLoginForm />
-        </div>
+        <ScrollReveal direction="up" distance={28} className="w-full max-w-[510px]">
+          <div className="w-full max-w-[510px] rounded-[28px] border border-white/70 bg-white/88 p-6 shadow-[0_24px_70px_rgba(83,51,40,0.16)] backdrop-blur-lg sm:p-10">
+            <AdminLoginForm />
+          </div>
+        </ScrollReveal>
       </div>
     </main>
   );
