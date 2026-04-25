@@ -1,7 +1,7 @@
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
-import Link from "next/link";
 import type { ReactNode } from "react";
 
 interface SplitSectionImage {
@@ -52,16 +52,16 @@ export function SplitSection({
           duration={0.65}
           className={cn(reverse ? "md:order-2" : "md:order-1", contentClassName)}
         >
-          <div className="space-y-6">
-            <div className={cn("text-3xl md:text-4xl leading-tight text-brand-text-primary", titleClassName)}>
+          <div className="">
+            <div className={cn("mb-[110px] text-3xl md:text-4xl leading-tight text-brand-text-primary", titleClassName)}>
               {title}
             </div>
-            <p className={cn("n-reg text-base leading-relaxed text-[#161616]", descriptionClassName)}>
+            <p className={cn("n-reg text-base leading-relaxed text-[#161616] min-h-[200px]", descriptionClassName)}>
               {description}
             </p>
-            <Link href={href} className={cn("inline-flex items-center", buttonClassName)}>
+            <GradientCtaButton href={href} className={cn("pt-1 h-[50]", buttonClassName)}>
               {buttonText}
-            </Link>
+            </GradientCtaButton>
           </div>
         </ScrollReveal>
 

@@ -35,12 +35,12 @@ export function TGREABrands() {
   return (
     <section className="bg-white" aria-labelledby="our-brands-heading">
       {/* Section heading */}
-      <Container className="min-w-0 py-8 text-center">
+      <Container className="min-w-0 px-4 py-8 text-center sm:py-12 lg:py-16">
         <h2
           id="our-brands-heading"
           className={cn(
             "qs-reg nt-normal uppercase tracking-[0.05em] text-brand-text-primary",
-            "text-[clamp(1.5rem,5vw,3.125rem)] leading-[1.05] sm:leading-none sm:pt-5 lg:pt-10",
+            "text-[clamp(1.5rem,5vw,3.125rem)] leading-[1.05] sm:leading-none",
           )}
         >
           Our Brands
@@ -48,7 +48,7 @@ export function TGREABrands() {
       </Container>
 
       {/* Brand rows */}
-      <StaggerContainer className="mt-2 mb-5 md:mt-6 md:mb-30">
+      <StaggerContainer className="space-y-2 sm:space-y-4 lg:space-y-[70px] mb-10 md:mb-15 lg:mb-20">
         {brands.map(({ id, reverse, href, logoBG, logo }) => (
           <SplitSection
             key={id}
@@ -58,11 +58,12 @@ export function TGREABrands() {
             description={DESCRIPTION}
             buttonText="Read more"
             image={{ src: logo, alt: "Construction site at sunset" }}
-            className="py-20 px-6 md:px-16 lg:px-20"
-            titleClassName="mb-2"
+            className="px-4 py-2 sm:px-8 sm:py-4 lg:px-16 lg:py-0"
+            contentClassName="flex items-center md:min-h-[520px] lg:min-h-[650px]"
+            titleClassName=""
             descriptionClassName="max-w-[488px] text-[clamp(0.875rem,3vw,1rem)] leading-[1.5] sm:text-base"
             buttonClassName={cn(readMoreClassName, "group cta-hover-trigger mt-4 sm:mt-10")}
-            imageClassName="rounded-none"
+            imageClassName="aspect-[488/434] min-h-[220px] rounded-none md:min-h-[520px] lg:aspect-auto lg:h-full lg:min-h-[650px]"
           />
         ))}
       </StaggerContainer>

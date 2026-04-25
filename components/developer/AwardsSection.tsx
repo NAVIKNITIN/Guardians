@@ -23,11 +23,11 @@ export function AwardsSection({
 	const total = slides.length;
 	const { index, advance } = useCycleIndex(total, 0);
 	const slide = slides[index]!;
-	const [rollDir, setRollDir] = useState<1 | -1>(1);
+	const [rollDir, setRollDir] = useState<1 | -1 | 2>(1);
 
 	const goNext = () => {
-		setRollDir(1);
-		advance(1);
+		setRollDir(2);
+		advance(2);
 	};
 
 	const goPrev = () => {
@@ -69,7 +69,7 @@ export function AwardsSection({
 					</ScrollReveal>
 				</StaggerContainer>
 
-				<ScrollReveal direction="up" delay={0.08} className="relative flex justify-center lg:col-span-5 lg:justify-center lg:pl-10">
+				<ScrollReveal direction="up" delay={0.008} className="relative flex justify-center lg:col-span-5 lg:justify-center lg:pl-10">
 					<div
 						className={cn(
 							"relative mx-auto w-full max-w-[min(100%,385.33px)]",
@@ -85,7 +85,7 @@ export function AwardsSection({
 					</div>
 				</ScrollReveal>
 
-				<ScrollReveal direction="right" delay={0.12} className="flex min-h-0 w-full min-w-0 flex-col items-center text-center lg:col-span-4 lg:h-full lg:items-stretch lg:text-left">
+				<ScrollReveal direction="right" delay={0.08} className="flex min-h-0 w-full min-w-0 flex-col items-center text-center lg:col-span-4 lg:h-full lg:items-stretch lg:text-left">
 					<div className="mb-8 flex w-full shrink-0 justify-center lg:mb-10 lg:justify-start">
 						<CarouselControls
 							currentIndex={index}

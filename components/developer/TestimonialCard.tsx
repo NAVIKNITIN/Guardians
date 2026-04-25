@@ -19,9 +19,9 @@ export function TestimonialCard({
   return (
     <article
       className={cn(
-        " flex h-full min-h-0 flex-col p-6 shadow-sm",
+        "group flex h-full min-h-0 flex-col p-6 shadow-sm will-change-transform transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_34px_rgba(22,20,19,0.18)]",
         /* Dot grid over linear fill: #BCBDC0 → #8F8183 (left → right) */
-        "bg-[radial-gradient(circle_at_center,#BCBDC0_1px,transparent_1px),linear-gradient(to_right,#edeced_0%,#BCBDC0_300%)] [background-size:14px_14px,100%_100%] [background-repeat:repeat,no-repeat]",
+        "bg-[radial-gradient(circle_at_center,#BCBDC0_1px,transparent_1px),linear-gradient(to_right,#edeced_0%,#BCBDC0_300%)] bg-size-[14px_14px,100%_100%] [background-repeat:repeat,no-repeat]",
         className,
       )}
     >
@@ -37,11 +37,23 @@ export function TestimonialCard({
           />
         </div>
         <div className="relative h-20 w-20 shrink-0 overflow-hidden rounded-full  bg-white">
-          <Image src={avatar} alt="" fill className="object-cover clip-path-circle" sizes="75px" />
+          <Image
+            src={avatar}
+            alt=""
+            fill
+            className="object-cover clip-path-circle transition-transform duration-300 group-hover:scale-105"
+            sizes="75px"
+          />
         </div>
       </div>
       <span className="mt-15 block text-brand-text-primary">
-        <Image src={"/images/invertedComma.svg"} alt="" width={27} height={27} className="object-cover clip-path-circle" />
+        <Image
+          src={"/images/invertedComma.svg"}
+          alt=""
+          width={27}
+          height={27}
+          className="object-cover clip-path-circle transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:scale-105"
+        />
 
       </span>
       <p className=" fs-20 lh-24  n-bold leading-relaxed text-brand-text-primary mt-5">
