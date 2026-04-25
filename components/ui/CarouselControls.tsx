@@ -55,8 +55,8 @@ export function CarouselControls({
         <Image
           src={CAROUSEL_PREV}
           alt=""
-          width={25}
-          height={25}
+          width={40}
+          height={40}
           className="object-cover"
         />
       </RoundIconButton>
@@ -82,8 +82,8 @@ export function CarouselControls({
         <Image
           src={CAROUSEL_NEXT}
           alt=""
-          width={25}
-          height={25}
+          width={40}
+          height={40}
           className=" bg-transparent object-cover"
         />
       </RoundIconButton>

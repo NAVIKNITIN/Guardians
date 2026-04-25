@@ -1,167 +1,185 @@
 "use client";
 
 import type { AwardSlide } from "@/data/audience-marketing";
-import { motion } from "framer-motion";
 import Image from "next/image";
 import { cn } from "@/utils/cn";
+import {
+	forwardRef,
+	useEffect,
+	useImperativeHandle,
+	useRef,
+	useState,
+} from "react";
+
+export type CardStackHandle = {
+	next: () => boolean;
+	prev: () => boolean;
+};
+
+export const CARD_STACK_EXIT_DURATION_MS = 600;
 
 type CardStackProps = {
 	items: AwardSlide[];
-	activeIndex: number;
-	direction: 1 | -1;
+	offset?: number;
+	scaleFactor?: number;
 	className?: string;
 };
 
-export function CardStack({
-	items,
-	activeIndex,
-	direction,
-	className,
-}: CardStackProps) {
-	if (!items.length) return null;
+function getItemsKey(items: AwardSlide[]) {
+	return items.map((item) => item.id).join("|");
+}
 
-	// Keep all cards mounted and only animate their stacked state.
-	// This avoids remount flashes/blinks when active index changes.
-	const cards = items
-		.map((item, itemIndex) => {
-			const stackIndex = (itemIndex - activeIndex + items.length) % items.length;
-			return { ...item, stackIndex };
-		})
-		.sort((a, b) => b.stackIndex - a.stackIndex);
+const CardStackInner = forwardRef<CardStackHandle, CardStackProps>(
+	function CardStackInner(
+		{ items, offset = 32, scaleFactor = 0.018, className },
+		ref,
+	) {
+		const [cards, setCards] = useState<AwardSlide[]>(() => [...items]);
+		const [noTransitionId, setNoTransitionId] = useState<
+			string | number | null
+		>(null);
 
-	return (
-		<div className={cn("relative h-full w-full perspective-distant", className)}>
-			{cards.map((card) => {
-				const stackIndex = card.stackIndex;
-				const inStack = stackIndex < 3;
-				const clampedIndex = Math.min(stackIndex, 2);
-				const isFront = clampedIndex === 0;
+		const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-				return (
-					<motion.div
-						key={card.id}
-						className="absolute overflow-hidden rounded-[2px] will-change-transform transform-[translateZ(0)] transform-3d"
-						initial={false}
-						animate={{
-							x: !inStack
-								? direction === 1
-									? -60   // coming from left (back → front)
-									: 60    // coming from right (front → back)
-								: clampedIndex === 0
-									? 0
-									: clampedIndex === 1
-										? direction === 1 ? -8 : 8
-										: direction === 1 ? -16 : 16,
+		useEffect(() => {
+			setCards([...items]);
+			setNoTransitionId(null);
 
-							y: !inStack
-								? 50
-								: clampedIndex === 0
-									? 0
-									: clampedIndex === 1
-										? -11
-										: -23,
+			return () => {
+				if (timeoutRef.current) clearTimeout(timeoutRef.current);
+			};
+		}, [items]);
 
-							scale: !inStack
-								? 0.88
-								: clampedIndex === 0
-									? 1
-									: clampedIndex === 1
-										? 0.96
-										: 0.92,
+		const animateNext = () => {
+			if (cards.length <= 1) return false;
 
-							rotateZ: 0,
+			setCards((prev) => {
+				const arr = [...prev];
+				const last = arr.pop();
+				if (last) arr.unshift(last);
+				return arr;
+			});
 
-							rotateY: !inStack
-								? direction === 1
-									? -12
-									: 12
-								: clampedIndex === 0
-									? 0
-									: direction === 1
-										? -4
-										: 4,
+			return true;
+		};
 
-							opacity: !inStack
-								? 0
-								: clampedIndex === 0
-									? 1
-									: clampedIndex === 1
-										? 0.95
-										: 0.89,
+		const animatePrev = () => {
+			if (cards.length <= 1) return false;
 
-							filter: !inStack
-								? "blur(0.8px)"
-								: clampedIndex === 0
-									? "blur(0px)"
-									: clampedIndex === 1
-										? "blur(0.2px)"
-										: "blur(0.45px)",
-						}}
-						transition={{
-							type: "tween",
-							duration: 1.15,
-							ease: [0.22, 1, 0.36, 1],
-						}}
-						style={{
-							pointerEvents: inStack ? "auto" : "none",
-							zIndex: inStack ? 30 - clampedIndex : 0,
-							backgroundImage:
-								"linear-gradient(180deg, #F1F1F2 0%, #E9E6E6 100%)",
-							left: `${clampedIndex * 12}px`,
-							right: `${clampedIndex * 12}px`,
-							top: `${-clampedIndex * 14}px`,
-							bottom: `${clampedIndex * 14}px`,
-							boxShadow:
-								clampedIndex === 0
-									? "0 22px 46px rgba(2, 6, 23, 0.16)"
-									: "0 12px 30px rgba(2, 6, 23, 0.11)",
-						}}
-					>
-						<div className="relative h-full w-full overflow-hidden bg-transparent">
+			setCards((prev) => {
+				const arr = [...prev];
+				const first = arr.shift();
+
+				if (first) {
+					// important: prevent front card from visibly throwing to back
+					setNoTransitionId(first.id);
+					arr.push(first);
+
+					if (timeoutRef.current) clearTimeout(timeoutRef.current);
+					timeoutRef.current = setTimeout(() => {
+						setNoTransitionId(null);
+					}, 80);
+				}
+
+				return arr;
+			});
+
+			return true;
+		};
+
+		useImperativeHandle(ref, () => ({
+			next: animateNext,
+			prev: animatePrev,
+		}));
+
+		if (!cards.length) return null;
+
+		return (
+			<div
+				className={cn("relative h-full w-full overflow-visible mt-10", className)}
+
+			>
+				<div className="relative h-full w-full overflow-visible">
+					{cards.map((card, index) => {
+						const visible = index < 3;
+						const isNoTransition = noTransitionId === card.id;
+
+						return (
 							<div
-								className="pointer-events-none absolute z-6"
+								key={card.id}
+								className="absolute inset-0 overflow-hidden rounded-[20px] border border-[#d8d1cc] bg-[#fbfaf7]"
 								style={{
-									left: -17,
-									top: 1,
-									width: 407,
-									height: 457,
-									mixBlendMode: "darken",
-									boxShadow: "0 -24px 42px rgba(15, 23, 42, 0.22)",
+									top: `${index * -offset}px`,
+									transform: `scale(${1 - index * scaleFactor})`,
+									zIndex: cards.length - index,
+									filter: index === 0 ? "none" : `blur(${index * 1.2}px)`,
+									opacity: visible ? 1 : 0,
+									transformOrigin: "top center",
+									pointerEvents: index === 0 ? "auto" : "none",
+									marginLeft: index === 0 ? "10px" : index === 1 ? "20px" : "30px",
+									marginRight: index === 0 ? "10px" : index === 1 ? "20px" : "30px",
+									transition: isNoTransition
+										? "none"
+										: "top 600ms cubic-bezier(0.34, 1.4, 0.64, 1), transform 600ms cubic-bezier(0.34, 1.4, 0.64, 1), opacity 400ms ease",
+
+									willChange: "top, transform, opacity",
 								}}
 							>
-								<Image
-									src="/images/awd-bg.svg"
-									alt=""
-									width={407}
-									height={400}
-									className="h-full w-full object-contain opacity-100"
-								/>
-							</div>
+								<div className="relative h-full w-full overflow-hidden">
+									<div
+										className="pointer-events-none absolute z-6"
+										style={{
+											left: -17,
+											top: 1,
+											width: 407,
+											height: 457,
+											mixBlendMode: "darken",
+											boxShadow: "0 -24px 42px rgba(15, 23, 42, 0.22)",
+										}}
+									>
+										<Image
+											src="/images/awd-bg.svg"
+											alt=""
+											width={407}
+											height={400}
+											className="h-full w-full object-contain opacity-100"
+										/>
+									</div>
 
-							{isFront ? (
-								<div className="pointer-events-none absolute inset-x-0 top-[0%] z-6 flex justify-center">
-									<Image
-										src="/images/award-top.png"
-										alt=""
-										width={160}
-										height={120}
-										className="h-auto w-[50%] object-contain opacity-100"
-									/>
+									<div className="pointer-events-none absolute inset-x-0 top-[4%] z-[6] flex justify-center opacity-70">
+										<Image
+											src="/images/award-top.png"
+											alt=""
+											width={160}
+											height={120}
+											className="h-auto w-[48%] object-contain"
+										/>
+									</div>
+
+									<div className="absolute inset-0 z-10">
+										<Image
+											src={card.imageSrc}
+											alt=""
+											fill
+											className="object-contain object-center scale-[0.82] translate-y-6"
+											sizes="(max-width: 1024px) 100vw, 520px"
+											priority={index === 0}
+										/>
+									</div>
 								</div>
-							) : null}
-
-							<div className="absolute h-full w-full z-10">
-								<Image
-									src={card.imageSrc}
-									alt=""
-									fill
-									className="object-contain object-center scale-[0.92] translate-y-6"
-								/>
 							</div>
-						</div>
-					</motion.div>
-				);
-			})}
-		</div>
-	);
-}
+						);
+					})}
+				</div>
+			</div>
+		);
+	},
+);
+
+export const CardStack = forwardRef<CardStackHandle, CardStackProps>(
+	function CardStack(props, ref) {
+		return (
+			<CardStackInner key={getItemsKey(props.items)} {...props} ref={ref} />
+		);
+	},
+);
