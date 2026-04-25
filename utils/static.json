@@ -108,7 +108,7 @@
   "audienceHeroes": {
     "developer": {
       "isBuyer": false,
-      "backgroundImageSrc": "/images/Mask group.svg",
+      "backgroundImageSrc": "/images/developer-hero.svg",
       "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
       "enquireHref": "/contact",
       "enquireLabel": "Enquire now",

@@ -1351,25 +1351,7 @@ export function MarketingAudienceHero({
           sizes="100vw"
           priority
         />
-        <div
-          className="pointer-events-none absolute -left-[479.28px] -top-[752.71px] h-[2000px] w-[2000px] min-h-0 min-w-0 rotate-[-30deg] rounded-none mix-blend-soft-light"
-          aria-hidden
-        >
-          <div className="relative h-full w-full min-h-0 min-w-0">
-            <Image
-              src="/images/ongoing-bg.svg"
-              alt=""
-              fill
-              unoptimized
-              className="object-cover object-center"
-              sizes="2000px"
-            />
-          </div>
-        </div>
-        <div
-          className="absolute inset-0 bg-gradient-to-b from-black/[0.14] via-transparent to-black/[0.12]"
-          aria-hidden
-        />
+
       </div>
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-36 bg-gradient-to-t from-white/100 via-white/45 to-transparent sm:h-44 md:h-52"
