@@ -1,4 +1,5 @@
 import { Container } from "@/components/common/Container";
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { MarketingEnquireLink } from "@/components/ui/MarketingEnquireLink";
 import type { MarketingHeroContent } from "@/data/audience-marketing-types";
@@ -496,31 +497,35 @@ function HomeHero({
         style={homePad.style}
       >
         <div className="mx-auto flex min-w-0 max-w-[760px] flex-col items-center px-2 text-center min-[400px]:px-3 sm:px-0">
-          <h1
-            id={config["headingId"] as string}
-            className={cn(
-              "w-full max-w-[760px] qs-reg not-italic uppercase tracking-[0.05em] text-[#202225]",
-              "text-[clamp(1.5rem,calc(0.65rem+4.5vw),70px)] leading-none",
-            )}
-          >
-            {lines[0] ? (
-              <span className="block whitespace-normal sm:whitespace-nowrap">
-                {lines[0].line1}{" "}
-                <span className="text-[#8F8183]">{lines[0].accent}</span>
-              </span>
-            ) : null}
-            {lines[1]?.line2 ? (
-              <span className="mt-1 block sm:mt-0">{lines[1].line2}</span>
-            ) : null}
-          </h1>
-          <p
-            className={cn(
-              "mx-auto mt-4 max-w-[42rem] n-reg lh-22 text-[#000000]",
-              "text-sm sm:mt-10 sm:text-base lg:mt-4 lg:text-[18px]",
-            )}
-          >
-            {config["subtitle"] as string}
-          </p>
+          <ScrollReveal direction="up" delay={0.04} distance={26}>
+            <h1
+              id={config["headingId"] as string}
+              className={cn(
+                "w-full max-w-[760px] qs-reg not-italic uppercase tracking-[0.05em] text-[#202225]",
+                "text-[clamp(1.5rem,calc(0.65rem+4.5vw),70px)] leading-none",
+              )}
+            >
+              {lines[0] ? (
+                <span className="block whitespace-normal sm:whitespace-nowrap">
+                  {lines[0].line1}{" "}
+                  <span className="text-[#8F8183]">{lines[0].accent}</span>
+                </span>
+              ) : null}
+              {lines[1]?.line2 ? (
+                <span className="mt-1 block sm:mt-0">{lines[1].line2}</span>
+              ) : null}
+            </h1>
+          </ScrollReveal>
+          <ScrollReveal direction="up" delay={0.12} distance={22}>
+            <p
+              className={cn(
+                "mx-auto mt-4 max-w-[42rem] n-reg lh-22 text-[#000000]",
+                "text-sm sm:mt-10 sm:text-base lg:mt-4 lg:text-[18px]",
+              )}
+            >
+              {config["subtitle"] as string}
+            </p>
+          </ScrollReveal>
           <div className="mt-8 flex justify-center sm:mt-12 lg:mt-10">
             <GradientCtaButton
               href={cta.href}
@@ -591,12 +596,14 @@ function OverlayTitleHero({
         )}
         style={contentPad.style}
       >
-        <h1
-          id={config["headingId"] as string}
-          className={config["titleClassName"] as string}
-        >
-          {config["title"] as string}
-        </h1>
+        <ScrollReveal direction="up" delay={0.04} distance={24}>
+          <h1
+            id={config["headingId"] as string}
+            className={config["titleClassName"] as string}
+          >
+            {config["title"] as string}
+          </h1>
+        </ScrollReveal>
       </div>
     </section>
   );
@@ -662,13 +669,15 @@ function ContactHero({
         )}
         style={contentPad.style}
       >
-        <h1
-          id={config["headingId"] as string}
-          className="qs-reg uppercase text-[clamp(2.5rem,6.5vw,4.375rem)] leading-[1] tracking-[0.05em]"
-        >
-          <span className="text-[#8F8183]">Contact </span>
-          <span className="text-[#202225]">Us</span>
-        </h1>
+        <ScrollReveal direction="up" delay={0.04} distance={24}>
+          <h1
+            id={config["headingId"] as string}
+            className="qs-reg uppercase text-[clamp(2.5rem,6.5vw,4.375rem)] leading-[1] tracking-[0.05em]"
+          >
+            <span className="text-[#8F8183]">Contact </span>
+            <span className="text-[#202225]">Us</span>
+          </h1>
+        </ScrollReveal>
       </div>
     </section>
   );
@@ -724,18 +733,22 @@ function CareerHero({
         )}
         style={contentPad.style}
       >
-        <h1
-          id={config["headingId"] as string}
-          className={cn(
-            "max-w-[18ch] break-words qs-reg uppercase text-[#202225] sm:max-w-none",
-            "text-[clamp(1.75rem,calc(0.9rem+5vw),4.375rem)] leading-[1.08] tracking-[0.05em]",
-          )}
-        >
-          {config["title"] as string}
-        </h1>
-        <p className="mt-4 max-w-[700px] n-reg text-sm text-black sm:mt-1 sm:text-lg">
-          {config["subtitle"] as string}
-        </p>
+        <ScrollReveal direction="up" delay={0.04} distance={24}>
+          <h1
+            id={config["headingId"] as string}
+            className={cn(
+              "max-w-[18ch] break-words qs-reg uppercase text-[#202225] sm:max-w-none",
+              "text-[clamp(1.75rem,calc(0.9rem+5vw),4.375rem)] leading-[1.08] tracking-[0.05em]",
+            )}
+          >
+            {config["title"] as string}
+          </h1>
+        </ScrollReveal>
+        <ScrollReveal direction="up" delay={0.12} distance={20}>
+          <p className="mt-4 max-w-[700px] n-reg text-sm text-black sm:mt-1 sm:text-lg">
+            {config["subtitle"] as string}
+          </p>
+        </ScrollReveal>
       </Container>
     </section>
   );
@@ -793,15 +806,17 @@ function NewsroomHero({
         )}
         style={contentPad.style}
       >
-        <h1
-          id={config["headingId"] as string}
-          className={cn(
-            "qs-reg nt-normal uppercase text-white text-center",
-            "text-[clamp(2rem,calc(1.25rem+4vw),4.375rem)] leading-[1] tracking-[0.05em]",
-          )}
-        >
-          {config["title"] as string}
-        </h1>
+        <ScrollReveal direction="up" delay={0.04} distance={24}>
+          <h1
+            id={config["headingId"] as string}
+            className={cn(
+              "qs-reg nt-normal uppercase text-white text-center",
+              "text-[clamp(2rem,calc(1.25rem+4vw),4.375rem)] leading-[1] tracking-[0.05em]",
+            )}
+          >
+            {config["title"] as string}
+          </h1>
+        </ScrollReveal>
       </div>
     </section>
   );
@@ -861,16 +876,18 @@ function PartnersHero({
         )}
         style={contentPad.style}
       >
-        <h1
-          id={config["headingId"] as string}
-          className={cn(
-            "max-w-full uppercase text-[#202225] text-center text-balance",
-            "qs-reg text-[clamp(1.5rem,calc(0.65rem+5vw),4.375rem)] leading-[1.08] tracking-[0.05em] sm:leading-[1.06]",
-          )}
-        >
-          <span className="text-white">Partners</span>
-          <span> &amp; Clients</span>
-        </h1>
+        <ScrollReveal direction="up" delay={0.04} distance={24}>
+          <h1
+            id={config["headingId"] as string}
+            className={cn(
+              "max-w-full uppercase text-[#202225] text-center text-balance",
+              "qs-reg text-[clamp(1.5rem,calc(0.65rem+5vw),4.375rem)] leading-[1.08] tracking-[0.05em] sm:leading-[1.06]",
+            )}
+          >
+            <span className="text-white">Partners</span>
+            <span> &amp; Clients</span>
+          </h1>
+        </ScrollReveal>
       </div>
     </section>
   );
@@ -944,16 +961,18 @@ function PublicationHeroView({
         )}
         style={topPad.style}
       >
-        <h1
-          id={config["headingId"] as string}
-          className={cn(
-            "qs-reg fs-70 ls-10 uppercase text-[#202225]",
-            "text-[clamp(2.5rem,6.5vw,4.375rem)] leading-[1] tracking-[0.05em]",
-            (config["titleClassName"] as string) || undefined,
-          )}
-        >
-          {config["title"] as string}
-        </h1>
+        <ScrollReveal direction="up" delay={0.04} distance={24}>
+          <h1
+            id={config["headingId"] as string}
+            className={cn(
+              "qs-reg fs-70 ls-10 uppercase text-[#202225]",
+              "text-[clamp(2.5rem,6.5vw,4.375rem)] leading-[1] tracking-[0.05em]",
+              (config["titleClassName"] as string) || undefined,
+            )}
+          >
+            {config["title"] as string}
+          </h1>
+        </ScrollReveal>
       </div>
     </section>
   );
@@ -1013,28 +1032,34 @@ function TgreaHero({
           style={contentPad.style}
         >
           <Container className="min-w-0">
-            <h1
-              id={config["headingId"] as string}
-              className="break-words px-1 qs-reg fs-70 uppercase leading-[0.94] tracking-[0.02em] text-[#202225]"
-            >
-              {config["title"] as string}
-            </h1>
-            <p
-              className={cn(
-                "mx-auto mt-1 n-bold uppercase tracking-[0.1em] text-[#202225]",
-                "text-[clamp(0.8125rem,3.4vw,1.25rem)]",
-              )}
-            >
-              {config["tagline"] as string}
-            </p>
-            <p
-              className={cn(
-                "mx-auto mt-4 max-w-[min(1180px,100%)] text-[#000000] fs-18 lh-22 n-book",
-                "text-[15px] leading-[1.15]",
-              )}
-            >
-              {config["body"] as string}
-            </p>
+            <ScrollReveal direction="up" delay={0.04} distance={24}>
+              <h1
+                id={config["headingId"] as string}
+                className="break-words px-1 qs-reg fs-70 uppercase leading-[0.94] tracking-[0.02em] text-[#202225]"
+              >
+                {config["title"] as string}
+              </h1>
+            </ScrollReveal>
+            <ScrollReveal direction="up" delay={0.1} distance={20}>
+              <p
+                className={cn(
+                  "mx-auto mt-1 n-bold uppercase tracking-[0.1em] text-[#202225]",
+                  "text-[clamp(0.8125rem,3.4vw,1.25rem)]",
+                )}
+              >
+                {config["tagline"] as string}
+              </p>
+            </ScrollReveal>
+            <ScrollReveal direction="up" delay={0.14} distance={18}>
+              <p
+                className={cn(
+                  "mx-auto mt-4 max-w-[min(1180px,100%)] text-[#000000] fs-18 lh-22 n-book",
+                  "text-[15px] leading-[1.15]",
+                )}
+              >
+                {config["body"] as string}
+              </p>
+            </ScrollReveal>
           </Container>
         </div>
       </div>
@@ -1091,18 +1116,22 @@ function ServicesHero({
         )}
         style={contentPad.style}
       >
-        <h1
-          id={config["headingId"] as string}
-          className={cn(
-            "max-w-[min(100%,22ch)] break-words qs-reg fs-70 lh-50 uppercase leading-none tracking-[0.05em] text-[#202225]",
-            (config["titleClassName"] as string) || undefined,
-          )}
-        >
-          {config["title"] as string}
-        </h1>
-        <p className="n-reg fs-18 lh-24 text-black max-w-2xl mt-2 md:mt-4 lg:mt-4">
-          {config["subtitle"] as string}
-        </p>
+        <ScrollReveal direction="up" delay={0.04} distance={24}>
+          <h1
+            id={config["headingId"] as string}
+            className={cn(
+              "max-w-[min(100%,22ch)] break-words qs-reg fs-70 lh-50 uppercase leading-none tracking-[0.05em] text-[#202225]",
+              (config["titleClassName"] as string) || undefined,
+            )}
+          >
+            {config["title"] as string}
+          </h1>
+        </ScrollReveal>
+        <ScrollReveal direction="up" delay={0.12} distance={20}>
+          <p className="n-reg fs-18 lh-24 text-black max-w-2xl mt-2 md:mt-4 lg:mt-4">
+            {config["subtitle"] as string}
+          </p>
+        </ScrollReveal>
       </div>
     </section>
   );
@@ -1158,15 +1187,19 @@ function AboutHero({
         style={contentPad.style}
       >
         <Container className="min-w-0">
-          <h1 className="break-words px-1 qs-reg fs-70 uppercase leading-[0.94] tracking-[0.02em]">
-            <span className="ml-2 inline-block sm:ml-3 sm:inline text-[#202225]">
-              <span className="text-[#8F8183]">{heading.prefix}</span>
-              {heading.rest}
-            </span>
-          </h1>
-          <p className="mx-auto mt-4 max-w-[min(1180px,100%)] text-[15px] leading-[1.15] text-[#000000] fs-18 lh-22 n-book">
-            {config["subtitle"] as string}
-          </p>
+          <ScrollReveal direction="up" delay={0.04} distance={24}>
+            <h1 className="break-words px-1 qs-reg fs-70 uppercase leading-[0.94] tracking-[0.02em]">
+              <span className="ml-2 inline-block sm:ml-3 sm:inline text-[#202225]">
+                <span className="text-[#8F8183]">{heading.prefix}</span>
+                {heading.rest}
+              </span>
+            </h1>
+          </ScrollReveal>
+          <ScrollReveal direction="up" delay={0.12} distance={20}>
+            <p className="mx-auto mt-4 max-w-[min(1180px,100%)] text-[15px] leading-[1.15] text-[#000000] fs-18 lh-22 n-book">
+              {config["subtitle"] as string}
+            </p>
+          </ScrollReveal>
         </Container>
       </div>
     </div>
@@ -1244,14 +1277,18 @@ function ProjectsHeroSection({
         style={contentPad.style}
       >
         <div className="mx-auto flex w-full min-w-0 max-w-3xl flex-col items-start gap-1 text-left sm:gap-2">
-          <h1 className="text-[clamp(1.1rem,calc(0.65rem+3.8vw),3.75rem)] uppercase leading-[1.12] text-[#0a0a0a] lg:text-[clamp(2.75rem,5vw,4rem)] qs-reg fs-70">
-            <span className="inline-block whitespace-nowrap tracking-[0.06em] sm:tracking-[0.07em]">
-              {stage} Projects
-            </span>
-          </h1>
-          <p className="px-1 w-full n-book fs-18 lh-22 text-black leading-relaxed text-[#000000] sm:text-lg lg:text-base">
-            {cfg.subtitle}
-          </p>
+          <ScrollReveal direction="up" delay={0.04} distance={24}>
+            <h1 className="text-[clamp(1.1rem,calc(0.65rem+3.8vw),3.75rem)] uppercase leading-[1.12] text-[#0a0a0a] lg:text-[clamp(2.75rem,5vw,4rem)] qs-reg fs-70">
+              <span className="inline-block whitespace-nowrap tracking-[0.06em] sm:tracking-[0.07em]">
+                {stage} Projects
+              </span>
+            </h1>
+          </ScrollReveal>
+          <ScrollReveal direction="up" delay={0.12} distance={20}>
+            <p className="px-1 w-full n-book fs-18 lh-22 text-black leading-relaxed text-[#000000] sm:text-lg lg:text-base">
+              {cfg.subtitle}
+            </p>
+          </ScrollReveal>
         </div>
       </div>
     </section>
@@ -1343,18 +1380,22 @@ export function MarketingAudienceHero({
         style={contentPad.style}
       >
         <div className="mx-auto flex min-w-0 max-w-[820px] flex-col items-center px-2 text-center sm:px-4">
-          <h1
-            id={content.ariaHeadingId}
-            className="break-words qs-reg text-[clamp(2rem,6vw,4.375rem)] uppercase leading-[1.05] ls-5"
-          >
-            <span className="block">
-              <span className="text-[#202225]">{lead}</span>{" "}
-              <span className="text-[#8F8183]">{accent}</span>
-            </span>
-          </h1>
-          <p className="text-black fs-18 n-book lh-22 mx-auto flex w-full max-w-[600px] text-left md:mt-5 lg:mt-7">
-            {content.body}
-          </p>
+          <ScrollReveal direction="up" delay={0.04} distance={24}>
+            <h1
+              id={content.ariaHeadingId}
+              className="break-words qs-reg text-[clamp(2rem,6vw,4.375rem)] uppercase leading-[1.05] ls-5"
+            >
+              <span className="block">
+                <span className="text-[#202225]">{lead}</span>{" "}
+                <span className="text-[#8F8183]">{accent}</span>
+              </span>
+            </h1>
+          </ScrollReveal>
+          <ScrollReveal direction="up" delay={0.12} distance={20}>
+            <p className="text-black fs-18 n-book lh-22 mx-auto flex w-full max-w-[600px] text-left md:mt-5 lg:mt-7">
+              {content.body}
+            </p>
+          </ScrollReveal>
           <div className="mt-10 flex justify-center sm:mt-10">
             <MarketingEnquireLink
               href={content.enquireHref}
