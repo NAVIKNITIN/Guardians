@@ -23,11 +23,11 @@ export function AwardsSection({
 	const total = slides.length;
 	const { index, advance } = useCycleIndex(total, 0);
 	const slide = slides[index]!;
-	const [rollDir, setRollDir] = useState<1 | -1 | 2>(1);
+	const [rollDir, setRollDir] = useState<1 | -1>(1);
 
 	const goNext = () => {
-		setRollDir(2);
-		advance(2);
+		setRollDir(1);
+		advance(1);
 	};
 
 	const goPrev = () => {
