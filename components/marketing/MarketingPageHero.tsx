@@ -925,14 +925,16 @@ function PublicationHeroView({
           />
         </div>
         <div className="hero-projects-stage-bg__texture" aria-hidden>
-          <Image
-            src="/images/ongoing-bg.svg"
-            alt=""
-            fill
-            unoptimized
-            className="object-cover object-center"
-            sizes="100vw"
-          />
+          <div className="relative h-full w-full min-h-0 min-w-0">
+            <Image
+              src="/images/ongoing-bg.svg"
+              alt=""
+              fill
+              unoptimized
+              className="object-cover object-center"
+              sizes="100vw"
+            />
+          </div>
         </div>
       </div>
       <div
@@ -1221,14 +1223,16 @@ function ProjectsHeroSection({
           />
         </div>
         <div className="hero-projects-stage-bg__texture" aria-hidden>
-          <Image
-            src="/images/ongoing-bg.svg"
-            alt=""
-            fill
-            unoptimized
-            className="object-cover object-center"
-            sizes="100vw"
-          />
+          <div className="relative h-full w-full min-h-0 min-w-0">
+            <Image
+              src="/images/ongoing-bg.svg"
+              alt=""
+              fill
+              unoptimized
+              className="object-cover object-center"
+              sizes="100vw"
+            />
+          </div>
         </div>
       </div>
 
@@ -1311,10 +1315,10 @@ export function MarketingAudienceHero({
           priority
         />
         <div
-          className="pointer-events-none absolute -left-[479.28px] -top-[752.71px]  rotate-[-30deg] rounded-none mix-blend-soft-light"
+          className="pointer-events-none absolute -left-[479.28px] -top-[752.71px] h-[2000px] w-[2000px] min-h-0 min-w-0 rotate-[-30deg] rounded-none mix-blend-soft-light"
           aria-hidden
         >
-          <div className="relative h-full w-full min-h-0">
+          <div className="relative h-full w-full min-h-0 min-w-0">
             <Image
               src="/images/ongoing-bg.svg"
               alt=""

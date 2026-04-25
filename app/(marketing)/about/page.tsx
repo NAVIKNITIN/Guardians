@@ -118,7 +118,7 @@ export default function AboutPage() {
           </h2>
 
           <div className="mt-2 bg-white py-3 sm:py-4  lg:py-5">
-            <div className="relative">
+            <div className="relative w-[95%] mx-auto">
               <div className="absolute left-3 top-1/2 hidden -translate-y-1/2 lg:block">
                 <Image
                   src={brandPromiseOrnament}
@@ -128,8 +128,8 @@ export default function AboutPage() {
                   className="h-auto w-[80px] object-cover scale-x-[-1]"
                 />
               </div>
-              <div className="mx-auto text-center mx-5 md:mx-30">
-                <p className="text-[clamp(0.98rem,1vw,1.05rem)] leading-[1.38] text-[#3c393a]">
+              <div className=" text-center mx-5 md:mx-30 lg:mx-40">
+                <p className=" text-[#3c393a] lh-27 n-book fs-20">
                   <span className="font-semibold text-[#242021]">The Guardians</span> mark the coming
                   together of the best of minds from the Indian real estate industry, a set of professionals
                   who have played diverse roles across their careers. Their collective experience spans

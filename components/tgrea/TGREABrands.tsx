@@ -1,13 +1,8 @@
+import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import { Container } from "@/components/common/Container";
+import { SplitSection } from "@/components/sections/SplitSection";
 import Image from "next/image";
-import Link from "next/link";
 import { cn } from "@/utils/cn";
-
-const BRAND_LOGO = "/images/holdingLogo.svg";
-const BRAND_LOGO2 = "/images/tgrea2.svg";
-const BRAND_LOGO3 = "/images/tgrea3.svg";
-
-const BRAND_PHOTO = "/images/holdingImg.svg";
 
 const DESCRIPTION =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et.";
@@ -18,89 +13,21 @@ const brands = [
   { id: 3, reverse: false, href: "#", logoBG: "/images/Group 66.svg", logo: "/images/tgrea2.svg" },
 ];
 
-/** Read more — shared `btn-grad` (see `globals.css`) */
 const readMoreClassName = cn(
   "btn-grad inline-flex w-full max-w-xs items-center justify-center gap-3 px-6 py-3 sm:w-auto sm:max-w-none sm:justify-start sm:gap-4 sm:px-12 sm:py-5",
   "n-bold uppercase tracking-[0.1em] text-white",
   "text-[clamp(0.8125rem,3vw,1.25rem)] leading-[1.25rem] sm:leading-[1.5625rem]",
-  "mt-4 sm:mt-30",
 );
 
-function ArrowUpRight() {
+function BrandTitle({ src }: { src: string }) {
   return (
-    <svg
-      width="15"
-      height="15"
-      viewBox="0 0 15 15"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      aria-hidden
-    >
-      <path d="M0 0H14.4958V14.4958" stroke="white" strokeWidth="2" />
-      <path d="M0.5 14.5L14.5 0.5" stroke="white" strokeWidth="2" />
-    </svg>
-  );
-}
-
-interface BrandRowProps {
-  reverse: boolean;
-  href: string;
-  logoBG: string;
-  logo: string;
-}
-
-function BrandRow({ reverse, href, logoBG, logo }: BrandRowProps) {
-  const textContent = (
-    <div className="flex w-full min-w-0 flex-col items-center py-6 text-center sm:py-8 lg:items-start lg:py-12 lg:text-left md:min-h-[650px]">
-      <Image
-        src={logoBG}
-        alt="Ground Holding – Real Estate"
-        width={223}
-        height={80}
-        className="block h-auto w-[150px] object-contain object-left sm:w-[180px] lg:w-[223px]"
-      />
-      <p className="max-w-[488px] n-reg text-[clamp(0.875rem,3vw,1rem)] leading-[1.5] text-[#161616] sm:mt-10 sm:text-base md:mt-12">
-        {DESCRIPTION}
-      </p>
-      <Link href={href} className={cn(readMoreClassName, "group cta-hover-trigger")}>
-        Read more
-        <Image src="/images/arrowwhite.svg" alt="Arrow" width={15} height={15} className="cta-icon-hover object-cover" />
-      </Link>
-    </div>
-  );
-
-  const photoContent = (
-    <div className="relative min-h-[240px] w-full min-w-0 overflow-hidden sm:min-h-[320px] lg:aspect-auto lg:min-h-0 lg:h-full">
-      <Image
-        src={logo}
-        alt="Construction site at sunset"
-        fill
-        className=""
-        sizes="(max-width: 1024px) 100vw, 50vw"
-      />
-    </div>
-  );
-
-  /**
-   * Mobile: stack with image first (`order-1` / `order-2`).
-   * Desktop: explicit grid columns — `order` on grid items is unreliable for column swap in some cases.
-   */
-  const photoCellClass = reverse
-    ? "order-1 lg:order-none lg:col-start-1 lg:row-start-1"
-    : "order-1 lg:order-none lg:col-start-2 lg:row-start-1";
-  const textCellClass = reverse
-    ? "order-2 lg:order-none lg:col-start-2 lg:row-start-1"
-    : "order-2 lg:order-none lg:col-start-1 lg:row-start-1";
-
-  return (
-    <div className="grid min-h-0 min-w-0 grid-cols-1 gap-x-0 gap-y-6 sm:gap-y-8 lg:grid-cols-2 lg:gap-x-8 lg:gap-y-0 xl:gap-x-10">
-      <div className={cn("flex min-h-0 min-w-0 items-stretch", photoCellClass)}>
-        {photoContent}
-      </div>
-      <div className={cn("flex min-h-0 min-w-0 items-center", textCellClass)}>
-        {textContent}
-      </div>
-    </div>
+    <Image
+      src={src}
+      alt="Ground Holding – Real Estate"
+      width={223}
+      height={80}
+      className="block h-auto w-[150px] object-contain object-left sm:w-[180px] lg:w-[223px]"
+    />
   );
 }
 
@@ -112,7 +39,7 @@ export function TGREABrands() {
         <h2
           id="our-brands-heading"
           className={cn(
-            "qs-reg nt-normal uppercase tracking-[0.05em] text-[#202225]",
+            "qs-reg nt-normal uppercase tracking-[0.05em] text-brand-text-primary",
             "text-[clamp(1.5rem,5vw,3.125rem)] leading-[1.05] sm:leading-none sm:pt-5 lg:pt-10",
           )}
         >
@@ -121,15 +48,24 @@ export function TGREABrands() {
       </Container>
 
       {/* Brand rows */}
-      <div className="mt-2 md:mt-6 mb-5 md:mb-30">
+      <StaggerContainer className="mt-2 mb-5 md:mt-6 md:mb-30">
         {brands.map(({ id, reverse, href, logoBG, logo }) => (
-          <div className="my-2 sm:my-4 lg:mb-[70px]" key={id}>
-            <Container className="min-w-0">
-              <BrandRow reverse={reverse} href={href} logoBG={logoBG} logo={logo} />
-            </Container>
-          </div>
+          <SplitSection
+            key={id}
+            reverse={reverse}
+            href={href}
+            title={<BrandTitle src={logoBG} />}
+            description={DESCRIPTION}
+            buttonText="Read more"
+            image={{ src: logo, alt: "Construction site at sunset" }}
+            className="py-20 px-6 md:px-16 lg:px-20"
+            titleClassName="mb-2"
+            descriptionClassName="max-w-[488px] text-[clamp(0.875rem,3vw,1rem)] leading-[1.5] sm:text-base"
+            buttonClassName={cn(readMoreClassName, "group cta-hover-trigger mt-4 sm:mt-10")}
+            imageClassName="rounded-none"
+          />
         ))}
-      </div>
+      </StaggerContainer>
     </section>
   );
 }

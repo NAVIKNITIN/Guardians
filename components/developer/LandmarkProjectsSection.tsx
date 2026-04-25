@@ -1,5 +1,7 @@
 "use client";
 
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import type {
   LandmarkProject,
   LandmarkSectionContent,
@@ -108,25 +110,29 @@ export function LandmarkProjectsSection({
   transition-duration: 550ms;
 }
 			`}</style>
-      <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
-        <h2
-          id="landmark-heading"
-          className="min-w-0 shrink qs-reg text-[clamp(1.5rem,4.5vw,3.125rem)] uppercase leading-[1.15] ls-5 text-brand-text-primary sm:shrink-0 sm:whitespace-nowrap"
-        >
-          {content.sectionTitle}
-        </h2>
-        <UnderlineTabs
-          value={tab}
-          equalTabWidth
-          onChange={(v) => {
-            setTab(v);
-            setPreviousActiveIndex(1);
-            setActiveIndex(1);
-          }}
-          options={options}
-          className="shrink-0 sm:pb-0.5 text-[#8F8183]"
-        />
-      </div>
+      <StaggerContainer className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between sm:gap-6" staggerChildren={0.12}>
+        <ScrollReveal direction="left" distance={34}>
+          <h2
+            id="landmark-heading"
+            className="min-w-0 shrink qs-reg text-[clamp(1.5rem,4.5vw,3.125rem)] uppercase leading-[1.15] ls-5 text-brand-text-primary sm:shrink-0 sm:whitespace-nowrap"
+          >
+            {content.sectionTitle}
+          </h2>
+        </ScrollReveal>
+        <ScrollReveal direction="right" delay={0.08} distance={28}>
+          <UnderlineTabs
+            value={tab}
+            equalTabWidth
+            onChange={(v) => {
+              setTab(v);
+              setPreviousActiveIndex(1);
+              setActiveIndex(1);
+            }}
+            options={options}
+            className="shrink-0 sm:pb-0.5 text-[#8F8183]"
+          />
+        </ScrollReveal>
+      </StaggerContainer>
 
       <div
         className="w-full"
@@ -223,14 +229,14 @@ export function LandmarkProjectsSection({
           </div>
         </div>
 
-        <div className="mt-12 flex justify-center ">
+        <ScrollReveal direction="up" delay={0.1} className="mt-12 flex justify-center ">
           <MarketingEnquireLink
             className="w-[250px] h-[52px]"
             href={content.ctaHref}
           >
             {content.ctaLabel}
           </MarketingEnquireLink>
-        </div>
+        </ScrollReveal>
       </div>
     </Container>
   );
@@ -284,7 +290,7 @@ function ProjectPanelVisual({
           priority={active}
         />
       </div>
-      <div className="absolute inset-0 z-2 bg-gradient-to-t from-black/60 via-black/20 to-transparent" />
+      <div className="absolute inset-0 z-2 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
 
       <div className="absolute left-5 right-8 top-5 z-3 flex flex-row items-center gap-3 fs-18 sm:left-7 sm:right-10 sm:top-7 sm:gap-4">
         {/* <span

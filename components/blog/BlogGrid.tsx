@@ -1,3 +1,5 @@
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import { Container } from "@/components/common/Container";
 import { PublicationLoadMoreButton } from "@/components/publications/PublicationLoadMoreButton";
 import { localImageByIndex } from "@/lib/local-images";
@@ -94,34 +96,43 @@ function FilterDropdown({ label }: { label: string }) {
 export function BlogGrid() {
   return (
     <section
-      className="bg-white py-12  sm:py-16 lg:py-20 "
+      className="bg-white py-20 px-6 md:px-16"
       aria-label="Blog posts"
     >
       <Container>
         {/* Filter bar */}
-        <div className="mb-6 flex flex-wrap n-bold fs-20 ls-4 lh-24 items-center gap-4  pb-4 sm:gap-8 md:gap-10">
-          <FilterDropdown label="Category" />
-          <FilterDropdown label="Year" />
-        </div>
+        <ScrollReveal direction="up" distance={28}>
+          <div className="mb-6 flex flex-wrap n-bold fs-20 ls-4 lh-24 items-center gap-4 pb-4 sm:gap-8 md:gap-10">
+            <FilterDropdown label="Category" />
+            <FilterDropdown label="Year" />
+          </div>
+        </ScrollReveal>
 
         {/* Two-column layout: cards + sidebar */}
         <div className="flex flex-col gap-10 lg:flex-row lg:gap-8 xl:gap-[33px]">
           {/* Blog cards — 3-column grid */}
           <div className="min-w-0 flex-1">
-            <div className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 xl:grid-cols-3 xl:gap-x-[34px] xl:gap-y-12">
-              {POSTS.map((post) => (
-                <BlogCard key={post.id} post={post} />
+            <StaggerContainer
+              className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 xl:grid-cols-3 xl:gap-x-[34px] xl:gap-y-12"
+              staggerChildren={0.16}
+            >
+              {POSTS.map((post, index) => (
+                <ScrollReveal key={post.id} direction="up" delay={index * 0.04} distance={30}>
+                  <BlogCard post={post} />
+                </ScrollReveal>
               ))}
-            </div>
+            </StaggerContainer>
 
             {/* VIEW MORE */}
-            <div className="mt-12 flex justify-center px-1 sm:mt-14">
+            <ScrollReveal direction="up" delay={0.14} className="mt-12 flex justify-center px-1 sm:mt-14">
               <PublicationLoadMoreButton href="#">View More</PublicationLoadMoreButton>
-            </div>
+            </ScrollReveal>
           </div>
 
           {/* Sidebar */}
-          <BlogSidebar />
+          <ScrollReveal direction="right" delay={0.08} distance={34}>
+            <BlogSidebar />
+          </ScrollReveal>
         </div>
       </Container>
     </section>

@@ -283,7 +283,8 @@ export function Footer() {
                   {quickLinkRows.map((row, idx) => (
                     <QuickLinkRow key={idx} items={row} />
                   ))}
-                  <p className="flex w-full min-w-0 flex-wrap items-center justify-center gap-x-1.5 gap-y-0.5 n-book fs-14 lh-25 text-white sm:justify-start">
+
+                  <div className="flex w-full min-w-0 flex-wrap items-center justify-center gap-x-1.5 gap-y-0.5 n-book fs-14 lh-25 text-white sm:justify-start">
                     <span className="inline-flex items-center gap-x-1.5 n-book fs-14">
                       <Link
                         href="/career"
@@ -296,7 +297,7 @@ export function Footer() {
                       ·
                     </span>
                     <FooterMediaDropdown />
-                  </p>
+                  </div>
                 </div>
               </div>
             </div>

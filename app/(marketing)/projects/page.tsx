@@ -3,6 +3,8 @@
 import { Container } from "@/components/common/Container";
 import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { MarketingPageHero } from "@/components/marketing/MarketingPageHero";
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import { ProjectCard } from "@/components/projects/ProjectCard";
 import { LOCAL_IMAGES } from "@/lib/local-images";
 import Image from "next/image";
@@ -462,110 +464,114 @@ function ProjectsPageContent() {
       {filterStage !== "Completed" && (
         <section className=" shadow-[0_-4px_4px_0_rgba(0,0,0,0.15)]">
           <Container className="min-w-0 py-4 sm:py-5 lg:py-6">
-            <div className="pt-10 flex min-w-0 flex-col items-center gap-3 text-center sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4 sm:text-left lg:px-8 xl:px-12 2xl:px-16">
-              <div className="flex min-w-0 flex-wrap items-center justify-center gap-3 sm:min-w-0 sm:justify-start sm:gap-5">
-                <button
-                  type="button"
-                  onClick={() => setShowFilters((prev) => !prev)}
-                  aria-expanded={showFilters}
-                  aria-controls="projects-filter-dropdowns"
-                  className={`inline-flex cursor-pointer items-center gap-2 n-reg text-sm font-black uppercase tracking-[0.1em] sm:text-base ${showFilters
-                    ? "text-brand-footer border-brand-footer n-bold"
-                    : "text-brand-footer"
-                    }`}
-                >
-                  Filters
-                  {showFilters ? (
-                    <ChevronUp className="text-brand-footer" />
-                  ) : (
-                    <ChevronDown className="text-brand-footer" />
-                  )}
-                </button>
-                <button
-                  type="button"
-                  className="inline-flex cursor-pointer items-center gap-2 n-reg text-sm uppercase tracking-[0.1em] text-brand-footer sm:text-base"
-                >
-                  Sort By
-                  <ChevronDown className="text-brand-footer" />
-                </button>
-              </div>
-
-              <div className="mx-auto flex h-[30px] w-full max-w-[345px] min-w-0 shrink-0 items-center gap-2 border border-black/20 bg-white px-3 sm:mx-0">
-                <SearchIcon />
-                <label htmlFor="projects-search" className="sr-only">
-                  Search projects
-                </label>
-                <input
-                  id="projects-search"
-                  type="text"
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  placeholder="Search"
-                  className="min-h-0 min-w-0 flex-1 border-0 bg-transparent py-0 n-reg text-sm leading-none text-black/80 outline-none placeholder:text-black/40"
-                />
-              </div>
-            </div>
-
-            {showFilters && (
-              <>
-                <div className="my-3 h-px w-full max-w-[92%] bg-black mx-auto sm:my-4" />
-
-                <div
-                  id="projects-filter-dropdowns"
-                  className="grid min-w-0 grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:flex sm:flex-row sm:flex-wrap sm:items-center sm:gap-2 lg:gap-3 lg:px-8 xl:px-12 2xl:px-16"
-                >
-                  <FilterSelect
-                    label="Budget"
-                    value={filterBudget}
-                    onChange={setFilterBudget}
-                    options={[...BUDGET_OPTIONS]}
-                  />
-                  <FilterSelect
-                    label="Builder"
-                    value={filterBudget}
-                    onChange={setFilterBudget}
-                    options={[...BUDGET_OPTIONS]}
-                  />
-
-                  {activeLocation && (
-                    <div className="inline-flex h-12 min-h-[48px] w-full max-w-full flex-wrap items-center justify-center gap-2 border border-[#161616] bg-[#BCBDC0] px-3 py-1 n-reg text-[11px] uppercase tracking-[0.08em] text-[#161616] min-[400px]:px-4 min-[400px]:text-xs sm:h-[51px] sm:min-h-0 sm:w-auto sm:max-w-none sm:justify-between sm:px-5 sm:py-0 sm:text-sm sm:tracking-[0.1em] md:text-base">
-                      <span className="min-w-0 wrap-break-word n-bold">
-                        {activeLocation}
-                      </span>
-                      <span className="mx-1 hidden h-[50px] w-px shrink-0 bg-[#161616] sm:inline-block" />
-                      <button
-                        type="button"
-                        onClick={() => setActiveLocation(null)}
-                        className="cursor-pointer text-xl  leading-none n-bold ml-2"
-                        aria-label="Remove filter"
-                      >
-                        X
-                      </button>
-                    </div>
-                  )}
-
-                  <FilterSelect
-                    label="Configuration"
-                    value={filterConfiguration}
-                    onChange={setFilterConfiguration}
-                    options={[...CONFIGURATION_OPTIONS]}
-                  />
-                  <FilterSelect
-                    label="Stage"
-                    value={filterStage}
-                    onChange={setFilterStage}
-                    options={[...STAGE_OPTIONS]}
-                  />
-
+            <ScrollReveal direction="up" distance={30}>
+              <div className="pt-10 flex min-w-0 flex-col items-center gap-3 text-center sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4 sm:text-left lg:px-8 xl:px-12 2xl:px-16">
+                <div className="flex min-w-0 flex-wrap items-center justify-center gap-3 sm:min-w-0 sm:justify-start sm:gap-5">
                   <button
                     type="button"
-                    className="col-span-full w-full basis-full cursor-pointer py-2 text-center n-reg text-sm text-black underline sm:ml-auto sm:w-auto sm:basis-auto sm:py-0 sm:text-left sm:text-base"
-                    onClick={clearAllFilters}
+                    onClick={() => setShowFilters((prev) => !prev)}
+                    aria-expanded={showFilters}
+                    aria-controls="projects-filter-dropdowns"
+                    className={`inline-flex cursor-pointer items-center gap-2 n-reg text-sm font-black uppercase tracking-widest sm:text-base ${showFilters
+                      ? "text-brand-footer border-brand-footer n-bold"
+                      : "text-brand-footer"
+                      }`}
                   >
-                    Clear all
+                    Filters
+                    {showFilters ? (
+                      <ChevronUp className="text-brand-footer" />
+                    ) : (
+                      <ChevronDown className="text-brand-footer" />
+                    )}
+                  </button>
+                  <button
+                    type="button"
+                    className="inline-flex cursor-pointer items-center gap-2 n-reg text-sm uppercase tracking-widest text-brand-footer sm:text-base"
+                  >
+                    Sort By
+                    <ChevronDown className="text-brand-footer" />
                   </button>
                 </div>
-              </>
+
+                <div className="mx-auto flex h-[30px] w-full max-w-[345px] min-w-0 shrink-0 items-center gap-2 border border-black/20 bg-white px-3 sm:mx-0">
+                  <SearchIcon />
+                  <label htmlFor="projects-search" className="sr-only">
+                    Search projects
+                  </label>
+                  <input
+                    id="projects-search"
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search"
+                    className="min-h-0 min-w-0 flex-1 border-0 bg-transparent py-0 n-reg text-sm leading-none text-black/80 outline-none placeholder:text-black/40"
+                  />
+                </div>
+              </div>
+            </ScrollReveal>
+
+            {showFilters && (
+              <ScrollReveal direction="up" delay={0.08} distance={24}>
+                <>
+                  <div className="my-3 h-px w-full max-w-[92%] bg-black mx-auto sm:my-4" />
+
+                  <div
+                    id="projects-filter-dropdowns"
+                    className="grid min-w-0 grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:flex sm:flex-row sm:flex-wrap sm:items-center sm:gap-2 lg:gap-3 lg:px-8 xl:px-12 2xl:px-16"
+                  >
+                    <FilterSelect
+                      label="Budget"
+                      value={filterBudget}
+                      onChange={setFilterBudget}
+                      options={[...BUDGET_OPTIONS]}
+                    />
+                    <FilterSelect
+                      label="Builder"
+                      value={filterBudget}
+                      onChange={setFilterBudget}
+                      options={[...BUDGET_OPTIONS]}
+                    />
+
+                    {activeLocation && (
+                      <div className="inline-flex h-12 min-h-[48px] w-full max-w-full flex-wrap items-center justify-center gap-2 border border-[#161616] bg-[#BCBDC0] px-3 py-1 n-reg text-[11px] uppercase tracking-[0.08em] text-[#161616] min-[400px]:px-4 min-[400px]:text-xs sm:h-[51px] sm:min-h-0 sm:w-auto sm:max-w-none sm:justify-between sm:px-5 sm:py-0 sm:text-sm sm:tracking-widest md:text-base">
+                        <span className="min-w-0 wrap-break-word n-bold">
+                          {activeLocation}
+                        </span>
+                        <span className="mx-1 hidden h-[50px] w-px shrink-0 bg-[#161616] sm:inline-block" />
+                        <button
+                          type="button"
+                          onClick={() => setActiveLocation(null)}
+                          className="cursor-pointer text-xl  leading-none n-bold ml-2"
+                          aria-label="Remove filter"
+                        >
+                          X
+                        </button>
+                      </div>
+                    )}
+
+                    <FilterSelect
+                      label="Configuration"
+                      value={filterConfiguration}
+                      onChange={setFilterConfiguration}
+                      options={[...CONFIGURATION_OPTIONS]}
+                    />
+                    <FilterSelect
+                      label="Stage"
+                      value={filterStage}
+                      onChange={setFilterStage}
+                      options={[...STAGE_OPTIONS]}
+                    />
+
+                    <button
+                      type="button"
+                      className="col-span-full w-full basis-full cursor-pointer py-2 text-center n-reg text-sm text-black underline sm:ml-auto sm:w-auto sm:basis-auto sm:py-0 sm:text-left sm:text-base"
+                      onClick={clearAllFilters}
+                    >
+                      Clear all
+                    </button>
+                  </div>
+                </>
+              </ScrollReveal>
             )}
           </Container>
         </section>
@@ -576,23 +582,24 @@ function ProjectsPageContent() {
       {/* ------------------------------------------------------------------ */}
       <section className="bg-white py-8 sm:py-10 lg:px-8 lg:py-10 xl:px-12 2xl:px-16">
         <Container className="min-w-0">
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:gap-10 xl:gap-10">
-            {displayedProjects.map((project) => (
-              <ProjectCard
-                key={project.id}
-                imageSrc={project.imageSrc}
-                title={project.title}
-                subtitle={project.subtitle}
-                badge={project.badge}
-                href={
-                  projectIsCompleted(project)
-                    ? `/projects/${project.id}?status=completed`
-                    : `/projects/${project.id}`
-                }
-                stage={filterStage}
-              />
+          <StaggerContainer className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:gap-10 xl:gap-10" staggerChildren={0.14}>
+            {displayedProjects.map((project, index) => (
+              <ScrollReveal key={project.id} direction="up" delay={index * 0.03} distance={28}>
+                <ProjectCard
+                  imageSrc={project.imageSrc}
+                  title={project.title}
+                  subtitle={project.subtitle}
+                  badge={project.badge}
+                  href={
+                    projectIsCompleted(project)
+                      ? `/projects/${project.id}?status=completed`
+                      : `/projects/${project.id}`
+                  }
+                  stage={filterStage}
+                />
+              </ScrollReveal>
             ))}
-          </div>
+          </StaggerContainer>
 
           {visibleProjects.length === 0 ? (
             <p className="mt-10 px-1 text-center n-reg text-sm leading-relaxed text-[#161616]/70 sm:px-0">
@@ -608,14 +615,14 @@ function ProjectsPageContent() {
             </p>
           ) : null}
 
-          <div className="mt-10 flex justify-center px-2 sm:mt-12 lg:mt-16">
+          <ScrollReveal direction="up" delay={0.1} className="mt-10 flex justify-center px-2 sm:mt-12 lg:mt-16">
             <GradientCtaButton
               type="button"
-              disabled={
-                visibleProjects.length === 0 ||
-                !hasMoreProjects
-              }
-              className="h-[52px] w-full max-w-sm disabled:pointer-events-none disabled:opacity-50 sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
+              // disabled={
+              //   visibleProjects.length === 0 ||
+              //   !hasMoreProjects
+              // }
+              className="h-[52px] cursor-pointer w-full max-w-sm disabled:pointer-events-none disabled:opacity-50 sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
               onClick={() =>
                 setVisibleCardCount((n) =>
                   Math.min(n + INITIAL_VISIBLE_CARDS, visibleProjects.length),
@@ -624,7 +631,7 @@ function ProjectsPageContent() {
             >
               View More
             </GradientCtaButton>
-          </div>
+          </ScrollReveal>
         </Container>
       </section>
     </main>
@@ -637,7 +644,7 @@ export default function ProjectsPage(props: object) {
       fallback={
         <main className="min-h-[50vh] min-w-0 bg-white lg:pt-[100px]">
           <div className="flex min-h-[min(17.5rem,42svh)] h-[min(52svh,28rem)] items-center justify-center bg-[#BCBDC0]/30 sm:h-[400px] sm:min-h-[380px] lg:h-[550px]">
-            <span className="n-reg  text-sm text-[#202225]/60">Loading…</span>
+            <span className="n-reg  text-sm text-brand-text-primary/60">Loading…</span>
           </div>
         </main>
       }

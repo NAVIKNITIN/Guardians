@@ -26,11 +26,15 @@ export type OutlineArrowButtonProps = LinkVariantProps | ButtonVariantProps;
 
 const baseClassName = cn(
   /* Named group so nested `group` on cards does not trigger arrow styles on card hover */
-  "group/outline cta-hover-trigger outline-arrow-grad-anim flex items-center justify-center gap-5 text-center",
+  "group/outline cta-hover-trigger outline-arrow-grad-anim inline-flex w-fit max-w-full flex-nowrap items-center justify-center gap-5",
   "rounded-none border-0 px-[45px] py-[15px]",
-  "n-bold text-base uppercase tracking-[0.1em] text-white",
+  "n-bold text-base uppercase tracking-widest text-white",
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50",
 );
+
+function Label({ children }: { children: ReactNode }) {
+  return <span className="shrink-0 whitespace-nowrap">{children}</span>;
+}
 
 function ArrowIcon({
   alt,
@@ -63,7 +67,7 @@ export function OutlineArrowButton(props: OutlineArrowButtonProps) {
     const { href, children, className, iconClassName, iconAlt = "" } = props;
     return (
       <Link href={href} className={cn(baseClassName, className)}>
-        {children}
+        <Label>{children}</Label>
         <ArrowIcon alt={iconAlt} className={iconClassName} />
       </Link>
     );
@@ -85,7 +89,7 @@ export function OutlineArrowButton(props: OutlineArrowButtonProps) {
       className={cn(baseClassName, "cursor-pointer", className)}
       {...buttonProps}
     >
-      {children}
+      <Label>{children}</Label>
       <ArrowIcon alt={iconAlt} className={iconClassName} />
     </button>
   );

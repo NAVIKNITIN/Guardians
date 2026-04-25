@@ -2,6 +2,8 @@
 // CHANGE: API helper import
 import { createVisit } from "@/src/api/services/visitService";
 import { uploadFile } from "@/src/api/services/fileService";
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import { Container } from "@/components/common/Container";
 import { DynamicMap } from "@/components/projects/DynamicMap";
 import type { MapMarker } from "@/components/projects/DynamicMap";
@@ -241,13 +243,13 @@ function CaseStudySection({
           src={LOCAL_IMAGES.img17}
           alt=""
           fill
-          className=""
+          className="object-cover object-center transition-transform duration-700 ease-out hover:scale-105"
           sizes="(min-width: 1024px) 50vw, 100vw"
         />
       </div>
 
       <div className="flex w-full min-w-0 flex-col items-center justify-start text-center lg:items-start lg:text-left">
-        <h2 className="mt-3 md:mt-5 lg:mt-6 qs-reg text-[clamp(1.75rem,5vw,3.25rem)] lh-50 ls-5 uppercase text-[#202225] sm:text-[clamp(2rem,4vw,3.25rem)]">
+        <h2 className="mt-3 md:mt-5 lg:mt-6 qs-reg text-[clamp(1.75rem,5vw,3.25rem)] lh-50 ls-5 uppercase text-brand-text-primary sm:text-[clamp(2rem,4vw,3.25rem)]">
           Case Study
         </h2>
         <div className="mt-8 flex w-full flex-col gap-4 sm:mt-10">
@@ -274,17 +276,17 @@ function AmenityItem({
   amenity: { label: string; imageSrc: string };
 }) {
   return (
-    <div className="flex flex-col items-center gap-2 text-center sm:gap-3">
-      <div className="relative h-16 w-16 shrink-0 sm:h-20 sm:w-20">
+    <div className="group flex flex-col items-center gap-2 text-center sm:gap-3">
+      <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full bg-white/50 p-1.5 transition-all duration-500 ease-out group-hover:-translate-y-0.5 group-hover:bg-white/80 group-hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] sm:h-20 sm:w-20">
         <Image
           src={amenity.imageSrc}
           alt=""
           width={80}
           height={80}
-          className="h-16 w-16 object-cover sm:h-20 sm:w-20"
+          className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
         />
       </div>
-      <span className="n-bold text-[10px] uppercase leading-tight tracking-[0.08em] text-[#202225] sm:text-xs">
+      <span className="n-bold text-[10px] uppercase leading-tight tracking-[0.08em] text-brand-text-primary transition-colors duration-300 group-hover:text-[#8F8183] sm:text-xs">
         {amenity.label}
       </span>
     </div>
@@ -470,7 +472,8 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       <section className="relative overflow-hidden bg-white pt-8 pb-2 sm:pt-10 md:pt-20 lg:pt-[80px]">
         <Container className="min-w-0 pb-0">
-          <div className="relative flex min-h-0 flex-col items-centertext-center lg:min-h-[min(12rem,1fr)] lg:flex-row lg:items-start lg:justify-between  gap-4  lg:gap-4 lg:text-left">
+          <ScrollReveal direction="up" distance={30}>
+            <div className="relative flex min-h-0 flex-col items-centertext-center lg:min-h-[min(12rem,1fr)] lg:flex-row lg:items-start lg:justify-between  gap-4  lg:gap-4 lg:text-left">
             {/* Left — title block */}
             <div className="min-w-0 w-full max-w-full pr-0 text-center lg:max-w-[min(100%,42rem)] lg:pr-8 lg:text-left">
               {/* Status dot + label */}
@@ -482,7 +485,7 @@ function ProjectDetailPageContent() {
               </div>
               {/* Project title */}
               <h1
-                className="wrap-break-word qs-reg text-[clamp(1.75rem,7vw,4.375rem)] uppercase leading-none tracking-[0.05em] text-[#202225] sm:text-[clamp(2.25rem,5vw,4.375rem)]"
+                className="wrap-break-word qs-reg text-[clamp(1.75rem,7vw,4.375rem)] uppercase leading-none tracking-[0.05em] text-brand-text-primary sm:text-[clamp(2.25rem,5vw,4.375rem)]"
                 style={{ whiteSpace: "pre-line" }}
               >
                 {project.title}
@@ -503,34 +506,36 @@ function ProjectDetailPageContent() {
                 className="h-auto w-[min(100%,160px)] max-w-[200px] object-contain object-center sm:w-[160px] lg:w-[218px] lg:object-right"
               />
             </div>
-          </div>
+            </div>
+          </ScrollReveal>
 
           {/* Stats bar — 1 col on mobile, 2×2 from sm, 1×4 from lg */}
           <div className="mt-6 sm:mt-8 border-t border-black">
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-10">
+            <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-10" staggerChildren={0.12}>
               {project.stats.map((stat, i) => (
-                <div
-                  key={i}
-                  className={cn(
-                    "flex min-h-0 min-w-0 flex-col justify-center gap-1.5 border-b border-black py-4 text-center last:border-b-0 sm:gap-2 sm:border-b-0  sm:text-left ",
-                  )}
-                >
-                  <span className="n-bold text-[0.5225rem] uppercase leading-snug tracking-[0.08em] text-black sm:text-xs lg:text-sm">
-                    {stat.label}
-                  </span>
-                  <span className="text-[#8F8183] border-b border-black pb-2 sm:pb-2.5 n-reg">
-                    <span className=" inline wrap-break-word text-[clamp(1rem,4.5vw,1.125rem)] leading-[1.2] tracking-tight sm:text-2xl sm:leading-none md:text-3xl lg:text-[2.625rem]">
-                      {stat.value}
+                <ScrollReveal key={i} direction="up" delay={i * 0.04} distance={20}>
+                  <div
+                    className={cn(
+                      "flex min-h-0 min-w-0 flex-col justify-center gap-1.5 border-b border-black py-4 text-center last:border-b-0 sm:gap-2 sm:border-b-0  sm:text-left ",
+                    )}
+                  >
+                    <span className="n-bold text-[0.5225rem] uppercase leading-snug tracking-[0.08em] text-black sm:text-xs lg:text-sm">
+                      {stat.label}
                     </span>
-                    {stat.unit ? (
-                      <span className="ml-0.5 inline text-xs leading-none sm:text-base md:text-xl lg:text-2xl">
-                        {stat.unit}
+                    <span className="text-[#8F8183] border-b border-black pb-2 sm:pb-2.5 n-reg">
+                      <span className=" inline wrap-break-word text-[clamp(1rem,4.5vw,1.125rem)] leading-[1.2] tracking-tight sm:text-2xl sm:leading-none md:text-3xl lg:text-[2.625rem]">
+                        {stat.value}
                       </span>
-                    ) : null}
-                  </span>
-                </div>
+                      {stat.unit ? (
+                        <span className="ml-0.5 inline text-xs leading-none sm:text-base md:text-xl lg:text-2xl">
+                          {stat.unit}
+                        </span>
+                      ) : null}
+                    </span>
+                  </div>
+                </ScrollReveal>
               ))}
-            </div>
+            </StaggerContainer>
           </div>
         </Container>
       </section>
@@ -544,7 +549,7 @@ function ProjectDetailPageContent() {
           src={buildingHeroSrc}
           alt="Lorem Ipsum Towers"
           fill
-          className=""
+          className="object-cover object-center transition-transform duration-1000 ease-out hover:scale-105"
           priority
           unoptimized={isFromCompleted}
         />
@@ -555,9 +560,11 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       <section className="bg-white py-10 sm:py-12 lg:py-16 mt-1 md:mt-5 lg:mt-10 ">
         <Container className="min-w-0">
-          <p className="n-bold text-center text-[clamp(1.0625rem,3.8vw,1.25rem)] leading-snug text-black sm:text-left sm:text-2xl lg:text-[2.25rem] lg:leading-[1.17]">
-            {project.description}
-          </p>
+          <ScrollReveal direction="up" distance={28}>
+            <p className="n-bold text-center text-[clamp(1.0625rem,3.8vw,1.25rem)] leading-snug text-black sm:text-left sm:text-2xl lg:text-[2.25rem] lg:leading-[1.17]">
+              {project.description}
+            </p>
+          </ScrollReveal>
         </Container>
       </section>
 
@@ -566,9 +573,10 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       <section className="bg-white pb-10 sm:pb-12 lg:pb-16 sm:mt-1 md:mt-10">
         <Container className="min-w-0">
-          <div className="flex flex-col gap-6">
+          <StaggerContainer className="flex flex-col gap-6" staggerChildren={0.12}>
             {/* Row 1: two halves */}
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+            <ScrollReveal direction="up" distance={22}>
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
               {project.gallery
                 .filter((g) => g.span === "half")
                 .map((img, i) => (
@@ -576,13 +584,15 @@ function ProjectDetailPageContent() {
                     key={i}
                     className="relative h-[220px] overflow-hidden bg-[#BCBDC0] sm:h-[280px] lg:h-[400px]"
                   >
-                    <Image src={img.src} alt="" fill className="object-cover" />
+                    <Image src={img.src} alt="" fill className="object-cover transition-transform duration-700 ease-out hover:scale-105" />
                   </div>
                 ))}
-            </div>
+              </div>
+            </ScrollReveal>
 
             {/* Row 2: full-width */}
-            {project.gallery
+            <ScrollReveal direction="up" delay={0.06} distance={22}>
+              {project.gallery
               .filter((g) => g.span === "full")
               .map((img, i) => (
                 <div
@@ -593,13 +603,15 @@ function ProjectDetailPageContent() {
                     src={img.src}
                     alt=""
                     fill
-                    className=""
+                    className="object-cover transition-transform duration-700 ease-out hover:scale-105"
                   />
                 </div>
               ))}
+            </ScrollReveal>
 
             {/* Row 3: three thirds */}
-            <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+            <ScrollReveal direction="up" delay={0.12} distance={22}>
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
               {project.gallery
                 .filter((g) => g.span === "third")
                 .map((img, i) => (
@@ -607,11 +619,12 @@ function ProjectDetailPageContent() {
                     key={i}
                     className="relative h-[220px] overflow-hidden bg-[#BCBDC0] sm:h-[280px] lg:h-[400px]"
                   >
-                    <Image src={img.src} alt="" fill className="object-cover" />
+                    <Image src={img.src} alt="" fill className="object-cover transition-transform duration-700 ease-out hover:scale-105" />
                   </div>
                 ))}
-            </div>
-          </div>
+              </div>
+            </ScrollReveal>
+          </StaggerContainer>
         </Container>
       </section>
 
@@ -624,23 +637,29 @@ function ProjectDetailPageContent() {
         <div className="pointer-events-none absolute inset-0 z-0 bg-white/85" />
 
         <Container className="relative z-10 min-w-0">
-          <h2 className=" text-center qs-reg text-[clamp(1.75rem,4vw,3.225rem)] uppercase tracking-[0.05em] text-[#202225] ">
-            Project Amenities
-          </h2>
+          <ScrollReveal direction="up" distance={24}>
+            <h2 className=" text-center qs-reg text-[clamp(1.75rem,4vw,3.225rem)] uppercase tracking-[0.05em] text-brand-text-primary ">
+              Project Amenities
+            </h2>
+          </ScrollReveal>
 
           {/* Rows 1 & 2 — 4 columns on desktop */}
-          <div className="grid w-full grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-5 lg:gap-x-12 lg:gap-y-10 mt-4 md:mt-10">
+          <StaggerContainer className="grid w-full grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-5 lg:gap-x-12 lg:gap-y-10 mt-4 md:mt-10" staggerChildren={0.1}>
             {project.amenities.slice(0, 8).map((amenity, i) => (
-              <AmenityItem key={i} amenity={amenity} />
+              <ScrollReveal key={i} direction="up" delay={i * 0.025} distance={18}>
+                <AmenityItem amenity={amenity} />
+              </ScrollReveal>
             ))}
-          </div>
+          </StaggerContainer>
 
           {/* Row 3 — 2 items, left-aligned */}
-          <div className="mt-8 grid w-full grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-10 lg:gap-x-12 lg:gap-y-12">
+          <StaggerContainer className="mt-8 grid w-full grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-10 lg:gap-x-12 lg:gap-y-12" staggerChildren={0.1}>
             {project.amenities.slice(8).map((amenity, i) => (
-              <AmenityItem key={i} amenity={amenity} />
+              <ScrollReveal key={i} direction="up" delay={i * 0.04} distance={18}>
+                <AmenityItem amenity={amenity} />
+              </ScrollReveal>
             ))}
-          </div>
+          </StaggerContainer>
         </Container>
       </section>
 
@@ -651,8 +670,8 @@ function ProjectDetailPageContent() {
         <Container className="min-w-0">
           <div className="flex flex-col gap-8 lg:flex-row lg:gap-12">
             {/* Left — list */}
-            <div className="min-w-0 w-full flex-1 pb-2 md:pb-7">
-              <h2 className="mb-6 text-center qs-reg text-[clamp(1.75rem,5vw,4.375rem)] uppercase tracking-[0.05em] text-[#202225] sm:mb-8 sm:text-left ">
+            <ScrollReveal direction="left" distance={28} className="min-w-0 w-full flex-1 pb-2 md:pb-7">
+              <h2 className="mb-6 text-center qs-reg text-[clamp(1.75rem,5vw,4.375rem)] uppercase tracking-[0.05em] text-brand-text-primary sm:mb-8 sm:text-left ">
                 Location
               </h2>
 
@@ -665,7 +684,7 @@ function ProjectDetailPageContent() {
                       </span>
                       <div className="flex shrink-0 items-center justify-center gap-2 sm:justify-end">
                         <Image src={item.type === "walk" ? "/images/location.svg" : "/images/drive.svg"} alt="" width={13} height={18} className="object-cover" />
-                        <span className="min-w-[3.5rem] text-center n-bold text-[#161616] sm:min-w-[3.75rem] sm:text-right sm:text-base">
+                        <span className="min-w-14 text-center n-bold text-[#161616] sm:min-w-15 sm:text-right sm:text-base">
                           {item.time}
                         </span>
                       </div>
@@ -676,10 +695,10 @@ function ProjectDetailPageContent() {
                   </div>
                 ))}
               </div>
-            </div>
+            </ScrollReveal>
 
             {/* Right — dynamic map */}
-            <div className="relative h-[min(52vh,24rem)] w-full min-h-[220px] shrink-0 overflow-hidden sm:h-[360px] sm:min-h-[280px] lg:h-auto lg:min-h-[550px] lg:w-[49%]">
+            <ScrollReveal direction="right" delay={0.08} distance={28} className="relative h-[min(52vh,24rem)] w-full min-h-[220px] shrink-0 overflow-hidden sm:h-[360px] sm:min-h-[280px] lg:h-auto lg:min-h-[550px] lg:w-[49%]">
               <DynamicMap
                 center={project.mapCenter}
                 zoom={project.mapZoom}
@@ -704,7 +723,7 @@ function ProjectDetailPageContent() {
                 ]}
                 className="h-full w-full"
               />
-            </div>
+            </ScrollReveal>
           </div>
         </Container>
       </section>
@@ -714,11 +733,13 @@ function ProjectDetailPageContent() {
       {isFromCompleted ? (
         <section className="bg-white mb-10 md:mb-20 lg:mb-30">
           <Container className="min-w-0">
-            <CaseStudySection
-              posterSrc={project.caseStudy.posterSrc}
-              videoUrl={project.caseStudy.videoUrl}
-              paragraphs={project.caseStudy.paragraphs}
-            />
+            <ScrollReveal direction="up" distance={26}>
+              <CaseStudySection
+                posterSrc={project.caseStudy.posterSrc}
+                videoUrl={project.caseStudy.videoUrl}
+                paragraphs={project.caseStudy.paragraphs}
+              />
+            </ScrollReveal>
           </Container>
         </section>
       ) : null}
@@ -733,15 +754,15 @@ function ProjectDetailPageContent() {
             src={project.bookVisitBg}
             alt=""
             fill
-            className=""
+            className="object-cover object-center transition-transform duration-1000 ease-out hover:scale-105"
             sizes="100vw"
           />
-          <div className="absolute inset-0 bg-[#202225]/50" />
+          <div className="absolute inset-0 bg-brand-text-primary/50" />
 
           <Container className="relative z-10 min-w-0 py-12 sm:py-16 lg:py-20">
             <div className="flex flex-col gap-10 lg:flex-row lg:gap-16">
               {/* Left — info */}
-              <div className="flex min-w-0 flex-1 flex-col items-center justify-between text-center lg:items-start lg:text-left">
+              <ScrollReveal direction="left" distance={26} className="flex min-w-0 flex-1 flex-col items-center justify-between text-center lg:items-start lg:text-left">
                 <div className="w-full">
                   <h2 className="qs-reg text-[clamp(1.75rem,6vw,4.375rem)] uppercase leading-none tracking-[0.05em] text-white sm:text-[clamp(2.5rem,5vw,4.375rem)]">
                     Book A Visit
@@ -755,7 +776,7 @@ function ProjectDetailPageContent() {
 
                 <div className="mt-10 flex flex-col gap-6 border-t border-white pt-8 sm:flex-row sm:gap-12 md:gap-30 lg:gap-50 sm:text-left w-full items-center justify-start ">
                   <div className="w-full sm:w-auto">
-                    <p className="n-bold fs-16 lh-24 uppercase tracking-[0.1em] text-white">
+                    <p className="n-bold fs-16 lh-24 uppercase tracking-widest text-white">
                       Location
                     </p>
                     <p className="mx-auto mt-2 max-w-[16rem] n-book text-sm leading-relaxed text-white sm:mx-0">
@@ -764,7 +785,7 @@ function ProjectDetailPageContent() {
                     </p>
                   </div>
                   <div className="w-full sm:w-auto">
-                    <p className="n-bold fs-16 lh-24 uppercase tracking-[0.1em] text-white">
+                    <p className="n-bold fs-16 lh-24 uppercase tracking-widest text-white">
                       Contact
                     </p>
                     <p className="mt-2 n-book text-sm leading-relaxed text-white">
@@ -774,13 +795,14 @@ function ProjectDetailPageContent() {
                     </p>
                   </div>
                 </div>
-              </div>
+              </ScrollReveal>
 
               {/* Right — form card (`.book-visit-form` scopes mobile CSS so fields stay left-aligned) */}
-              <form
-                onSubmit={handleSubmit}
-                className="book-visit-form w-full min-w-0 max-w-full bg-white px-5 py-7 text-left sm:px-8 sm:py-8 lg:w-[490px] lg:shrink-0 lg:px-10"
-              >
+              <ScrollReveal direction="right" delay={0.08} distance={26}>
+                <form
+                  onSubmit={handleSubmit}
+                  className="book-visit-form w-full min-w-0 max-w-full bg-white px-5 py-7 text-left sm:px-8 sm:py-8 lg:w-[490px] lg:shrink-0 lg:px-10"
+                >
                 <div className="flex w-full flex-col items-stretch gap-0 text-left">
                   {/* Row 1: First / Last name */}
                   <div className="grid grid-cols-1 gap-6 pb-6 sm:grid-cols-2 sm:gap-8 n-bold lh-24 fs-14">
@@ -844,7 +866,7 @@ function ProjectDetailPageContent() {
 
                   {/* Message */}
                   <div className="border-t border-[#8F8183]/30 pt-6 text-left n-bold lh-24 fs-14">
-                    <label className="block text-left n-reg text-sm text-[#202225]">
+                    <label className="block text-left n-reg text-sm text-brand-text-primary">
                       Message
                     </label>
                     <textarea
@@ -863,14 +885,15 @@ function ProjectDetailPageContent() {
                       suppressHydrationWarning
                       type="submit"
                       disabled={isSubmitting}
-                      className="btn-grad inline-flex h-[52px] w-full items-center justify-center gap-4 px-8 n-reg  text-sm  uppercase tracking-[0.1em] text-white sm:h-[55px] sm:w-auto sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl disabled:cursor-not-allowed disabled:opacity-70"
+                      className="btn-grad inline-flex h-[52px] w-full items-center justify-center gap-4 px-8 n-reg  text-sm  uppercase tracking-widest text-white sm:h-[55px] sm:w-auto sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl disabled:cursor-not-allowed disabled:opacity-70"
                     >
                       {isSubmitting ? "Submitting..." : "Submit"}
                       <ArrowUpRight />
                     </button>
                   </div>
                 </div>
-              </form>
+                </form>
+              </ScrollReveal>
             </div>
           </Container>
         </section>
@@ -917,7 +940,7 @@ function FormField({
 }: FormFieldProps) {
   return (
     <div className="flex flex-col gap-1 text-left">
-      <label className="text-left n-bold fs-14 lh-24 text-[#202225]">
+      <label className="text-left n-bold fs-14 lh-24 text-brand-text-primary">
         {label}
       </label>
       <input
@@ -954,7 +977,7 @@ function SelectField({
 }: SelectFieldProps) {
   return (
     <div className="flex flex-col gap-1 text-left">
-      <label className="text-left n-reg text-sm text-[#202225]">
+      <label className="text-left n-reg text-sm text-brand-text-primary">
         {label}
       </label>
       <div

@@ -1,11 +1,13 @@
 "use client";
 
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import { CarouselControls } from "@/components/ui/CarouselControls";
 import { useCycleIndex } from "@/hooks/useCycleIndex";
 import { marketingClasses } from "@/styles/marketingClasses";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 
 export type PartnersTestimonial = {
   id: string;
@@ -82,14 +84,18 @@ const TESTIMONIALS: PartnersTestimonial[] = [
 
 const DESKTOP_VISIBLE = 2;
 
-export const TestimonialCard = ({ item }: { item: PartnersTestimonial }) => {
+export const TestimonialCard = memo(function TestimonialCard({
+  item,
+}: {
+  item: PartnersTestimonial;
+}) {
   return (
     <article
       className={cn(
         "flex w-full min-w-0 max-w-full flex-col overflow-hidden",
         /* Dot-grid + linear gradient matching the design */
         "bg-[radial-gradient(circle_at_center,#BCBDC0_1px,transparent_1px),linear-gradient(110deg,rgba(188,189,192,0.2)_0%,rgba(143,129,131,0.2)_100%)]",
-        "[background-size:14px_14px,100%_100%] [background-repeat:repeat,no-repeat]",
+        "bg-size-[14px_14px,100%_100%] [background-repeat:repeat,no-repeat]",
       )}
     >
       {/* Top content area */}
@@ -128,7 +134,7 @@ export const TestimonialCard = ({ item }: { item: PartnersTestimonial }) => {
       </div>
     </article>
   );
-}
+});
 
 export function PartnersTestimonials() {
   const items = TESTIMONIALS;
@@ -149,36 +155,45 @@ export function PartnersTestimonials() {
       className=" bg-brand-background"
       aria-labelledby="pc-testimonials-heading"
     >
-      <div className="mx-auto w-full min-w-0 max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full min-w-0 max-w-7xl px-6 py-20 md:px-16">
         {/* Header row */}
-        <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
-          <h2
-            id="pc-testimonials-heading"
-            className={cn(marketingClasses.headingDisplayMd, "max-w-full")}
-          >
-            What Our Clients Say
-          </h2>
-          <CarouselControls
-            className="w-auto"
-            currentIndex={index}
-            total={n}
-            onPrev={() => advance(-1)}
-            onNext={() => advance(1)}
-            prevLabel="Previous testimonials"
-            nextLabel="Next testimonials"
-          />
-        </div>
+        <ScrollReveal direction="up" duration={0.6} distance={40}>
+          <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
+            <h2
+              id="pc-testimonials-heading"
+              className={cn(marketingClasses.headingDisplayMd, "max-w-full")}
+            >
+              What Our Clients Say
+            </h2>
+            <CarouselControls
+              className="w-auto"
+              currentIndex={index}
+              total={n}
+              onPrev={() => advance(-1)}
+              onNext={() => advance(1)}
+              prevLabel="Previous testimonials"
+              nextLabel="Next testimonials"
+            />
+          </div>
+        </ScrollReveal>
 
         {/* Desktop: 2-column grid */}
-        <div className="mt-8 hidden gap-4 md:grid md:grid-cols-2 lg:mt-10 lg:gap-6">
-          {desktopVisible.map((item) => (
-            <TestimonialCard key={`${item.id}-${index}`} item={item} />
+        <StaggerContainer
+          className="mt-8 hidden gap-4 md:grid md:grid-cols-2 lg:mt-10 lg:gap-6"
+          staggerChildren={0.18}
+        >
+          {desktopVisible.map((item, cardIndex) => (
+            <ScrollReveal key={`${item.id}-${index}`} direction="up" delay={cardIndex * 0.08} distance={32}>
+              <TestimonialCard item={item} />
+            </ScrollReveal>
           ))}
-        </div>
+        </StaggerContainer>
 
         {/* Mobile: single card */}
         <div className="mt-6 md:hidden">
-          <TestimonialCard item={items[index]!} />
+          <ScrollReveal direction="up" delay={0.1} distance={32}>
+            <TestimonialCard item={items[index]!} />
+          </ScrollReveal>
         </div>
       </div>
     </section>

@@ -1,3 +1,4 @@
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { Container } from "@/components/common/Container";
 import { localImageByIndex } from "@/lib/local-images";
 import { cn } from "@/utils/cn";
@@ -79,7 +80,7 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
 
       {/* Label content — pinned to bottom */}
       <div className="absolute inset-x-0 bottom-0 z-10 p-5">
-        <h3 className="n-bold text-xl leading-snug text-[#202225] transition-transform duration-850 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-0.5">
+        <h3 className="n-bold text-xl leading-snug text-brand-text-primary transition-transform duration-850 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-0.5">
           {card.title}
         </h3>
 
@@ -87,7 +88,7 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
         {card.subtitle && (
           <p
             className={cn(
-              "mt-1 n-book text-sm leading-normal text-[#202225]",
+              "mt-1 n-book text-sm leading-normal text-brand-text-primary",
               "transition-all duration-900 ease-[cubic-bezier(0.22,1,0.36,1)]",
               "max-h-0 -translate-y-1 overflow-hidden opacity-0 group-hover:max-h-20 group-hover:translate-y-0 group-hover:opacity-100",
             )}
@@ -132,27 +133,32 @@ export function ReasonsToJoin() {
     >
       <Container>
         {/* Centered Qasbyne title */}
-        <h2
-          id="reasons-heading"
-          className={cn(
-            "text-center uppercase text-[#202225] qs-reg ls-10",
-            "qs-reg fs-50 leading-[1.15] ls-8",
-            "mb-6 sm:mb-5",
-          )}
-        >
-          Reasons to Join Guardians
-        </h2>
+        <ScrollReveal direction="up" distance={30}>
+          <h2
+            id="reasons-heading"
+            className={cn(
+              "text-center uppercase text-brand-text-primary qs-reg ls-10",
+              "qs-reg fs-50 leading-[1.15] ls-8",
+              "mb-6 sm:mb-5",
+            )}
+          >
+            Reasons to Join Guardians
+          </h2>
+        </ScrollReveal>
 
         {/* 4-card photo row */}
-        <div
+        <ScrollReveal
           className={cn(
             "flex flex-col gap-3 sm:h-[clamp(260px,35vw,450px)] sm:flex-row sm:gap-4 mt-4 md:mt-8 lg:mt-10",
           )}
+          direction="up"
+          delay={0.08}
+          distance={24}
         >
           {REASONS.map((card) => (
             <ReasonCard key={card.id} card={card} />
           ))}
-        </div>
+        </ScrollReveal>
       </Container>
     </section>
   );
