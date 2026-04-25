@@ -92,7 +92,8 @@ export const TestimonialCard = memo(function TestimonialCard({
   return (
     <article
       className={cn(
-        "flex w-full min-w-0 max-w-full flex-col overflow-hidden",
+        "group flex w-full min-w-0 max-w-full flex-col overflow-hidden will-change-transform",
+        "transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_34px_rgba(22,20,19,0.18)]",
         /* Dot-grid + linear gradient matching the design */
         "bg-[radial-gradient(circle_at_center,#BCBDC0_1px,transparent_1px),linear-gradient(110deg,rgba(188,189,192,0.2)_0%,rgba(143,129,131,0.2)_100%)]",
         "bg-size-[14px_14px,100%_100%] [background-repeat:repeat,no-repeat]",
@@ -101,23 +102,23 @@ export const TestimonialCard = memo(function TestimonialCard({
       {/* Top content area */}
       <div className="flex flex-1 flex-col p-6 sm:p-10 lg:p-12">
         {/* Brand logo badge */}
-        <div className="flex w-fit max-w-full min-w-[170px] items-center justify-center rounded-full bg-white py-2 shadow-sm">
+        <div className="flex w-fit max-w-full min-w-[170px] items-center justify-center rounded-full bg-white py-2 shadow-sm transition-transform duration-300 group-hover:scale-[1.02]">
           <Image
             src={item.brandLogoSrc}
             alt={item.brandLogoAlt}
             width={200}
             height={60}
-            className="w-auto h-12 object-contain object-left sm:h-12 sm:max-h-11 "
+            className="h-12 w-auto object-contain object-left transition-transform duration-300 group-hover:scale-[1.03] sm:h-12 sm:max-h-11"
           />
         </div>
 
-        <span className="mt-8 block text-brand-text-primary sm:mt-15">
+        <span className="mt-8 block text-brand-text-primary transition-transform duration-300 group-hover:translate-y-[-2px] sm:mt-15">
           <Image
             src={"/images/invertedComma.svg"}
             alt=""
             width={27}
             height={27}
-            className="clip-path-circle object-cover"
+            className="clip-path-circle object-cover transition-transform duration-300 group-hover:scale-105"
           />
         </span>
 
