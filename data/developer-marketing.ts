@@ -130,7 +130,7 @@ export const DEV_LANDMARK_COMPLETED_BUYER_MARKETING: LandmarkProject[] = DEV_LAN
 
 const AWARD_ROTATION_IMAGES = [
   "/images/award.svg",
-  "/images/award.svg",
+  "/images/tgrea2.svg",
 ] as const;
 
 const DEV_AWARD_SLIDES: AwardSlide[] = Array.from({ length: 25 }, (_, i) => ({

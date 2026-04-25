@@ -78,8 +78,6 @@ export function AwardsSection({
 					>
 						<CardStack
 							items={slides}
-							activeIndex={index}
-							direction={rollDir}
 							className="h-full w-full"
 						/>
 					</div>

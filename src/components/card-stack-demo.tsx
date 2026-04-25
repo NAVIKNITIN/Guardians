@@ -4,7 +4,7 @@ import { CardStack } from "@/components/ui/card-stack";
 export default function CardStackDemo() {
   return (
     <div className="h-160 flex items-center justify-center w-full">
-      <CardStack items={CARDS} activeIndex={0} direction={1} />
+      <CardStack items={CARDS} />
     </div>
   );
 }
