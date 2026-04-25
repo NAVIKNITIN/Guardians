@@ -249,7 +249,7 @@ function marketingFirstSectionHeightStyle(heightPx?: number): CSSProperties | un
   if (!isCustomHeroHeight(heightPx)) {
     return undefined;
   }
-  return { height: heightPx, minHeight: 0 };
+  return { height: heightPx, maxHeight: heightPx, minHeight: 0 };
 }
 
 function resolveHeadline(hero: MarketingHeroContent) {
