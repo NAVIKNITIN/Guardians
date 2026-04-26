@@ -6,6 +6,7 @@ import { MarketingPageHero } from "@/components/marketing/MarketingPageHero";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import { ProjectCard } from "@/components/projects/ProjectCard";
+import { AppPageSkeleton } from "@/components/common/AppPageSkeleton";
 import {
   mapApiProjectListItemToRow,
   parseProjectListResponse,
@@ -32,6 +33,7 @@ const STAGE_OPTIONS = ["Ongoing", "Completed"] as const;
 
 /** Max project cards shown before “View More”. */
 const INITIAL_VISIBLE_CARDS = 10;
+const PROJECT_LIST_SKELETON_COUNT = 6;
 
 type ProjectRow = ProjectRowFilterShape;
 
@@ -207,6 +209,20 @@ function FilterSelect({
       </select>
       <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-2.5 w-2.5 -translate-y-1/2 text-brand-footer sm:right-3" />
     </label>
+  );
+}
+
+function ProjectCardSkeleton() {
+  return (
+    <div className="relative flex flex-col overflow-hidden bg-white shadow-[0_4px_24px_rgba(0,0,0,0.08)]">
+      <div className="relative aspect-4/3 w-full overflow-hidden bg-[#BCBDC0]/35 sm:aspect-16/10">
+        <div className="h-full w-full animate-pulse bg-linear-to-r from-[#d6d7da] via-[#ececef] to-[#d6d7da]" />
+      </div>
+      <div className="flex flex-col gap-3 bg-[#ecebeb] px-4 py-4 sm:px-5 sm:py-5">
+        <div className="h-6 w-3/4 animate-pulse rounded bg-[#cfd1d5]" />
+        <div className="h-4 w-5/6 animate-pulse rounded bg-[#d9dbde]" />
+      </div>
+    </div>
   );
 }
 
@@ -473,12 +489,6 @@ function ProjectsPageContent() {
             </p>
           ) : null}
 
-          {listLoading ? (
-            <p className="min-h-[200px] px-1 text-center n-reg text-sm text-[#161616]/60 sm:px-0">
-              Loading projects…
-            </p>
-          ) : null}
-
           {!listLoading && !listError && listTotal > 0 ? (
             <p className="mb-5 text-center n-reg text-xs text-[#161616]/50">
               {listTotal} project{listTotal === 1 ? "" : "s"} total
@@ -489,22 +499,35 @@ function ProjectsPageContent() {
           ) : null}
 
           <StaggerContainer className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:gap-10 xl:gap-10" staggerChildren={0.14}>
-            {displayedProjects.map((project, index) => (
-              <ScrollReveal key={project.id} direction="up" delay={index * 0.03} distance={28}>
-                <ProjectCard
-                  imageSrc={project.imageSrc}
-                  title={project.title}
-                  subtitle={project.subtitle}
-                  badge={project.badge}
-                  href={
-                    projectIsCompleted(project)
-                      ? `/projects/${project.id}?status=completed`
-                      : `/projects/${project.id}`
-                  }
-                  stage={filterStage}
-                />
-              </ScrollReveal>
-            ))}
+            {listLoading
+              ? Array.from({ length: PROJECT_LIST_SKELETON_COUNT }).map(
+                (_, index) => (
+                  <ScrollReveal
+                    key={`project-skeleton-${index}`}
+                    direction="up"
+                    delay={index * 0.02}
+                    distance={20}
+                  >
+                    <ProjectCardSkeleton />
+                  </ScrollReveal>
+                ),
+              )
+              : displayedProjects.map((project, index) => (
+                <ScrollReveal key={project.id} direction="up" delay={index * 0.03} distance={28}>
+                  <ProjectCard
+                    imageSrc={project.imageSrc}
+                    title={project.title}
+                    subtitle={project.subtitle}
+                    badge={project.badge}
+                    href={
+                      projectIsCompleted(project)
+                        ? `/projects/${project.id}?status=completed`
+                        : `/projects/${project.id}`
+                    }
+                    stage={filterStage}
+                  />
+                </ScrollReveal>
+              ))}
           </StaggerContainer>
 
           {!listLoading && !listError && projects.length === 0 ? (
@@ -555,13 +578,7 @@ function ProjectsPageContent() {
 export default function ProjectsPage(props: object) {
   return (
     <Suspense
-      fallback={
-        <main className="min-h-[50vh] min-w-0 bg-white lg:pt-[100px]">
-          <div className="flex min-h-[min(17.5rem,42svh)] h-[min(52svh,28rem)] items-center justify-center bg-[#BCBDC0]/30 sm:h-[400px] sm:min-h-[380px] lg:h-[550px]">
-            <span className="n-reg  text-sm text-brand-text-primary/60">Loading…</span>
-          </div>
-        </main>
-      }
+      fallback={<AppPageSkeleton />}
     >
       <ProjectsPageContent />
     </Suspense>
