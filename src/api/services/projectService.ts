@@ -7,6 +7,11 @@ export type GetAllProjectsParams = {
 };
 
 /**
+ * Deduplicate concurrent list requests for the same query (e.g. React Strict Mode).
+ */
+const inflightGetAllProjects = new Map<string, Promise<unknown>>();
+
+/**
  * Get all projects (paginated). Example: `?per_page=10&page=1`
  */
 export function getAllProjects(params: GetAllProjectsParams = {}) {
@@ -14,7 +19,18 @@ export function getAllProjects(params: GetAllProjectsParams = {}) {
     per_page: params.per_page ?? 10,
     page: params.page ?? 1,
   });
-  return axiosInstance.get<unknown>(`/projects?${query}`).then((r) => r.data);
+  const inflight = inflightGetAllProjects.get(query);
+  if (inflight) {
+    return inflight;
+  }
+  const promise = axiosInstance
+    .get<unknown>(`/projects?${query}`)
+    .then((r) => r.data)
+    .finally(() => {
+      inflightGetAllProjects.delete(query);
+    });
+  inflightGetAllProjects.set(query, promise);
+  return promise;
 }
 
 /** @deprecated use `getAllProjects` — alias for admin list with a larger first page. */
@@ -22,8 +38,23 @@ export function listProjects() {
   return getAllProjects({ per_page: 100, page: 1 });
 }
 
+/** Deduplicate concurrent fetches of the same project (e.g. React Strict Mode, remounts). */
+const inflightGetProjectById = new Map<string, Promise<unknown>>();
+
 export function getProjectById(id: string | number) {
-  return axiosInstance.get<unknown>(`/projects/${id}`).then((r) => r.data);
+  const key = String(id);
+  const inflight = inflightGetProjectById.get(key);
+  if (inflight) {
+    return inflight;
+  }
+  const promise = axiosInstance
+    .get<unknown>(`/projects/${key}`)
+    .then((r) => r.data)
+    .finally(() => {
+      inflightGetProjectById.delete(key);
+    });
+  inflightGetProjectById.set(key, promise);
+  return promise;
 }
 
 export function createProject(payload: object) {

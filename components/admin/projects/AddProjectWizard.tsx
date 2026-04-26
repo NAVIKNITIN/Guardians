@@ -1,9 +1,10 @@
 "use client";
 
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { FileUploadField } from "@/components/common/FileUploadField";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { ChangeEvent, ReactNode } from "react";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   uploadFile as uploadFileRequest,
   uploadFilesBulk,
@@ -34,9 +35,6 @@ type FormState = {
   logoFileName: string;
   heroImageName: string;
   galleryFileNames: string[];
-  logoFile: File | null;
-  heroImageFile: File | null;
-  galleryFiles: File[];
   areaSqft: string;
   propertyType: string;
   configuration: string;
@@ -47,7 +45,6 @@ type Amenity = {
   id: number;
   name: string;
   imageFileName: string;
-  imageFile: File | null;
   existingImageId: number | null;
 };
 
@@ -163,7 +160,6 @@ function createEmptyAmenity(id = createLocalId()): Amenity {
     id,
     name: "",
     imageFileName: "",
-    imageFile: null,
     existingImageId: null,
   };
 }
@@ -307,89 +303,6 @@ function TextArea({
   );
 }
 
-function UploadField({
-  id,
-  label,
-  title,
-  helper,
-  files,
-  multiple = false,
-  onChange,
-}: {
-  id: string;
-  label: string;
-  title: string;
-  helper: string;
-  files: string[];
-  multiple?: boolean;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-}) {
-  return (
-    <div className="space-y-3">
-      <p className="text-[1.2rem] font-medium text-[#46536d]">{label}</p>
-
-      <label
-        htmlFor={id}
-        className="group flex min-h-[230px] cursor-pointer flex-col items-center justify-center rounded-[30px] border-2 border-dashed border-[#d7dde6] bg-white px-6 text-center transition hover:border-[#f09684]"
-      >
-        <div className="flex h-[72px] w-[72px] items-center justify-center rounded-full bg-[#fff3ed] text-[#f07c61]">
-          <IconUpload className="h-8 w-8" />
-        </div>
-
-        <p className="mt-6 text-[1.9rem] font-medium text-[#33425e]">{title}</p>
-        <p className="mt-2 text-[1.08rem] text-[#9ca6b8]">{helper}</p>
-
-        <input
-          id={id}
-          type="file"
-          accept="image/*"
-          multiple={multiple}
-          onChange={onChange}
-          className="hidden"
-        />
-      </label>
-
-      {files.length > 0 ? (
-        <div className="rounded-[18px] bg-[#fff8f5] px-5 py-4 text-[1rem] text-[#7a6a60]">
-          {files.join(", ")}
-        </div>
-      ) : null}
-    </div>
-  );
-}
-
-function AmenityImageField({
-  id,
-  fileName,
-  onChange,
-}: {
-  id: string;
-  fileName: string;
-  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
-}) {
-  return (
-    <label
-      htmlFor={id}
-      className="flex h-[74px] cursor-pointer items-center justify-center rounded-[20px] border-2 border-dashed border-[#d7dde6] bg-white px-5 text-center transition hover:border-[#f09684]"
-    >
-      <input
-        id={id}
-        type="file"
-        accept="image/*"
-        onChange={onChange}
-        className="hidden"
-      />
-
-      <div className="flex items-center gap-3 text-[#f07c61]">
-        <IconUpload className="h-5 w-5" />
-        <span className="max-w-[180px] truncate text-[1rem] font-semibold">
-          {fileName || "Upload Amenity Image"}
-        </span>
-      </div>
-    </label>
-  );
-}
-
 function AddItemButton({
   label,
   onClick,
@@ -438,6 +351,25 @@ export function AddProjectWizard() {
   const [isLoadingProject, setIsLoadingProject] = useState(isEditMode);
   const [errorMessage, setErrorMessage] = useState("");
 
+  /** Set when an immediate file upload (logo/hero/gallery/amenity) is in progress. */
+  const [fileUploading, setFileUploading] = useState<{
+    logo: boolean;
+    hero: boolean;
+    gallery: boolean;
+    amenityId: number | null;
+  }>({
+    logo: false,
+    hero: false,
+    gallery: false,
+    amenityId: null,
+  });
+
+  const isAnyFileUploading =
+    fileUploading.logo ||
+    fileUploading.hero ||
+    fileUploading.gallery ||
+    fileUploading.amenityId != null;
+
   const [existingProjectFiles, setExistingProjectFiles] =
     useState<ExistingProjectFiles>({
       logoId: null,
@@ -451,9 +383,6 @@ export function AddProjectWizard() {
     logoFileName: "",
     heroImageName: "",
     galleryFileNames: [],
-    logoFile: null,
-    heroImageFile: null,
-    galleryFiles: [],
     areaSqft: "",
     propertyType: "",
     configuration: "",
@@ -469,13 +398,16 @@ export function AddProjectWizard() {
   const currentStepIndex = steps.findIndex((item) => item.id === step);
   const isLastStep = currentStepIndex === steps.length - 1;
 
+  /** Bumps each time the load effect re-runs so stale async work never applies state. */
+  const projectLoadTokenRef = useRef(0);
+
   useEffect(() => {
     if (!projectId) {
       setIsLoadingProject(false);
       return;
     }
 
-    let isMounted = true;
+    const loadToken = ++projectLoadTokenRef.current;
 
     async function loadProject() {
       try {
@@ -486,11 +418,13 @@ export function AddProjectWizard() {
           projectId!,
         )) as ProjectDetailsResponse;
 
+        if (loadToken !== projectLoadTokenRef.current) {
+          return;
+        }
+
         if (!result.success) {
           throw new Error("Failed to load project details.");
         }
-
-        if (!isMounted) return;
 
         const project = result.data;
         const logoFile = project.files.find((file) => file.file_type === "LOGO");
@@ -517,9 +451,6 @@ export function AddProjectWizard() {
           logoFileName: logoFile?.file_name ?? "",
           heroImageName: heroFile?.file_name ?? "",
           galleryFileNames: galleryFiles.map((file) => file.file_name),
-          logoFile: null,
-          heroImageFile: null,
-          galleryFiles: [],
           areaSqft: project.area ?? "",
           propertyType: project.type ?? "",
           configuration: primaryConfiguration?.bhk_type ?? "",
@@ -542,19 +473,20 @@ export function AddProjectWizard() {
               imageFileName: item.amenities_image_id
                 ? "Existing image linked"
                 : "",
-              imageFile: null,
               existingImageId: item.amenities_image_id,
             }))
             : [createEmptyAmenity(1)],
         );
       } catch (error) {
-        if (!isMounted) return;
+        if (loadToken !== projectLoadTokenRef.current) {
+          return;
+        }
 
         setErrorMessage(
           error instanceof Error ? error.message : "Something went wrong.",
         );
       } finally {
-        if (isMounted) {
+        if (loadToken === projectLoadTokenRef.current) {
           setIsLoadingProject(false);
         }
       }
@@ -563,7 +495,7 @@ export function AddProjectWizard() {
     loadProject();
 
     return () => {
-      isMounted = false;
+      projectLoadTokenRef.current += 1;
     };
   }, [projectId]);
 
@@ -596,28 +528,79 @@ export function AddProjectWizard() {
     });
   }
 
-  function handleSingleFile(
-    nameKey: "logoFileName" | "heroImageName",
-    fileKey: "logoFile" | "heroImageFile",
-    event: ChangeEvent<HTMLInputElement>,
-  ) {
+  async function handleLogoFile(event: ChangeEvent<HTMLInputElement>) {
     const file = event.target.files?.[0] ?? null;
-
-    setForm((current) => ({
-      ...current,
-      [nameKey]: file ? file.name : "",
-      [fileKey]: file,
-    }));
+    if (!file) {
+      setForm((current) => ({ ...current, logoFileName: "" }));
+      setExistingProjectFiles((f) => ({ ...f, logoId: null }));
+      return;
+    }
+    setFileUploading((s) => ({ ...s, logo: true }));
+    setErrorMessage("");
+    try {
+      const id = await uploadSingleAsset(file, "LOGO");
+      setForm((current) => ({ ...current, logoFileName: file.name }));
+      setExistingProjectFiles((f) => ({ ...f, logoId: id }));
+    } catch (error) {
+      setErrorMessage(
+        error instanceof Error ? error.message : "Logo upload failed.",
+      );
+      setForm((current) => ({ ...current, logoFileName: "" }));
+    } finally {
+      setFileUploading((s) => ({ ...s, logo: false }));
+    }
   }
 
-  function handleGalleryFiles(event: ChangeEvent<HTMLInputElement>) {
-    const files = Array.from(event.target.files ?? []);
+  async function handleHeroFile(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0] ?? null;
+    if (!file) {
+      setForm((current) => ({ ...current, heroImageName: "" }));
+      setExistingProjectFiles((f) => ({ ...f, heroId: null }));
+      return;
+    }
+    setFileUploading((s) => ({ ...s, hero: true }));
+    setErrorMessage("");
+    try {
+      const id = await uploadSingleAsset(file, "HERO");
+      setForm((current) => ({ ...current, heroImageName: file.name }));
+      setExistingProjectFiles((f) => ({ ...f, heroId: id }));
+    } catch (error) {
+      setErrorMessage(
+        error instanceof Error ? error.message : "Hero image upload failed.",
+      );
+      setForm((current) => ({ ...current, heroImageName: "" }));
+    } finally {
+      setFileUploading((s) => ({ ...s, hero: false }));
+    }
+  }
 
-    setForm((current) => ({
-      ...current,
-      galleryFiles: files,
-      galleryFileNames: files.map((file) => file.name),
-    }));
+  async function handleGalleryFiles(event: ChangeEvent<HTMLInputElement>) {
+    const files = Array.from(event.target.files ?? []);
+    if (files.length === 0) {
+      setForm((current) => ({ ...current, galleryFileNames: [] }));
+      setExistingProjectFiles((f) => ({ ...f, galleryIds: [] }));
+      return;
+    }
+    setFileUploading((s) => ({ ...s, gallery: true }));
+    setErrorMessage("");
+    try {
+      const ids = await uploadGalleryAssets(files);
+      setForm((current) => ({
+        ...current,
+        galleryFileNames: files.map((f) => f.name),
+      }));
+      setExistingProjectFiles((f) => ({ ...f, galleryIds: ids }));
+    } catch (error) {
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : "Gallery image upload failed.",
+      );
+      setForm((current) => ({ ...current, galleryFileNames: [] }));
+      setExistingProjectFiles((f) => ({ ...f, galleryIds: [] }));
+    } finally {
+      setFileUploading((s) => ({ ...s, gallery: false }));
+    }
   }
 
   function addAmenity() {
@@ -630,20 +613,52 @@ export function AddProjectWizard() {
     );
   }
 
-  function updateAmenityImage(id: number, event: ChangeEvent<HTMLInputElement>) {
+  async function updateAmenityImage(
+    amenityId: number,
+    event: ChangeEvent<HTMLInputElement>,
+  ) {
     const file = event.target.files?.[0] ?? null;
-
-    setAmenities((current) =>
-      current.map((item) =>
-        item.id === id
-          ? {
-            ...item,
-            imageFileName: file ? file.name : "",
-            imageFile: file,
-          }
-          : item,
-      ),
-    );
+    if (!file) {
+      setAmenities((current) =>
+        current.map((item) =>
+          item.id === amenityId
+            ? { ...item, imageFileName: "", existingImageId: null }
+            : item,
+        ),
+      );
+      return;
+    }
+    setFileUploading((s) => ({ ...s, amenityId }));
+    setErrorMessage("");
+    try {
+      const imageId = await uploadSingleAsset(file, "ICON");
+      setAmenities((current) =>
+        current.map((item) =>
+          item.id === amenityId
+            ? {
+              ...item,
+              imageFileName: file.name,
+              existingImageId: imageId,
+            }
+            : item,
+        ),
+      );
+    } catch (error) {
+      setErrorMessage(
+        error instanceof Error
+          ? error.message
+          : "Amenity image upload failed.",
+      );
+      setAmenities((current) =>
+        current.map((item) =>
+          item.id === amenityId
+            ? { ...item, imageFileName: "", existingImageId: null }
+            : item,
+        ),
+      );
+    } finally {
+      setFileUploading((s) => ({ ...s, amenityId: null }));
+    }
   }
 
   function removeAmenity(id: number) {
@@ -696,7 +711,7 @@ export function AddProjectWizard() {
 
   function getPreparedAmenities() {
     const activeAmenities = amenities.filter(
-      (item) => item.name.trim() || item.imageFile || item.existingImageId,
+      (item) => item.name.trim() || item.existingImageId,
     );
 
     for (const amenity of activeAmenities) {
@@ -704,7 +719,7 @@ export function AddProjectWizard() {
         throw new Error("Amenity name required for uploaded amenity image.");
       }
 
-      if (!amenity.imageFile && !amenity.existingImageId) {
+      if (!amenity.existingImageId) {
         throw new Error(`Amenity image required for "${amenity.name.trim()}".`);
       }
     }
@@ -803,46 +818,20 @@ export function AddProjectWizard() {
       const preparedAmenities = getPreparedAmenities();
       const projectFileIds: number[] = [];
 
-      if (form.logoFile) {
-        projectFileIds.push(await uploadSingleAsset(form.logoFile, "LOGO"));
-      } else if (existingProjectFiles.logoId) {
+      if (existingProjectFiles.logoId) {
         projectFileIds.push(existingProjectFiles.logoId);
       }
-
-      if (form.heroImageFile) {
-        projectFileIds.push(await uploadSingleAsset(form.heroImageFile, "HERO"));
-      } else if (existingProjectFiles.heroId) {
+      if (existingProjectFiles.heroId) {
         projectFileIds.push(existingProjectFiles.heroId);
       }
-
       if (existingProjectFiles.galleryIds.length > 0) {
         projectFileIds.push(...existingProjectFiles.galleryIds);
       }
 
-      const newGalleryIds = await uploadGalleryAssets(form.galleryFiles);
-      projectFileIds.push(...newGalleryIds);
-
-      const uploadedAmenities: Array<{
-        name: string;
-        amenities_image_id: number;
-      }> = [];
-
-      for (const amenity of preparedAmenities) {
-        let imageId = amenity.existingImageId;
-
-        if (amenity.imageFile) {
-          imageId = await uploadSingleAsset(amenity.imageFile, "ICON");
-        }
-
-        if (!imageId) {
-          throw new Error(`Amenity image required for "${amenity.name.trim()}".`);
-        }
-
-        uploadedAmenities.push({
-          name: amenity.name.trim(),
-          amenities_image_id: imageId,
-        });
-      }
+      const uploadedAmenities = preparedAmenities.map((amenity) => ({
+        name: amenity.name.trim(),
+        amenities_image_id: amenity.existingImageId!,
+      }));
 
       const payload = buildProjectPayload(projectFileIds, uploadedAmenities);
 
@@ -969,26 +958,40 @@ export function AddProjectWizard() {
             icon={<IconImageSquare className="h-7 w-7" />}
             title="Hero Section"
           >
-            <UploadField
+            <FileUploadField
+              key={`logo-${String(existingProjectFiles.logoId)}`}
               id="project-logo"
               label="Logo Upload"
               title="Upload Logo"
-              helper="Drag & drop or click to upload"
-              files={form.logoFileName ? [form.logoFileName] : []}
-              onChange={(event) =>
-                handleSingleFile("logoFileName", "logoFile", event)
+              helperText={
+                fileUploading.logo
+                  ? "Uploading…"
+                  : "Select a file to upload. It uploads as soon as you choose it."
               }
+              selectedFileNames={
+                form.logoFileName ? [form.logoFileName] : []
+              }
+              leadingContent={<IconUpload className="h-8 w-8" />}
+              disabled={fileUploading.logo}
+              onChange={handleLogoFile}
             />
 
-            <UploadField
+            <FileUploadField
+              key={`hero-${String(existingProjectFiles.heroId)}`}
               id="project-hero"
               label="Hero Image"
               title="Upload Hero Image"
-              helper="Drag & drop or click to upload"
-              files={form.heroImageName ? [form.heroImageName] : []}
-              onChange={(event) =>
-                handleSingleFile("heroImageName", "heroImageFile", event)
+              helperText={
+                fileUploading.hero
+                  ? "Uploading…"
+                  : "Select a file to upload. It uploads as soon as you choose it."
               }
+              selectedFileNames={
+                form.heroImageName ? [form.heroImageName] : []
+              }
+              leadingContent={<IconUpload className="h-8 w-8" />}
+              disabled={fileUploading.hero}
+              onChange={handleHeroFile}
             />
           </SectionCard>
         </>
@@ -1016,13 +1019,20 @@ export function AddProjectWizard() {
             icon={<IconImageSquare className="h-7 w-7" />}
             title="Project Gallery"
           >
-            <UploadField
+            <FileUploadField
+              key={`gallery-${existingProjectFiles.galleryIds.join("-") || "0"}`}
               id="project-gallery"
               label="Project Images"
               title="Upload Project Images"
-              helper="Drag & drop or click to upload"
-              files={form.galleryFileNames}
+              helperText={
+                fileUploading.gallery
+                  ? "Uploading…"
+                  : "Select images; they upload as soon as you confirm your selection."
+              }
+              selectedFileNames={form.galleryFileNames}
               multiple
+              leadingContent={<IconUpload className="h-8 w-8" />}
+              disabled={fileUploading.gallery}
               onChange={handleGalleryFiles}
             />
 
@@ -1050,9 +1060,18 @@ export function AddProjectWizard() {
                       onChange={(value) => updateAmenityName(item.id, value)}
                     />
 
-                    <AmenityImageField
+                    <FileUploadField
+                      key={`ament-${item.id}-${String(item.existingImageId)}`}
+                      layout="inline"
                       id={`amenity-image-${item.id}`}
-                      fileName={item.imageFileName}
+                      valueDisplay={
+                        fileUploading.amenityId === item.id
+                          ? "Uploading…"
+                          : item.imageFileName
+                      }
+                      inlinePlaceholder="Upload Amenity Image"
+                      leadingContent={<IconUpload className="h-5 w-5" />}
+                      disabled={fileUploading.amenityId != null}
                       onChange={(event) => updateAmenityImage(item.id, event)}
                     />
                   </div>
@@ -1176,7 +1195,7 @@ export function AddProjectWizard() {
           <button
             type="button"
             onClick={goToNextStep}
-            disabled={isSubmitting || isLoadingProject}
+            disabled={isSubmitting || isLoadingProject || isAnyFileUploading}
             className={`${BUTTON_PRIMARY_CLASS} h-[52px] w-full px-7 text-[0.98rem] transition disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto`}
           >
             {isLastStep ? (
@@ -1190,7 +1209,7 @@ export function AddProjectWizard() {
                 : isSubmitting
                   ? isEditMode
                     ? "Updating..."
-                    : "Uploading & Creating..."
+                    : "Creating…"
                   : isLastStep
                     ? isEditMode
                       ? "Update Project"

@@ -3,7 +3,7 @@
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { IconFolderStack } from "@/components/admin/panel/AdminIcons";
 import { listProjects } from "@/src/api/services/projectService";
 
@@ -36,8 +36,10 @@ export function ProjectsPageContent() {
   const [isLoading, setIsLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState("");
 
+  const listLoadTokenRef = useRef(0);
+
   useEffect(() => {
-    let isMounted = true;
+    const loadToken = ++listLoadTokenRef.current;
 
     async function loadProjects() {
       try {
@@ -46,20 +48,25 @@ export function ProjectsPageContent() {
 
         const result = (await listProjects()) as ProjectsListResponse;
 
+        if (loadToken !== listLoadTokenRef.current) {
+          return;
+        }
+
         if (!result.success) {
           throw new Error("Failed to load projects");
         }
 
-        if (!isMounted) return;
         setProjects(result.data.data ?? []);
       } catch (error) {
-        if (!isMounted) return;
+        if (loadToken !== listLoadTokenRef.current) {
+          return;
+        }
 
         setErrorMessage(
           error instanceof Error ? error.message : "Something went wrong",
         );
       } finally {
-        if (isMounted) {
+        if (loadToken === listLoadTokenRef.current) {
           setIsLoading(false);
         }
       }
@@ -68,7 +75,7 @@ export function ProjectsPageContent() {
     loadProjects();
 
     return () => {
-      isMounted = false;
+      listLoadTokenRef.current += 1;
     };
   }, []);
 
