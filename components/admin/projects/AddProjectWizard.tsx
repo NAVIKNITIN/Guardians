@@ -39,6 +39,10 @@ type FormState = {
   propertyType: string;
   configuration: string;
   startingPrice: string;
+  description: string;
+  /** ISO date `YYYY-MM-DD` for API `completion_date` */
+  completionDate: string;
+  caseStudyInfo: string;
 };
 
 type Amenity = {
@@ -102,6 +106,9 @@ type ProjectDetails = {
   type: string | null;
   rera_number: string | null;
   area: string | null;
+  description?: string | null;
+  completion_date?: string | null;
+  case_study_info?: string | null;
   files: UploadedFile[];
   configurations: ProjectConfiguration[];
   locations: ProjectLocation[];
@@ -155,6 +162,15 @@ function createLocalId() {
   return Date.now() + Math.floor(Math.random() * 1000);
 }
 
+/** Stable row id: API ids must match `item.id` for updates; avoid string/number `===` misses. */
+function toSectionId(raw: string | number | undefined) {
+  const n = Number(raw);
+  if (Number.isFinite(n) && n > 0) {
+    return n;
+  }
+  return createLocalId();
+}
+
 function createEmptyAmenity(id = createLocalId()): Amenity {
   return {
     id,
@@ -192,33 +208,56 @@ function toTextValue(value: string | number | null | undefined) {
   return value == null ? "" : String(value);
 }
 
+/**
+ * Laravel often uses `ConvertEmptyStringsToNull`: JSON `""` becomes `null` before
+ * validation, so `string` rules fail with "must be a string". Sending a single
+ * space keeps a real string through the pipeline; we trim on load so the form
+ * still shows empty fields after update/prepopulate.
+ */
+function toLaravelLocationString(value: string | null | undefined): string {
+  const t = String(value ?? "").trim();
+  return t.length > 0 ? t : " ";
+}
+
+function trimSectionValue(value: string | number | null | undefined) {
+  return toTextValue(value).trim();
+}
+
+/** `YYYY-MM-DD` for `<input type="date" />` from API string or ISO. */
+function toInputDateValue(raw: string | null | undefined): string {
+  if (raw == null || raw === "") return "";
+  const s = String(raw).trim();
+  if (/^\d{4}-\d{2}-\d{2}/.test(s)) {
+    return s.slice(0, 10);
+  }
+  const d = new Date(s);
+  if (Number.isNaN(d.getTime())) {
+    return "";
+  }
+  return d.toISOString().slice(0, 10);
+}
+
 function mapProjectLocationsToSections(
   locations: ProjectLocation[],
 ): LocationConnectivitySection[] {
   if (locations.length === 0) {
-    return [createEmptyLocationSection(1)];
+    return [createEmptyLocationSection()];
   }
 
-  return locations.map((location) => {
-    const shouldShowPlace = Boolean(
-      location.walking_time ||
-      location.driving_time ||
-      (location.place_name && location.place_name !== location.city),
-    );
-
-    return {
-      id: location.id,
-      fullAddress: location.address ?? "",
-      latitude: toTextValue(location.latitude),
-      longitude: toTextValue(location.longitude),
-      city: location.city ?? "",
-      state: location.state ?? "",
-      pincode: location.pincode ?? "",
-      place: shouldShowPlace ? location.place_name ?? "" : "",
-      walkingTime: location.walking_time ?? "",
-      drivingTime: location.driving_time ?? "",
-    };
-  });
+  return locations.map((location) => ({
+    id: toSectionId(location.id),
+    fullAddress: trimSectionValue(location.address),
+    latitude: trimSectionValue(location.latitude),
+    longitude: trimSectionValue(location.longitude),
+    city: trimSectionValue(location.city),
+    state: trimSectionValue(location.state),
+    pincode: trimSectionValue(location.pincode),
+    // Always map API `place_name` to the "Place / Landmark" field (was dropped when
+    // place_name === city and no walk/drive times, which killed round-trips to the API).
+    place: trimSectionValue(location.place_name),
+    walkingTime: trimSectionValue(location.walking_time),
+    drivingTime: trimSectionValue(location.driving_time),
+  }));
 }
 
 function SectionCard({
@@ -259,14 +298,17 @@ function TextInput({
   value,
   onChange,
   className,
+  type = "text",
 }: {
   placeholder: string;
   value: string;
   onChange: (value: string) => void;
   className?: string;
+  type?: string;
 }) {
   return (
     <input
+      type={type}
       value={value}
       onChange={(event) => onChange(event.target.value)}
       placeholder={placeholder}
@@ -387,13 +429,16 @@ export function AddProjectWizard() {
     propertyType: "",
     configuration: "",
     startingPrice: "",
+    description: "",
+    completionDate: "",
+    caseStudyInfo: "",
   });
 
-  const [amenities, setAmenities] = useState<Amenity[]>([createEmptyAmenity(1)]);
+  const [amenities, setAmenities] = useState<Amenity[]>([createEmptyAmenity()]);
 
   const [locationSections, setLocationSections] = useState<
     LocationConnectivitySection[]
-  >([createEmptyLocationSection(1)]);
+  >([createEmptyLocationSection()]);
 
   const currentStepIndex = steps.findIndex((item) => item.id === step);
   const isLastStep = currentStepIndex === steps.length - 1;
@@ -457,6 +502,9 @@ export function AddProjectWizard() {
           startingPrice: primaryConfiguration
             ? String(primaryConfiguration.price_min)
             : "",
+          description: project.description ?? "",
+          completionDate: toInputDateValue(project.completion_date),
+          caseStudyInfo: project.case_study_info ?? "",
         });
 
         const mappedLocationSections = mapProjectLocationsToSections(
@@ -468,14 +516,14 @@ export function AddProjectWizard() {
         setAmenities(
           project.amenities.length > 0
             ? project.amenities.map((item) => ({
-              id: item.id,
+              id: toSectionId(item.id),
               name: item.name,
               imageFileName: item.amenities_image_id
                 ? "Existing image linked"
                 : "",
               existingImageId: item.amenities_image_id,
             }))
-            : [createEmptyAmenity(1)],
+            : [createEmptyAmenity()],
         );
       } catch (error) {
         if (loadToken !== projectLoadTokenRef.current) {
@@ -512,8 +560,11 @@ export function AddProjectWizard() {
   function updateLocationSection<
     Key extends keyof Omit<LocationConnectivitySection, "id">,
   >(id: number, key: Key, value: LocationConnectivitySection[Key]) {
+    const rowId = Number(id);
     setLocationSections((current) =>
-      current.map((item) => (item.id === id ? { ...item, [key]: value } : item)),
+      current.map((item) =>
+        Number(item.id) === rowId ? { ...item, [key]: value } : item,
+      ),
     );
   }
 
@@ -522,9 +573,10 @@ export function AddProjectWizard() {
   }
 
   function removeLocationSection(id: number) {
+    const rowId = Number(id);
     setLocationSections((current) => {
       if (current.length <= 1) return current;
-      return current.filter((item) => item.id !== id);
+      return current.filter((item) => Number(item.id) !== rowId);
     });
   }
 
@@ -608,8 +660,11 @@ export function AddProjectWizard() {
   }
 
   function updateAmenityName(id: number, value: string) {
+    const rowId = Number(id);
     setAmenities((current) =>
-      current.map((item) => (item.id === id ? { ...item, name: value } : item)),
+      current.map((item) =>
+        Number(item.id) === rowId ? { ...item, name: value } : item,
+      ),
     );
   }
 
@@ -617,24 +672,25 @@ export function AddProjectWizard() {
     amenityId: number,
     event: ChangeEvent<HTMLInputElement>,
   ) {
+    const rowId = Number(amenityId);
     const file = event.target.files?.[0] ?? null;
     if (!file) {
       setAmenities((current) =>
         current.map((item) =>
-          item.id === amenityId
+          Number(item.id) === rowId
             ? { ...item, imageFileName: "", existingImageId: null }
             : item,
         ),
       );
       return;
     }
-    setFileUploading((s) => ({ ...s, amenityId }));
+    setFileUploading((s) => ({ ...s, amenityId: rowId }));
     setErrorMessage("");
     try {
       const imageId = await uploadSingleAsset(file, "ICON");
       setAmenities((current) =>
         current.map((item) =>
-          item.id === amenityId
+          Number(item.id) === rowId
             ? {
               ...item,
               imageFileName: file.name,
@@ -651,7 +707,7 @@ export function AddProjectWizard() {
       );
       setAmenities((current) =>
         current.map((item) =>
-          item.id === amenityId
+          Number(item.id) === rowId
             ? { ...item, imageFileName: "", existingImageId: null }
             : item,
         ),
@@ -662,9 +718,10 @@ export function AddProjectWizard() {
   }
 
   function removeAmenity(id: number) {
+    const rowId = Number(id);
     setAmenities((current) => {
       if (current.length <= 1) return current;
-      return current.filter((item) => item.id !== id);
+      return current.filter((item) => Number(item.id) !== rowId);
     });
   }
 
@@ -754,25 +811,25 @@ export function AddProjectWizard() {
           section.city.trim() ||
           form.projectName.trim() ||
           "Project Location",
-        city: section.city.trim() || null,
-        state: section.state.trim() || null,
         country: "India",
-        address: section.fullAddress.trim() || null,
-        pincode: section.pincode.trim() || null,
-        latitude: section.latitude.trim() || null,
-        longitude: section.longitude.trim() || null,
-        walking_time: section.walkingTime.trim() || null,
-        driving_time: section.drivingTime.trim() || null,
+        city: toLaravelLocationString(section.city),
+        state: toLaravelLocationString(section.state),
+        address: toLaravelLocationString(section.fullAddress),
+        pincode: toLaravelLocationString(section.pincode),
+        latitude: toLaravelLocationString(section.latitude),
+        longitude: toLaravelLocationString(section.longitude),
+        walking_time: toLaravelLocationString(section.walkingTime),
+        driving_time: toLaravelLocationString(section.drivingTime),
       }));
 
     return {
       name: form.projectName.trim(),
       type: form.propertyType.trim() || null,
       rera_number: form.reraNumber.trim() || null,
-      description: null,
+      description: form.description.trim() || null,
       area: form.areaSqft.trim() || null,
-      completion_date: null,
-      case_study_info: null,
+      completion_date: form.completionDate.trim() || null,
+      case_study_info: form.caseStudyInfo.trim() || null,
       files: projectFileIds.map((file_id) => ({ file_id })),
       configurations:
         configurationName && normalizedPrice > 0
@@ -1016,6 +1073,41 @@ export function AddProjectWizard() {
           </SectionCard>
 
           <SectionCard
+            icon={<IconInfoCircle className="h-7 w-7" />}
+            title="Description & case study"
+          >
+            <div className="space-y-4">
+              <p className="text-[1.2rem] font-medium text-[#46536d]">
+                Project description
+              </p>
+              <TextArea
+                placeholder="Short description (shown in listings / detail if supported)"
+                value={form.description}
+                onChange={(value) => updateField("description", value)}
+                className="min-h-[120px]"
+              />
+              <p className="text-[1.2rem] font-medium text-[#46536d]">
+                Case study / highlights
+              </p>
+              <TextArea
+                placeholder="Case study, ROI, or other long-form copy"
+                value={form.caseStudyInfo}
+                onChange={(value) => updateField("caseStudyInfo", value)}
+                className="min-h-[120px]"
+              />
+              <p className="text-[1.2rem] font-medium text-[#46536d]">
+                Expected completion
+              </p>
+              <TextInput
+                type="date"
+                placeholder="Completion date"
+                value={form.completionDate}
+                onChange={(value) => updateField("completionDate", value)}
+              />
+            </div>
+          </SectionCard>
+
+          <SectionCard
             icon={<IconImageSquare className="h-7 w-7" />}
             title="Project Gallery"
           >
@@ -1065,7 +1157,7 @@ export function AddProjectWizard() {
                       layout="inline"
                       id={`amenity-image-${item.id}`}
                       valueDisplay={
-                        fileUploading.amenityId === item.id
+                        Number(fileUploading.amenityId) === Number(item.id)
                           ? "Uploading…"
                           : item.imageFileName
                       }
@@ -1097,15 +1189,22 @@ export function AddProjectWizard() {
 
       {step === "location" ? (
         <div className="space-y-4">
+          <div className="rounded-[20px] border border-[#e5ebf3] bg-[#f8fafc] px-5 py-4 text-[0.95rem] leading-relaxed text-[#4a5568]">
+            <p className="font-semibold text-[#0d1e46]">How multiple locations are saved</p>
+            <p className="mt-1.5">
+              The top card is <code className="text-[0.88rem]">locations[0]</code> in
+              the API, the next is <code className="text-[0.88rem]">locations[1]</code>
+              , and so on. Data you enter in the second block only updates the second
+              item — it does not fill the first. To make your main address the first
+              entry, edit the first card or remove an unused card with
+              &quot;Remove full section&quot; (when two or more are shown).
+            </p>
+          </div>
           {locationSections.map((section, index) => (
             <SectionCard
-              key={section.id}
+              key={`loc-${String(section.id)}-${index}`}
               icon={<IconMapPin className="h-7 w-7" />}
-              title={
-                index === 0
-                  ? "Project Location & Connectivity"
-                  : `Location & Connectivity ${index + 1}`
-              }
+              title={`Location & Connectivity — ${index + 1} of ${locationSections.length} (API: locations[${index}])`}
             >
               <TextArea
                 placeholder="Full Address"

@@ -1,146 +1,48 @@
 "use client";
-// CHANGE: API helper import
 import { createVisit } from "@/src/api/services/visitService";
+import { getProjectById } from "@/src/api/services/projectService";
 import { uploadFile } from "@/src/api/services/fileService";
+import {
+  mapProjectDetailsToViewModel,
+} from "@/lib/mappers/marketingProjectDetail";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import { Container } from "@/components/common/Container";
 import { DynamicMap } from "@/components/projects/DynamicMap";
 import type { MapMarker } from "@/components/projects/DynamicMap";
-import { LOCAL_IMAGES, localImageByIndex } from "@/lib/local-images";
 import Image from "next/image";
+import Link from "next/link";
+import { useParams, useSearchParams } from "next/navigation";
+import { Suspense, useEffect, useRef, useState, type ChangeEvent } from "react";
 import { cn } from "@/utils/cn";
-import { useSearchParams } from "next/navigation";
-import { Suspense, useState, type ChangeEvent } from "react";
 
-// ---------------------------------------------------------------------------
-// Static project data (would come from CMS / API in production)
-// ---------------------------------------------------------------------------
 const AMENITY_IMAGE_DIR = "/images/Projects/Amenities";
 
 function amenityImage(filename: string) {
   return `${AMENITY_IMAGE_DIR}/${encodeURIComponent(filename)}`;
 }
 
-const project = {
-  status: "Ongoing Project",
-  title: "Lorem Ipsum\nTowers",
-  rera: "P51700012556",
-  developerLogo: "/images/Projects/Group 45.svg",
-  stats: [
-    { label: "Area", value: "37,850", unit: "sq. ft." },
-    { label: "Type", value: "1, 2 & 3 BHK", unit: "" },
-    { label: "Location", value: "Chembur (E)", unit: "" },
-    { label: "Project completed in", value: "Dec. 2026", unit: "" },
-  ],
-  heroImage: LOCAL_IMAGES.tgreaHero,
-  description:
-    "We are one of the fastest growing Real Estate consulting company in India. It's growth, today, has far outrun most of the other real estate advisory company across the country.",
-  gallery: [
-    { src: LOCAL_IMAGES.img9, span: "half" as const },
-    { src: LOCAL_IMAGES.img10, span: "half" as const },
-    { src: LOCAL_IMAGES.img11, span: "full" as const },
-    { src: LOCAL_IMAGES.img12, span: "third" as const },
-    { src: LOCAL_IMAGES.img13, span: "third" as const },
-    { src: LOCAL_IMAGES.img14, span: "third" as const },
-  ],
-  amenities: [
-    { label: "Gymnasium", imageSrc: amenityImage("1.svg") },
-    { label: "High Tech Security", imageSrc: amenityImage("2.svg") },
-    { label: "Multipurpose Hall", imageSrc: amenityImage("3.svg") },
-    { label: "Kids Play Area", imageSrc: amenityImage("4.svg") },
-    { label: "Rooftop Lounge", imageSrc: amenityImage("Group 3176.svg") },
-    { label: "Landscaped Garden", imageSrc: amenityImage("Group 3182.svg") },
-    { label: "High Speed Elevators", imageSrc: amenityImage("Group 3183.svg") },
-    {
-      label: "Latest Fire Safety System",
-      imageSrc: amenityImage("Group 3184.svg"),
-    },
-    {
-      label: "High Speed Elevators",
-      imageSrc: amenityImage("Group 3183.svg"),
-    },
-    { label: "Valet", imageSrc: amenityImage("Group 3185.svg") },
-  ],
-  // Project coordinates — Gungahlin, ACT
-  mapCenter: [-35.1833, 149.1324] as [number, number],
-  mapZoom: 12,
-  locationItems: [
-    {
-      name: "Marketplace Gungahlin",
-      time: "3 Min.",
-      type: "walk",
-      lat: -35.1828,
-      lng: 149.1342,
-    },
-    {
-      name: "Yerrabi Pond District Park",
-      time: "10 Min.",
-      type: "walk",
-      lat: -35.1895,
-      lng: 149.1268,
-    },
-    {
-      name: "Hibberson St. Light Rail Terminal",
-      time: "5 Min.",
-      type: "walk",
-      lat: -35.182,
-      lng: 149.1335,
-    },
-    {
-      name: "Mulligans Flat Nature Reserve",
-      time: "15 Min.",
-      type: "drive",
-      lat: -35.1567,
-      lng: 149.112,
-    },
-    {
-      name: "Canberra International & Domestic Airport",
-      time: "20 Min.",
-      type: "drive",
-      lat: -35.307,
-      lng: 149.1953,
-    },
-    {
-      name: "Canberra City",
-      time: "20 Min.",
-      type: "drive",
-      lat: -35.281,
-      lng: 149.131,
-    },
-    {
-      name: "South Coast",
-      time: "2.5 Hrs",
-      type: "drive",
-      lat: -35.7067,
-      lng: 150.1761,
-    },
-    {
-      name: "Sydney City",
-      time: "3 Hrs",
-      type: "drive",
-      lat: -33.8688,
-      lng: 151.2093,
-    },
-    {
-      name: "Melbourne City",
-      time: "7 Hrs",
-      type: "drive",
-      lat: -37.8136,
-      lng: 144.9631,
-    },
-  ],
-  caseStudy: {
-    posterSrc: LOCAL_IMAGES.heroPrimary,
-    /** Set to a watch URL to turn the play control into a link */
-    videoUrl: "",
-    paragraphs: [
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor sit amet, consectetur adipiscing elit.Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor sit amet, consectetur adipiscing elit.",
-    ],
+type AmenityDisplay = { label: string; imageSrc: string };
+
+/** Marketing showcase — static icons (API amenities are name-only). */
+const PAGE_AMENITIES: AmenityDisplay[] = [
+  { label: "Gymnasium", imageSrc: amenityImage("1.svg") },
+  { label: "High Tech Security", imageSrc: amenityImage("2.svg") },
+  { label: "Multipurpose Hall", imageSrc: amenityImage("3.svg") },
+  { label: "Kids Play Area", imageSrc: amenityImage("4.svg") },
+  { label: "Rooftop Lounge", imageSrc: amenityImage("Group 3176.svg") },
+  { label: "Landscaped Garden", imageSrc: amenityImage("Group 3182.svg") },
+  { label: "High Speed Elevators", imageSrc: amenityImage("Group 3183.svg") },
+  {
+    label: "Latest Fire Safety System",
+    imageSrc: amenityImage("Group 3184.svg"),
   },
-  amenitiesBg: LOCAL_IMAGES.holding,
-  bookVisitBg: LOCAL_IMAGES.projectImage,
-};
+  {
+    label: "High Speed Elevators",
+    imageSrc: amenityImage("Group 3183.svg"),
+  },
+  { label: "Valet", imageSrc: amenityImage("Group 3185.svg") },
+];
 
 // ---------------------------------------------------------------------------
 // Walk / Drive icon
@@ -240,7 +142,7 @@ function CaseStudySection({
     <div className="grid grid-cols-1 items-start gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-14">
       <div className="relative aspect-video w-full overflow-hidden bg-[#1a1a1a] shadow-[0_8px_40px_rgba(0,0,0,0.12)]">
         <Image
-          src={LOCAL_IMAGES.img17}
+          src={posterSrc}
           alt=""
           fill
           className="object-cover object-center transition-transform duration-700 ease-out hover:scale-105"
@@ -270,11 +172,7 @@ function CaseStudySection({
 // ---------------------------------------------------------------------------
 // Amenity item
 // ---------------------------------------------------------------------------
-function AmenityItem({
-  amenity,
-}: {
-  amenity: { label: string; imageSrc: string };
-}) {
+function AmenityItem({ amenity }: { amenity: AmenityDisplay }) {
   return (
     <div className="group flex flex-col items-center gap-2 text-center sm:gap-3">
       <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full bg-white/50 p-1.5 transition-all duration-500 ease-out group-hover:-translate-y-0.5 group-hover:bg-white/80 group-hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] sm:h-20 sm:w-20">
@@ -328,10 +226,60 @@ type FileUploadResponse = {
 };
 
 function ProjectDetailPageContent() {
+  const params = useParams();
   const searchParams = useSearchParams();
+  const projectSlug = params?.slug;
+  const projectId = Array.isArray(projectSlug) ? projectSlug[0] : projectSlug;
+
   const isFromCompleted = searchParams.get("status") === "completed";
-  const heroStatusLine = isFromCompleted ? "Completed Project" : project.status;
-  const buildingHeroSrc = "/images/Projects/ongoing/Frame 188.svg";
+
+  const [project, setProject] = useState<
+    ReturnType<typeof mapProjectDetailsToViewModel> | null
+  >(null);
+  const [loadState, setLoadState] = useState<"loading" | "error" | "ok">(
+    "loading",
+  );
+  const [loadError, setLoadError] = useState<string | null>(null);
+  const loadTokenRef = useRef(0);
+
+  useEffect(() => {
+    if (projectId == null || String(projectId).trim() === "") {
+      setLoadState("error");
+      setLoadError("Invalid project link.");
+      return;
+    }
+
+    const t = ++loadTokenRef.current;
+    setLoadState("loading");
+    setLoadError(null);
+
+    (async () => {
+      try {
+        const raw = await getProjectById(projectId);
+        if (t !== loadTokenRef.current) {
+          return;
+        }
+        const mapped = mapProjectDetailsToViewModel(raw);
+        if (!mapped) {
+          setLoadState("error");
+          setLoadError("Project not found.");
+          setProject(null);
+          return;
+        }
+        setProject(mapped);
+        setLoadState("ok");
+      } catch (e) {
+        if (t !== loadTokenRef.current) {
+          return;
+        }
+        setLoadState("error");
+        setLoadError(
+          e instanceof Error ? e.message : "Failed to load this project.",
+        );
+        setProject(null);
+      }
+    })();
+  }, [projectId]);
 
   const [form, setForm] = useState({
     firstName: "",
@@ -465,6 +413,46 @@ function ProjectDetailPageContent() {
     }
   }
 
+  if (loadState === "loading") {
+    return (
+      <main className="min-h-[50vh] bg-white pt-[100px]">
+        <Container>
+          <p className="n-reg text-sm text-[#8F8183]">Loading project…</p>
+        </Container>
+      </main>
+    );
+  }
+
+  if (loadState === "error" || !project) {
+    return (
+      <main className="min-h-[50vh] bg-white pt-[100px]">
+        <Container className="max-w-lg">
+          <p className="n-reg text-[#d05c43]">
+            {loadError ?? "Unable to load this project."}
+          </p>
+          <Link
+            href="/projects"
+            className="mt-4 inline-block n-bold text-sm uppercase tracking-widest text-[#0d1e46] underline"
+          >
+            Back to all projects
+          </Link>
+        </Container>
+      </main>
+    );
+  }
+
+  const heroStatusLine = isFromCompleted
+    ? "Completed Project"
+    : project.statusLabel;
+  const buildingHeroSrc = isFromCompleted
+    ? COMPLETED_HERO_BG
+    : project.buildingHeroSrc;
+  const heroUnoptimized =
+    isFromCompleted || /^https?:\/\//i.test(buildingHeroSrc);
+  const showCaseStudyBlock = isFromCompleted || !project.status;
+  const showBookVisitBlock = !isFromCompleted && project.status;
+  const bookVisitBgUnoptimized = /^https?:\/\//i.test(project.bookVisitBg);
+
   return (
     <main>
       {/* ---------------------------------------------------------------- */}
@@ -474,38 +462,38 @@ function ProjectDetailPageContent() {
         <Container className="min-w-0 pb-0">
           <ScrollReveal direction="up" distance={30}>
             <div className="relative flex min-h-0 flex-col items-centertext-center lg:min-h-[min(12rem,1fr)] lg:flex-row lg:items-start lg:justify-between  gap-4  lg:gap-4 lg:text-left">
-            {/* Left — title block */}
-            <div className="min-w-0 w-full max-w-full pr-0 text-center lg:max-w-[min(100%,42rem)] lg:pr-8 lg:text-left">
-              {/* Status dot + label */}
-              <div className="mb-1 flex items-center justify-center gap-2 lg:justify-start">
-                <span className="mb-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#8F8183]" />
-                <span className="n-reg text-sm text-[#8F8183] sm:text-lg">
-                  {heroStatusLine}
-                </span>
+              {/* Left — title block */}
+              <div className="min-w-0 w-full max-w-full pr-0 text-center lg:max-w-[min(100%,42rem)] lg:pr-8 lg:text-left">
+                {/* Status dot + label */}
+                <div className="mb-1 flex items-center justify-center gap-2 lg:justify-start">
+                  <span className="mb-1 h-2.5 w-2.5 shrink-0 rounded-full bg-[#8F8183]" />
+                  <span className="n-reg text-sm text-[#8F8183] sm:text-lg">
+                    {heroStatusLine}
+                  </span>
+                </div>
+                {/* Project title */}
+                <h1
+                  className="wrap-break-word qs-reg text-[clamp(1.75rem,7vw,4.375rem)] uppercase leading-none tracking-[0.05em] text-brand-text-primary sm:text-[clamp(2.25rem,5vw,4.375rem)]"
+                  style={{ whiteSpace: "pre-line" }}
+                >
+                  {project.title}
+                </h1>
+                {/* RERA */}
+                <p className="mt-3 n-bold text-[0.6875rem] uppercase tracking-widest text-[#161616] underline underline-offset-4 sm:text-sm">
+                  Rera No.: {project.rera}
+                </p>
               </div>
-              {/* Project title */}
-              <h1
-                className="wrap-break-word qs-reg text-[clamp(1.75rem,7vw,4.375rem)] uppercase leading-none tracking-[0.05em] text-brand-text-primary sm:text-[clamp(2.25rem,5vw,4.375rem)]"
-                style={{ whiteSpace: "pre-line" }}
-              >
-                {project.title}
-              </h1>
-              {/* RERA */}
-              <p className="mt-3 n-bold text-[0.6875rem] uppercase tracking-widest text-[#161616] underline underline-offset-4 sm:text-sm">
-                Rera No.: {project.rera}
-              </p>
-            </div>
 
-            {/* Right — developer logo (below title on small screens; bottom-right on large) */}
-            <div className="flex w-full shrink-0 justify-center pt-3 sm:pt-2 lg:absolute lg:bottom-0 lg:right-0 lg:w-auto lg:justify-end lg:pt-0">
-              <Image
-                src={project.developerLogo}
-                alt="Godrej Properties"
-                width={160}
-                height={46}
-                className="h-auto w-[min(100%,160px)] max-w-[200px] object-contain object-center sm:w-[160px] lg:w-[218px] lg:object-right"
-              />
-            </div>
+              {/* Right — developer logo (below title on small screens; bottom-right on large) */}
+              <div className="flex w-full shrink-0 justify-center pt-3 sm:pt-2 lg:absolute lg:bottom-0 lg:right-0 lg:w-auto lg:justify-end lg:pt-0">
+                <Image
+                  src={project.developerLogo}
+                  alt="Godrej Properties"
+                  width={160}
+                  height={46}
+                  className="h-auto w-[min(100%,160px)] max-w-[200px] object-contain object-center sm:w-[160px] lg:w-[218px] lg:object-right"
+                />
+              </div>
             </div>
           </ScrollReveal>
 
@@ -547,11 +535,11 @@ function ProjectDetailPageContent() {
       <section className="relative h-[min(42svh,22rem)] min-h-[200px] w-full min-w-0 overflow-hidden pt-4 sm:h-[380px] lg:mt-20 lg:h-[550px]">
         <Image
           src={buildingHeroSrc}
-          alt="Lorem Ipsum Towers"
+          alt=""
           fill
           className="object-cover object-center transition-transform duration-1000 ease-out hover:scale-105"
           priority
-          unoptimized={isFromCompleted}
+          unoptimized={heroUnoptimized}
         />
       </section>
 
@@ -577,51 +565,51 @@ function ProjectDetailPageContent() {
             {/* Row 1: two halves */}
             <ScrollReveal direction="up" distance={22}>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-              {project.gallery
-                .filter((g) => g.span === "half")
-                .map((img, i) => (
-                  <div
-                    key={i}
-                    className="relative h-[220px] overflow-hidden bg-[#BCBDC0] sm:h-[280px] lg:h-[400px]"
-                  >
-                    <Image src={img.src} alt="" fill className="object-cover transition-transform duration-700 ease-out hover:scale-105" />
-                  </div>
-                ))}
+                {project.gallery
+                  .filter((g) => g.span === "half")
+                  .map((img, i) => (
+                    <div
+                      key={i}
+                      className="relative h-[220px] overflow-hidden bg-[#BCBDC0] sm:h-[280px] lg:h-[400px]"
+                    >
+                      <Image src={img.src} alt="" fill className="object-cover transition-transform duration-700 ease-out hover:scale-105" />
+                    </div>
+                  ))}
               </div>
             </ScrollReveal>
 
             {/* Row 2: full-width */}
             <ScrollReveal direction="up" delay={0.06} distance={22}>
               {project.gallery
-              .filter((g) => g.span === "full")
-              .map((img, i) => (
-                <div
-                  key={i}
-                  className="relative h-[200px] overflow-hidden bg-[#BCBDC0] sm:h-[280px] lg:h-[400px]"
-                >
-                  <Image
-                    src={img.src}
-                    alt=""
-                    fill
-                    className="object-cover transition-transform duration-700 ease-out hover:scale-105"
-                  />
-                </div>
-              ))}
+                .filter((g) => g.span === "full")
+                .map((img, i) => (
+                  <div
+                    key={i}
+                    className="relative h-[200px] overflow-hidden bg-[#BCBDC0] sm:h-[280px] lg:h-[400px]"
+                  >
+                    <Image
+                      src={img.src}
+                      alt=""
+                      fill
+                      className="object-cover transition-transform duration-700 ease-out hover:scale-105"
+                    />
+                  </div>
+                ))}
             </ScrollReveal>
 
             {/* Row 3: three thirds */}
             <ScrollReveal direction="up" delay={0.12} distance={22}>
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
-              {project.gallery
-                .filter((g) => g.span === "third")
-                .map((img, i) => (
-                  <div
-                    key={i}
-                    className="relative h-[220px] overflow-hidden bg-[#BCBDC0] sm:h-[280px] lg:h-[400px]"
-                  >
-                    <Image src={img.src} alt="" fill className="object-cover transition-transform duration-700 ease-out hover:scale-105" />
-                  </div>
-                ))}
+                {project.gallery
+                  .filter((g) => g.span === "third")
+                  .map((img, i) => (
+                    <div
+                      key={i}
+                      className="relative h-[220px] overflow-hidden bg-[#BCBDC0] sm:h-[280px] lg:h-[400px]"
+                    >
+                      <Image src={img.src} alt="" fill className="object-cover transition-transform duration-700 ease-out hover:scale-105" />
+                    </div>
+                  ))}
               </div>
             </ScrollReveal>
           </StaggerContainer>
@@ -645,8 +633,13 @@ function ProjectDetailPageContent() {
 
           {/* Rows 1 & 2 — 4 columns on desktop */}
           <StaggerContainer className="grid w-full grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-5 lg:gap-x-12 lg:gap-y-10 mt-4 md:mt-10" staggerChildren={0.1}>
-            {project.amenities.slice(0, 8).map((amenity, i) => (
-              <ScrollReveal key={i} direction="up" delay={i * 0.025} distance={18}>
+            {PAGE_AMENITIES.slice(0, 8).map((amenity, i) => (
+              <ScrollReveal
+                key={`${amenity.label}-${i}`}
+                direction="up"
+                delay={i * 0.025}
+                distance={18}
+              >
                 <AmenityItem amenity={amenity} />
               </ScrollReveal>
             ))}
@@ -654,8 +647,13 @@ function ProjectDetailPageContent() {
 
           {/* Row 3 — 2 items, left-aligned */}
           <StaggerContainer className="mt-8 grid w-full grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-10 lg:gap-x-12 lg:gap-y-12" staggerChildren={0.1}>
-            {project.amenities.slice(8).map((amenity, i) => (
-              <ScrollReveal key={i} direction="up" delay={i * 0.04} distance={18}>
+            {PAGE_AMENITIES.slice(8).map((amenity, i) => (
+              <ScrollReveal
+                key={`${amenity.label}-${i + 8}`}
+                direction="up"
+                delay={i * 0.04}
+                distance={18}
+              >
                 <AmenityItem amenity={amenity} />
               </ScrollReveal>
             ))}
@@ -707,7 +705,7 @@ function ProjectDetailPageContent() {
                   {
                     lat: project.mapCenter[0],
                     lng: project.mapCenter[1],
-                    label: "Gungahlin",
+                    label: project.title,
                     isMain: true,
                   } as MapMarker,
                   // Nearby location markers
@@ -730,7 +728,7 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* CASE STUDY (completed projects only)                             */}
       {/* ---------------------------------------------------------------- */}
-      {isFromCompleted ? (
+      {showCaseStudyBlock ? (
         <section className="bg-white mb-10 md:mb-20 lg:mb-30">
           <Container className="min-w-0">
             <ScrollReveal direction="up" distance={26}>
@@ -747,7 +745,7 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* BOOK A VISIT (ongoing projects only — hidden for completed)      */}
       {/* ---------------------------------------------------------------- */}
-      {!isFromCompleted ? (
+      {showBookVisitBlock ? (
         <section className="relative mb-10 min-h-0 w-full min-w-0 overflow-hidden py-0 lg:mb-30">
           {/* Background */}
           <Image
@@ -756,6 +754,7 @@ function ProjectDetailPageContent() {
             fill
             className="object-cover object-center transition-transform duration-1000 ease-out hover:scale-105"
             sizes="100vw"
+            unoptimized={bookVisitBgUnoptimized}
           />
           <div className="absolute inset-0 bg-brand-text-primary/50" />
 
@@ -780,8 +779,7 @@ function ProjectDetailPageContent() {
                       Location
                     </p>
                     <p className="mx-auto mt-2 max-w-[16rem] n-book text-sm leading-relaxed text-white sm:mx-0">
-                      C-602 &amp; 603, ONE BKC, G Block, Bandra Kurla Complex,
-                      Bandra (E), Mumbai - 400051
+                      {project.bookVisitAddressLine}
                     </p>
                   </div>
                   <div className="w-full sm:w-auto">
@@ -803,95 +801,95 @@ function ProjectDetailPageContent() {
                   onSubmit={handleSubmit}
                   className="book-visit-form w-full min-w-0 max-w-full bg-white px-5 py-7 text-left sm:px-8 sm:py-8 lg:w-[490px] lg:shrink-0 lg:px-10"
                 >
-                <div className="flex w-full flex-col items-stretch gap-0 text-left">
-                  {/* Row 1: First / Last name */}
-                  <div className="grid grid-cols-1 gap-6 pb-6 sm:grid-cols-2 sm:gap-8 n-bold lh-24 fs-14">
-                    <FormField
-                      label="First Name"
-                      name="firstName"
-                      placeholder="Enter your first name"
-                      value={form.firstName}
-                      onChange={handleChange}
+                  <div className="flex w-full flex-col items-stretch gap-0 text-left">
+                    {/* Row 1: First / Last name */}
+                    <div className="grid grid-cols-1 gap-6 pb-6 sm:grid-cols-2 sm:gap-8 n-bold lh-24 fs-14">
+                      <FormField
+                        label="First Name"
+                        name="firstName"
+                        placeholder="Enter your first name"
+                        value={form.firstName}
+                        onChange={handleChange}
 
-                    />
-                    <FormField
-                      label="Last Name"
-                      name="lastName"
-                      placeholder="Enter your last name"
-                      value={form.lastName}
-                      onChange={handleChange}
-                    />
-                  </div>
+                      />
+                      <FormField
+                        label="Last Name"
+                        name="lastName"
+                        placeholder="Enter your last name"
+                        value={form.lastName}
+                        onChange={handleChange}
+                      />
+                    </div>
 
-                  {/* Row 2: Email / Phone */}
-                  <div className="grid grid-cols-1 gap-6 border-t border-[#8F8183]/30  n-bold lh-24 fs-14 py-6 sm:grid-cols-2 sm:gap-8">
-                    <FormField
-                      label="Email Address"
-                      name="email"
-                      placeholder="Enter your email address"
-                      value={form.email}
-                      onChange={handleChange}
-                      type="email"
-                    />
-                    <FormField
-                      label="Phone Number"
-                      name="phone"
-                      placeholder="Enter your phone number"
-                      value={form.phone}
-                      onChange={handleChange}
-                      type="tel"
-                    />
-                  </div>
+                    {/* Row 2: Email / Phone */}
+                    <div className="grid grid-cols-1 gap-6 border-t border-[#8F8183]/30  n-bold lh-24 fs-14 py-6 sm:grid-cols-2 sm:gap-8">
+                      <FormField
+                        label="Email Address"
+                        name="email"
+                        placeholder="Enter your email address"
+                        value={form.email}
+                        onChange={handleChange}
+                        type="email"
+                      />
+                      <FormField
+                        label="Phone Number"
+                        name="phone"
+                        placeholder="Enter your phone number"
+                        value={form.phone}
+                        onChange={handleChange}
+                        type="tel"
+                      />
+                    </div>
 
-                  {/* Row 3: Location / Upload CV */}
-                  <div className="grid grid-cols-1 gap-6 border-t n-bold lh-24 fs-14 border-[#8F8183]/30 py-6 sm:grid-cols-2 sm:gap-8">
-                    <SelectField
-                      label="Location"
-                      name="location"
-                      placeholder="Select Opening"
-                      value={form.location}
-                      onChange={handleChange}
-                      options={["Mumbai", "Pune", "Delhi", "Bangalore"]}
-                    />
-                    <SelectField
-                      label="Upload CV"
-                      name="cv"
-                      placeholder="Choose File"
-                      value={form.cv}
-                      onChange={handleChange}
-                      options={[]}
-                      wrapperClassName="border-[#000000]"
-                    />
-                  </div>
+                    {/* Row 3: Location / Upload CV */}
+                    <div className="grid grid-cols-1 gap-6 border-t n-bold lh-24 fs-14 border-[#8F8183]/30 py-6 sm:grid-cols-2 sm:gap-8">
+                      <SelectField
+                        label="Location"
+                        name="location"
+                        placeholder="Select Opening"
+                        value={form.location}
+                        onChange={handleChange}
+                        options={["Mumbai", "Pune", "Delhi", "Bangalore"]}
+                      />
+                      <SelectField
+                        label="Upload CV"
+                        name="cv"
+                        placeholder="Choose File"
+                        value={form.cv}
+                        onChange={handleChange}
+                        options={[]}
+                        wrapperClassName="border-[#000000]"
+                      />
+                    </div>
 
-                  {/* Message */}
-                  <div className="border-t border-[#8F8183]/30 pt-6 text-left n-bold lh-24 fs-14">
-                    <label className="block text-left n-reg text-sm text-brand-text-primary">
-                      Message
-                    </label>
-                    <textarea
-                      name="message"
-                      placeholder="Type Message...."
-                      value={form.message}
-                      onChange={handleChange}
-                      rows={2}
-                      className="mt-2 w-full resize-none border-b border-[#8F8183] bg-transparent text-left n-reg text-sm text-[#202020] placeholder-[#202020]/40 outline-none"
-                    />
-                  </div>
+                    {/* Message */}
+                    <div className="border-t border-[#8F8183]/30 pt-6 text-left n-bold lh-24 fs-14">
+                      <label className="block text-left n-reg text-sm text-brand-text-primary">
+                        Message
+                      </label>
+                      <textarea
+                        name="message"
+                        placeholder="Type Message...."
+                        value={form.message}
+                        onChange={handleChange}
+                        rows={2}
+                        className="mt-2 w-full resize-none border-b border-[#8F8183] bg-transparent text-left n-reg text-sm text-[#202020] placeholder-[#202020]/40 outline-none"
+                      />
+                    </div>
 
-                  {/* Submit */}
-                  <div className="mt-8 flex justify-center">
-                    <button
-                      suppressHydrationWarning
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="btn-grad inline-flex h-[52px] w-full items-center justify-center gap-4 px-8 n-reg  text-sm  uppercase tracking-widest text-white sm:h-[55px] sm:w-auto sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl disabled:cursor-not-allowed disabled:opacity-70"
-                    >
-                      {isSubmitting ? "Submitting..." : "Submit"}
-                      <ArrowUpRight />
-                    </button>
+                    {/* Submit */}
+                    <div className="mt-8 flex justify-center">
+                      <button
+                        suppressHydrationWarning
+                        type="submit"
+                        disabled={isSubmitting}
+                        className="btn-grad inline-flex h-[52px] w-full items-center justify-center gap-4 px-8 n-reg  text-sm  uppercase tracking-widest text-white sm:h-[55px] sm:w-auto sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl disabled:cursor-not-allowed disabled:opacity-70"
+                      >
+                        {isSubmitting ? "Submitting..." : "Submit"}
+                        <ArrowUpRight />
+                      </button>
+                    </div>
                   </div>
-                </div>
                 </form>
               </ScrollReveal>
             </div>

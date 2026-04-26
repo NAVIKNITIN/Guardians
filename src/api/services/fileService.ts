@@ -1,3 +1,11 @@
+/**
+ * File API:
+ *
+ * - `POST /api/files/upload` — `uploadFile` (multipart: `file`, `file_type`, optional `sequence_no`)
+ * - `POST /api/files/bulk-upload` — `uploadFilesBulk` (admin gallery)
+ * - `GET /api/files?per_page=4` — `getAllFiles`
+ * - `GET /api/files/:id` — `getFileById`
+ */
 import { axiosInstance } from "../axiosInstance";
 import { buildQueryString } from "../params";
 
@@ -6,9 +14,7 @@ export type GetAllFilesParams = {
   page?: number;
 };
 
-/**
- * Upload a single file (hero, logo, CV, etc.). `multipart/form-data`
- */
+/** `POST /api/files/upload` (multipart) */
 export function uploadFile(formData: FormData) {
   return axiosInstance.post<unknown>("/files/upload", formData).then((r) => r.data);
 }

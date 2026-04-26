@@ -1,3 +1,11 @@
+/**
+ * Project API (base URL: `NEXT_PUBLIC_API_BASE_URL`, default production Railway):
+ *
+ * - `GET /api/projects?per_page=10&page=1` → `getAllProjects`
+ * - `GET /api/projects/:id` → `getProjectById`
+ * - `POST /api/projects` → `createProject` (body: name, type, rera_number, files: [{ file_id }], …)
+ * - `PUT /api/projects/:id` → `updateProject`
+ */
 import { axiosInstance } from "../axiosInstance";
 import { buildQueryString } from "../params";
 

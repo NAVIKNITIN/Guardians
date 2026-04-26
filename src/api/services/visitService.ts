@@ -1,3 +1,10 @@
+/**
+ * Book visits API:
+ *
+ * - `POST /api/book-visits` — `createVisit` (first_name, last_name, email, phone_no, location, message, `upload_cv_file_id`, …)
+ * - `GET /api/book-visits?per_page=10` — `getAllVisits`
+ * - `GET /api/book-visits/:id` — `getVisitById`
+ */
 import { axiosInstance } from "../axiosInstance";
 import { buildQueryString } from "../params";
 
@@ -6,9 +13,7 @@ export type GetAllVisitsParams = {
   page?: number;
 };
 
-/**
- * Create a book visit.
- */
+/** `POST /api/book-visits` */
 export function createVisit(payload: object) {
   return axiosInstance.post<unknown>("/book-visits", payload).then((r) => r.data);
 }

@@ -35,6 +35,7 @@ export function ProjectCard({
     badge?.variant === "completed"
       ? "bg-[#202225]"
       : "bg-[#8F8183]";
+  const imageUnoptimized = /^https?:\/\//i.test(imageSrc);
 
   return (
     <Link
@@ -51,6 +52,7 @@ export function ProjectCard({
           src={imageSrc}
           alt={imageAlt}
           fill
+          unoptimized={imageUnoptimized}
           className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           sizes="(min-width: 1280px) 400px, (min-width: 768px) 45vw, 100vw"
         />
