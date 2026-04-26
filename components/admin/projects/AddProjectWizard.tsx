@@ -26,6 +26,12 @@ import {
   IconUpload,
 } from "@/components/admin/panel/AdminIcons";
 import { motion } from "framer-motion";
+import Image from "next/image";
+import {
+  AMENITY_CATALOG,
+  catalogKeysFromProjectAmenities,
+} from "@/lib/admin/amenityCatalog";
+import { cn } from "@/utils/cn";
 
 type StepId = "basic" | "details" | "location";
 
@@ -43,13 +49,6 @@ type FormState = {
   /** ISO date `YYYY-MM-DD` for API `completion_date` */
   completionDate: string;
   caseStudyInfo: string;
-};
-
-type Amenity = {
-  id: number;
-  name: string;
-  imageFileName: string;
-  existingImageId: number | null;
 };
 
 type LocationConnectivitySection = {
@@ -171,15 +170,6 @@ function toSectionId(raw: string | number | undefined) {
   return createLocalId();
 }
 
-function createEmptyAmenity(id = createLocalId()): Amenity {
-  return {
-    id,
-    name: "",
-    imageFileName: "",
-    existingImageId: null,
-  };
-}
-
 function createEmptyLocationSection(
   id = createLocalId(),
 ): LocationConnectivitySection {
@@ -264,10 +254,13 @@ function SectionCard({
   icon,
   title,
   children,
+  titleClassName,
 }: {
   icon: ReactNode;
   title: string;
   children: ReactNode;
+  /** Override default `qs-reg` (e.g. `font-nexa font-bold` for Location & Connectivity). */
+  titleClassName?: string;
 }) {
   return (
     <motion.section
@@ -278,12 +271,17 @@ function SectionCard({
       transition={{ duration: 0.28, ease: [0.22, 1, 0.36, 1] }}
       whileHover={{ y: -1 }}
     >
-      <div className="flex items-center gap-4 border-b border-[#efede9] p-2 md:p-4">
-        <div className="flex h-[62px] w-[62px] items-center justify-center rounded-[18px] bg-[#fff3ed] text-[#f07c61]">
+      <div className="flex min-w-0 items-center gap-4 border-b border-[#efede9] p-2 md:p-4">
+        <div className="flex h-[62px] w-[62px] shrink-0 items-center justify-center rounded-[18px] bg-[#fff3ed] text-[#f07c61]">
           {icon}
         </div>
 
-        <h2 className="qs-reg text-[clamp(2.2rem,3vw,3.15rem)] leading-none text-[#081a43]">
+        <h2
+          className={cn(
+            "min-w-0 text-[clamp(1.5rem,3vw,3.15rem)] leading-tight text-[#081a43] sm:leading-none",
+            titleClassName ?? "n-reg",
+          )}
+        >
           {title}
         </h2>
       </div>
@@ -393,24 +391,19 @@ export function AddProjectWizard() {
   const [isLoadingProject, setIsLoadingProject] = useState(isEditMode);
   const [errorMessage, setErrorMessage] = useState("");
 
-  /** Set when an immediate file upload (logo/hero/gallery/amenity) is in progress. */
+  /** Set when an immediate file upload (logo/hero/gallery) is in progress. */
   const [fileUploading, setFileUploading] = useState<{
     logo: boolean;
     hero: boolean;
     gallery: boolean;
-    amenityId: number | null;
   }>({
     logo: false,
     hero: false,
     gallery: false,
-    amenityId: null,
   });
 
   const isAnyFileUploading =
-    fileUploading.logo ||
-    fileUploading.hero ||
-    fileUploading.gallery ||
-    fileUploading.amenityId != null;
+    fileUploading.logo || fileUploading.hero || fileUploading.gallery;
 
   const [existingProjectFiles, setExistingProjectFiles] =
     useState<ExistingProjectFiles>({
@@ -434,7 +427,7 @@ export function AddProjectWizard() {
     caseStudyInfo: "",
   });
 
-  const [amenities, setAmenities] = useState<Amenity[]>([createEmptyAmenity()]);
+  const [selectedAmenityKeys, setSelectedAmenityKeys] = useState<string[]>([]);
 
   const [locationSections, setLocationSections] = useState<
     LocationConnectivitySection[]
@@ -513,17 +506,10 @@ export function AddProjectWizard() {
 
         setLocationSections(mappedLocationSections);
 
-        setAmenities(
+        setSelectedAmenityKeys(
           project.amenities.length > 0
-            ? project.amenities.map((item) => ({
-              id: toSectionId(item.id),
-              name: item.name,
-              imageFileName: item.amenities_image_id
-                ? "Existing image linked"
-                : "",
-              existingImageId: item.amenities_image_id,
-            }))
-            : [createEmptyAmenity()],
+            ? catalogKeysFromProjectAmenities(project.amenities)
+            : [],
         );
       } catch (error) {
         if (loadToken !== projectLoadTokenRef.current) {
@@ -655,74 +641,12 @@ export function AddProjectWizard() {
     }
   }
 
-  function addAmenity() {
-    setAmenities((current) => [...current, createEmptyAmenity()]);
-  }
-
-  function updateAmenityName(id: number, value: string) {
-    const rowId = Number(id);
-    setAmenities((current) =>
-      current.map((item) =>
-        Number(item.id) === rowId ? { ...item, name: value } : item,
-      ),
+  function toggleAmenityKey(key: string) {
+    setSelectedAmenityKeys((current) =>
+      current.includes(key)
+        ? current.filter((k) => k !== key)
+        : [...current, key],
     );
-  }
-
-  async function updateAmenityImage(
-    amenityId: number,
-    event: ChangeEvent<HTMLInputElement>,
-  ) {
-    const rowId = Number(amenityId);
-    const file = event.target.files?.[0] ?? null;
-    if (!file) {
-      setAmenities((current) =>
-        current.map((item) =>
-          Number(item.id) === rowId
-            ? { ...item, imageFileName: "", existingImageId: null }
-            : item,
-        ),
-      );
-      return;
-    }
-    setFileUploading((s) => ({ ...s, amenityId: rowId }));
-    setErrorMessage("");
-    try {
-      const imageId = await uploadSingleAsset(file, "ICON");
-      setAmenities((current) =>
-        current.map((item) =>
-          Number(item.id) === rowId
-            ? {
-              ...item,
-              imageFileName: file.name,
-              existingImageId: imageId,
-            }
-            : item,
-        ),
-      );
-    } catch (error) {
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "Amenity image upload failed.",
-      );
-      setAmenities((current) =>
-        current.map((item) =>
-          Number(item.id) === rowId
-            ? { ...item, imageFileName: "", existingImageId: null }
-            : item,
-        ),
-      );
-    } finally {
-      setFileUploading((s) => ({ ...s, amenityId: null }));
-    }
-  }
-
-  function removeAmenity(id: number) {
-    const rowId = Number(id);
-    setAmenities((current) => {
-      if (current.length <= 1) return current;
-      return current.filter((item) => Number(item.id) !== rowId);
-    });
   }
 
   async function uploadSingleAsset(
@@ -766,22 +690,18 @@ export function AddProjectWizard() {
     return result.data.map((item) => item.id);
   }
 
-  function getPreparedAmenities() {
-    const activeAmenities = amenities.filter(
-      (item) => item.name.trim() || item.existingImageId,
-    );
-
-    for (const amenity of activeAmenities) {
-      if (!amenity.name.trim()) {
-        throw new Error("Amenity name required for uploaded amenity image.");
-      }
-
-      if (!amenity.existingImageId) {
-        throw new Error(`Amenity image required for "${amenity.name.trim()}".`);
+  function getPreparedAmenities(): Array<{
+    name: string;
+    existingImageId: number;
+  }> {
+    const out: Array<{ name: string; existingImageId: number }> = [];
+    for (const key of selectedAmenityKeys) {
+      const c = AMENITY_CATALOG.find((x) => x.key === key);
+      if (c) {
+        out.push({ name: c.name, existingImageId: c.imageFileId });
       }
     }
-
-    return activeAmenities;
+    return out;
   }
 
   function buildProjectPayload(
@@ -961,8 +881,8 @@ export function AddProjectWizard() {
     placeholder: string;
   }> = [
       { key: "place", placeholder: "Place / Landmark" },
-      { key: "walkingTime", placeholder: "Walking Time" },
-      { key: "drivingTime", placeholder: "Driving Time" },
+      { key: "walkingTime", placeholder: "Walk (minutes)" },
+      { key: "drivingTime", placeholder: "Drive (minutes)" },
     ];
 
   return (
@@ -1137,51 +1057,59 @@ export function AddProjectWizard() {
             icon={<IconSparkles className="h-7 w-7" />}
             title="Amenities & Features"
           >
-            <div className="space-y-4">
-              {amenities.map((item, index) => (
-                <div
-                  key={item.id}
-                  className="rounded-[24px] border border-[#ece7e1] bg-[#fffdfa] p-4"
-                >
-                  <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_280px]">
-                    <TextInput
-                      placeholder={
-                        index === 0 ? "Amenity Name" : `Amenity Name ${index + 1}`
-                      }
-                      value={item.name}
-                      onChange={(value) => updateAmenityName(item.id, value)}
+            <p className="text-[0.98rem] leading-relaxed text-[#657188]">
+              Select one or more amenities. Name and image file ids are sent in the
+              project payload, same as before — images are taken from the preset
+              catalog (update{" "}
+              <code className="rounded bg-[#f0f4f8] px-1 text-[0.85rem]">
+                lib/admin/amenityCatalog.ts
+              </code>{" "}
+              if your file ids differ).
+            </p>
+            <div
+              className="mt-5 grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3"
+              role="group"
+              aria-label="Amenities"
+            >
+              {AMENITY_CATALOG.map((opt) => {
+                const selected = selectedAmenityKeys.includes(opt.key);
+                return (
+                  <label
+                    key={opt.key}
+                    className={cn(
+                      "flex cursor-pointer items-center gap-3 rounded-[20px] border-2 p-3 transition",
+                      selected
+                        ? "border-[#f07c61] bg-[#fff8f5] shadow-sm"
+                        : "border-[#ece7e1] bg-white hover:border-[#e8d5cf]",
+                    )}
+                  >
+                    <input
+                      type="checkbox"
+                      className="sr-only"
+                      checked={selected}
+                      onChange={() => toggleAmenityKey(opt.key)}
                     />
-
-                    <FileUploadField
-                      key={`ament-${item.id}-${String(item.existingImageId)}`}
-                      layout="inline"
-                      id={`amenity-image-${item.id}`}
-                      valueDisplay={
-                        Number(fileUploading.amenityId) === Number(item.id)
-                          ? "Uploading…"
-                          : item.imageFileName
-                      }
-                      inlinePlaceholder="Upload Amenity Image"
-                      leadingContent={<IconUpload className="h-5 w-5" />}
-                      disabled={fileUploading.amenityId != null}
-                      onChange={(event) => updateAmenityImage(item.id, event)}
-                    />
-                  </div>
-
-                  {amenities.length > 1 ? (
-                    <div className="mt-4 flex justify-end">
-                      <RemoveItemButton
-                        label="Remove Amenity"
-                        onClick={() => removeAmenity(item.id)}
+                    <div className="relative h-12 w-12 shrink-0">
+                      <Image
+                        src={opt.thumbnailSrc}
+                        alt=""
+                        width={48}
+                        height={48}
+                        unoptimized
+                        className="h-12 w-12 object-contain"
                       />
                     </div>
-                  ) : null}
-                </div>
-              ))}
-
-              <div className="flex justify-end">
-                <AddItemButton label="Add Amenity" onClick={addAmenity} />
-              </div>
+                    <span className="min-w-0 flex-1 text-left text-[0.95rem] font-medium leading-snug text-[#33425e]">
+                      {opt.name}
+                    </span>
+                    {selected ? (
+                      <span className="shrink-0 text-[#f07c61]" aria-hidden>
+                        <IconCheckSeal className="h-5 w-5" />
+                      </span>
+                    ) : null}
+                  </label>
+                );
+              })}
             </div>
           </SectionCard>
         </>
@@ -1204,7 +1132,8 @@ export function AddProjectWizard() {
             <SectionCard
               key={`loc-${String(section.id)}-${index}`}
               icon={<IconMapPin className="h-7 w-7" />}
-              title={`Location & Connectivity — ${index + 1} of ${locationSections.length} (API: locations[${index}])`}
+              title={`Location & Connectivity — ${index + 1} of ${locationSections.length} `}
+              titleClassName="font-nexa text-[clamp(1.5rem,2.4vw,2.75rem)] font-bold leading-tight text-[#081a43] sm:leading-none"
             >
               <TextArea
                 placeholder="Full Address"
@@ -1247,10 +1176,13 @@ export function AddProjectWizard() {
                     <IconRoute className="h-6 w-6" />
                   </div>
 
-                  <div>
-                    <h3 className="text-[1.45rem] font-semibold text-[#33425e]">
-                      Nearby Connectivity
+                  <div className="min-w-0">
+                    <h3 className="font-nexa text-[1.35rem] font-bold leading-tight text-[#33425e] sm:text-[1.45rem]">
+                      Nearby connectivity
                     </h3>
+                    <p className="mt-1 n-reg text-[0.8rem] text-[#6b7a90] sm:text-sm">
+                      Walk and drive times are stored and shown in minutes.
+                    </p>
                   </div>
                 </div>
 

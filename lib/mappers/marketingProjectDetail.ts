@@ -1,5 +1,9 @@
 import { LOCAL_IMAGES } from "@/lib/local-images";
 import { resolveApiAssetUrl } from "@/lib/api/resolveAssetUrl";
+import {
+  catalogThumbnailForAmenityName,
+  catalogThumbnailForImageFileId,
+} from "@/lib/admin/amenityCatalog";
 
 type ApiUploadedFile = {
   id: number;
@@ -33,7 +37,17 @@ type ApiProjectLocation = {
 type ApiAmenity = {
   id: number;
   name: string;
-  amenities_image_id: number | null;
+  /** API may send number or numeric string. */
+  amenities_image_id: number | string | null;
+  /** Laravel may load `files` relation on the amenity row. */
+  file?: ApiUploadedFile | null;
+  uploaded_file?: ApiUploadedFile | null;
+};
+
+export type ProjectAmenityItem = {
+  id: number;
+  label: string;
+  imageSrc: string;
 };
 
 export type ProjectDetailView = {
@@ -48,8 +62,8 @@ export type ProjectDetailView = {
   stats: { label: string; value: string; unit: string }[];
   description: string;
   gallery: { src: string; span: "half" | "full" | "third" }[];
-  /** Amenity names only (no images on marketing). */
-  amenities: string[];
+  /** From API `amenities[]` + `files` via `amenities_image_id`. */
+  amenities: ProjectAmenityItem[];
   mapCenter: [number, number];
   mapZoom: number;
   locationItems: {
@@ -71,6 +85,50 @@ function fileByType(files: ApiUploadedFile[], t: string) {
   return files.find(
     (f) => (f.file_type || "").toUpperCase() === t.toUpperCase(),
   );
+}
+
+function fileById(files: ApiUploadedFile[], id: number | string | null) {
+  if (id == null || id === "") return undefined;
+  const n = Number(id);
+  if (!Number.isFinite(n)) return undefined;
+  return files.find((f) => Number(f.id) === n);
+}
+
+function urlFromNestedAmenityFile(a: ApiAmenity): string | null {
+  const row = a.file ?? a.uploaded_file;
+  if (!row?.file_url) return null;
+  return resolveApiAssetUrl(row.file_url);
+}
+
+/**
+ * Amenity icons are often referenced by `amenities_image_id` only; those file rows
+ * may not appear in `project.files` (only LOGO/HERO/SEQUENCE are attached). Resolve
+ * nested API `file`, then `project.files`, then preset catalog thumbnails.
+ */
+function resolveAmenityImageSrc(
+  a: ApiAmenity,
+  files: ApiUploadedFile[],
+  fallback: string,
+): string {
+  const nested = urlFromNestedAmenityFile(a);
+  if (nested) return nested;
+
+  const imageId = a.amenities_image_id;
+  if (imageId != null && imageId !== "") {
+    const fileRow = fileById(files, imageId);
+    if (fileRow?.file_url) {
+      const u = resolveApiAssetUrl(fileRow.file_url);
+      if (u) return u;
+    }
+
+    const fromCatalogId = catalogThumbnailForImageFileId(imageId);
+    if (fromCatalogId) return fromCatalogId;
+  }
+
+  const fromCatalogName = catalogThumbnailForAmenityName(a.name);
+  if (fromCatalogName) return fromCatalogName;
+
+  return fallback;
 }
 
 function safeUrlFromFile(f: ApiUploadedFile | undefined, fallback: string) {
@@ -141,6 +199,17 @@ function buildGalleryLayout(urls: string[]): ProjectDetailView["gallery"] {
 }
 
 /**
+ * Show connectivity times as minutes on the marketing page; bare numbers get a ` min` suffix.
+ */
+function asMinutesDisplay(raw: string | null | undefined): string {
+  const t = String(raw ?? "").trim();
+  if (t === "") return "";
+  if (/\bmin(ute)?s?\b/i.test(t)) return t;
+  if (/^\d+(\.\d+)?$/.test(t)) return `${t} min`;
+  return t;
+}
+
+/**
  * One row per API location; connect walking/driving; map point from lat/lng when present.
  */
 function buildLocationItems(
@@ -159,15 +228,15 @@ function buildLocationItems(
     ];
   }
   return locations.map((loc) => {
-    const walk = (loc.walking_time || "").trim();
-    const drive = (loc.driving_time || "").trim();
+    const walk = asMinutesDisplay(loc.walking_time);
+    const drive = asMinutesDisplay(loc.driving_time);
     let time = "—";
     if (walk && drive) {
       time = `Walk ${walk} · Drive ${drive}`;
     } else if (walk) {
-      time = walk;
+      time = `Walk ${walk}`;
     } else if (drive) {
-      time = drive;
+      time = `Drive ${drive}`;
     }
     const name =
       [loc.place_name, loc.city, loc.state].filter(Boolean).join(" · ") ||
@@ -260,11 +329,20 @@ export function mapProjectDetailsToViewModel(
     ? [caseText]
     : [description];
 
-  const amenityNames = (project.amenities ?? [])
-    .map((a) => (a.name || "").trim())
-    .filter(Boolean);
-  const amenities: ProjectDetailView["amenities"] =
-    amenityNames.length > 0 ? amenityNames : ["—"];
+  const amenities: ProjectAmenityItem[] = (project.amenities ?? []).map(
+    (a) => ({
+      id: a.id,
+      label: (a.name || "").trim() || "—",
+      imageSrc: resolveAmenityImageSrc(a, files, LOCAL_IMAGES.holding),
+    }),
+  );
+  if (amenities.length === 0) {
+    amenities.push({
+      id: 0,
+      label: "—",
+      imageSrc: LOCAL_IMAGES.holding,
+    });
+  }
 
   return {
     id: project.id,

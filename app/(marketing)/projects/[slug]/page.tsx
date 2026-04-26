@@ -5,6 +5,7 @@ import { uploadFile } from "@/src/api/services/fileService";
 import { showError, showSuccess } from "@/src/utils/toast";
 import {
   mapProjectDetailsToViewModel,
+  type ProjectAmenityItem,
 } from "@/lib/mappers/marketingProjectDetail";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { StaggerContainer } from "@/components/animations/StaggerContainer";
@@ -25,34 +26,6 @@ import {
   type ChangeEvent,
 } from "react";
 import { cn } from "@/utils/cn";
-
-const AMENITY_IMAGE_DIR = "/images/Projects/Amenities";
-
-function amenityImage(filename: string) {
-  return `${AMENITY_IMAGE_DIR}/${encodeURIComponent(filename)}`;
-}
-
-type AmenityDisplay = { label: string; imageSrc: string };
-
-/** Marketing showcase — static icons (API amenities are name-only). */
-const PAGE_AMENITIES: AmenityDisplay[] = [
-  { label: "Gymnasium", imageSrc: amenityImage("1.svg") },
-  { label: "High Tech Security", imageSrc: amenityImage("2.svg") },
-  { label: "Multipurpose Hall", imageSrc: amenityImage("3.svg") },
-  { label: "Kids Play Area", imageSrc: amenityImage("4.svg") },
-  { label: "Rooftop Lounge", imageSrc: amenityImage("Group 3176.svg") },
-  { label: "Landscaped Garden", imageSrc: amenityImage("Group 3182.svg") },
-  { label: "High Speed Elevators", imageSrc: amenityImage("Group 3183.svg") },
-  {
-    label: "Latest Fire Safety System",
-    imageSrc: amenityImage("Group 3184.svg"),
-  },
-  {
-    label: "High Speed Elevators",
-    imageSrc: amenityImage("Group 3183.svg"),
-  },
-  { label: "Valet", imageSrc: amenityImage("Group 3185.svg") },
-];
 
 // ---------------------------------------------------------------------------
 // Walk / Drive icon
@@ -182,7 +155,8 @@ function CaseStudySection({
 // ---------------------------------------------------------------------------
 // Amenity item
 // ---------------------------------------------------------------------------
-function AmenityItem({ amenity }: { amenity: AmenityDisplay }) {
+function AmenityItem({ amenity }: { amenity: ProjectAmenityItem }) {
+  const imageUnoptimized = /^https?:\/\//i.test(amenity.imageSrc);
   return (
     <div className="group flex flex-col items-center gap-2 text-center sm:gap-3">
       <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full bg-white/50 p-1.5 transition-all duration-500 ease-out group-hover:-translate-y-0.5 group-hover:bg-white/80 group-hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] sm:h-20 sm:w-20">
@@ -191,6 +165,7 @@ function AmenityItem({ amenity }: { amenity: AmenityDisplay }) {
           alt=""
           width={80}
           height={80}
+          unoptimized={imageUnoptimized}
           className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
         />
       </div>
@@ -514,27 +489,39 @@ function ProjectDetailPageContent() {
 
           {/* Stats bar — 1 col on mobile, 2×2 from sm, 1×4 from lg */}
           <div className="mt-6 sm:mt-8 border-t border-black">
-            <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-10" staggerChildren={0.12}>
+            <StaggerContainer className="grid min-w-0 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-10" staggerChildren={0.12}>
               {project.stats.map((stat, i) => (
-                <ScrollReveal key={i} direction="up" delay={i * 0.04} distance={20}>
+                <ScrollReveal
+                  key={i}
+                  direction="up"
+                  delay={i * 0.04}
+                  distance={20}
+                  className="min-w-0"
+                >
                   <div
                     className={cn(
-                      "flex min-h-0 min-w-0 flex-col justify-center gap-1.5 border-b border-black py-4 text-center last:border-b-0 sm:gap-2 sm:border-b-0  sm:text-left ",
+                      "flex min-h-0 min-w-0 flex-col justify-center gap-1.5 overflow-hidden border-b border-black py-4 text-center last:border-b-0 sm:gap-2 sm:border-b-0 sm:text-left",
                     )}
                   >
-                    <span className="n-bold text-[0.5225rem] uppercase leading-snug tracking-[0.08em] text-black sm:text-xs lg:text-sm">
+                    <span
+                      className="n-bold min-w-0 truncate text-[0.5225rem] uppercase leading-snug tracking-[0.08em] text-black sm:text-xs lg:text-sm"
+                      title={stat.label}
+                    >
                       {stat.label}
                     </span>
-                    <span className="text-[#8F8183] border-b border-black pb-2 sm:pb-2.5 n-reg">
-                      <span className=" inline wrap-break-word text-[clamp(1rem,4.5vw,1.125rem)] leading-[1.2] tracking-tight sm:text-2xl sm:leading-none md:text-3xl lg:text-[2.625rem]">
+                    <div className="flex min-w-0 max-w-full items-baseline gap-x-1 border-b border-black pb-2 text-[#8F8183] n-reg sm:pb-2.5">
+                      <span
+                        className="min-w-0 flex-1 truncate text-[clamp(1rem,4.5vw,1.125rem)] leading-[1.2] tracking-tight sm:text-2xl sm:leading-none md:text-3xl lg:text-[2.625rem]"
+                        title={stat.value}
+                      >
                         {stat.value}
                       </span>
                       {stat.unit ? (
-                        <span className="ml-0.5 inline text-xs leading-none sm:text-base md:text-xl lg:text-2xl">
+                        <span className="shrink-0 text-xs leading-none sm:text-base md:text-xl lg:text-2xl">
                           {stat.unit}
                         </span>
                       ) : null}
-                    </span>
+                    </div>
                   </div>
                 </ScrollReveal>
               ))}
@@ -646,11 +633,11 @@ function ProjectDetailPageContent() {
             </h2>
           </ScrollReveal>
 
-          {/* Rows 1 & 2 — 4 columns on desktop */}
+          {/* API-driven amenities: first 8, then remaining rows (4-col desktop) */}
           <StaggerContainer className="grid w-full grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-5 lg:gap-x-12 lg:gap-y-10 mt-4 md:mt-10" staggerChildren={0.1}>
-            {PAGE_AMENITIES.slice(0, 8).map((amenity, i) => (
+            {project.amenities.slice(0, 8).map((amenity, i) => (
               <ScrollReveal
-                key={`${amenity.label}-${i}`}
+                key={`amenity-${amenity.id}-${i}`}
                 direction="up"
                 delay={i * 0.025}
                 distance={18}
@@ -660,19 +647,20 @@ function ProjectDetailPageContent() {
             ))}
           </StaggerContainer>
 
-          {/* Row 3 — 2 items, left-aligned */}
-          <StaggerContainer className="mt-8 grid w-full grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-10 lg:gap-x-12 lg:gap-y-12" staggerChildren={0.1}>
-            {PAGE_AMENITIES.slice(8).map((amenity, i) => (
-              <ScrollReveal
-                key={`${amenity.label}-${i + 8}`}
-                direction="up"
-                delay={i * 0.04}
-                distance={18}
-              >
-                <AmenityItem amenity={amenity} />
-              </ScrollReveal>
-            ))}
-          </StaggerContainer>
+          {project.amenities.length > 8 ? (
+            <StaggerContainer className="mt-8 grid w-full grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-10 lg:gap-x-12 lg:gap-y-12" staggerChildren={0.1}>
+              {project.amenities.slice(8).map((amenity, i) => (
+                <ScrollReveal
+                  key={`amenity-${amenity.id}-${i + 8}`}
+                  direction="up"
+                  delay={i * 0.04}
+                  distance={18}
+                >
+                  <AmenityItem amenity={amenity} />
+                </ScrollReveal>
+              ))}
+            </StaggerContainer>
+          ) : null}
         </Container>
       </section>
 
