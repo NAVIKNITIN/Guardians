@@ -156,17 +156,21 @@ function CaseStudySection({
 // Amenity item
 // ---------------------------------------------------------------------------
 function AmenityItem({ amenity }: { amenity: ProjectAmenityItem }) {
-  const imageUnoptimized = /^https?:\/\//i.test(amenity.imageSrc);
+  const src = amenity.imageSrc;
+  // Remote assets need the configured host. SVGs (preset amenities, holding fallback)
+  // often use Figma `foreignObject` etc.; Next’s image optimizer can render them blank.
+  const imageUnoptimized =
+    /^https?:\/\//i.test(src) || /\.svg(\?|$)/i.test(src);
   return (
     <div className="group flex flex-col items-center gap-2 text-center sm:gap-3">
       <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full bg-white/50 p-1.5 transition-all duration-500 ease-out group-hover:-translate-y-0.5 group-hover:bg-white/80 group-hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] sm:h-20 sm:w-20">
         <Image
-          src={amenity.imageSrc}
+          src={src}
           alt=""
           width={80}
           height={80}
           unoptimized={imageUnoptimized}
-          className="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-110"
+          className="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-110"
         />
       </div>
       <span className="n-bold text-[10px] uppercase leading-tight tracking-[0.08em] text-brand-text-primary transition-colors duration-300 group-hover:text-[#8F8183] sm:text-xs">

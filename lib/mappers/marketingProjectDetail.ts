@@ -101,28 +101,31 @@ function urlFromNestedAmenityFile(a: ApiAmenity): string | null {
 }
 
 /**
- * Amenity icons are often referenced by `amenities_image_id` only; those file rows
- * may not appear in `project.files` (only LOGO/HERO/SEQUENCE are attached). Resolve
- * nested API `file`, then `project.files`, then preset catalog thumbnails.
+ * Amenity image resolution. Preset `amenities_image_id` values (catalog 1–9) use
+ * public `/images/Projects/Amenities/*.svg` first so icons always render: API
+ * `file_url` can 404 or, for SVG, break under Next image optimization (e.g. Figma
+ * `foreignObject` in `1.svg`). Then nested relation, `project.files`, name catalog.
  */
 function resolveAmenityImageSrc(
   a: ApiAmenity,
   files: ApiUploadedFile[],
   fallback: string,
 ): string {
+  const imageId = a.amenities_image_id;
+  if (imageId != null && imageId !== "") {
+    const preset = catalogThumbnailForImageFileId(imageId);
+    if (preset) return preset;
+  }
+
   const nested = urlFromNestedAmenityFile(a);
   if (nested) return nested;
 
-  const imageId = a.amenities_image_id;
   if (imageId != null && imageId !== "") {
     const fileRow = fileById(files, imageId);
     if (fileRow?.file_url) {
       const u = resolveApiAssetUrl(fileRow.file_url);
       if (u) return u;
     }
-
-    const fromCatalogId = catalogThumbnailForImageFileId(imageId);
-    if (fromCatalogId) return fromCatalogId;
   }
 
   const fromCatalogName = catalogThumbnailForAmenityName(a.name);
