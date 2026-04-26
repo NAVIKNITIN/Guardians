@@ -2,6 +2,7 @@
 
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { StaggerContainer } from "@/components/animations/StaggerContainer";
+import { FileUploadField } from "@/components/common/FileUploadField";
 import { useEffect, useState } from "react";
 import { getAllVisits } from "@/src/api/services/visitService";
 import { IconMapPin } from "@/components/admin/panel/AdminIcons";
@@ -210,27 +211,33 @@ function VisitCard({ visit }: { visit: BookVisit }) {
       </div>
 
       <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        {visit.cvFileUrl ? (
-          <a
-            href={visit.cvFileUrl}
-            download
-            target="_blank"
-            rel="noreferrer"
-            className="inline-flex items-center gap-3 text-[1.05rem] font-medium text-[#5e6f8b]"
-          >
-            <IconDocumentText className="h-6 w-6" />
-            <span>{visit.cvLabel ?? "Download CV"}</span>
-          </a>
-        ) : (
-          <button
-            type="button"
-            disabled
-            className="inline-flex items-center gap-3 text-[1.05rem] font-medium text-[#a0a9b8] disabled:cursor-not-allowed"
-          >
-            <IconDocumentText className="h-6 w-6" />
-            <span>No CV Uploaded</span>
-          </button>
-        )}
+        <div className="w-full min-w-0 sm:max-w-md sm:flex-1">
+          {visit.cvFileUrl ? (
+            <FileUploadField
+              layout="inline"
+              id={`visit-cv-${visit.id}`}
+              accept="application/pdf"
+              downloadHref={visit.cvFileUrl}
+              onChange={() => {}}
+              valueDisplay={visit.cvLabel ?? "Download CV"}
+              leadingContent={
+                <IconDocumentText className="h-5 w-5 shrink-0" />
+              }
+            />
+          ) : (
+            <FileUploadField
+              layout="inline"
+              id={`visit-cv-${visit.id}`}
+              accept="application/pdf"
+              disabled
+              onChange={() => {}}
+              valueDisplay="No CV Uploaded"
+              leadingContent={
+                <IconDocumentText className="h-5 w-5 shrink-0" />
+              }
+            />
+          )}
+        </div>
 
         <button
           type="button"

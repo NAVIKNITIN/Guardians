@@ -48,6 +48,14 @@ export type FileUploadFieldProps = {
   className?: string;
   labelClassName?: string;
   dropzoneClassName?: string;
+  /**
+   * `layout="inline"`: class on the inner row (icon + file name) inside the dropzone/ link.
+   */
+  inlineContentClassName?: string;
+  /**
+   * `layout="inline"`: class on the file name/placeholder span.
+   */
+  inlineValueClassName?: string;
   /** Visual above the title in `card` layout (e.g. an existing icon component). */
   leadingContent?: ReactNode;
   /** Merged with the file input; `type`, `onChange`, `id` are controlled by the component. */
@@ -64,6 +72,11 @@ export type FileUploadFieldProps = {
   onFilesSelected?: (files: FileList | null) => void;
   /** @default true for `card` */
   enableDragAndDrop?: boolean;
+  /**
+   * `layout="inline"`: same visuals as the inline dropzone, but as a link (no file input).
+   * For admin read-only rows, e.g. download an already-uploaded CV.
+   */
+  downloadHref?: string;
 };
 
 const CARD_DROPZONE =
@@ -131,6 +144,9 @@ export const FileUploadField = forwardRef<HTMLInputElement, FileUploadFieldProps
       "aria-describedby": ariaDescribedBy,
       onFilesSelected,
       enableDragAndDrop = true,
+      downloadHref,
+      inlineContentClassName = "",
+      inlineValueClassName = "",
     },
     forwardedRef,
   ) {
@@ -217,6 +233,67 @@ export const FileUploadField = forwardRef<HTMLInputElement, FileUploadFieldProps
       />
     );
 
+    if (layout === "inline" && downloadHref) {
+      return (
+        <div className={["w-full", className].filter(Boolean).join(" ")}>
+          {label ? (
+            <p
+              className={[
+                "mb-2 text-[1.05rem] font-medium text-[#46536d]",
+                labelClassName,
+              ]
+                .filter(Boolean)
+                .join(" ")}
+            >
+              {label}
+            </p>
+          ) : null}
+          <a
+            href={downloadHref}
+            id={id}
+            download
+            target="_blank"
+            rel="noreferrer"
+            className={[
+              INLINE_DROPZONE,
+              errorText ? "border-[#d05c43]" : "",
+              dropzoneClassName,
+            ]
+              .filter(Boolean)
+              .join(" ")}
+            aria-label={ariaLabel}
+            aria-describedby={describedBy}
+          >
+            <div
+              className={[
+                "flex items-center justify-center gap-3 text-[#f07c61]",
+                inlineContentClassName,
+              ]
+                .filter(Boolean)
+                .join(" ")}
+            >
+              {leadingContent}
+              <span
+                className={[
+                  "max-w-[min(100%,220px)] truncate text-[1rem] font-semibold text-[#f07c61]",
+                  inlineValueClassName,
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+              >
+                {inlineText}
+              </span>
+            </div>
+          </a>
+          {errorText ? (
+            <p id={errorId} className="mt-2 text-sm font-medium text-[#d05c43]" role="alert">
+              {errorText}
+            </p>
+          ) : null}
+        </div>
+      );
+    }
+
     if (layout === "inline") {
       return (
         <div className={["w-full", className].filter(Boolean).join(" ")}>
@@ -238,15 +315,32 @@ export const FileUploadField = forwardRef<HTMLInputElement, FileUploadFieldProps
               INLINE_DROPZONE,
               errorText ? "border-[#d05c43]" : "",
               dropzoneClassName,
+              disabled ? "cursor-not-allowed opacity-60" : "",
             ]
               .filter(Boolean)
               .join(" ")}
-            {...dropHandlers}
+            {...(disabled ? {} : dropHandlers)}
           >
             {inputEl}
-            <div className="flex items-center justify-center gap-3 text-[#f07c61]">
+            <div
+              className={[
+                "flex items-center justify-center gap-3 text-[#f07c61]",
+                inlineContentClassName,
+              ]
+                .filter(Boolean)
+                .join(" ")}
+            >
               {leadingContent}
-              <span className="max-w-[min(100%,180px)] truncate text-[1rem] font-semibold text-[#f07c61]">
+              <span
+                className={[
+                  "max-w-[min(100%,180px)] truncate text-[1rem] font-semibold",
+                  disabled ? "text-[#a0a9b8]" : "text-[#f07c61]",
+                  inlineValueClassName,
+                  disabled ? "!text-[#a0a9b8]" : "",
+                ]
+                  .filter(Boolean)
+                  .join(" ")}
+              >
                 {inlineText}
               </span>
             </div>

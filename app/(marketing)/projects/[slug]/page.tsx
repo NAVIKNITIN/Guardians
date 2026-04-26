@@ -2,18 +2,28 @@
 import { createVisit } from "@/src/api/services/visitService";
 import { getProjectById } from "@/src/api/services/projectService";
 import { uploadFile } from "@/src/api/services/fileService";
+import { showError, showSuccess } from "@/src/utils/toast";
 import {
   mapProjectDetailsToViewModel,
 } from "@/lib/mappers/marketingProjectDetail";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import { Container } from "@/components/common/Container";
+import { FileUploadField } from "@/components/common/FileUploadField";
+import { IconUpload } from "@/components/admin/panel/AdminIcons";
 import { DynamicMap } from "@/components/projects/DynamicMap";
 import type { MapMarker } from "@/components/projects/DynamicMap";
 import Image from "next/image";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useRef, useState, type ChangeEvent } from "react";
+import {
+  Suspense,
+  useEffect,
+  useId,
+  useRef,
+  useState,
+  type ChangeEvent,
+} from "react";
 import { cn } from "@/utils/cn";
 
 const AMENITY_IMAGE_DIR = "/images/Projects/Amenities";
@@ -287,12 +297,13 @@ function ProjectDetailPageContent() {
     email: "",
     phone: "",
     location: "",
-    cv: "",
     message: "",
   });
   const [cvFileId, setCvFileId] = useState<number | null>(null);
   const [cvFileName, setCvFileName] = useState("");
   const [isUploadingCv, setIsUploadingCv] = useState(false);
+  const [bookVisitCvKey, setBookVisitCvKey] = useState(0);
+  const bookVisitCvId = useId();
 
   // CHANGE: submit state only, no UI redesign
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -310,13 +321,12 @@ function ProjectDetailPageContent() {
     if (!file) return;
 
     const maxFileSizeInBytes = 5 * 1024 * 1024;
-    const allowedTypes = ["application/pdf"];
 
-    if (!allowedTypes.includes(file.type)) {
+    if (!file.type.startsWith("image/")) {
       setCvFileId(null);
       setCvFileName("");
       event.target.value = "";
-      alert("Only PDF files are allowed.");
+      showError("Only image files are allowed (e.g. JPEG, PNG, WebP).");
       return;
     }
 
@@ -324,7 +334,7 @@ function ProjectDetailPageContent() {
       setCvFileId(null);
       setCvFileName("");
       event.target.value = "";
-      alert("PDF size must be less than 5 MB.");
+      showError("Image size must be less than 5 MB.");
       return;
     }
 
@@ -334,7 +344,8 @@ function ProjectDetailPageContent() {
 
       const formData = new FormData();
       formData.append("file", file);
-      formData.append("file_type", "CV");
+      // Same as AddProjectWizard `uploadSingleAsset` for images (amenity / logo / hero use LOGO | HERO | ICON).
+      formData.append("file_type", "ICON");
 
       const result = (await uploadFile(formData)) as FileUploadResponse;
 
@@ -348,7 +359,9 @@ function ProjectDetailPageContent() {
       setCvFileId(null);
       setCvFileName("");
       event.target.value = "";
-      alert(error instanceof Error ? error.message : "File upload failed.");
+      showError(
+        error instanceof Error ? error.message : "File upload failed.",
+      );
     } finally {
       setIsUploadingCv(false);
     }
@@ -359,17 +372,17 @@ function ProjectDetailPageContent() {
     event.preventDefault();
 
     if (!form.firstName.trim()) {
-      alert("First name is required.");
+      showError("First name is required.");
       return;
     }
 
     if (!form.email.trim()) {
-      alert("Email is required.");
+      showError("Email is required.");
       return;
     }
 
     if (!form.phone.trim()) {
-      alert("Phone number is required.");
+      showError("Phone number is required.");
       return;
     }
 
@@ -392,7 +405,7 @@ function ProjectDetailPageContent() {
         throw new Error(result.message || "Failed to submit book visit.");
       }
 
-      alert("Book visit submitted successfully.");
+      showSuccess("Book visit submitted successfully.");
 
       setForm({
         firstName: "",
@@ -400,14 +413,16 @@ function ProjectDetailPageContent() {
         email: "",
         phone: "",
         location: "",
-        cv: "",
         message: "",
       });
       setCvFileId(null);
       setCvFileName("");
       setIsUploadingCv(false);
+      setBookVisitCvKey((k) => k + 1);
     } catch (error) {
-      alert(error instanceof Error ? error.message : "Something went wrong.");
+      showError(
+        error instanceof Error ? error.message : "Something went wrong.",
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -841,8 +856,8 @@ function ProjectDetailPageContent() {
                       />
                     </div>
 
-                    {/* Row 3: Location / Upload CV */}
-                    <div className="grid grid-cols-1 gap-6 border-t n-bold lh-24 fs-14 border-[#8F8183]/30 py-6 sm:grid-cols-2 sm:gap-8">
+                    {/* Row 3: Location / image (stored as book-visit upload_cv_file_id) */}
+                    <div className="grid grid-cols-1 gap-6 border-t n-bold lh-24 fs-14 border-[#8F8183]/30 py-6 sm:grid-cols-2 sm:gap-8 sm:items-start">
                       <SelectField
                         label="Location"
                         name="location"
@@ -851,14 +866,38 @@ function ProjectDetailPageContent() {
                         onChange={handleChange}
                         options={["Mumbai", "Pune", "Delhi", "Bangalore"]}
                       />
-                      <SelectField
-                        label="Upload CV"
-                        name="cv"
-                        placeholder="Choose File"
-                        value={form.cv}
-                        onChange={handleChange}
-                        options={[]}
-                        wrapperClassName="border-[#000000]"
+                      <FileUploadField
+                        key={bookVisitCvKey}
+                        layout="inline"
+                        id={bookVisitCvId}
+                        label="Upload image"
+                        labelClassName="!mb-1 text-left n-reg text-sm text-brand-text-primary"
+                        accept="image/*"
+                        onChange={handleCvUpload}
+                        disabled={isUploadingCv || isSubmitting}
+                        valueDisplay={
+                          isUploadingCv
+                            ? "Uploading…"
+                            : cvFileName
+                              ? cvFileName
+                              : undefined
+                        }
+                        inlinePlaceholder="Upload"
+                        leadingContent={
+                          <IconUpload className="h-4 w-4 shrink-0 text-[#f07c61]" />
+                        }
+                        className="min-w-0 w-full"
+                        dropzoneClassName={[
+                          "!h-auto !min-h-0 !w-full !rounded-none !border-0 !border-b !border-dashed !border-[#8F8183] !bg-transparent !px-0 !py-1 !items-center",
+                          "!text-left !justify-start",
+                        ].join(" ")}
+                        inlineContentClassName="!w-full min-w-0 !justify-start !gap-2"
+                        inlineValueClassName={cn(
+                          "!max-w-full min-w-0 flex-1 !truncate !text-left n-reg !text-sm !font-normal",
+                          cvFileName || isUploadingCv
+                            ? "!text-[#202020]"
+                            : "!text-[#202020]/40",
+                        )}
                       />
                     </div>
 
