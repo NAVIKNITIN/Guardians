@@ -2,7 +2,6 @@
 
 import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import Image from "next/image";
-import Link from "next/link";
 import { useState } from "react";
 
 // ─── Public types ─────────────────────────────────────────────────────────────
@@ -17,6 +16,13 @@ export type ServiceTile = {
 export type ServiceAccordionItem = {
   title: string;
   description?: string;
+};
+
+export type ServicePanel = {
+  title: string;
+  items: ServiceAccordionItem[];
+  imageSrc: string;
+  knowMoreHref: string;
 };
 
 // ─── Default content (shared by Buyer's and Developer's service pages) ───────
@@ -82,11 +88,21 @@ function ChevronRight() {
 
 // ─── Service tile (one of the 4 image cards in the left column) ──────────────
 
-function ServiceTileView({ tile }: { tile: ServiceTile }) {
+function ServiceTileView({
+  tile,
+  isActive,
+  onClick,
+}: {
+  tile: ServiceTile;
+  isActive: boolean;
+  onClick: () => void;
+}) {
   return (
-    <Link
-      href={tile.href}
-      className="group relative block h-[140px] min-h-[140px] flex-1 overflow-hidden bg-[#D5D3D4] lg:h-auto lg:min-h-0"
+    <button
+      type="button"
+      onClick={onClick}
+      className="group relative block h-[140px] min-h-[140px] flex-1 cursor-pointer overflow-hidden bg-[#D5D3D4] lg:h-auto lg:min-h-0"
+      aria-pressed={isActive}
     >
       <Image
         src={tile.imageSrc}
@@ -98,8 +114,9 @@ function ServiceTileView({ tile }: { tile: ServiceTile }) {
       <div
         className="absolute inset-0"
         style={{
-          background:
-            "linear-gradient(180deg, rgba(32,34,37,0.00) 0%, #202225 100%)",
+          background: isActive
+            ? "linear-gradient(180deg, rgba(32,34,37,0.00) 0%, rgba(32,34,37,0.88) 100%)"
+            : "linear-gradient(180deg, rgba(32,34,37,0.00) 0%, #202225 100%)",
         }}
       />
       <div className="absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center gap-2 px-4 py-3 sm:gap-3 sm:px-8 sm:py-[17px] lg:gap-5 lg:px-12">
@@ -108,7 +125,7 @@ function ServiceTileView({ tile }: { tile: ServiceTile }) {
         </span>
         <ChevronRight />
       </div>
-    </Link>
+    </button>
   );
 }
 
@@ -135,7 +152,7 @@ function CommercialPanel({
         src={imageSrc}
         alt=""
         fill
-        className="object-cover object-center"
+        className=""
         sizes="(max-width: 1024px) 100vw, 57vw"
       />
       <div
@@ -204,6 +221,8 @@ type ServicesGridProps = {
   accordionImageSrc?: string;
   /** `href` for the "Know More" button. */
   knowMoreHref?: string;
+  /** Optional per-tile panel content; if omitted, uses defaults based on tiles. */
+  panelsByTile?: ServicePanel[];
 };
 
 /**
@@ -222,21 +241,60 @@ export function ServicesGrid({
   accordionItems = DEFAULT_ACCORDION_ITEMS,
   accordionImageSrc = "/images/Developer/services/commercial.svg",
   knowMoreHref = "#",
+  panelsByTile,
 }: ServicesGridProps) {
+  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+
+  const resolvedPanels: ServicePanel[] =
+    panelsByTile && panelsByTile.length > 0
+      ? panelsByTile
+      : tiles.map((tile) => ({
+        title: tile.label,
+        items: [
+          {
+            title: `${tile.label} Overview`,
+            description: `Comprehensive advisory support for ${tile.label.toLowerCase()}, tailored to your goals and transaction stage.`,
+          },
+          ...accordionItems.slice(1),
+        ],
+        imageSrc: tile.imageSrc || accordionImageSrc,
+        knowMoreHref: tile.href && tile.href !== "#" ? tile.href : knowMoreHref,
+      }));
+
+  const activePanel =
+    activeIndex === null
+      ? {
+        title: accordionTitle,
+        items: accordionItems,
+        imageSrc: accordionImageSrc,
+        knowMoreHref,
+      }
+      : resolvedPanels[activeIndex] ?? {
+        title: accordionTitle,
+        items: accordionItems,
+        imageSrc: accordionImageSrc,
+        knowMoreHref,
+      };
+
   return (
     <section className="mb-2 bg-white my-10 md:my-16 lg:my-20 xl:my-25" aria-label={ariaLabel}>
       <div className="flex flex-col lg:grid lg:grid-cols-[43%_1fr] lg:gap-5">
         <div className="flex min-h-0 flex-col gap-[30px] bg-white py-[30px] lg:grid lg:grid-rows-4 lg:gap-6 lg:py-0">
-          {tiles.map((tile) => (
-            <ServiceTileView key={tile.label} tile={tile} />
+          {tiles.map((tile, idx) => (
+            <ServiceTileView
+              key={tile.label}
+              tile={tile}
+              isActive={idx === activeIndex}
+              onClick={() => setActiveIndex(idx)}
+            />
           ))}
         </div>
 
         <CommercialPanel
-          title={accordionTitle}
-          items={accordionItems}
-          imageSrc={accordionImageSrc}
-          knowMoreHref={knowMoreHref}
+          title={activePanel.title}
+          items={activePanel.items}
+          imageSrc={activePanel.imageSrc}
+          knowMoreHref={activePanel.knowMoreHref}
         />
       </div>
     </section>

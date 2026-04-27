@@ -1,4 +1,5 @@
 import { LOCAL_IMAGES, localImageByIndex } from "@/lib/local-images";
+import { getAudienceHero } from "@/utils/marketing-hero";
 import type {
   AwardSlide,
   DeveloperStat,
@@ -7,7 +8,6 @@ import type {
 } from "./audience-marketing-types";
 import {
   CONTACT,
-  DEFAULT_HERO_CTA,
   DEFAULT_KNOW_MORE,
   DEFAULT_READ_MORE,
   DEFAULT_VIEW_MORE,
@@ -45,6 +45,24 @@ export const DEV_LANDMARK_ONGOING: LandmarkProject[] = [
     bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
     imageSrc: "/images/image 44.svg",
   },
+  {
+    id: "4",
+    brand: "MARATHON",
+    projectLine: "MARATHON GROUP'S",
+    projectName: "MONTE SOUTH",
+    location: "Byculla, Mumbai, Maharashtra ",
+    bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
+    imageSrc: "/images/image 44.svg",
+  },
+  // {
+  //   id: "5",
+  //   brand: "MARATHON",
+  //   projectLine: "MARATHON GROUP'S",
+  //   projectName: "MONTE SOUTH",
+  //   location: "Byculla, Mumbai, Maharashtra ",
+  //   bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
+  //   imageSrc: "/images/image 44.svg",
+  // },
 ];
 
 export const DEV_LANDMARK_ONGOING_BUYER_MARKETING: LandmarkProject[] = [
@@ -75,6 +93,24 @@ export const DEV_LANDMARK_ONGOING_BUYER_MARKETING: LandmarkProject[] = [
     bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
     imageSrc: "/images/image 67.svg",
   },
+  {
+    id: "4",
+    brand: "MARATHON",
+    projectLine: "MARATHON GROUP'S",
+    projectName: "MONTE SOUTH",
+    location: "Byculla, Mumbai, Maharashtra ",
+    bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
+    imageSrc: "/images/image 67.svg",
+  },
+  // {
+  //   id: "5",
+  //   brand: "MARATHON",
+  //   projectLine: "MARATHON GROUP'S",
+  //   projectName: "MONTE SOUTH",
+  //   location: "Byculla, Mumbai, Maharashtra ",
+  //   bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
+  //   imageSrc: "/images/image 67.svg",
+  // },
 ];
 
 export const DEV_LANDMARK_COMPLETED: LandmarkProject[] = DEV_LANDMARK_ONGOING.map(
@@ -93,14 +129,8 @@ export const DEV_LANDMARK_COMPLETED_BUYER_MARKETING: LandmarkProject[] = DEV_LAN
 );
 
 const AWARD_ROTATION_IMAGES = [
-  "/images/Frame 78.svg",
-  "/images/developer-hero.svg",
-  "/images/Home/Banner1.svg",
-  "/images/Developer/ourservices/1.svg",
-  "/images/Developer/ourservices/2.svg",
-  "/images/Developer/Group%204.svg",
-  "/images/image_1.svg",
-  "/images/Buyer/BuyerVector.svg",
+  "/images/award.svg",
+  "/images/tgrea2.svg",
 ] as const;
 
 const DEV_AWARD_SLIDES: AwardSlide[] = Array.from({ length: 25 }, (_, i) => ({
@@ -112,13 +142,7 @@ const DEV_AWARD_SLIDES: AwardSlide[] = Array.from({ length: 25 }, (_, i) => ({
 }));
 
 export const DEVELOPER_MARKETING_PAGE = {
-  hero: {
-    isBuyer: false,
-    backgroundImageSrc: "/images/Mask group.svg",
-    body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    ...DEFAULT_HERO_CTA,
-    ariaHeadingId: "developer-hero-heading",
-  },
+  hero: getAudienceHero("developer"),
   services: {
     sectionTitle: "Our services",
     description:

@@ -49,7 +49,7 @@ function BranchCard({ branch }: { branch: Branch }) {
           target="_blank"
           rel="noopener noreferrer"
           className={cn(
-            "btn-primary-gradient inline-flex w-full max-w-sm shrink-0 items-center justify-center gap-3 self-center px-6 py-3 sm:w-auto sm:max-w-none sm:gap-4 sm:px-10 sm:py-3.5",
+            "btn-grad btn-primary-gradient inline-flex w-full max-w-sm shrink-0 items-center justify-center gap-3 self-center px-6 py-3 sm:w-auto sm:max-w-none sm:gap-4 sm:px-10 sm:py-3.5",
             "n-bold fs-14 lh-18 uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 sm:fs-15 sm:lh-21",
           )}
         >
@@ -74,7 +74,7 @@ export function BranchesSection() {
     <section className="bg-white pb-16 pt-4 sm:pb-20 lg:pb-24 lg:pt-[40px]" aria-label="Office branches">
       <Container>
         {/* Figma: “BRANCHES” — serif caps, same band as other qs-reg section titles */}
-        <h2 className="qs-reg mb-10 text-center text-[clamp(2rem,4vw,3.125rem)] uppercase leading-[1.05] tracking-[0.05em] text-[#202225] sm:mb-12 lg:mb-16">
+        <h2 className="qs-reg mb-10 text-center text-[clamp(2rem,4vw,3.125rem)] uppercase leading-[1.05] tracking-[0.05em] text-[#202225] sm:mb-5 lg:mb-8">
           Branches
         </h2>
 

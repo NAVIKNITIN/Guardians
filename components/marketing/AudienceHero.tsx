@@ -1,73 +1,36 @@
-import { Container } from "@/components/common/Container";
-import { MarketingEnquireLink } from "@/components/ui/MarketingEnquireLink";
 import type { MarketingHeroContent } from "@/data/audience-marketing";
-import { cn } from "@/utils/cn";
-import Image from "next/image";
+import { MarketingAudienceHero } from "@/components/marketing/MarketingPageHero";
 
-function resolveHeadline(content: MarketingHeroContent) {
-  const defaults = content.isBuyer
-    ? { lead: "Looking To", accent: "Buy?" }
-    : { lead: "Looking to", accent: "sell?" };
-  return {
-    lead: content.headingLead ?? defaults.lead,
-    accent: content.headingAccent ?? defaults.accent,
-  };
-}
-
-export function AudienceHero({ content }: { content: MarketingHeroContent }) {
-  const { lead, accent } = resolveHeadline(content);
+export function AudienceHero({
+  content,
+  heightPx,
+  shiftUnderHeader,
+  shiftTillSearch,
+  shiftExtraContentTopPx,
+}: {
+  content: MarketingHeroContent;
+  shiftUnderHeader?: boolean;
+  shiftTillSearch?: boolean;
+  heightPx?: number;
+  /**
+   * Extra top padding (px) when shift flags apply. If set, overrides
+   * `content.shiftExtraContentTopPx` from page data; otherwise the hero content value
+   * (or the default in `MarketingAudienceHero`) is used.
+   */
+  shiftExtraContentTopPx?: number;
+}) {
+  const resolvedExtraTop =
+    shiftExtraContentTopPx !== undefined
+      ? shiftExtraContentTopPx
+      : content.shiftExtraContentTopPx;
 
   return (
-    <section
-      className="relative isolate w-full min-w-0  overflow-hidden bg-neutral-300 pt-10 pb-28 h-[850px] sm:pt-14 sm:pb-32 lg:pt-30 lg:pb-40 2xl:pt-36 2xl:pb-44"
-      aria-labelledby={content.ariaHeadingId}
-    >
-      <div className="pointer-events-none absolute inset-0 z-0">
-        <Image
-          src={content.backgroundImageSrc}
-          alt=""
-          fill
-          className="object-cover object-center"
-          sizes="100vw"
-          priority
-        />
-        <div
-          className="absolute inset-0 bg-gradient-to-b from-black/[0.14] via-transparent to-black/[0.12]"
-          aria-hidden
-        />
-      </div>
-
-      <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-36 bg-gradient-to-t from-white/100 via-white/45 to-transparent sm:h-44 md:h-52"
-        aria-hidden
-      />
-
-      <Container className="relative z-10">
-        <div className="mx-auto flex min-w-0 max-w-[820px] flex-col items-center px-2 text-center sm:px-4">
-          <h1
-            id={content.ariaHeadingId}
-            className="break-words qs-reg text-[clamp(2rem,6vw,4.375rem)] uppercase leading-[1.05] ls-5"
-          >
-            <span className="block">
-              <span className="text-[#202225]">{lead}</span>{" "}
-              <span className="text-[#8F8183]">{accent}</span>
-            </span>
-          </h1>
-          <p
-            className="text-black fs-18 n-book lh-22 w-full max-w-[600px] mx-auto flex text-left md:mt-5 lg:mt-7"
-          >
-            {content.body}
-          </p>
-          <div className="mt-10 flex justify-center sm:mt-10">
-            <MarketingEnquireLink
-              href={content.enquireHref}
-              className="fs-20 n-bold ls-12 w-[306.01px] h-[55px] px-0"
-            >
-              {content.enquireLabel}
-            </MarketingEnquireLink>
-          </div>
-        </div>
-      </Container>
-    </section>
+    <MarketingAudienceHero
+      content={content}
+      heightPx={heightPx}
+      shiftUnderHeader={shiftUnderHeader}
+      shiftTillSearch={shiftTillSearch}
+      shiftExtraContentTopPx={resolvedExtraTop}
+    />
   );
 }

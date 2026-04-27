@@ -1,39 +1,17 @@
 "use client";
 
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import type {
   LandmarkProject,
   LandmarkSectionContent,
 } from "@/data/audience-marketing";
-import { CarouselControls } from "@/components/ui/CarouselControls";
 import { MarketingEnquireLink } from "@/components/ui/MarketingEnquireLink";
-import { PeekStrip } from "@/components/ui/PeekStrip";
-import { SectionSurface } from "@/components/ui/SectionSurface";
 import { UnderlineTabs } from "@/components/ui/UnderlineTabs";
 import { cn } from "@/utils/cn";
-import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { useCallback, useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { Container } from "../common/Container";
-
-/** Slower horizontal slide: forward = new image moves in from the right, old exits left. */
-const activeCardSlide = {
-  duration: 0.78,
-  ease: [0.45, 0.05, 0.25, 1] as const,
-};
-
-const activeSlideVariants = {
-  enter: (dir: number) => ({
-    x: dir >= 0 ? "100%" : "-100%",
-    opacity: 1,
-  }),
-  center: { x: 0, opacity: 1 },
-  exit: (dir: number) => ({
-    x: dir >= 0 ? "-100%" : "100%",
-    opacity: 1,
-  }),
-};
-
-const AUTO_ADVANCE_MS = 3000;
 
 type Tab = "ongoing" | "completed";
 
@@ -44,8 +22,8 @@ function tabOptions(content: LandmarkSectionContent) {
   ];
 }
 
-/** ~1440×650 hero proportion */
-const CAROUSEL_ASPECT = "aspect-[144/65]";
+/** Reduced height variant (~100px shorter on desktop widths) */
+const CAROUSEL_ASPECT = "aspect-[144/50]";
 
 export function LandmarkProjectsSection({
   content,
@@ -55,11 +33,49 @@ export function LandmarkProjectsSection({
   isBuyer: boolean;
 }) {
   const [tab, setTab] = useState<Tab>("ongoing");
-  const [index, setIndex] = useState(0);
-  /** Bumped on manual navigation so the 3s autoplay timer restarts. */
-  const [autoplayEpoch, setAutoplayEpoch] = useState(0);
-  /** `1` = next (enter from right), `-1` = prev (enter from left). */
-  const [slideDir, setSlideDir] = useState<1 | -1>(1);
+  const [previousActiveIndex, setPreviousActiveIndex] = useState(1);
+  const [activeIndex, setActiveIndex] = useState(1);
+  const [hiddenWrapIndex, setHiddenWrapIndex] = useState<number | null>(null);
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
+  const isHovered = useRef(false);
+
+  useEffect(() => {
+    startAutoRotate();
+
+    return () => stopAutoRotate();
+  }, []);
+
+  const startAutoRotate = () => {
+    stopAutoRotate(); // prevent multiple intervals
+
+    intervalRef.current = setInterval(() => {
+      if (!isHovered.current) {
+        setActiveIndex((prev) => {
+          const count = projects.length;
+          const next = (prev + 1) % count;
+
+          setPreviousActiveIndex(prev);
+
+          // this is the small card that moves from left to last
+          const wrapCardIndex = (prev - 1 + count) % count;
+          setHiddenWrapIndex(wrapCardIndex);
+
+          window.setTimeout(() => {
+            setHiddenWrapIndex(null);
+          }, 650);
+
+          return next;
+        });
+      }
+    }, 4000); // change speed here (3s)
+  };
+
+  const stopAutoRotate = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+    }
+  };
 
   const options = useMemo(() => tabOptions(content), [content]);
 
@@ -67,255 +83,182 @@ export function LandmarkProjectsSection({
     () => (tab === "ongoing" ? content.ongoing : content.completed),
     [tab, content],
   );
-
-  const n = projects.length;
-  const prev = (index - 1 + n) % n;
-  const next = (index + 1) % n;
-  const ahead = (index + 2) % n;
-  const active = projects[index]!;
-
-  const restartAutoplay = useCallback(() => {
-    setAutoplayEpoch((e) => e + 1);
-  }, []);
-
-  useEffect(() => {
-    if (n <= 1) return;
-    const id = setInterval(() => {
-      if (document.hidden) return;
-      setSlideDir(1);
-      setIndex((i) => (i + 1) % n);
-    }, AUTO_ADVANCE_MS);
-    return () => clearInterval(id);
-  }, [n, tab, autoplayEpoch]);
   return (
-    <Container gutter="left" aria-labelledby="landmark-heading" className="my-0">
-      <div className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between sm:gap-6">
-        <h2
-          id="landmark-heading"
-          className="min-w-0 shrink qs-reg text-[clamp(1.5rem,4.5vw,3.125rem)] uppercase leading-[1.15] ls-5 text-brand-text-primary sm:shrink-0 sm:whitespace-nowrap"
-        >
-          {content.sectionTitle}
-        </h2>
-        <UnderlineTabs
-          value={tab}
-          equalTabWidth
-          onChange={(v) => {
-            setTab(v);
-            setIndex(0);
-            setSlideDir(1);
-            restartAutoplay();
-          }}
-          options={options}
-          className="shrink-0 sm:pb-0.5 text-[#8F8183]"
-        />
-      </div>
+    <Container
+      gutter="left"
+      aria-labelledby="landmark-heading"
+      className="my-0"
+    >
+      <style>{`
+				.landmark-moving-carousel { position: relative; width: 100%; height: 100%; overflow: hidden; }
+				.landmark-moving-panel { position: absolute; top: 0; height: 100%; overflow: hidden; border: 1px solid rgb(255 255 255 / 0.75);  transition: left 650ms cubic-bezier(0.25, 0.46, 0.45, 0.94), width 650ms cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 650ms cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 650ms cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 650ms cubic-bezier(0.25, 0.46, 0.45, 0.94); }
+
+				.landmark-moving-panel.is-jump-reset { transition: none; }
+				.landmark-moving-panel.is-active {
+  z-index: 5;
+  filter: none;
+  opacity: 1;
+  transform: scale(1.02);
+  
+  transition-duration: 750ms;
+}
+				.landmark-moving-panel.is-collapsed {
+  z-index: 3;
+  filter: grayscale(1);
+  opacity: 0.94;
+  transform: scale(0.98);
+  transition-duration: 550ms;
+}
+			`}</style>
+      <StaggerContainer className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between sm:gap-6" staggerChildren={0.12}>
+        <ScrollReveal direction="left" distance={34}>
+          <h2
+            id="landmark-heading"
+            className="min-w-0 shrink qs-reg text-[clamp(1.5rem,4.5vw,3.125rem)] uppercase leading-[1.15] ls-5 text-brand-text-primary sm:shrink-0 sm:whitespace-nowrap"
+          >
+            {content.sectionTitle}
+          </h2>
+        </ScrollReveal>
+        <ScrollReveal direction="right" delay={0.08} distance={28}>
+          <UnderlineTabs
+            value={tab}
+            equalTabWidth
+            onChange={(v) => {
+              setTab(v);
+              setPreviousActiveIndex(1);
+              setActiveIndex(1);
+            }}
+            options={options}
+            className="shrink-0 sm:pb-0.5 text-[#8F8183]"
+          />
+        </ScrollReveal>
+      </StaggerContainer>
 
       <div
-        className={cn(
-          "relative mt-4 md:mt-6",
-          /* Full-bleed: escape section gutter so the carousel touches viewport edges */
-          "left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-x-clip",
-        )}
+        className="w-full"
+        onMouseEnter={() => {
+          isHovered.current = true;
+        }}
+        onMouseLeave={() => {
+          isHovered.current = false;
+        }}
       >
-        {/*
-          Desktop: 13% | 1fr | 13% | 8% — side peeks + `PeekStrip` tail on the far right (+3% vs 5%).
-        */}
-        <div className="grid w-full grid-cols-1 md:grid-cols-[minmax(0,12.5%)_minmax(0,1fr)_minmax(0,12.5%)_minmax(0,8%)] md:items-stretch md:gap-4">
-          <PeekHalfSlide
-            project={projects[prev]!}
-            onClick={() => {
-              setSlideDir(-1);
-              setIndex(prev);
-              restartAutoplay();
-            }}
-            side="left"
-            className="hidden min-h-0 md:block"
-          />
-          <div
-            className={cn(
-              "relative isolate min-w-0 w-full overflow-hidden bg-neutral-200",
-              CAROUSEL_ASPECT,
-            )}
-          >
-            <AnimatePresence initial={false} mode="sync" custom={slideDir}>
-              <motion.div
-                key={`${tab}-${active.id}`}
-                className="absolute inset-0"
-                custom={slideDir}
-                variants={activeSlideVariants}
-                initial="enter"
-                animate="center"
-                exit="exit"
-                transition={activeCardSlide}
-              >
-                <ActiveProjectCard
-                  project={active}
-                  aspectClassName="h-full min-h-0 w-full"
-                />
-              </motion.div>
-            </AnimatePresence>
-          </div>
-          <PeekHalfSlide
-            project={projects[next]!}
-            onClick={() => {
-              setSlideDir(1);
-              setIndex(next);
-              restartAutoplay();
-            }}
-            side="right"
-            className="hidden min-h-0 md:block"
-          />
-          <PeekTailStrip
-            project={projects[ahead]!}
-            onClick={() => {
-              setSlideDir(1);
-              setIndex(ahead);
-              restartAutoplay();
-            }}
-            className="hidden min-h-0 md:block"
-          />
-        </div>
-        <div className="mt-5 flex justify-center md:hidden">
-          <CarouselControls
-            showCounter={false}
-            currentIndex={index}
-            total={n}
-            onPrev={() => {
-              setSlideDir(-1);
-              setIndex((i) => (i - 1 + n) % n);
-              restartAutoplay();
-            }}
-            onNext={() => {
-              setSlideDir(1);
-              setIndex((i) => (i + 1) % n);
-              restartAutoplay();
-            }}
-            prevLabel="Previous project"
-            nextLabel="Next project"
-          />
-        </div>
-      </div>
-
-      <div className="mt-12 flex justify-center ">
-        <MarketingEnquireLink
-          className="w-[250px] h-[52px]"
-          href={content.ctaHref}
+        <div
+          className={cn(
+            "relative mt-4 md:mt-6",
+            /* Full-bleed: escape section gutter so the cards touch viewport edges. */
+            "left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-x-clip",
+          )}
         >
-          {content.ctaLabel}
-        </MarketingEnquireLink>
+          <div className={cn("landmark-moving-carousel px-0", CAROUSEL_ASPECT)}>
+            {projects.map((project, i) => {
+              const gap = 1.5;
+              const active = i === activeIndex;
+              const activeWidth = 64;
+              const collapsedWidth =
+                (100 - activeWidth - gap * (projects.length - 1)) /
+                Math.max(projects.length - 1, 1);
+
+              // Keep the expanded card always in the 2nd visual position.
+              // The clicked card moves into that slot, while every other card stays collapsed.
+              const count = projects.length;
+              const getVisualSlot = (
+                itemIndex: number,
+                currentActiveIndex: number,
+              ) => {
+                const relativeSlot =
+                  (itemIndex - currentActiveIndex + count) % count;
+                return relativeSlot === 0
+                  ? 1
+                  : relativeSlot === count - 1
+                    ? 0
+                    : relativeSlot + 1;
+              };
+
+              const visualSlot = getVisualSlot(i, activeIndex);
+              const previousVisualSlot = getVisualSlot(i, previousActiveIndex);
+              const width = active ? activeWidth : collapsedWidth;
+              const left =
+                visualSlot === 0
+                  ? 0
+                  : visualSlot === 1
+                    ? collapsedWidth + gap
+                    : collapsedWidth +
+                    activeWidth +
+                    gap * 2 +
+                    (visualSlot - 2) * (collapsedWidth + gap);
+
+              // If a card wraps from the far left to far right, place it instantly.
+              // This keeps the rotation continuous instead of showing the card sliding backwards.
+              const jumpReset =
+                (previousVisualSlot === 0 && visualSlot === count - 1) ||
+                (previousVisualSlot === count - 1 && visualSlot === 0);
+
+              return (
+                <button
+                  key={project.id}
+                  type="button"
+                  onClick={() => {
+                    setPreviousActiveIndex(activeIndex);
+                    setActiveIndex(i);
+                  }}
+                  aria-label={`Show project ${project.projectName}`}
+                  style={{
+                    left: `${left}%`,
+                    width: `${width}%`,
+                    opacity: hiddenWrapIndex === i ? 0 : undefined,
+                  }}
+                  className={cn(
+                    "landmark-moving-panel cursor-pointer",
+                    active ? "is-active" : "is-collapsed",
+                    jumpReset && "is-jump-reset",
+                  )}
+                >
+                  {/* <span className="absolute left-2 top-2 z-50 rounded bg-black px-2 py-1 text-xs font-bold text-white">
+                    Card {i + 1}
+                  </span> */}
+                  <ProjectPanelVisual
+                    project={project}
+                    active={active}
+                    panelIndex={i}
+                    totalPanels={projects.length}
+                  />
+                </button>
+              );
+            })}
+          </div>
+        </div>
+
+        <ScrollReveal direction="up" delay={0.1} className="mt-12 flex justify-center ">
+          <MarketingEnquireLink
+            className="w-[250px] h-[52px]"
+            href={content.ctaHref}
+          >
+            {content.ctaLabel}
+          </MarketingEnquireLink>
+        </ScrollReveal>
       </div>
     </Container>
   );
 }
 
-/** Narrow 8% column using `PeekStrip` (next-next slide teaser). */
-function PeekTailStrip({
+function ProjectPanelVisual({
   project,
-  onClick,
-  className,
+  active,
+  panelIndex,
+  totalPanels,
 }: {
   project: LandmarkProject;
-  onClick: () => void;
-  className?: string;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label={`Show project ${project.projectName}`}
-      className={cn(
-        "relative flex h-full min-h-0 w-full min-w-0 overflow-hidden  border border-black/[0.06] bg-neutral-200 p-0 shadow-sm",
-        className,
-      )}
-    >
-      <PeekStrip side="left" peekPercent={100} fillParent className="h-full min-h-0">
-        <AnimatePresence initial={false} mode="sync">
-          <motion.div
-            key={project.id}
-            className="relative h-full min-h-0 w-full"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.32, ease: [0.25, 0.1, 0.2, 1] }}
-          >
-            <Image
-              src={project.imageSrc}
-              alt=""
-              fill
-              className="object-cover object-center grayscale transition-opacity duration-300 hover:opacity-100 md:opacity-90"
-              sizes="180px"
-            />
-          </motion.div>
-        </AnimatePresence>
-      </PeekStrip>
-    </button>
-  );
-}
-
-function PeekHalfSlide({
-  project,
-  onClick,
-  side,
-  className,
-}: {
-  project: LandmarkProject;
-  onClick: () => void;
-  side: "left" | "right";
-  className?: string;
-}) {
-  const align = side === "left" ? "justify-end" : "justify-start";
-
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      aria-label={`Show project ${project.projectName}`}
-      className={cn(
-        "relative flex h-full min-h-0 w-full min-w-0 overflow-hidden  border border-black/[0.06] bg-neutral-200 shadow-sm",
-        className,
-      )}
-    >
-      <div className={cn("flex h-full min-h-0 w-full min-w-0 overflow-hidden", align)}>
-        <AnimatePresence initial={false} mode="sync">
-          <motion.div
-            key={project.id}
-            className="relative h-full min-h-0 w-[200%] shrink-0"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.32, ease: [0.25, 0.1, 0.2, 1] }}
-          >
-            <Image
-              src={project.imageSrc}
-              alt=""
-              fill
-              className="object-cover object-center grayscale transition-opacity duration-300 hover:opacity-100 md:opacity-90"
-              sizes="(max-width: 1280px) 25vw, 320px"
-            />
-          </motion.div>
-        </AnimatePresence>
-      </div>
-    </button>
-  );
-}
-
-function ActiveProjectCard({
-  project,
-  aspectClassName,
-}: {
-  project: LandmarkProject;
-  aspectClassName: string;
+  active: boolean;
+  panelIndex: number;
+  totalPanels: number;
 }) {
   const imageSizes = "(max-width: 768px) 100vw, 896px";
+  const positionLabel = `${String(panelIndex + 1).padStart(2, "0")}/${String(totalPanels).padStart(2, "0")}`;
 
   return (
-    <div
-      className={cn(
-        "relative w-full overflow-hidden  border border-black/[0.06] bg-neutral-200 shadow-[0_12px_40px_-12px_rgba(0,0,0,0.18)]",
-        aspectClassName,
-      )}
-    >
-      {/* Same photo full-frame blurred; ~100px left/right stay blurred because sharp layer is inset below */}
+    <div className="relative h-full w-full overflow-hidden bg-neutral-200">
+      {/* Keep the existing active-card blur treatment. */}
       <div className="absolute inset-0" aria-hidden>
         <Image
           src={project.imageSrc}
@@ -323,46 +266,63 @@ function ActiveProjectCard({
           fill
           className="object-cover object-center blur-4xl scale-1.1"
           sizes={imageSizes}
-          priority
+          priority={active}
         />
       </div>
-      {/* Same photo sharp, clipped to center strip (wider side blur margins on md+) */}
       <div
-        className="absolute inset-0 z-[1] max-md:[clip-path:inset(0)] md:[clip-path:inset(0_200px_0_200px)]"
+        className={cn(
+          "absolute inset-0 z-1 transition-all duration-500",
+          active
+            ? "max-md:[clip-path:inset(0)] md:[clip-path:inset(0_200px_0_200px)]"
+            : "[clip-path:inset(0)]",
+        )}
         aria-hidden
       >
         <Image
           src={project.imageSrc}
           alt=""
           fill
-          className="object-cover object-center"
+          className={cn(
+            "object-cover object-center transition-[filter,opacity] duration-500",
+            active ? "grayscale-0 opacity-100" : "grayscale opacity-90",
+          )}
           sizes={imageSizes}
-          priority
+          priority={active}
         />
       </div>
-      <div
-        className="pointer-events-none absolute inset-0 z-[2] bg-gradient-to-t from-black/60 via-black/15 to-black/25"
-        aria-hidden
-      />
-      <div className="absolute left-5 right-8 top-5 z-[3] flex flex-row items-center gap-3 fs-18 sm:left-7 sm:right-10 sm:top-7 sm:gap-4">
+      <div className="absolute inset-0 z-2 bg-linear-to-t from-black/60 via-black/20 to-transparent" />
 
-        <Image
-          src="/images/1234.png"
-          alt=""
-          width={20}
-          height={20}
-          className="object-cover object-center"
-          sizes="100vw"
-        />
-        <span className="min-w-0 qs-bold uppercase leading-none tracking-[0.06em] text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.45)]">
+      <div className="absolute left-5 right-8 top-5 z-3 flex flex-row items-center gap-3 fs-18 sm:left-7 sm:right-10 sm:top-7 sm:gap-4">
+        {/* <span
+          aria-hidden
+          className={cn(
+            "n-bold text-white/85 transition-opacity duration-300",
+            active ? "opacity-100" : "opacity-0",
+          )}
+        >
+          {positionLabel}
+        </span> */}
+
+        <span
+          className={cn(
+            "min-w-0 qs-bold uppercase leading-none tracking-[0.06em] text-white drop-shadow-[0_1px_8px_rgba(0,0,0,0.45)] transition-opacity duration-300",
+            active ? "opacity-100" : "opacity-0",
+          )}
+        >
           {project.brand}
         </span>
       </div>
-      <div className="absolute inset-x-0 bottom-0 z-[3] px-4 pb-4 text-center text-white sm:px-5 sm:pb-5 md:pb-6">
-        <p className="fs-18 fw-100 text-[#E2E2E2]">
-          {project.projectLine}
-        </p>
-        <p className=" n-bold fs-48 lh-50 ls-6 text-white drop-shadow-sm mb-10 ">
+
+      <div
+        className={cn(
+          "absolute inset-x-0 bottom-0 z-3 px-4 pb-4 text-center text-white transition-all duration-500 sm:px-5 sm:pb-5 md:pb-6",
+          active
+            ? "translate-y-0 opacity-100"
+            : "pointer-events-none translate-y-4 opacity-0",
+        )}
+      >
+        <p className="fs-18 fw-100 text-[#E2E2E2]">{project.projectLine}</p>
+        <p className="mb-10 n-bold fs-48 lh-50 ls-6 text-white drop-shadow-sm">
           {project.projectName}
         </p>
         <p className="mx-auto mt-2 flex max-w-2xl flex-wrap items-center justify-center gap-x-2 gap-y-1 fs-16 n-bold sm:mt-2.5 sm:gap-x-3">
@@ -373,7 +333,9 @@ function ActiveProjectCard({
           >
             |
           </span>
-          <span className="min-w-0 text-pretty fs-16 n-bold">{project.bhkRange}</span>
+          <span className="min-w-0 text-pretty fs-16 n-bold">
+            {project.bhkRange}
+          </span>
         </p>
       </div>
     </div>

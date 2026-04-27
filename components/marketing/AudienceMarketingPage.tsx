@@ -18,13 +18,17 @@ export function AudienceMarketingPage({
   return (
     <div
       className={cn(
-        "mx-auto flex w-full min-w-0 max-w-[100vw] flex-col overflow-x-visible gap-10 md:gap-16 lg:gap-20 xl:gap-25 2xl:gap-25",
+        "mx-auto flex w-full min-w-0 max-w-[100vw] flex-col overflow-x-visible gap-10 md:gap-16 lg:gap-20 xl:gap-25 2xl:gap-25 mb-10 md:mb-20 lg:mb-20 2xl:mb-20",
         "[&>*]:min-w-0",
       )}
     >
       <AudienceHero
         key={content.hero.ariaHeadingId}
         content={content.hero}
+        heightPx={1122}
+        shiftUnderHeader={true}
+        shiftTillSearch={true}
+        shiftExtraContentTopPx={60}
       />
       {content.services ? <AudienceServicesBand content={content.services} isBuyer={content.hero.isBuyer} /> : null}
       {content.ourWork ? <OurWorkSection content={content.ourWork} isBuyer={content.hero.isBuyer} /> : null}

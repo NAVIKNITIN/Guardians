@@ -20,7 +20,7 @@ type PublicationCardProps = {
 export function PublicationCard({
   issue,
   onOpenFile,
-  buttonLabel = "Download File",
+  buttonLabel = "Download",
   className,
 }: PublicationCardProps) {
   return (

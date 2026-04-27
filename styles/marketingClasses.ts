@@ -1,17 +1,28 @@
+import {
+  arrowIconLinkIconClassName,
+  arrowIconLinkSurfaceClassName,
+  arrowIconTileClassName,
+} from "@/components/ui/ArrowIconLink";
 import { cn } from "@/utils/cn";
 
-/** Shared marketing page surfaces & display type. */
+/**
+ * Shared marketing layout + display classes.
+ *
+ * **Project theme UI (taupe `#8f8183` / `--color-brand-footer`):**
+ * - **Arrow link tiles** — `arrowLinkTile`, `arrowLinkSurface`, `arrowLinkIcon` (source: `components/ui/ArrowIconLink.tsx`).
+ * - **Scrollbars (page + overflow strips)** — `horizontalScroll` / `horizontalScrollTall` and root `<html class="scrollbar-brand">` in `app/layout.tsx` (see `app/globals.css`).
+ */
 export const marketingClasses = {
   sectionMuted:
-    " bg-brand-background-muted py-16 sm:py-20 lg:py-24 2xl:py-28",
+    " bg-brand-background-muted ",
   section:
-    " bg-brand-background py-16 sm:py-20 lg:py-24 2xl:py-28",
+    " bg-brand-background ",
   sectionCompact:
-    " bg-brand-background py-16 sm:py-20 2xl:py-24",
+    " bg-brand-background ",
   sectionPartners:
-    " bg-brand-background-subtle py-16 sm:py-20 2xl:py-24",
+    " bg-brand-background-subtle ",
   sectionStats:
-    " bg-brand-background-muted py-14 sm:py-16 2xl:py-20",
+    " bg-brand-background-muted ",
   headingDisplay:
     "md:mt-26 qs-reg text-[clamp(1.75rem,3.5vw,3.125rem)] fs-5xl uppercase leading-tight ls-5 text-brand-text-primary mt-5 text-[#202225]",
   headingDisplayMd:
@@ -26,6 +37,19 @@ export const marketingClasses = {
   /** Same scale as `pageGutter` but left edge only — pair with full-bleed content on the right. */
   pageGutterLeft:
     "pl-5 pr-0 xs:pl-6 xs:pr-0 sm:pl-8 sm:pr-0 md:pl-10 md:pr-0 tablet:pl-12 tablet:pr-0 lg:pl-16 lg:pr-0 xl:pl-24 xl:pr-0 2xl:pl-32 2xl:pr-0 xxl:pl-44 xxl:pr-0 xxxl:pl-52 xxxl:pr-0 3xl:pl-56 3xl:pr-0",
+  /** Full-bleed horizontal strips — taupe thumb via `.scrollbar-brand` in `globals.css` (see `/projects` filter styling). */
+  horizontalScroll:
+    "overflow-x-auto scroll-smooth overscroll-x-contain [-webkit-overflow-scrolling:touch] scrollbar-brand",
+  /** Same as `horizontalScroll` with a thicker horizontal scrollbar (e.g. Our services card strip). */
+  horizontalScrollTall:
+    "overflow-x-auto scroll-smooth overscroll-x-contain [-webkit-overflow-scrolling:touch] scrollbar-brand-tall",
+
+  /** Square taupe tile (base) — pair with `group-hover:brightness-90` inside a card `Link` if needed. */
+  arrowLinkTile: arrowIconTileClassName,
+  /** Tile + hover + focus ring — default for standalone `ArrowIconLink`. */
+  arrowLinkSurface: arrowIconLinkSurfaceClassName,
+  /** Arrow glyph size inside the tile. */
+  arrowLinkIcon: arrowIconLinkIconClassName,
 } as const;
 
 export function marketingSection(

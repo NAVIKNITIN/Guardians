@@ -26,15 +26,15 @@ export function RollingText({
   const enter = reduceMotion
     ? { opacity: 0 }
     : {
-        y: direction > 0 ? "75%" : "-75%",
-        opacity: 0.2,
-      };
+      y: direction > 0 ? "75%" : "-75%",
+      opacity: 0.2,
+    };
   const exit = reduceMotion
     ? { opacity: 0 }
     : {
-        y: direction > 0 ? "-75%" : "75%",
-        opacity: 0.2,
-      };
+      y: direction > 0 ? "-75%" : "75%",
+      opacity: 0.2,
+    };
   const center = { y: "0%", opacity: 1 };
 
   return (
@@ -52,8 +52,8 @@ export function RollingText({
           animate={center}
           exit={exit}
           transition={{
-            duration: reduceMotion ? 0.14 : 0.42,
-            ease: [0.22, 1, 0.36, 1],
+            duration: 0.2,
+            ease: [0.22, 1, 0.16, 1],
           }}
           className={cn(block && "w-full")}
         >

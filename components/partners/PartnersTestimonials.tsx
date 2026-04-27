@@ -1,11 +1,13 @@
 "use client";
 
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import { CarouselControls } from "@/components/ui/CarouselControls";
 import { useCycleIndex } from "@/hooks/useCycleIndex";
 import { marketingClasses } from "@/styles/marketingClasses";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
-import { useMemo } from "react";
+import { memo, useMemo } from "react";
 
 export type PartnersTestimonial = {
   id: string;
@@ -82,36 +84,41 @@ const TESTIMONIALS: PartnersTestimonial[] = [
 
 const DESKTOP_VISIBLE = 2;
 
-export const TestimonialCard = ({ item }: { item: PartnersTestimonial }) => {
+export const TestimonialCard = memo(function TestimonialCard({
+  item,
+}: {
+  item: PartnersTestimonial;
+}) {
   return (
     <article
       className={cn(
-        "flex w-full min-w-0 max-w-full flex-col overflow-hidden",
+        "group flex w-full min-w-0 max-w-full flex-col overflow-hidden will-change-transform",
+        "transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_18px_34px_rgba(22,20,19,0.18)]",
         /* Dot-grid + linear gradient matching the design */
         "bg-[radial-gradient(circle_at_center,#BCBDC0_1px,transparent_1px),linear-gradient(110deg,rgba(188,189,192,0.2)_0%,rgba(143,129,131,0.2)_100%)]",
-        "[background-size:14px_14px,100%_100%] [background-repeat:repeat,no-repeat]",
+        "bg-size-[14px_14px,100%_100%] [background-repeat:repeat,no-repeat]",
       )}
     >
       {/* Top content area */}
       <div className="flex flex-1 flex-col p-6 sm:p-10 lg:p-12">
         {/* Brand logo badge */}
-        <div className="flex w-fit max-w-full min-w-[170px] items-center justify-center rounded-full bg-white py-2 shadow-sm">
+        <div className="flex w-fit max-w-full min-w-[170px] items-center justify-center rounded-full bg-white py-2 shadow-sm transition-transform duration-300 group-hover:scale-[1.02]">
           <Image
             src={item.brandLogoSrc}
             alt={item.brandLogoAlt}
             width={200}
             height={60}
-            className="w-auto h-12 object-contain object-left sm:h-12 sm:max-h-11 "
+            className="h-12 w-auto object-contain object-left transition-transform duration-300 group-hover:scale-[1.03] sm:h-12 sm:max-h-11"
           />
         </div>
 
-        <span className="mt-8 block text-brand-text-primary sm:mt-15">
+        <span className="mt-8 block text-brand-text-primary transition-transform duration-300 group-hover:translate-y-[-2px] sm:mt-15">
           <Image
             src={"/images/invertedComma.svg"}
             alt=""
             width={27}
             height={27}
-            className="clip-path-circle object-cover"
+            className="clip-path-circle object-cover transition-transform duration-300 group-hover:scale-105"
           />
         </span>
 
@@ -123,12 +130,12 @@ export const TestimonialCard = ({ item }: { item: PartnersTestimonial }) => {
       {/* Dark footer bar — Figma: black bar, white type, left-aligned */}
       <div className="bg-black px-6 py-4 sm:px-10 sm:py-5 lg:px-12">
         <p className="n-bold text-sm text-white">{item.name}</p>
-        <p className="mt-0.5 n-reg text-xs text-white">{item.role}</p>
+        <p className="mt-0.5 n-reg text-sm text-white">{item.role}</p>
         <p className="mt-0.5 n-reg text-xs text-white/80">{item.location}</p>
       </div>
     </article>
   );
-}
+});
 
 export function PartnersTestimonials() {
   const items = TESTIMONIALS;
@@ -149,36 +156,45 @@ export function PartnersTestimonials() {
       className=" bg-brand-background"
       aria-labelledby="pc-testimonials-heading"
     >
-      <div className="mx-auto w-full min-w-0 max-w-7xl px-4 sm:px-6 lg:px-8">
+      <div className="mx-auto w-full min-w-0 max-w-7xl px-6 py-20 md:px-16">
         {/* Header row */}
-        <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
-          <h2
-            id="pc-testimonials-heading"
-            className={cn(marketingClasses.headingDisplayMd, "max-w-full")}
-          >
-            What Our Clients Say
-          </h2>
-          <CarouselControls
-            className="w-auto"
-            currentIndex={index}
-            total={n}
-            onPrev={() => advance(-1)}
-            onNext={() => advance(1)}
-            prevLabel="Previous testimonials"
-            nextLabel="Next testimonials"
-          />
-        </div>
+        <ScrollReveal direction="up" duration={0.6} distance={40}>
+          <div className="flex flex-col items-center gap-4 text-center sm:flex-row sm:items-center sm:justify-between sm:text-left">
+            <h2
+              id="pc-testimonials-heading"
+              className={cn(marketingClasses.headingDisplayMd, "max-w-full")}
+            >
+              What Our Clients Say
+            </h2>
+            <CarouselControls
+              className="w-auto"
+              currentIndex={index}
+              total={n}
+              onPrev={() => advance(-1)}
+              onNext={() => advance(1)}
+              prevLabel="Previous testimonials"
+              nextLabel="Next testimonials"
+            />
+          </div>
+        </ScrollReveal>
 
         {/* Desktop: 2-column grid */}
-        <div className="mt-8 hidden gap-4 md:grid md:grid-cols-2 lg:mt-10 lg:gap-6">
-          {desktopVisible.map((item) => (
-            <TestimonialCard key={`${item.id}-${index}`} item={item} />
+        <StaggerContainer
+          className="mt-8 hidden gap-4 md:grid md:grid-cols-2 lg:mt-10 lg:gap-6"
+          staggerChildren={0.18}
+        >
+          {desktopVisible.map((item, cardIndex) => (
+            <ScrollReveal key={`${item.id}-${index}`} direction="up" delay={cardIndex * 0.08} distance={32}>
+              <TestimonialCard item={item} />
+            </ScrollReveal>
           ))}
-        </div>
+        </StaggerContainer>
 
         {/* Mobile: single card */}
         <div className="mt-6 md:hidden">
-          <TestimonialCard item={items[index]!} />
+          <ScrollReveal direction="up" delay={0.1} distance={32}>
+            <TestimonialCard item={items[index]!} />
+          </ScrollReveal>
         </div>
       </div>
     </section>

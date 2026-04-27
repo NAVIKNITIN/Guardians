@@ -1,0 +1,76 @@
+/**
+ * Project API (base URL: `NEXT_PUBLIC_API_BASE_URL`, default production Railway):
+ *
+ * - `GET /api/projects?per_page=10&page=1` → `getAllProjects`
+ * - `GET /api/projects/:id` → `getProjectById`
+ * - `POST /api/projects` → `createProject` (body: name, type, rera_number, files: [{ file_id }], …)
+ * - `PUT /api/projects/:id` → `updateProject`
+ */
+import { axiosInstance } from "../axiosInstance";
+import { buildQueryString } from "../params";
+
+export type GetAllProjectsParams = {
+  per_page?: number;
+  page?: number;
+};
+
+/**
+ * Deduplicate concurrent list requests for the same query (e.g. React Strict Mode).
+ */
+const inflightGetAllProjects = new Map<string, Promise<unknown>>();
+
+/**
+ * Get all projects (paginated). Example: `?per_page=10&page=1`
+ */
+export function getAllProjects(params: GetAllProjectsParams = {}) {
+  const query = buildQueryString({
+    per_page: params.per_page ?? 10,
+    page: params.page ?? 1,
+  });
+  const inflight = inflightGetAllProjects.get(query);
+  if (inflight) {
+    return inflight;
+  }
+  const promise = axiosInstance
+    .get<unknown>(`/projects?${query}`)
+    .then((r) => r.data)
+    .finally(() => {
+      inflightGetAllProjects.delete(query);
+    });
+  inflightGetAllProjects.set(query, promise);
+  return promise;
+}
+
+/** @deprecated use `getAllProjects` — alias for admin list with a larger first page. */
+export function listProjects() {
+  return getAllProjects({ per_page: 100, page: 1 });
+}
+
+/** Deduplicate concurrent fetches of the same project (e.g. React Strict Mode, remounts). */
+const inflightGetProjectById = new Map<string, Promise<unknown>>();
+
+export function getProjectById(id: string | number) {
+  const key = String(id);
+  const inflight = inflightGetProjectById.get(key);
+  if (inflight) {
+    return inflight;
+  }
+  const promise = axiosInstance
+    .get<unknown>(`/projects/${key}`)
+    .then((r) => r.data)
+    .finally(() => {
+      inflightGetProjectById.delete(key);
+    });
+  inflightGetProjectById.set(key, promise);
+  return promise;
+}
+
+export function createProject(payload: object) {
+  return axiosInstance.post<unknown>("/projects", payload).then((r) => r.data);
+}
+
+export function updateProject(id: string | number, payload: object) {
+  return axiosInstance
+    .put<unknown>(`/projects/${id}`, payload)
+    .then((r) => r.data);
+}

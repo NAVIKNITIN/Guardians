@@ -1,3 +1,5 @@
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import { Container } from "@/components/common/Container";
 import { localImageByIndex } from "@/lib/local-images";
 import { cn } from "@/utils/cn";
@@ -32,42 +34,46 @@ export function OfficeActivities() {
     >
       <Container>
         {/* Centered Qasbyne title */}
-        <h2
-          id="activities-heading"
-          className={cn(
-            "text-center uppercase text-[#202225] qs-reg ls-8",
-            "qs-reg fs-50 leading-[1.15] ls-8",
-            "mb-4 md:mb-8 lg:mb-10",
-          )}
-        >
-          Office Activities
-        </h2>
+        <ScrollReveal direction="up" distance={28}>
+          <h2
+            id="activities-heading"
+            className={cn(
+            "text-center uppercase text-brand-text-primary qs-reg ls-8",
+              "qs-reg fs-50 leading-[1.15] ls-8",
+              "mb-4 md:mb-8 lg:mb-10",
+            )}
+          >
+            Office Activities
+          </h2>
+        </ScrollReveal>
 
         {/* 3-column image grid */}
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-10">
-          {ACTIVITIES.map((activity) => (
-            <div key={activity.id} className="flex flex-col gap-3 sm:gap-4">
-              {/* Photo */}
-              <div
-                className="relative w-full overflow-hidden bg-[#BCBDC0]"
-                style={{ height: "clamp(200px, 24vw, 350px)" }}
-              >
-                <Image
-                  src={activity.imageSrc}
-                  alt={activity.imageAlt}
-                  fill
-                  className="object-cover object-center transition-transform duration-700 hover:scale-105"
-                  sizes="(max-width: 640px) 100vw, 33vw"
-                />
-              </div>
+        <StaggerContainer className="grid grid-cols-1 gap-6 sm:grid-cols-3 sm:gap-10" staggerChildren={0.14}>
+          {ACTIVITIES.map((activity, index) => (
+            <ScrollReveal key={activity.id} direction="up" delay={index * 0.05} distance={24}>
+              <div className="flex flex-col gap-3 sm:gap-4">
+                {/* Photo */}
+                <div
+                  className="relative w-full overflow-hidden bg-[#BCBDC0]"
+                  style={{ height: "clamp(200px, 24vw, 350px)" }}
+                >
+                  <Image
+                    src={activity.imageSrc}
+                    alt={activity.imageAlt}
+                    fill
+                    className="object-cover object-center transition-transform duration-700 hover:scale-105"
+                    sizes="(max-width: 640px) 100vw, 33vw"
+                  />
+                </div>
 
-              {/* Label */}
-              <p className="n-bold text-base leading-snug tracking-[0.1em] text-[#202225] sm:text-lg">
-                {activity.label}
-              </p>
-            </div>
+                {/* Label */}
+                <p className="n-bold text-base  text-brand-text-primary sm:text-lg">
+                  {activity.label}
+                </p>
+              </div>
+            </ScrollReveal>
           ))}
-        </div>
+        </StaggerContainer>
       </Container>
     </section>
   );

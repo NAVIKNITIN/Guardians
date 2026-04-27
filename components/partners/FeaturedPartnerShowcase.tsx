@@ -34,7 +34,7 @@ const PARTNERS: PartnerShowcaseItem[] = [
       { src: "/images/partners/Group 33.svg", alt: "Partner logo" },
       { src: "/images/partners/Group 44.svg", alt: "Partner logo" },
     ],
-    tabLogoSrc: "/images/Developer/partners/Group 32.svg",
+    tabLogoSrc: "/images/partners/connection/1.svg",
     tabLogoAlt: "Adani Realty",
   },
   {
@@ -140,7 +140,7 @@ export function FeaturedPartnerShowcase() {
               alt=""
               fill
               className="object-cover"
-              style={{ filter: "blur(6px)", transform: "scale(1.04)" }}
+              style={{ filter: "blur(1px)", transform: "scale(1.03)" }}
               sizes="(max-width: 1280px) 100vw, 1237px"
             />
           </div>
@@ -170,7 +170,25 @@ export function FeaturedPartnerShowcase() {
           </div>
 
           {/* Sub-logos row — wrap + max-width so narrow viewports don’t overflow */}
-          <div className="absolute inset-x-0 bottom-[46%] z-20 flex justify-center px-3 sm:bottom-[46%] sm:px-6">
+          <div className="absolute inset-x-0  z-20 flex justify-center px-3 bottom-[38%] md:bottom-[40%] sm:px-6">
+
+            <RoundIconButton
+              label="Previous partner"
+              onClick={() => advance(-1)}
+              className={cn(
+                "absolute left-2 top-1/2 z-30 -translate-y-1/2 cursor-pointer sm:left-6 lg:left-10",
+                "h-8 w-8 text-white hover:bg-white/10 sm:h-11 sm:w-11 mt-2",
+              )}
+            >
+              <Image
+                src={CAROUSEL_PREV}
+                alt=""
+                width={40}
+                height={40}
+                className="object-cover"
+              />
+            </RoundIconButton>
+
             <div className="flex max-w-full min-w-0 flex-wrap items-center justify-center gap-3 sm:gap-8 md:gap-10 lg:gap-14">
               {current.subLogos.map((logo, i) => (
                 <div
@@ -188,30 +206,12 @@ export function FeaturedPartnerShowcase() {
               ))}
             </div>
           </div>
-
-          {/* Navigation — same pattern as `CarouselControls` (RoundIconButton + carousel SVGs) */}
-          <RoundIconButton
-            label="Previous partner"
-            onClick={() => advance(-1)}
-            className={cn(
-              "absolute left-2 top-1/2 z-30 -translate-y-1/2 cursor-pointer sm:left-6 lg:left-10",
-              "h-8 w-8 text-white hover:bg-white/10 sm:h-11 sm:w-11",
-            )}
-          >
-            <Image
-              src={CAROUSEL_PREV}
-              alt=""
-              width={40}
-              height={40}
-              className="object-cover"
-            />
-          </RoundIconButton>
           <RoundIconButton
             label="Next partner"
             onClick={() => advance(1)}
             className={cn(
               "absolute right-2 top-1/2 z-30 -translate-y-1/2 cursor-pointer sm:right-6 lg:right-10",
-              "h-8 w-8 text-white hover:bg-white/10 sm:h-11 sm:w-11",
+              "h-8 w-8 text-white hover:bg-white/10 sm:h-11 sm:w-11 mt-5",
             )}
           >
             <Image
@@ -222,12 +222,15 @@ export function FeaturedPartnerShowcase() {
               className="bg-transparent object-cover"
             />
           </RoundIconButton>
+
+          {/* Navigation — same pattern as `CarouselControls` (RoundIconButton + carousel SVGs) */}
+
         </div>
 
         {/* ── Tab strip: scroll horizontally on small screens; equal columns on xl+ ── */}
         <div className="w-full min-w-0 max-w-full">
           <div
-            className="flex shadow-[0_0_20px_rgba(0,0,0,0.25)] w-full min-w-0 overflow-x-auto overscroll-x-contain scroll-smooth [-webkit-overflow-scrolling:touch] [scrollbar-width:thin] xl:overflow-visible"
+            className="scrollbar-brand flex h-[100px] items-end shadow-[0_0_20px_rgba(0,0,0,0.25)] w-full min-w-0 overflow-x-auto overscroll-x-contain scroll-smooth [-webkit-overflow-scrolling:touch] xl:overflow-visible"
             role="tablist"
             aria-label="Select partner"
           >
@@ -239,21 +242,20 @@ export function FeaturedPartnerShowcase() {
                 aria-selected={i === index}
                 onClick={() => setIndex(i)}
                 className={cn(
-                  "flex shrink-0 items-center justify-center cursor-pointer px-3 py-3 transition-colors sm:px-4 sm:py-4 md:py-5",
-                  "min-w-[5.75rem] sm:min-w-[7.5rem]",
+                  "flex h-full shrink-0 items-center justify-center cursor-pointer px-3 py-3 transition-all duration-200 sm:px-4 sm:py-4 md:py-5",
                   "xl:min-w-0 xl:flex-1 xl:basis-0 xl:shrink",
                   "border-r border-black/[0.08] last:border-r-0",
                   i === index
-                    ? "bg-white shadow-inner"
-                    : "bg-[#DADADB] hover:bg-white/70",
+                    ? "relative z-30 -mt-[5px] h-[calc(100%+10px)] bg-white shadow-inner"
+                    : "bg-black/10 hover:bg-white/70",
                 )}
               >
-                <div className="relative h-8 w-full max-w-[5.5rem] sm:h-10 sm:max-w-[6.25rem]">
+                <div className="relative h-8 w-full  sm:h-10 max-w-[5.5rem] sm:max-w-[6.25rem] ">
                   <Image
                     src={partner.tabLogoSrc}
                     alt={partner.tabLogoAlt}
                     fill
-                    className="object-contain object-center"
+                    className="h-full w-full object-contain object-center mix-blend-multiply"
                     sizes="100px"
                   />
                 </div>

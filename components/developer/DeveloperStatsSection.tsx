@@ -1,5 +1,6 @@
 "use client";
 
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { SectionSurface } from "@/components/ui/SectionSurface";
 import {
   formatDeveloperStatValue,
@@ -63,11 +64,11 @@ export function StatFigure({
         "tabular-nums text-brand-footer",
         compact
           ? cn(
-              "n-bold max-w-full wrap-break-word whitespace-normal text-left font-semibold leading-none tracking-[-0.04em]",
-              "text-[clamp(1.65rem,min(13cqw,4.2vw),2.65rem)]",
-              "xl:text-[clamp(1.75rem,min(12cqw,3.4vw),2.85rem)]",
-              "2xl:text-[clamp(1.85rem,min(11cqw,3vw),3rem)]",
-            )
+            "n-bold max-w-full wrap-break-word whitespace-normal text-left font-semibold leading-none tracking-[-0.04em]",
+            "text-[clamp(1.65rem,min(13cqw,4.2vw),2.65rem)]",
+            "xl:text-[clamp(1.75rem,min(12cqw,3.4vw),2.85rem)]",
+            "2xl:text-[clamp(1.85rem,min(11cqw,3vw),3rem)]",
+          )
           : "n-book  tracking-[-0.03em] text-center text-[clamp(1.75rem,6.5vw,2.25rem)] whitespace-nowrap sm:whitespace-normal sm:text-4xl md:text-[clamp(2.25rem,4vw,2.85rem)] md:tracking-[-0.04em]",
       )}
     >
@@ -99,45 +100,42 @@ export function DeveloperStatsSection({
   const gridClassName = cn(
     "w-full min-w-0",
     isTwoColInline
-      ? "grid grid-cols-1 justify-items-stretch gap-x-8 gap-y-10 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-12 md:grid-cols-2 lg:gap-x-14 lg:gap-y-16 xl:gap-x-16 xl:gap-y-[4.5rem] 2xl:gap-x-20 2xl:gap-y-20 fs-56 "
-      : "grid grid-cols-1 gap-x-4 sm:grid-cols-2 md:grid-cols-4",
+      ? "grid grid-cols-1 justify-items-stretch gap-x-8 gap-y-10 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-12 md:grid-cols-2 lg:gap-x-14 lg:gap-y-16 fs-56 "
+      : "grid grid-cols-1 gap-x-4 gap-y-0 sm:grid-cols-2 md:grid-cols-4",
   );
 
   const grid = (
     <div ref={ref} className={cn(gridClassName)}>
       {metrics.map((stat, idx) => (
-        <div
-          key={stat.label}
-          className={cn(
-            "flex min-h-0 min-w-0 flex-col",
-            isTwoColInline
-              ? "items-start gap-3 text-left"
-              : "items-center justify-center px-4 text-center sm:px-8 md:px-6 lg:px-12",
-            !isTwoColInline &&
-            idx > 0 &&
-            "relative md:before:absolute md:before:left-0 md:before:top-1/2 md:before:h-5.5 md:before:w-px md:before:-translate-y-1/2 md:before:bg-[#8F8183] md:before:content-['']",
-          )}
-        >
-          <StatFigure
-            stat={stat}
-            index={idx}
-            isInView={isInView}
-            compact={isTwoColInline}
-          />
-          <p
+        <ScrollReveal key={stat.label} direction="up" distance={24} delay={idx * 0.05}>
+          <div
             className={cn(
+              "flex min-h-0 min-w-0 flex-col",
               isTwoColInline
-                ? cn(
-                    "max-w-[17rem] text-pretty leading-snug text-[#5f5a5b] n-book font-normal normal-case tracking-normal",
-                    "text-xs sm:text-sm md:text-[15px] lg:text-sm xl:text-base 2xl:text-[1.0625rem]",
-                  )
-                : "fs-12 lh-20 n-bold uppercase leading-snug tracking-wide text-black whitespace-nowrap",
+                ? "items-start gap-3 text-left"
+                : "items-center justify-center px-4 py-0 text-center sm:px-8 md:px-6 lg:px-12",
+              !isTwoColInline &&
+              idx > 0 &&
+              "relative md:before:absolute md:before:left-0 md:before:top-1/2 md:before:h-5.5 md:before:w-px md:before:-translate-y-1/2 md:before:bg-[#8F8183] md:before:content-['']",
             )}
-
           >
-            {stat.label}
-          </p>
-        </div>
+            <StatFigure
+              stat={stat}
+              index={idx}
+              isInView={isInView}
+              compact={isTwoColInline}
+            />
+            <p
+              className={cn(
+                isTwoColInline
+                  ? "max-w-68 text-pretty text-sm leading-snug text-[#5f5a5b] n-book font-normal normal-case tracking-normal"
+                  : "fs-12 lh-20 n-bold uppercase leading-snug tracking-wide text-black whitespace-nowrap",
+              )}
+            >
+              {stat.label}
+            </p>
+          </div>
+        </ScrollReveal>
       ))}
     </div>
   );
@@ -149,7 +147,7 @@ export function DeveloperStatsSection({
   return (
     <SectionSurface
       aria-label="Key statistics"
-      className="bg-transparent !py-0"
+      className="bg-transparent my-0! py-0!"
     >
       {grid}
     </SectionSurface>
@@ -343,7 +341,7 @@ export function AboutLeadershipSection({
 
                     </span>
                   </div>
-                  <p className="mt-7 fs-16 lh-24 n-book fw-100 leading-8 text-[#5d5859] sm:text-[15px]">
+                  <p className="mt-7 max-w-[560px] fs-16 lh-24 n-book fw-100 leading-8 text-[#5d5859] sm:text-[15px] ">
                     {activeSlide.body}
                   </p>
 
@@ -365,7 +363,7 @@ export function AboutLeadershipSection({
                   className="flex items-end justify-between gap-4"
                 >
                   <div>
-                    <p className="text-[clamp(2rem,2.6vw,2.7rem)] font-semibold text-[#2a2626]">
+                    <p className="text-[clamp(2rem,2.6vw,2.7rem)] font-semibold text-brand-footer-dark">
                       {activeSlide.name}
                     </p>
                     <p className=" fs18 n-bold uppercase tracking-[0.22em] text-[#867f80]">

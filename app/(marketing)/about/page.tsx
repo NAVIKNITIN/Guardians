@@ -28,7 +28,7 @@ import {
   aboutRevolutionHeading,
 } from "@/components/about/aboutPageResponsiveClasses";
 import { GradientCtaButton } from "@/components/common/GradientCtaButton";
-import { cn } from "@/utils/cn";
+import { MarketingPageHero } from "@/components/marketing/MarketingPageHero";
 import Image from "next/image";
 import type { Metadata } from "next";
 
@@ -54,14 +54,14 @@ const leadershipSlides = [
     imageAlt: "Leadership portrait 1",
     title: "We stay ahead of the curve with strategy",
     body:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor sit amet,",
+      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
     name: "Jayesh Rathod",
     role: "Co-Founder & Director",
     imagePositionClassName: "object-center",
   },
   {
     id: "leader-2",
-    imageSrc: "/images/about/Leader2.png",
+    imageSrc: "/images/about/Leader.png",
     imageAlt: "Leadership portrait 2",
     title: "We stay ahead of the curve with strategy",
     body:
@@ -72,7 +72,7 @@ const leadershipSlides = [
   },
   {
     id: "leader-3",
-    imageSrc: "/images/about/Leader3.png",
+    imageSrc: "/images/about/Leader.png",
     imageAlt: "Leadership portrait 3",
     title: "We stay ahead of the curve with strategy",
     body:
@@ -83,7 +83,7 @@ const leadershipSlides = [
   },
   {
     id: "leader-4",
-    imageSrc: "/images/about/Leader4.png",
+    imageSrc: "/images/about/Leader.png",
     imageAlt: "Leadership portrait 4",
     title: "We stay ahead of the curve with strategy",
     body:
@@ -122,39 +122,21 @@ function BrandCard({
 
 export default function AboutPage() {
   return (
-    <div className={aboutPageRoot}>
-      <section id="about" className={aboutHeroSection}>
-        <div className={aboutHeroImageFrame}>
-          <Image
-            src={heroImage}
-            alt="The Guardians city skyline"
-            className="object-cover object-center sm:object-stretch"
-            sizes="100vw"
-            fill
-            priority
-          />
-          <div className={aboutHeroHeadingSlot}>
-            <Container className="min-w-0">
-              <h1 className={aboutHeroTitle}>
-                <span className="ml-1 inline-block text-[#202225] sm:ml-2 sm:inline md:ml-3">
-                  <span className="text-[#8F8183]">Who</span> We Are?
-                </span>
-              </h1>
-              <p className={aboutHeroSubtitle}>
-                We are one of the fastest growing Real Estate consulting company in India.
-              </p>
-            </Container>
-          </div>
-        </div>
+    <div className="min-w-0 bg-white text-[#2a2626] md:mb-25">
+      <section
+        id="about"
+        className="border-b border-[#d8d2d2] bg-[linear-gradient(180deg,#fbfbfb_0%,#f7f5f5_50%,#efeded_100%)] "
+      >
+        <MarketingPageHero heroId="about" heightPx={650} shiftUnderHeader={true} shiftTillSearch={false} shiftExtraContentTopPx={60} />
       </section>
 
       <section className={aboutBrandPromiseSection}>
         <Container className="min-w-0">
           <h2 className={aboutBrandPromiseH2}>Brand Promise</h2>
 
-          <div className={aboutBrandPromiseIntroBox}>
-            <div className="relative">
-              <div className="absolute left-2 top-1/2 hidden -translate-y-1/2 sm:left-3 lg:block xl:left-4">
+          <div className="mt-2 bg-white py-3 sm:py-4  lg:py-5">
+            <div className="relative w-[95%] mx-auto">
+              <div className="absolute left-3 top-1/2 hidden -translate-y-1/2 lg:block">
                 <Image
                   src={brandPromiseOrnament}
                   alt=""
@@ -163,8 +145,8 @@ export default function AboutPage() {
                   className="h-auto w-[64px] object-cover scale-x-[-1] lg:w-[80px]"
                 />
               </div>
-              <div className={aboutBrandPromiseParagraphWrap}>
-                <p className={aboutBrandPromiseParagraph}>
+              <div className=" text-center mx-5 md:mx-30 lg:mx-40">
+                <p className=" text-[#3c393a] lh-27 n-book fs-20">
                   <span className="font-semibold text-[#242021]">The Guardians</span> mark the coming
                   together of the best of minds from the Indian real estate industry, a set of professionals
                   who have played diverse roles across their careers. Their collective experience spans

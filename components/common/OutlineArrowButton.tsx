@@ -25,12 +25,16 @@ type ButtonVariantProps = CommonProps &
 export type OutlineArrowButtonProps = LinkVariantProps | ButtonVariantProps;
 
 const baseClassName = cn(
-  "flex items-center justify-center gap-5",
-  "border border-black/30 px-12 py-2.5",
-  "n-bold text-base uppercase tracking-[0.1em] text-[#202225]",
-  "transition-colors hover:border-[#202225] hover:bg-[#202225] hover:text-white",
-  "[&:hover_svg_path]:stroke-white",
+  /* Named group so nested `group` on cards does not trigger arrow styles on card hover */
+  "group/outline cta-hover-trigger outline-arrow-grad-anim inline-flex w-fit max-w-full flex-nowrap items-center justify-center gap-5",
+  "rounded-none border-0 px-[45px] py-[15px]",
+  "n-bold text-base uppercase tracking-widest text-white",
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50",
 );
+
+function Label({ children }: { children: ReactNode }) {
+  return <span className="shrink-0 whitespace-nowrap">{children}</span>;
+}
 
 function ArrowIcon({
   alt,
@@ -45,16 +49,17 @@ function ArrowIcon({
       alt={alt}
       width={15}
       height={15}
-      className={cn("object-cover", className)}
+      className={cn(
+        "cta-icon-hover invert object-cover transition-[filter] duration-300",
+        className,
+      )}
       aria-hidden={alt === ""}
     />
   );
 }
 
 /**
- * Outlined CTA with an arrow icon that inverts colors on hover.
- * Used as "Read More", "Open File", etc. across cards.
- *
+ * Dark “Know more” CTA with black/gray gradient sweep (see `globals.css` `.outline-arrow-grad-anim`).
  * Renders a `<Link>` when `href` is provided, otherwise a `<button>`.
  */
 export function OutlineArrowButton(props: OutlineArrowButtonProps) {
@@ -62,7 +67,7 @@ export function OutlineArrowButton(props: OutlineArrowButtonProps) {
     const { href, children, className, iconClassName, iconAlt = "" } = props;
     return (
       <Link href={href} className={cn(baseClassName, className)}>
-        {children}
+        <Label>{children}</Label>
         <ArrowIcon alt={iconAlt} className={iconClassName} />
       </Link>
     );
@@ -84,7 +89,7 @@ export function OutlineArrowButton(props: OutlineArrowButtonProps) {
       className={cn(baseClassName, "cursor-pointer", className)}
       {...buttonProps}
     >
-      {children}
+      <Label>{children}</Label>
       <ArrowIcon alt={iconAlt} className={iconClassName} />
     </button>
   );

@@ -1,3 +1,5 @@
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import type {
   PartnerLogo,
   PartnersSectionContent,
@@ -25,33 +27,41 @@ export function PartnersSection({
       aria-labelledby="partners-heading"
     >
       <Container>
-        <h2
-          id="partners-heading"
-          className="mx-auto max-w-4xl text-center n-bold fs-20 uppercase  tracking-[0.05em] text-brand-text-primary sm:text-xs fs-20"
-        >
-          {content.headlineLine1} <br /> {content.headlineLine2}
-        </h2>
+        <ScrollReveal direction="up" distance={32}>
+          <h2
+            id="partners-heading"
+            className="mx-auto max-w-4xl text-center n-bold fs-20 uppercase  tracking-[0.05em] text-brand-text-primary sm:text-xs fs-20"
+          >
+            {content.headlineLine1} <br /> {content.headlineLine2}
+          </h2>
+        </ScrollReveal>
       </Container>
 
-      <div className="relative mt-10 overflow-x-clip">
-        <div className="space-y-4">
-          <LogoRow items={[...content.row1]} direction="lr" />
-          <LogoRow items={[...content.row2]} direction="rl" />
+      <ScrollReveal direction="up" delay={0.08} distance={24}>
+        <div className="relative mt-10 overflow-x-clip">
+          <div className="space-y-4">
+            <LogoRow items={[...content.row1]} direction="lr" />
+            <LogoRow items={[...content.row2]} direction="rl" />
+          </div>
         </div>
-      </div>
+      </ScrollReveal>
 
       <Container>
-        <div className="mt-12 flex flex-col items-center justify-center gap-4 px-1 sm:mt-16 sm:flex-row sm:flex-wrap sm:gap-6">
-          <p className="max-w-md text-center text-sm sm:text-base n-bold fs-20 text-[#8F8183]">
-            {content.closing}
-          </p>
-          <MarketingEnquireLink
-            className="w-[207.01px] h-[55px]"
-            href={content.ctaHref}
-          >
-            {content.ctaLabel}
-          </MarketingEnquireLink>
-        </div>
+        <StaggerContainer className="mt-12 flex flex-col items-center justify-center gap-4 px-1 sm:mt-16 sm:flex-row sm:flex-wrap sm:gap-6" staggerChildren={0.14}>
+          <ScrollReveal direction="up" distance={24}>
+            <p className="max-w-md text-center text-sm sm:text-base n-bold fs-20 text-[#8F8183]">
+              {content.closing}
+            </p>
+          </ScrollReveal>
+          <ScrollReveal direction="up" delay={0.08} distance={20}>
+            <MarketingEnquireLink
+              className="w-[207.01px] h-[55px]"
+              href={content.ctaHref}
+            >
+              {content.ctaLabel}
+            </MarketingEnquireLink>
+          </ScrollReveal>
+        </StaggerContainer>
       </Container>
     </section>
   );
@@ -111,7 +121,7 @@ function LogoTile({
       className={cn(
         "relative shrink-0 overflow-hidden rounded-sm border border-black/6 bg-white shadow-sm",
         /* Outer frame 223×95; content area inset by Figma padding 20px (x) / 10px (y) */
-        "aspect-[245/95] w-[clamp(7.5rem,32vw,13.9375rem)] max-w-[13.9375rem]",
+        "aspect-245/95 w-[clamp(7.5rem,32vw,13.9375rem)] max-w-55.75",
       )}
     >
       <div className="absolute inset-[10px_20px]">

@@ -1,3 +1,4 @@
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { Container } from "@/components/common/Container";
 import { localImageByIndex } from "@/lib/local-images";
 import { cn } from "@/utils/cn";
@@ -21,12 +22,13 @@ const REASONS: ReasonCard[] = [
     title: "Client-First Advisory Culture",
     imageSrc: "/images/partners/career/1.svg",
     imageAlt: "Advisory culture at The Guardians",
+    subtitle: "Progress is driven by skill, ownership, and performance.",
     flex: 260,
   },
   {
     id: "transactions",
     title: "Exposure to High-Value Transactions",
-    subtitle: "We work with some of the largest and most complex real estate transactions in India.",
+    subtitle: "Progress is driven by skill, ownership, and performance.",
     imageSrc: "/images/partners/career/2.svg",
     imageAlt: "High-value transactions exposure",
     flex: 260,
@@ -43,6 +45,7 @@ const REASONS: ReasonCard[] = [
   {
     id: "process",
     title: "Refined, Process-Driven Environment",
+    subtitle: "Progress is driven by skill, ownership, and performance.",
     imageSrc: "/images/partners/career/4.svg",
     imageAlt: "Refined process-driven environment",
     flex: 260,
@@ -57,7 +60,7 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
         /* Base flex-grow comes from --reason-grow; sm+ hover bumps it way up so */
         /* the hovered card expands while its siblings proportionally compress. */
         "grow-(--reason-grow) sm:hover:grow-900",
-        "transition-[flex-grow] duration-600 ease-[cubic-bezier(0.22,1,0.36,1)]",
+        "transition-[flex-grow] duration-1100 ease-[cubic-bezier(0.22,1,0.36,1)]",
         "will-change-[flex-grow]",
       )}
       style={{ ["--reason-grow" as string]: card.flex } as React.CSSProperties}
@@ -68,16 +71,16 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
           src={card.imageSrc}
           alt={card.imageAlt}
           fill
-          className="object-cover object-center transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
+          className="object-cover object-center transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
-        {/* Dark gradient — slightly deeper on hover to keep copy legible as it reveals */}
-        <div className="absolute inset-0 bg-linear-to-t from-black/70 via-black/20 to-transparent transition-colors duration-500 group-hover:from-black/80 group-hover:via-black/35" />
+        {/* Light by default; transitions to dark on hover. */}
+        <div className="absolute inset-0 bg-linear-to-t to-transparent transition-colors duration-900 ease-[cubic-bezier(0.22,1,0.36,1)]" />
       </div>
 
       {/* Label content — pinned to bottom */}
       <div className="absolute inset-x-0 bottom-0 z-10 p-5">
-        <h3 className="n-reg text-xl leading-snug text-white transition-transform duration-500 ease-out group-hover:-translate-y-0.5">
+        <h3 className="n-bold text-xl leading-snug text-brand-text-primary transition-transform duration-850 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-0.5">
           {card.title}
         </h3>
 
@@ -85,8 +88,8 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
         {card.subtitle && (
           <p
             className={cn(
-              "mt-1 n-reg text-sm leading-normal text-white/90",
-              "transition-all duration-500 ease-out",
+              "mt-1 n-book text-sm leading-normal text-brand-text-primary",
+              "transition-all duration-900 ease-[cubic-bezier(0.22,1,0.36,1)]",
               "max-h-0 -translate-y-1 overflow-hidden opacity-0 group-hover:max-h-20 group-hover:translate-y-0 group-hover:opacity-100",
             )}
           >
@@ -97,8 +100,8 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
         {/* Arrow — always shown on featured card; fades in on hover for the rest */}
         <div
           className={cn(
-            "mt-3 transition-all duration-500 ease-out",
-            "translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100",
+            "mt-3 transition-all duration-900 ease-[cubic-bezier(0.22,1,0.36,1)]",
+            " translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100",
           )}
         >
           <svg
@@ -110,7 +113,7 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
           >
             <path
               d="M0 6H49M49 6L44 1M49 6L44 11"
-              stroke="#ffffff"
+              stroke="#000000"
               strokeWidth="1.8"
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -130,27 +133,32 @@ export function ReasonsToJoin() {
     >
       <Container>
         {/* Centered Qasbyne title */}
-        <h2
-          id="reasons-heading"
-          className={cn(
-            "text-center uppercase text-[#202225] qs-reg ls-10",
-            "qs-reg fs-50 leading-[1.15] ls-8",
-            "mb-6 sm:mb-5",
-          )}
-        >
-          Reasons to Join Guardians
-        </h2>
+        <ScrollReveal direction="up" distance={30}>
+          <h2
+            id="reasons-heading"
+            className={cn(
+              "text-center uppercase text-brand-text-primary qs-reg ls-10",
+              "qs-reg fs-50 leading-[1.15] ls-8",
+              "mb-6 sm:mb-5",
+            )}
+          >
+            Reasons to Join Guardians
+          </h2>
+        </ScrollReveal>
 
         {/* 4-card photo row */}
-        <div
+        <ScrollReveal
           className={cn(
             "flex flex-col gap-3 sm:h-[clamp(260px,35vw,450px)] sm:flex-row sm:gap-4 mt-4 md:mt-8 lg:mt-10",
           )}
+          direction="up"
+          delay={0.08}
+          distance={24}
         >
           {REASONS.map((card) => (
             <ReasonCard key={card.id} card={card} />
           ))}
-        </div>
+        </ScrollReveal>
       </Container>
     </section>
   );

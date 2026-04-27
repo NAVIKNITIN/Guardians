@@ -2,8 +2,17 @@
 
 import { Container } from "@/components/common/Container";
 import { GradientCtaButton } from "@/components/common/GradientCtaButton";
+import { MarketingPageHero } from "@/components/marketing/MarketingPageHero";
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import { ProjectCard } from "@/components/projects/ProjectCard";
-import { LOCAL_IMAGES } from "@/lib/local-images";
+import { AppPageSkeleton } from "@/components/common/AppPageSkeleton";
+import {
+  mapApiProjectListItemToRow,
+  parseProjectListResponse,
+} from "@/lib/mappers/projectListApi";
+import type { ProjectRowFilterShape } from "@/lib/mappers/projectListApi";
+import { getAllProjects } from "@/src/api/services/projectService";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
@@ -24,215 +33,29 @@ const STAGE_OPTIONS = ["Ongoing", "Completed"] as const;
 
 /** Max project cards shown before “View More”. */
 const INITIAL_VISIBLE_CARDS = 10;
+const PROJECT_LIST_SKELETON_COUNT = 6;
 
-type ProjectRow = {
-  id: number;
-  imageSrc: string;
-  title: string;
-  subtitle: string;
-  badge?: { label: string; variant: "units-left" | "completed" };
-  budget: (typeof BUDGET_OPTIONS)[number];
-  builder: (typeof BUILDER_OPTIONS)[number];
-  configuration: (typeof CONFIGURATION_OPTIONS)[number];
-};
+type ProjectRow = ProjectRowFilterShape;
 
-const projects: ProjectRow[] = [
-  {
-    id: 1,
-    imageSrc: LOCAL_IMAGES.img1,
-    title: "Lorem Ipsum Tower A",
-    subtitle: "Piramal Realty, Chembur (E)",
-    badge: { label: "1 Unit Left", variant: "units-left" },
-    budget: "2-5 Cr",
-    builder: "Piramal Realty",
-    configuration: "2 BHK",
-  },
-  {
-    id: 2,
-    imageSrc: LOCAL_IMAGES.img2,
-    title: "Lorem Ipsum Tower A",
-    subtitle: "Piramal Realty, Chembur (E)",
-    badge: { label: "Completed", variant: "completed" },
-    budget: "5+ Cr",
-    builder: "Piramal Realty",
-    configuration: "3 BHK",
-  },
-  {
-    id: 3,
-    imageSrc: LOCAL_IMAGES.img3,
-    title: "Lorem Ipsum Tower A",
-    subtitle: "Godrej Properties, Chembur (E)",
-    badge: { label: "Completed", variant: "completed" },
-    budget: "2-5 Cr",
-    builder: "Godrej Properties",
-    configuration: "2 BHK",
-  },
-  {
-    id: 4,
-    imageSrc: LOCAL_IMAGES.img4,
-    title: "Lorem Ipsum Tower A",
-    subtitle: "Piramal Realty, Chembur (E)",
-    badge: { label: "3 Units Left", variant: "units-left" },
-    budget: "Under 2 Cr",
-    builder: "Piramal Realty",
-    configuration: "1 BHK",
-  },
-  {
-    id: 5,
-    imageSrc: LOCAL_IMAGES.img5,
-    title: "Lorem Ipsum Tower A",
-    subtitle: "Lodha Group, Chembur (E)",
-    badge: undefined,
-    budget: "2-5 Cr",
-    builder: "Lodha Group",
-    configuration: "2 BHK",
-  },
-  {
-    id: 6,
-    imageSrc: LOCAL_IMAGES.img6,
-    title: "Lorem Ipsum Tower A",
-    subtitle: "Godrej Properties, Chembur (E)",
-    badge: { label: "Completed", variant: "completed" },
-    budget: "5+ Cr",
-    builder: "Godrej Properties",
-    configuration: "3 BHK",
-  },
-  {
-    id: 7,
-    imageSrc: LOCAL_IMAGES.img7,
-    title: "Lorem Ipsum Tower A",
-    subtitle: "Hiranandani, Chembur (E)",
-    badge: undefined,
-    budget: "Under 2 Cr",
-    builder: "Hiranandani",
-    configuration: "1 BHK",
-  },
-  {
-    id: 8,
-    imageSrc: LOCAL_IMAGES.img8,
-    title: "Lorem Ipsum Tower B",
-    subtitle: "Lodha Group, Noida",
-    badge: undefined,
-    budget: "2-5 Cr",
-    builder: "Lodha Group",
-    configuration: "3 BHK",
-  },
-  {
-    id: 9,
-    imageSrc: LOCAL_IMAGES.img8,
-    title: "Lorem Ipsum Tower B",
-    subtitle: "Lodha Group, Noida",
-    badge: undefined,
-    budget: "2-5 Cr",
-    builder: "Lodha Group",
-    configuration: "3 BHK",
-  },
-  {
-    id: 17,
-    imageSrc: LOCAL_IMAGES.img8,
-    title: "Lorem Ipsum Tower B",
-    subtitle: "Lodha Group, Noida",
-    badge: undefined,
-    budget: "2-5 Cr",
-    builder: "Lodha Group",
-    configuration: "3 BHK",
-  },
-  {
-    id: 10,
-    imageSrc: LOCAL_IMAGES.img8,
-    title: "Lorem Ipsum Tower B",
-    subtitle: "Lodha Group, Noida",
-    badge: undefined,
-    budget: "2-5 Cr",
-    builder: "Lodha Group",
-    configuration: "3 BHK",
-  },
-  {
-    id: 11,
-    imageSrc: LOCAL_IMAGES.img8,
-    title: "Lorem Ipsum Tower B",
-    subtitle: "Lodha Group, Noida",
-    badge: undefined,
-    budget: "2-5 Cr",
-    builder: "Lodha Group",
-    configuration: "3 BHK",
-  },
-  {
-    id: 12,
-    imageSrc: LOCAL_IMAGES.img8,
-    title: "Lorem Ipsum Tower B",
-    subtitle: "Lodha Group, Noida",
-    badge: undefined,
-    budget: "2-5 Cr",
-    builder: "Lodha Group",
-    configuration: "3 BHK",
-  },
-  {
-    id: 13,
-    imageSrc: LOCAL_IMAGES.img8,
-    title: "Lorem Ipsum Tower B",
-    subtitle: "Lodha Group, Noida",
-    badge: undefined,
-    budget: "2-5 Cr",
-    builder: "Lodha Group",
-    configuration: "3 BHK",
-  },
-  {
-    id: 14,
-    imageSrc: LOCAL_IMAGES.img8,
-    title: "Lorem Ipsum Tower B",
-    subtitle: "Lodha Group, Noida",
-    badge: undefined,
-    budget: "2-5 Cr",
-    builder: "Lodha Group",
-    configuration: "3 BHK",
-  },
-  {
-    id: 15,
-    imageSrc: LOCAL_IMAGES.img8,
-    title: "Lorem Ipsum Tower B",
-    subtitle: "Lodha Group, Noida",
-    badge: undefined,
-    budget: "2-5 Cr",
-    builder: "Lodha Group",
-    configuration: "3 BHK",
-  },
-  {
-    id: 16,
-    imageSrc: LOCAL_IMAGES.img8,
-    title: "Lorem Ipsum Tower B",
-    subtitle: "Lodha Group, Noida",
-    badge: undefined,
-    budget: "2-5 Cr",
-    builder: "Lodha Group",
-    configuration: "3 BHK",
-  },
-  // Completed-only demo rows (parity with ongoing list volume)
-  ...(
-    [
-      { id: 18, img: LOCAL_IMAGES.img1, builder: "Piramal Realty" as const, subtitle: "Piramal Realty, Chembur (E)", budget: "2-5 Cr" as const, configuration: "2 BHK" as const },
-      { id: 19, img: LOCAL_IMAGES.img2, builder: "Piramal Realty" as const, subtitle: "Piramal Realty, Chembur (E)", budget: "5+ Cr" as const, configuration: "3 BHK" as const },
-      { id: 20, img: LOCAL_IMAGES.img3, builder: "Godrej Properties" as const, subtitle: "Godrej Properties, Chembur (E)", budget: "2-5 Cr" as const, configuration: "2 BHK" as const },
-      { id: 21, img: LOCAL_IMAGES.img4, builder: "Piramal Realty" as const, subtitle: "Piramal Realty, Chembur (E)", budget: "Under 2 Cr" as const, configuration: "1 BHK" as const },
-      { id: 22, img: LOCAL_IMAGES.img5, builder: "Lodha Group" as const, subtitle: "Lodha Group, Chembur (E)", budget: "2-5 Cr" as const, configuration: "2 BHK" as const },
-      { id: 23, img: LOCAL_IMAGES.img6, builder: "Godrej Properties" as const, subtitle: "Godrej Properties, Chembur (E)", budget: "5+ Cr" as const, configuration: "3 BHK" as const },
-      { id: 24, img: LOCAL_IMAGES.img7, builder: "Hiranandani" as const, subtitle: "Hiranandani, Chembur (E)", budget: "Under 2 Cr" as const, configuration: "1 BHK" as const },
-      { id: 25, img: LOCAL_IMAGES.img8, builder: "Lodha Group" as const, subtitle: "Lodha Group, Chembur (E)", budget: "2-5 Cr" as const, configuration: "3 BHK" as const },
-      { id: 26, img: LOCAL_IMAGES.img1, builder: "Piramal Realty" as const, subtitle: "Piramal Realty, Chembur (E)", budget: "5+ Cr" as const, configuration: "3 BHK" as const },
-      { id: 27, img: LOCAL_IMAGES.img2, builder: "Godrej Properties" as const, subtitle: "Godrej Properties, Chembur (E)", budget: "2-5 Cr" as const, configuration: "2 BHK" as const },
-      { id: 28, img: LOCAL_IMAGES.img3, builder: "Hiranandani" as const, subtitle: "Hiranandani, Chembur (E)", budget: "Under 2 Cr" as const, configuration: "1 BHK" as const },
-    ] as const
-  ).map((row) => ({
-    id: row.id,
-    imageSrc: row.img,
-    title: "Lorem Ipsum Tower C",
-    subtitle: row.subtitle,
-    badge: { label: "Completed", variant: "completed" as const },
-    budget: row.budget,
-    builder: row.builder,
-    configuration: row.configuration,
-  })),
-];
+function useBuilderFilterOptions(projects: ProjectRow[]) {
+  return useMemo(() => {
+    const seen = new Set<string>();
+    const out: string[] = ["All"];
+    for (const b of BUILDER_OPTIONS) {
+      if (b !== "All" && !seen.has(b)) {
+        seen.add(b);
+        out.push(b);
+      }
+    }
+    for (const p of projects) {
+      if (p.builder && p.builder !== "—" && !seen.has(p.builder)) {
+        seen.add(p.builder);
+        out.push(p.builder);
+      }
+    }
+    return out;
+  }, [projects]);
+}
 
 function projectIsCompleted(p: ProjectRow) {
   return p.badge?.variant === "completed";
@@ -258,13 +81,34 @@ function filterProjects(
   return list.filter((p) => {
     const searchTerm = opts.query.trim().toLowerCase();
     if (searchTerm) {
-      const searchableText = `${p.title} ${p.subtitle} ${p.builder} ${p.budget} ${p.configuration}`.toLowerCase();
+      const searchableText = [
+        p.title,
+        p.subtitle,
+        p.builder,
+        p.budget,
+        p.configuration,
+        p.rera,
+        p.description,
+        p.area,
+        p.amenitiesSearch,
+        p.caseStudyInfo,
+        p.completionDate,
+      ]
+        .join(" ")
+        .toLowerCase();
       if (!searchableText.includes(searchTerm)) return false;
     }
     if (opts.budget !== "All" && p.budget !== opts.budget) return false;
     if (opts.builder !== "All" && p.builder !== opts.builder) return false;
-    if (opts.configuration !== "All" && p.configuration !== opts.configuration)
-      return false;
+    if (opts.configuration !== "All") {
+      const hasBuckets = p.configurationBuckets.length > 0;
+      if (
+        hasBuckets &&
+        !p.configurationBuckets.includes(opts.configuration)
+      ) {
+        return false;
+      }
+    }
     if (opts.stage === "Ongoing" && projectIsCompleted(p)) return false;
     if (opts.stage === "Completed" && !projectIsCompleted(p)) return false;
     if (!subtitleMatchesLocation(p.subtitle, opts.location)) return false;
@@ -363,8 +207,22 @@ function FilterSelect({
           </option>
         ))}
       </select>
-      <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-2.5 w-2.5 -translate-y-1/2 text-[#202225] sm:right-3" />
+      <ChevronDown className="pointer-events-none absolute right-2.5 top-1/2 h-2.5 w-2.5 -translate-y-1/2 text-brand-footer sm:right-3" />
     </label>
+  );
+}
+
+function ProjectCardSkeleton() {
+  return (
+    <div className="relative flex flex-col overflow-hidden bg-white shadow-[0_4px_24px_rgba(0,0,0,0.08)]">
+      <div className="relative aspect-4/3 w-full overflow-hidden bg-[#BCBDC0]/35 sm:aspect-16/10">
+        <div className="h-full w-full animate-pulse bg-linear-to-r from-[#d6d7da] via-[#ececef] to-[#d6d7da]" />
+      </div>
+      <div className="flex flex-col gap-3 bg-[#ecebeb] px-4 py-4 sm:px-5 sm:py-5">
+        <div className="h-6 w-3/4 animate-pulse rounded bg-[#cfd1d5]" />
+        <div className="h-4 w-5/6 animate-pulse rounded bg-[#d9dbde]" />
+      </div>
+    </div>
   );
 }
 
@@ -382,9 +240,14 @@ function ProjectsPageContent() {
   const [filterStage, setFilterStage] = useState<string>("Ongoing");
   const [searchQuery, setSearchQuery] = useState("");
 
-  const [activeLocation, setActiveLocation] = useState<string | null>(
-    "Chembur (E)",
-  );
+  const [activeLocation, setActiveLocation] = useState<string | null>(null);
+
+  const [projects, setProjects] = useState<ProjectRow[]>([]);
+  const [listLoading, setListLoading] = useState(true);
+  const [listError, setListError] = useState<string | null>(null);
+  const [listTotal, setListTotal] = useState(0);
+
+  const builderFilterOptions = useBuilderFilterOptions(projects);
 
   const [visibleCardCount, setVisibleCardCount] =
     useState(INITIAL_VISIBLE_CARDS);
@@ -394,6 +257,44 @@ function ProjectsPageContent() {
     if (stage === "ongoing") setFilterStage("Ongoing");
     else if (stage === "completed") setFilterStage("Completed");
   }, [searchParams]);
+
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      setListLoading(true);
+      setListError(null);
+      try {
+        const raw = await getAllProjects({ per_page: 100, page: 1 });
+        if (cancelled) return;
+        const { items, total } = parseProjectListResponse(raw);
+        setListTotal(total);
+        setProjects(items.map(mapApiProjectListItemToRow));
+      } catch (e) {
+        if (!cancelled) {
+          setListError(
+            e instanceof Error ? e.message : "Failed to load projects.",
+          );
+          setProjects([]);
+        }
+      } finally {
+        if (!cancelled) {
+          setListLoading(false);
+        }
+      }
+    })();
+    return () => {
+      cancelled = true;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (
+      filterBuilder !== "All" &&
+      !builderFilterOptions.includes(filterBuilder)
+    ) {
+      setFilterBuilder("All");
+    }
+  }, [builderFilterOptions, filterBuilder]);
 
   useEffect(() => {
     setVisibleCardCount(INITIAL_VISIBLE_CARDS);
@@ -417,6 +318,7 @@ function ProjectsPageContent() {
         query: searchQuery,
       }),
     [
+      projects,
       filterBudget,
       filterBuilder,
       filterConfiguration,
@@ -443,180 +345,199 @@ function ProjectsPageContent() {
     setShowFilters(true);
   }
 
-  const heroBackgroundSrc =
-    filterStage === "Completed"
-      ? "/images/Projects/completed.svg"
-      : "/images/Projects/ongoing/bg-hero.svg";
-
   return (
     <main>
-      {/* ------------------------------------------------------------------ */}
-      {/* HERO — combined projects landing                                    */}
-      {/* ------------------------------------------------------------------ */}
-      <section
-        className="relative isolate md:flex min-h-[min(20rem,50svh)] h-[min(62svh,36rem)] flex-col overflow-hidden sm:min-h-[380px] sm:h-[620px] lg:h-[800px] lg:min-h-0 lg:pt-[90px]"
-      >
-        <Image
-          src={heroBackgroundSrc}
-          alt=""
-          fill
-          priority
-          unoptimized
-          className="object-cover object-center"
-          sizes="100vw"
-        />
-
-        <div className="relative z-[1] flex w-full min-w-0 flex-1 flex-col items-center justify-center gap-2 px-4 pb-8 pt-8 text-center sm:justify-start sm:gap-2 sm:px-8 sm:py-14 sm:pb-14 md:px-10">
-          <h1
-            className=" whitespace-nowrap text-[clamp(1.1rem,calc(0.65rem+3.8vw),3.75rem)] uppercase leading-[1.12] tracking-[0.06em] text-[#0a0a0a] sm:tracking-[0.07em] lg:text-[clamp(2.75rem,5vw,4rem)] qs-reg fs-70"
-          >
-            {filterStage} Projects
-          </h1>
-          <p className="mt-1 max-w-3xl px-1 n-book fs-18 lh-22 text-black leading-relaxed text-[#000000] sm:mt-0 sm:text-lg lg:text-base">
-            We are one of the fastest growing Real Estate consulting company in
-            India.
-          </p>
-        </div>
-      </section>
+      <MarketingPageHero
+        heroId="projects"
+        projectsStage={filterStage as "Ongoing" | "Completed"}
+        heightPx={650}
+        shiftUnderHeader={false}
+        shiftTillSearch={false}
+        shiftExtraContentTopPx={70}
+      />
 
       {/* ------------------------------------------------------------------ */}
-      {/* FILTER BAR                                                          */}
+      {/* FILTER BAR (hidden for Completed — stage is fixed from hero / query)  */}
       {/* ------------------------------------------------------------------ */}
 
-      <section className=" shadow-[0_-4px_4px_0_rgba(0,0,0,0.15)]">
-        <Container className="min-w-0 py-4 sm:py-5 lg:py-6">
-          <div className="pt-10 flex min-w-0 flex-col items-center gap-3 text-center sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4 sm:text-left lg:px-8 xl:px-12 2xl:px-16">
-            <div className="flex min-w-0 flex-wrap items-center justify-center gap-3 sm:min-w-0 sm:justify-start sm:gap-5">
-              <button
-                type="button"
-                onClick={() => setShowFilters((prev) => !prev)}
-                aria-expanded={showFilters}
-                aria-controls="projects-filter-dropdowns"
-                className={`inline-flex cursor-pointer items-center gap-2 n-reg text-sm font-black uppercase tracking-[0.1em] sm:text-base ${showFilters
-                  ? "text-[#8F8183]  border-[#8F8183] n-bold"
-                  : "text-[#8F8183]"
-                  }`}
-              >
-                Filters
-                {showFilters ? (
-                  <ChevronUp className="text-[#8F8183]" />
-                ) : (
-                  <ChevronDown className="text-[#8F8183]" />
-                )}
-              </button>
-              <button
-                type="button"
-                className="inline-flex cursor-pointer items-center gap-2 n-reg  text-sm  uppercase tracking-[0.1em] text-[#8F8183] sm:text-base"
-              >
-                Sort By
-                <ChevronDown className="text-[#8F8183]" />
-              </button>
-            </div>
+      {filterStage !== "Completed" && (
+        <section className=" shadow-[0_-4px_4px_0_rgba(0,0,0,0.15)]">
+          <Container className="min-w-0 py-4 sm:py-5 lg:py-6">
+            <ScrollReveal direction="up" distance={30}>
+              <div className="pt-10 flex min-w-0 flex-col items-center gap-3 text-center sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4 sm:text-left lg:px-8 xl:px-12 2xl:px-16">
+                <div className="flex min-w-0 flex-wrap items-center justify-center gap-3 sm:min-w-0 sm:justify-start sm:gap-5">
+                  <button
+                    type="button"
+                    onClick={() => setShowFilters((prev) => !prev)}
+                    aria-expanded={showFilters}
+                    aria-controls="projects-filter-dropdowns"
+                    className={`inline-flex cursor-pointer items-center gap-2 n-reg text-sm font-black uppercase tracking-widest sm:text-base ${showFilters
+                      ? "text-brand-footer border-brand-footer n-bold"
+                      : "text-brand-footer"
+                      }`}
+                  >
+                    Filters
+                    {showFilters ? (
+                      <ChevronUp className="text-brand-footer" />
+                    ) : (
+                      <ChevronDown className="text-brand-footer" />
+                    )}
+                  </button>
+                  <button
+                    type="button"
+                    className="inline-flex cursor-pointer items-center gap-2 n-reg text-sm uppercase tracking-widest text-brand-footer sm:text-base"
+                  >
+                    Sort By
+                    <ChevronDown className="text-brand-footer" />
+                  </button>
+                </div>
 
-            <div className="mx-auto flex h-[30px] w-full max-w-[345px] min-w-0 shrink-0 items-center gap-2 border border-black/20 bg-white px-3 sm:mx-0">
-              <SearchIcon />
-              <label htmlFor="projects-search" className="sr-only">
-                Search projects
-              </label>
-              <input
-                id="projects-search"
-                type="text"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search"
-                className="min-h-0 min-w-0 flex-1 border-0 bg-transparent py-0 n-reg text-sm leading-none text-black/80 outline-none placeholder:text-black/40"
-              />
-            </div>
-          </div>
+                <div className="mx-auto flex h-[30px] w-full max-w-[345px] min-w-0 shrink-0 items-center gap-2 border border-black/20 bg-white px-3 sm:mx-0">
+                  <SearchIcon />
+                  <label htmlFor="projects-search" className="sr-only">
+                    Search projects
+                  </label>
+                  <input
+                    id="projects-search"
+                    type="text"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    placeholder="Search"
+                    className="min-h-0 min-w-0 flex-1 border-0 bg-transparent py-0 n-reg text-sm leading-none text-black/80 outline-none placeholder:text-black/40"
+                  />
+                </div>
+              </div>
+            </ScrollReveal>
 
+            {showFilters && (
+              <ScrollReveal direction="up" delay={0.08} distance={24}>
+                <>
+                  <div className="my-3 h-px w-full max-w-[92%] bg-black mx-auto sm:my-4" />
 
-          {showFilters && (
-            <>
-              <div className="my-3 h-px w-full max-w-[92%] bg-black mx-auto sm:my-4" />
+                  <div
+                    id="projects-filter-dropdowns"
+                    className="grid min-w-0 grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:flex sm:flex-row sm:flex-wrap sm:items-center sm:gap-2 lg:gap-3 lg:px-8 xl:px-12 2xl:px-16"
+                  >
+                    <FilterSelect
+                      label="Budget"
+                      value={filterBudget}
+                      onChange={setFilterBudget}
+                      options={[...BUDGET_OPTIONS]}
+                    />
+                    <FilterSelect
+                      label="Builder"
+                      value={filterBuilder}
+                      onChange={setFilterBuilder}
+                      options={builderFilterOptions}
+                    />
 
-              <div
-                id="projects-filter-dropdowns"
-                className="grid min-w-0 grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:flex sm:flex-row sm:flex-wrap sm:items-center sm:gap-2 lg:gap-3 lg:px-8 xl:px-12 2xl:px-16"
-              >
-                <FilterSelect
-                  label="Budget"
-                  value={filterBudget}
-                  onChange={setFilterBudget}
-                  options={[...BUDGET_OPTIONS]}
-                />
-                <FilterSelect
-                  label="Builder"
-                  value={filterBudget}
-                  onChange={setFilterBudget}
-                  options={[...BUDGET_OPTIONS]}
-                />
+                    {activeLocation && (
+                      <div className="inline-flex h-12 min-h-[48px] w-full max-w-full flex-wrap items-center justify-center gap-2 border border-[#161616] bg-[#BCBDC0] px-3 py-1 n-reg text-[11px] uppercase tracking-[0.08em] text-[#161616] min-[400px]:px-4 min-[400px]:text-xs sm:h-[51px] sm:min-h-0 sm:w-auto sm:max-w-none sm:justify-between sm:px-5 sm:py-0 sm:text-sm sm:tracking-widest md:text-base">
+                        <span className="min-w-0 wrap-break-word n-bold">
+                          {activeLocation}
+                        </span>
+                        <span className="mx-1 hidden h-[50px] w-px shrink-0 bg-[#161616] sm:inline-block" />
+                        <button
+                          type="button"
+                          onClick={() => setActiveLocation(null)}
+                          className="cursor-pointer text-xl  leading-none n-bold ml-2"
+                          aria-label="Remove filter"
+                        >
+                          X
+                        </button>
+                      </div>
+                    )}
 
+                    <FilterSelect
+                      label="Configuration"
+                      value={filterConfiguration}
+                      onChange={setFilterConfiguration}
+                      options={[...CONFIGURATION_OPTIONS]}
+                    />
+                    <FilterSelect
+                      label="Stage"
+                      value={filterStage}
+                      onChange={setFilterStage}
+                      options={[...STAGE_OPTIONS]}
+                    />
 
-                {activeLocation && (
-                  <div className="inline-flex h-12 min-h-[48px] w-full max-w-full flex-wrap items-center justify-center gap-2 border border-[#161616] bg-[#BCBDC0] px-3 py-1 n-reg text-[11px] uppercase tracking-[0.08em] text-[#161616] min-[400px]:px-4 min-[400px]:text-xs sm:h-[51px] sm:min-h-0 sm:w-auto sm:max-w-none sm:justify-between sm:px-5 sm:py-0 sm:text-sm sm:tracking-[0.1em] md:text-base">
-                    <span className="min-w-0 wrap-break-word n-bold">{activeLocation}</span>
-                    <span className="mx-1 hidden h-[50px] w-px shrink-0 bg-[#161616] sm:inline-block" />
                     <button
                       type="button"
-                      onClick={() => setActiveLocation(null)}
-                      className="cursor-pointer text-xl  leading-none n-bold ml-2"
-                      aria-label="Remove filter"
+                      className="col-span-full w-full basis-full cursor-pointer py-2 text-center n-reg text-sm text-black underline sm:ml-auto sm:w-auto sm:basis-auto sm:py-0 sm:text-left sm:text-base"
+                      onClick={clearAllFilters}
                     >
-                      X
+                      Clear all
                     </button>
                   </div>
-                )}
-
-                <FilterSelect
-                  label="Configuration"
-                  value={filterConfiguration}
-                  onChange={setFilterConfiguration}
-                  options={[...CONFIGURATION_OPTIONS]}
-                />
-                <FilterSelect
-                  label="Stage"
-                  value={filterStage}
-                  onChange={setFilterStage}
-                  options={[...STAGE_OPTIONS]}
-                />
-
-                <button
-                  type="button"
-                  className="col-span-full w-full basis-full cursor-pointer py-2 text-center n-reg text-sm text-black underline sm:ml-auto sm:w-auto sm:basis-auto sm:py-0 sm:text-left sm:text-base"
-                  onClick={clearAllFilters}
-                >
-                  Clear all
-                </button>
-              </div>
-            </>
-          )}
-        </Container>
-      </section>
+                </>
+              </ScrollReveal>
+            )}
+          </Container>
+        </section>
+      )}
 
       {/* ------------------------------------------------------------------ */}
       {/* PROJECT GRID                                                        */}
       {/* ------------------------------------------------------------------ */}
       <section className="bg-white py-8 sm:py-10 lg:px-8 lg:py-10 xl:px-12 2xl:px-16">
         <Container className="min-w-0">
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:gap-10 xl:gap-10">
-            {displayedProjects.map((project) => (
-              <ProjectCard
-                key={project.id}
-                imageSrc={project.imageSrc}
-                title={project.title}
-                subtitle={project.subtitle}
-                badge={project.badge}
-                href={
-                  projectIsCompleted(project)
-                    ? `/projects/${project.id}?status=completed`
-                    : `/projects/${project.id}`
-                }
-                stage={filterStage}
-              />
-            ))}
-          </div>
+          {listError ? (
+            <p className="px-1 text-center n-reg text-sm text-[#d05c43] sm:px-0">
+              {listError} Set <code className="text-xs">NEXT_PUBLIC_API_BASE_URL</code> to
+              your API (e.g. http://127.0.0.1:8000/api) in{" "}
+              <code className="text-xs">.env.local</code>.
+            </p>
+          ) : null}
 
-          {visibleProjects.length === 0 ? (
+          {!listLoading && !listError && listTotal > 0 ? (
+            <p className="mb-5 text-center n-reg text-xs text-[#161616]/50">
+              {listTotal} project{listTotal === 1 ? "" : "s"} total
+              {visibleProjects.length !== projects.length
+                ? ` · ${visibleProjects.length} match filters`
+                : null}
+            </p>
+          ) : null}
+
+          <StaggerContainer className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:gap-10 xl:gap-10" staggerChildren={0.14}>
+            {listLoading
+              ? Array.from({ length: PROJECT_LIST_SKELETON_COUNT }).map(
+                (_, index) => (
+                  <ScrollReveal
+                    key={`project-skeleton-${index}`}
+                    direction="up"
+                    delay={index * 0.02}
+                    distance={20}
+                  >
+                    <ProjectCardSkeleton />
+                  </ScrollReveal>
+                ),
+              )
+              : displayedProjects.map((project, index) => (
+                <ScrollReveal key={project.id} direction="up" delay={index * 0.03} distance={28}>
+                  <ProjectCard
+                    imageSrc={project.imageSrc}
+                    title={project.title}
+                    subtitle={project.subtitle}
+                    badge={project.badge}
+                    href={
+                      projectIsCompleted(project)
+                        ? `/projects/${project.id}?status=completed`
+                        : `/projects/${project.id}`
+                    }
+                    stage={filterStage}
+                  />
+                </ScrollReveal>
+              ))}
+          </StaggerContainer>
+
+          {!listLoading && !listError && projects.length === 0 ? (
+            <p className="mt-10 px-1 text-center n-reg text-sm text-[#161616]/70 sm:px-0">
+              No projects to display yet.
+            </p>
+          ) : null}
+
+          {!listLoading && !listError && projects.length > 0
+          && visibleProjects.length === 0 ? (
             <p className="mt-10 px-1 text-center n-reg text-sm leading-relaxed text-[#161616]/70 sm:px-0">
               No projects match these filters. Try adjusting or{" "}
               <button
@@ -630,14 +551,15 @@ function ProjectsPageContent() {
             </p>
           ) : null}
 
-          <div className="mt-10 flex justify-center px-2 sm:mt-12 lg:mt-16">
+          <ScrollReveal direction="up" delay={0.1} className="mt-10 flex justify-center px-2 sm:mt-12 lg:mt-16">
             <GradientCtaButton
               type="button"
               disabled={
-                visibleProjects.length === 0 ||
+                listLoading ||
+                Boolean(listError) ||
                 !hasMoreProjects
               }
-              className="h-[52px] w-full max-w-sm disabled:pointer-events-none disabled:opacity-50 sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
+              className="h-[52px] cursor-pointer w-full max-w-sm disabled:pointer-events-none disabled:opacity-50 sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
               onClick={() =>
                 setVisibleCardCount((n) =>
                   Math.min(n + INITIAL_VISIBLE_CARDS, visibleProjects.length),
@@ -646,23 +568,17 @@ function ProjectsPageContent() {
             >
               View More
             </GradientCtaButton>
-          </div>
+          </ScrollReveal>
         </Container>
       </section>
     </main>
   );
 }
 
-export default function ProjectsPage() {
+export default function ProjectsPage(props: object) {
   return (
     <Suspense
-      fallback={
-        <main className="min-h-[50vh] min-w-0 bg-white lg:pt-[100px]">
-          <div className="flex min-h-[min(17.5rem,42svh)] h-[min(52svh,28rem)] items-center justify-center bg-[#BCBDC0]/30 sm:h-[400px] sm:min-h-[380px] lg:h-[550px]">
-            <span className="n-reg  text-sm text-[#202225]/60">Loading…</span>
-          </div>
-        </main>
-      }
+      fallback={<AppPageSkeleton />}
     >
       <ProjectsPageContent />
     </Suspense>

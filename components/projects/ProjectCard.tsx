@@ -35,6 +35,7 @@ export function ProjectCard({
     badge?.variant === "completed"
       ? "bg-[#202225]"
       : "bg-[#8F8183]";
+  const imageUnoptimized = /^https?:\/\//i.test(imageSrc);
 
   return (
     <Link
@@ -51,11 +52,12 @@ export function ProjectCard({
           src={imageSrc}
           alt={imageAlt}
           fill
+          unoptimized={imageUnoptimized}
           className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           sizes="(min-width: 1280px) 400px, (min-width: 768px) 45vw, 100vw"
         />
 
-        {badge ? (
+        {badge && stage !== "Completed" ? (
           <div
             className={cn(
               "absolute mt-3 left-1/2 top-3 z-10 -translate-x-1/2 rounded-none px-4 py-1.5 sm:left-0 sm:top-4 sm:translate-x-0 sm:px-4 sm:py-1.5",
@@ -82,7 +84,7 @@ export function ProjectCard({
         <span
           className={cn(
             arrowIconTileClassName,
-            "pointer-events-none group-hover:bg-neutral-900 !w-[75px] !h-[55px]",
+            "pointer-events-none group-hover:brightness-90 !h-[55px] !w-[75px]",
           )}
           aria-hidden
         >

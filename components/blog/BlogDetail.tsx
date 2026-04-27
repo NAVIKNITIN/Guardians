@@ -94,7 +94,7 @@ export function BlogDetail({ post }: { post: BlogDetailPost }) {
               src={post.featuredImage}
               alt={post.featuredImageAlt}
               fill
-              className="object-cover object-center"
+              className=""
               sizes="100vw"
               priority
             />

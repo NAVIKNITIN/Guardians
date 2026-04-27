@@ -1,6 +1,14 @@
 import type { Metadata } from "next";
 import "./globals.css";
+import { DirectionalButtonGradientClient } from "@/components/effects/DirectionalButtonGradientClient";
+import { ErrorBoundary } from "@/src/components/ErrorBoundary";
 import { nexaFont, playfairDisplay, qasbyneFont } from "@/styles/fonts";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Geist } from "next/font/google";
+import { cn } from "@/lib/utils";
+
+const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
 export const metadata: Metadata = {
   title: {
@@ -25,10 +33,21 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${nexaFont.variable} ${qasbyneFont.variable} ${playfairDisplay.variable} h-full scroll-smooth`}
+      className={cn("h-full", "scroll-smooth", "scrollbar-brand", nexaFont.variable, qasbyneFont.variable, playfairDisplay.variable, "font-sans", geist.variable)}
     >
       <body className="min-h-full bg-brand-background text-brand-text-primary font-sans">
-        {children}
+        <DirectionalButtonGradientClient />
+        <ErrorBoundary>{children}</ErrorBoundary>
+        <ToastContainer
+          position="top-right"
+          autoClose={4000}
+          closeOnClick
+          pauseOnFocusLoss
+          draggable
+          limit={3}
+          theme="light"
+          hideProgressBar={false}
+        />
       </body>
     </html>
   );

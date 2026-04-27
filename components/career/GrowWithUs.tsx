@@ -1,9 +1,11 @@
+import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import { Container } from "@/components/common/Container";
 import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 
-const HR_EMAIL = "hr@theguardians.in";
+const HR_EMAIL = "hr@theguardians.com";
 
 function IconEnvelopeOutline({ className }: { className?: string }) {
     return (
@@ -37,7 +39,7 @@ export function GrowWithUs() {
                         src="/images/bg-arrow.svg"
                         alt=""
                         fill
-                        className="object-cover object-center"
+                        className=""
                         sizes="100vw"
                     />
                     <div className="absolute inset-0 bg-[#BCBDC0]/20" />
@@ -45,40 +47,48 @@ export function GrowWithUs() {
                 </div>
 
                 <Container className="relative z-10">
-                    <div className="mx-auto flex flex-col items-center text-center ">
-                        <h2
-                            id="grow-heading"
-                            className={cn(
-                                "qs-reg uppercase text-[#202225]",
-                                "fs-50 lh-70 ls-6 mt-2 md:mt-4 lg:mt-10",
-                            )}
-                        >
-                            Come grow with us
-                        </h2>
+                    <StaggerContainer className="mx-auto flex flex-col items-center text-center " staggerChildren={0.14}>
+                        <ScrollReveal direction="up" distance={28}>
+                            <h2
+                                id="grow-heading"
+                                className={cn(
+                                    "qs-reg uppercase text-brand-text-primary",
+                                    "fs-50 lh-70 ls-6 mt-2 md:mt-4 lg:mt-10",
+                                )}
+                            >
+                                Come grow with us
+                            </h2>
+                        </ScrollReveal>
 
-                        <p className="mt-5 w-full max-w-[min(55rem,92vw)] n-book fs-16 text-[#161616]sm:mt-6 sm:text-base lg:text-lg">
-                            The Guardians provide endless opportunities for professional growth in
-                            promising times like these. A stimulating work environment, rich and
-                            diverse exposure &amp; inspiring leadership are a few reasons that make
-                            The Guardians a great place to work.
-                        </p>
+                        <ScrollReveal direction="up" delay={0.06} distance={24}>
+                            <p className="mt-5 w-full max-w-[min(55rem,92vw)] n-book fs-16 text-[#161616]sm:mt-6 sm:text-base lg:text-lg">
+                                The Guardians provide endless opportunities for professional growth in
+                                promising times like these. A stimulating work environment, rich and
+                                diverse exposure &amp; inspiring leadership are a few reasons that make
+                                The Guardians a great place to work.
+                            </p>
+                        </ScrollReveal>
 
-                        <a
-                            href={`mailto:${HR_EMAIL}`}
-                            className="mt-6 inline-flex items-center gap-2 n-bold text-sm tracking-[0.05em] text-[#161616] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#202225] sm:mt-8 sm:gap-2.5 sm:text-base lg:text-lg"
-                        >
-                            <IconEnvelopeOutline className="h-4 w-4 shrink-0 text-[#161616] sm:h-5 sm:w-5" />
-                            <span className="break-all">{HR_EMAIL}</span>
-                        </a>
+                        <ScrollReveal direction="up" delay={0.1} distance={20}>
+                            <a
+                                href={`mailto:${HR_EMAIL}`}
+                                className="mt-6 inline-flex items-center gap-2 n-bold text-sm tracking-[0.05em] text-[#161616] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-text-primary sm:mt-8 sm:gap-2.5 sm:text-base lg:text-lg"
+                            >
+                                <IconEnvelopeOutline className="h-4 w-4 shrink-0 text-[#161616] sm:h-5 sm:w-5" />
+                                <span className="break-all">{HR_EMAIL}</span>
+                            </a>
+                        </ScrollReveal>
 
-                        <GradientCtaButton
-                            href="/contact"
-                            variant="know-more"
-                            className="my-4 md:my-6 lg:mt-8 lg:mb-12"
-                        >
-                            Enquire Now
-                        </GradientCtaButton>
-                    </div>
+                        <ScrollReveal direction="up" delay={0.14} distance={18}>
+                            <GradientCtaButton
+                                href="/contact"
+                                variant="know-more"
+                                className="my-4 md:my-6 lg:mt-8 lg:mb-12"
+                            >
+                                Enquire Now
+                            </GradientCtaButton>
+                        </ScrollReveal>
+                    </StaggerContainer>
                 </Container>
             </div>
         </section>
