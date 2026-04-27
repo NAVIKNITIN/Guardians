@@ -550,7 +550,7 @@ function HomeHero({
               id={config["headingId"] as string}
               className={cn(
                 "w-full max-w-[760px] qs-reg not-italic uppercase tracking-[0.05em] text-[#202225]",
-                "text-[clamp(1.1rem,calc(0.5rem+3.4vw),52px)] leading-none",
+                "text-[clamp(1.1rem,calc(0.5rem+6.4vw),65px)] leading-none",
               )}
             >
               {lines[0] ? (
@@ -567,8 +567,8 @@ function HomeHero({
           <ScrollReveal direction="up" delay={0.12} distance={22}>
             <p
               className={cn(
-                "mx-auto mt-4 max-w-[42rem] n-reg lh-22 text-[#000000]",
-                "text-[12px] sm:mt-7 sm:text-[14px] lg:mt-4 lg:text-[16px]",
+                "mx-auto mt-4 w-full max-w-2xl n-reg lh-22 text-[#000000]",
+                " sm:mt-7  lg:mt-4 text-[clamp(0.76rem,calc(0.5rem+0.87vw),1.125rem)]",
               )}
             >
               {config["subtitle"] as string}
@@ -578,7 +578,7 @@ function HomeHero({
             <GradientCtaButton
               href={cta.href}
               variant="know-more"
-              className="btn-1 w-full min-w-0 max-w-[210px] max-h-[44px] text-[11px] sm:text-sm lg:text-[18px] lg:px-[46px] lg:py-4.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B48183] sm:min-w-[155px] sm:max-w-none"
+              className=" btn-1 w-full  min-w-0  h-[44px]  lg:px-[46px] lg:py-4.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B48183] "
             >
               {cta.label}
             </GradientCtaButton>
