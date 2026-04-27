@@ -1,8 +1,7 @@
 import { Container } from "@/components/common/Container";
-import { IconArrowUpRight } from "@/components/common/icons";
+import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
-import Link from "next/link";
 
 export const DIVIDER_BANNER_SRC = "/images/Home/Banner1.svg";
 
@@ -19,9 +18,8 @@ const FIGMA_GRAD_OVERLAY_DEVELOPER =
 const FIGMA_CARD_SIZE = "w-full min-w-0 lg:max-h-[350px]";
 
 const dividerCardCtaClassName = cn(
-  "inline-flex h-[38px] items-center justify-center gap-2 rounded-none border border-[#202225] bg-transparent px-4 py-2.5",
-  "n-bold text-[12px] leading-[18px] tracking-normal text-[#000000] lg:h-[43px] lg:px-5 lg:py-[15px] lg:text-[18px] lg:leading-[22px]",
-  "transition-colors duration-300 hover:bg-black/5",
+  "h-[38px] gap-2 px-4 py-2.5",
+  "text-[12px] leading-[18px] tracking-normal lg:h-[43px] lg:px-5 lg:py-[15px] lg:text-[18px] lg:leading-[22px]",
 );
 
 function BuyerProfileCard({
@@ -80,10 +78,13 @@ function BuyerProfileCard({
             </h3>
           </div>
 
-          <Link href="/buyer" className={cn(dividerCardCtaClassName, "mt-1 w-fit shrink-0 lg:mt-0")}>
+          <OutlineArrowButton
+            href="/buyer"
+            className={cn(dividerCardCtaClassName, "mt-1 w-fit shrink-0 lg:mt-0")}
+            iconClassName="h-[13px] w-[13px] shrink-0"
+          >
             Know More
-            <IconArrowUpRight className="h-[13px] w-[13px] shrink-0" />
-          </Link>
+          </OutlineArrowButton>
         </div>
 
         <CardImageColumn
@@ -154,10 +155,13 @@ function DeveloperProfileCard({
             </h3>
           </div>
 
-          <Link href="/developer" className={cn(dividerCardCtaClassName, "mt-1 w-fit shrink-0 self-start lg:mt-0 lg:self-end")}>
+          <OutlineArrowButton
+            href="/developer"
+            className={cn(dividerCardCtaClassName, "mt-1 w-fit shrink-0 self-start lg:mt-0 lg:self-end")}
+            iconClassName="h-[13px] w-[13px] shrink-0"
+          >
             Know More
-            <IconArrowUpRight className="h-[13px] w-[13px] shrink-0" />
-          </Link>
+          </OutlineArrowButton>
         </div>
 
         <CardImageColumn
