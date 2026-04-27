@@ -351,6 +351,9 @@ function ProjectsPageContent() {
         heroId="projects"
         projectsStage={filterStage as "Ongoing" | "Completed"}
         heightPx={650}
+        mobileHeightPx={230}
+        useViewportHeightFlag
+        viewportHeightBreakpointPx={1024}
         shiftUnderHeader={false}
         shiftTillSearch={false}
         shiftExtraContentTopPx={70}
@@ -537,7 +540,7 @@ function ProjectsPageContent() {
           ) : null}
 
           {!listLoading && !listError && projects.length > 0
-          && visibleProjects.length === 0 ? (
+            && visibleProjects.length === 0 ? (
             <p className="mt-10 px-1 text-center n-reg text-sm leading-relaxed text-[#161616]/70 sm:px-0">
               No projects match these filters. Try adjusting or{" "}
               <button

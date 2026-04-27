@@ -31,6 +31,7 @@ import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { MarketingPageHero } from "@/components/marketing/MarketingPageHero";
 import Image from "next/image";
 import type { Metadata } from "next";
+import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: { absolute: "About | The Guardians" },
@@ -127,7 +128,16 @@ export default function AboutPage() {
         id="about"
         className="border-b border-[#d8d2d2] bg-[linear-gradient(180deg,#fbfbfb_0%,#f7f5f5_50%,#efeded_100%)] "
       >
-        <MarketingPageHero heroId="about" heightPx={650} shiftUnderHeader={true} shiftTillSearch={false} shiftExtraContentTopPx={60} />
+        <MarketingPageHero
+          heroId="about"
+          heightPx={650}
+          mobileHeightPx={470}
+          useViewportHeightFlag
+          viewportHeightBreakpointPx={1024}
+          shiftUnderHeader={true}
+          shiftTillSearch={false}
+          shiftExtraContentTopPx={60}
+        />
       </section>
 
       <section className={aboutBrandPromiseSection}>

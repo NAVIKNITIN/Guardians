@@ -1,3 +1,5 @@
+"use client";
+
 import { Container } from "@/components/common/Container";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { GradientCtaButton } from "@/components/common/GradientCtaButton";
@@ -5,7 +7,7 @@ import { MarketingEnquireLink } from "@/components/ui/MarketingEnquireLink";
 import type { MarketingHeroContent } from "@/data/audience-marketing-types";
 import { cn } from "@/utils/cn";
 import { getMarketingHeroConfig, type MarketingHeroId } from "@/utils/marketing-hero";
-import type { CSSProperties } from "react";
+import { useEffect, useState, type CSSProperties } from "react";
 import Image from "next/image";
 
 type ProjectsStage = "Ongoing" | "Completed";
@@ -31,6 +33,18 @@ type MarketingPageHeroBase = {
    * (≈560px–1250px, often ~50–60vh on desktop) with exactly this height.
    */
   heightPx?: number;
+  /**
+   * Optional mobile hero height (px), used only when `useViewportHeightFlag` is true.
+   */
+  mobileHeightPx?: number;
+  /**
+   * If true, resolve hero height on load using viewport:
+   * - mobile (`< viewportHeightBreakpointPx`) => `mobileHeightPx`
+   * - desktop => `heightPx`
+   */
+  useViewportHeightFlag?: boolean;
+  /** Mobile/desktop cutoff for `useViewportHeightFlag`. Default: 1024. */
+  viewportHeightBreakpointPx?: number;
   /**
    * When `shiftUnderHeader` is true, extra top padding (px) on the content, added after the 89px / `--site-header-height` offset.
    * Defaults to 32. Pass `0` to turn off.
@@ -66,6 +80,24 @@ type HeroContentPad = { className?: string; style?: CSSProperties };
 const SHIFT_EXTRA_VAR = "--shift-extra";
 
 const NEGATIVE_HERO_CONTENT_CLASS_DEFAULT = "-mt-4 sm:-mt-5";
+const HERO_BG_IMAGE_CLASS = "object-cover object-center";
+const DEFAULT_VIEWPORT_HEIGHT_BREAKPOINT = 1024;
+
+function useViewportIsMobile(enabled: boolean, breakpointPx: number): boolean {
+  // Keep SSR and first client paint identical (desktop=false) to avoid hydration mismatch.
+  // After mount, compute real viewport and update.
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    if (!enabled) return;
+    const onResize = () => setIsMobile(window.innerWidth < breakpointPx);
+    onResize();
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [enabled, breakpointPx]);
+
+  return isMobile;
+}
 
 function mergeNegativeContentPad(shift: MarketingHeroNegativeContentShift | undefined, pad: HeroContentPad): HeroContentPad {
   if (shift === undefined || shift === false) {
@@ -205,7 +237,8 @@ function getProjectsContentPad(shift: boolean, till: boolean, extra: number): He
     if (extra > 0) {
       return {
         className:
-          "pt-[calc(2rem+var(--shift-extra))] sm:pt-[calc(3.5rem+var(--shift-extra))]",
+          // Keep mobile compact; apply larger custom offset only from `sm` upward.
+          "pt-5 sm:pt-[calc(3.5rem+var(--shift-extra))]",
         style: { [SHIFT_EXTRA_VAR as string]: `${extra}px` } as CSSProperties,
       };
     }
@@ -241,7 +274,7 @@ function isCustomHeroHeight(heightPx?: number): heightPx is number {
 /** Replaces `marketing-first-section-height` when `heightPx` is set. */
 function marketingFirstSectionHeightClass(heightPx?: number) {
   return isCustomHeroHeight(heightPx)
-    ? "min-h-0 min-w-0 [&_img]:!object-top [&_video]:!object-top"
+    ? "min-h-0 min-w-0 w-full [&_img]:!object-top [&_video]:!object-top"
     : "marketing-first-section-height";
 }
 
@@ -249,7 +282,11 @@ function marketingFirstSectionHeightStyle(heightPx?: number): CSSProperties | un
   if (!isCustomHeroHeight(heightPx)) {
     return undefined;
   }
-  return { height: heightPx, maxHeight: heightPx, minHeight: 0 };
+  return {
+    height: heightPx,
+    maxHeight: heightPx,
+    minHeight: 0,
+  };
 }
 
 function resolveHeadline(hero: MarketingHeroContent) {
@@ -272,7 +309,18 @@ function resolveHeadline(hero: MarketingHeroContent) {
 export function MarketingPageHero(props: MarketingPageHeroProps) {
   const shift = props.shiftUnderHeader;
   const shiftTill = Boolean(shift && props.shiftTillSearch);
-  const heightPx = props.heightPx;
+  const shouldUseViewportHeightFlag =
+    Boolean(props.useViewportHeightFlag) &&
+    isCustomHeroHeight(props.heightPx) &&
+    isCustomHeroHeight(props.mobileHeightPx);
+  const isMobileViewport = useViewportIsMobile(
+    shouldUseViewportHeightFlag,
+    props.viewportHeightBreakpointPx ?? DEFAULT_VIEWPORT_HEIGHT_BREAKPOINT,
+  );
+  const heightPx =
+    shouldUseViewportHeightFlag && isMobileViewport
+      ? props.mobileHeightPx
+      : props.heightPx;
   const negativePadding = props.negativePadding;
   /** With header shift: default +32px extra (legacy). Without shift: use `shiftExtraContentTopPx` when passed (e.g. projects), else 0. */
   const shiftContentExtra = shift
@@ -502,7 +550,7 @@ function HomeHero({
               id={config["headingId"] as string}
               className={cn(
                 "w-full max-w-[760px] qs-reg not-italic uppercase tracking-[0.05em] text-[#202225]",
-                "text-[clamp(1.5rem,calc(0.65rem+4.5vw),70px)] leading-none",
+                "text-[clamp(1.1rem,calc(0.5rem+3.4vw),52px)] leading-none",
               )}
             >
               {lines[0] ? (
@@ -520,17 +568,17 @@ function HomeHero({
             <p
               className={cn(
                 "mx-auto mt-4 max-w-[42rem] n-reg lh-22 text-[#000000]",
-                "text-sm sm:mt-10 sm:text-base lg:mt-4 lg:text-[18px]",
+                "text-[12px] sm:mt-7 sm:text-[14px] lg:mt-4 lg:text-[16px]",
               )}
             >
               {config["subtitle"] as string}
             </p>
           </ScrollReveal>
-          <div className="mt-8 flex justify-center sm:mt-12 lg:mt-10">
+          <div className="mt-6 flex justify-center sm:mt-10 lg:mt-10">
             <GradientCtaButton
               href={cta.href}
               variant="know-more"
-              className="btn-1 w-full min-w-0 max-w-[285px] max-h-[55px] text-sm lg:text-[20px] lg:px-[50px] lg:py-5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B48183] sm:min-w-[180px] sm:max-w-none"
+              className="btn-1 w-full min-w-0 max-w-[210px] max-h-[44px] text-[11px] sm:text-sm lg:text-[18px] lg:px-[46px] lg:py-4.5 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B48183] sm:min-w-[155px] sm:max-w-none"
             >
               {cta.label}
             </GradientCtaButton>
@@ -578,7 +626,7 @@ function OverlayTitleHero({
           src={config["backgroundImage"] as string}
           alt=""
           fill
-          className=""
+          className={HERO_BG_IMAGE_CLASS}
           sizes="100vw"
           priority
         />
@@ -646,7 +694,7 @@ function ContactHero({
           src={config["primaryImage"] as string}
           alt=""
           fill
-          className=""
+          className={HERO_BG_IMAGE_CLASS}
           sizes="100vw"
           priority
         />
@@ -720,7 +768,7 @@ function CareerHero({
           src={config["backgroundImage"] as string}
           alt={(config["imageAlt"] as string) || ""}
           fill
-          className=""
+          className={HERO_BG_IMAGE_CLASS}
           sizes="100vw"
           priority
         />
@@ -859,7 +907,7 @@ function PartnersHero({
           src={config["backgroundImage"] as string}
           alt=""
           fill
-          className=""
+          className={HERO_BG_IMAGE_CLASS}
           sizes="100vw"
           priority
         />
@@ -1035,7 +1083,7 @@ function TgreaHero({
             <ScrollReveal direction="up" delay={0.04} distance={24}>
               <h1
                 id={config["headingId"] as string}
-                className="break-words px-1 qs-reg fs-70 uppercase leading-[0.94] tracking-[0.02em] text-[#202225]"
+                className="break-words px-1 qs-reg uppercase leading-[0.94] tracking-[0.02em] text-[#202225] text-[clamp(1.9rem,9vw,4.375rem)] lg:fs-70"
               >
                 {config["title"] as string}
               </h1>
@@ -1104,7 +1152,7 @@ function ServicesHero({
           src={config["backgroundImage"] as string}
           alt=""
           fill
-          className=""
+          className={HERO_BG_IMAGE_CLASS}
           sizes="100vw"
           priority
         />
@@ -1120,7 +1168,7 @@ function ServicesHero({
           <h1
             id={config["headingId"] as string}
             className={cn(
-              "max-w-[min(100%,22ch)] break-words qs-reg fs-70 lh-50 uppercase leading-none tracking-[0.05em] text-[#202225]",
+              "max-w-[min(100%,22ch)] break-words qs-reg lh-50 uppercase leading-none tracking-[0.05em] text-[#202225] text-[clamp(1.9rem,9vw,4.375rem)] lg:fs-70",
               (config["titleClassName"] as string) || undefined,
             )}
           >
@@ -1188,7 +1236,7 @@ function AboutHero({
       >
         <Container className="min-w-0">
           <ScrollReveal direction="up" delay={0.04} distance={24}>
-            <h1 className="break-words px-1 qs-reg fs-70 uppercase leading-[0.94] tracking-[0.02em]">
+            <h1 className="break-words px-1 qs-reg uppercase leading-[0.94] tracking-[0.02em] text-[clamp(1.9rem,9vw,4.375rem)] lg:fs-70">
               <span className="ml-2 inline-block sm:ml-3 sm:inline text-[#202225]">
                 <span className="text-[#8F8183]">{heading.prefix}</span>
                 {heading.rest}
@@ -1250,7 +1298,7 @@ function ProjectsHeroSection({
             src={src}
             alt=""
             fill
-            className="object-cover object-center"
+            className="object-fill object-center"
             sizes="100vw"
             priority
           />
@@ -1278,14 +1326,14 @@ function ProjectsHeroSection({
       >
         <div className="mx-auto flex w-full min-w-0 max-w-3xl flex-col items-start gap-1 text-left sm:gap-2">
           <ScrollReveal direction="up" delay={0.04} distance={24}>
-            <h1 className="text-[clamp(1.1rem,calc(0.65rem+3.8vw),3.75rem)] uppercase leading-[1.12] text-[#0a0a0a] lg:text-[clamp(2.75rem,5vw,4rem)] qs-reg fs-70">
-              <span className="inline-block whitespace-nowrap tracking-[0.06em] sm:tracking-[0.07em]">
+            <h1 className="qs-reg text-[clamp(1.6rem,8vw,3.05rem)] uppercase leading-[1.08] tracking-[0.04em] text-[#0a0a0a] lg:text-[clamp(2.75rem,5vw,4rem)] lg:tracking-[0.06em]">
+              <span className="inline-block whitespace-normal tracking-[0.04em] sm:whitespace-nowrap sm:tracking-[0.07em]">
                 {stage} Projects
               </span>
             </h1>
           </ScrollReveal>
           <ScrollReveal direction="up" delay={0.12} distance={20}>
-            <p className="px-1 w-full n-book fs-18 lh-22 text-black leading-relaxed text-[#000000] sm:text-lg lg:text-base">
+            <p className="w-full px-1 n-book text-[13px] leading-[1.45] text-black sm:text-[15px] sm:leading-[1.45] lg:text-base">
               {cfg.subtitle}
             </p>
           </ScrollReveal>
@@ -1347,7 +1395,7 @@ export function MarketingAudienceHero({
           src={content.backgroundImageSrc}
           alt=""
           fill
-          className=""
+          className={HERO_BG_IMAGE_CLASS}
           sizes="100vw"
           priority
         />

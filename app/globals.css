@@ -460,7 +460,9 @@ body {
   );
   background-size: 100% 100%;
   background-position: center center;
-  transition: background-size 0.5s ease, background-position 0.5s ease;
+  transition:
+    background-size 0.5s ease,
+    background-position 0.5s ease;
 }
 
 /**
@@ -473,7 +475,9 @@ body {
   background-size: 100% 100%;
   background-position: center center;
   color: #fff;
-  transition: background-size 0.5s ease, background-position 0.5s ease;
+  transition:
+    background-size 0.5s ease,
+    background-position 0.5s ease;
 }
 
 a.btn-grad--dark {
@@ -608,7 +612,15 @@ html:not(.js-directional-grad) .btn-grad--dark:focus-visible {
 }
 
 .marketing-first-section-height {
-  height: clamp(560px, 45vw, 1250px);
+  /* Mobile/tablet: reduce oversized hero height and keep full-width composition readable. */
+  height: clamp(200px, 88vw, 760px);
+}
+
+@media (min-width: 1024px) {
+  .marketing-first-section-height {
+    /* Desktop QA baseline (locked). */
+    height: clamp(560px, 45vw, 1250px);
+  }
 }
 
 /* Full-bleed hero images: prefer showing the top (sky, headline art) over vertical center-crop. */
@@ -1618,8 +1630,20 @@ html:not(.js-directional-grad) .btn-grad--dark:focus-visible {
 .btn-1 {
   font-family: var(--font-nexa);
   font-weight: 600;
-  font-size: 20px;
+  font-size: 10px !important;
   letter-spacing: 0.1em;
+}
+
+@media (min-width: 768px) {
+  .btn-1 {
+    font-size: 16px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .btn-1 {
+    font-size: 20px;
+  }
 }
 
 .semi-black {

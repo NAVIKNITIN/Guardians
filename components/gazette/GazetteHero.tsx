@@ -6,6 +6,9 @@ type GazetteHeroProps = Omit<ComponentProps<typeof MarketingPageHero>, "heroId" 
 
 const defaultProps: Partial<GazetteHeroProps> = {
   heightPx: 600,
+  mobileHeightPx: 250,
+  useViewportHeightFlag: true,
+  viewportHeightBreakpointPx: 1024,
   shiftExtraContentTopPx: 0,
   shiftUnderHeader: true,
   shiftTillSearch: true,
