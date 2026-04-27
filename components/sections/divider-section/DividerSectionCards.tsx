@@ -19,9 +19,9 @@ const FIGMA_GRAD_OVERLAY_DEVELOPER =
 const FIGMA_CARD_SIZE = "w-full min-w-0 lg:max-h-[350px]";
 
 const dividerCardCtaClassName = cn(
-  "inline-flex items-center justify-center gap-2.5 rounded-none border border-[#202225] bg-transparent px-5 py-[15px]",
-  "n-bold text-[14px] leading-[22px] tracking-normal text-[#000000] lg:text-[18px]",
-  "transition-colors duration-300 hover:bg-black/5 h-[43px]",
+  "inline-flex h-[38px] items-center justify-center gap-2 rounded-none border border-[#202225] bg-transparent px-4 py-2.5",
+  "n-bold text-[12px] leading-[18px] tracking-normal text-[#000000] lg:h-[43px] lg:px-5 lg:py-[15px] lg:text-[18px] lg:leading-[22px]",
+  "transition-colors duration-300 hover:bg-black/5",
 );
 
 function BuyerProfileCard({
@@ -47,7 +47,7 @@ function BuyerProfileCard({
         width={275}
         height={350}
         aria-hidden
-        className="pointer-events-none absolute right-0 top-1/2 z-0 h-auto w-auto -translate-y-1/2 select-none"
+        className="pointer-events-none absolute right-0 top-1/2 z-0 h-auto w-auto -translate-y-1/2 select-none opacity-35 lg:opacity-100"
       />
 
       <div
@@ -55,8 +55,8 @@ function BuyerProfileCard({
         aria-hidden
       />
 
-      <div className="relative z-10 flex min-h-[300px] flex-1 flex-col px-6 pb-6 pt-5 sm:px-8 sm:pb-8 sm:pt-6 lg:min-h-0 lg:h-full lg:flex-row lg:items-stretch lg:gap-0 lg:px-0 lg:pb-0 lg:pt-5">
-        <div className="flex w-full min-w-0 flex-1 flex-col items-start justify-between gap-6 self-stretch px-0 lg:h-full lg:min-h-0 lg:w-1/2 lg:max-w-[50%] lg:flex-none lg:pl-8 lg:pr-4 lg:pb-[30px]">
+      <div className="relative z-10 flex h-[220px] flex-1 flex-row items-stretch gap-2 px-4 pb-4 pt-5 sm:px-8 sm:pb-8 sm:pt-6 lg:min-h-0 lg:h-full lg:gap-0 lg:px-0 lg:pb-0 lg:pt-5">
+        <div className="flex min-w-0 w-[46%] flex-col items-start justify-center gap-4 self-stretch px-0 lg:h-full lg:min-h-0 lg:w-1/2 lg:max-w-[50%] lg:flex-none lg:justify-between lg:gap-6 lg:pl-8 lg:pr-4 lg:pb-[30px]">
           <Image
             src="/images/Buyer/Vector.svg"
             alt=""
@@ -67,12 +67,12 @@ function BuyerProfileCard({
           />
 
           <div className="text-left">
-            <p className="n-bold text-sm uppercase tracking-[0.1em] text-[#000000] lg:text-[24px]">
+            <p className="n-bold text-[11px] uppercase tracking-[0.1em] text-[#000000] lg:text-[24px]">
               I am a
             </p>
             <h3
               className={cn(
-                "mt-1 qs-reg text-[clamp(1.875rem,3vw,2.625rem)] uppercase leading-[0.9] ls-5",
+                "mt-1 qs-reg text-[clamp(1.85rem,8vw,2.4rem)] uppercase leading-[0.9] ls-5",
                 FIGMA_TAUPE_TEXT,
               )}
             >
@@ -80,7 +80,7 @@ function BuyerProfileCard({
             </h3>
           </div>
 
-          <Link href="/buyer" className={cn(dividerCardCtaClassName, "w-fit shrink-0")}>
+          <Link href="/buyer" className={cn(dividerCardCtaClassName, "mt-1 w-fit shrink-0 lg:mt-0")}>
             Know More
             <IconArrowUpRight className="h-[13px] w-[13px] shrink-0" />
           </Link>
@@ -90,6 +90,7 @@ function BuyerProfileCard({
           portraitSrc="/images/Buyer/image 41.svg"
           portraitAlt="Professional representing property buyers"
           objectPositionClass="object-right"
+          className="w-[54%] px-0 sm:px-1 lg:w-1/2 lg:px-0"
         />
       </div>
     </article>
@@ -120,7 +121,7 @@ function DeveloperProfileCard({
         height={350}
         unoptimized
         aria-hidden
-        className="pointer-events-none absolute left-0 top-1/2 z-0 h-auto w-auto -translate-y-1/2 select-none"
+        className="pointer-events-none absolute left-0 top-1/2 z-0 h-auto w-auto -translate-y-1/2 select-none opacity-35 lg:opacity-100"
       />
 
       <div
@@ -128,24 +129,24 @@ function DeveloperProfileCard({
         aria-hidden
       />
 
-      <div className="relative z-10 flex min-h-[300px] flex-1 flex-col px-6 pb-6 pt-5 sm:px-8 sm:pb-8 sm:pt-6 lg:min-h-0 lg:h-full lg:flex-row-reverse lg:items-stretch lg:gap-0 lg:px-0 lg:pb-0 lg:pt-5">
-        <div className="flex w-full min-w-0 flex-1 flex-col items-end justify-between gap-6 self-stretch px-0 text-right lg:h-full lg:min-h-0 lg:w-1/2 lg:max-w-[50%] lg:flex-none lg:pl-4 lg:pr-8 lg:pb-[30px]">
+      <div className="relative z-10 flex min-h-[320px] flex-1 flex-row items-stretch gap-2 px-4 pb-4 pt-5 sm:px-8 sm:pb-8 sm:pt-6 lg:min-h-0 lg:h-full lg:flex-row-reverse lg:gap-0 lg:px-0 lg:pb-0 lg:pt-5">
+        <div className="flex min-w-0 w-[46%] flex-col items-start justify-center gap-4 self-stretch px-0 text-left lg:h-full lg:min-h-0 lg:w-1/2 lg:max-w-[50%] lg:flex-none lg:items-end lg:justify-between lg:gap-6 lg:pl-4 lg:pr-8 lg:pb-[30px] lg:text-right">
           <Image
             src="/images/Developer/DeveloperFilterIcon.svg"
             alt=""
             width={48}
             height={50}
-            className={cn("h-[50px] w-[48px] shrink-0 object-contain self-end", FIGMA_TAUPE_TEXT)}
+            className={cn("h-[50px] w-[48px] shrink-0 object-contain self-start lg:self-end", FIGMA_TAUPE_TEXT)}
             aria-hidden
           />
 
           <div>
-            <p className="n-bold text-sm uppercase tracking-[0.1em] text-[#000000] lg:text-[24px]">
+            <p className="n-bold text-[11px] uppercase tracking-[0.1em] text-[#000000] lg:text-[24px]">
               I am a
             </p>
             <h3
               className={cn(
-                "mt-1 qs-reg text-[clamp(1.875rem,3vw,2.625rem)] uppercase leading-[0.9] ls-5",
+                "mt-1 qs-reg text-[clamp(1.85rem,8vw,2.4rem)] uppercase leading-[0.9] ls-5",
                 FIGMA_TAUPE_TEXT,
               )}
             >
@@ -153,7 +154,7 @@ function DeveloperProfileCard({
             </h3>
           </div>
 
-          <Link href="/developer" className={cn(dividerCardCtaClassName, "w-fit shrink-0 self-end")}>
+          <Link href="/developer" className={cn(dividerCardCtaClassName, "mt-1 w-fit shrink-0 self-start lg:mt-0 lg:self-end")}>
             Know More
             <IconArrowUpRight className="h-[13px] w-[13px] shrink-0" />
           </Link>
@@ -163,6 +164,7 @@ function DeveloperProfileCard({
           portraitSrc="/images/Developer/image 42.svg"
           portraitAlt="Professional representing real estate developers"
           objectPositionClass="object-left"
+          className="w-[54%] px-1 sm:px-2 lg:w-1/2 lg:px-0"
         />
       </div>
     </article>
@@ -185,7 +187,7 @@ function CardImageColumn({
   return (
     <div
       className={cn(
-        "relative w-full min-h-[220px] shrink-0 overflow-hidden",
+        "relative mt-[200px] min-h-[320px] w-1/2 shrink-0 overflow-hidden sm:min-h-[340px] lg:mt-0",
         "lg:flex-none lg:h-full lg:min-h-0 lg:w-1/2 lg:max-w-[50%] lg:self-stretch",
         className,
       )}
@@ -195,7 +197,7 @@ function CardImageColumn({
         alt={portraitAlt}
         fill
         className={cn(
-          "object-cover grayscale mix-blend-multiply",
+          "h-full w-full object-contain object-bottom scale-[1.1] grayscale mix-blend-multiply sm:scale-[1.16] lg:scale-100 lg:object-cover",
           objectPositionClass,
         )}
         sizes="(max-width: 1024px) 100vw, 25vw"
