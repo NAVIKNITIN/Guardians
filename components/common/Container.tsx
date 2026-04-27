@@ -18,7 +18,7 @@ import type { HTMLAttributes, ReactNode } from "react";
  * | Ultrawide | xxxl / 3xl | ≥ 1920px / 2160px |
  */
 const paddingXBoth =
-  "px-5 xs:px-6 sm:px-8 md:px-10 tablet:px-12 lg:px-16 xl:px-24 2xl:px-32 xxl:px-44 xxxl:px-52 3xl:px-56";
+  "px-4 xs:px-5 sm:px-8 md:px-10 tablet:px-12 lg:px-16 xl:px-24 2xl:px-32 xxl:px-44 xxxl:px-52 3xl:px-56";
 
 export type ContainerGutter = "both" | "left";
 

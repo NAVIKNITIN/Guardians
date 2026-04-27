@@ -7,7 +7,7 @@ import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 const navLeft = [
   { label: "About", href: "/about" },
@@ -108,16 +108,28 @@ function navStateClass(isActive: boolean) {
 
 export function Navbar() {
   const [open, setOpen] = useState(false);
+  const [mobileOpenSections, setMobileOpenSections] = useState<
+    Record<string, boolean>
+  >({});
   const [searchValue, setSearchValue] = useState("");
   const [searchActive, setSearchActive] = useState(false);
   const searchInputRef = useRef<HTMLInputElement | null>(null);
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const queryKey = searchParams.toString();
   /** After a submenu link is clicked, hide the flyout until pointer leaves the trigger (hover/focus-within otherwise keeps it open). */
   const [closedDesktopDropdown, setClosedDesktopDropdown] = useState<
     string | null
   >(null);
   useBodyScrollLock(open);
+
+  useEffect(() => {
+    if (!open) return;
+    setOpen(false);
+    setMobileOpenSections({});
+    // Close only when navigation state changes (path/query), not when `open` toggles.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [pathname, queryKey]);
 
   return (
     <>
@@ -392,48 +404,77 @@ export function Navbar() {
             open ? "block" : "hidden",
           )}
         >
-          <Container className="flex flex-col gap-4 py-6">
+          <Container className="flex max-h-[calc(100svh-8.5rem)] flex-col gap-4 overflow-y-auto py-5">
             <div className="flex flex-col gap-3 ">
               {navLeft.map((item) => {
                 const dropdownItems =
                   "dropdownItems" in item ? item.dropdownItems : undefined;
                 const hasMenu =
                   Array.isArray(dropdownItems) && dropdownItems.length > 0;
+                const sectionOpen = Boolean(mobileOpenSections[item.label]);
 
                 return (
                   <div key={item.label} className="flex flex-col gap-2">
-                    <Link
-                      href={item.href}
-                      className={cn(
-                        navLinkClassMobile,
-                        navStateClass(isActiveHref(pathname, searchParams, item.href)),
-                        "inline-flex items-center gap-1.5",
-                      )}
-                      onClick={() => setOpen(false)}
-                    >
-                      {item.label}
-                      {item.dropdown ? (
-                        <IconChevronDown className="h-3.5 w-3.5 shrink-0 text-[#202225]/50" />
-                      ) : null}
-                    </Link>
-                    {hasMenu && dropdownItems
-                      ? dropdownItems.map((sub) => (
-                        <Link
-                          key={sub.href}
-                          href={sub.href}
-                          className={cn(
-                            navLinkClassMobile,
-                            navStateClass(
-                              isActiveHref(pathname, searchParams, sub.href),
-                            ),
-                            "border-l-2 border-black/[0.08] pl-4",
-                          )}
-                          onClick={() => setOpen(false)}
+                    <div className="flex min-h-[44px] items-center justify-between gap-2">
+                      <Link
+                        href={item.href}
+                        className={cn(
+                          navLinkClassMobile,
+                          navStateClass(
+                            isActiveHref(pathname, searchParams, item.href),
+                          ),
+                          "inline-flex min-h-[44px] flex-1 items-center gap-1.5 py-1",
+                        )}
+                        onClick={() => setOpen(false)}
+                      >
+                        {item.label}
+                      </Link>
+                      {hasMenu ? (
+                        <button
+                          type="button"
+                          className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded border border-black/[0.08]"
+                          aria-expanded={sectionOpen}
+                          aria-controls={`mobile-submenu-${item.label}`}
+                          aria-label={`${sectionOpen ? "Collapse" : "Expand"} ${item.label}`}
+                          onClick={() =>
+                            setMobileOpenSections((prev) => ({
+                              ...prev,
+                              [item.label]: !prev[item.label],
+                            }))
+                          }
                         >
-                          {sub.label}
-                        </Link>
-                      ))
-                      : null}
+                          <IconChevronDown
+                            className={cn(
+                              "h-3.5 w-3.5 shrink-0 text-[#202225]/70 transition-transform",
+                              sectionOpen && "rotate-180",
+                            )}
+                          />
+                        </button>
+                      ) : null}
+                    </div>
+                    {hasMenu && dropdownItems && sectionOpen ? (
+                      <div
+                        id={`mobile-submenu-${item.label}`}
+                        className="flex flex-col gap-2"
+                      >
+                        {dropdownItems.map((sub) => (
+                          <Link
+                            key={sub.href}
+                            href={sub.href}
+                            className={cn(
+                              navLinkClassMobile,
+                              navStateClass(
+                                isActiveHref(pathname, searchParams, sub.href),
+                              ),
+                              "ml-1 border-l-2 border-black/[0.08] py-1 pl-4",
+                            )}
+                            onClick={() => setOpen(false)}
+                          >
+                            {sub.label}
+                          </Link>
+                        ))}
+                      </div>
+                    ) : null}
                   </div>
                 );
               })}
