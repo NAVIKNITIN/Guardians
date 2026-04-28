@@ -22,7 +22,7 @@ export function ExploreBanner({ content, isBuyer }: { content: MarketingBannerCo
           <div
             className={cn(
               "relative w-full max-w-[994px] overflow-hidden bg-[#d9d9d9]",
-              "min-h-[220px] sm:min-h-[260px] lg:h-[300px] lg:min-h-[300px]",
+              "min-h-[280px] sm:min-h-[260px] lg:h-[300px] lg:min-h-[300px]",
             )}
           >
             <div
@@ -40,17 +40,23 @@ export function ExploreBanner({ content, isBuyer }: { content: MarketingBannerCo
                 aria-hidden
               />
               <div
-                className="pointer-events-none absolute inset-y-0 left-0 z-10 w-[64%] bg-linear-to-r from-[#f5f4f4] via-[#f5f4f4]/92 to-transparent sm:w-[58%] lg:w-[54%]"
+                className="pointer-events-none absolute inset-0 z-10 bg-linear-to-t from-[#f5f4f4] via-[#f5f4f4]/94 to-transparent sm:inset-y-0 sm:left-0 sm:right-auto sm:w-[58%] sm:bg-linear-to-r sm:from-[#f5f4f4] sm:via-[#f5f4f4]/92 sm:to-transparent lg:w-[54%]"
                 aria-hidden
               />
             </div>
 
-            <div className="relative z-20 flex h-full w-full max-w-[60%] flex-col justify-center gap-6 px-6 py-6 sm:gap-8 sm:px-8 sm:py-7 lg:px-10 lg:py-0 xl:px-12">
-              <h2 id={headingId} className="n-book text-[#161616] text-[clamp(2rem,4vw,3rem)] leading-none">
+            <div className="relative z-20 flex h-full w-full max-w-full flex-col justify-end gap-5 px-5 py-6 sm:max-w-[60%] sm:justify-center sm:gap-8 sm:px-8 sm:py-7 lg:px-10 lg:py-0 xl:px-12">
+              <h2 id={headingId} className="n-book text-[clamp(1.7rem,6vw,3rem)] leading-[1.05] text-[#161616]">
                 {content.headline}
               </h2>
-              <div>
-                <Link href={content.ctaHref} className={cn(heroEnquireCtaClassName, "group cta-hover-trigger h-[55px] w-[243.5px]")}>
+              <div className="w-full sm:w-auto">
+                <Link
+                  href={content.ctaHref}
+                  className={cn(
+                    heroEnquireCtaClassName,
+                    "group cta-hover-trigger w-full sm:w-auto sm:min-w-[14rem]",
+                  )}
+                >
                   {content.ctaLabel}
                   <IconArrowUpRight className="cta-icon-hover h-4 w-4" />
                 </Link>

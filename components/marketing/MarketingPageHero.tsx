@@ -210,25 +210,25 @@ function getServicesContentPad(shift: boolean, till: boolean, extra: number): He
     if (till) {
       return {
         className:
-          "pt-[calc(3rem+var(--site-header-height)+var(--shift-extra))] sm:pt-[calc(4rem+var(--site-header-height)+var(--shift-extra))] md:pt-[calc(5rem+var(--site-header-height)+var(--shift-extra))] lg:mt-[calc(100px+var(--site-header-height)+var(--shift-extra))] lg:min-h-0 lg:pb-0",
+          "pt-[calc(2rem+var(--site-header-height))] sm:pt-[calc(2.75rem+var(--site-header-height))] md:pt-[calc(4rem+var(--site-header-height)+var(--shift-extra))] lg:mt-[calc(100px+var(--site-header-height)+var(--shift-extra))] lg:min-h-0 lg:pb-0",
         style: s,
       };
     }
     return {
       className:
-        "pt-[calc(3rem+89px+var(--shift-extra))] sm:pt-[calc(4rem+89px+var(--shift-extra))] md:pt-[calc(5rem+89px+var(--shift-extra))] lg:mt-[calc(189px+var(--shift-extra))] lg:min-h-0 lg:pb-0",
+        "pt-[calc(2rem+89px)] sm:pt-[calc(2.75rem+89px)] md:pt-[calc(4rem+89px+var(--shift-extra))] lg:mt-[calc(189px+var(--shift-extra))] lg:min-h-0 lg:pb-0",
       style: s,
     };
   }
   if (till) {
     return {
       className:
-        "pt-[calc(3rem+var(--site-header-height))] sm:pt-[calc(4rem+var(--site-header-height))] md:pt-[calc(5rem+var(--site-header-height))] lg:mt-[calc(100px+var(--site-header-height))] lg:min-h-0 lg:pb-0",
+        "pt-[calc(2rem+var(--site-header-height))] sm:pt-[calc(2.75rem+var(--site-header-height))] md:pt-[calc(4rem+var(--site-header-height))] lg:mt-[calc(100px+var(--site-header-height))] lg:min-h-0 lg:pb-0",
     };
   }
   return {
     className:
-      "pt-[calc(3rem+89px)] sm:pt-[calc(4rem+89px)] md:pt-[calc(5rem+89px)] lg:mt-[189px] lg:min-h-0 lg:pb-0",
+      "pt-[calc(2rem+89px)] sm:pt-[calc(2.75rem+89px)] md:pt-[calc(4rem+89px)] lg:mt-[189px] lg:min-h-0 lg:pb-0",
   };
 }
 
@@ -1074,7 +1074,7 @@ function TgreaHero({
         </div>
         <div
           className={cn(
-            "absolute inset-x-0 top-[6%] text-center sm:top-[7%] lg:top-[7.5%] lg:pt-25",
+            "absolute inset-x-0 top-[9%] px-4 text-center sm:top-[8%] sm:px-6 lg:top-[7.5%] lg:px-0 lg:pt-25",
             contentPad.className,
           )}
           style={contentPad.style}
@@ -1157,10 +1157,10 @@ function ServicesHero({
           priority
         />
       </div>
-      <div
-        className={cn(
-          "relative z-10 flex min-h-[inherit] flex-col items-center justify-start gap-1.5 px-4 pb-8 text-center qs-reg sm:gap-2 sm:pb-10 lg:min-h-0 lg:pb-0",
-          contentPad.className,
+        <div
+          className={cn(
+            "relative z-10 flex min-h-[inherit] flex-col items-center justify-start gap-2 px-5 pb-8 text-center qs-reg sm:gap-2 sm:px-6 sm:pb-10 lg:min-h-0 lg:px-4 lg:pb-0",
+            contentPad.className,
         )}
         style={contentPad.style}
       >
@@ -1422,14 +1422,14 @@ export function MarketingAudienceHero({
             </h1>
           </ScrollReveal>
           <ScrollReveal direction="up" delay={0.12} distance={20}>
-            <p className="text-black fs-18 n-book lh-22 mx-auto flex w-full max-w-[600px] text-left md:mt-5 lg:mt-7">
+            <p className="mx-auto flex w-full max-w-[600px] text-center text-sm leading-relaxed text-black sm:text-left sm:fs-18 sm:lh-22 md:mt-5 lg:mt-7">
               {content.body}
             </p>
           </ScrollReveal>
-          <div className="mt-10 flex justify-center sm:mt-10">
+          <div className="mt-8 flex w-full justify-center sm:mt-10">
             <MarketingEnquireLink
               href={content.enquireHref}
-              className="fs-20 n-bold ls-12 h-[55px] w-[306.01px] px-0"
+              className="text-[11px] sm:fs-20 sm:ls-12"
             >
               {content.enquireLabel}
             </MarketingEnquireLink>

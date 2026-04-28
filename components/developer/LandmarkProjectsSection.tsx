@@ -134,24 +134,47 @@ export function LandmarkProjectsSection({
         </ScrollReveal>
       </StaggerContainer>
 
-      <div
-        className="w-full"
-        onMouseEnter={() => {
-          isHovered.current = true;
-        }}
-        onMouseLeave={() => {
-          isHovered.current = false;
-        }}
-      >
+      <div className="w-full">
+        <div className="mt-5 flex gap-4 overflow-x-auto pb-2 md:hidden">
+          {projects.map((project, i) => (
+            <button
+              key={project.id}
+              type="button"
+              onClick={() => {
+                setPreviousActiveIndex(activeIndex);
+                setActiveIndex(i);
+              }}
+              className="relative aspect-[4/5] w-[min(18rem,82vw)] shrink-0 overflow-hidden border border-white/70 bg-neutral-200 text-left shadow-[0_10px_28px_rgba(0,0,0,0.14)]"
+              aria-label={`Show project ${project.projectName}`}
+            >
+              <ProjectPanelVisual
+                project={project}
+                active
+                panelIndex={i}
+                totalPanels={projects.length}
+              />
+            </button>
+          ))}
+        </div>
+
         <div
-          className={cn(
-            "relative mt-4 md:mt-6",
-            /* Full-bleed: escape section gutter so the cards touch viewport edges. */
-            "left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-x-clip",
-          )}
+          className="hidden w-full md:block"
+          onMouseEnter={() => {
+            isHovered.current = true;
+          }}
+          onMouseLeave={() => {
+            isHovered.current = false;
+          }}
         >
-          <div className={cn("landmark-moving-carousel px-0", CAROUSEL_ASPECT)}>
-            {projects.map((project, i) => {
+          <div
+            className={cn(
+              "relative mt-4 md:mt-6",
+              /* Full-bleed: escape section gutter so the cards touch viewport edges. */
+              "left-1/2 w-screen max-w-[100vw] -translate-x-1/2 overflow-x-clip",
+            )}
+          >
+            <div className={cn("landmark-moving-carousel px-0", CAROUSEL_ASPECT)}>
+              {projects.map((project, i) => {
               const gap = 1.5;
               const active = i === activeIndex;
               const activeWidth = 64;
@@ -194,44 +217,42 @@ export function LandmarkProjectsSection({
                 (previousVisualSlot === 0 && visualSlot === count - 1) ||
                 (previousVisualSlot === count - 1 && visualSlot === 0);
 
-              return (
-                <button
-                  key={project.id}
-                  type="button"
-                  onClick={() => {
-                    setPreviousActiveIndex(activeIndex);
-                    setActiveIndex(i);
-                  }}
-                  aria-label={`Show project ${project.projectName}`}
-                  style={{
-                    left: `${left}%`,
-                    width: `${width}%`,
-                    opacity: hiddenWrapIndex === i ? 0 : undefined,
-                  }}
-                  className={cn(
-                    "landmark-moving-panel cursor-pointer",
-                    active ? "is-active" : "is-collapsed",
-                    jumpReset && "is-jump-reset",
-                  )}
-                >
-                  {/* <span className="absolute left-2 top-2 z-50 rounded bg-black px-2 py-1 text-xs font-bold text-white">
-                    Card {i + 1}
-                  </span> */}
-                  <ProjectPanelVisual
-                    project={project}
-                    active={active}
-                    panelIndex={i}
-                    totalPanels={projects.length}
-                  />
-                </button>
-              );
-            })}
+                return (
+                  <button
+                    key={project.id}
+                    type="button"
+                    onClick={() => {
+                      setPreviousActiveIndex(activeIndex);
+                      setActiveIndex(i);
+                    }}
+                    aria-label={`Show project ${project.projectName}`}
+                    style={{
+                      left: `${left}%`,
+                      width: `${width}%`,
+                      opacity: hiddenWrapIndex === i ? 0 : undefined,
+                    }}
+                    className={cn(
+                      "landmark-moving-panel cursor-pointer",
+                      active ? "is-active" : "is-collapsed",
+                      jumpReset && "is-jump-reset",
+                    )}
+                  >
+                    <ProjectPanelVisual
+                      project={project}
+                      active={active}
+                      panelIndex={i}
+                      totalPanels={projects.length}
+                    />
+                  </button>
+                );
+              })}
+            </div>
           </div>
         </div>
 
         <ScrollReveal direction="up" delay={0.1} className="mt-12 flex justify-center ">
           <MarketingEnquireLink
-            className="w-[250px] h-[52px]"
+            className="w-full sm:w-auto sm:min-w-[14rem]"
             href={content.ctaHref}
           >
             {content.ctaLabel}
@@ -322,18 +343,18 @@ function ProjectPanelVisual({
         )}
       >
         <p className="fs-18 fw-100 text-[#E2E2E2]">{project.projectLine}</p>
-        <p className="mb-10 n-bold fs-48 lh-50 ls-6 text-white drop-shadow-sm">
+        <p className="mb-6 n-bold text-[clamp(1.75rem,7vw,3rem)] leading-[1.08] tracking-[0.08em] text-white drop-shadow-sm sm:mb-10 sm:fs-48 sm:lh-50 sm:ls-6">
           {project.projectName}
         </p>
-        <p className="mx-auto mt-2 flex max-w-2xl flex-wrap items-center justify-center gap-x-2 gap-y-1 fs-16 n-bold sm:mt-2.5 sm:gap-x-3">
+        <p className="mx-auto mt-2 flex max-w-2xl flex-wrap items-center justify-center gap-x-2 gap-y-1 text-xs n-bold sm:mt-2.5 sm:gap-x-3 sm:fs-16">
           <span className="min-w-0 text-pretty">{project.location.trim()}</span>
           <span
-            className="shrink-0 px-1 text-[#E2E2E2]/85 sm:px-1.5 fs-16 n-bold"
+            className="shrink-0 px-1 text-[#E2E2E2]/85 sm:px-1.5 sm:fs-16 n-bold"
             aria-hidden
           >
             |
           </span>
-          <span className="min-w-0 text-pretty fs-16 n-bold">
+          <span className="min-w-0 text-pretty n-bold sm:fs-16">
             {project.bhkRange}
           </span>
         </p>

@@ -44,22 +44,22 @@ export function SplitSection({
   const imageDirection = reverse ? "left" : "right";
 
   return (
-    <section className={cn("py-20 px-6 md:px-16", className)}>
-      <div className="mx-auto grid max-w-7xl items-center gap-10 md:grid-cols-2 md:gap-16">
+    <section className={cn("px-4 py-10 sm:px-6 sm:py-14 md:px-10 lg:px-16 lg:py-20", className)}>
+      <div className="mx-auto grid max-w-7xl items-center gap-8 sm:gap-10 md:grid-cols-2 md:gap-16">
         <ScrollReveal
           direction={textDirection}
           delay={0.2}
           duration={0.65}
           className={cn(reverse ? "md:order-2" : "md:order-1", contentClassName)}
         >
-          <div className="">
-            <div className={cn("mb-[110px] text-3xl md:text-4xl leading-tight text-brand-text-primary", titleClassName)}>
+          <div className="min-w-0">
+            <div className={cn("mb-8 text-3xl leading-tight text-brand-text-primary sm:mb-12 md:text-4xl lg:mb-[110px]", titleClassName)}>
               {title}
             </div>
-            <p className={cn("n-reg text-base leading-relaxed text-[#161616] min-h-[200px]", descriptionClassName)}>
+            <p className={cn("n-reg text-base leading-relaxed text-[#161616] md:min-h-[200px]", descriptionClassName)}>
               {description}
             </p>
-            <GradientCtaButton href={href} className={cn("pt-1 h-[50]", buttonClassName)}>
+            <GradientCtaButton href={href} className={cn("mt-6 h-[50px] w-full max-w-xs pt-1 sm:w-auto sm:max-w-none", buttonClassName)}>
               {buttonText}
             </GradientCtaButton>
           </div>

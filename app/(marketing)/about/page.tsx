@@ -1,37 +1,16 @@
 import { Container } from "@/components/common/Container";
+
+// 
 import {
   AboutLeadershipSection,
   type LeadershipSlide,
 } from "@/components/developer/DeveloperStatsSection";
+
 import { AboutStatsGrid } from "@/components/about/AboutStatsGrid";
-import {
-  aboutBrandPromiseH2,
-  aboutBrandPromiseIntroBox,
-  aboutBrandPromiseParagraph,
-  aboutBrandPromiseParagraphWrap,
-  aboutBrandPromiseSection,
-  aboutBrandsCtaWrap,
-  aboutBrandsEyebrow,
-  aboutBrandsGrid,
-  aboutBrandsSection,
-  aboutBrandCardShell,
-  aboutHeroHeadingSlot,
-  aboutHeroImageFrame,
-  aboutHeroSection,
-  aboutHeroSubtitle,
-  aboutHeroTitle,
-  aboutLeadershipH2,
-  aboutLeadershipSection,
-  aboutPageRoot,
-  aboutRevolutionBody,
-  aboutRevolutionGrid,
-  aboutRevolutionHeading,
-} from "@/components/about/aboutPageResponsiveClasses";
 import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { MarketingPageHero } from "@/components/marketing/MarketingPageHero";
 import Image from "next/image";
 import type { Metadata } from "next";
-import { cn } from "@/lib/utils";
 
 export const metadata: Metadata = {
   title: { absolute: "About | The Guardians" },
@@ -48,6 +27,7 @@ const brandCards = [
 const heroImage = "/images/mumbai-skyline-bw.png";
 const brandPromiseOrnament = "/images/ornament.jpeg";
 
+// CHANGE: 4 images aur same text yahin page.tsx me rakha gaya hai.
 const leadershipSlides = [
   {
     id: "leader-1",
@@ -105,15 +85,15 @@ function BrandCard({
   url: string;
 }) {
   return (
-    <article className={aboutBrandCardShell}>
-      <div className="flex w-full max-w-[200px] flex-col items-center gap-2 sm:max-w-[220px] md:max-w-[200px]">
+    <article className="flex min-h-[182px] w-full min-w-0 max-w-full items-center justify-center border border-[#ece7e7] bg-white px-6 py-8 text-center">
+      <div className="flex w-full max-w-[200px] flex-col items-center gap-2">
         <Image
           src={encodeURI(url)}
           alt={`${title}, ${subtitle}`}
           width={180}
           height={100}
-          className="h-auto w-full max-h-20 object-contain object-center sm:max-h-24"
-          sizes="(max-width: 768px) 90vw, (max-width: 1200px) 30vw, 200px"
+          className="h-auto w-full max-h-24 object-contain object-center"
+          sizes="(max-width: 768px) 50vw, 200px"
           unoptimized
         />
       </div>
@@ -128,21 +108,14 @@ export default function AboutPage() {
         id="about"
         className="border-b border-[#d8d2d2] bg-[linear-gradient(180deg,#fbfbfb_0%,#f7f5f5_50%,#efeded_100%)] "
       >
-        <MarketingPageHero
-          heroId="about"
-          heightPx={650}
-          mobileHeightPx={470}
-          useViewportHeightFlag
-          viewportHeightBreakpointPx={1024}
-          shiftUnderHeader={true}
-          shiftTillSearch={false}
-          shiftExtraContentTopPx={60}
-        />
+        <MarketingPageHero heroId="about" heightPx={650} mobileHeightPx={420} useViewportHeightFlag viewportHeightBreakpointPx={1024} shiftUnderHeader={true} shiftTillSearch={false} shiftExtraContentTopPx={44} negativePadding={16} />
       </section>
 
-      <section className={aboutBrandPromiseSection}>
+      <section className="mt-10 py-14 sm:py-16 lg:py-10">
         <Container className="min-w-0">
-          <h2 className={aboutBrandPromiseH2}>Brand Promise</h2>
+          <h2 className="text-center qs-reg text-[clamp(1.9rem,2.6vw,3rem)] uppercase tracking-[0.03em] text-[#2a2626]">
+            Brand Promise
+          </h2>
 
           <div className="mt-2 bg-white py-3 sm:py-4  lg:py-5">
             <div className="relative w-[95%] mx-auto">
@@ -152,7 +125,7 @@ export default function AboutPage() {
                   alt=""
                   width={84}
                   height={180}
-                  className="h-auto w-[64px] object-cover scale-x-[-1] lg:w-[80px]"
+                  className="h-auto w-[80px] object-cover scale-x-[-1]"
                 />
               </div>
               <div className=" text-center mx-5 md:mx-30 lg:mx-40">
@@ -163,32 +136,32 @@ export default function AboutPage() {
                   <span className="font-semibold text-[#242021]"> over 12 decades </span>
                   and extends to a pan India portfolio of the best of both regional and national real estate
                   brands. The team has till date sold
-                  <span className="font-semibold text-[#242021]"> over 17.3 Million of sq.ft. </span>
+                  <span className="font-semibold text-[#242021]">  over 17.3 Million of sq.ft. </span>
                   of projects in both residential and commercial real estate categories.
                 </p>
               </div>
-              <div className="absolute right-2 top-1/2 hidden -translate-y-1/2 sm:right-3 lg:block xl:right-4">
+              <div className="absolute right-3 top-1/2 hidden -translate-y-1/2 lg:block">
                 <Image
                   src={brandPromiseOrnament}
                   alt=""
                   width={84}
                   height={180}
-                  className="h-auto w-[64px] object-cover lg:w-[80px]"
+                  className="h-auto w-[80px] object-cover"
                 />
               </div>
             </div>
           </div>
 
-          <div className={aboutRevolutionGrid}>
-            <div>
-              <h3 className={aboutRevolutionHeading}>
+          <div className="mt-40 grid items-start justify-items-center gap-y-10 text-center lg:grid-cols-[2fr_3fr] lg:justify-items-stretch lg:gap-x-12 lg:gap-y-0 lg:text-left xl:gap-x-20">
+            <div className="">
+              <h3 className="mx-auto  lg:mx-0 n-bold fs-42 text-[clamp(1.72rem,2.1vw,2.6rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-[#161616] ">
                 Revolutionising real
                 <br />
                 estate through
                 <br />
                 innovation
               </h3>
-              <p className={aboutRevolutionBody}>
+              <p className="mx-auto mt-8 max-w-[355px] text-[14px] leading-[1.28] text-[#161616] nexa-bold fs-16 lh-20 lg:mx-0">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
                 ut labore et dolore magna aliqua, dolor sit amet, consectetur adipiscing elit, sed do
                 eiusmod tempor incididunt ut labore et dolore magna aliqua.
@@ -200,20 +173,24 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      <section className={aboutLeadershipSection}>
-        <Container className="min-w-0">
-          <h2 className={aboutLeadershipH2}>Meet The Leadership</h2>
+      <section className="py-10 sm:py-14 lg:py-25">
+        <Container className="min-w-0 ">
+          <h2 className="qs-reg fs-50 uppercase tracking-[0.05em] text-[#000000] mb-3 ">
+            Meet The Leadership
+          </h2>
           <AboutLeadershipSection slides={leadershipSlides} />
         </Container>
       </section>
 
-      <section id="brands" className={aboutBrandsSection}>
+      <section id="brands" className="bg-[#F2F2F2] py-12 sm:py-16 lg:py-10">
         <Container className="min-w-0">
-          <div className="flex items-center justify-center px-2">
-            <p className={aboutBrandsEyebrow}>The Guardians Real Estate Advisory</p>
+          <div className="flex items-center justify-center gap-5">
+            <p className="text-[0.95rem] n-bold fs-20 uppercase leading-none tracking-[0.1em] text-[#161616]">
+              The Guardians Real Estate Advisory
+            </p>
           </div>
 
-          <div className={aboutBrandsGrid}>
+          <div className="mt-10 grid grid-cols-1 gap-[15px] md:grid-cols-3">
             {brandCards.map((brand) => (
               <BrandCard
                 key={brand.title}
@@ -224,15 +201,8 @@ export default function AboutPage() {
             ))}
           </div>
 
-          <div className={aboutBrandsCtaWrap}>
-            <GradientCtaButton
-              href="/contact"
-              variant="know-more"
-              className={cn(
-                "fs-18 n-bold uppercase",
-                "px-6 py-3 text-sm sm:px-8 sm:text-base md:px-10 lg:px-10 xl:px-12 2xl:px-14",
-              )}
-            >
+          <div className="mt-12 flex justify-center">
+            <GradientCtaButton href="/contact" variant="know-more" className="fs-18 n-bold uppercase lg:px-10">
               Know More
             </GradientCtaButton>
           </div>

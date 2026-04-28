@@ -73,14 +73,14 @@ const CONTACT_BLOCKS: ContactBlock[] = [
 
 function ContactInfoBlock({ block }: { block: ContactBlock }) {
   return (
-    <div className="flex flex-col items-center text-center sm:py-2 md:py-5 lg:items-stretch lg:text-left">
+    <div className="flex flex-col items-start text-left sm:py-2 md:py-5 lg:items-stretch">
       <h3 className="n-bold fs-20 lh-24 text-[#161616] mb-2">
         {block.title}
       </h3>
       {block.email && (
         <a
           href={`mailto:${block.email}`}
-          className="n-book fs-18 flex items-center gap-2 break-words n-book text-sm leading-[1.35] text-[#161616] transition-opacity hover:opacity-70 sm:items-center sm:text-base md:text-lg lg:text-[20px] lg:leading-[24px]"
+          className="n-book fs-18 flex items-center gap-2 break-words text-sm leading-[1.35] text-[#161616] transition-opacity hover:opacity-70 sm:items-center sm:text-base md:text-lg lg:text-[20px] lg:leading-[24px]"
         >
           <EmailIcon />
           {block.email}
@@ -89,7 +89,7 @@ function ContactInfoBlock({ block }: { block: ContactBlock }) {
       {block.phone && (
         <a
           href={block.telHref}
-          className="n-book fs-18 flex items-center gap-2 mt-1  text-sm leading-[1.35] text-[#161616] transition-opacity hover:opacity-70 sm:text-base md:text-lg lg:text-[20px] lg:leading-[24px]"
+          className="n-book fs-18 mt-1 flex items-center gap-2 text-sm leading-[1.35] text-[#161616] transition-opacity hover:opacity-70 sm:text-base md:text-lg lg:text-[20px] lg:leading-[24px]"
         >
           <PhoneIcon />
           {block.phone}
@@ -169,7 +169,7 @@ export function ContactFormPanel() {
 
           {/* ── Left: contact info ─────────────────────────────────────── */}
           <div className="flex flex-col justify-center gap-8 lg:w-[45%] lg:shrink-0 lg:gap-10">
-            <header className="text-center lg:text-left">
+            <header className="text-left">
               <h2 className="qs-reg text-[clamp(2rem,4vw,3.125rem)] uppercase leading-[1.05] tracking-[0.05em] text-[#202225]">
                 Let&apos;s connect!
               </h2>
@@ -193,7 +193,7 @@ export function ContactFormPanel() {
             >
               {/* User type selector — same width as fields below */}
               <div
-                className="mb-6 flex w-full flex-wrap items-center gap-x-6 gap-y-3 sm:gap-x-10"
+                className="mb-6 flex w-full flex-wrap items-start gap-x-6 gap-y-3 sm:gap-x-10"
                 role="group"
                 aria-label="I am a"
               >

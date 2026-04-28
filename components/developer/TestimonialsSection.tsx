@@ -65,7 +65,7 @@ export function TestimonialsSection({
           <ScrollReveal key={`${item.id}-${index}`} direction="up" delay={cardIndex * 0.08} distance={30}>
             <TestimonialCard
               item={item}
-              className="h-[459px] w-[385.33px] max-w-full"
+              className="h-full min-h-[26rem] w-full"
             />
           </ScrollReveal>
         ))}
@@ -79,7 +79,7 @@ export function TestimonialsSection({
       <ScrollReveal direction="up" delay={0.12} className="mt-10 flex justify-center ">
         <MarketingEnquireLink
           href={content.viewMoreHref}
-          className="fs-16 n-bold w-[272.01px] h-[55px]"
+          className="w-full sm:w-auto sm:min-w-[15rem] sm:fs-16"
         >
           {content.viewMoreLabel}
         </MarketingEnquireLink>

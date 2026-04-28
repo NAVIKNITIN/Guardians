@@ -129,8 +129,7 @@ export function FeaturedPartnerShowcase() {
       <div className="mx-auto w-full min-w-0 max-w-[min(1237px,100%)] px-4 sm:px-6 lg:px-8 xl:px-0">
         {/* ── Main Slide ── */}
         <div
-          className="relative w-full  max-w-full overflow-hidden shadow-[0_0_20px_rgba(0,0,0,0.25)]  md:min-h-0"
-          style={{ aspectRatio: "1237/462" }}
+          className="relative w-full max-w-full overflow-hidden shadow-[0_0_20px_rgba(0,0,0,0.25)] aspect-[4/5] sm:aspect-[16/10] lg:aspect-[1237/462]"
         >
           {/* Background image (blurred building) */}
           <div className="absolute inset-0 z-0">
@@ -156,7 +155,7 @@ export function FeaturedPartnerShowcase() {
           />
 
           {/* Partner name */}
-          <div className="absolute inset-x-0 top-[14%] z-20 flex justify-center px-4">
+          <div className="absolute inset-x-0 top-[8%] z-20 flex justify-center px-4 sm:top-[12%] lg:top-[14%]">
             <h2
               className={cn(
                 "qs-reg nt-normal uppercase text-white",
@@ -170,14 +169,14 @@ export function FeaturedPartnerShowcase() {
           </div>
 
           {/* Sub-logos row — wrap + max-width so narrow viewports don’t overflow */}
-          <div className="absolute inset-x-0  z-20 flex justify-center px-3 bottom-[38%] md:bottom-[40%] sm:px-6">
+          <div className="absolute inset-x-0 bottom-[24%] z-20 flex justify-center px-3 sm:bottom-[34%] sm:px-6 md:bottom-[38%] lg:bottom-[40%]">
 
             <RoundIconButton
               label="Previous partner"
               onClick={() => advance(-1)}
               className={cn(
                 "absolute left-2 top-1/2 z-30 -translate-y-1/2 cursor-pointer sm:left-6 lg:left-10",
-                "h-8 w-8 text-white hover:bg-white/10 sm:h-11 sm:w-11 mt-2",
+                "mt-2 h-8 w-8 text-white hover:bg-white/10 sm:h-11 sm:w-11",
               )}
             >
               <Image
@@ -189,7 +188,7 @@ export function FeaturedPartnerShowcase() {
               />
             </RoundIconButton>
 
-            <div className="flex max-w-full min-w-0 flex-wrap items-center justify-center gap-3 sm:gap-8 md:gap-10 lg:gap-14">
+            <div className="flex max-w-[calc(100%-4.5rem)] min-w-0 flex-wrap items-center justify-center gap-3 sm:max-w-full sm:gap-8 md:gap-10 lg:gap-14">
               {current.subLogos.map((logo, i) => (
                 <div
                   key={i}
@@ -211,7 +210,7 @@ export function FeaturedPartnerShowcase() {
             onClick={() => advance(1)}
             className={cn(
               "absolute right-2 top-1/2 z-30 -translate-y-1/2 cursor-pointer sm:right-6 lg:right-10",
-              "h-8 w-8 text-white hover:bg-white/10 sm:h-11 sm:w-11 mt-5",
+              "mt-2 h-8 w-8 text-white hover:bg-white/10 sm:mt-5 sm:h-11 sm:w-11",
             )}
           >
             <Image
@@ -230,7 +229,7 @@ export function FeaturedPartnerShowcase() {
         {/* ── Tab strip: scroll horizontally on small screens; equal columns on xl+ ── */}
         <div className="w-full min-w-0 max-w-full">
           <div
-            className="scrollbar-brand flex h-[100px] items-end shadow-[0_0_20px_rgba(0,0,0,0.25)] w-full min-w-0 overflow-x-auto overscroll-x-contain scroll-smooth [-webkit-overflow-scrolling:touch] xl:overflow-visible"
+            className="scrollbar-brand flex h-[84px] items-end shadow-[0_0_20px_rgba(0,0,0,0.25)] w-full min-w-0 overflow-x-auto overscroll-x-contain scroll-smooth [-webkit-overflow-scrolling:touch] sm:h-[100px] xl:overflow-visible"
             role="tablist"
             aria-label="Select partner"
           >

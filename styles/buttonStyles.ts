@@ -10,9 +10,9 @@ export const primaryCtaClassName = base;
  * sweep on hover as other CTAs.
  */
 export const heroEnquireCtaClassName = cn(
-  "inline-flex items-center justify-center gap-5 rounded-none border-0 btn-grad--dark w-[306.01px] h-[55px] uppercase tracking-[0.1em] text-white",
-  "fs-18 n-bold ls-8",
-  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50 h-[55px] w-[306.01px]",
+  "inline-flex min-h-[52px] w-full max-w-full items-center justify-center gap-4 rounded-none border-0 btn-grad--dark px-5 text-center uppercase tracking-[0.1em] text-white sm:h-[55px] sm:w-auto sm:min-w-[16rem] sm:px-8",
+  "text-xs n-bold sm:fs-18 sm:ls-8",
+  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50",
 );
 
 /**

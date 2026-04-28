@@ -147,7 +147,7 @@ function CommercialPanel({
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <div className="relative h-full min-h-[520px] overflow-hidden bg-[#D5D3D4] lg:min-h-[560px]">
+    <div className="relative h-full min-h-[420px] overflow-hidden bg-[#D5D3D4] sm:min-h-[480px] lg:min-h-[560px]">
       <Image
         src={imageSrc}
         alt=""
@@ -196,7 +196,7 @@ function CommercialPanel({
         <div className="mt-auto flex justify-center pt-6 sm:pt-8">
           <OutlineArrowButton
             href={knowMoreHref}
-            className="w-fit bg-white px-8 text-black hover:bg-black hover:text-white sm:px-12"
+            className="w-full max-w-xs bg-white px-8 text-black hover:bg-black hover:text-white sm:w-fit sm:max-w-none sm:px-12"
           >
             Know More
           </OutlineArrowButton>

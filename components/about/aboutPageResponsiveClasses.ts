@@ -72,7 +72,7 @@ export const aboutBrandPromiseParagraphWrap = cn(
 
 /** “Revolutionising…” + stats row */
 export const aboutRevolutionGrid = cn(
-  "grid items-start justify-items-center gap-y-8 text-center",
+  "relative grid items-start justify-items-center gap-y-8 text-center",
   "mt-16 sm:mt-20 sm:gap-y-10 md:mt-28 md:gap-y-12 lg:mt-36 lg:grid-cols-[2fr_3fr] lg:justify-items-stretch lg:gap-x-12 lg:gap-y-0 lg:text-left xl:mt-40 xl:gap-x-16 2xl:mt-44 2xl:gap-x-20",
 );
 

@@ -28,7 +28,7 @@ const baseClassName = cn(
   /* Named group so nested `group` on cards does not trigger arrow styles on card hover */
   "group/outline cta-hover-trigger outline-arrow-grad-anim inline-flex w-fit max-w-full flex-nowrap items-center justify-center gap-5",
   "rounded-none border-0 px-[45px] py-[15px]",
-  "n-bold text-base uppercase tracking-widest text-white",
+  "n-bold text-base  tracking-widest text-white",
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50",
 );
 

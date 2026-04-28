@@ -46,7 +46,7 @@ export function TestimonialCard({
           />
         </div>
       </div>
-      <span className="mt-15 block text-brand-text-primary">
+      <span className="mt-8 block text-brand-text-primary sm:mt-12 lg:mt-15">
         <Image
           src={"/images/invertedComma.svg"}
           alt=""
@@ -56,7 +56,7 @@ export function TestimonialCard({
         />
 
       </span>
-      <p className=" fs-20 lh-24  n-bold leading-relaxed text-brand-text-primary mt-5">
+      <p className="mt-5 n-bold text-base leading-relaxed text-brand-text-primary sm:fs-20 sm:lh-24">
         {item.quote}
       </p>
       <div className="mt-auto  pt-4">

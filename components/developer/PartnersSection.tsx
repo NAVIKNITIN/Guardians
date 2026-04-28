@@ -55,7 +55,7 @@ export function PartnersSection({
           </ScrollReveal>
           <ScrollReveal direction="up" delay={0.08} distance={20}>
             <MarketingEnquireLink
-              className="w-[207.01px] h-[55px]"
+              className="w-full sm:w-auto sm:min-w-[13rem]"
               href={content.ctaHref}
             >
               {content.ctaLabel}

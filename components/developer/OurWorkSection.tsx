@@ -26,7 +26,7 @@ export function OurWorkSection({ content, isBuyer }: { content: OurWorkBandConte
       aria-labelledby="our-work-heading"
     >
       <Container className="min-w-0">
-        <div className="grid items-start lg:grid-cols-2">
+        <div className="grid items-start gap-8 lg:grid-cols-2 lg:gap-12">
           <StaggerContainer className="flex min-w-0 flex-col" staggerChildren={0.16}>
             <ScrollReveal direction="left" distance={40}>
               <h2
@@ -50,7 +50,7 @@ export function OurWorkSection({ content, isBuyer }: { content: OurWorkBandConte
                   {slide.title}
                 </h3>
                 {/* ~20–30px headline → body */}
-                <p className="mt-6 lh-20 max-w-lg n-book lh-24 text-[clamp(0.9375rem,1.15vw,1.0625rem)] leading-[1.65] text-[#161616] md:max-h-[40px]">
+                <p className="mt-6 max-w-lg n-book text-[clamp(0.9375rem,1.15vw,1.0625rem)] leading-[1.65] text-[#161616]">
                   {slide.body}
                 </p>
               </motion.div>
@@ -60,7 +60,7 @@ export function OurWorkSection({ content, isBuyer }: { content: OurWorkBandConte
               <MarketingEnquireLink
                 href={content.readMoreHref}
                 variant="ourWork"
-                className="mt-20 inline-flex h-[55px] w-[276.01px] px-7 lh-30 text-white lg:px-6"
+                className="mt-10 inline-flex w-full sm:mt-14 sm:w-auto sm:min-w-[15rem] lg:mt-20 lg:px-6"
               >
                 {content.readMoreLabel}
               </MarketingEnquireLink>
@@ -85,12 +85,7 @@ export function OurWorkSection({ content, isBuyer }: { content: OurWorkBandConte
           </StaggerContainer>
 
           <ScrollReveal direction="right" delay={0.12} className="relative flex w-full justify-center lg:justify-end">
-            <div
-              className={cn(
-                "relative w-full md:w-[588px] md:h-[610px] overflow-hidden",
-                "bg-neutral-200/80",
-              )}
-            >
+            <div className={cn("relative aspect-[4/3] w-full overflow-hidden bg-neutral-200/80 sm:aspect-[5/4] md:w-[588px] md:h-[610px] md:aspect-auto")}>
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
                   key={slide.id}
