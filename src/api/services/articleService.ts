@@ -23,6 +23,7 @@ export type FilterArticlesParams = {
   to?: string;
 };
 
+
 /**
  * `GET /api/articles?per_page=10&page=1` — paginated list (raw envelope from backend).
  */
@@ -80,3 +81,4 @@ export function createArticle(payload: object) {
 export function updateArticle(id: string | number, payload: object) {
   return axiosInstance.put<unknown>(`/articles/${id}`, payload).then((r) => r.data);
 }
+

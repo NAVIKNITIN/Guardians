@@ -20,20 +20,37 @@ export function AdminShell({
 
   const pageConfig = pathname.startsWith("/admin/book-visits")
     ? {
-        title: "Book Visits",
-        searchPlaceholder: "Search visits...",
-      }
-    : pathname.startsWith("/admin/articles")
+      title: "Book Visits",
+      searchPlaceholder: "Search visits...",
+    }
+    : pathname.startsWith("/admin/articles/") &&
+        pathname.endsWith("/view")
       ? {
+          title: "View Article",
+          searchPlaceholder: "Search articles...",
+        }
+      : pathname.startsWith("/admin/articles/") &&
+          pathname.endsWith("/edit")
+        ? {
+            title: "Edit Article",
+            searchPlaceholder: "Search articles...",
+          }
+    : pathname.startsWith("/admin/add-article")
+      ? {
+          title: "Add New Article",
+        searchPlaceholder: "Search articles...",
+      }
+      : pathname.startsWith("/admin/articles")
+        ? {
           title: "Articles",
           searchPlaceholder: "Search articles...",
         }
-      : pathname.startsWith("/admin/add-project")
-        ? {
+        : pathname.startsWith("/admin/add-project")
+          ? {
             title: "Add Project",
             searchPlaceholder: "Search projects...",
           }
-        : {
+          : {
             title: "Projects",
             searchPlaceholder: "Search projects...",
           };

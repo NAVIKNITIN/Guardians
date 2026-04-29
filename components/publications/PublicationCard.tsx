@@ -7,6 +7,7 @@ export type PublicationIssue = {
   title: string;
   imageSrc: string;
   imageAlt: string;
+  href?: string;
 };
 
 type PublicationCardProps = {
@@ -23,6 +24,8 @@ export function PublicationCard({
   buttonLabel = "Download",
   className,
 }: PublicationCardProps) {
+  const isRemoteImage = /^https?:\/\//.test(issue.imageSrc);
+
   return (
     <article className={cn("flex flex-col items-center", className)}>
       {/* Portrait magazine/gazette cover */}
@@ -32,6 +35,7 @@ export function PublicationCard({
             src={issue.imageSrc}
             alt={issue.imageAlt}
             fill
+            unoptimized={isRemoteImage}
             className="object-cover object-center transition-transform duration-500 hover:scale-105"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
@@ -44,13 +48,23 @@ export function PublicationCard({
       </h3>
 
       {/* Open File button */}
-      <OutlineArrowButton
-        onClick={() => onOpenFile(issue.title)}
-        className="mt-5 px-12 py-4 fs-16 ls-10 lh-24"
-        iconClassName="w-[13px] h-[13px]"
-      >
-        {buttonLabel}
-      </OutlineArrowButton>
+      {issue.href ? (
+        <OutlineArrowButton
+          href={issue.href}
+          className="mt-5 px-12 py-4 fs-16 ls-10 lh-24"
+          iconClassName="w-[13px] h-[13px]"
+        >
+          Read More
+        </OutlineArrowButton>
+      ) : (
+        <OutlineArrowButton
+          onClick={() => onOpenFile(issue.title)}
+          className="mt-5 px-12 py-4 fs-16 ls-10 lh-24"
+          iconClassName="w-[13px] h-[13px]"
+        >
+          {buttonLabel}
+        </OutlineArrowButton>
+      )}
     </article>
   );
 }

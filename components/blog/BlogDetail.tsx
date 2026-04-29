@@ -1,7 +1,12 @@
+"use client";
+
 import { Container } from "@/components/common/Container";
+import { normalizeFilteredArticles } from "@/lib/mappers/publicArticles";
+import { filterArticles } from "@/src/api/services/articleService";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
 // ─── Types ──────────────────────────────────────────────────────────────────
 
@@ -17,30 +22,82 @@ export type BlogDetailPost = {
 
 // ─── Recent Posts sidebar ────────────────────────────────────────────────────
 
-const RECENT_POSTS = [
-  "Lorem ipsum dolor sit amet consectetur.",
-  "Lorem ipsum dolor sit amet consectetur.",
-  "Lorem ipsum dolor sit amet consectetur.",
-  "Lorem ipsum dolor sit amet consectetur.",
-  "Lorem ipsum dolor sit amet consectetur.",
-];
+type DetailContentType = "BLOG" | "NEWS" | "MAGAZINE" | "GAZETTE";
 
-function RecentPostsSidebar() {
+function detailRoutePrefix(type: DetailContentType) {
+  if (type === "NEWS") return "/newsroom";
+  if (type === "MAGAZINE") return "/magazine";
+  if (type === "GAZETTE") return "/gazette";
+  return "/blog";
+}
+
+function RecentPostsSidebar({ contentType }: { contentType: DetailContentType }) {
+  const [recentPosts, setRecentPosts] = useState<
+    Array<{ id: string; title: string }>
+  >([]);
+
+  useEffect(() => {
+    let mounted = true;
+    const currentYear = new Date().getFullYear();
+    const from = `${currentYear}-01-01`;
+    const to = `${currentYear}-12-31`;
+
+    async function loadRecentPosts() {
+      try {
+        const primary = await filterArticles({
+          type: contentType,
+          year: String(currentYear),
+          from,
+          to,
+        });
+
+        let items = normalizeFilteredArticles(primary as never);
+        if (items.length === 0) {
+          const fallback = await filterArticles({ type: contentType });
+          items = normalizeFilteredArticles(fallback as never);
+        }
+
+        const mapped = items
+          .sort((a, b) => {
+            const first = new Date(String(a.created_at ?? "")).getTime() || 0;
+            const second = new Date(String(b.created_at ?? "")).getTime() || 0;
+            return second - first;
+          })
+          .map((item) => ({
+            id: String(item.id ?? "").trim(),
+            title: String(item.title ?? "").trim(),
+          }))
+          .filter((item) => item.id && item.title)
+          .slice(0, 5);
+
+        if (!mounted) return;
+        setRecentPosts(mapped);
+      } catch {
+        if (mounted) setRecentPosts([]);
+      }
+    }
+
+    loadRecentPosts();
+    return () => {
+      mounted = false;
+    };
+  }, [contentType]);
+
   return (
-    <aside className="w-full lg:w-[345px] lg:flex-shrink-0">
+    <aside className="w-full lg:w-[345px] lg:shrink-0">
       <div className="bg-[#F2F2F2] px-5 py-6 sm:px-6 sm:py-7">
         <h3 className="n-reg fs-20 lh-24 uppercase text-[#161616] sm:text-xl">
           Recent posts
         </h3>
         <div className="mt-3 border-t border-black/10" />
         <ul className="mt-4 flex flex-col gap-1 sm:mt-5">
-          {RECENT_POSTS.map((title, i) => (
-            <li key={i}>
+          {recentPosts.map((post) => (
+            <li key={post.id}>
               <Link
-                href="#"
+                href={`${detailRoutePrefix(contentType)}/${post.id}`}
                 className="n-bold fs-16 lh-24 text-[#161616] transition-opacity hover:opacity-70"
               >
-                {title}
+                {post.title}
               </Link>
             </li>
           ))}
@@ -62,7 +119,13 @@ function BackArrow() {
 
 // ─── Main component ──────────────────────────────────────────────────────────
 
-export function BlogDetail({ post }: { post: BlogDetailPost }) {
+export function BlogDetail({
+  post,
+  contentType = "BLOG",
+}: {
+  post: BlogDetailPost;
+  contentType?: DetailContentType;
+}) {
   return (
     <article className="bg-white  py-12 sm:my-10 sm:py-16 md:my-25 md:py-20  lg:py-[20px]">
       <Container>
@@ -89,7 +152,7 @@ export function BlogDetail({ post }: { post: BlogDetailPost }) {
 
         {/* ── Featured image — taller aspect on mobile, original 1195/371 on lg+ ─── */}
         <div className="relative mt-6 w-full overflow-hidden bg-neutral-200 sm:mt-8">
-          <div className="aspect-[4/3] sm:aspect-[16/9] lg:aspect-[1195/371]">
+          <div className="aspect-4/3 sm:aspect-video lg:aspect-1195/371">
             <Image
               src={post.featuredImage}
               alt={post.featuredImageAlt}
@@ -113,7 +176,7 @@ export function BlogDetail({ post }: { post: BlogDetailPost }) {
           </div>
 
           {/* Sidebar */}
-          <RecentPostsSidebar />
+          <RecentPostsSidebar contentType={contentType} />
         </div>
       </Container>
     </article>

@@ -1,30 +1,35 @@
 "use client";
 
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
-import type { ChangeEvent, FormEvent, KeyboardEvent, ReactNode } from "react";
+import type { ChangeEvent, FormEvent, ReactNode } from "react";
 import { useEffect, useState } from "react";
-import { IconPlus } from "@/components/admin/panel/AdminIcons";
+import { IconFolderStack, IconPlus } from "@/components/admin/panel/AdminIcons";
+import Link from "next/link";
 import {
   createArticle,
-  listArticles,
+  getAllArticles,
   updateArticle,
 } from "@/src/api/services/articleService";
 import { uploadFile } from "@/src/api/services/fileService";
 const hiddenScrollbarClass =
   "[scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden";
+const BUTTON_PRIMARY_CLASS =
+  "inline-flex cursor-pointer items-center justify-center gap-2.5 rounded-[14px] text-[0.96rem] font-semibold text-white btn-primary-gradient shadow-[0_14px_24px_rgba(240,150,132,0.22)]";
+const BUTTON_OUTLINE_CLASS =
+  "inline-flex cursor-pointer items-center justify-center rounded-[16px] border border-[#f09684] px-6 text-[1rem] font-semibold text-[#f07c61] transition hover:bg-[#fff5f1]";
 
 type IconProps = {
   className?: string;
 };
 
-type ArticleType = "NEWS" | "BLOG";
+type ArticleType = "NEWS" | "BLOG" | "MAGAZINE" | "GAZETTE";
 type ArticleStatus = "Published" | "Draft";
 type ModalMode = "create" | "view" | "edit";
 
 type ArticleApiItem = {
   id: number;
   title: string;
-  type: ArticleType;
+  type: string;
   description: string | null;
   active: boolean;
   created_at: string;
@@ -76,9 +81,28 @@ type ArticleRow = {
   fileUrl: string | null;
 };
 
+const ARTICLE_TYPE_OPTIONS = [
+  "NEWS",
+  "BLOG",
+  "MAGAZINE",
+  "GAZETTE",
+] as const;
+const ARTICLE_CATEGORY_OPTIONS = [
+  "Real Estate",
+  "Market Trends",
+  "Investment",
+  "Architecture",
+  "Interior Design",
+  "Technology",
+  "Sustainability",
+  "Home Buying",
+] as const;
+
 const typeBadgeClasses: Record<ArticleType, string> = {
   NEWS: "bg-[#dceaff] text-[#2563eb]",
   BLOG: "bg-[#f2e4ff] text-[#8b24ff]",
+  MAGAZINE: "bg-[#fff3d6] text-[#b7791f]",
+  GAZETTE: "bg-[#d7f3ef] text-[#0f766e]",
 };
 
 const statusBadgeClasses: Record<ArticleStatus, string> = {
@@ -86,7 +110,7 @@ const statusBadgeClasses: Record<ArticleStatus, string> = {
   Draft: "bg-[#fff2b8] text-[#c68300]",
 };
 
-const ITEMS_PER_PAGE = 2;
+const ITEMS_PER_PAGE = 10;
 
 function formatCreatedDate(value: string) {
   if (!value) return "";
@@ -94,10 +118,13 @@ function formatCreatedDate(value: string) {
 }
 
 function mapArticle(item: ArticleApiItem): ArticleRow {
+  const normalizedType =
+    String(item.type).toUpperCase() === "BLOGS" ? "BLOG" : String(item.type).toUpperCase();
+
   return {
     id: item.id,
     title: item.title,
-    type: item.type,
+    type: (normalizedType as ArticleType),
     categories: Array.isArray(item.categories) ? item.categories : [],
     createdDate: formatCreatedDate(item.created_at),
     status: item.active ? "Published" : "Draft",
@@ -251,7 +278,7 @@ function InputShell({
 }) {
   return (
     <label className="block space-y-3">
-      <span className="text-[1.05rem] font-semibold text-[#111827]">
+      <span className="text-[1.02rem] font-medium text-[#46536d]">
         {label}
       </span>
       {children}
@@ -276,7 +303,7 @@ function TextInput({
       readOnly={readOnly}
       onChange={(event) => onChange(event.target.value)}
       placeholder={placeholder}
-      className="h-[58px] w-full rounded-[16px] border border-[#e7ebf1] bg-[#f8f9fc] px-5 text-[1.05rem] text-[#44506a] outline-none transition placeholder:text-[#8b95a7] focus:border-[#f09684] focus:bg-white read-only:cursor-default"
+      className="h-[58px] w-full rounded-[16px] border border-[#e0e4eb] bg-white px-5 text-[1rem] text-[#44506a] outline-none transition placeholder:text-[#a3acbb] focus:border-[#f09684] read-only:cursor-default"
     />
   );
 }
@@ -299,7 +326,7 @@ function TextAreaField({
       readOnly={readOnly}
       onChange={(event) => onChange(event.target.value)}
       placeholder={placeholder}
-      className="w-full rounded-[16px] border border-[#e7ebf1] bg-[#f8f9fc] px-5 py-4 text-[1.05rem] text-[#44506a] outline-none transition placeholder:text-[#8b95a7] focus:border-[#f09684] focus:bg-white read-only:cursor-default"
+      className="w-full rounded-[16px] border border-[#e0e4eb] bg-white px-5 py-4 text-[1rem] text-[#44506a] outline-none transition placeholder:text-[#a3acbb] focus:border-[#f09684] read-only:cursor-default"
     />
   );
 }
@@ -321,7 +348,7 @@ function SelectField({
         value={value}
         disabled={disabled}
         onChange={(event) => onChange(event.target.value)}
-        className="h-[58px] w-full appearance-none rounded-[16px] border border-[#e7ebf1] bg-[#f8f9fc] px-5 pr-14 text-[1.05rem] text-[#111827] outline-none transition focus:border-[#f09684] focus:bg-white disabled:cursor-not-allowed disabled:opacity-70"
+        className="h-[58px] w-full appearance-none rounded-[16px] border border-[#e0e4eb] bg-white px-5 pr-12 text-[1rem] text-[#44506a] outline-none transition focus:border-[#f09684] disabled:cursor-not-allowed disabled:opacity-70"
       >
         {options.map((option) => (
           <option key={option} value={option}>
@@ -343,7 +370,7 @@ function FilterField({
 }) {
   return (
     <div className="space-y-3">
-      <p className="text-[1.02rem] font-semibold text-[#374151]">{label}</p>
+      <p className="text-[1.02rem] font-medium text-[#46536d]">{label}</p>
       {children}
     </div>
   );
@@ -363,7 +390,7 @@ function FilterSelect({
       <select
         value={value}
         onChange={(event) => onChange(event.target.value)}
-        className="h-[58px] w-full appearance-none rounded-[16px] border border-[#e9edf2] bg-[#f8f9fc] px-5 pr-14 text-[1.05rem] font-medium text-[#111827] outline-none transition focus:border-[#f09684] focus:bg-white"
+        className="h-[58px] w-full appearance-none rounded-[16px] border border-[#e0e4eb] bg-white px-5 pr-12 text-[1rem] text-[#44506a] outline-none transition focus:border-[#f09684]"
       >
         {options.map((option) => (
           <option key={option} value={option}>
@@ -376,25 +403,29 @@ function FilterSelect({
   );
 }
 
-function AddArticleModal({
+export function AddArticleModal({
   open,
   onClose,
   onSaved,
   mode,
   initialArticle,
+  inline = false,
 }: {
   open: boolean;
   onClose: () => void;
   onSaved: () => void | Promise<void>;
   mode: ModalMode;
   initialArticle: ArticleRow | null;
+  inline?: boolean;
 }) {
   const [title, setTitle] = useState("");
   const [type, setType] = useState("Select article type");
   const [fileValue, setFileValue] = useState("");
   const [selectedFileName, setSelectedFileName] = useState("");
   const [isUploadingFile, setIsUploadingFile] = useState(false);
-  const [categoryInput, setCategoryInput] = useState("");
+  const [categoryInput, setCategoryInput] = useState<string>(
+    ARTICLE_CATEGORY_OPTIONS[0],
+  );
   const [categories, setCategories] = useState<string[]>([]);
   const [message, setMessage] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -409,7 +440,7 @@ function AddArticleModal({
     setFileValue("");
     setSelectedFileName("");
     setIsUploadingFile(false);
-    setCategoryInput("");
+    setCategoryInput(ARTICLE_CATEGORY_OPTIONS[0]);
     setCategories([]);
     setMessage("");
     setErrorMessage("");
@@ -424,9 +455,9 @@ function AddArticleModal({
       setFileValue(initialArticle.fileId ? String(initialArticle.fileId) : "");
       setSelectedFileName(
         initialArticle.fileName ||
-          (initialArticle.fileId ? `File ID: ${initialArticle.fileId}` : ""),
+        (initialArticle.fileId ? `File ID: ${initialArticle.fileId}` : ""),
       );
-      setCategoryInput("");
+      setCategoryInput(ARTICLE_CATEGORY_OPTIONS[0]);
       setCategories(initialArticle.categories);
       setMessage(initialArticle.description ?? "");
       setErrorMessage("");
@@ -455,14 +486,14 @@ function AddArticleModal({
       setCategories((current) => [...current, nextCategory]);
     }
 
-    setCategoryInput("");
+    setCategoryInput(ARTICLE_CATEGORY_OPTIONS[0]);
   }
 
-  function handleCategoryKeyDown(event: KeyboardEvent<HTMLInputElement>) {
-    if (event.key === "Enter") {
-      event.preventDefault();
-      addCategory();
-    }
+  function removeCategory(categoryToRemove: string) {
+    if (isViewMode) return;
+    setCategories((current) =>
+      current.filter((item) => item !== categoryToRemove),
+    );
   }
 
   async function handleFileChange(event: ChangeEvent<HTMLInputElement>) {
@@ -533,7 +564,7 @@ function AddArticleModal({
       return;
     }
 
-    if (type !== "NEWS" && type !== "BLOG") {
+    if (!ARTICLE_TYPE_OPTIONS.includes(type as (typeof ARTICLE_TYPE_OPTIONS)[number])) {
       setErrorMessage("Please select article type.");
       return;
     }
@@ -546,17 +577,33 @@ function AddArticleModal({
       return;
     }
 
+    if (!trimmedFileValue || normalizedFileId == null) {
+      setErrorMessage("Image upload is required.");
+      return;
+    }
+
+    if (categories.length === 0) {
+      setErrorMessage("Please add at least one category.");
+      return;
+    }
+
     try {
       setIsSubmitting(true);
 
-      const payload = {
-        type,
+      const basePayload = {
+        type: type === "BLOG" ? "BLOG" : type,
         title: title.trim(),
-        description: message.trim() || null,
+        description: message.length > 0 ? message : null,
         file_id: normalizedFileId,
-        active: initialArticle ? initialArticle.status === "Published" : true,
         categories,
       };
+      const payload =
+        isEditMode && initialArticle
+          ? {
+            ...basePayload,
+            active: initialArticle.status === "Published",
+          }
+          : basePayload;
 
       const result = (isEditMode && initialArticle
         ? await updateArticle(initialArticle.id, payload)
@@ -565,9 +612,9 @@ function AddArticleModal({
       if (!result.success) {
         throw new Error(
           result.message ||
-            (isEditMode
-              ? "Failed to update article."
-              : "Failed to add article."),
+          (isEditMode
+            ? "Failed to update article."
+            : "Failed to add article."),
         );
       }
 
@@ -582,23 +629,14 @@ function AddArticleModal({
     }
   }
 
-  if (!open) return null;
+  if (!open && !inline) return null;
 
-  return (
+  const content = (
     <div
-      className={`fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-[#0f172a]/35 p-4 backdrop-blur-[3px] sm:items-center ${hiddenScrollbarClass}`}>
-      <div
-  className={`my-6 max-h-[calc(100vh-2rem)] w-full max-w-[760px] overflow-y-auto rounded-[28px] bg-white p-6 shadow-[0_28px_60px_rgba(15,23,42,0.18)] sm:p-8 ${hiddenScrollbarClass}`}>
+      className={`${inline ? "w-full rounded-[30px] border border-[#e7e4df] bg-white p-4 shadow-[0_8px_18px_rgba(22,20,19,0.06)] sm:p-6" : `my-6 max-h-[calc(100vh-2rem)] w-full max-w-[900px] overflow-y-auto rounded-[30px] border border-[#e7e4df] bg-white p-4 shadow-[0_8px_18px_rgba(22,20,19,0.06)] sm:p-6 ${hiddenScrollbarClass}`}`}>
 
-        <div className="flex items-start justify-between gap-4">
-          <h2 className="font-qasbyne text-[clamp(2rem,3vw,3rem)] leading-none text-[#111827]">
-            {isViewMode
-              ? "View Article"
-              : isEditMode
-                ? "Update Article"
-                : "Add New Article"}
-          </h2>
-
+      {!inline ? (
+        <div className="flex justify-end">
           <button
             type="button"
             onClick={handleClose}
@@ -607,160 +645,174 @@ function AddArticleModal({
             <IconXMark className="h-6 w-6" />
           </button>
         </div>
+      ) : null}
 
-        <form onSubmit={handleSubmit} className="mt-8 space-y-7">
-          <InputShell label="Title">
+      <form onSubmit={handleSubmit} className="space-y-5">
+        <InputShell label="Title">
+          <TextInput
+            placeholder="Enter article title"
+            value={title}
+            onChange={setTitle}
+            readOnly={isViewMode}
+          />
+        </InputShell>
+
+        <InputShell label="Type">
+          <SelectField
+            value={type}
+            onChange={setType}
+            options={["Select article type", ...ARTICLE_TYPE_OPTIONS]}
+            disabled={isViewMode}
+          />
+        </InputShell>
+
+        <InputShell label="Upload">
+          {isViewMode ? (
             <TextInput
-              placeholder="Enter article title"
-              value={title}
-              onChange={setTitle}
-              readOnly={isViewMode}
+              placeholder="No image uploaded"
+              value={selectedFileName || fileValue}
+              onChange={() => { }}
+              readOnly
             />
-          </InputShell>
+          ) : (
+            <div className="space-y-3">
+              <label className="flex h-[58px] cursor-pointer items-center justify-between rounded-[16px] border border-[#e0e4eb] bg-white px-5 text-[1rem] text-[#44506a] transition hover:border-[#f09684]">
+                <span>
+                  {isUploadingFile
+                    ? "Uploading..."
+                    : selectedFileName || "Upload"}
+                </span>
 
-          <InputShell label="Type">
-            <SelectField
-              value={type}
-              onChange={setType}
-              options={["Select article type", "NEWS", "BLOG"]}
-              disabled={isViewMode}
-            />
-          </InputShell>
+                <span className="text-sm font-semibold text-[#f07c61]">
+                  JPG/PNG
+                </span>
 
-          <InputShell label="Upload">
-            {isViewMode ? (
-              <TextInput
-                placeholder="No image uploaded"
-                value={selectedFileName || fileValue}
-                onChange={() => {}}
-                readOnly
-              />
-            ) : (
-              <div className="space-y-3">
-                <label className="flex h-[58px] cursor-pointer items-center justify-between rounded-[16px] border border-[#e7ebf1] bg-[#f8f9fc] px-5 text-[1.05rem] text-[#44506a] transition hover:border-[#f09684] hover:bg-white">
-                  <span>
-                    {isUploadingFile
-                      ? "Uploading..."
-                      : selectedFileName || "Upload"}
-                  </span>
-
-                  <span className="text-sm font-semibold text-[#f07c61]">
-                    JPG/PNG
-                  </span>
-
-                  <input
-                    type="file"
-                    accept=".jpg,.jpeg,.png,image/jpeg,image/png"
-                    onChange={handleFileChange}
-                    disabled={isUploadingFile}
-                    className="hidden"
-                  />
-                </label>
-
-                {fileValue ? (
-                  <p className="text-sm font-medium text-[#2f7a4b]">
-                    Image uploaded successfully.
-                  </p>
-                ) : null}
-              </div>
-            )}
-          </InputShell>
-
-          <div className="space-y-3">
-            <span className="block text-[1.05rem] font-semibold text-[#111827]">
-              Categories
-            </span>
-
-            {!isViewMode ? (
-              <div className="flex flex-col gap-3 sm:flex-row">
                 <input
-                  value={categoryInput}
-                  onChange={(event) => setCategoryInput(event.target.value)}
-                  onKeyDown={handleCategoryKeyDown}
-                  placeholder="Add category (press Enter)"
-                  className="h-[58px] flex-1 rounded-[16px] border border-[#e7ebf1] bg-[#f8f9fc] px-5 text-[1.05rem] text-[#44506a] outline-none transition placeholder:text-[#8b95a7] focus:border-[#f09684] focus:bg-white"
+                  type="file"
+                  accept=".jpg,.jpeg,.png,image/jpeg,image/png"
+                  onChange={handleFileChange}
+                  disabled={isUploadingFile}
+                  className="hidden"
                 />
+              </label>
 
-                <button
-                  type="button"
-                  onClick={addCategory}
-                  className="inline-flex h-[58px] items-center justify-center rounded-[16px] border border-[#e2e6ed] bg-white px-8 text-[1.05rem] font-semibold text-[#111827] transition hover:bg-[#f8fafc]"
-                >
-                  Add
-                </button>
-              </div>
-            ) : null}
-
-            {categories.length > 0 ? (
-              <div className="flex flex-wrap gap-2 pt-1">
-                {categories.map((category) => (
-                  <span
-                    key={category}
-                    className="inline-flex rounded-full border border-[#dbe2ec] bg-[#f8fafc] px-3 py-2 text-sm font-medium text-[#526178]"
-                  >
-                    {category}
-                  </span>
-                ))}
-              </div>
-            ) : (
-              <p className="text-sm text-[#8b95a7]">No categories added.</p>
-            )}
-          </div>
-
-          <InputShell label="Message">
-            <TextAreaField
-              placeholder="Enter article message"
-              value={message}
-              onChange={setMessage}
-              readOnly={isViewMode}
-            />
-          </InputShell>
-
-          {errorMessage ? (
-            <p className="text-sm font-medium text-[#d05c43]">{errorMessage}</p>
-          ) : null}
-
-          <div className="border-t border-[#ebeef3] pt-6">
-            <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
-              <button
-                type="button"
-                onClick={handleClose}
-                disabled={isSubmitting}
-                className="inline-flex h-[54px] items-center justify-center rounded-[16px] border border-[#e2e6ed] bg-white px-8 text-[1.08rem] font-semibold text-[#111827] transition hover:bg-[#f8fafc] disabled:cursor-not-allowed disabled:opacity-70"
-              >
-                {isViewMode ? "Close" : "Cancel"}
-              </button>
-
-              {!isViewMode ? (
-                <button
-                  type="submit"
-                  disabled={isSubmitting || isUploadingFile}
-                  className="inline-flex h-[54px] items-center justify-center rounded-[16px] px-8 text-[1.08rem] font-semibold text-white btn-primary-gradient shadow-[0_18px_30px_rgba(240,150,132,0.22)] disabled:cursor-not-allowed disabled:opacity-70"
-                >
-                  {isSubmitting
-                    ? isEditMode
-                      ? "Updating..."
-                      : "Adding..."
-                    : isEditMode
-                      ? "Update Article"
-                      : "Add Article"}
-                </button>
+              {fileValue ? (
+                <p className="text-sm font-medium text-[#2f7a4b]">
+                  Image uploaded successfully.
+                </p>
               ) : null}
             </div>
+          )}
+        </InputShell>
+
+        <div className="space-y-3">
+          <span className="block text-[1.05rem] font-semibold text-[#111827]">
+            Categories
+          </span>
+
+          {!isViewMode ? (
+            <div className="flex flex-col gap-3 sm:flex-row">
+              <SelectField
+                value={categoryInput}
+                onChange={setCategoryInput}
+                options={[...ARTICLE_CATEGORY_OPTIONS]}
+              />
+
+              <button
+                type="button"
+                onClick={addCategory}
+                className={`${BUTTON_OUTLINE_CLASS} h-[46px] px-6 text-[0.95rem]`}
+              >
+                Add
+              </button>
+            </div>
+          ) : null}
+
+          {categories.length > 0 ? (
+            <div className="flex flex-wrap gap-2 pt-1">
+              {categories.map((category) => (
+                <span
+                  key={category}
+                  className="inline-flex items-center gap-2 rounded-full border border-[#dbe2ec] bg-[#f8fafc] px-3 py-2 text-sm font-medium text-[#526178]"
+                >
+                  {category}
+                  {!isViewMode ? (
+                    <button
+                      type="button"
+                      onClick={() => removeCategory(category)}
+                      className="inline-flex h-6 w-6 items-center justify-center rounded-full text-[#7a8497] transition hover:bg-[#e9eef6] hover:text-[#374151]"
+                      aria-label={`Remove category ${category}`}
+                    >
+                      <IconXMark className="h-3.5 w-3.5" />
+                    </button>
+                  ) : null}
+                </span>
+              ))}
+            </div>
+          ) : (
+            <p className="text-sm text-[#8b95a7]">No categories added.</p>
+          )}
+        </div>
+
+        <InputShell label="Message">
+          <TextAreaField
+            placeholder="Enter article message"
+            value={message}
+            onChange={setMessage}
+            readOnly={isViewMode}
+          />
+        </InputShell>
+
+        {errorMessage ? (
+          <p className="text-sm font-medium text-[#d05c43]">{errorMessage}</p>
+        ) : null}
+
+        <div className="border-t border-[#ebeef3] pt-6">
+          <div className="flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
+            <button
+              type="button"
+              onClick={handleClose}
+              disabled={isSubmitting}
+              className={`${BUTTON_OUTLINE_CLASS} h-[46px] px-6 text-[0.95rem] disabled:cursor-not-allowed disabled:opacity-70`}
+            >
+              {isViewMode ? "Close" : "Cancel"}
+            </button>
+
+            {!isViewMode ? (
+              <button
+                type="submit"
+                disabled={isSubmitting || isUploadingFile}
+                className={`${BUTTON_PRIMARY_CLASS} h-[46px] px-6 text-[0.95rem] disabled:cursor-not-allowed disabled:opacity-70`}
+              >
+                {isSubmitting
+                  ? isEditMode
+                    ? "Updating..."
+                    : "Adding..."
+                  : isEditMode
+                    ? "Update Article"
+                    : "Add Article"}
+              </button>
+            ) : null}
           </div>
-        </form>
-      </div>
+        </div>
+      </form>
+    </div>
+  );
+
+  if (inline) {
+    return content;
+  }
+
+  return (
+    <div
+      className={`fixed inset-0 z-50 flex items-start justify-center overflow-y-auto bg-[#0f172a]/35 p-4 backdrop-blur-[3px] sm:items-center ${hiddenScrollbarClass}`}
+    >
+      {content}
     </div>
   );
 }
 
 export function ArticlesPageContent() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalMode, setModalMode] = useState<ModalMode>("create");
-  const [selectedArticle, setSelectedArticle] = useState<ArticleRow | null>(
-    null,
-  );
-
   const [draftTypeFilter, setDraftTypeFilter] = useState("All Types");
   const [draftYearFilter, setDraftYearFilter] = useState("All Years");
 
@@ -782,25 +834,22 @@ export function ArticlesPageContent() {
         setIsLoading(true);
         setErrorMessage("");
 
-        const params = new URLSearchParams();
-        params.set("per_page", String(ITEMS_PER_PAGE));
-        params.set("page", String(currentPage));
-
-        if (appliedTypeFilter !== "All Types") {
-          params.set("type", appliedTypeFilter);
-        }
-
-        if (appliedYearFilter !== "All Years") {
-          params.set("year", appliedYearFilter);
-        }
-
-        const result = (await listArticles(
-          params.toString(),
-        )) as ArticleListResponse;
+        const result = (await getAllArticles({
+          per_page: ITEMS_PER_PAGE,
+          page: currentPage,
+        })) as ArticleListResponse;
 
         if (!isMounted) return;
+        const filteredItems = result.data.data.filter((item) => {
+          const typeMatch =
+            appliedTypeFilter === "All Types" || item.type === appliedTypeFilter;
+          const yearMatch =
+            appliedYearFilter === "All Years" ||
+            formatCreatedDate(item.created_at).startsWith(appliedYearFilter);
+          return typeMatch && yearMatch;
+        });
 
-        setArticles(result.data.data.map(mapArticle));
+        setArticles(filteredItems.map(mapArticle));
         setLastPage(Math.max(1, result.data.last_page));
       } catch (error) {
         if (!isMounted) return;
@@ -830,83 +879,63 @@ export function ArticlesPageContent() {
     setCurrentPage(1);
   }
 
-  function handleArticleSaved() {
-    setCurrentPage(1);
-    setReloadKey((value) => value + 1);
-  }
-
   function goToPage(page: number) {
     if (page < 1 || page > lastPage) return;
     setCurrentPage(page);
   }
 
-  function handleOpenCreate() {
-    setSelectedArticle(null);
-    setModalMode("create");
-    setIsModalOpen(true);
-  }
-
-  function handleOpenView(article: ArticleRow) {
-    setSelectedArticle(article);
-    setModalMode("view");
-    setIsModalOpen(true);
-  }
-
-  function handleOpenEdit(article: ArticleRow) {
-    setSelectedArticle(article);
-    setModalMode("edit");
-    setIsModalOpen(true);
-  }
-
-  function handleCloseModal() {
-    setIsModalOpen(false);
-    setSelectedArticle(null);
-  }
-
   return (
     <>
       <section className="w-full space-y-5">
-        <ScrollReveal direction="up" distance={20} className="flex justify-start">
-          <button
-            type="button"
-            onClick={handleOpenCreate}
-            className="inline-flex h-[50px] items-center justify-center gap-2.5 rounded-[14px] px-6 text-[0.98rem] font-semibold text-white btn-primary-gradient shadow-[0_14px_26px_rgba(240,150,132,0.22)]"
-          >
-            <IconPlus className="h-5 w-5" />
-            <span>Add Article</span>
-          </button>
+        <ScrollReveal direction="up" distance={24}>
+          <div className="rounded-[22px] border border-[#e7e4df] bg-white p-2.5 shadow-[0_8px_18px_rgba(22,20,19,0.06)]">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <div className="flex items-center gap-3">
+                <div className="flex h-[52px] w-[52px] items-center justify-center rounded-[16px] bg-[#fff3ed] text-[#f07c61]">
+                  <IconFolderStack className="h-6 w-6" />
+                </div>
+                <h2 className="qs-reg text-[clamp(1.9rem,3.2vw,2.6rem)] leading-none text-[#0d1e46]">
+                  All Articles
+                </h2>
+              </div>
+              <Link href="/admin/add-article" className={`${BUTTON_PRIMARY_CLASS} h-[50px] px-6`}>
+                <IconPlus className="h-5 w-5" />
+                <span>Add Article</span>
+              </Link>
+            </div>
+          </div>
         </ScrollReveal>
 
         <ScrollReveal direction="up" delay={0.04} distance={20}>
-        <section className="rounded-[22px] border border-[#e7ecf3] bg-white p-5 shadow-[0_10px_24px_rgba(15,23,42,0.04)] sm:p-6">
-          <div className="grid gap-5 xl:grid-cols-2">
-            <FilterField label="Type">
-              <FilterSelect
-                value={draftTypeFilter}
-                onChange={setDraftTypeFilter}
-                options={["All Types", "NEWS", "BLOG"]}
-              />
-            </FilterField>
+          <section className="rounded-[30px] border border-[#e7e4df] bg-white p-4 shadow-[0_8px_18px_rgba(22,20,19,0.06)] sm:p-6">
+            <div className="grid gap-5 xl:grid-cols-2">
+              <FilterField label="Type">
+                <FilterSelect
+                  value={draftTypeFilter}
+                  onChange={setDraftTypeFilter}
+                  options={["All Types", ...ARTICLE_TYPE_OPTIONS]}
+                />
+              </FilterField>
 
-            <FilterField label="Year">
-              <FilterSelect
-                value={draftYearFilter}
-                onChange={setDraftYearFilter}
-                options={["All Years", "2026", "2025", "2024"]}
-              />
-            </FilterField>
-          </div>
+              <FilterField label="Year">
+                <FilterSelect
+                  value={draftYearFilter}
+                  onChange={setDraftYearFilter}
+                  options={["All Years", "2026", "2025", "2024"]}
+                />
+              </FilterField>
+            </div>
 
-          <div className="mt-4">
-            <button
-              type="button"
-              onClick={handleApplyFilter}
-              className="inline-flex h-[48px] items-center justify-center rounded-[14px] px-6 text-[0.96rem] font-semibold text-white btn-primary-gradient shadow-[0_14px_24px_rgba(240,150,132,0.22)]"
-            >
-              Apply Filter
-            </button>
-          </div>
-        </section>
+            <div className="mt-4">
+              <button
+                type="button"
+                onClick={handleApplyFilter}
+                className={`${BUTTON_PRIMARY_CLASS} h-[50px] px-6`}
+              >
+                Apply Filter
+              </button>
+            </div>
+          </section>
         </ScrollReveal>
 
         {errorMessage ? (
@@ -916,133 +945,137 @@ export function ArticlesPageContent() {
         ) : null}
 
         <ScrollReveal direction="up" delay={0.08} distance={20}>
-        <section className="overflow-hidden rounded-[22px] border border-[#e7ecf3] bg-white shadow-[0_10px_24px_rgba(15,23,42,0.04)]">
-          <div className="overflow-x-auto">
-            <table className="w-full min-w-[1120px]">
-              <thead className="border-b border-[#e9edf3] bg-white">
-                <tr className="text-left">
-                  <th className="px-4 py-4 text-[0.95rem] font-semibold text-[#111827] sm:px-5">
-                    Title
-                  </th>
-                  <th className="px-4 py-4 text-[0.95rem] font-semibold text-[#111827] sm:px-5">
-                    Type
-                  </th>
-                  <th className="px-4 py-4 text-[0.95rem] font-semibold text-[#111827] sm:px-5">
-                    Categories
-                  </th>
-                  <th className="px-4 py-4 text-[0.95rem] font-semibold text-[#111827] sm:px-5">
-                    Created Date
-                  </th>
-                  <th className="px-4 py-4 text-[0.95rem] font-semibold text-[#111827] sm:px-5">
-                    Status
-                  </th>
-                  <th className="px-4 py-4 text-[0.95rem] font-semibold text-[#111827] sm:px-5">
-                    Actions
-                  </th>
-                </tr>
-              </thead>
-
-              <tbody>
-                {isLoading ? (
-                  <tr>
-                    <td
-                      colSpan={6}
-                      className="px-6 py-14 text-center text-[1.05rem] text-[#6b7280]"
-                    >
-                      Loading articles...
-                    </td>
+          <section className="overflow-hidden rounded-[30px] border border-[#e7e4df] bg-white shadow-[0_8px_18px_rgba(22,20,19,0.06)]">
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[1120px]">
+                <thead className="border-b border-[#e9edf3] bg-white">
+                  <tr className="text-left">
+                    <th className="px-4 py-4 text-[0.95rem] font-semibold text-[#111827] sm:px-5">
+                      ID
+                    </th>
+                    <th className="px-4 py-4 text-[0.95rem] font-semibold text-[#111827] sm:px-5">
+                      Title
+                    </th>
+                    <th className="px-4 py-4 text-[0.95rem] font-semibold text-[#111827] sm:px-5">
+                      Type
+                    </th>
+                    <th className="px-4 py-4 text-[0.95rem] font-semibold text-[#111827] sm:px-5">
+                      Categories
+                    </th>
+                    <th className="px-4 py-4 text-[0.95rem] font-semibold text-[#111827] sm:px-5">
+                      Created Date
+                    </th>
+                    <th className="px-4 py-4 text-[0.95rem] font-semibold text-[#111827] sm:px-5">
+                      Status
+                    </th>
+                    <th className="px-4 py-4 text-[0.95rem] font-semibold text-[#111827] sm:px-5">
+                      Actions
+                    </th>
                   </tr>
-                ) : articles.length > 0 ? (
-                  articles.map((article) => (
-                    <tr
-                      key={article.id}
-                      className="border-b border-[#eef2f6] transition-colors hover:bg-[#f8fafc] last:border-b-0"
-                    >
-                      <td className="px-4 py-4 align-top text-[0.94rem] font-semibold text-[#161b22] sm:px-5">
-                        {article.title}
-                      </td>
+                </thead>
 
-                      <td className="px-4 py-4 align-top sm:px-5">
-                        <span
-                          className={[
-                            "inline-flex rounded-[12px] px-3 py-1.5 text-[0.86rem] font-semibold",
-                            typeBadgeClasses[article.type],
-                          ].join(" ")}
-                        >
-                          {article.type}
-                        </span>
-                      </td>
-
-                      <td className="px-4 py-4 align-top sm:px-5">
-                        <div className="flex max-w-[300px] flex-wrap gap-2">
-                          {article.categories.map((category) => (
-                            <span
-                              key={category}
-                              className="inline-flex rounded-[12px] border border-[#dbe2ec] bg-[#f8fafc] px-2.5 py-1 text-[0.82rem] font-medium text-[#526178]"
-                            >
-                              {category}
-                            </span>
-                          ))}
-                        </div>
-                      </td>
-
-                      <td className="px-4 py-4 align-top text-[0.9rem] text-[#4b5563] sm:px-5">
-                        {article.createdDate}
-                      </td>
-
-                      <td className="px-4 py-4 align-top sm:px-5">
-                        <span
-                          className={[
-                            "inline-flex rounded-[12px] px-3 py-1.5 text-[0.86rem] font-semibold",
-                            statusBadgeClasses[article.status],
-                          ].join(" ")}
-                        >
-                          {article.status}
-                        </span>
-                      </td>
-
-                      <td className="px-4 py-4 align-top sm:px-5">
-                        <div className="flex items-center gap-4 text-[#111827]">
-                          <button
-                            type="button"
-                            onClick={() => handleOpenView(article)}
-                            className="transition hover:text-[#f07c61]"
-                          >
-                            <IconEye className="h-6 w-6" />
-                          </button>
-
-                          <button
-                            type="button"
-                            onClick={() => handleOpenEdit(article)}
-                            className="transition hover:text-[#f07c61]"
-                          >
-                            <IconPencil className="h-6 w-6" />
-                          </button>
-
-                          <button
-                            type="button"
-                            className="cursor-not-allowed opacity-50"
-                          >
-                            <IconTrash className="h-6 w-6" />
-                          </button>
-                        </div>
+                <tbody>
+                  {isLoading ? (
+                    <tr>
+                      <td
+                        colSpan={7}
+                        className="px-6 py-14 text-center text-[1.05rem] text-[#6b7280]"
+                      >
+                        Loading articles...
                       </td>
                     </tr>
-                  ))
-                ) : (
-                  <tr>
-                    <td
-                      colSpan={6}
-                      className="px-6 py-14 text-center text-[1.05rem] text-[#6b7280]"
-                    >
-                      No articles found.
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        </section>
+                  ) : articles.length > 0 ? (
+                    articles.map((article) => (
+                      <tr
+                        key={article.id}
+                        className="border-b border-[#eef2f6] transition-colors hover:bg-[#f8fafc] last:border-b-0"
+                      >
+                        <td className="px-4 py-4 align-top text-[0.9rem] font-medium text-[#4b5563] sm:px-5">
+                          {article.id}
+                        </td>
+                        <td className="px-4 py-4 align-top text-[0.94rem] font-semibold text-[#161b22] sm:px-5">
+                          {article.title}
+                        </td>
+
+                        <td className="px-4 py-4 align-top sm:px-5">
+                          <span
+                            className={[
+                              "inline-flex rounded-[12px] px-3 py-1.5 text-[0.86rem] font-semibold",
+                              typeBadgeClasses[article.type],
+                            ].join(" ")}
+                          >
+                            {article.type}
+                          </span>
+                        </td>
+
+                        <td className="px-4 py-4 align-top sm:px-5">
+                          <div className="flex max-w-[300px] flex-wrap gap-2">
+                            {article.categories.map((category) => (
+                              <span
+                                key={category}
+                                className="inline-flex rounded-[12px] border border-[#dbe2ec] bg-[#f8fafc] px-2.5 py-1 text-[0.82rem] font-medium text-[#526178]"
+                              >
+                                {category}
+                              </span>
+                            ))}
+                          </div>
+                        </td>
+
+                        <td className="px-4 py-4 align-top text-[0.9rem] text-[#4b5563] sm:px-5">
+                          {article.createdDate}
+                        </td>
+
+                        <td className="px-4 py-4 align-top sm:px-5">
+                          <span
+                            className={[
+                              "inline-flex rounded-[12px] px-3 py-1.5 text-[0.86rem] font-semibold",
+                              statusBadgeClasses[article.status],
+                            ].join(" ")}
+                          >
+                            {article.status}
+                          </span>
+                        </td>
+
+                        <td className="px-4 py-4 align-top sm:px-5">
+                          <div className="flex items-center gap-4 text-[#111827]">
+                            <Link
+                              href={`/admin/articles/${article.id}/view`}
+                              className="transition hover:text-[#f07c61]"
+                            >
+                              <IconEye className="h-6 w-6" />
+                            </Link>
+
+                            <Link
+                              href={`/admin/articles/${article.id}/edit`}
+                              className="transition hover:text-[#f07c61]"
+                            >
+                              <IconPencil className="h-6 w-6" />
+                            </Link>
+
+                            <button
+                              type="button"
+                              className="cursor-not-allowed opacity-50"
+                            >
+                              <IconTrash className="h-6 w-6" />
+                            </button>
+                          </div>
+                        </td>
+                      </tr>
+                    ))
+                  ) : (
+                    <tr>
+                      <td
+                        colSpan={7}
+                        className="px-6 py-14 text-center text-[1.05rem] text-[#6b7280]"
+                      >
+                        No articles found.
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </div>
+          </section>
         </ScrollReveal>
 
         <ScrollReveal direction="up" delay={0.12} className="flex items-center justify-center gap-2.5">
@@ -1084,13 +1117,6 @@ export function ArticlesPageContent() {
         </ScrollReveal>
       </section>
 
-      <AddArticleModal
-        open={isModalOpen}
-        onClose={handleCloseModal}
-        onSaved={handleArticleSaved}
-        mode={modalMode}
-        initialArticle={selectedArticle}
-      />
     </>
   );
 }

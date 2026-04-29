@@ -12,6 +12,8 @@ export type NewsArticle = {
 };
 
 export function NewsCard({ article }: { article: NewsArticle }) {
+  const isRemoteImage = /^https?:\/\//.test(article.imageSrc);
+
   return (
     <article className="flex flex-col">
       {/* Date */}
@@ -31,6 +33,7 @@ export function NewsCard({ article }: { article: NewsArticle }) {
             src={article.imageSrc}
             alt={article.imageAlt}
             fill
+            unoptimized={isRemoteImage}
             className="object-cover object-center transition-transform duration-500 hover:scale-105"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           />

@@ -160,10 +160,12 @@ export function AdminSidebar({
           {navItems.map((item) => {
             const Icon = item.icon;
             const isProjectsItem = item.href === "/admin/projects";
+            const isArticlesItem = item.href === "/admin/articles";
             const active =
               pathname === item.href ||
               pathname.startsWith(`${item.href}/`) ||
-              (isProjectsItem && pathname.startsWith("/admin/add-project"));
+              (isProjectsItem && pathname.startsWith("/admin/add-project")) ||
+              (isArticlesItem && pathname.startsWith("/admin/add-article"));
 
             return (
               <Link

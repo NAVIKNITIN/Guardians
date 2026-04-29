@@ -12,6 +12,8 @@ export type BlogPost = {
 };
 
 export function BlogCard({ post }: { post: BlogPost }) {
+  const isRemoteImage = /^https?:\/\//.test(post.imageSrc);
+
   return (
     <article className="flex flex-col">
       {/* Date */}
@@ -20,7 +22,7 @@ export function BlogCard({ post }: { post: BlogPost }) {
       </p>
 
       {/* Title */}
-      <h3 className="mt-1.5 n-bold fs-20 ls-5 lh-24  text-[#161616] line-clamp-3">
+      <h3 className="mt-1.5 n-bold fs-20 ls-5 lh-24  text-[#161616] line-clamp-2">
         {post.title}
       </h3>
 
@@ -31,6 +33,7 @@ export function BlogCard({ post }: { post: BlogPost }) {
             src={post.imageSrc}
             alt={post.imageAlt}
             fill
+            unoptimized={isRemoteImage}
             className="object-cover object-center transition-transform duration-500 hover:scale-105"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           />

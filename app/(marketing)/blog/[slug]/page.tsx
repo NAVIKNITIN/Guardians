@@ -1,5 +1,6 @@
 import { BlogDetail, type BlogDetailPost } from "@/components/blog/BlogDetail";
 import { LOCAL_IMAGES } from "@/lib/local-images";
+import { fetchArticleDetailPost } from "@/lib/mappers/articleDetailPage";
 import type { Metadata } from "next";
 
 // In production this data would come from a CMS or API based on the slug.
@@ -23,11 +24,13 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+  const apiPost = await fetchArticleDetailPost(slug);
+  const activePost = apiPost ?? POST;
   return {
-    title: { absolute: `${POST.title} | The Guardians` },
-    description: POST.body.join(" ").slice(0, 160),
+    title: { absolute: `${activePost.title} | The Guardians` },
+    description: activePost.body.join(" ").slice(0, 160),
     openGraph: {
-      images: [POST.featuredImage],
+      images: [activePost.featuredImage],
     },
   };
 }
@@ -37,7 +40,7 @@ export default async function BlogDetailPage({
 }: {
   params: Promise<{ slug: string }>;
 }) {
-  // `slug` would be used to fetch the correct post in production
-  await params;
-  return <BlogDetail post={POST} />;
+  const { slug } = await params;
+  const apiPost = await fetchArticleDetailPost(slug);
+  return <BlogDetail post={apiPost ?? POST} contentType="BLOG" />;
 }
