@@ -1,8 +1,8 @@
-import { getResolvedApiBaseUrl } from "@/src/api/config";
+import { PUBLIC_FILES_ORIGIN } from "@/src/api/config";
 
 /**
- * If the API returns a path-only `file_url`, prefix it with the service origin
- * (strip `/api` from `NEXT_PUBLIC_API_BASE_URL`).
+ * If the API returns a path-only `file_url`, prefix it with the Railway app origin.
+ * (Do not use the browser proxy prefix — assets are not guaranteed under `/api`.)
  */
 export function resolveApiAssetUrl(fileUrl: string | null | undefined): string | null {
   if (fileUrl == null || fileUrl === "") {
@@ -11,7 +11,7 @@ export function resolveApiAssetUrl(fileUrl: string | null | undefined): string |
   if (/^https?:\/\//i.test(fileUrl)) {
     return fileUrl;
   }
-  const origin = getResolvedApiBaseUrl().replace(/\/api\/?$/, "");
+  const origin = PUBLIC_FILES_ORIGIN;
   if (fileUrl.startsWith("/")) {
     return `${origin}${fileUrl}`;
   }

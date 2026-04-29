@@ -47,10 +47,17 @@ axiosInstance.interceptors.response.use(
     }
 
     const normalized = normalizeApiError(error);
+    const isAdminContext =
+      typeof window !== "undefined" &&
+      window.location.pathname.startsWith("/admin");
+
     if (error.response?.status && error.response.status >= 500) {
       showError(normalized.message);
     } else if (!error.response) {
-      showError(normalized.message);
+      // Network / CORS — only toast on admin (marketing pages fail silently + empty states).
+      if (isAdminContext) {
+        showError(normalized.message);
+      }
     }
 
     return Promise.reject(error);
