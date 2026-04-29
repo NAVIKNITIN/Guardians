@@ -903,12 +903,8 @@ export function ArticlesPageContent() {
                 <span>Add Article</span>
               </Link>
             </div>
-          </div>
-        </ScrollReveal>
 
-        <ScrollReveal direction="up" delay={0.04} distance={20}>
-          <section className="rounded-[30px] border border-[#e7e4df] bg-white p-4 shadow-[0_8px_18px_rgba(22,20,19,0.06)] sm:p-6">
-            <div className="grid gap-5 xl:grid-cols-2">
+            <div className="mt-3 grid gap-3 border-t border-[#ebeef3] pt-3 sm:grid-cols-[minmax(0,1fr)_minmax(0,1fr)_auto] sm:items-end">
               <FilterField label="Type">
                 <FilterSelect
                   value={draftTypeFilter}
@@ -924,18 +920,16 @@ export function ArticlesPageContent() {
                   options={["All Years", "2026", "2025", "2024"]}
                 />
               </FilterField>
-            </div>
 
-            <div className="mt-4">
               <button
                 type="button"
                 onClick={handleApplyFilter}
-                className={`${BUTTON_PRIMARY_CLASS} h-[50px] px-6`}
+                className={`${BUTTON_PRIMARY_CLASS} h-[50px] px-6 sm:mb-px`}
               >
                 Apply Filter
               </button>
             </div>
-          </section>
+          </div>
         </ScrollReveal>
 
         {errorMessage ? (
