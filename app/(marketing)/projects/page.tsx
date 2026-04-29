@@ -486,9 +486,8 @@ function ProjectsPageContent() {
         <Container className="min-w-0">
           {listError ? (
             <p className="px-1 text-center n-reg text-sm text-[#d05c43] sm:px-0">
-              {listError} Set <code className="text-xs">NEXT_PUBLIC_API_BASE_URL</code> to
-              your API (e.g. http://127.0.0.1:8000/api) in{" "}
-              <code className="text-xs">.env.local</code>.
+              {listError} We could not reach the projects API right now. Please try
+              again shortly.
             </p>
           ) : null}
 
