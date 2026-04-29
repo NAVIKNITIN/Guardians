@@ -446,6 +446,7 @@ function ProjectDetailPageContent() {
   const showCaseStudyBlock = isFromCompleted || !project.status;
   const showBookVisitBlock = !isFromCompleted && project.status;
   const bookVisitBgUnoptimized = /^https?:\/\//i.test(project.bookVisitBg);
+  const logoUnoptimized = /^https?:\/\//i.test(project.developerLogo);
 
   return (
     <main>
@@ -485,6 +486,7 @@ function ProjectDetailPageContent() {
                   alt="Godrej Properties"
                   width={160}
                   height={46}
+                  unoptimized={logoUnoptimized}
                   className="h-auto w-[min(100%,160px)] max-w-[200px] object-contain object-center sm:w-[160px] lg:w-[218px] lg:object-right"
                 />
               </div>
