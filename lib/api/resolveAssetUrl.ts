@@ -1,4 +1,4 @@
-import { API_BASE_URL } from "@/src/api/config";
+import { getResolvedApiBaseUrl } from "@/src/api/config";
 
 /**
  * If the API returns a path-only `file_url`, prefix it with the service origin
@@ -11,7 +11,7 @@ export function resolveApiAssetUrl(fileUrl: string | null | undefined): string |
   if (/^https?:\/\//i.test(fileUrl)) {
     return fileUrl;
   }
-  const origin = API_BASE_URL.replace(/\/api\/?$/, "");
+  const origin = getResolvedApiBaseUrl().replace(/\/api\/?$/, "");
   if (fileUrl.startsWith("/")) {
     return `${origin}${fileUrl}`;
   }
