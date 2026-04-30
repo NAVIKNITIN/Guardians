@@ -124,7 +124,7 @@ export function AudienceServicesBand({
             {cardsStrip}
           </ScrollReveal>
         </div>
-        <div className="mt-6 flex w-full justify-center sm:mt-8 lg:mt-10">
+        <div className="mt-4 flex w-full justify-center md:ml-[-100px]">
           <CarouselControls
             currentIndex={currentIndex}
             total={total}
@@ -132,8 +132,9 @@ export function AudienceServicesBand({
             onNext={goNext}
             prevLabel="Previous service"
             nextLabel="Next service"
+            showCounter={false}
             buttonClassName="cursor-pointer border-0 bg-transparent hover:bg-black/[0.04] "
-            counterClassName=" fs-20"
+            counterClassName=""
             className="w-full justify-center gap-10"
           />
         </div>
