@@ -574,11 +574,11 @@ function HomeHero({
               {config["subtitle"] as string}
             </p>
           </ScrollReveal>
-          <div className="mt-6 flex justify-center sm:mt-10 lg:mt-10">
+          <div className="mt-4 flex justify-center sm:mt-10 lg:mt-7">
             <GradientCtaButton
               href={cta.href}
               variant="know-more"
-              className=" btn-1 w-full  min-w-0  h-[44px]  lg:px-[46px] lg:py-4.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B48183] "
+              className="lg-1 btn-1 w-full min-w-0 h-[55px] lg:px-[46px] lg:py-4.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B48183]"
             >
               {cta.label}
             </GradientCtaButton>
@@ -1314,15 +1314,15 @@ function ProjectsHeroSection({
         style={contentPad.style}
       >
         <div className="mx-auto flex w-full min-w-0 max-w-3xl flex-col items-start gap-1 text-left sm:gap-2">
-          <ScrollReveal direction="up" delay={0.04} distance={24}>
+          <ScrollReveal direction="up" delay={0.04} distance={24} className="flex w-full justify-center justify-content-center">
             <h1 className="qs-reg text-[clamp(1.6rem,8vw,3.05rem)] uppercase leading-[1.08] tracking-[0.04em] text-[#0a0a0a] lg:text-[clamp(2.75rem,5vw,4rem)] lg:tracking-[0.06em]">
               <span className="inline-block whitespace-normal tracking-[0.04em] sm:whitespace-nowrap sm:tracking-[0.07em]">
                 {stage} Projects
               </span>
             </h1>
           </ScrollReveal>
-          <ScrollReveal direction="up" delay={0.12} distance={20}>
-            <p className="w-full px-1 n-book text-[13px] leading-[1.45] text-black sm:text-[15px] sm:leading-[1.45] lg:text-base">
+          <ScrollReveal direction="up" delay={0.12} distance={20} className="flex w-full justify-center justify-content-center">
+            <p className="w-full px-1 n-book text-[13px] leading-[1.45] text-black sm:text-[15px] sm:leading-[1.45] lg:text-base flex justify-center justify-content-center">
               {cfg.subtitle}
             </p>
           </ScrollReveal>
@@ -1402,7 +1402,7 @@ export function MarketingAudienceHero({
           <ScrollReveal direction="up" delay={0.04} distance={24}>
             <h1
               id={content.ariaHeadingId}
-              className="break-words qs-reg text-[clamp(2rem,6vw,4.375rem)] uppercase leading-[1.05] ls-5"
+              className="break-words qs-reg text-[clamp(2rem,6vw,4.175rem)] uppercase leading-[1.05] ls-5  "
             >
               <span className="block">
                 <span className="text-[#202225]">{lead}</span>{" "}
@@ -1410,15 +1410,15 @@ export function MarketingAudienceHero({
               </span>
             </h1>
           </ScrollReveal>
-          <ScrollReveal direction="up" delay={0.12} distance={20}>
-            <p className="mx-auto flex w-full max-w-[600px] text-center text-sm leading-relaxed text-black sm:text-left sm:fs-18 sm:lh-22 md:mt-5 lg:mt-7">
+          <ScrollReveal direction="up" delay={0.12} distance={20} className="flex w-full justify-center pr-[100px]">
+            <p className=" flex w-full max-w-[500px] text-sm  text-black  text-[clamp(0.985rem,100vw,0.375rem)] md:mt-3 lg:mt-5 ">
               {content.body}
             </p>
           </ScrollReveal>
           <div className="mt-8 flex w-full justify-center sm:mt-10">
             <MarketingEnquireLink
               href={content.enquireHref}
-              className="text-[11px] sm:fs-20 sm:ls-12"
+              className=" h-[55px] fs-20 n-bold w-[307px]"
             >
               {content.enquireLabel}
             </MarketingEnquireLink>

@@ -61,7 +61,7 @@ export function AudienceServicesBand({
             <ScrollReveal direction="up" delay={0.16} distance={28}>
               <MarketingEnquireLink
                 href={content.knowMoreHref}
-                className="mt-10 inline-flex w-full sm:mt-14 sm:w-auto sm:min-w-[15rem] lg:mt-20"
+                className="mt-10 inline-flex  sm:mt-14  lg:mt-20 w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20"
               >
                 {content.knowMoreLabel}
               </MarketingEnquireLink>

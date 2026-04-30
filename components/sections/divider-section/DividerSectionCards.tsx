@@ -18,8 +18,8 @@ const FIGMA_GRAD_OVERLAY_DEVELOPER =
 const FIGMA_CARD_SIZE = "w-full min-w-0 lg:max-h-[350px]";
 
 const dividerCardCtaClassName = cn(
-  "h-[38px] gap-2 px-4 py-2.5",
-  "text-[12px] leading-[18px] tracking-normal lg:h-[43px] lg:px-5 lg:py-[15px] lg:text-[18px] lg:leading-[22px]",
+  "h-[43px] gap-2 px-4 py-2.5",
+  "text-[12px] leading-[18px] tracking-normal lg:h-[43px] lg:px-7 lg:py-6 lg:text-[18px] lg:leading-[22px]",
 );
 
 function BuyerProfileCard({
@@ -80,7 +80,7 @@ function BuyerProfileCard({
 
           <OutlineArrowButton
             href="/buyer"
-            className={cn(dividerCardCtaClassName, "mt-1 w-fit shrink-0 lg:mt-0")}
+            className={cn(dividerCardCtaClassName, "mt-1 w-fit shrink-0 lg:mt-0 h-[43px]")}
             iconClassName="h-[13px] w-[13px] shrink-0"
           >
             Know More

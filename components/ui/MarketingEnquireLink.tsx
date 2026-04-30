@@ -28,7 +28,7 @@ export function MarketingEnquireLink({
     heroEnquireCtaClassName;
 
   const arrow = (
-    <IconArrowUpRight className="cta-icon-hover h-[1em] w-[1em] shrink-0" />
+    <IconArrowUpRight className="cta-icon-hover h-[15px] w-[15px] shrink-0" />
   );
 
   return (

@@ -3,9 +3,9 @@
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import { Container } from "@/components/common/Container";
+import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { PublicationListingEmptyCard } from "@/components/publications/PublicationListingEmptyCard";
 import { PublicationListingSkeleton } from "@/components/publications/PublicationListingSkeleton";
-import { PublicationLoadMoreButton } from "@/components/publications/PublicationLoadMoreButton";
 import {
   articleDateLabel,
   articleExcerpt,
@@ -80,20 +80,29 @@ export function NewsroomGrid() {
         ) : (
           <>
             <StaggerContainer
-              className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-12 lg:grid-cols-4 lg:gap-x-[65px] lg:gap-y-[54px]"
+              className="grid grid-cols-1 auto-rows-fr gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-12 lg:grid-cols-4 lg:gap-x-[65px] lg:gap-y-[54px]"
               staggerChildren={0.16}
             >
               {articles.map((article, index) => (
-                <ScrollReveal key={article.id} direction="up" delay={index * 0.04} distance={30}>
+                <ScrollReveal
+                  key={article.id}
+                  direction="up"
+                  delay={index * 0.04}
+                  distance={30}
+                  className="h-full"
+                >
                   <NewsCard article={article} />
                 </ScrollReveal>
               ))}
             </StaggerContainer>
 
             <ScrollReveal direction="up" delay={0.15} className="mt-10 flex justify-center sm:mt-14 lg:mt-16">
-              <PublicationLoadMoreButton type="button" className="h-[52px]">
+              <GradientCtaButton
+                href="/newsroom"
+                className="h-[52px] max-w-sm cursor-pointer sm:h-[55px]  sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl w-[273px]"
+              >
                 View More
-              </PublicationLoadMoreButton>
+              </GradientCtaButton>
             </ScrollReveal>
           </>
         )}

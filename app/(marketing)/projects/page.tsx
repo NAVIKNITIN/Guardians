@@ -381,6 +381,7 @@ function ProjectsPageContent() {
         shiftUnderHeader={false}
         shiftTillSearch={false}
         shiftExtraContentTopPx={projectsHeroShiftTop}
+        negativePadding={10}
       />
 
       {/* ------------------------------------------------------------------ */}

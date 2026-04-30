@@ -19,7 +19,7 @@ const variantClassMap: Record<NonNullable<GradientCtaButtonProps["variant"]>, st
 
 /** Figma idle: 0px radius, no border/shadow, white label + em-sized arrow, Nexa semibold, +tracking */
 const baseClassName =
-  "!text-[clamp(0.76rem,calc(0.5rem+0.87vw),1.125rem)] group cta-hover-trigger btn-grad inline-flex items-center justify-center gap-4 rounded-none border-0 px-8 py-3.5 shadow-none n-bold text-[11px] uppercase tracking-[0.1em] text-white";
+  "!text-[clamp(0.76rem,calc(0.5rem+0.87vw),1.125rem)] group cta-hover-trigger btn-grad inline-flex items-center justify-center gap-4 rounded-none border-0  py-3.5 shadow-none n-bold  uppercase tracking-[0.1em] text-white";
 
 export function GradientCtaButton({
   children,

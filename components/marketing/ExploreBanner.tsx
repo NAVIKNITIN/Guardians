@@ -54,7 +54,7 @@ export function ExploreBanner({ content, isBuyer }: { content: MarketingBannerCo
                   href={content.ctaHref}
                   className={cn(
                     heroEnquireCtaClassName,
-                    "group cta-hover-trigger w-full sm:w-auto sm:min-w-[14rem]",
+                    "group cta-hover-trigger w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20",
                   )}
                 >
                   {content.ctaLabel}

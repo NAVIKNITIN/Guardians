@@ -43,12 +43,23 @@ type FormState = {
   galleryFileNames: string[];
   areaSqft: string;
   propertyType: string;
-  configuration: string;
-  startingPrice: string;
   description: string;
   /** ISO date `YYYY-MM-DD` for API `completion_date` */
   completionDate: string;
   caseStudyInfo: string;
+  /** API compatibility: `false` = completed, `true` = ongoing/active. */
+  isCompleted: boolean;
+};
+
+type ConfigurationSection = {
+  id: number;
+  bhkType: string;
+  priceMin: string;
+  priceMax: string;
+  carpetArea: string;
+  builtupArea: string;
+  totalUnits: string;
+  availableUnits: string;
 };
 
 type LocationConnectivitySection = {
@@ -75,8 +86,12 @@ type UploadedFile = {
 type ProjectConfiguration = {
   id: number;
   bhk_type: string;
-  price_min: number;
-  price_max: number;
+  price_min: number | string | null;
+  price_max: number | string | null;
+  carpet_area?: string | null;
+  builtup_area?: string | null;
+  total_units?: number | string | null;
+  available_units?: number | string | null;
 };
 
 type ProjectLocation = {
@@ -102,6 +117,7 @@ type ProjectAmenity = {
 type ProjectDetails = {
   id: number;
   name: string;
+  status?: boolean;
   type: string | null;
   rera_number: string | null;
   area: string | null;
@@ -187,10 +203,29 @@ function createEmptyLocationSection(
   };
 }
 
+function createEmptyConfigurationSection(id = createLocalId()): ConfigurationSection {
+  return {
+    id,
+    bhkType: "",
+    priceMin: "",
+    priceMax: "",
+    carpetArea: "",
+    builtupArea: "",
+    totalUnits: "",
+    availableUnits: "",
+  };
+}
+
 function parsePrice(value: string) {
   const normalized = value.replace(/[^0-9.]/g, "");
   const parsed = Number(normalized);
 
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function parseInteger(value: string) {
+  const normalized = value.replace(/[^0-9]/g, "");
+  const parsed = Number(normalized);
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
@@ -247,6 +282,25 @@ function mapProjectLocationsToSections(
     place: trimSectionValue(location.place_name),
     walkingTime: trimSectionValue(location.walking_time),
     drivingTime: trimSectionValue(location.driving_time),
+  }));
+}
+
+function mapProjectConfigurationsToSections(
+  configurations: ProjectConfiguration[],
+): ConfigurationSection[] {
+  if (configurations.length === 0) {
+    return [createEmptyConfigurationSection()];
+  }
+
+  return configurations.map((configuration) => ({
+    id: toSectionId(configuration.id),
+    bhkType: trimSectionValue(configuration.bhk_type),
+    priceMin: trimSectionValue(configuration.price_min),
+    priceMax: trimSectionValue(configuration.price_max),
+    carpetArea: trimSectionValue(configuration.carpet_area),
+    builtupArea: trimSectionValue(configuration.builtup_area),
+    totalUnits: trimSectionValue(configuration.total_units),
+    availableUnits: trimSectionValue(configuration.available_units),
   }));
 }
 
@@ -420,14 +474,16 @@ export function AddProjectWizard() {
     galleryFileNames: [],
     areaSqft: "",
     propertyType: "",
-    configuration: "",
-    startingPrice: "",
     description: "",
     completionDate: "",
     caseStudyInfo: "",
+    isCompleted: false,
   });
 
   const [selectedAmenityKeys, setSelectedAmenityKeys] = useState<string[]>([]);
+  const [configurationSections, setConfigurationSections] = useState<
+    ConfigurationSection[]
+  >([createEmptyConfigurationSection()]);
 
   const [locationSections, setLocationSections] = useState<
     LocationConnectivitySection[]
@@ -475,8 +531,6 @@ export function AddProjectWizard() {
             return firstSeq - secondSeq;
           });
 
-        const primaryConfiguration = project.configurations[0] ?? null;
-
         setExistingProjectFiles({
           logoId: logoFile?.id ?? null,
           heroId: heroFile?.id ?? null,
@@ -491,14 +545,15 @@ export function AddProjectWizard() {
           galleryFileNames: galleryFiles.map((file) => file.file_name),
           areaSqft: project.area ?? "",
           propertyType: project.type ?? "",
-          configuration: primaryConfiguration?.bhk_type ?? "",
-          startingPrice: primaryConfiguration
-            ? String(primaryConfiguration.price_min)
-            : "",
           description: project.description ?? "",
           completionDate: toInputDateValue(project.completion_date),
           caseStudyInfo: project.case_study_info ?? "",
+          isCompleted: project.status === false,
         });
+
+        setConfigurationSections(
+          mapProjectConfigurationsToSections(project.configurations),
+        );
 
         const mappedLocationSections = mapProjectLocationsToSections(
           project.locations,
@@ -556,6 +611,32 @@ export function AddProjectWizard() {
 
   function addLocationSection() {
     setLocationSections((current) => [...current, createEmptyLocationSection()]);
+  }
+
+  function updateConfigurationSection<
+    Key extends keyof Omit<ConfigurationSection, "id">,
+  >(id: number, key: Key, value: ConfigurationSection[Key]) {
+    const rowId = Number(id);
+    setConfigurationSections((current) =>
+      current.map((item) =>
+        Number(item.id) === rowId ? { ...item, [key]: value } : item,
+      ),
+    );
+  }
+
+  function addConfigurationSection() {
+    setConfigurationSections((current) => [
+      ...current,
+      createEmptyConfigurationSection(),
+    ]);
+  }
+
+  function removeConfigurationSection(id: number) {
+    const rowId = Number(id);
+    setConfigurationSections((current) => {
+      if (current.length <= 1) return current;
+      return current.filter((item) => Number(item.id) !== rowId);
+    });
   }
 
   function removeLocationSection(id: number) {
@@ -708,8 +789,27 @@ export function AddProjectWizard() {
     projectFileIds: number[],
     amenityPayload: Array<{ name: string; amenities_image_id: number }>,
   ) {
-    const configurationName = form.configuration.trim();
-    const normalizedPrice = parsePrice(form.startingPrice);
+    const configurations = configurationSections
+      .filter((section) =>
+        Boolean(
+          section.bhkType.trim() ||
+            section.priceMin.trim() ||
+            section.priceMax.trim() ||
+            section.carpetArea.trim() ||
+            section.builtupArea.trim() ||
+            section.totalUnits.trim() ||
+            section.availableUnits.trim(),
+        ),
+      )
+      .map((section) => ({
+        bhk_type: section.bhkType.trim(),
+        price_min: parsePrice(section.priceMin),
+        price_max: parsePrice(section.priceMax),
+        carpet_area: section.carpetArea.trim() || null,
+        builtup_area: section.builtupArea.trim() || null,
+        total_units: parseInteger(section.totalUnits),
+        available_units: parseInteger(section.availableUnits),
+      }));
 
     const locations = locationSections
       .filter((section) =>
@@ -750,17 +850,9 @@ export function AddProjectWizard() {
       area: form.areaSqft.trim() || null,
       completion_date: form.completionDate.trim() || null,
       case_study_info: form.caseStudyInfo.trim() || null,
+      status: form.isCompleted ? false : true,
       files: projectFileIds.map((file_id) => ({ file_id })),
-      configurations:
-        configurationName && normalizedPrice > 0
-          ? [
-            {
-              bhk_type: configurationName,
-              price_min: normalizedPrice,
-              price_max: normalizedPrice,
-            },
-          ]
-          : [],
+      configurations,
       locations,
       amenities: amenityPayload,
     };
@@ -770,23 +862,29 @@ export function AddProjectWizard() {
     setErrorMessage("");
 
     const hasProjectName = Boolean(form.projectName.trim());
-    const hasConfiguration = Boolean(form.configuration.trim());
-    const hasStartingPrice = Boolean(form.startingPrice.trim());
-    const normalizedPrice = parsePrice(form.startingPrice);
-
     if (!hasProjectName) {
       setErrorMessage("Project Name is required.");
       return;
     }
 
-    if (hasConfiguration !== hasStartingPrice) {
-      setErrorMessage("Configuration and Starting Price dono fields saath me bharo.");
-      return;
-    }
-
-    if (hasStartingPrice && normalizedPrice <= 0) {
-      setErrorMessage("Starting Price valid number me bharo.");
-      return;
+    for (const section of configurationSections) {
+      const hasAny =
+        Boolean(section.bhkType.trim()) ||
+        Boolean(section.priceMin.trim()) ||
+        Boolean(section.priceMax.trim()) ||
+        Boolean(section.carpetArea.trim()) ||
+        Boolean(section.builtupArea.trim()) ||
+        Boolean(section.totalUnits.trim()) ||
+        Boolean(section.availableUnits.trim());
+      if (!hasAny) continue;
+      if (!section.bhkType.trim()) {
+        setErrorMessage("Configuration BHK type is required when row has data.");
+        return;
+      }
+      if (parsePrice(section.priceMin) <= 0 || parsePrice(section.priceMax) <= 0) {
+        setErrorMessage("Configuration price min/max must be valid numbers.");
+        return;
+      }
     }
 
     try {
@@ -850,13 +948,11 @@ export function AddProjectWizard() {
     ];
 
   const detailsFields: Array<{
-    key: "areaSqft" | "propertyType" | "configuration" | "startingPrice";
+    key: "areaSqft" | "propertyType";
     placeholder: string;
   }> = [
       { key: "areaSqft", placeholder: "Area (sq.ft)" },
       { key: "propertyType", placeholder: "Property Type" },
-      { key: "configuration", placeholder: "Configuration" },
-      { key: "startingPrice", placeholder: "Starting Price" },
     ];
 
   const locationCoordinateFields: Array<{
@@ -989,6 +1085,104 @@ export function AddProjectWizard() {
                   onChange={(value) => updateField(field.key, value)}
                 />
               ))}
+            </div>
+            <div className="mt-5 rounded-[16px] border border-[#f1d4cc] bg-[#fff8f5] p-4">
+              <label className="flex cursor-pointer items-center gap-3">
+                <input
+                  type="checkbox"
+                  checked={form.isCompleted}
+                  onChange={(event) =>
+                    updateField("isCompleted", event.target.checked)
+                  }
+                  className="h-4 w-4 accent-[#f07c61]"
+                />
+                <span className="text-[0.96rem] font-semibold text-[#6a3c2f]">
+                  Mark this project as completed
+                </span>
+              </label>
+            </div>
+          </SectionCard>
+
+          <SectionCard
+            icon={<IconSparkles className="h-7 w-7" />}
+            title="Configurations"
+          >
+            <div className="space-y-4">
+              {configurationSections.map((section, index) => (
+                <div
+                  key={`cfg-${String(section.id)}-${index}`}
+                  className="space-y-4 rounded-[18px] border border-[#ece7e1] bg-[#fcfcfb] p-4"
+                >
+                  <p className="text-[0.95rem] font-semibold text-[#44506a]">
+                    Configuration {index + 1}
+                  </p>
+                  <div className="grid gap-4 lg:grid-cols-3">
+                    <TextInput
+                      placeholder="BHK Type (e.g. 2 BHK)"
+                      value={section.bhkType}
+                      onChange={(value) =>
+                        updateConfigurationSection(section.id, "bhkType", value)
+                      }
+                    />
+                    <TextInput
+                      placeholder="Price Min"
+                      value={section.priceMin}
+                      onChange={(value) =>
+                        updateConfigurationSection(section.id, "priceMin", value)
+                      }
+                    />
+                    <TextInput
+                      placeholder="Price Max"
+                      value={section.priceMax}
+                      onChange={(value) =>
+                        updateConfigurationSection(section.id, "priceMax", value)
+                      }
+                    />
+                    <TextInput
+                      placeholder="Carpet Area"
+                      value={section.carpetArea}
+                      onChange={(value) =>
+                        updateConfigurationSection(section.id, "carpetArea", value)
+                      }
+                    />
+                    <TextInput
+                      placeholder="Built-up Area"
+                      value={section.builtupArea}
+                      onChange={(value) =>
+                        updateConfigurationSection(section.id, "builtupArea", value)
+                      }
+                    />
+                    <TextInput
+                      placeholder="Total Units"
+                      value={section.totalUnits}
+                      onChange={(value) =>
+                        updateConfigurationSection(section.id, "totalUnits", value)
+                      }
+                    />
+                    <TextInput
+                      placeholder="Available Units"
+                      value={section.availableUnits}
+                      onChange={(value) =>
+                        updateConfigurationSection(section.id, "availableUnits", value)
+                      }
+                    />
+                  </div>
+                  {configurationSections.length > 1 ? (
+                    <div className="flex justify-end">
+                      <RemoveItemButton
+                        label="Remove Configuration"
+                        onClick={() => removeConfigurationSection(section.id)}
+                      />
+                    </div>
+                  ) : null}
+                </div>
+              ))}
+              <div className="flex justify-end">
+                <AddItemButton
+                  label="Add Configuration"
+                  onClick={addConfigurationSection}
+                />
+              </div>
             </div>
           </SectionCard>
 

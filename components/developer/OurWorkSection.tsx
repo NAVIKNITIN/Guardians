@@ -60,7 +60,7 @@ export function OurWorkSection({ content, isBuyer }: { content: OurWorkBandConte
               <MarketingEnquireLink
                 href={content.readMoreHref}
                 variant="ourWork"
-                className="mt-10 inline-flex w-full sm:mt-14 sm:w-auto sm:min-w-[15rem] lg:mt-20 lg:px-6"
+                className="mt-10 inline-flex w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20"
               >
                 {content.readMoreLabel}
               </MarketingEnquireLink>

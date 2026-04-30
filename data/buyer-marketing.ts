@@ -117,6 +117,6 @@ export const BUYER_MARKETING_PAGE = {
     ongoing: BUYER_LANDMARK_ONGOING,
     completed: BUYER_LANDMARK_COMPLETED,
     ctaHref: CONTACT,
-    ctaLabel: "Know more",
+    ctaLabel: "View more",
   },
 } satisfies MarketingPageContent;

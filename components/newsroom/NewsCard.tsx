@@ -15,7 +15,7 @@ export function NewsCard({ article }: { article: NewsArticle }) {
   const isRemoteImage = /^https?:\/\//.test(article.imageSrc);
 
   return (
-    <article className="flex flex-col">
+    <article className="flex h-full flex-col">
       {/* Date */}
       <p className="n-book text-sm leading-[1.5] text-[#161616] sm:text-base">
         {article.date}
@@ -49,7 +49,7 @@ export function NewsCard({ article }: { article: NewsArticle }) {
       <OutlineArrowButton
         href={article.href}
         iconAlt="Read More"
-        className="mt-4 gap-4 px-6 py-2.5 fs-16 lh-24 sm:mt-5 sm:gap-5 sm:px-8 sm:text-sm"
+        className="mt-6 w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20 px-10 uppercase"
         iconClassName="h-3 w-3 sm:h-[15px] sm:w-[15px]"
       >
         Read More

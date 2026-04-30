@@ -79,7 +79,7 @@ export function TestimonialsSection({
       <ScrollReveal direction="up" delay={0.12} className="mt-10 flex justify-center ">
         <MarketingEnquireLink
           href={content.viewMoreHref}
-          className="w-full sm:w-auto sm:min-w-[15rem] sm:fs-16"
+          className="w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20"
         >
           {content.viewMoreLabel}
         </MarketingEnquireLink>

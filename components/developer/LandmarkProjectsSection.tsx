@@ -175,47 +175,47 @@ export function LandmarkProjectsSection({
           >
             <div className={cn("landmark-moving-carousel px-0", CAROUSEL_ASPECT)}>
               {projects.map((project, i) => {
-              const gap = 1.5;
-              const active = i === activeIndex;
-              const activeWidth = 64;
-              const collapsedWidth =
-                (100 - activeWidth - gap * (projects.length - 1)) /
-                Math.max(projects.length - 1, 1);
+                const gap = 1.5;
+                const active = i === activeIndex;
+                const activeWidth = 64;
+                const collapsedWidth =
+                  (100 - activeWidth - gap * (projects.length - 1)) /
+                  Math.max(projects.length - 1, 1);
 
-              // Keep the expanded card always in the 2nd visual position.
-              // The clicked card moves into that slot, while every other card stays collapsed.
-              const count = projects.length;
-              const getVisualSlot = (
-                itemIndex: number,
-                currentActiveIndex: number,
-              ) => {
-                const relativeSlot =
-                  (itemIndex - currentActiveIndex + count) % count;
-                return relativeSlot === 0
-                  ? 1
-                  : relativeSlot === count - 1
+                // Keep the expanded card always in the 2nd visual position.
+                // The clicked card moves into that slot, while every other card stays collapsed.
+                const count = projects.length;
+                const getVisualSlot = (
+                  itemIndex: number,
+                  currentActiveIndex: number,
+                ) => {
+                  const relativeSlot =
+                    (itemIndex - currentActiveIndex + count) % count;
+                  return relativeSlot === 0
+                    ? 1
+                    : relativeSlot === count - 1
+                      ? 0
+                      : relativeSlot + 1;
+                };
+
+                const visualSlot = getVisualSlot(i, activeIndex);
+                const previousVisualSlot = getVisualSlot(i, previousActiveIndex);
+                const width = active ? activeWidth : collapsedWidth;
+                const left =
+                  visualSlot === 0
                     ? 0
-                    : relativeSlot + 1;
-              };
+                    : visualSlot === 1
+                      ? collapsedWidth + gap
+                      : collapsedWidth +
+                      activeWidth +
+                      gap * 2 +
+                      (visualSlot - 2) * (collapsedWidth + gap);
 
-              const visualSlot = getVisualSlot(i, activeIndex);
-              const previousVisualSlot = getVisualSlot(i, previousActiveIndex);
-              const width = active ? activeWidth : collapsedWidth;
-              const left =
-                visualSlot === 0
-                  ? 0
-                  : visualSlot === 1
-                    ? collapsedWidth + gap
-                    : collapsedWidth +
-                    activeWidth +
-                    gap * 2 +
-                    (visualSlot - 2) * (collapsedWidth + gap);
-
-              // If a card wraps from the far left to far right, place it instantly.
-              // This keeps the rotation continuous instead of showing the card sliding backwards.
-              const jumpReset =
-                (previousVisualSlot === 0 && visualSlot === count - 1) ||
-                (previousVisualSlot === count - 1 && visualSlot === 0);
+                // If a card wraps from the far left to far right, place it instantly.
+                // This keeps the rotation continuous instead of showing the card sliding backwards.
+                const jumpReset =
+                  (previousVisualSlot === 0 && visualSlot === count - 1) ||
+                  (previousVisualSlot === count - 1 && visualSlot === 0);
 
                 return (
                   <button
@@ -252,7 +252,7 @@ export function LandmarkProjectsSection({
 
         <ScrollReveal direction="up" delay={0.1} className="mt-12 flex justify-center ">
           <MarketingEnquireLink
-            className="w-full sm:w-auto sm:min-w-[14rem]"
+            className="w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20"
             href={content.ctaHref}
           >
             {content.ctaLabel}

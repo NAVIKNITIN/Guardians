@@ -83,7 +83,7 @@ export function GrowWithUs() {
                             <GradientCtaButton
                                 href="/contact"
                                 variant="know-more"
-                                className="my-4 md:my-6 lg:mt-8 lg:mb-12"
+                                className="my-4 md:my-6 lg:mt-8 lg:mb-12 w-[271px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20 px-10"
                             >
                                 Enquire Now
                             </GradientCtaButton>

@@ -49,13 +49,13 @@ export function PartnersSection({
       <Container>
         <StaggerContainer className="mt-12 flex flex-col items-center justify-center gap-4 px-1 sm:mt-16 sm:flex-row sm:flex-wrap sm:gap-6" staggerChildren={0.14}>
           <ScrollReveal direction="up" distance={24}>
-            <p className="max-w-md text-center text-sm sm:text-base n-bold fs-20 text-[#8F8183]">
+            <p className="max-w-md text-center text-sm sm:text-base n-bold fs-20 text-[#8F8183] ls-8">
               {content.closing}
             </p>
           </ScrollReveal>
           <ScrollReveal direction="up" delay={0.08} distance={20}>
             <MarketingEnquireLink
-              className="w-full sm:w-auto sm:min-w-[13rem]"
+              className="w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20"
               href={content.ctaHref}
             >
               {content.ctaLabel}
