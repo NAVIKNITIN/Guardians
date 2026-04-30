@@ -36,7 +36,7 @@ export function ProjectCard({
 }: ProjectCardProps) {
   const badgeClass =
     badge?.variant === "completed"
-      ? "bg-[#202225]"
+      ? "bg-[#161616]"
       : "bg-[#8F8183]";
   const [displaySrc, setDisplaySrc] = useState(imageSrc);
 

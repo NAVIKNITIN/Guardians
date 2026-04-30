@@ -8,7 +8,7 @@ import type { ComponentProps } from "react";
  * Also exposed as `marketingClasses.arrowLinkTile` / `arrowLinkSurface` / `arrowLinkIcon` in `styles/marketingClasses.ts`.
  */
 export const arrowIconTileClassName =
-  "inline-flex h-16 w-24 shrink-0 items-center justify-center bg-brand-footer text-white transition-colors sm:h-15 sm:w-20 lg:h-[65px] lg:w-[65px]";
+  "inline-flex h-16 w-24 shrink-0 items-center justify-center bg-[#161616] text-white transition-colors sm:h-15 sm:w-20 lg:h-[65px] lg:w-[65px]";
 
 /** Full `ArrowIconLink` surface: tile + hover + focus ring. */
 export const arrowIconLinkSurfaceClassName = cn(
