@@ -3,9 +3,11 @@ import {
   arrowIconLinkIconClassName,
   arrowIconTileClassName,
 } from "@/components/ui/ArrowIconLink";
+import { LOCAL_IMAGES } from "@/lib/local-images";
 import { marketingImageUnoptimized } from "@/lib/marketing/marketingImageOptimization";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { cn } from "@/utils/cn";
 
 export type BadgeVariant = "units-left" | "completed";
@@ -36,6 +38,12 @@ export function ProjectCard({
     badge?.variant === "completed"
       ? "bg-[#202225]"
       : "bg-[#8F8183]";
+  const [displaySrc, setDisplaySrc] = useState(imageSrc);
+
+  useEffect(() => {
+    setDisplaySrc(imageSrc);
+  }, [imageSrc]);
+
   return (
     <Link
       href={href}
@@ -48,10 +56,15 @@ export function ProjectCard({
     >
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#BCBDC0] sm:aspect-[16/10]">
         <Image
-          src={imageSrc}
+          src={displaySrc}
           alt={imageAlt}
           fill
-          unoptimized={marketingImageUnoptimized(imageSrc)}
+          unoptimized={marketingImageUnoptimized(displaySrc)}
+          onError={() => {
+            if (displaySrc !== LOCAL_IMAGES.projectImage) {
+              setDisplaySrc(LOCAL_IMAGES.projectImage);
+            }
+          }}
           className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
           sizes="(min-width: 1280px) 400px, (min-width: 768px) 45vw, 100vw"
         />

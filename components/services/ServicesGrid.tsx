@@ -152,7 +152,7 @@ function CommercialPanel({
         src={imageSrc}
         alt=""
         fill
-        className=""
+        className="object-cover object-center"
         sizes="(max-width: 1024px) 100vw, 57vw"
       />
       <div
@@ -196,7 +196,7 @@ function CommercialPanel({
         <div className="mt-auto flex justify-center pt-6 sm:pt-8">
           <OutlineArrowButton
             href={knowMoreHref}
-            className="w-full max-w-xs bg-white px-8 text-black hover:bg-black hover:text-white sm:w-fit sm:max-w-none sm:px-12"
+            className="w-full max-w-xs uppercase bg-white px-8 text-black hover:bg-black hover:text-white sm:w-fit sm:max-w-none sm:px-12"
           >
             Know More
           </OutlineArrowButton>
