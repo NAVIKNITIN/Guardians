@@ -1157,10 +1157,10 @@ function ServicesHero({
           priority
         />
       </div>
-        <div
-          className={cn(
-            "relative z-10 flex min-h-[inherit] flex-col items-center justify-start gap-2 px-5 pb-8 text-center qs-reg sm:gap-2 sm:px-6 sm:pb-10 lg:min-h-0 lg:px-4 lg:pb-0",
-            contentPad.className,
+      <div
+        className={cn(
+          "relative z-10 flex min-h-[inherit] flex-col items-center justify-start gap-2 px-5 pb-8 text-center qs-reg sm:gap-2 sm:px-6 sm:pb-10 lg:min-h-0 lg:px-4 lg:pb-0",
+          contentPad.className,
         )}
         style={contentPad.style}
       >
@@ -1220,7 +1220,7 @@ function AboutHero({
       <Image
         src={config["backgroundImage"] as string}
         alt={(config["imageAlt"] as string) || ""}
-        className="object-cover object-center"
+        className={HERO_BG_IMAGE_CLASS}
         sizes="100vw"
         fill
         priority
@@ -1298,23 +1298,12 @@ function ProjectsHeroSection({
             src={src}
             alt=""
             fill
-            className="object-fill object-center"
+            className={HERO_BG_IMAGE_CLASS}
             sizes="100vw"
             priority
           />
         </div>
-        <div className="hero-projects-stage-bg__texture" aria-hidden>
-          <div className="relative h-full w-full min-h-0 min-w-0">
-            <Image
-              src="/images/ongoing-bg.svg"
-              alt=""
-              fill
-              unoptimized
-              className="object-cover object-center"
-              sizes="100vw"
-            />
-          </div>
-        </div>
+
       </div>
 
       <div
