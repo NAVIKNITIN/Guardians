@@ -29,8 +29,16 @@ const nextConfig: NextConfig = {
         hostname: "guardians-service-production.up.railway.app",
       },
       {
+        protocol: "https",
+        hostname: "guardians-service.up.railway.app",
+      },
+      {
         protocol: "http",
         hostname: "guardians-service-production.up.railway.app",
+      },
+      {
+        protocol: "http",
+        hostname: "guardians-service.up.railway.app",
       },
       { protocol: "http", hostname: "localhost" },
       { protocol: "http", hostname: "127.0.0.1" },

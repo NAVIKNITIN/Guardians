@@ -1,5 +1,10 @@
+"use client";
+
 import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
+import { LOCAL_IMAGES } from "@/lib/local-images";
+import { marketingImageUnoptimized } from "@/lib/marketing/marketingImageOptimization";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export type NewsArticle = {
   id: string;
@@ -12,7 +17,11 @@ export type NewsArticle = {
 };
 
 export function NewsCard({ article }: { article: NewsArticle }) {
-  const isRemoteImage = /^https?:\/\//.test(article.imageSrc);
+  const [displaySrc, setDisplaySrc] = useState(article.imageSrc);
+
+  useEffect(() => {
+    setDisplaySrc(article.imageSrc);
+  }, [article.imageSrc]);
 
   return (
     <article className="flex h-full flex-col">
@@ -30,10 +39,15 @@ export function NewsCard({ article }: { article: NewsArticle }) {
       <div className="relative mt-3 w-full overflow-hidden bg-neutral-200 sm:mt-5">
         <div className="aspect-[250/175]">
           <Image
-            src={article.imageSrc}
+            src={displaySrc}
             alt={article.imageAlt}
             fill
-            unoptimized={isRemoteImage}
+            unoptimized={marketingImageUnoptimized(displaySrc)}
+            onError={() => {
+              if (displaySrc !== LOCAL_IMAGES.blogDetail) {
+                setDisplaySrc(LOCAL_IMAGES.blogDetail);
+              }
+            }}
             className="object-cover object-center transition-transform duration-500 hover:scale-105"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           />

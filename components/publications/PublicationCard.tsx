@@ -1,12 +1,16 @@
 import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
+import { LOCAL_IMAGES } from "@/lib/local-images";
+import { marketingImageUnoptimized } from "@/lib/marketing/marketingImageOptimization";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
+import { useEffect, useState } from "react";
 
 export type PublicationIssue = {
   id: string;
   title: string;
   imageSrc: string;
   imageAlt: string;
+  fallbackSrc?: string;
   href?: string;
 };
 
@@ -24,7 +28,12 @@ export function PublicationCard({
   buttonLabel = "Download",
   className,
 }: PublicationCardProps) {
-  const isRemoteImage = /^https?:\/\//.test(issue.imageSrc);
+  const fallbackSrc = issue.fallbackSrc ?? LOCAL_IMAGES.blogDetail;
+  const [displaySrc, setDisplaySrc] = useState(issue.imageSrc);
+
+  useEffect(() => {
+    setDisplaySrc(issue.imageSrc);
+  }, [issue.imageSrc]);
 
   return (
     <article className={cn("flex flex-col items-center", className)}>
@@ -32,10 +41,15 @@ export function PublicationCard({
       <div className="relative w-full overflow-hidden bg-neutral-200">
         <div className="aspect-[345/451]">
           <Image
-            src={issue.imageSrc}
+            src={displaySrc}
             alt={issue.imageAlt}
             fill
-            unoptimized={isRemoteImage}
+            unoptimized={marketingImageUnoptimized(displaySrc)}
+            onError={() => {
+              if (displaySrc !== fallbackSrc) {
+                setDisplaySrc(fallbackSrc);
+              }
+            }}
             className="object-cover object-center transition-transform duration-500 hover:scale-105"
             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
@@ -48,23 +62,13 @@ export function PublicationCard({
       </h3>
 
       {/* Open File button */}
-      {issue.href ? (
-        <OutlineArrowButton
-          href={issue.href}
-          className="mt-5 px-12 py-4 fs-16 ls-10 lh-24"
-          iconClassName="w-[13px] h-[13px]"
-        >
-          Read More
-        </OutlineArrowButton>
-      ) : (
-        <OutlineArrowButton
-          onClick={() => onOpenFile(issue.title)}
-          className="mt-5 px-12 py-4 fs-16 ls-10 lh-24"
-          iconClassName="w-[13px] h-[13px]"
-        >
-          {buttonLabel}
-        </OutlineArrowButton>
-      )}
+      <OutlineArrowButton
+        onClick={() => onOpenFile(issue.title)}
+        className="mt-5 px-12 py-4 fs-16 ls-10 lh-24"
+        iconClassName="w-[13px] h-[13px]"
+      >
+        {buttonLabel}
+      </OutlineArrowButton>
     </article>
   );
 }

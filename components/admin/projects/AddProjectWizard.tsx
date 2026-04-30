@@ -47,7 +47,7 @@ type FormState = {
   /** ISO date `YYYY-MM-DD` for API `completion_date` */
   completionDate: string;
   caseStudyInfo: string;
-  /** API compatibility: `false` = completed, `true` = ongoing/active. */
+  /** Project completion flag sent as API `isCompleted`. */
   isCompleted: boolean;
 };
 
@@ -118,6 +118,7 @@ type ProjectDetails = {
   id: number;
   name: string;
   status?: boolean;
+  isCompleted?: boolean;
   type: string | null;
   rera_number: string | null;
   area: string | null;
@@ -548,7 +549,9 @@ export function AddProjectWizard() {
           description: project.description ?? "",
           completionDate: toInputDateValue(project.completion_date),
           caseStudyInfo: project.case_study_info ?? "",
-          isCompleted: project.status === false,
+          isCompleted: Boolean(
+            project.isCompleted ?? (project.status === false),
+          ),
         });
 
         setConfigurationSections(
@@ -850,7 +853,7 @@ export function AddProjectWizard() {
       area: form.areaSqft.trim() || null,
       completion_date: form.completionDate.trim() || null,
       case_study_info: form.caseStudyInfo.trim() || null,
-      status: form.isCompleted ? false : true,
+      isCompleted: form.isCompleted,
       files: projectFileIds.map((file_id) => ({ file_id })),
       configurations,
       locations,

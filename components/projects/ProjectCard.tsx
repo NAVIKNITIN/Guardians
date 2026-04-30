@@ -19,7 +19,8 @@ export interface ProjectCardProps {
   subtitle: string;
   href?: string;
   badge?: {
-    label: string;
+    label?: string;
+    count?: number;
     variant: BadgeVariant;
   };
   stage: string;
@@ -39,6 +40,21 @@ export function ProjectCard({
       ? "bg-[#161616]"
       : "bg-[#8F8183]";
   const [displaySrc, setDisplaySrc] = useState(imageSrc);
+  const isCompletedProject = badge?.variant === "completed";
+  const hasBadgeCount = typeof badge?.count === "number" && Number.isFinite(badge.count);
+  const shouldShowCompletedBadge =
+    Boolean(badge) &&
+    isCompletedProject &&
+    (stage === "Completed" || stage === "All");
+  const shouldShowUnitsBadge =
+    Boolean(badge) &&
+    !isCompletedProject &&
+    hasBadgeCount &&
+    (stage === "Ongoing" || stage === "All");
+  const shouldShowBadge = shouldShowCompletedBadge || shouldShowUnitsBadge;
+  const badgeText = shouldShowCompletedBadge
+    ? "Completed"
+    : `${badge?.count} ${badge?.count === 1 ? "unit" : "units"} left`;
 
   useEffect(() => {
     setDisplaySrc(imageSrc);
@@ -48,9 +64,8 @@ export function ProjectCard({
     <Link
       href={href}
       className={cn(
-        "group relative flex flex-col overflow-hidden  bg-white",
-        "shadow-[0_4px_24px_rgba(0,0,0,0.08)] transition-[box-shadow,transform] duration-300",
-        "hover:-translate-y-0.5 hover:shadow-[0_8px_32px_rgba(0,0,0,0.12)]",
+        "relative flex flex-col overflow-hidden bg-white",
+        "shadow-[0_4px_24px_rgba(0,0,0,0.08)]",
       )}
       aria-label={`View ${title}`}
     >
@@ -65,11 +80,10 @@ export function ProjectCard({
               setDisplaySrc(LOCAL_IMAGES.projectImage);
             }
           }}
-          className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+          className="object-cover transition-transform duration-500 hover:scale-[1.03]"
           sizes="(min-width: 1280px) 400px, (min-width: 768px) 45vw, 100vw"
         />
-
-        {badge && stage !== "Completed" ? (
+        {shouldShowBadge ? (
           <div
             className={cn(
               "absolute mt-3 left-1/2 top-3 z-10 -translate-x-1/2 rounded-none px-4 py-1.5 sm:left-0 sm:top-4 sm:translate-x-0 sm:px-4 sm:py-1.5",
@@ -77,7 +91,7 @@ export function ProjectCard({
             )}
           >
             <span className="n-bold text-[11px] uppercase leading-none tracking-[0.14em] text-white sm:text-[12px]">
-              {badge.label}
+              {badgeText}
             </span>
           </div>
         ) : null}
@@ -96,7 +110,7 @@ export function ProjectCard({
         <span
           className={cn(
             arrowIconTileClassName,
-            "pointer-events-none group-hover:brightness-90 !h-[55px] !w-[75px]",
+            "pointer-events-none !h-[55px] !w-[75px]",
           )}
           aria-hidden
         >

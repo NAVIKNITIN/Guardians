@@ -625,6 +625,29 @@ html:not(.js-directional-grad) .btn-grad--dark:focus-visible {
   animation: cta-icon-hover-shift 680ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* Divider cards CTA: slower hover sweep + icon motion. */
+.divider-card-cta-slow.outline-arrow-grad-anim {
+  transition:
+    background-position 0.4s ease-in-out,
+    border-color 0.8s ease,
+    color 0.8s ease;
+}
+
+.divider-card-cta-slow.cta-hover-trigger:hover,
+.divider-card-cta-slow.cta-hover-trigger:focus-visible {
+  transform: none;
+}
+
+.divider-card-cta-slow.cta-hover-trigger {
+  /* Keep background transition from `.outline-arrow-grad-anim`; only cancel lift motion. */
+  transition-property: background-position, border-color, color;
+}
+
+.divider-card-cta-slow.cta-hover-trigger:hover .cta-icon-hover,
+.divider-card-cta-slow.cta-hover-trigger:focus-visible .cta-icon-hover {
+  animation: none;
+}
+
 .marketing-first-section-height {
   /* Mobile/tablet: reduce oversized hero height and keep full-width composition readable. */
   height: clamp(200px, 88vw, 760px);

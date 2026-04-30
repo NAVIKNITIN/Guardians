@@ -6,7 +6,7 @@ export type ProjectRowFilterShape = {
   imageSrc: string;
   title: string;
   subtitle: string;
-  badge?: { label: string; variant: "units-left" | "completed" };
+  badge?: { label?: string; count?: number; variant: "units-left" | "completed" };
   budget: string;
   /** Often API `type` (e.g. Residential) — filter matches exact string or "All". */
   builder: string;
@@ -51,6 +51,7 @@ export type ApiProjectListItem = {
   completion_date?: string | null;
   case_study_info?: string | null;
   status?: boolean;
+  isCompleted?: boolean;
   created_at?: string;
   updated_at?: string;
   files?: ApiProjectListFile[];
@@ -60,6 +61,7 @@ export type ApiProjectListItem = {
     bhk_type?: string | null;
     price_min?: number | string | null;
     price_max?: number | string | null;
+    available_units?: number | string | null;
   }>;
   locations?: Array<{
     place_name?: string;
@@ -176,13 +178,36 @@ function configurationDisplay(
   return first || "—";
 }
 
+function parseWholeNumber(raw: number | string | null | undefined): number | null {
+  if (raw == null || raw === "") return null;
+  const n =
+    typeof raw === "number"
+      ? raw
+      : Number(String(raw).replace(/,/g, "").trim());
+  if (!Number.isFinite(n)) return null;
+  return Math.max(0, Math.floor(n));
+}
+
+function ongoingBadgeCount(
+  configurations: ApiProjectListItem["configurations"],
+): number | null {
+  const counts = (configurations ?? [])
+    .map((c) => parseWholeNumber(c?.available_units))
+    .filter((n): n is number => n != null);
+  if (!counts.length) {
+    return null;
+  }
+  const totalAvailable = counts.reduce((sum, n) => sum + n, 0);
+  return totalAvailable;
+}
+
 /**
  * Map a project row from the list API to marketing card + filter fields.
  */
 export function mapApiProjectListItemToRow(
   item: ApiProjectListItem,
 ): ProjectRowFilterShape {
-  const isCompleted = item.status === false;
+  const isCompleted = item.isCompleted === true;
   const buckets = configurationBucketsFrom(item.configurations);
   const rera = (item.rera_number || "").trim();
   const description = (item.description || "").trim();
@@ -200,7 +225,10 @@ export function mapApiProjectListItemToRow(
     subtitle: subtitleFor(item),
     badge: isCompleted
       ? { label: "Completed", variant: "completed" }
-      : { label: "Ongoing", variant: "units-left" },
+      : {
+          count: ongoingBadgeCount(item.configurations) ?? undefined,
+          variant: "units-left",
+        },
     budget: priceRupeesToBudgetBucket(item.configurations),
     builder: item.type?.trim() || "—",
     configuration: configurationDisplay(item.configurations),

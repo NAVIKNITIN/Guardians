@@ -76,7 +76,7 @@ export function DownloadModal({ isOpen, onClose, issueTitle }: DownloadModalProp
         <button
           type="button"
           onClick={onClose}
-          className="absolute right-6 top-6 flex h-8 w-8 items-center justify-center text-[#202225] transition-opacity hover:opacity-60"
+          className="absolute pointer-cursor right-6 top-6 flex h-8 w-8 items-center justify-center text-[#202225] transition-opacity hover:opacity-60"
           aria-label="Close"
         >
           <svg width="16" height="16" viewBox="0 0 16 16" fill="none">

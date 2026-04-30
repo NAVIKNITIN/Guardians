@@ -72,6 +72,23 @@ function DriveIcon() {
   );
 }
 
+function parseWalkDriveTime(raw: string) {
+  const value = String(raw || "").trim();
+  const walkMatch = value.match(/Walk\s*([^·]+)/i);
+  const driveMatch = value.match(/Drive\s*([^·]+)/i);
+  return {
+    walk: walkMatch?.[1]?.trim() ?? "",
+    drive: driveMatch?.[1]?.trim() ?? "",
+  };
+}
+
+function minutesFromTimeLabel(raw: string) {
+  const match = String(raw || "").match(/(\d+(\.\d+)?)/);
+  if (!match) return null;
+  const n = Number(match[1]);
+  return Number.isFinite(n) ? n : null;
+}
+
 // ---------------------------------------------------------------------------
 // Arrow icon
 // ---------------------------------------------------------------------------
@@ -726,11 +743,49 @@ function ProjectDetailPageContent() {
                       <span className="min-w-0 flex-1 wrap-break-word text-center n-book fs-16 lh-24 text-[#161616] sm:text-left sm:text-base">
                         {item.name}
                       </span>
-                      <div className="flex shrink-0 items-center justify-center gap-2 sm:justify-end">
-                        <Image src={item.type === "walk" ? "/images/location.svg" : "/images/drive.svg"} alt="" width={13} height={18} className="object-cover" />
-                        <span className="min-w-14 text-center n-bold text-[#161616] sm:min-w-15 sm:text-right sm:text-base">
-                          {item.time}
-                        </span>
+                      <div className="flex w-full shrink-0 items-center justify-center sm:w-[170px] sm:justify-end">
+                        {(() => {
+                          const times = parseWalkDriveTime(item.time);
+                          const walkMin = minutesFromTimeLabel(times.walk);
+                          const driveMin = minutesFromTimeLabel(times.drive);
+                          const hasWalk = Boolean(times.walk);
+                          const hasDrive = Boolean(times.drive);
+                          const showWalk =
+                            hasWalk &&
+                            (!hasDrive ||
+                              driveMin == null ||
+                              (walkMin != null && walkMin <= driveMin));
+                          const showDrive = hasDrive && !showWalk;
+                          return (
+                            <>
+                              {showWalk ? (
+                                <span className="grid w-[80px] grid-cols-[18px_1fr] items-center gap-2 n-bold text-[#161616] sm:text-base">
+                                  <Image
+                                    src="/images/location.svg"
+                                    alt=""
+                                    width={13}
+                                    height={18}
+                                    className="mx-auto object-cover"
+                                  />
+                                  <span className="text-left">{times.walk}</span>
+                                </span>
+                              ) : null}
+                              {showDrive ? (
+                                <span className="grid w-[80px] grid-cols-[18px_1fr] items-center gap-2 n-bold text-[#161616] sm:text-base">
+                                  <span className="flex justify-center">
+                                    <DriveIcon />
+                                  </span>
+                                  <span className="text-left">{times.drive}</span>
+                                </span>
+                              ) : null}
+                              {!showWalk && !showDrive ? (
+                                <span className="w-[80px] text-left n-bold text-[#161616] sm:text-base">
+                                  {item.time}
+                                </span>
+                              ) : null}
+                            </>
+                          );
+                        })()}
                       </div>
                     </div>
                     {i < project.locationItems.length - 1 && (

@@ -5,6 +5,7 @@ import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { MarketingEnquireLink } from "@/components/ui/MarketingEnquireLink";
 import type { MarketingHeroContent } from "@/data/audience-marketing-types";
+import { LOCAL_IMAGES } from "@/lib/local-images";
 import { cn } from "@/utils/cn";
 import { getMarketingHeroConfig, type MarketingHeroId } from "@/utils/marketing-hero";
 import { useEffect, useState, type CSSProperties } from "react";
@@ -1281,6 +1282,13 @@ function ProjectsHeroSection({
     images: { ongoing: string; completed: string };
   };
   const src = stage === "Completed" ? cfg.images.completed : cfg.images.ongoing;
+  const fallbackSrc =
+    stage === "Completed" ? LOCAL_IMAGES.projectCompleted : LOCAL_IMAGES.tgreaHero;
+  const [displaySrc, setDisplaySrc] = useState(src);
+
+  useEffect(() => {
+    setDisplaySrc(src);
+  }, [src]);
 
   return (
     <section
@@ -1295,12 +1303,17 @@ function ProjectsHeroSection({
       <div className="hero-projects-stage-bg" aria-hidden>
         <div className="hero-projects-stage-bg__photo">
           <Image
-            src={src}
+            src={displaySrc}
             alt=""
             fill
             className={HERO_BG_IMAGE_CLASS}
             sizes="100vw"
             priority
+            onError={() => {
+              if (displaySrc !== fallbackSrc) {
+                setDisplaySrc(fallbackSrc);
+              }
+            }}
           />
         </div>
 

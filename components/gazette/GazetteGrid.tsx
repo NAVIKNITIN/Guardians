@@ -15,6 +15,7 @@ import {
   articleImage,
   normalizeFilteredArticles,
 } from "@/lib/mappers/publicArticles";
+import { LOCAL_IMAGES } from "@/lib/local-images";
 import { filterArticles } from "@/src/api/services/articleService";
 import { useEffect, useMemo, useState } from "react";
 
@@ -46,6 +47,7 @@ export function GazetteGrid() {
             title: item.title?.trim() || "Untitled",
             imageSrc: articleImage(item, index, "gazette"),
             imageAlt: item.title?.trim() || "Gazette cover",
+            fallbackSrc: LOCAL_IMAGES.blogDetail,
             href: `/gazette/${String(item.id)}`,
           })),
         );

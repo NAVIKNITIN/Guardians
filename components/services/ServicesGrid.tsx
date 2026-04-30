@@ -1,8 +1,10 @@
 "use client";
 
 import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
+import { GradientCtaButton } from "../common/GradientCtaButton";
 
 // ─── Public types ─────────────────────────────────────────────────────────────
 
@@ -86,6 +88,76 @@ function ChevronRight() {
   );
 }
 
+function AnimatedWaveTitle({ title }: { title: string }) {
+  const words = title.split(/\s+/).filter(Boolean);
+  return (
+    <motion.h2
+      key={title}
+      className="mb-6 qs-reg uppercase tracking-[0.05em] text-white text-[clamp(1.75rem,5vw,3.125rem)] leading-[1.05] sm:mb-8"
+      initial="hidden"
+      animate="visible"
+      variants={{
+        hidden: {},
+        visible: {
+          transition: {
+            staggerChildren: 0.12,
+            delayChildren: 0.06,
+          },
+        },
+      }}
+    >
+      {words.map((word, idx) => (
+        <motion.span
+          key={`${word}-${idx}`}
+          className="inline-block"
+          variants={{
+            hidden: { opacity: 0, x: -16, filter: "blur(2px)" },
+            visible: {
+              opacity: 1,
+              x: 0,
+              filter: "blur(0px)",
+              transition: { duration: 0.72, ease: "easeOut" },
+            },
+          }}
+        >
+          {word}
+          {idx < words.length - 1 ? "\u00A0" : ""}
+        </motion.span>
+      ))}
+    </motion.h2>
+  );
+}
+
+function AnimatedWaveInlineText({
+  text,
+  className,
+}: {
+  text: string;
+  className: string;
+}) {
+  const words = text.split(/\s+/).filter(Boolean);
+  return (
+    <span className={className}>
+      {words.map((word, idx) => (
+        <motion.span
+          key={`${word}-${idx}`}
+          className="inline-block"
+          initial={{ opacity: 0, x: -10, filter: "blur(1.5px)" }}
+          animate={{ opacity: 1, x: 0, filter: "blur(0px)" }}
+          transition={{
+            duration: 0.62,
+            ease: "easeOut",
+            delay: idx * 0.06,
+          }}
+        >
+          {word}
+          {idx < words.length - 1 ? "\u00A0" : ""}
+        </motion.span>
+      ))}
+    </span>
+  );
+}
+
 // ─── Service tile (one of the 4 image cards in the left column) ──────────────
 
 function ServiceTileView({
@@ -98,19 +170,34 @@ function ServiceTileView({
   onClick: () => void;
 }) {
   return (
-    <button
+    <motion.button
       type="button"
       onClick={onClick}
       className="group relative block h-[140px] min-h-[140px] flex-1 cursor-pointer overflow-hidden bg-[#D5D3D4] lg:h-auto lg:min-h-0"
       aria-pressed={isActive}
+      initial={false}
+      animate={isActive ? { scale: 1.01 } : { scale: 1 }}
+      whileTap={{ scale: 0.985 }}
+      transition={{ duration: 0.22, ease: [0.22, 1, 0.36, 1] }}
     >
-      <Image
-        src={tile.imageSrc}
-        alt={tile.imageAlt}
-        fill
-        className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
-        sizes="(max-width: 1024px) 100vw, 43vw"
-      />
+      <motion.div
+        className="absolute inset-0"
+        initial={false}
+        animate={isActive ? { x: [-18, 12, 0] } : { x: 0 }}
+        transition={
+          isActive
+            ? { duration: 1, ease: "easeOut" }
+            : { duration: 0.35, ease: "linear" }
+        }
+      >
+        <Image
+          src={tile.imageSrc}
+          alt={tile.imageAlt}
+          fill
+          className="object-cover object-center transition-transform duration-500 group-hover:scale-105"
+          sizes="(max-width: 1024px) 100vw, 43vw"
+        />
+      </motion.div>
       <div
         className="absolute inset-0"
         style={{
@@ -125,7 +212,7 @@ function ServiceTileView({
         </span>
         <ChevronRight />
       </div>
-    </button>
+    </motion.button>
   );
 }
 
@@ -164,9 +251,7 @@ function CommercialPanel({
       />
 
       <div className="relative z-10 flex h-full flex-col px-5 py-8 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
-        <h2 className="mb-6 qs-reg uppercase tracking-[0.05em] text-white text-[clamp(1.75rem,5vw,3.125rem)] leading-[1.05] sm:mb-8">
-          {title}
-        </h2>
+        <AnimatedWaveTitle title={title} />
 
         <div className="flex flex-1 flex-col">
           {items.map((item, i) => (
@@ -177,29 +262,44 @@ function CommercialPanel({
                 onClick={() => setOpenIndex(i === openIndex ? -1 : i)}
                 className="flex w-full items-center justify-between gap-4 py-3 text-left transition-opacity hover:opacity-80 sm:py-4"
               >
-                <span className="n-reg text-base leading-snug text-white sm:text-lg lg:text-[20px]">
-                  {item.title}
-                </span>
+                <AnimatedWaveInlineText
+                  text={item.title}
+                  className="n-reg text-base leading-snug text-white sm:text-lg lg:text-[20px]"
+                />
                 <span className="shrink-0 n-reg text-lg text-white sm:text-xl">
                   {openIndex === i ? "−" : "+"}
                 </span>
               </button>
-              {openIndex === i && item.description && (
-                <p className="pb-3 n-book text-sm leading-[1.5] text-white sm:pb-4 sm:text-base lg:text-[16px] lg:leading-[24px]">
-                  {item.description}
-                </p>
-              )}
+              {item.description ? (
+                <motion.div
+                  initial={false}
+                  animate={
+                    openIndex === i
+                      ? { height: "auto", opacity: 1 }
+                      : { height: 0, opacity: 0 }
+                  }
+                  transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                  className="overflow-hidden"
+                >
+                  <p className="pb-3 n-book text-sm leading-[1.5] text-white sm:pb-4 sm:text-base lg:text-[16px] lg:leading-[24px]">
+                    <AnimatedWaveInlineText
+                      text={item.description}
+                      className="inline"
+                    />
+                  </p>
+                </motion.div>
+              ) : null}
             </div>
           ))}
         </div>
 
         <div className="mt-auto flex justify-center pt-6 sm:pt-8">
-          <OutlineArrowButton
+          <GradientCtaButton
+            className="h-[53.99px] w-[253px] cursor-pointer disabled:pointer-events-none disabled:opacity-50 sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
             href={knowMoreHref}
-            className="w-full max-w-xs uppercase bg-white px-8 text-black hover:bg-black hover:text-white sm:w-fit sm:max-w-none sm:px-12"
           >
             Know More
-          </OutlineArrowButton>
+          </GradientCtaButton>
         </div>
       </div>
     </div>
@@ -289,6 +389,7 @@ export function ServicesGrid({
             />
           ))}
         </div>
+
 
         <CommercialPanel
           title={activePanel.title}

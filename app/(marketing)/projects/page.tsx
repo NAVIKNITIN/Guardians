@@ -29,7 +29,15 @@ const BUILDER_OPTIONS = [
   "Hiranandani",
 ] as const;
 const CONFIGURATION_OPTIONS = ["All", "1 BHK", "2 BHK", "3 BHK"] as const;
-const STAGE_OPTIONS = ["Ongoing", "Completed"] as const;
+const STAGE_OPTIONS = ["All", "Ongoing", "Completed"] as const;
+const SORT_OPTIONS = [
+  { key: "default", label: "Default" },
+  { key: "title-asc", label: "Title (A-Z)" },
+  { key: "title-desc", label: "Title (Z-A)" },
+  { key: "ongoing-first", label: "Ongoing First" },
+  { key: "completed-first", label: "Completed First" },
+] as const;
+type SortKey = (typeof SORT_OPTIONS)[number]["key"];
 
 /** Max project cards shown before “View More”. */
 const INITIAL_VISIBLE_CARDS = 10;
@@ -115,6 +123,30 @@ function filterProjects(
     if (!subtitleMatchesLocation(p.subtitle, opts.location)) return false;
     return true;
   });
+}
+
+function sortProjects(list: ProjectRow[], sortKey: SortKey) {
+  if (sortKey === "default") {
+    return list;
+  }
+  const sorted = [...list];
+  switch (sortKey) {
+    case "title-asc":
+      sorted.sort((a, b) => a.title.localeCompare(b.title));
+      break;
+    case "title-desc":
+      sorted.sort((a, b) => b.title.localeCompare(a.title));
+      break;
+    case "ongoing-first":
+      sorted.sort((a, b) => Number(projectIsCompleted(a)) - Number(projectIsCompleted(b)));
+      break;
+    case "completed-first":
+      sorted.sort((a, b) => Number(projectIsCompleted(b)) - Number(projectIsCompleted(a)));
+      break;
+    default:
+      break;
+  }
+  return sorted;
 }
 
 // ---------------------------------------------------------------------------
@@ -213,6 +245,34 @@ function FilterSelect({
   );
 }
 
+function SortSelect({
+  value,
+  onChange,
+}: {
+  value: SortKey;
+  onChange: (value: SortKey) => void;
+}) {
+  return (
+    <label className="relative inline-flex items-center gap-2 n-reg text-sm uppercase tracking-widest text-brand-footer sm:text-base">
+      <span className="sr-only">Sort projects</span>
+      <select
+        aria-label="Sort projects"
+        value={value}
+        onChange={(e) => onChange(e.target.value as SortKey)}
+        className="absolute inset-0 z-10 h-full w-full cursor-pointer appearance-none opacity-0"
+      >
+        {SORT_OPTIONS.map((option) => (
+          <option key={option.key} value={option.key}>
+            {option.label.toUpperCase()}
+          </option>
+        ))}
+      </select>
+      <span className="pointer-events-none">Sort By</span>
+      <ChevronDown className="pointer-events-none text-brand-footer" />
+    </label>
+  );
+}
+
 function ProjectCardSkeleton() {
   return (
     <div className="relative flex flex-col overflow-hidden bg-white shadow-[0_4px_24px_rgba(0,0,0,0.08)]">
@@ -238,8 +298,9 @@ function ProjectsPageContent() {
   const [filterBuilder, setFilterBuilder] = useState<string>("All");
   const [filterConfiguration, setFilterConfiguration] =
     useState<string>("All");
-  const [filterStage, setFilterStage] = useState<string>("Ongoing");
+  const [filterStage, setFilterStage] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState("");
+  const [sortBy, setSortBy] = useState<SortKey>("default");
 
   const [activeLocation, setActiveLocation] = useState<string | null>(null);
 
@@ -276,6 +337,7 @@ function ProjectsPageContent() {
     const stage = searchParams.get("stage");
     if (stage === "ongoing") setFilterStage("Ongoing");
     else if (stage === "completed") setFilterStage("Completed");
+    else setFilterStage("All");
   }, [searchParams]);
 
   useEffect(() => {
@@ -331,16 +393,17 @@ function ProjectsPageContent() {
     searchQuery,
   ]);
 
-  const visibleProjects = useMemo(
-    () =>
-      filterProjects(projects, {
-        budget: filterBudget,
-        builder: filterBuilder,
-        configuration: filterConfiguration,
-        stage: filterStage,
-        location: activeLocation,
-        query: searchQuery,
-      }),
+  const visibleProjects = useMemo(() => {
+    const filtered = filterProjects(projects, {
+      budget: filterBudget,
+      builder: filterBuilder,
+      configuration: filterConfiguration,
+      stage: filterStage,
+      location: activeLocation,
+      query: searchQuery,
+    });
+    return sortProjects(filtered, sortBy);
+  },
     [
       projects,
       filterBudget,
@@ -349,6 +412,7 @@ function ProjectsPageContent() {
       filterStage,
       activeLocation,
       searchQuery,
+      sortBy,
     ],
   );
 
@@ -363,7 +427,7 @@ function ProjectsPageContent() {
     setFilterBudget("All");
     setFilterBuilder("All");
     setFilterConfiguration("All");
-    setFilterStage("Ongoing");
+    setFilterStage("All");
     setActiveLocation(null);
     setSearchQuery("");
     setShowFilters(true);
@@ -373,7 +437,7 @@ function ProjectsPageContent() {
     <main>
       <MarketingPageHero
         heroId="projects"
-        projectsStage={filterStage as "Ongoing" | "Completed"}
+        projectsStage={filterStage === "Completed" ? "Completed" : "Ongoing"}
         heightPx={650}
         mobileHeightPx={230}
         useViewportHeightFlag
@@ -411,13 +475,7 @@ function ProjectsPageContent() {
                       <ChevronDown className="text-brand-footer" />
                     )}
                   </button>
-                  <button
-                    type="button"
-                    className="inline-flex cursor-pointer items-center gap-2 n-reg text-sm uppercase tracking-widest text-brand-footer sm:text-base"
-                  >
-                    Sort By
-                    <ChevronDown className="text-brand-footer" />
-                  </button>
+                  <SortSelect value={sortBy} onChange={setSortBy} />
                 </div>
 
                 <div className="mx-auto flex h-[30px] w-full max-w-[345px] min-w-0 shrink-0 items-center gap-2 border border-black/20 bg-white px-3 sm:mx-0">
@@ -438,8 +496,8 @@ function ProjectsPageContent() {
             </ScrollReveal>
 
             {showFilters && (
-              <ScrollReveal direction="up" delay={0.08} distance={24}>
-                <>
+              <ScrollReveal direction="up" delay={0.08} distance={24} className="relative z-10">
+                <div className="relative z-10">
                   <div className="my-3 h-px w-full max-w-[92%] bg-black mx-auto sm:my-4" />
 
                   <div
@@ -497,7 +555,7 @@ function ProjectsPageContent() {
                       Clear all
                     </button>
                   </div>
-                </>
+                </div>
               </ScrollReveal>
             )}
           </Container>
@@ -507,7 +565,7 @@ function ProjectsPageContent() {
       {/* ------------------------------------------------------------------ */}
       {/* PROJECT GRID                                                        */}
       {/* ------------------------------------------------------------------ */}
-      <section className="bg-white py-8 sm:py-10 lg:px-8 lg:py-10 xl:px-12 2xl:px-16">
+      <section className={`bg-white pb-8 sm:pb-10 lg:px-8 lg:pb-10 xl:px-12 2xl:px-16 ${filterStage === "Completed" ? "mt-10" : ""}`}>
         <Container className="min-w-0">
           {listError ? (
             <p className="px-1 text-center n-reg text-sm text-[#d05c43] sm:px-0">
@@ -516,14 +574,14 @@ function ProjectsPageContent() {
             </p>
           ) : null}
 
-          {!listLoading && !listError && listTotal > 0 ? (
+          {/* {!listLoading && !listError && listTotal > 0 ? (
             <p className="mb-5 text-center n-reg text-xs text-[#161616]/50">
               {listTotal} project{listTotal === 1 ? "" : "s"} total
               {visibleProjects.length !== projects.length
                 ? ` · ${visibleProjects.length} match filters`
                 : null}
             </p>
-          ) : null}
+          ) : null} */}
 
           <StaggerContainer className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:gap-10 xl:gap-10" staggerChildren={0.14}>
             {listLoading
