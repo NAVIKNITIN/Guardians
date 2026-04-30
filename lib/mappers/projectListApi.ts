@@ -1,5 +1,4 @@
-import { LOCAL_IMAGES } from "@/lib/local-images";
-import { resolveApiAssetUrl } from "@/lib/api/resolveAssetUrl";
+import { resolveProjectListingThumbnail } from "@/lib/mappers/projectListingThumbnail";
 
 /** Aligned with marketing `projects` page filters (`budget` buckets match the UI). */
 export type ProjectRowFilterShape = {
@@ -29,7 +28,15 @@ export type ProjectRowFilterShape = {
   completionDate: string;
 };
 
-const FALLBACK_THUMB = LOCAL_IMAGES.projectImage;
+/** Uploaded row on project list/detail payloads. */
+export type ApiProjectListFile = {
+  id?: number;
+  file_type?: string;
+  file_url?: string;
+  file_name?: string;
+  sequence_no?: number | null;
+  active?: boolean;
+};
 
 /**
  * `GET /api/projects` paginated `data[]` item (Laravel — decimals often arrive as strings).
@@ -46,14 +53,9 @@ export type ApiProjectListItem = {
   status?: boolean;
   created_at?: string;
   updated_at?: string;
-  files?: Array<{
-    id?: number;
-    file_type?: string;
-    file_url?: string;
-    file_name?: string;
-    sequence_no?: number | null;
-    active?: boolean;
-  }>;
+  files?: ApiProjectListFile[];
+  /** Some serializers expose the relation under another key. */
+  uploaded_files?: ApiProjectListFile[];
   configurations?: Array<{
     bhk_type?: string | null;
     price_min?: number | string | null;
@@ -109,43 +111,22 @@ function normalizeBhk(raw: string | null | undefined): string {
   return s || "2 BHK";
 }
 
-function listItemHeroOrFirstImage(
-  files: ApiProjectListItem["files"] | undefined,
-): string {
-  if (!files?.length) {
-    return FALLBACK_THUMB;
+/** Merge `files` + `uploaded_files`, dedupe by `id` when present. */
+function coalesceProjectListFiles(item: ApiProjectListItem): ApiProjectListFile[] {
+  const merged = [...(item.files ?? []), ...(item.uploaded_files ?? [])];
+  if (merged.length === 0) return [];
+
+  const seen = new Set<number>();
+  const out: ApiProjectListFile[] = [];
+  for (const f of merged) {
+    const id = f.id;
+    if (id != null) {
+      if (seen.has(id)) continue;
+      seen.add(id);
+    }
+    out.push(f);
   }
-  const withUrl = files.filter((f) => f.file_url);
-  if (withUrl.length === 0) {
-    return FALLBACK_THUMB;
-  }
-
-  const pickUrl = (f: (typeof withUrl)[0] | undefined) => {
-    if (!f?.file_url) return null;
-    return resolveApiAssetUrl(f.file_url);
-  };
-
-  const hero = withUrl.find(
-    (f) => (f.file_type || "").toUpperCase() === "HERO",
-  );
-  const heroUrl = pickUrl(hero);
-  if (heroUrl) return heroUrl;
-
-  const sequences = withUrl
-    .filter((f) => (f.file_type || "").toUpperCase() === "SEQUENCE")
-    .sort(
-      (a, b) => (a.sequence_no ?? 0) - (b.sequence_no ?? 0) || 0,
-    );
-  for (const s of sequences) {
-    const u = pickUrl(s);
-    if (u) return u;
-  }
-
-  const nonLogo = withUrl.find(
-    (f) => (f.file_type || "").toUpperCase() !== "LOGO",
-  );
-  const fallback = pickUrl(nonLogo) ?? pickUrl(withUrl[0]);
-  return fallback ?? FALLBACK_THUMB;
+  return out;
 }
 
 function subtitleFor(item: ApiProjectListItem): string {
@@ -214,7 +195,7 @@ export function mapApiProjectListItemToRow(
 
   return {
     id: item.id,
-    imageSrc: listItemHeroOrFirstImage(item.files),
+    imageSrc: resolveProjectListingThumbnail(coalesceProjectListFiles(item)),
     title: item.name || "—",
     subtitle: subtitleFor(item),
     badge: isCompleted

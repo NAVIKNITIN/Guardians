@@ -12,6 +12,8 @@ import { buildQueryString } from "../params";
 export type GetAllProjectsParams = {
   per_page?: number;
   page?: number;
+  /** Laravel eager-load hint when the index omits `files` without it. */
+  with?: string;
 };
 
 /**
@@ -26,6 +28,9 @@ export function getAllProjects(params: GetAllProjectsParams = {}) {
   const query = buildQueryString({
     per_page: params.per_page ?? 10,
     page: params.page ?? 1,
+    ...(params.with != null && params.with !== ""
+      ? { with: params.with }
+      : {}),
   });
   const inflight = inflightGetAllProjects.get(query);
   if (inflight) {

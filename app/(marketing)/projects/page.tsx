@@ -264,7 +264,11 @@ function ProjectsPageContent() {
       setListLoading(true);
       setListError(null);
       try {
-        const raw = await getAllProjects({ per_page: 100, page: 1 });
+        const raw = await getAllProjects({
+          per_page: 100,
+          page: 1,
+          with: "files",
+        });
         if (cancelled) return;
         const { items, total } = parseProjectListResponse(raw);
         setListTotal(total);

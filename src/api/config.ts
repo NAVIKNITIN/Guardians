@@ -3,11 +3,11 @@ export const DEFAULT_API_BASE_URL =
   "https://guardians-service-production.up.railway.app/api";
 
 /**
- * Explicit override for uploaded-file origin (optional).
- * Useful when JSON API and file host are different.
+ * Origin for relative file URLs from the API (strip `/api`).
+ * Same-origin `/gw-api` is only for JSON API calls — do not use it as a file base URL.
  */
-const RAW_PUBLIC_FILES_ORIGIN =
-  process.env.NEXT_PUBLIC_FILES_ORIGIN?.trim() || "";
+export const PUBLIC_FILES_ORIGIN =
+  DEFAULT_API_BASE_URL.replace(/\/api\/?$/, "");
 
 /**
  * Next.js `rewrites` forward this prefix → Railway `/api` so the browser does not
@@ -77,36 +77,6 @@ export function getResolvedApiBaseUrl(): string {
   return raw;
 }
 
-/**
- * Resolve origin used for relative uploaded file URLs.
- * Never returns `/gw-api`; it always returns a real absolute origin.
- */
-export function getResolvedPublicFilesOrigin(): string {
-  if (RAW_PUBLIC_FILES_ORIGIN) {
-    return RAW_PUBLIC_FILES_ORIGIN.replace(/\/$/, "");
-  }
-
-  const rawApi =
-    process.env.NEXT_PUBLIC_API_BASE_URL?.trim() || DEFAULT_API_BASE_URL;
-
-  if (typeof window !== "undefined") {
-    const host = window.location.hostname;
-    const viewingLocalSite =
-      host === "localhost" ||
-      host === "127.0.0.1" ||
-      host.endsWith(".localhost");
-
-    if (!viewingLocalSite && isLikelyLoopbackApiUrl(rawApi)) {
-      return DEFAULT_API_BASE_URL.replace(/\/api\/?$/, "");
-    }
-  } else if (process.env.NODE_ENV === "production" && isLikelyLoopbackApiUrl(rawApi)) {
-    return DEFAULT_API_BASE_URL.replace(/\/api\/?$/, "");
-  }
-
-  return rawApi.replace(/\/api\/?$/, "");
-}
-
 export const API_BASE_URL = getResolvedApiBaseUrl();
-export const PUBLIC_FILES_ORIGIN = getResolvedPublicFilesOrigin();
 
 export const AXIOS_TIMEOUT_MS = 30_000;

@@ -82,9 +82,25 @@ const DEFAULT_MAP_CENTER: [number, number] = [19.076, 72.8777];
 const DEFAULT_ZOOM = 12;
 
 function fileByType(files: ApiUploadedFile[], t: string) {
-  return files.find(
-    (f) => (f.file_type || "").toUpperCase() === t.toUpperCase(),
+  const wanted = t.trim().toUpperCase();
+  const norm = (v: string | null | undefined) =>
+    String(v ?? "")
+      .trim()
+      .toUpperCase();
+
+  // Prefer exact match first, then tolerant "contains" (legacy inconsistent values).
+  return (
+    files.find((f) => norm(f.file_type) === wanted) ??
+    files.find((f) => norm(f.file_type).includes(wanted))
   );
+}
+
+function firstResolvedUrlFrom(files: ApiUploadedFile[]): string | null {
+  for (const f of files) {
+    const u = resolveApiAssetUrl(f.file_url);
+    if (u) return u;
+  }
+  return null;
 }
 
 function fileById(files: ApiUploadedFile[], id: number | string | null) {
@@ -291,8 +307,14 @@ export function mapProjectDetailsToViewModel(
   if (!project) return null;
 
   const files = project.files ?? [];
-  const logo = fileByType(files, "LOGO");
-  const hero = fileByType(files, "HERO");
+  const logo =
+    fileByType(files, "LOGO") ??
+    fileByType(files, "BRAND") ??
+    fileByType(files, "ICON");
+  const hero =
+    fileByType(files, "HERO") ??
+    fileByType(files, "BANNER") ??
+    fileByType(files, "COVER");
   const sequence = files
     .filter((f) => (f.file_type || "").toUpperCase() === "SEQUENCE")
     .sort(
@@ -302,8 +324,17 @@ export function mapProjectDetailsToViewModel(
     .map((f) => resolveApiAssetUrl(f.file_url))
     .filter((u): u is string => u != null);
 
-  const buildingHeroSrc = safeUrlFromFile(hero, LOCAL_IMAGES.tgreaHero);
-  const developerLogo = safeUrlFromFile(logo, "/images/Projects/Group 45.svg");
+  const buildingHeroSrc =
+    safeUrlFromFile(
+      hero ?? sequence[0] ?? files[0],
+      LOCAL_IMAGES.tgreaHero,
+    ) ?? firstResolvedUrlFrom(sequence) ?? firstResolvedUrlFrom(files) ?? LOCAL_IMAGES.tgreaHero;
+
+  const developerLogo =
+    safeUrlFromFile(
+      logo ?? files[0],
+      "/images/Projects/Group 45.svg",
+    ) ?? firstResolvedUrlFrom(files) ?? "/images/Projects/Group 45.svg";
   const bookVisitBg = buildingHeroSrc;
 
   const primary = project.configurations?.[0] ?? null;

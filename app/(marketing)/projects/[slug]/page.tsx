@@ -3,6 +3,7 @@ import { createVisit } from "@/src/api/services/visitService";
 import { getProjectById } from "@/src/api/services/projectService";
 import { uploadFile } from "@/src/api/services/fileService";
 import { showError, showSuccess } from "@/src/utils/toast";
+import { marketingImageUnoptimized } from "@/lib/marketing/marketingImageOptimization";
 import {
   mapProjectDetailsToViewModel,
   type ProjectAmenityItem,
@@ -157,10 +158,7 @@ function CaseStudySection({
 // ---------------------------------------------------------------------------
 function AmenityItem({ amenity }: { amenity: ProjectAmenityItem }) {
   const src = amenity.imageSrc;
-  // Remote assets need the configured host. SVGs (preset amenities, holding fallback)
-  // often use Figma `foreignObject` etc.; Next’s image optimizer can render them blank.
-  const imageUnoptimized =
-    /^https?:\/\//i.test(src) || /\.svg(\?|$)/i.test(src);
+  const imageUnoptimized = marketingImageUnoptimized(src);
   return (
     <div className="group flex flex-col items-center gap-2 text-center sm:gap-3">
       <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full bg-white/50 p-1.5 transition-all duration-500 ease-out group-hover:-translate-y-0.5 group-hover:bg-white/80 group-hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] sm:h-20 sm:w-20">
@@ -286,8 +284,6 @@ function ProjectDetailPageContent() {
 
   // CHANGE: submit state only, no UI redesign
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [displayHeroSrc, setDisplayHeroSrc] = useState("");
-  const [displayLogoSrc, setDisplayLogoSrc] = useState("");
 
   function handleChange(
     e: React.ChangeEvent<
@@ -443,21 +439,12 @@ function ProjectDetailPageContent() {
   const buildingHeroSrc = isFromCompleted
     ? COMPLETED_HERO_BG
     : project.buildingHeroSrc;
-  const fallbackLogoSrc = "/images/Projects/Group 45.svg";
-  const fallbackHeroSrc = isFromCompleted ? COMPLETED_HERO_BG : "/images/tgreaHero.svg";
-  useEffect(() => {
-    setDisplayHeroSrc(buildingHeroSrc || fallbackHeroSrc);
-    setDisplayLogoSrc(project.developerLogo || fallbackLogoSrc);
-  }, [buildingHeroSrc, fallbackHeroSrc, project.developerLogo]);
-
-  const logoImageSrc = displayLogoSrc || fallbackLogoSrc;
-  const heroImageSrc = displayHeroSrc || fallbackHeroSrc;
   const heroUnoptimized =
-    isFromCompleted || /^https?:\/\//i.test(heroImageSrc);
+    isFromCompleted || /^https?:\/\//i.test(buildingHeroSrc);
   const showCaseStudyBlock = isFromCompleted || !project.status;
   const showBookVisitBlock = !isFromCompleted && project.status;
   const bookVisitBgUnoptimized = /^https?:\/\//i.test(project.bookVisitBg);
-  const logoUnoptimized = /^https?:\/\//i.test(logoImageSrc);
+  const logoUnoptimized = /^https?:\/\//i.test(project.developerLogo);
 
   return (
     <main>
@@ -493,16 +480,11 @@ function ProjectDetailPageContent() {
               {/* Right — developer logo (below title on small screens; bottom-right on large) */}
               <div className="flex w-full shrink-0 justify-center pt-3 sm:pt-2 lg:absolute lg:bottom-0 lg:right-0 lg:w-auto lg:justify-end lg:pt-0">
                 <Image
-                  src={logoImageSrc}
+                  src={project.developerLogo}
                   alt="Godrej Properties"
                   width={160}
                   height={46}
                   unoptimized={logoUnoptimized}
-                  onError={() => {
-                    if (logoImageSrc !== fallbackLogoSrc) {
-                      setDisplayLogoSrc(fallbackLogoSrc);
-                    }
-                  }}
                   className="h-auto w-[min(100%,160px)] max-w-[200px] object-contain object-center sm:w-[160px] lg:w-[218px] lg:object-right"
                 />
               </div>
@@ -558,14 +540,9 @@ function ProjectDetailPageContent() {
       {/* Full-bleed — edge to edge (no Container) */}
       <section className="relative h-[min(42svh,22rem)] min-h-[200px] w-full min-w-0 overflow-hidden pt-4 sm:h-[380px] lg:mt-20 lg:h-[550px]">
         <Image
-          src={heroImageSrc}
+          src={buildingHeroSrc}
           alt=""
           fill
-          onError={() => {
-            if (heroImageSrc !== fallbackHeroSrc) {
-              setDisplayHeroSrc(fallbackHeroSrc);
-            }
-          }}
           className="object-cover object-center transition-transform duration-1000 ease-out hover:scale-105"
           priority
           unoptimized={heroUnoptimized}
