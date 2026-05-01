@@ -1,7 +1,6 @@
 "use client";
 
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
-import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { IconFolderStack } from "@/components/admin/panel/AdminIcons";
@@ -83,146 +82,157 @@ export function ProjectsPageContent() {
     <section className="w-full">
       <ScrollReveal direction="up" distance={24}>
         <div className="overflow-hidden rounded-[24px] border border-[#e5ebf3] bg-white shadow-[0_12px_28px_rgba(13,30,70,0.08)]">
-        <div className="flex flex-col gap-4 border-b border-[#edf2f8] px-5 py-4 sm:px-7 lg:flex-row lg:items-center lg:justify-between">
-          <div className="flex items-center gap-3">
-            <div className="flex h-[52px] w-[52px] items-center justify-center rounded-[16px] bg-[#fff3ed] text-[#f07c61]">
-              <IconFolderStack className="h-6 w-6" />
+          <div className="flex flex-col gap-4 border-b border-[#edf2f8] px-5 py-4 sm:px-7 lg:flex-row lg:items-center lg:justify-between">
+            <div className="flex items-center gap-3">
+              <div className="flex h-[52px] w-[52px] items-center justify-center rounded-[16px] bg-[#fff3ed] text-[#f07c61]">
+                <IconFolderStack className="h-6 w-6" />
+              </div>
+
+              <h2 className="qs-reg text-[clamp(1.9rem,3.2vw,2.6rem)] leading-none text-[#0d1e46]">
+                All Projects
+              </h2>
             </div>
 
-            <h2 className="qs-reg text-[clamp(1.9rem,3.2vw,2.6rem)] leading-none text-[#0d1e46]">
-              All Projects
-            </h2>
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center lg:justify-end">
+              <Link
+                href="/admin/add-project"
+                className="inline-flex h-[48px] cursor-pointer items-center justify-center rounded-[14px] px-6 text-[0.94rem] font-semibold text-white btn-primary-gradient shadow-[0_12px_22px_rgba(240,150,132,0.2)]"
+              >
+                Add Project
+              </Link>
+
+              <Link
+                href="/"
+                className="inline-flex h-[48px] cursor-pointer items-center justify-center rounded-[14px] border border-[#f09684] px-6 text-[0.94rem] font-semibold text-[#f07c61] transition hover:bg-[#fff5f1]"
+              >
+                Back to Website
+              </Link>
+            </div>
           </div>
 
-          <div className="flex flex-col gap-3 sm:flex-row sm:items-center lg:justify-end">
-            <Link
-              href="/admin/add-project"
-              className="inline-flex h-[48px] cursor-pointer items-center justify-center rounded-[14px] px-6 text-[0.94rem] font-semibold text-white btn-primary-gradient shadow-[0_12px_22px_rgba(240,150,132,0.2)]"
-            >
-              Add Project
-            </Link>
-
-            <Link
-              href="/"
-              className="inline-flex h-[48px] cursor-pointer items-center justify-center rounded-[14px] border border-[#f09684] px-6 text-[0.94rem] font-semibold text-[#f07c61] transition hover:bg-[#fff5f1]"
-            >
-              Back to Website
-            </Link>
+          <div className="space-y-4 px-5 py-5 sm:px-7 sm:py-6">
+            {isLoading ? (
+              <div className="flex min-h-[260px] items-center justify-center rounded-[24px] bg-[#fffdfa] text-center">
+                <p className="text-[1.12rem] font-medium text-[#5d6678]">
+                  Loading projects...
+                </p>
+              </div>
+            ) : errorMessage ? (
+              <div className="flex min-h-[260px] items-center justify-center rounded-[24px] bg-[#fff8f5] px-6 text-center">
+                <p className="text-[1.02rem] font-medium text-[#d05c43]">
+                  {errorMessage}
+                </p>
+              </div>
+            ) : projects.length === 0 ? (
+              <div className="flex min-h-[260px] flex-col items-center justify-center gap-4 rounded-[24px] bg-[#fffdfa] px-6 text-center">
+                <p className="max-w-[780px] text-[1.28rem] leading-relaxed text-[#5d6678]">
+                  Your projects will appear here. Click "Add Project" to create
+                  your first listing.
+                </p>
+              </div>
+            ) : (
+              <div className="-mx-5 overflow-x-auto sm:mx-0 sm:rounded-[16px] sm:border sm:border-[#e8edf5]">
+                <table className="w-full min-w-[920px] border-collapse text-left text-sm">
+                  <thead>
+                    <tr className="border-b border-[#e8edf5] bg-[#f6f8fc] text-[#44506a]">
+                      <th className="whitespace-nowrap px-4 py-3 text-xs font-semibold uppercase tracking-wide">
+                        ID
+                      </th>
+                      <th className="min-w-[140px] whitespace-nowrap px-4 py-3 text-xs font-semibold uppercase tracking-wide">
+                        Name
+                      </th>
+                      <th className="whitespace-nowrap px-4 py-3 text-xs font-semibold uppercase tracking-wide">
+                        Type
+                      </th>
+                      <th className="min-w-[100px] whitespace-nowrap px-4 py-3 text-xs font-semibold uppercase tracking-wide">
+                        RERA
+                      </th>
+                      <th className="whitespace-nowrap px-4 py-3 text-xs font-semibold uppercase tracking-wide">
+                        Area
+                      </th>
+                      <th className="whitespace-nowrap px-4 py-3 text-center text-xs font-semibold uppercase tracking-wide">
+                        Status
+                      </th>
+                      <th className="whitespace-nowrap px-4 py-3 text-center text-xs font-semibold uppercase tracking-wide">
+                        Cfgs
+                      </th>
+                      <th className="whitespace-nowrap px-4 py-3 text-center text-xs font-semibold uppercase tracking-wide">
+                        Locs
+                      </th>
+                      <th className="whitespace-nowrap px-4 py-3 text-center text-xs font-semibold uppercase tracking-wide">
+                        Amen.
+                      </th>
+                      <th className="whitespace-nowrap px-4 py-3 text-center text-xs font-semibold uppercase tracking-wide">
+                        Files
+                      </th>
+                      <th className="whitespace-nowrap px-4 py-3 text-xs font-semibold uppercase tracking-wide">
+                        Actions
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-[#5d6678]">
+                    {projects.map((project) => (
+                      <tr
+                        key={project.id}
+                        className="border-b border-[#edf2f8] bg-[#fcfdff] transition-colors hover:bg-[#f3f6fb] last:border-b-0"
+                      >
+                        <td className="whitespace-nowrap px-4 py-3 font-mono text-[0.8125rem] font-semibold tabular-nums text-[#0d1e46]">
+                          {project.id}
+                        </td>
+                        <td className="max-w-[220px] px-4 py-3 font-qasbyne text-[1rem] font-normal leading-tight text-[#0d1e46]">
+                          <span className="line-clamp-2">{project.name}</span>
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-3">
+                          {project.type || "N/A"}
+                        </td>
+                        <td className="max-w-[140px] px-4 py-3">
+                          <span className="line-clamp-2">
+                            {project.rera_number || "N/A"}
+                          </span>
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-3">
+                          {project.area || "N/A"}
+                        </td>
+                        <td className="px-4 py-3 text-center">
+                          <span
+                            className={[
+                              "inline-flex rounded-full px-2.5 py-0.5 text-xs font-semibold",
+                              project.status
+                                ? "bg-[#edf8f0] text-[#2f7a47]"
+                                : "bg-[#fff1ef] text-[#d05c43]",
+                            ].join(" ")}
+                          >
+                            {project.status ? "Active" : "Inactive"}
+                          </span>
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-3 text-center tabular-nums">
+                          {project.configurations?.length ?? 0}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-3 text-center tabular-nums">
+                          {project.locations?.length ?? 0}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-3 text-center tabular-nums">
+                          {project.amenities?.length ?? 0}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-3 text-center tabular-nums">
+                          {project.files?.length ?? 0}
+                        </td>
+                        <td className="whitespace-nowrap px-4 py-3">
+                          <Link
+                            href={`/admin/add-project?id=${project.id}`}
+                            className="inline-flex h-9 items-center justify-center rounded-[10px] border border-[#f09684] px-3 text-[0.8125rem] font-semibold text-[#f07c61] transition hover:bg-[#fff5f1]"
+                          >
+                            Update
+                          </Link>
+                        </td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
           </div>
         </div>
-
-        <div className="space-y-4 px-5 py-5 sm:px-7 sm:py-6">
-          {isLoading ? (
-            <div className="flex min-h-[260px] items-center justify-center rounded-[24px] bg-[#fffdfa] text-center">
-              <p className="text-[1.12rem] font-medium text-[#5d6678]">
-                Loading projects...
-              </p>
-            </div>
-          ) : errorMessage ? (
-            <div className="flex min-h-[260px] items-center justify-center rounded-[24px] bg-[#fff8f5] px-6 text-center">
-              <p className="text-[1.02rem] font-medium text-[#d05c43]">
-                {errorMessage}
-              </p>
-            </div>
-          ) : projects.length === 0 ? (
-            <div className="flex min-h-[260px] flex-col items-center justify-center gap-4 rounded-[24px] bg-[#fffdfa] px-6 text-center">
-              <p className="max-w-[780px] text-[1.28rem] leading-relaxed text-[#5d6678]">
-                Your projects will appear here. Click "Add Project" to create
-                your first listing.
-              </p>
-            </div>
-          ) : (
-            <StaggerContainer className="grid gap-4 md:grid-cols-2 xl:grid-cols-3" staggerChildren={0.08}>
-              {projects.map((project, index) => (
-                <ScrollReveal key={project.id} direction="up" delay={index * 0.03} distance={18}>
-                <article
-                  className="rounded-[18px] border border-[#e8edf5] bg-[#fcfdff] p-2.5 shadow-[0_5px_12px_rgba(13,30,70,0.05)] transition-all duration-300 hover:-translate-y-0.5 hover:border-[#d7e0ee] hover:shadow-[0_14px_24px_rgba(13,30,70,0.12)]"
-                >
-                  <div className="flex items-start justify-between gap-2.5">
-                    <div>
-                      <h3 className="font-qasbyne text-[1.65rem] leading-none text-[#0d1e46]">
-                        {project.name}
-                      </h3>
-
-                      <p className="mt-2.5 text-sm font-medium text-[#7b879b]">
-                        Project ID: {project.id}
-                      </p>
-                    </div>
-
-                    <span
-                      className={[
-                        "inline-flex rounded-full px-3 py-1 text-xs font-semibold",
-                        project.status
-                          ? "bg-[#edf8f0] text-[#2f7a47]"
-                          : "bg-[#fff1ef] text-[#d05c43]",
-                      ].join(" ")}
-                    >
-                      {project.status ? "Active" : "Inactive"}
-                    </span>
-                  </div>
-
-                  <div className="mt-2.5 space-y-2.5 text-sm text-[#5d6678]">
-                    <p>
-                      <span className="font-semibold text-[#44506a]">Type:</span>{" "}
-                      {project.type || "N/A"}
-                    </p>
-
-                    <p>
-                      <span className="font-semibold text-[#44506a]">RERA:</span>{" "}
-                      {project.rera_number || "N/A"}
-                    </p>
-
-                    <p>
-                      <span className="font-semibold text-[#44506a]">Area:</span>{" "}
-                      {project.area || "N/A"}
-                    </p>
-                  </div>
-
-                  <div className="mt-2.5 grid grid-cols-2 gap-2.5 text-sm text-[#5d6678]">
-                    <div className="rounded-[12px] bg-white px-2.5 py-2.5">
-                      <p className="font-semibold text-[#44506a]">
-                        {project.configurations?.length ?? 0}
-                      </p>
-                      <p className="mt-2">Configurations</p>
-                    </div>
-
-                    <div className="rounded-[12px] bg-white px-2.5 py-2.5">
-                      <p className="font-semibold text-[#44506a]">
-                        {project.locations?.length ?? 0}
-                      </p>
-                      <p className="mt-2">Locations</p>
-                    </div>
-
-                    <div className="rounded-[12px] bg-white px-2.5 py-2.5">
-                      <p className="font-semibold text-[#44506a]">
-                        {project.amenities?.length ?? 0}
-                      </p>
-                      <p className="mt-2">Amenities</p>
-                    </div>
-
-                    <div className="rounded-[12px] bg-white px-2.5 py-2.5">
-                      <p className="font-semibold text-[#44506a]">
-                        {project.files?.length ?? 0}
-                      </p>
-                      <p className="mt-2">Files</p>
-                    </div>
-                  </div>
-
-                  <div className="mt-2.5 flex gap-2.5">
-                    <Link
-                      href={`/admin/add-project?id=${project.id}`}
-                      className="inline-flex h-[44px] flex-1 items-center justify-center rounded-[12px] border border-[#f09684] px-4 text-[0.86rem] font-semibold text-[#f07c61] transition hover:bg-[#fff5f1]"
-                    >
-                      Update Project
-                    </Link>
-                  </div>
-                </article>
-                </ScrollReveal>
-              ))}
-            </StaggerContainer>
-          )}
-        </div>
-      </div>
       </ScrollReveal>
     </section>
   );

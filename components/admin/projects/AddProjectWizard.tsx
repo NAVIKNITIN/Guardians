@@ -3,7 +3,7 @@
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { FileUploadField } from "@/components/common/FileUploadField";
 import { useRouter, useSearchParams } from "next/navigation";
-import type { ChangeEvent, ReactNode } from "react";
+import type { ChangeEvent, ComponentProps, ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import {
   uploadFile as uploadFileRequest,
@@ -101,7 +101,9 @@ type ProjectLocation = {
   state: string | null;
   country: string | null;
   address: string | null;
-  pincode: string | null;
+  /** API may expose either `pincode` or `pin_code` (Laravel). */
+  pincode?: string | null;
+  pin_code?: string | null;
   latitude: string | number | null;
   longitude: string | number | null;
   walking_time: string | null;
@@ -168,6 +170,9 @@ const steps = [
   { id: "location", label: "Location & Connectivity" },
 ] as const;
 
+/** Gallery SEQUENCE files — exactly this many required on create/update. */
+const REQUIRED_GALLERY_IMAGES = 6;
+
 const BUTTON_PRIMARY_CLASS =
   "inline-flex cursor-pointer items-center justify-center gap-2.5 rounded-[14px] text-[0.96rem] font-semibold text-white btn-primary-gradient shadow-[0_14px_24px_rgba(240,150,132,0.22)]";
 
@@ -230,6 +235,29 @@ function parseInteger(value: string) {
   return Number.isFinite(parsed) ? parsed : 0;
 }
 
+/** Positive integer for optional API fields; omit nulls instead of sending 0 when empty. */
+function parseOptionalPositiveInt(raw: string): number | null {
+  const t = raw.trim();
+  if (!t) return null;
+  const n = parseInt(t.replace(/[^0-9]/g, ""), 10);
+  return Number.isFinite(n) && n >= 0 ? n : null;
+}
+
+/** Non‑negative decimal for carpet/built‑up area etc. */
+function parseOptionalNonNegativeFloat(raw: string): number | null {
+  const t = raw.trim();
+  if (!t) return null;
+  const n = parseFloat(t.replace(/,/g, ""));
+  return Number.isFinite(n) && n >= 0 ? n : null;
+}
+
+/** Leading numeric token from strings like `1200 sqft` for `<input type="number">`. */
+function stripLeadingNumeric(raw: string | null | undefined): string {
+  const s = String(raw ?? "").trim();
+  const m = s.match(/^[\d.,]+/);
+  return m ? m[0].replace(/,/g, "") : "";
+}
+
 function toTextValue(value: string | number | null | undefined) {
   return value == null ? "" : String(value);
 }
@@ -277,7 +305,7 @@ function mapProjectLocationsToSections(
     longitude: trimSectionValue(location.longitude),
     city: trimSectionValue(location.city),
     state: trimSectionValue(location.state),
-    pincode: trimSectionValue(location.pincode),
+    pincode: trimSectionValue(location.pincode ?? location.pin_code),
     // Always map API `place_name` to the "Place / Landmark" field (was dropped when
     // place_name === city and no walk/drive times, which killed round-trips to the API).
     place: trimSectionValue(location.place_name),
@@ -346,19 +374,24 @@ function SectionCard({
   );
 }
 
+type TextInputProps = {
+  placeholder: string;
+  value: string;
+  onChange: (value: string) => void;
+  className?: string;
+} & Omit<
+  ComponentProps<"input">,
+  "value" | "defaultValue" | "onChange" | "placeholder" | "className"
+>;
+
 function TextInput({
   placeholder,
   value,
   onChange,
   className,
   type = "text",
-}: {
-  placeholder: string;
-  value: string;
-  onChange: (value: string) => void;
-  className?: string;
-  type?: string;
-}) {
+  ...rest
+}: TextInputProps) {
   return (
     <input
       type={type}
@@ -369,6 +402,7 @@ function TextInput({
         "h-[74px] w-full rounded-[20px] border border-[#e0e4eb] bg-white px-7 text-[1.15rem] text-[#44506a] outline-none transition placeholder:text-[#a3acbb] focus:border-[#f09684]",
         className ?? "",
       ].join(" ")}
+      {...rest}
     />
   );
 }
@@ -445,6 +479,9 @@ export function AddProjectWizard() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoadingProject, setIsLoadingProject] = useState(isEditMode);
   const [errorMessage, setErrorMessage] = useState("");
+  const [galleryLimitNotice, setGalleryLimitNotice] = useState<string | null>(
+    null,
+  );
 
   /** Set when an immediate file upload (logo/hero/gallery) is in progress. */
   const [fileUploading, setFileUploading] = useState<{
@@ -535,7 +572,9 @@ export function AddProjectWizard() {
         setExistingProjectFiles({
           logoId: logoFile?.id ?? null,
           heroId: heroFile?.id ?? null,
-          galleryIds: galleryFiles.map((file) => file.id),
+          galleryIds: galleryFiles
+            .map((file) => file.id)
+            .slice(0, REQUIRED_GALLERY_IMAGES),
         });
 
         setForm({
@@ -543,8 +582,10 @@ export function AddProjectWizard() {
           reraNumber: project.rera_number ?? "",
           logoFileName: logoFile?.file_name ?? "",
           heroImageName: heroFile?.file_name ?? "",
-          galleryFileNames: galleryFiles.map((file) => file.file_name),
-          areaSqft: project.area ?? "",
+          galleryFileNames: galleryFiles
+            .map((file) => file.file_name)
+            .slice(0, REQUIRED_GALLERY_IMAGES),
+          areaSqft: stripLeadingNumeric(project.area),
           propertyType: project.type ?? "",
           description: project.description ?? "",
           completionDate: toInputDateValue(project.completion_date),
@@ -696,32 +737,71 @@ export function AddProjectWizard() {
     }
   }
 
+  function clearGallerySelection() {
+    setForm((current) => ({ ...current, galleryFileNames: [] }));
+    setExistingProjectFiles((f) => ({ ...f, galleryIds: [] }));
+    setGalleryLimitNotice(null);
+    setErrorMessage("");
+  }
+
   async function handleGalleryFiles(event: ChangeEvent<HTMLInputElement>) {
-    const files = Array.from(event.target.files ?? []);
-    if (files.length === 0) {
-      setForm((current) => ({ ...current, galleryFileNames: [] }));
-      setExistingProjectFiles((f) => ({ ...f, galleryIds: [] }));
+    const rawFiles = Array.from(event.target.files ?? []);
+    const input = event.target;
+
+    if (rawFiles.length === 0) {
+      clearGallerySelection();
+      input.value = "";
       return;
     }
+
+    const currentCount = existingProjectFiles.galleryIds.length;
+    const remaining = REQUIRED_GALLERY_IMAGES - currentCount;
+
+    if (remaining <= 0) {
+      setErrorMessage(
+        `Gallery already has ${REQUIRED_GALLERY_IMAGES} images. Use “Clear gallery” to replace them.`,
+      );
+      input.value = "";
+      return;
+    }
+
+    const filesToUpload =
+      rawFiles.length > remaining ? rawFiles.slice(0, remaining) : rawFiles;
+
+    setGalleryLimitNotice(
+      rawFiles.length > remaining
+        ? `Only ${remaining} more image(s) were added (${REQUIRED_GALLERY_IMAGES} required total). Extra files were not uploaded.`
+        : null,
+    );
+
     setFileUploading((s) => ({ ...s, gallery: true }));
     setErrorMessage("");
     try {
-      const ids = await uploadGalleryAssets(files);
+      const newIds = await uploadGalleryAssets(
+        filesToUpload,
+        currentCount + 1,
+      );
       setForm((current) => ({
         ...current,
-        galleryFileNames: files.map((f) => f.name),
+        galleryFileNames: [
+          ...current.galleryFileNames,
+          ...filesToUpload.map((file) => file.name),
+        ],
       }));
-      setExistingProjectFiles((f) => ({ ...f, galleryIds: ids }));
+      setExistingProjectFiles((prev) => ({
+        ...prev,
+        galleryIds: [...prev.galleryIds, ...newIds],
+      }));
     } catch (error) {
+      setGalleryLimitNotice(null);
       setErrorMessage(
         error instanceof Error
           ? error.message
           : "Gallery image upload failed.",
       );
-      setForm((current) => ({ ...current, galleryFileNames: [] }));
-      setExistingProjectFiles((f) => ({ ...f, galleryIds: [] }));
     } finally {
       setFileUploading((s) => ({ ...s, gallery: false }));
+      input.value = "";
     }
   }
 
@@ -752,7 +832,11 @@ export function AddProjectWizard() {
     return result.data.id;
   }
 
-  async function uploadGalleryAssets(files: File[]): Promise<number[]> {
+  /** `sequenceStart` is 1-based index of the first file in this batch (for API `sequence_no`). */
+  async function uploadGalleryAssets(
+    files: File[],
+    sequenceStart: number,
+  ): Promise<number[]> {
     if (!files.length) return [];
 
     const formData = new FormData();
@@ -760,7 +844,7 @@ export function AddProjectWizard() {
 
     files.forEach((file, index) => {
       formData.append("files[]", file);
-      formData.append("sequence_no[]", String(index + 1));
+      formData.append("sequence_no[]", String(sequenceStart + index));
     });
 
     const result = (await uploadFilesBulk(
@@ -808,10 +892,10 @@ export function AddProjectWizard() {
         bhk_type: section.bhkType.trim(),
         price_min: parsePrice(section.priceMin),
         price_max: parsePrice(section.priceMax),
-        carpet_area: section.carpetArea.trim() || null,
-        builtup_area: section.builtupArea.trim() || null,
-        total_units: parseInteger(section.totalUnits),
-        available_units: parseInteger(section.availableUnits),
+        carpet_area: parseOptionalNonNegativeFloat(section.carpetArea),
+        builtup_area: parseOptionalNonNegativeFloat(section.builtupArea),
+        total_units: parseOptionalPositiveInt(section.totalUnits),
+        available_units: parseOptionalPositiveInt(section.availableUnits),
       }));
 
     const locations = locationSections
@@ -828,29 +912,37 @@ export function AddProjectWizard() {
           section.drivingTime.trim(),
         ),
       )
-      .map((section) => ({
-        place_name:
-          section.place.trim() ||
-          section.city.trim() ||
-          form.projectName.trim() ||
-          "Project Location",
-        country: "India",
-        city: toLaravelLocationString(section.city),
-        state: toLaravelLocationString(section.state),
-        address: toLaravelLocationString(section.fullAddress),
-        pincode: toLaravelLocationString(section.pincode),
-        latitude: toLaravelLocationString(section.latitude),
-        longitude: toLaravelLocationString(section.longitude),
-        walking_time: toLaravelLocationString(section.walkingTime),
-        driving_time: toLaravelLocationString(section.drivingTime),
-      }));
+      .map((section) => {
+        const pinRaw = toLaravelLocationString(section.pincode);
+        return {
+          place_name:
+            section.place.trim() ||
+            section.city.trim() ||
+            form.projectName.trim() ||
+            "Project Location",
+          country: "India",
+          city: toLaravelLocationString(section.city),
+          state: toLaravelLocationString(section.state),
+          address: toLaravelLocationString(section.fullAddress),
+          pincode: pinRaw,
+          /** Laravel commonly mass-assigns `pin_code`; keep both so either convention works. */
+          pin_code: pinRaw,
+          latitude: toLaravelLocationString(section.latitude),
+          longitude: toLaravelLocationString(section.longitude),
+          walking_time: toLaravelLocationString(section.walkingTime),
+          driving_time: toLaravelLocationString(section.drivingTime),
+        };
+      });
 
     return {
       name: form.projectName.trim(),
       type: form.propertyType.trim() || null,
       rera_number: form.reraNumber.trim() || null,
       description: form.description.trim() || null,
-      area: form.areaSqft.trim() || null,
+      area:
+        form.areaSqft.trim() === ""
+          ? null
+          : String(parseOptionalNonNegativeFloat(form.areaSqft) ?? form.areaSqft.trim()),
       completion_date: form.completionDate.trim() || null,
       case_study_info: form.caseStudyInfo.trim() || null,
       isCompleted: form.isCompleted,
@@ -867,6 +959,13 @@ export function AddProjectWizard() {
     const hasProjectName = Boolean(form.projectName.trim());
     if (!hasProjectName) {
       setErrorMessage("Project Name is required.");
+      return;
+    }
+
+    if (existingProjectFiles.galleryIds.length !== REQUIRED_GALLERY_IMAGES) {
+      setErrorMessage(
+        `Exactly ${REQUIRED_GALLERY_IMAGES} gallery images are required (currently ${existingProjectFiles.galleryIds.length}).`,
+      );
       return;
     }
 
@@ -903,7 +1002,9 @@ export function AddProjectWizard() {
         projectFileIds.push(existingProjectFiles.heroId);
       }
       if (existingProjectFiles.galleryIds.length > 0) {
-        projectFileIds.push(...existingProjectFiles.galleryIds);
+        projectFileIds.push(
+          ...existingProjectFiles.galleryIds.slice(0, REQUIRED_GALLERY_IMAGES),
+        );
       }
 
       const uploadedAmenities = preparedAmenities.map((amenity) => ({
@@ -950,14 +1051,6 @@ export function AddProjectWizard() {
       { key: "reraNumber", placeholder: "RERA Number" },
     ];
 
-  const detailsFields: Array<{
-    key: "areaSqft" | "propertyType";
-    placeholder: string;
-  }> = [
-      { key: "areaSqft", placeholder: "Area (sq.ft)" },
-      { key: "propertyType", placeholder: "Property Type" },
-    ];
-
   const locationCoordinateFields: Array<{
     key: "latitude" | "longitude";
     placeholder: string;
@@ -967,12 +1060,11 @@ export function AddProjectWizard() {
     ];
 
   const locationAddressFields: Array<{
-    key: "city" | "state" | "pincode";
+    key: "city" | "state";
     placeholder: string;
   }> = [
       { key: "city", placeholder: "City" },
       { key: "state", placeholder: "State" },
-      { key: "pincode", placeholder: "Pincode" },
     ];
 
   const locationConnectivityFields: Array<{
@@ -1080,14 +1172,20 @@ export function AddProjectWizard() {
             title="Project Highlights"
           >
             <div className="grid gap-5 lg:grid-cols-2">
-              {detailsFields.map((field) => (
-                <TextInput
-                  key={field.key}
-                  placeholder={field.placeholder}
-                  value={form[field.key]}
-                  onChange={(value) => updateField(field.key, value)}
-                />
-              ))}
+              <TextInput
+                type="number"
+                inputMode="decimal"
+                min={0}
+                step={1}
+                placeholder="Area (sq.ft)"
+                value={form.areaSqft}
+                onChange={(value) => updateField("areaSqft", value)}
+              />
+              <TextInput
+                placeholder="Property Type"
+                value={form.propertyType}
+                onChange={(value) => updateField("propertyType", value)}
+              />
             </div>
             <div className="mt-5 rounded-[16px] border border-[#f1d4cc] bg-[#fff8f5] p-4">
               <label className="flex cursor-pointer items-center gap-3">
@@ -1128,6 +1226,10 @@ export function AddProjectWizard() {
                       }
                     />
                     <TextInput
+                      type="number"
+                      inputMode="decimal"
+                      min={0}
+                      step={0.01}
                       placeholder="Price Min"
                       value={section.priceMin}
                       onChange={(value) =>
@@ -1135,6 +1237,10 @@ export function AddProjectWizard() {
                       }
                     />
                     <TextInput
+                      type="number"
+                      inputMode="decimal"
+                      min={0}
+                      step={0.01}
                       placeholder="Price Max"
                       value={section.priceMax}
                       onChange={(value) =>
@@ -1142,28 +1248,44 @@ export function AddProjectWizard() {
                       }
                     />
                     <TextInput
-                      placeholder="Carpet Area"
+                      type="number"
+                      inputMode="decimal"
+                      min={0}
+                      step={1}
+                      placeholder="Carpet area (sq.ft)"
                       value={section.carpetArea}
                       onChange={(value) =>
                         updateConfigurationSection(section.id, "carpetArea", value)
                       }
                     />
                     <TextInput
-                      placeholder="Built-up Area"
+                      type="number"
+                      inputMode="decimal"
+                      min={0}
+                      step={1}
+                      placeholder="Built-up area (sq.ft)"
                       value={section.builtupArea}
                       onChange={(value) =>
                         updateConfigurationSection(section.id, "builtupArea", value)
                       }
                     />
                     <TextInput
-                      placeholder="Total Units"
+                      type="number"
+                      inputMode="numeric"
+                      min={0}
+                      step={1}
+                      placeholder="Total units"
                       value={section.totalUnits}
                       onChange={(value) =>
                         updateConfigurationSection(section.id, "totalUnits", value)
                       }
                     />
                     <TextInput
-                      placeholder="Available Units"
+                      type="number"
+                      inputMode="numeric"
+                      min={0}
+                      step={1}
+                      placeholder="Available units"
                       value={section.availableUnits}
                       onChange={(value) =>
                         updateConfigurationSection(section.id, "availableUnits", value)
@@ -1236,17 +1358,41 @@ export function AddProjectWizard() {
               helperText={
                 fileUploading.gallery
                   ? "Uploading…"
-                  : "Select images; they upload as soon as you confirm your selection."
+                  : `${existingProjectFiles.galleryIds.length} / ${REQUIRED_GALLERY_IMAGES} images — add more until complete (batch uploads append).`
               }
               selectedFileNames={form.galleryFileNames}
               multiple
               leadingContent={<IconUpload className="h-8 w-8" />}
-              disabled={fileUploading.gallery}
+              disabled={
+                fileUploading.gallery ||
+                existingProjectFiles.galleryIds.length >= REQUIRED_GALLERY_IMAGES
+              }
               onChange={handleGalleryFiles}
             />
 
+            <div className="mt-3 flex flex-wrap items-center gap-3">
+              <button
+                type="button"
+                onClick={clearGallerySelection}
+                disabled={
+                  fileUploading.gallery ||
+                  existingProjectFiles.galleryIds.length === 0
+                }
+                className="inline-flex h-11 cursor-pointer items-center justify-center rounded-[12px] border border-[#f09684] px-5 text-[0.88rem] font-semibold text-[#f07c61] transition hover:bg-[#fff5f1] disabled:cursor-not-allowed disabled:opacity-50"
+              >
+                Clear gallery
+              </button>
+            </div>
+
+            {galleryLimitNotice ? (
+              <p className="mt-2 text-[0.95rem] font-medium text-[#b45309]">
+                {galleryLimitNotice}
+              </p>
+            ) : null}
+
             <p className="text-[1rem] text-[#657188]">
-              Recommended: Upload high-quality images (minimum 1920x1080px)
+              Required: exactly {REQUIRED_GALLERY_IMAGES} gallery images to create or
+              update a project. Recommended: high-quality images (minimum 1920×1080px).
             </p>
           </SectionCard>
 
@@ -1345,6 +1491,9 @@ export function AddProjectWizard() {
                 {locationCoordinateFields.map((field) => (
                   <TextInput
                     key={field.key}
+                    type="number"
+                    inputMode="decimal"
+                    step="any"
                     placeholder={field.placeholder}
                     value={section[field.key]}
                     onChange={(value) =>
@@ -1365,6 +1514,17 @@ export function AddProjectWizard() {
                     }
                   />
                 ))}
+                <TextInput
+                  type="text"
+                  inputMode="numeric"
+                  autoComplete="postal-code"
+                  maxLength={10}
+                  placeholder="Pincode"
+                  value={section.pincode}
+                  onChange={(value) =>
+                    updateLocationSection(section.id, "pincode", value)
+                  }
+                />
               </div>
 
               <div className="border-t border-[#efede9] pt-6">
@@ -1387,6 +1547,14 @@ export function AddProjectWizard() {
                   {locationConnectivityFields.map((field) => (
                     <TextInput
                       key={field.key}
+                      type={
+                        field.key === "place" ? "text" : "number"
+                      }
+                      inputMode={
+                        field.key === "place" ? undefined : "decimal"
+                      }
+                      min={field.key === "place" ? undefined : 0}
+                      step={field.key === "place" ? undefined : 1}
                       placeholder={field.placeholder}
                       value={section[field.key]}
                       onChange={(value) =>
@@ -1423,7 +1591,14 @@ export function AddProjectWizard() {
           <button
             type="button"
             onClick={goToNextStep}
-            disabled={isSubmitting || isLoadingProject || isAnyFileUploading}
+            disabled={
+              isSubmitting ||
+              isLoadingProject ||
+              isAnyFileUploading ||
+              (isLastStep &&
+                existingProjectFiles.galleryIds.length !==
+                  REQUIRED_GALLERY_IMAGES)
+            }
             className={`${BUTTON_PRIMARY_CLASS} h-[52px] w-full px-7 text-[0.98rem] transition disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto`}
           >
             {isLastStep ? (
@@ -1446,6 +1621,19 @@ export function AddProjectWizard() {
             </span>
           </button>
         </div>
+
+        {isLastStep &&
+        existingProjectFiles.galleryIds.length !== REQUIRED_GALLERY_IMAGES ? (
+          <p className="text-end text-[0.88rem] font-medium text-[#657188]">
+            Add {REQUIRED_GALLERY_IMAGES - existingProjectFiles.galleryIds.length}{" "}
+            more gallery image
+            {REQUIRED_GALLERY_IMAGES - existingProjectFiles.galleryIds.length === 1
+              ? ""
+              : "s"}{" "}
+            on the Details step ({existingProjectFiles.galleryIds.length}/
+            {REQUIRED_GALLERY_IMAGES}).
+          </p>
+        ) : null}
       </div>
     </section>
   );
