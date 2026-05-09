@@ -202,7 +202,7 @@ export default function AboutPage() {
           </div>
 
           <div className="mt-12 flex justify-center">
-            <GradientCtaButton href="/contact" variant="know-more" className="fs-18 n-bold uppercase lg:px-10">
+            <GradientCtaButton href="/tgrea" variant="know-more" className="fs-18 n-bold uppercase lg:px-10">
               Know More
             </GradientCtaButton>
           </div>

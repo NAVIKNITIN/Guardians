@@ -23,8 +23,16 @@ export function HomeStickyScrollCopy() {
   }, []);
 
   if (isMdUp !== false) {
-    return <HomeStickyScrollCopyDesktop />;
+    return (
+      <section id="home-about" className="scroll-mt-[var(--site-header-height)]">
+        <HomeStickyScrollCopyDesktop />
+      </section>
+    );
   }
 
-  return <HomeStickyScrollCopyMobile />;
+  return (
+    <section id="home-about" className="scroll-mt-[var(--site-header-height)]">
+      <HomeStickyScrollCopyMobile />
+    </section>
+  );
 }

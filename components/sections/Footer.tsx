@@ -1,11 +1,31 @@
+"use client";
+
 import { Container } from "@/components/common/Container";
 import { IconArrowUpRight, IconChevronDown } from "@/components/common/icons";
 import { FooterMediaDropdown } from "@/components/sections/FooterMediaDropdown";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
-const locations = ["Mumbai", "Pune", "Dubai"] as const;
+const locations = [
+  {
+    city: "Mumbai",
+    address:
+      "C-602 & 603, ONE BKC, G Block, Bandra Kurla Complex, Bandra (E), Mumbai - 400051",
+  },
+  {
+    city: "Pune",
+    address:
+      "Westport, Unit No 410, Survey Nos. 32/1A/1/30 to 38 & 54 of Revenue Village, Pan Card Club Road, Baner, Pune 411045",
+  },
+  {
+    city: "Dubai",
+    address:
+      "TGREA International Advisory LLC, Office No 1807, Lake Central Tower, Business Bay, Dubai (UAE)",
+  },
+] as const;
+
 const queries = ["Business", "HR", "Channel Partner"] as const;
 
 /** Figma: left sub-col Facebook/Instagram, right sub-col Twitter/X & LinkedIn */
@@ -63,6 +83,8 @@ const dropdownListCls =
  */
 const dropdownRowCls =
   "box-border flex min-h-[40px] w-full min-w-0 max-w-full items-center justify-between gap-2 border-b border-white py-1.5 text-left text-white transition-colors hover:text-white/80 sm:min-h-0 sm:py-[7px]";
+const dropdownPanelCls =
+  "overflow-hidden border-b border-white/60 pb-3 pr-8 text-left text-white/90 n-book text-[11px] leading-[1.5] sm:text-[12px]";
 
 function QuickLinkRow({ items }: { items: { label: string; href: string }[] }) {
   return (
@@ -90,6 +112,7 @@ function QuickLinkRow({ items }: { items: { label: string; href: string }[] }) {
 }
 
 export function Footer() {
+  const [openLocation, setOpenLocation] = useState<string | null>(null);
   return (
     <footer className="relative overflow-hidden bg-[#8F8183] text-white">
       {/* Horizontal inset + max width: shared <Container>. Vertical rhythm: outer py + grid py-4. */}
@@ -189,18 +212,42 @@ export function Footer() {
               <div className="w-full min-w-0">
                 <h3 className={sectionTitleCls}>Location</h3>
                 <ul className={dropdownListCls}>
-                  {locations.map((city) => (
-                    <li key={city}>
-                      <button
-                        suppressHydrationWarning
-                        type="button"
-                        className={dropdownRowCls}
-                      >
-                        <span>{city}</span>
-                        <IconChevronDown className="h-4 w-4 shrink-0 text-white" />
-                      </button>
-                    </li>
-                  ))}
+                  {locations.map((location) => {
+                    const isOpen = openLocation === location.city;
+
+                    return (
+                      <li key={location.city}>
+                        <button
+                          type="button"
+                          className={cn(dropdownRowCls, isOpen && "border-b-0")}
+                          onClick={() =>
+                            setOpenLocation((current) =>
+                              current === location.city ? null : location.city,
+                            )
+                          }
+                          aria-expanded={isOpen}
+                          aria-controls={`footer-location-${location.city.toLowerCase()}`}
+                        >
+                          <span>{location.city}</span>
+                          <IconChevronDown
+                            className={cn(
+                              "h-4 w-4 shrink-0 text-white transition-transform duration-200",
+                              isOpen && "rotate-180",
+                            )}
+                          />
+                        </button>
+
+                        {isOpen ? (
+                          <div
+                            id={`footer-location-${location.city.toLowerCase()}`}
+                            className={dropdownPanelCls}
+                          >
+                            {location.address}
+                          </div>
+                        ) : null}
+                      </li>
+                    );
+                  })}
                 </ul>
               </div>
 

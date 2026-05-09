@@ -7,7 +7,10 @@ import { MarketingEnquireLink } from "@/components/ui/MarketingEnquireLink";
 import type { MarketingHeroContent } from "@/data/audience-marketing-types";
 import { LOCAL_IMAGES } from "@/lib/local-images";
 import { cn } from "@/utils/cn";
-import { getMarketingHeroConfig, type MarketingHeroId } from "@/utils/marketing-hero";
+import {
+  getMarketingHeroConfig,
+  type MarketingHeroId,
+} from "@/utils/marketing-hero";
 import { useEffect, useState, type CSSProperties } from "react";
 import Image from "next/image";
 
@@ -57,15 +60,18 @@ type MarketingPageHeroBase = {
 
 type MarketingPageHeroProps =
   | (MarketingPageHeroBase & {
-    heroId: Exclude<MarketingHeroId, "projects">;
-    projectsStage?: never;
-  })
+      heroId: Exclude<MarketingHeroId, "projects">;
+      projectsStage?: never;
+    })
   | (MarketingPageHeroBase & {
-    heroId: "projects";
-    projectsStage: ProjectsStage;
-  });
+      heroId: "projects";
+      projectsStage: ProjectsStage;
+    });
 
-function heroNavOverlapClass(shiftUnderHeader?: boolean, shiftTillSearch?: boolean) {
+function heroNavOverlapClass(
+  shiftUnderHeader?: boolean,
+  shiftTillSearch?: boolean,
+) {
   if (!shiftUnderHeader) {
     return undefined;
   }
@@ -100,7 +106,10 @@ function useViewportIsMobile(enabled: boolean, breakpointPx: number): boolean {
   return isMobile;
 }
 
-function mergeNegativeContentPad(shift: MarketingHeroNegativeContentShift | undefined, pad: HeroContentPad): HeroContentPad {
+function mergeNegativeContentPad(
+  shift: MarketingHeroNegativeContentShift | undefined,
+  pad: HeroContentPad,
+): HeroContentPad {
   if (shift === undefined || shift === false) {
     return pad;
   }
@@ -136,7 +145,9 @@ function getHeroContentPad(
     if (shiftExtra > 0) {
       return {
         className: "pt-[var(--shift-extra)]",
-        style: { [SHIFT_EXTRA_VAR as string]: `${shiftExtra}px` } as CSSProperties,
+        style: {
+          [SHIFT_EXTRA_VAR as string]: `${shiftExtra}px`,
+        } as CSSProperties,
       };
     }
     return {};
@@ -145,7 +156,9 @@ function getHeroContentPad(
     if (shiftExtra > 0) {
       return {
         className: "pt-[calc(var(--site-header-height)+var(--shift-extra))]",
-        style: { [SHIFT_EXTRA_VAR as string]: `${shiftExtra}px` } as CSSProperties,
+        style: {
+          [SHIFT_EXTRA_VAR as string]: `${shiftExtra}px`,
+        } as CSSProperties,
       };
     }
     return { className: "pt-[var(--site-header-height)]" };
@@ -153,7 +166,9 @@ function getHeroContentPad(
   if (shiftExtra > 0) {
     return {
       className: "pt-[calc(89px+var(--shift-extra))]",
-      style: { [SHIFT_EXTRA_VAR as string]: `${shiftExtra}px` } as CSSProperties,
+      style: {
+        [SHIFT_EXTRA_VAR as string]: `${shiftExtra}px`,
+      } as CSSProperties,
     };
   }
   return { className: "pt-[89px]" };
@@ -162,7 +177,11 @@ function getHeroContentPad(
 /**
  * Home: `Container` top padding. Includes optional `shiftExtra` (e.g. 32px) on top of the main offset.
  */
-function getHomeContainerPad(shiftUnderHeader: boolean, shiftTillSearch: boolean, shiftExtra: number): HeroContentPad {
+function getHomeContainerPad(
+  shiftUnderHeader: boolean,
+  shiftTillSearch: boolean,
+  shiftExtra: number,
+): HeroContentPad {
   if (!shiftUnderHeader) {
     return { className: "pt-4 sm:pt-8 lg:pt-10" };
   }
@@ -173,10 +192,15 @@ function getHomeContainerPad(shiftUnderHeader: boolean, shiftTillSearch: boolean
     return {
       className:
         "pt-[calc(1rem+89px+var(--shift-extra))] sm:pt-[calc(2rem+89px+var(--shift-extra))] lg:pt-[calc(2.5rem+89px+var(--shift-extra))]",
-      style: { [SHIFT_EXTRA_VAR as string]: `${shiftExtra}px` } as CSSProperties,
+      style: {
+        [SHIFT_EXTRA_VAR as string]: `${shiftExtra}px`,
+      } as CSSProperties,
     };
   }
-  return { className: "pt-[calc(1rem+89px)] sm:pt-[calc(2rem+89px)] lg:pt-[calc(2.5rem+89px)]" };
+  return {
+    className:
+      "pt-[calc(1rem+89px)] sm:pt-[calc(2rem+89px)] lg:pt-[calc(2.5rem+89px)]",
+  };
 }
 
 function getPublicationContentTopPad(
@@ -199,11 +223,14 @@ function getPublicationContentTopPad(
   return { className: "pt-[calc(3%+89px)]" };
 }
 
-function getServicesContentPad(shift: boolean, till: boolean, extra: number): HeroContentPad {
+function getServicesContentPad(
+  shift: boolean,
+  till: boolean,
+  extra: number,
+): HeroContentPad {
   if (!shift) {
     return {
-      className:
-        "pt-12 sm:pt-16 md:pt-20 lg:mt-[100px] lg:min-h-0 lg:pb-0",
+      className: "pt-12 sm:pt-16 md:pt-20 lg:mt-[100px] lg:min-h-0 lg:pb-0",
     };
   }
   const s = { [SHIFT_EXTRA_VAR as string]: `${extra}px` } as CSSProperties;
@@ -233,7 +260,11 @@ function getServicesContentPad(shift: boolean, till: boolean, extra: number): He
   };
 }
 
-function getProjectsContentPad(shift: boolean, till: boolean, extra: number): HeroContentPad {
+function getProjectsContentPad(
+  shift: boolean,
+  till: boolean,
+  extra: number,
+): HeroContentPad {
   if (!shift) {
     if (extra > 0) {
       return {
@@ -255,7 +286,8 @@ function getProjectsContentPad(shift: boolean, till: boolean, extra: number): He
       };
     }
     return {
-      className: "pt-[calc(2rem+89px+var(--shift-extra))] sm:pt-[calc(3.5rem+89px+var(--shift-extra))]",
+      className:
+        "pt-[calc(2rem+89px+var(--shift-extra))] sm:pt-[calc(3.5rem+89px+var(--shift-extra))]",
       style: s,
     };
   }
@@ -279,7 +311,9 @@ function marketingFirstSectionHeightClass(heightPx?: number) {
     : "marketing-first-section-height";
 }
 
-function marketingFirstSectionHeightStyle(heightPx?: number): CSSProperties | undefined {
+function marketingFirstSectionHeightStyle(
+  heightPx?: number,
+): CSSProperties | undefined {
   if (!isCustomHeroHeight(heightPx)) {
     return undefined;
   }
@@ -491,12 +525,20 @@ function HomeHero({
   shiftTillSearch?: boolean;
   negativePadding?: MarketingHeroNegativeContentShift;
 }) {
-  const lines = config["lines"] as { line1?: string; accent?: string; line2?: string }[];
+  const lines = config["lines"] as {
+    line1?: string;
+    accent?: string;
+    line2?: string;
+  }[];
   const cta = config["cta"] as { href: string; label: string };
   const tillSearch = Boolean(shiftUnderHeader && shiftTillSearch);
   const homePad = mergeNegativeContentPad(
     negativePadding,
-    getHomeContainerPad(Boolean(shiftUnderHeader), tillSearch, contentExtraTopPx),
+    getHomeContainerPad(
+      Boolean(shiftUnderHeader),
+      tillSearch,
+      contentExtraTopPx,
+    ),
   );
 
   return (
@@ -520,7 +562,8 @@ function HomeHero({
           alt=""
           fill
           className={cn(
-            (config["imageClassName"] as string) || "object-cover object-center",
+            (config["imageClassName"] as string) ||
+              "object-cover object-center",
           )}
           sizes="100vw"
           priority
@@ -609,7 +652,11 @@ function OverlayTitleHero({
 }) {
   const contentPad = mergeNegativeContentPad(
     negativePadding,
-    getHeroContentPad(Boolean(shiftUnderHeader), Boolean(shiftTillSearch), contentExtraTopPx),
+    getHeroContentPad(
+      Boolean(shiftUnderHeader),
+      Boolean(shiftTillSearch),
+      contentExtraTopPx,
+    ),
   );
   return (
     <section
@@ -677,7 +724,11 @@ function ContactHero({
 }) {
   const contentPad = mergeNegativeContentPad(
     negativePadding,
-    getHeroContentPad(Boolean(shiftUnderHeader), Boolean(shiftTillSearch), contentExtraTopPx),
+    getHeroContentPad(
+      Boolean(shiftUnderHeader),
+      Boolean(shiftTillSearch),
+      contentExtraTopPx,
+    ),
   );
   return (
     <section
@@ -705,7 +756,7 @@ function ContactHero({
           fill
           className={cn(
             (config["secondaryImageClassName"] as string) ||
-            "object-cover object-center mix-blend-darken",
+              "object-cover object-center mix-blend-darken",
           )}
           sizes="100vw"
           priority
@@ -751,7 +802,11 @@ function CareerHero({
 }) {
   const contentPad = mergeNegativeContentPad(
     negativePadding,
-    getHeroContentPad(Boolean(shiftUnderHeader), Boolean(shiftTillSearch), contentExtraTopPx),
+    getHeroContentPad(
+      Boolean(shiftUnderHeader),
+      Boolean(shiftTillSearch),
+      contentExtraTopPx,
+    ),
   );
   return (
     <section
@@ -822,7 +877,11 @@ function NewsroomHero({
 }) {
   const contentPad = mergeNegativeContentPad(
     negativePadding,
-    getHeroContentPad(Boolean(shiftUnderHeader), Boolean(shiftTillSearch), contentExtraTopPx),
+    getHeroContentPad(
+      Boolean(shiftUnderHeader),
+      Boolean(shiftTillSearch),
+      contentExtraTopPx,
+    ),
   );
   return (
     <section
@@ -841,7 +900,8 @@ function NewsroomHero({
           alt={(config["imageAlt"] as string) || ""}
           fill
           className={cn(
-            (config["imageClassName"] as string) || "object-cover object-center",
+            (config["imageClassName"] as string) ||
+              "object-cover object-center",
           )}
           sizes="100vw"
           priority
@@ -890,7 +950,11 @@ function PartnersHero({
 }) {
   const contentPad = mergeNegativeContentPad(
     negativePadding,
-    getHeroContentPad(Boolean(shiftUnderHeader), Boolean(shiftTillSearch), contentExtraTopPx),
+    getHeroContentPad(
+      Boolean(shiftUnderHeader),
+      Boolean(shiftTillSearch),
+      contentExtraTopPx,
+    ),
   );
   return (
     <section
@@ -1046,7 +1110,11 @@ function TgreaHero({
 }) {
   const contentPad = mergeNegativeContentPad(
     negativePadding,
-    getHeroContentPad(Boolean(shiftUnderHeader), Boolean(shiftTillSearch), contentExtraTopPx),
+    getHeroContentPad(
+      Boolean(shiftUnderHeader),
+      Boolean(shiftTillSearch),
+      contentExtraTopPx,
+    ),
   );
   return (
     <section
@@ -1066,7 +1134,8 @@ function TgreaHero({
             alt=""
             fill
             className={cn(
-              (config["imageClassName"] as string) || "object-stretch object-center",
+              (config["imageClassName"] as string) ||
+                "object-stretch object-center",
             )}
             sizes="100vw"
             priority
@@ -1135,7 +1204,11 @@ function ServicesHero({
 }) {
   const contentPad = mergeNegativeContentPad(
     negativePadding,
-    getServicesContentPad(Boolean(shiftUnderHeader), Boolean(shiftTillSearch), contentExtraTopPx),
+    getServicesContentPad(
+      Boolean(shiftUnderHeader),
+      Boolean(shiftTillSearch),
+      contentExtraTopPx,
+    ),
   );
   return (
     <section
@@ -1205,7 +1278,11 @@ function AboutHero({
 }) {
   const contentPad = mergeNegativeContentPad(
     negativePadding,
-    getHeroContentPad(Boolean(shiftUnderHeader), Boolean(shiftTillSearch), shiftContentExtra),
+    getHeroContentPad(
+      Boolean(shiftUnderHeader),
+      Boolean(shiftTillSearch),
+      shiftContentExtra,
+    ),
   );
   const heading = config["headingHtml"] as { prefix: string; rest: string };
   return (
@@ -1274,7 +1351,11 @@ function ProjectsHeroSection({
 }) {
   const contentPad = mergeNegativeContentPad(
     negativePadding,
-    getProjectsContentPad(Boolean(shiftUnderHeader), Boolean(shiftTillSearch), contentExtraTopPx),
+    getProjectsContentPad(
+      Boolean(shiftUnderHeader),
+      Boolean(shiftTillSearch),
+      contentExtraTopPx,
+    ),
   );
   const cfg = getMarketingHeroConfig("projects") as {
     variant: string;
@@ -1283,7 +1364,9 @@ function ProjectsHeroSection({
   };
   const src = stage === "Completed" ? cfg.images.completed : cfg.images.ongoing;
   const fallbackSrc =
-    stage === "Completed" ? LOCAL_IMAGES.projectCompleted : LOCAL_IMAGES.tgreaHero;
+    stage === "Completed"
+      ? LOCAL_IMAGES.projectCompleted
+      : LOCAL_IMAGES.tgreaHero;
   const [displaySrc, setDisplaySrc] = useState(src);
 
   useEffect(() => {
@@ -1316,7 +1399,6 @@ function ProjectsHeroSection({
             }}
           />
         </div>
-
       </div>
 
       <div
@@ -1327,14 +1409,24 @@ function ProjectsHeroSection({
         style={contentPad.style}
       >
         <div className="mx-auto flex w-full min-w-0 max-w-3xl flex-col items-start gap-1 text-left sm:gap-2">
-          <ScrollReveal direction="up" delay={0.04} distance={24} className="flex w-full justify-center justify-content-center">
+          <ScrollReveal
+            direction="up"
+            delay={0.04}
+            distance={24}
+            className="flex w-full justify-center justify-content-center"
+          >
             <h1 className="qs-reg text-[clamp(1.6rem,8vw,3.05rem)] uppercase leading-[1.08] tracking-[0.04em] text-[#0a0a0a] lg:text-[clamp(2.75rem,5vw,4rem)] lg:tracking-[0.06em]">
               <span className="inline-block whitespace-normal tracking-[0.04em] sm:whitespace-nowrap sm:tracking-[0.07em]">
                 {stage} Projects
               </span>
             </h1>
           </ScrollReveal>
-          <ScrollReveal direction="up" delay={0.12} distance={20} className="flex w-full justify-center justify-content-center">
+          <ScrollReveal
+            direction="up"
+            delay={0.12}
+            distance={20}
+            className="flex w-full justify-center justify-content-center"
+          >
             <p className="w-full px-1 n-book text-[13px] leading-[1.45] text-black sm:text-[15px] sm:leading-[1.45] lg:text-base flex justify-center justify-content-center">
               {cfg.subtitle}
             </p>
@@ -1401,7 +1493,6 @@ export function MarketingAudienceHero({
           sizes="100vw"
           priority
         />
-
       </div>
       <div
         className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-36 bg-gradient-to-t from-white/100 via-white/45 to-transparent sm:h-44 md:h-52"
@@ -1423,7 +1514,12 @@ export function MarketingAudienceHero({
               </span>
             </h1>
           </ScrollReveal>
-          <ScrollReveal direction="up" delay={0.12} distance={20} className="flex w-full justify-center pr-[100px]">
+          <ScrollReveal
+            direction="up"
+            delay={0.12}
+            distance={20}
+            className="flex w-full justify-center pr-[100px]"
+          >
             <p className=" flex w-full max-w-[500px] text-sm  text-black  text-[clamp(0.985rem,100vw,0.375rem)] md:mt-3 lg:mt-5 ">
               {content.body}
             </p>
