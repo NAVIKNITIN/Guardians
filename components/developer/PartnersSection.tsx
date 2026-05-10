@@ -11,6 +11,7 @@ import { cn } from "@/utils/cn";
 import Image from "next/image";
 
 import "./partners-marquee.css";
+import { OutlineArrowButton } from "../common/OutlineArrowButton";
 
 export function PartnersSection({
   content,
@@ -54,12 +55,12 @@ export function PartnersSection({
             </p>
           </ScrollReveal>
           <ScrollReveal direction="up" delay={0.08} distance={20}>
-            <MarketingEnquireLink
-              className="w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20"
+            <OutlineArrowButton
+              className="w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20 uppercase"
               href={content.ctaHref}
             >
               {content.ctaLabel}
-            </MarketingEnquireLink>
+            </OutlineArrowButton>
           </ScrollReveal>
         </StaggerContainer>
       </Container>

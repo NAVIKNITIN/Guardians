@@ -28,13 +28,13 @@ export function MarketingEnquireLink({
     heroEnquireCtaClassName;
 
   const arrow = (
-    <IconArrowUpRight className="cta-icon-hover h-[15px] w-[15px] shrink-0" />
+    <IconArrowUpRight className=" h-[15px] w-[15px] shrink-0" />
   );
 
   return (
     <Link
       {...props}
-      className={cn(baseClass, "group cta-hover-trigger", className)}
+      className={cn(baseClass, "group ", className)}
     >
       {children}
       {arrow}

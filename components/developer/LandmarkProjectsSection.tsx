@@ -12,6 +12,7 @@ import { cn } from "@/utils/cn";
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Container } from "../common/Container";
+import { OutlineArrowButton } from "../common/OutlineArrowButton";
 
 type Tab = "ongoing" | "completed";
 
@@ -251,12 +252,12 @@ export function LandmarkProjectsSection({
         </div>
 
         <ScrollReveal direction="up" delay={0.1} className="mt-12 flex justify-center ">
-          <MarketingEnquireLink
-            className="w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20"
+          <OutlineArrowButton
+            className="w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20 uppercase"
             href={content.ctaHref}
           >
             {content.ctaLabel}
-          </MarketingEnquireLink>
+          </OutlineArrowButton>
         </ScrollReveal>
       </div>
     </Container>

@@ -10,6 +10,7 @@ import { cn } from "@/utils/cn";
 import { getMarketingHeroConfig, type MarketingHeroId } from "@/utils/marketing-hero";
 import { useEffect, useState, type CSSProperties } from "react";
 import Image from "next/image";
+import { OutlineArrowButton } from "../common/OutlineArrowButton";
 
 type ProjectsStage = "Ongoing" | "Completed";
 
@@ -576,13 +577,20 @@ function HomeHero({
             </p>
           </ScrollReveal>
           <div className="mt-4 flex justify-center sm:mt-10 lg:mt-7">
-            <GradientCtaButton
+            {/* <GradientCtaButton
               href={cta.href}
               variant="know-more"
               className="lg-1 btn-1 w-full min-w-0 h-[55px] lg:px-[46px] lg:py-4.5 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B48183]"
             >
               {cta.label}
-            </GradientCtaButton>
+            </GradientCtaButton> */}
+
+            <OutlineArrowButton
+              href={cta.href}
+              className="h-[52px] max-w-sm cursor-pointer sm:h-[55px]  sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl w-[273px]"
+            >
+              {cta.label}
+            </OutlineArrowButton>
           </div>
         </div>
       </Container>
@@ -1429,12 +1437,12 @@ export function MarketingAudienceHero({
             </p>
           </ScrollReveal>
           <div className="mt-8 flex w-full justify-center sm:mt-10">
-            <MarketingEnquireLink
+            <OutlineArrowButton
               href={content.enquireHref}
-              className=" h-[55px] fs-20 n-bold w-[307px]"
+              className=" h-[55px] fs-20 n-bold w-[307px] uppercase"
             >
               {content.enquireLabel}
-            </MarketingEnquireLink>
+            </OutlineArrowButton>
           </div>
         </div>
       </Container>

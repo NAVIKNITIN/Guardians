@@ -294,12 +294,19 @@ function CommercialPanel({
         </div>
 
         <div className="mt-auto flex justify-center pt-6 sm:pt-8">
-          <GradientCtaButton
+          {/* <GradientCtaButton
             className="h-[53.99px] w-[253px] cursor-pointer disabled:pointer-events-none disabled:opacity-50 sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
             href={knowMoreHref}
           >
             Know More
-          </GradientCtaButton>
+          </GradientCtaButton> */}
+          <OutlineArrowButton
+            href={knowMoreHref}
+            className="h-[53.99px] w-[253px] cursor-pointer disabled:pointer-events-none disabled:opacity-50 sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
+            iconClassName="w-[13px] h-[13px]"
+          >
+            Know More
+          </OutlineArrowButton>
         </div>
       </div>
     </div>

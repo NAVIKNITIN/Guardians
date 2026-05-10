@@ -11,7 +11,7 @@
         { "line2": "SIT AMET" }
       ],
       "subtitle": "We are one of the fastest growing Real Estate consulting company in India.",
-      "cta": { "href": "#about", "label": "KNOW MORE" }
+      "cta": { "href": "/about", "label": "KNOW MORE" }
     },
     "blog": {
       "variant": "overlayTitle",
@@ -77,7 +77,8 @@
       "backgroundImage": "/images/image 77.svg",
       "imageAlt": "The Guardians city skyline",
       "headingHtml": { "prefix": "Who", "rest": " We Are?" },
-      "subtitle": "We are one of the fastest growing Real Estate consulting company in India."
+      "subtitle": "We are one of the fastest growing Real Estate consulting company in India.",
+      "cta": { "href": "/tgrea", "label": "KNOW MORE" }
     },
     "servicesBuyer": {
       "variant": "services",

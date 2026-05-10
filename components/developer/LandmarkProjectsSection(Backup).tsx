@@ -91,12 +91,12 @@ export function LandmarkProjectsSection({
       </div>
 
       <div className="mt-12 flex justify-center ">
-        <MarketingEnquireLink
+        <OutlineArrowButton
           className="w-[250px] h-[52px]"
           href={content.ctaHref}
         >
           {content.ctaLabel}
-        </MarketingEnquireLink>
+        </OutlineArrowButton>
       </div>
     </Container>
   );

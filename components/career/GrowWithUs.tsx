@@ -4,6 +4,7 @@ import { Container } from "@/components/common/Container";
 import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
+import { OutlineArrowButton } from "../common/OutlineArrowButton";
 
 const HR_EMAIL = "hr@theguardians.com";
 
@@ -80,13 +81,20 @@ export function GrowWithUs() {
                         </ScrollReveal>
 
                         <ScrollReveal direction="up" delay={0.14} distance={18}>
-                            <GradientCtaButton
+                            {/* <GradientCtaButton
                                 href="/contact"
                                 variant="know-more"
                                 className="my-4 md:my-6 lg:mt-8 lg:mb-12 w-[271px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20 px-10"
                             >
                                 Enquire Now
-                            </GradientCtaButton>
+                            </GradientCtaButton> */}
+                            <OutlineArrowButton
+                                href="/contact"
+                                className="my-4 md:my-6 lg:mt-8 lg:mb-12 w-[271px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-22 uppercase px-10"
+                                iconClassName="w-[13px] h-[13px]"
+                            >
+                                Enquire Now
+                            </OutlineArrowButton>
                         </ScrollReveal>
                     </StaggerContainer>
                 </Container>

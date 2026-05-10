@@ -11,6 +11,7 @@ import { marketingClasses } from "@/styles/marketingClasses";
 import { cn } from "@/utils/cn";
 import { useCycleIndex } from "@/hooks/useCycleIndex";
 import { useMemo } from "react";
+import { OutlineArrowButton } from "../common/OutlineArrowButton";
 
 const DESKTOP_VISIBLE = 3;
 
@@ -77,12 +78,12 @@ export function TestimonialsSection({
       </div>
 
       <ScrollReveal direction="up" delay={0.12} className="mt-10 flex justify-center ">
-        <MarketingEnquireLink
+        <OutlineArrowButton
           href={content.viewMoreHref}
-          className="w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20"
+          className="w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20 uppercase"
         >
           {content.viewMoreLabel}
-        </MarketingEnquireLink>
+        </OutlineArrowButton>
       </ScrollReveal>
     </SectionSurface>
   );

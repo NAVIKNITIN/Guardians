@@ -10,6 +10,7 @@ import { useCycleIndex } from "@/hooks/useCycleIndex";
 import { cn } from "@/utils/cn";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
+import { OutlineArrowButton } from "../common/OutlineArrowButton";
 
 const slideTransition = { duration: 0.35, ease: [0.22, 1, 0.36, 1] as const };
 
@@ -57,13 +58,12 @@ export function OurWorkSection({ content, isBuyer }: { content: OurWorkBandConte
             </AnimatePresence>
 
             <ScrollReveal direction="up" delay={0.12} distance={28}>
-              <MarketingEnquireLink
+              <OutlineArrowButton
                 href={content.readMoreHref}
-                variant="ourWork"
-                className="mt-10 inline-flex w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20"
+                className="mt-10 inline-flex w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20 uppercase"
               >
                 {content.readMoreLabel}
-              </MarketingEnquireLink>
+              </OutlineArrowButton>
             </ScrollReveal>
 
             <ScrollReveal direction="up" delay={0.2} distance={24}>

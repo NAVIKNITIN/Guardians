@@ -1,6 +1,7 @@
 import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { cn } from "@/utils/cn";
 import { heroTitleTypography } from "./heroResponsiveClasses";
+import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 
 export const HERO_IMAGE = "/images/Home/1.png";
 
@@ -33,13 +34,20 @@ export function HeroIntroAndCta({
         We are one of the fastest growing Real Estate consulting company in India.
       </p>
       <div className={ctaWrapperClassName}>
-        <GradientCtaButton
+        {/* <GradientCtaButton
           href="#about"
           variant="know-more"
           className={ctaClassName}
         >
           KNOW MORE
-        </GradientCtaButton>
+        </GradientCtaButton> */}
+        <OutlineArrowButton
+          href="#about"
+          className={ctaClassName}
+          iconClassName="w-[13px] h-[13px]"
+        >
+          KNOW MORE
+        </OutlineArrowButton>
       </div>
     </>
   );

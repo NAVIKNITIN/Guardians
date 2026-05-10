@@ -3,6 +3,7 @@ import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 import type { ReactNode } from "react";
+import { OutlineArrowButton } from "../common/OutlineArrowButton";
 
 interface SplitSectionImage {
   src: string;
@@ -59,9 +60,9 @@ export function SplitSection({
             <p className={cn("n-reg text-base leading-relaxed text-[#161616] md:min-h-[200px]", descriptionClassName)}>
               {description}
             </p>
-            <GradientCtaButton href={href} className={cn("mt-6 h-[50px] w-full max-w-xs pt-1 sm:w-auto sm:max-w-none", buttonClassName)}>
+            <OutlineArrowButton href={href} className={cn("mt-6 h-[50px] w-full max-w-xs pt-1 sm:w-auto sm:max-w-none", buttonClassName)}>
               {buttonText}
-            </GradientCtaButton>
+            </OutlineArrowButton>
           </div>
         </ScrollReveal>
 

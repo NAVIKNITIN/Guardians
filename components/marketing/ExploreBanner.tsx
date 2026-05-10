@@ -1,11 +1,10 @@
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { Container } from "@/components/common/Container";
-import { IconArrowUpRight } from "@/components/common/icons";
 import { heroEnquireCtaClassName } from "@/styles/buttonStyles";
 import type { MarketingBannerContent } from "@/data/audience-marketing";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
-import Link from "next/link";
+import { OutlineArrowButton } from "../common/OutlineArrowButton";
 
 export function ExploreBanner({ content, isBuyer }: { content: MarketingBannerContent, isBuyer: boolean }) {
   const headingId =
@@ -50,16 +49,14 @@ export function ExploreBanner({ content, isBuyer }: { content: MarketingBannerCo
                 {content.headline}
               </h2>
               <div className="w-full sm:w-auto">
-                <Link
+                <OutlineArrowButton
                   href={content.ctaHref}
                   className={cn(
-                    heroEnquireCtaClassName,
-                    "group cta-hover-trigger w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20",
+                    " w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20 uppercase",
                   )}
                 >
                   {content.ctaLabel}
-                  <IconArrowUpRight className="cta-icon-hover h-4 w-4" />
-                </Link>
+                </OutlineArrowButton>
               </div>
             </div>
           </div>

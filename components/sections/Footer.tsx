@@ -1,11 +1,13 @@
+"use client";
 import { Container } from "@/components/common/Container";
 import { IconArrowUpRight, IconChevronDown } from "@/components/common/icons";
 import { FooterMediaDropdown } from "@/components/sections/FooterMediaDropdown";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 import Link from "next/link";
+import { useState } from "react";
 
-const locations = ["Mumbai", "Pune", "Dubai"] as const;
+const locations = [{ "label": "Mumbai", "address": "C-602 & 603, ONE BKC, G Block, Bandra Kurla Complex, Bandra (E), Mumbai - 400051" }, { "label": "Pune", "address": "Westport, Unit No 410, Survey Nos. 32/1A/1/30 to 38 & 54 of Revenue Village, Pan Card Club Road, Baner, Pune 411045" }, { "label": "Dubai", "address": "TGREA International Advisory LLC, Office No 1807, Lake Central Tower, Business Bay, Dubai (UAE)" }] as const;
 const queries = ["Business", "HR", "Channel Partner"] as const;
 
 /** Figma: left sub-col Facebook/Instagram, right sub-col Twitter/X & LinkedIn */
@@ -90,6 +92,7 @@ function QuickLinkRow({ items }: { items: { label: string; href: string }[] }) {
 }
 
 export function Footer() {
+  const [openLocation, setOpenLocation] = useState<string | null>(null);
   return (
     <footer className="relative overflow-hidden bg-[#8F8183] text-white">
       {/* Horizontal inset + max width: shared <Container>. Vertical rhythm: outer py + grid py-4. */}
@@ -189,16 +192,34 @@ export function Footer() {
               <div className="w-full min-w-0">
                 <h3 className={sectionTitleCls}>Location</h3>
                 <ul className={dropdownListCls}>
-                  {locations.map((city) => (
-                    <li key={city}>
+                  {locations?.map((city: { label: string; address: string }) => (
+                    <li key={city.label}>
                       <button
                         suppressHydrationWarning
                         type="button"
                         className={dropdownRowCls}
+                        onClick={() => setOpenLocation(openLocation === city.label ? null : city.label)}
                       >
-                        <span>{city}</span>
-                        <IconChevronDown className="h-4 w-4 shrink-0 text-white" />
+                        <span>{city.label}</span>
+                        <IconChevronDown
+                          className={cn(
+                            "h-4 w-4 shrink-0 text-white transition-transform duration-300",
+                            openLocation === city.label && "rotate-180"
+                          )}
+                        />
                       </button>
+
+                      {/* Accordion content */}
+                      <div
+                        className={cn(
+                          "overflow-hidden transition-all duration-300 ease-in-out",
+                          openLocation === city.label ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
+                        )}
+                      >
+                        <p className="fs-12 py-3 text-white">
+                          {city.address}
+                        </p>
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -266,7 +287,7 @@ export function Footer() {
               <div className="w-full min-w-0">
                 <h3 className={sectionTitleCls}>Have queries?</h3>
                 <ul className={dropdownListCls}>
-                  {queries.map((q) => (
+                  {queries.map((q: string) => (
                     <li key={q}>
                       <button type="button" className={dropdownRowCls}>
                         <span>{q}</span>

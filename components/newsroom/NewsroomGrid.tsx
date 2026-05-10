@@ -15,6 +15,7 @@ import {
 import { NewsCard, type NewsArticle } from "./NewsCard";
 import { filterArticles } from "@/src/api/services/articleService";
 import { useEffect, useMemo, useState } from "react";
+import { OutlineArrowButton } from "../common/OutlineArrowButton";
 
 const EXCERPT =
   "Lorem ipsum dolor sit amet consectetur. Augue molestie etiam lacus velit. Eget urna sagittis faucibus mauris id lacinia sit amet volutpat.";
@@ -97,12 +98,18 @@ export function NewsroomGrid() {
             </StaggerContainer>
 
             <ScrollReveal direction="up" delay={0.15} className="mt-10 flex justify-center sm:mt-14 lg:mt-16">
-              <GradientCtaButton
+              {/* <GradientCtaButton
                 href="/newsroom"
                 className="h-[52px] max-w-sm cursor-pointer sm:h-[55px]  sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl w-[273px]"
               >
                 View More
-              </GradientCtaButton>
+              </GradientCtaButton> */}
+              <OutlineArrowButton
+                href="/newsroom"
+                className="h-[52px] max-w-sm cursor-pointer sm:h-[55px]  sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl w-[273px]"
+              >
+                View More
+              </OutlineArrowButton>
             </ScrollReveal>
           </>
         )}

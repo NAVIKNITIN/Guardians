@@ -16,6 +16,7 @@ import { getAllProjects } from "@/src/api/services/projectService";
 import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
+import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 
 // ---------------------------------------------------------------------------
 // Filter option sets (demo data — replace with CMS / API)
@@ -637,7 +638,7 @@ function ProjectsPageContent() {
           ) : null}
 
           <ScrollReveal direction="up" delay={0.1} className="mt-10 flex justify-center px-2 sm:mt-12 lg:mt-16">
-            <GradientCtaButton
+            {/* <GradientCtaButton
               type="button"
               disabled={
                 listLoading ||
@@ -652,7 +653,24 @@ function ProjectsPageContent() {
               }
             >
               View More
-            </GradientCtaButton>
+            </GradientCtaButton> */}
+            <OutlineArrowButton
+              type="button"
+              disabled={
+                listLoading ||
+                Boolean(listError) ||
+                !hasMoreProjects
+              }
+              onClick={() =>
+                setVisibleCardCount((n) =>
+                  Math.min(n + INITIAL_VISIBLE_CARDS, visibleProjects.length),
+                )
+              }
+              className="h-[52px] cursor-pointer w-full max-w-sm  sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
+              iconClassName="w-[13px] h-[13px]"
+            >
+              View More
+            </OutlineArrowButton>
           </ScrollReveal>
         </Container>
       </section>

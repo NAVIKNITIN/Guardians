@@ -10,6 +10,7 @@ import type { ServicesBandContent } from "@/data/audience-marketing";
 import { marketingClasses } from "@/styles/marketingClasses";
 import { cn } from "@/utils/cn";
 import { useEffect, useRef, useState } from "react";
+import { OutlineArrowButton } from "../common/OutlineArrowButton";
 
 export function AudienceServicesBand({
   content,
@@ -103,12 +104,12 @@ export function AudienceServicesBand({
               </p>
             </ScrollReveal>
             <ScrollReveal direction="up" delay={0.16} distance={28}>
-              <MarketingEnquireLink
+              <OutlineArrowButton
                 href={content.knowMoreHref}
-                className="mt-10 inline-flex  sm:mt-14  lg:mt-20 w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20"
+                className="mt-10 inline-flex  sm:mt-14  lg:mt-20 w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20 uppercase"
               >
                 {content.knowMoreLabel}
-              </MarketingEnquireLink>
+              </OutlineArrowButton>
             </ScrollReveal>
           </StaggerContainer>
 
