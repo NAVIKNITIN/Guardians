@@ -10,6 +10,7 @@ import { cn } from "@/utils/cn";
 import Image from "next/image";
 import { useMemo, useState } from "react";
 import { Container } from "../common/Container";
+import { OutlineArrowButton } from "../common/OutlineArrowButton";
 
 type Tab = "ongoing" | "completed";
 
