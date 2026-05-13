@@ -1,5 +1,5 @@
 /**
- * Project API (base URL: `NEXT_PUBLIC_API_BASE_URL`, default Hostinger):
+ * Project API (base URL: `API_BASE_URL` in `src/api/config.ts`):
  *
  * - `GET /api/projects?per_page=10&page=1` → `getAllProjects`
  * - `GET /api/projects/:id` → `getProjectById`

@@ -7,9 +7,3 @@
 
 [[plugins]]
   package = "@netlify/plugin-nextjs"
-
-[[redirects]]
-from = "/gw-api/*"
-to = "http://srv1662424.hstgr.cloud/api/:splat"
-status = 200
-force = true

@@ -1,9 +1,5 @@
 import axios, { isAxiosError } from "axios";
-import {
-  API_BASE_URL,
-  AXIOS_TIMEOUT_MS,
-  getResolvedApiBaseUrl,
-} from "./config";
+import { API_BASE_URL, AXIOS_TIMEOUT_MS } from "./config";
 import { isAuthenticated, logout } from "@/src/utils/auth";
 import { normalizeApiError } from "@/src/utils/apiErrorHandler";
 import { showError } from "@/src/utils/toast";
@@ -18,7 +14,6 @@ export const axiosInstance = axios.create({
 });
 
 axiosInstance.interceptors.request.use((config) => {
-  config.baseURL = getResolvedApiBaseUrl();
   if (isAuthenticated()) {
     config.headers.set("x-auth", "true");
   }

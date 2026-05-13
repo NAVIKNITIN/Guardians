@@ -7,8 +7,8 @@ export function rawFileUrl(fileUrl: string | null | undefined): string | null {
 }
 
 /**
- * On HTTPS pages, `http://` storage URLs are blocked (mixed content). Upgrade known
- * API/storage hosts to `https://` so `<img>` and links work on Netlify etc.
+ * On HTTPS pages, `http://` asset URLs are blocked (mixed content). Upgrade known
+ * hosts to `https://` when the URL is still loaded directly (non-proxied paths).
  */
 function upgradeInsecureAssetUrl(url: string): string {
   try {
@@ -38,8 +38,39 @@ function upgradeInsecureAssetUrl(url: string): string {
 }
 
 /**
- * Absolute URLs: trimmed (and insecure storage hosts upgraded to HTTPS).
- * Path-only values: prefixed with `PUBLIC_FILES_ORIGIN`, then upgraded when applicable.
+ * Map absolute `…/storage/…` URLs on Hostinger (or `PUBLIC_FILES_ORIGIN` host) to
+ * same-origin `/gw-storage/…` (rewritten by Next to the real storage URL).
+ */
+function toSameOriginStorageSrc(url: string): string | null {
+  try {
+    const u = new URL(url);
+    const match = /^\/storage\/(.+)$/i.exec(u.pathname);
+    if (!match) return null;
+    const tail = match[1];
+    if (!tail) return null;
+
+    let configuredHost: string | null = null;
+    try {
+      configuredHost = new URL(PUBLIC_FILES_ORIGIN).hostname;
+    } catch {
+      /* ignore */
+    }
+
+    const host = u.hostname;
+    const isHostinger = /\.hstgr\.cloud$/i.test(host);
+    const matchesFilesOrigin =
+      configuredHost != null && host === configuredHost;
+
+    if (!isHostinger && !matchesFilesOrigin) return null;
+    return `/gw-storage/${tail}${u.search}${u.hash}`;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Absolute URLs: trimmed; known `/storage/…` on file host → `/gw-storage/…` proxy.
+ * Other cases: HTTPS upgrade for known hosts. Path-only: join `PUBLIC_FILES_ORIGIN`, then same.
  */
 export function resolveApiAssetUrl(fileUrl: string | null | undefined): string | null {
   const trimmed = rawFileUrl(fileUrl);
@@ -56,5 +87,9 @@ export function resolveApiAssetUrl(fileUrl: string | null | undefined): string |
       resolved = `${origin}/${trimmed}`;
     }
   }
+
+  const proxied = toSameOriginStorageSrc(resolved);
+  if (proxied != null) return proxied;
+
   return upgradeInsecureAssetUrl(resolved);
 }
