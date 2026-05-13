@@ -93,7 +93,7 @@ function AnimatedWaveTitle({ title }: { title: string }) {
   return (
     <motion.h2
       key={title}
-      className="mb-6 qs-reg uppercase tracking-[0.05em] text-white text-[clamp(1.75rem,5vw,3.125rem)] leading-[1.05] sm:mb-8"
+      className="mb-6 w-full text-center qs-reg uppercase tracking-[0.05em] text-white text-[clamp(1.75rem,5vw,3.125rem)] leading-[1.05] sm:mb-8"
       initial="hidden"
       animate="visible"
       variants={{
@@ -260,7 +260,7 @@ function CommercialPanel({
               <button
                 type="button"
                 onClick={() => setOpenIndex(i === openIndex ? -1 : i)}
-                className="flex w-full items-center justify-between gap-4 py-3 text-left transition-opacity hover:opacity-80 sm:py-4"
+                className="flex w-full cursor-pointer items-center justify-between gap-4 py-3 text-left transition-opacity hover:opacity-80 sm:py-4"
               >
                 <AnimatedWaveInlineText
                   text={item.title}

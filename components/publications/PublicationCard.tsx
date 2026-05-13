@@ -1,9 +1,7 @@
 import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
+import { MarketingImgWithFallback } from "@/components/common/MarketingImgWithFallback";
 import { LOCAL_IMAGES } from "@/lib/local-images";
-import { marketingImageUnoptimized } from "@/lib/marketing/marketingImageOptimization";
 import { cn } from "@/utils/cn";
-import Image from "next/image";
-import { useEffect, useState } from "react";
 
 export type PublicationIssue = {
   id: string;
@@ -29,29 +27,18 @@ export function PublicationCard({
   className,
 }: PublicationCardProps) {
   const fallbackSrc = issue.fallbackSrc ?? LOCAL_IMAGES.blogDetail;
-  const [displaySrc, setDisplaySrc] = useState(issue.imageSrc);
-
-  useEffect(() => {
-    setDisplaySrc(issue.imageSrc);
-  }, [issue.imageSrc]);
 
   return (
     <article className={cn("flex flex-col items-center", className)}>
       {/* Portrait magazine/gazette cover */}
       <div className="relative w-full overflow-hidden bg-neutral-200">
         <div className="aspect-[345/451]">
-          <Image
-            src={displaySrc}
+          <MarketingImgWithFallback
+            src={issue.imageSrc}
+            fallbackSrc={fallbackSrc}
             alt={issue.imageAlt}
             fill
-            unoptimized={marketingImageUnoptimized(displaySrc)}
-            onError={() => {
-              if (displaySrc !== fallbackSrc) {
-                setDisplaySrc(fallbackSrc);
-              }
-            }}
             className="object-cover object-center transition-transform duration-500 hover:scale-105"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           />
         </div>
       </div>

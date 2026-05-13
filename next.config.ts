@@ -42,6 +42,9 @@ const nextConfig: NextConfig = {
       },
       { protocol: "http", hostname: "localhost" },
       { protocol: "http", hostname: "127.0.0.1" },
+      // Laravel storage on Hostinger — any `*.hstgr.cloud` used in `file_url`
+      { protocol: "https", hostname: "**.hstgr.cloud" },
+      { protocol: "http", hostname: "**.hstgr.cloud" },
     ],
   },
 };

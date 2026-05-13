@@ -1,12 +1,11 @@
 "use client";
 
 import { Container } from "@/components/common/Container";
+import { MarketingImgWithFallback } from "@/components/common/MarketingImgWithFallback";
 import { LOCAL_IMAGES } from "@/lib/local-images";
-import { marketingImageUnoptimized } from "@/lib/marketing/marketingImageOptimization";
 import { normalizeFilteredArticles } from "@/lib/mappers/publicArticles";
 import { filterArticles } from "@/src/api/services/articleService";
 import { cn } from "@/utils/cn";
-import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -128,12 +127,6 @@ export function BlogDetail({
   post: BlogDetailPost;
   contentType?: DetailContentType;
 }) {
-  const [displaySrc, setDisplaySrc] = useState(post.featuredImage);
-
-  useEffect(() => {
-    setDisplaySrc(post.featuredImage);
-  }, [post.featuredImage]);
-
   return (
     <article className="bg-white  py-12 sm:my-10 sm:py-16 md:my-25 md:py-20  lg:py-[20px]">
       <Container>
@@ -161,19 +154,13 @@ export function BlogDetail({
         {/* ── Featured image — taller aspect on mobile, original 1195/371 on lg+ ─── */}
         <div className="relative mt-6 w-full overflow-hidden bg-neutral-200 sm:mt-8">
           <div className="aspect-4/3 sm:aspect-video lg:aspect-1195/371">
-            <Image
-              src={displaySrc}
+            <MarketingImgWithFallback
+              src={post.featuredImage}
+              fallbackSrc={LOCAL_IMAGES.blog}
               alt={post.featuredImageAlt}
               fill
               className="object-cover object-center"
-              sizes="100vw"
               priority
-              unoptimized={marketingImageUnoptimized(displaySrc)}
-              onError={() => {
-                if (displaySrc !== LOCAL_IMAGES.blog) {
-                  setDisplaySrc(LOCAL_IMAGES.blog);
-                }
-              }}
             />
           </div>
         </div>

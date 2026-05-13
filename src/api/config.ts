@@ -1,13 +1,24 @@
 /** Default public API (Railway production). */
 export const DEFAULT_API_BASE_URL =
-  "https://guardians-service-production.up.railway.app/api";
+  "http://srv1662424.hstgr.cloud/api";
 
 /**
- * Origin for relative file URLs from the API (strip `/api`).
+ * Laravel `APP_URL` + `storage` — relative `file_url` values are usually `/storage/...`
+ * and must join the **app origin**, not `.../api/...`.
+ */
+function stripApiPathSuffix(base: string): string {
+  const trimmed = base.trim().replace(/\/+$/, "");
+  return trimmed.replace(/\/api$/i, "");
+}
+
+const rawPublicApiBase =
+  process.env.NEXT_PUBLIC_API_BASE_URL?.trim() || DEFAULT_API_BASE_URL;
+
+/**
+ * Origin for relative file URLs from the API (trailing `/api` removed from the public API base).
  * Same-origin `/gw-api` is only for JSON API calls — do not use it as a file base URL.
  */
-export const PUBLIC_FILES_ORIGIN =
-  DEFAULT_API_BASE_URL.replace(/\/api\/?$/, "");
+export const PUBLIC_FILES_ORIGIN = stripApiPathSuffix(rawPublicApiBase);
 
 /**
  * Next.js `rewrites` forward this prefix → Railway `/api` so the browser does not

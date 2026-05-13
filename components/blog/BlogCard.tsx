@@ -1,8 +1,7 @@
 import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
+import { MarketingImgWithFallback } from "@/components/common/MarketingImgWithFallback";
 import { LOCAL_IMAGES } from "@/lib/local-images";
-import { marketingImageUnoptimized } from "@/lib/marketing/marketingImageOptimization";
-import Image from "next/image";
-import { useEffect, useState } from "react";
+import Link from "next/link";
 
 export type BlogPost = {
   id: string;
@@ -15,13 +14,6 @@ export type BlogPost = {
 };
 
 export function BlogCard({ post }: { post: BlogPost }) {
-  const isRemoteImage = /^https?:\/\//.test(post.imageSrc);
-  const [displaySrc, setDisplaySrc] = useState(post.imageSrc);
-
-  useEffect(() => {
-    setDisplaySrc(post.imageSrc);
-  }, [post.imageSrc]);
-
   return (
     <article className="flex flex-col">
       {/* Date */}
@@ -37,18 +29,12 @@ export function BlogCard({ post }: { post: BlogPost }) {
       {/* Image — 250×175 landscape */}
       <div className="relative mt-4 w-full overflow-hidden bg-neutral-200">
         <div className="aspect-[10/7]">
-          <Image
-            src={displaySrc}
+          <MarketingImgWithFallback
+            src={post.imageSrc}
+            fallbackSrc={LOCAL_IMAGES.blogDetail}
             alt={post.imageAlt}
             fill
-            unoptimized={marketingImageUnoptimized(displaySrc)}
-            onError={() => {
-              if (displaySrc !== LOCAL_IMAGES.blogDetail) {
-                setDisplaySrc(LOCAL_IMAGES.blogDetail);
-              }
-            }}
             className="object-cover object-center transition-transform duration-500 hover:scale-105"
-            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
           />
         </div>
       </div>

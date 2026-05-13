@@ -13,7 +13,6 @@ import {
 } from "@/lib/mappers/projectListApi";
 import type { ProjectRowFilterShape } from "@/lib/mappers/projectListApi";
 import { getAllProjects } from "@/src/api/services/projectService";
-import Image from "next/image";
 import { useSearchParams } from "next/navigation";
 import { Suspense, useEffect, useMemo, useState } from "react";
 import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";

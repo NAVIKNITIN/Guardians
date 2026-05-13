@@ -1,5 +1,5 @@
 import { LOCAL_IMAGES } from "@/lib/local-images";
-import { resolveApiAssetUrl } from "@/lib/api/resolveAssetUrl";
+import { rawFileUrl } from "@/lib/api/resolveAssetUrl";
 import {
   catalogThumbnailForAmenityName,
   catalogThumbnailForImageFileId,
@@ -95,14 +95,6 @@ function fileByType(files: ApiUploadedFile[], t: string) {
   );
 }
 
-function firstResolvedUrlFrom(files: ApiUploadedFile[]): string | null {
-  for (const f of files) {
-    const u = resolveApiAssetUrl(f.file_url);
-    if (u) return u;
-  }
-  return null;
-}
-
 function fileById(files: ApiUploadedFile[], id: number | string | null) {
   if (id == null || id === "") return undefined;
   const n = Number(id);
@@ -112,15 +104,13 @@ function fileById(files: ApiUploadedFile[], id: number | string | null) {
 
 function urlFromNestedAmenityFile(a: ApiAmenity): string | null {
   const row = a.file ?? a.uploaded_file;
-  if (!row?.file_url) return null;
-  return resolveApiAssetUrl(row.file_url);
+  return rawFileUrl(row?.file_url);
 }
 
 /**
  * Amenity image resolution. Preset `amenities_image_id` values (catalog 1–9) use
- * public `/images/Projects/Amenities/*.svg` first so icons always render: API
- * `file_url` can 404 or, for SVG, break under Next image optimization (e.g. Figma
- * `foreignObject` in `1.svg`). Then nested relation, `project.files`, name catalog.
+ * public `/images/Projects/Amenities/*.svg` first. Then nested relation, `project.files`
+ * by id, then name catalog. API `file_url` values are used as returned (trimmed).
  */
 function resolveAmenityImageSrc(
   a: ApiAmenity,
@@ -138,10 +128,8 @@ function resolveAmenityImageSrc(
 
   if (imageId != null && imageId !== "") {
     const fileRow = fileById(files, imageId);
-    if (fileRow?.file_url) {
-      const u = resolveApiAssetUrl(fileRow.file_url);
-      if (u) return u;
-    }
+    const u = rawFileUrl(fileRow?.file_url);
+    if (u) return u;
   }
 
   const fromCatalogName = catalogThumbnailForAmenityName(a.name);
@@ -151,8 +139,7 @@ function resolveAmenityImageSrc(
 }
 
 function safeUrlFromFile(f: ApiUploadedFile | undefined, fallback: string) {
-  if (!f?.file_url) return fallback;
-  return resolveApiAssetUrl(f.file_url) ?? fallback;
+  return rawFileUrl(f?.file_url) ?? fallback;
 }
 
 function parseCoord(
@@ -321,20 +308,18 @@ export function mapProjectDetailsToViewModel(
       (a, b) => (a.sequence_no ?? 0) - (b.sequence_no ?? 0),
     );
   const galleryUrls = sequence
-    .map((f) => resolveApiAssetUrl(f.file_url))
+    .map((f) => rawFileUrl(f.file_url))
     .filter((u): u is string => u != null);
 
-  const buildingHeroSrc =
-    safeUrlFromFile(
-      hero ?? sequence[0] ?? files[0],
-      LOCAL_IMAGES.tgreaHero,
-    ) ?? firstResolvedUrlFrom(sequence) ?? firstResolvedUrlFrom(files) ?? LOCAL_IMAGES.tgreaHero;
+  const buildingHeroSrc = safeUrlFromFile(
+    hero ?? sequence[0] ?? files[0],
+    LOCAL_IMAGES.tgreaHero,
+  );
 
-  const developerLogo =
-    safeUrlFromFile(
-      logo ?? files[0],
-      "/images/Projects/Group 45.svg",
-    ) ?? firstResolvedUrlFrom(files) ?? "/images/Projects/Group 45.svg";
+  const developerLogo = safeUrlFromFile(
+    logo ?? files[0],
+    "/images/Projects/Group 45.svg",
+  );
   const bookVisitBg = buildingHeroSrc;
 
   const primary = project.configurations?.[0] ?? null;

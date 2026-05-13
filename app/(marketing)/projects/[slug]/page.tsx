@@ -4,7 +4,6 @@ import { getProjectById } from "@/src/api/services/projectService";
 import { uploadFile } from "@/src/api/services/fileService";
 import { showError, showSuccess } from "@/src/utils/toast";
 import { LOCAL_IMAGES } from "@/lib/local-images";
-import { marketingImageUnoptimized } from "@/lib/marketing/marketingImageOptimization";
 import {
   mapProjectDetailsToViewModel,
   type ProjectAmenityItem,
@@ -16,7 +15,6 @@ import { FileUploadField } from "@/components/common/FileUploadField";
 import { IconUpload } from "@/components/admin/panel/AdminIcons";
 import { DynamicMap } from "@/components/projects/DynamicMap";
 import type { MapMarker } from "@/components/projects/DynamicMap";
-import Image from "next/image";
 import Link from "next/link";
 import { useParams, useSearchParams } from "next/navigation";
 import {
@@ -26,8 +24,8 @@ import {
   useRef,
   useState,
   type ChangeEvent,
-  type ComponentProps,
 } from "react";
+import { MarketingImgWithFallback } from "@/components/common/MarketingImgWithFallback";
 import { cn } from "@/utils/cn";
 
 // ---------------------------------------------------------------------------
@@ -132,38 +130,6 @@ function CaseStudyPlayIcon() {
   );
 }
 
-function ImageWithFallback({
-  src,
-  fallbackSrc,
-  unoptimized,
-  onError,
-  ...props
-}: Omit<ComponentProps<typeof Image>, "src"> & {
-  src: string;
-  fallbackSrc: string;
-}) {
-  const [displaySrc, setDisplaySrc] = useState(src);
-
-  useEffect(() => {
-    setDisplaySrc(src);
-  }, [src]);
-
-  return (
-    <Image
-      {...props}
-      src={displaySrc}
-      unoptimized={unoptimized ?? marketingImageUnoptimized(displaySrc)}
-      onError={(e) => {
-        if (displaySrc !== fallbackSrc) {
-          setDisplaySrc(fallbackSrc);
-          return;
-        }
-        onError?.(e);
-      }}
-    />
-  );
-}
-
 function CaseStudySection({
   posterSrc,
   videoUrl,
@@ -176,13 +142,12 @@ function CaseStudySection({
   return (
     <div className="grid grid-cols-1 items-start gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-14">
       <div className="relative aspect-video w-full overflow-hidden bg-[#1a1a1a] shadow-[0_8px_40px_rgba(0,0,0,0.12)]">
-        <ImageWithFallback
+        <MarketingImgWithFallback
           src={posterSrc}
           fallbackSrc={LOCAL_IMAGES.projectImage}
           alt=""
           fill
           className="object-cover object-center transition-transform duration-700 ease-out hover:scale-105"
-          sizes="(min-width: 1024px) 50vw, 100vw"
         />
       </div>
 
@@ -210,17 +175,15 @@ function CaseStudySection({
 // ---------------------------------------------------------------------------
 function AmenityItem({ amenity }: { amenity: ProjectAmenityItem }) {
   const src = amenity.imageSrc;
-  const imageUnoptimized = marketingImageUnoptimized(src);
   return (
     <div className="group flex flex-col items-center gap-2 text-center sm:gap-3">
       <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full bg-white/50 p-1.5 transition-all duration-500 ease-out group-hover:-translate-y-0.5 group-hover:bg-white/80 group-hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] sm:h-20 sm:w-20">
-        <ImageWithFallback
+        <MarketingImgWithFallback
           src={src}
           fallbackSrc={LOCAL_IMAGES.holding}
           alt=""
           width={80}
           height={80}
-          unoptimized={imageUnoptimized}
           className="h-full w-full object-contain transition-transform duration-500 ease-out group-hover:scale-110"
         />
       </div>
@@ -492,12 +455,8 @@ function ProjectDetailPageContent() {
   const buildingHeroSrc = isFromCompleted
     ? COMPLETED_HERO_BG
     : project.buildingHeroSrc;
-  const heroUnoptimized =
-    isFromCompleted || /^https?:\/\//i.test(buildingHeroSrc);
   const showCaseStudyBlock = isFromCompleted || !project.status;
   const showBookVisitBlock = !isFromCompleted && project.status;
-  const bookVisitBgUnoptimized = /^https?:\/\//i.test(project.bookVisitBg);
-  const logoUnoptimized = /^https?:\/\//i.test(project.developerLogo);
 
   return (
     <main>
@@ -532,13 +491,12 @@ function ProjectDetailPageContent() {
 
               {/* Right — developer logo (below title on small screens; bottom-right on large) */}
               <div className="flex w-full shrink-0 justify-center pt-3 sm:pt-2 lg:absolute lg:bottom-0 lg:right-0 lg:w-auto lg:justify-end lg:pt-0">
-                <ImageWithFallback
+                <MarketingImgWithFallback
                   src={project.developerLogo}
                   fallbackSrc="/images/Projects/Group 45.svg"
                   alt="Godrej Properties"
                   width={160}
                   height={46}
-                  unoptimized={logoUnoptimized}
                   className="h-auto w-[min(100%,160px)] max-w-[200px] object-contain object-center sm:w-[160px] lg:w-[218px] lg:object-right"
                 />
               </div>
@@ -593,14 +551,13 @@ function ProjectDetailPageContent() {
       {/* ---------------------------------------------------------------- */}
       {/* Full-bleed — edge to edge (no Container) */}
       <section className="relative h-[min(42svh,22rem)] min-h-[200px] w-full min-w-0 overflow-hidden pt-4 sm:h-[380px] lg:mt-20 lg:h-[550px]">
-        <ImageWithFallback
+        <MarketingImgWithFallback
           src={buildingHeroSrc}
           fallbackSrc={isFromCompleted ? COMPLETED_HERO_BG : LOCAL_IMAGES.tgreaHero}
           alt=""
           fill
           className="object-cover object-center transition-transform duration-1000 ease-out hover:scale-105"
           priority
-          unoptimized={heroUnoptimized}
         />
       </section>
 
@@ -633,7 +590,7 @@ function ProjectDetailPageContent() {
                       key={i}
                       className="relative h-[220px] overflow-hidden bg-[#BCBDC0] sm:h-[280px] lg:h-[400px]"
                     >
-                      <ImageWithFallback src={img.src} fallbackSrc={LOCAL_IMAGES.projectImage} alt="" fill className="object-cover transition-transform duration-700 ease-out hover:scale-105" />
+                      <MarketingImgWithFallback src={img.src} fallbackSrc={LOCAL_IMAGES.projectImage} alt="" fill className="object-cover transition-transform duration-700 ease-out hover:scale-105" />
                     </div>
                   ))}
               </div>
@@ -648,7 +605,7 @@ function ProjectDetailPageContent() {
                     key={i}
                     className="relative h-[200px] overflow-hidden bg-[#BCBDC0] sm:h-[280px] lg:h-[400px]"
                   >
-                    <ImageWithFallback
+                    <MarketingImgWithFallback
                       src={img.src}
                       fallbackSrc={LOCAL_IMAGES.projectImage}
                       alt=""
@@ -669,7 +626,7 @@ function ProjectDetailPageContent() {
                       key={i}
                       className="relative h-[220px] overflow-hidden bg-[#BCBDC0] sm:h-[280px] lg:h-[400px]"
                     >
-                      <ImageWithFallback src={img.src} fallbackSrc={LOCAL_IMAGES.projectImage} alt="" fill className="object-cover transition-transform duration-700 ease-out hover:scale-105" />
+                      <MarketingImgWithFallback src={img.src} fallbackSrc={LOCAL_IMAGES.projectImage} alt="" fill className="object-cover transition-transform duration-700 ease-out hover:scale-105" />
                     </div>
                   ))}
               </div>
@@ -760,7 +717,7 @@ function ProjectDetailPageContent() {
                             <>
                               {showWalk ? (
                                 <span className="grid w-[80px] grid-cols-[18px_1fr] items-center gap-2 n-bold text-[#161616] sm:text-base">
-                                  <Image
+                                  <img
                                     src="/images/location.svg"
                                     alt=""
                                     width={13}
@@ -849,14 +806,12 @@ function ProjectDetailPageContent() {
       {showBookVisitBlock ? (
         <section className="relative mb-10 min-h-0 w-full min-w-0 overflow-hidden py-0 lg:mb-30">
           {/* Background */}
-          <ImageWithFallback
+          <MarketingImgWithFallback
             src={project.bookVisitBg}
             fallbackSrc={LOCAL_IMAGES.projectImage}
             alt=""
             fill
             className="object-cover object-center transition-transform duration-1000 ease-out hover:scale-105"
-            sizes="100vw"
-            unoptimized={bookVisitBgUnoptimized}
           />
           <div className="absolute inset-0 bg-brand-text-primary/50" />
 

@@ -1,13 +1,11 @@
 import { IconArrowUpRight } from "@/components/common/icons";
+import { MarketingImgWithFallback } from "@/components/common/MarketingImgWithFallback";
 import {
   arrowIconLinkIconClassName,
   arrowIconTileClassName,
 } from "@/components/ui/ArrowIconLink";
 import { LOCAL_IMAGES } from "@/lib/local-images";
-import { marketingImageUnoptimized } from "@/lib/marketing/marketingImageOptimization";
-import Image from "next/image";
 import Link from "next/link";
-import { useEffect, useState } from "react";
 import { cn } from "@/utils/cn";
 
 export type BadgeVariant = "units-left" | "completed";
@@ -39,7 +37,6 @@ export function ProjectCard({
     badge?.variant === "completed"
       ? "bg-[#161616]"
       : "bg-[#8F8183]";
-  const [displaySrc, setDisplaySrc] = useState(imageSrc);
   const isCompletedProject = badge?.variant === "completed";
   const hasBadgeCount = typeof badge?.count === "number" && Number.isFinite(badge.count);
   const shouldShowCompletedBadge =
@@ -56,10 +53,6 @@ export function ProjectCard({
     ? "Completed"
     : `${badge?.count} ${badge?.count === 1 ? "unit" : "units"} left`;
 
-  useEffect(() => {
-    setDisplaySrc(imageSrc);
-  }, [imageSrc]);
-
   return (
     <Link
       href={href}
@@ -70,18 +63,12 @@ export function ProjectCard({
       aria-label={`View ${title}`}
     >
       <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#BCBDC0] sm:aspect-[16/10]">
-        <Image
-          src={displaySrc}
+        <MarketingImgWithFallback
+          src={imageSrc}
+          fallbackSrc={LOCAL_IMAGES.projectImage}
           alt={imageAlt}
           fill
-          unoptimized={marketingImageUnoptimized(displaySrc)}
-          onError={() => {
-            if (displaySrc !== LOCAL_IMAGES.projectImage) {
-              setDisplaySrc(LOCAL_IMAGES.projectImage);
-            }
-          }}
           className="object-cover transition-transform duration-500 hover:scale-[1.03]"
-          sizes="(min-width: 1280px) 400px, (min-width: 768px) 45vw, 100vw"
         />
         {shouldShowBadge ? (
           <div
