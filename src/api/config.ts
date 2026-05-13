@@ -1,6 +1,9 @@
-/** Default public API (Railway production). */
+/** Default public API base (`…/api`) — browser, SSR, and Netlify/Vercel rewrites. */
 export const DEFAULT_API_BASE_URL =
   "http://srv1662424.hstgr.cloud/api";
+
+/** Trailing-slash-normalized default for `next.config.ts` `rewrites` destination. */
+export const DEFAULT_API_PROXY_TARGET = DEFAULT_API_BASE_URL.replace(/\/$/, "");
 
 /**
  * Laravel `APP_URL` + `storage` — relative `file_url` values are usually `/storage/...`
@@ -21,8 +24,8 @@ const rawPublicApiBase =
 export const PUBLIC_FILES_ORIGIN = stripApiPathSuffix(rawPublicApiBase);
 
 /**
- * Next.js `rewrites` forward this prefix → Railway `/api` so the browser does not
- * hit cross-origin CORS (axios otherwise reports “Network Error”).
+ * Next.js `rewrites` forward `/gw-api/*` to your API `/api` (see `next.config.ts`) so the
+ * browser does not hit cross-origin CORS (axios otherwise reports “Network Error”).
  *
  * Set `NEXT_PUBLIC_USE_BROWSER_API_PROXY=false` only if your backend sends CORS
  * for your production domain and you want direct `NEXT_PUBLIC_API_BASE_URL` calls.
@@ -49,7 +52,7 @@ function isLikelyLoopbackApiUrl(url: string): boolean {
 
 /**
  * Resolves axios `baseURL`:
- * - **Browser on a deployed host:** same-origin `/gw-api` (rewritten to Railway `/api`).
+ * - **Browser on a deployed host:** same-origin `/gw-api` (rewritten to your `/api` base).
  * - **Browser on localhost:** direct URL from env (local backend).
  * - **SSR / Node:** HTTPS env or default (no CORS in Node).
  */
