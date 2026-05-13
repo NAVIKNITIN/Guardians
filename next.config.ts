@@ -35,5 +35,6 @@ const nextConfig: NextConfig = {
     ],
   },
 };
+console.log("[next.config] API_PROXY_TARGET =", API_PROXY_TARGET);
 
 export default nextConfig;

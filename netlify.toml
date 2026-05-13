@@ -1,11 +1,8 @@
-# Next.js on Netlify — uses OpenNext adapter via @netlify/plugin-nextjs
-# https://docs.netlify.com/build/frameworks/framework-setup-guides/nextjs/overview/
-
 [build]
   command = "npm run build"
+  publish = ".next"
 
 [build.environment]
-  # Match a current LTS; Netlify’s default may lag and break Next 16 / tooling
   NODE_VERSION = "22"
 
 [[plugins]]
