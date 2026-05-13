@@ -199,7 +199,6 @@ function AmenityItem({ amenity }: { amenity: ProjectAmenityItem }) {
 // ---------------------------------------------------------------------------
 const COMPLETED_HERO_BG = "/images/Projects/completed.svg";
 
-// CHANGE: API response type
 type BookVisitCreateResponse = {
   success: boolean;
   message: string;
@@ -298,7 +297,6 @@ function ProjectDetailPageContent() {
   const [bookVisitCvKey, setBookVisitCvKey] = useState(0);
   const bookVisitCvId = useId();
 
-  // CHANGE: submit state only, no UI redesign
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   function handleChange(
@@ -360,7 +358,6 @@ function ProjectDetailPageContent() {
     }
   }
 
-  // CHANGE: submit public form -> backend book-visits
   async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
 

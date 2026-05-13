@@ -4,9 +4,6 @@ import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
-import { GradientCtaButton } from "../common/GradientCtaButton";
-
-// ─── Public types ─────────────────────────────────────────────────────────────
 
 export type ServiceTile = {
   label: string;
@@ -26,8 +23,6 @@ export type ServicePanel = {
   imageSrc: string;
   knowMoreHref: string;
 };
-
-// ─── Default content (shared by Buyer's and Developer's service pages) ───────
 
 export const DEFAULT_SERVICE_TILES: ServiceTile[] = [
   {
@@ -67,8 +62,6 @@ export const DEFAULT_ACCORDION_ITEMS: ServiceAccordionItem[] = [
   { title: "Seamless Transactions" },
   { title: "A Trusted Partner" },
 ];
-
-// ─── Icons ────────────────────────────────────────────────────────────────────
 
 function ChevronRight() {
   return (
@@ -158,8 +151,6 @@ function AnimatedWaveInlineText({
   );
 }
 
-// ─── Service tile (one of the 4 image cards in the left column) ──────────────
-
 function ServiceTileView({
   tile,
   isActive,
@@ -215,8 +206,6 @@ function ServiceTileView({
     </motion.button>
   );
 }
-
-// ─── Commercial Services accordion panel (right column) ──────────────────────
 
 type CommercialPanelProps = {
   title: string;
@@ -294,12 +283,6 @@ function CommercialPanel({
         </div>
 
         <div className="mt-auto flex justify-center pt-6 sm:pt-8">
-          {/* <GradientCtaButton
-            className="h-[53.99px] w-[253px] cursor-pointer disabled:pointer-events-none disabled:opacity-50 sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
-            href={knowMoreHref}
-          >
-            Know More
-          </GradientCtaButton> */}
           <OutlineArrowButton
             href={knowMoreHref}
             className="h-[53.99px] w-[253px] cursor-pointer disabled:pointer-events-none disabled:opacity-50 sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
@@ -312,8 +295,6 @@ function CommercialPanel({
     </div>
   );
 }
-
-// ─── Main export ──────────────────────────────────────────────────────────────
 
 type ServicesGridProps = {
   /** `aria-label` for the outer section — e.g. "Buyer services". */
@@ -332,15 +313,7 @@ type ServicesGridProps = {
   panelsByTile?: ServicePanel[];
 };
 
-/**
- * Shared services grid used by both Buyer's and Developer's service pages.
- *
- * Layout:
- * - Mobile: flex column — 4 tiles stacked, then the Commercial panel below.
- * - `lg+`: 2-column CSS grid (43% / 1fr). Left column is itself a 4-row grid
- *   so the tiles always share the column's height equally, and the row's
- *   height is driven by the tallest item (the Commercial panel's content).
- */
+/** Shared services grid for buyer and developer service pages. */
 export function ServicesGrid({
   ariaLabel,
   tiles = DEFAULT_SERVICE_TILES,

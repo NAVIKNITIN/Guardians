@@ -116,7 +116,6 @@ function IconEyeSlash({ className }: { className?: string }) {
 }
 
 export function AdminLoginForm() {
-  // CHANGE: backend login state
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -150,19 +149,16 @@ export function AdminLoginForm() {
           try {
             setIsSubmitting(true);
 
-            // CHANGE: login request backend ko helper ke through bhej rahe hain
             const result = (await loginRequest({
               username,
               password,
             })) as LoginResponse;
 
-            // CHANGE: backend HTTP 200 ke saath success false bhi bhej sakta hai
             if (!result.success) {
               throw new Error(result.message || "Login failed");
             }
 
             setLoggedIn();
-            // CHANGE: abhi token auth nahi hai, isliye success ke baad direct route change
             router.push("/admin/projects");
           } catch (error) {
             setErrorMessage(

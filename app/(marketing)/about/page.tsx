@@ -1,6 +1,4 @@
 import { Container } from "@/components/common/Container";
-
-// 
 import {
   AboutLeadershipSection,
   type LeadershipSlide,
@@ -28,7 +26,6 @@ const brandCards = [
 const heroImage = "/images/mumbai-skyline-bw.png";
 const brandPromiseOrnament = "/images/ornament.jpeg";
 
-// CHANGE: 4 images aur same text yahin page.tsx me rakha gaya hai.
 const leadershipSlides = [
   {
     id: "leader-1",

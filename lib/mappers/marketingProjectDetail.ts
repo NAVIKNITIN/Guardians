@@ -1,5 +1,5 @@
 import { LOCAL_IMAGES } from "@/lib/local-images";
-import { rawFileUrl } from "@/lib/api/resolveAssetUrl";
+import { resolveApiAssetUrl } from "@/lib/api/resolveAssetUrl";
 import {
   catalogThumbnailForAmenityName,
   catalogThumbnailForImageFileId,
@@ -104,13 +104,14 @@ function fileById(files: ApiUploadedFile[], id: number | string | null) {
 
 function urlFromNestedAmenityFile(a: ApiAmenity): string | null {
   const row = a.file ?? a.uploaded_file;
-  return rawFileUrl(row?.file_url);
+  return resolveApiAssetUrl(row?.file_url);
 }
 
 /**
  * Amenity image resolution. Preset `amenities_image_id` values (catalog 1–9) use
  * public `/images/Projects/Amenities/*.svg` first. Then nested relation, `project.files`
- * by id, then name catalog. API `file_url` values are used as returned (trimmed).
+ * by id, then name catalog. Remote `file_url` values go through `resolveApiAssetUrl`
+ * (path join + HTTPS upgrade for Hostinger on secure pages).
  */
 function resolveAmenityImageSrc(
   a: ApiAmenity,
@@ -128,7 +129,7 @@ function resolveAmenityImageSrc(
 
   if (imageId != null && imageId !== "") {
     const fileRow = fileById(files, imageId);
-    const u = rawFileUrl(fileRow?.file_url);
+    const u = resolveApiAssetUrl(fileRow?.file_url);
     if (u) return u;
   }
 
@@ -139,7 +140,7 @@ function resolveAmenityImageSrc(
 }
 
 function safeUrlFromFile(f: ApiUploadedFile | undefined, fallback: string) {
-  return rawFileUrl(f?.file_url) ?? fallback;
+  return resolveApiAssetUrl(f?.file_url) ?? fallback;
 }
 
 function parseCoord(
@@ -308,7 +309,7 @@ export function mapProjectDetailsToViewModel(
       (a, b) => (a.sequence_no ?? 0) - (b.sequence_no ?? 0),
     );
   const galleryUrls = sequence
-    .map((f) => rawFileUrl(f.file_url))
+    .map((f) => resolveApiAssetUrl(f.file_url))
     .filter((u): u is string => u != null);
 
   const buildingHeroSrc = safeUrlFromFile(

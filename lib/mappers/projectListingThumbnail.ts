@@ -1,4 +1,4 @@
-import { rawFileUrl } from "@/lib/api/resolveAssetUrl";
+import { resolveApiAssetUrl } from "@/lib/api/resolveAssetUrl";
 import { LOCAL_IMAGES } from "@/lib/local-images";
 
 /** Uploaded row shape shared by list + detail API payloads. */
@@ -27,7 +27,7 @@ function fileByType(files: ProjectListingFileRow[], wanted: string) {
 
 function firstRawUrlFrom(files: ProjectListingFileRow[]): string | null {
   for (const f of files) {
-    const u = rawFileUrl(f.file_url);
+    const u = resolveApiAssetUrl(f.file_url);
     if (u) return u;
   }
   return null;
@@ -49,8 +49,8 @@ function firstRowWithUrl(
 }
 
 /**
- * Card thumbnail URL from API `file_url` as returned (no rewriting).
- * Priority: HERO → BANNER → COVER → SEQUENCE (by `sequence_no`) → first non-LOGO asset → any URL → LOGO-only projects.
+ * Card thumbnail URL — same priority as project detail; uses `resolveApiAssetUrl`
+ * (path join + HTTPS for Hostinger `http://` storage on secure sites).
  */
 export function resolveProjectListingThumbnail(
   filesInput: ProjectListingFileRow[] | undefined | null,
@@ -79,7 +79,7 @@ export function resolveProjectListingThumbnail(
     firstRowWithUrl(files) ??
     files[0];
 
-  let url = rawFileUrl(candidate?.file_url);
+  let url = resolveApiAssetUrl(candidate?.file_url);
   if (url) return url;
 
   url = firstRawUrlFrom(sequence);
@@ -87,7 +87,7 @@ export function resolveProjectListingThumbnail(
 
   for (const f of files) {
     if (normType(f.file_type) === "LOGO") continue;
-    url = rawFileUrl(f.file_url);
+    url = resolveApiAssetUrl(f.file_url);
     if (url) return url;
   }
 

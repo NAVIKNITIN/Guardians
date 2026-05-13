@@ -1,3 +1,4 @@
+import { resolveApiAssetUrl } from "@/lib/api/resolveAssetUrl";
 import { LOCAL_IMAGES, localImageByIndex } from "@/lib/local-images";
 
 export type PublicArticleItem = {
@@ -59,7 +60,7 @@ export function articleImage(
   fallbackIndex: number,
   fallbackType: "blog" | "newsroom" | "magazine" | "gazette",
 ) {
-  const remote = item.file?.file_url?.trim();
+  const remote = resolveApiAssetUrl(item.file?.file_url);
   if (remote) return remote;
   if (fallbackType === "magazine") return LOCAL_IMAGES.magazine;
   if (fallbackType === "gazette") return LOCAL_IMAGES.gazette;

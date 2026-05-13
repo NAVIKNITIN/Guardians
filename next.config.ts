@@ -1,12 +1,6 @@
 import type { NextConfig } from "next";
 import { DEFAULT_API_PROXY_TARGET } from "./src/api/config";
 
-/**
- * Where `/gw-api/*` is forwarded at build time (Laravel `/api` root, no trailing slash).
- * - Prefer `API_PROXY_TARGET` (server-only; not exposed to the client bundle).
- * - Else use `NEXT_PUBLIC_API_BASE_URL` so Netlify/Vercel only need one var.
- * - Else use the same default as `src/api/config.ts` (avoids Railway vs Hostinger drift).
- */
 function normalizeProxyTarget(raw: string | undefined | null): string | null {
   const t = String(raw ?? "")
     .trim()
@@ -20,8 +14,6 @@ const API_PROXY_TARGET =
   DEFAULT_API_PROXY_TARGET;
 
 const nextConfig: NextConfig = {
-  // Keep Tailwind v4 / lightningcss native bindings out of the Turbopack bundle so
-  // `lightningcss-darwin-arm64` (and other platform packages) resolve correctly.
   serverExternalPackages: [
     "lightningcss",
     "@tailwindcss/node",

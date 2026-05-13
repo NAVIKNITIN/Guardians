@@ -217,7 +217,6 @@ export function Navbar() {
             <div className="relative flex min-h-[4.25rem] items-center justify-between py-3 sm:min-h-[4.5rem] xl:hidden">
               <span className="w-10 shrink-0" aria-hidden />
               <Link
-                // CHANGE: keep the website logo on the marketing home instead of bouncing back to admin login.
                 href="/"
                 className="absolute left-1/2 top-1/2 z-10 -translate-x-1/2 -translate-y-1/2 py-1"
                 aria-label="The Guardians home"

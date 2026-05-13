@@ -1,42 +1,34 @@
 "use client";
 
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
+import {
+  IconChevronLeft,
+  IconChevronRight,
+} from "@/components/common/icons";
 import { SectionSurface } from "@/components/ui/SectionSurface";
 import {
   formatDeveloperStatValue,
   type DeveloperStat,
   type StatsSectionContent,
 } from "@/data/audience-marketing";
-
-// CHANGE: same about section ke old buttons and image 
-import {
-  IconChevronLeft,
-  IconChevronRight,
-} from "@/components/common/icons";
-
-const CAROUSEL_PREV = "/images/leftcarousel.svg";
-const CAROUSEL_NEXT = "/images/rightcarousel.svg";
 import { useCountUp } from "@/hooks/useCountUp";
 import { cn } from "@/utils/cn";
-
-// CHANGE: smooth image/text transition ke liye.
 import {
   AnimatePresence,
   motion,
   useInView,
   useReducedMotion,
 } from "framer-motion";
-
-// CHANGE: leadership images render karne ke liye.
 import Image from "next/image";
-
-// CHANGE: slider state ke liye.
 import {
   startTransition,
   useRef,
   useState,
   type CSSProperties,
 } from "react";
+
+const CAROUSEL_PREV = "/images/leftcarousel.svg";
+const CAROUSEL_NEXT = "/images/rightcarousel.svg";
 
 export function StatFigure({
   stat,
@@ -154,7 +146,6 @@ export function DeveloperStatsSection({
   );
 }
 
-// CHANGE: About page ke 4 leadership slides ke liye type.
 export type LeadershipSlide = {
   id: string;
   imageSrc: string;
@@ -166,13 +157,11 @@ export type LeadershipSlide = {
   imagePositionClassName?: string;
 };
 
-// CHANGE: smooth slide timing.
 const leadershipTransition = {
   duration: 0.34,
   ease: [0.22, 1, 0.36, 1] as const,
 };
 
-// CHANGE: image transition.
 const leadershipImageVariants = {
   enter: (direction: 1 | -1) => ({
     opacity: 0,
@@ -188,7 +177,6 @@ const leadershipImageVariants = {
   }),
 };
 
-// CHANGE: title/body transition.
 const leadershipTopVariants = {
   enter: (direction: 1 | -1) => ({
     opacity: 0,
@@ -208,7 +196,6 @@ const leadershipTopVariants = {
 const LEADERSHIP_IMAGE_WIDTH = 519;
 const LEADERSHIP_IMAGE_HEIGHT = 550;
 
-// CHANGE: bottom name/role transition.
 const leadershipBottomVariants = {
   enter: (direction: 1 | -1) => ({
     opacity: 0,
@@ -224,8 +211,6 @@ const leadershipBottomVariants = {
   }),
 };
 
-// CHANGE: same old about leadership layout rakha gaya hai.
-// Sirf image/text switch hoga. Button same jagah par fixed rahega.
 export function AboutLeadershipSection({
   slides,
 }: {
@@ -239,7 +224,6 @@ export function AboutLeadershipSection({
 
   const activeSlide = slides[activeIndex]!;
 
-  // CHANGE: same previous/next button logic.
   const moveBy = (step: 1 | -1) => {
     setDirection(step);
 
