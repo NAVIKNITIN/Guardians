@@ -10,11 +10,12 @@ import {
 } from "@/components/publications/PublicationCard";
 import { PublicationListingEmptyCard } from "@/components/publications/PublicationListingEmptyCard";
 import { PublicationListingSkeleton } from "@/components/publications/PublicationListingSkeleton";
-import { PublicationLoadMoreButton } from "@/components/publications/PublicationLoadMoreButton";
+import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import {
   articleImage,
   normalizeFilteredArticles,
 } from "@/lib/mappers/publicArticles";
+import { LISTING_PAGE_SIZE } from "@/lib/listingPagination";
 import { LOCAL_IMAGES } from "@/lib/local-images";
 import { filterArticles } from "@/src/api/services/articleService";
 import { useEffect, useMemo, useState } from "react";
@@ -22,6 +23,7 @@ import { useEffect, useMemo, useState } from "react";
 export function GazetteGrid() {
   const [activeIssue, setActiveIssue] = useState<string | null>(null);
   const [issues, setIssues] = useState<PublicationIssue[]>([]);
+  const [visibleCount, setVisibleCount] = useState(LISTING_PAGE_SIZE);
   const [isLoading, setIsLoading] = useState(true);
   const currentYear = useMemo(() => new Date().getFullYear(), []);
   const from = `${currentYear}-01-01`;
@@ -51,8 +53,12 @@ export function GazetteGrid() {
             href: `/gazette/${String(item.id)}`,
           })),
         );
+        setVisibleCount(LISTING_PAGE_SIZE);
       } catch {
-        if (mounted) setIssues([]);
+        if (mounted) {
+          setIssues([]);
+          setVisibleCount(LISTING_PAGE_SIZE);
+        }
       } finally {
         if (mounted) setIsLoading(false);
       }
@@ -63,6 +69,13 @@ export function GazetteGrid() {
       mounted = false;
     };
   }, [currentYear, from, to]);
+
+  const displayedIssues = useMemo(
+    () => issues.slice(0, visibleCount),
+    [issues, visibleCount],
+  );
+
+  const hasMore = issues.length > displayedIssues.length;
 
   return (
     <section
@@ -83,7 +96,7 @@ export function GazetteGrid() {
               className="grid grid-cols-1 gap-x-10 gap-y-14 sm:grid-cols-2 lg:grid-cols-3 lg:gap-x-20 lg:gap-y-16"
               staggerChildren={0.16}
             >
-              {issues.map((issue, index) => (
+              {displayedIssues.map((issue, index) => (
                 <ScrollReveal key={issue.id} direction="up" delay={index * 0.04} distance={30}>
                   <PublicationCard
                     issue={issue}
@@ -93,9 +106,21 @@ export function GazetteGrid() {
               ))}
             </StaggerContainer>
 
-            <ScrollReveal direction="up" delay={0.14} className="mt-12 flex justify-center px-1 sm:mt-16 lg:mt-20">
-              <PublicationLoadMoreButton className="px-12 py-4 fs-16 ls-10 lh-24 n-bold">View More</PublicationLoadMoreButton>
-            </ScrollReveal>
+            {hasMore ? (
+              <ScrollReveal direction="up" delay={0.15} className="mt-10 flex justify-center sm:mt-14 lg:mt-16">
+                <OutlineArrowButton
+                  type="button"
+                  onClick={() =>
+                    setVisibleCount((n) =>
+                      Math.min(n + LISTING_PAGE_SIZE, issues.length),
+                    )
+                  }
+                  className="h-[52px] w-[273px] max-w-sm sm:h-[55px] sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
+                >
+                  View More
+                </OutlineArrowButton>
+              </ScrollReveal>
+            ) : null}
           </>
         )}
       </Container>

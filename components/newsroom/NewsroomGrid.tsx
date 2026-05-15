@@ -3,7 +3,6 @@
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import { Container } from "@/components/common/Container";
-import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { PublicationListingEmptyCard } from "@/components/publications/PublicationListingEmptyCard";
 import { PublicationListingSkeleton } from "@/components/publications/PublicationListingSkeleton";
 import {
@@ -13,6 +12,7 @@ import {
   normalizeFilteredArticles,
 } from "@/lib/mappers/publicArticles";
 import { NewsCard, type NewsArticle } from "./NewsCard";
+import { LISTING_PAGE_SIZE } from "@/lib/listingPagination";
 import { filterArticles } from "@/src/api/services/articleService";
 import { useEffect, useMemo, useState } from "react";
 import { OutlineArrowButton } from "../common/OutlineArrowButton";
@@ -22,6 +22,7 @@ const EXCERPT =
 
 export function NewsroomGrid() {
   const [articles, setArticles] = useState<NewsArticle[]>([]);
+  const [visibleCount, setVisibleCount] = useState(LISTING_PAGE_SIZE);
   const [isLoading, setIsLoading] = useState(true);
   const currentYear = useMemo(() => new Date().getFullYear(), []);
   const from = `${currentYear}-01-01`;
@@ -52,8 +53,12 @@ export function NewsroomGrid() {
           href: `/newsroom/${String(item.id)}`,
         }));
         setArticles(mapped);
+        setVisibleCount(LISTING_PAGE_SIZE);
       } catch {
-        if (mounted) setArticles([]);
+        if (mounted) {
+          setArticles([]);
+          setVisibleCount(LISTING_PAGE_SIZE);
+        }
       } finally {
         if (mounted) setIsLoading(false);
       }
@@ -64,6 +69,13 @@ export function NewsroomGrid() {
       mounted = false;
     };
   }, [currentYear, from, to]);
+
+  const displayedArticles = useMemo(
+    () => articles.slice(0, visibleCount),
+    [articles, visibleCount],
+  );
+
+  const hasMore = articles.length > displayedArticles.length;
 
   return (
     <section
@@ -84,7 +96,7 @@ export function NewsroomGrid() {
               className="grid grid-cols-1 auto-rows-fr gap-x-6 gap-y-10 sm:grid-cols-2 sm:gap-x-8 sm:gap-y-12 lg:grid-cols-4 lg:gap-x-[65px] lg:gap-y-[54px]"
               staggerChildren={0.16}
             >
-              {articles.map((article, index) => (
+              {displayedArticles.map((article, index) => (
                 <ScrollReveal
                   key={article.id}
                   direction="up"
@@ -97,20 +109,21 @@ export function NewsroomGrid() {
               ))}
             </StaggerContainer>
 
-            <ScrollReveal direction="up" delay={0.15} className="mt-10 flex justify-center sm:mt-14 lg:mt-16">
-              {/* <GradientCtaButton
-                href="/newsroom"
-                className="h-[52px] max-w-sm cursor-pointer sm:h-[55px]  sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl w-[273px]"
-              >
-                View More
-              </GradientCtaButton> */}
-              <OutlineArrowButton
-                href="/newsroom"
-                className="h-[52px] max-w-sm cursor-pointer sm:h-[55px]  sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl w-[273px]"
-              >
-                View More
-              </OutlineArrowButton>
-            </ScrollReveal>
+            {hasMore ? (
+              <ScrollReveal direction="up" delay={0.15} className="mt-10 flex justify-center sm:mt-14 lg:mt-16">
+                <OutlineArrowButton
+                  type="button"
+                  onClick={() =>
+                    setVisibleCount((n) =>
+                      Math.min(n + LISTING_PAGE_SIZE, articles.length),
+                    )
+                  }
+                  className="h-[52px] w-[273px] max-w-sm sm:h-[55px] sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
+                >
+                  View More
+                </OutlineArrowButton>
+              </ScrollReveal>
+            ) : null}
           </>
         )}
       </Container>

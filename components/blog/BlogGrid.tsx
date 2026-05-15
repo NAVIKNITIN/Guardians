@@ -3,7 +3,7 @@
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import { Container } from "@/components/common/Container";
-import { PublicationLoadMoreButton } from "@/components/publications/PublicationLoadMoreButton";
+import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import {
   articleDateLabel,
   articleExcerpt,
@@ -14,6 +14,7 @@ import { PublicationListingEmptyCard } from "@/components/publications/Publicati
 import { PublicationListingSkeleton } from "@/components/publications/PublicationListingSkeleton";
 import { BlogCard, type BlogPost } from "./BlogCard";
 import { BlogSidebar } from "./BlogSidebar";
+import { LISTING_PAGE_SIZE } from "@/lib/listingPagination";
 import { filterArticles } from "@/src/api/services/articleService";
 import { useEffect, useMemo, useState } from "react";
 
@@ -68,6 +69,7 @@ function FilterDropdown({
 
 export function BlogGrid() {
   const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [visibleCount, setVisibleCount] = useState(LISTING_PAGE_SIZE);
   const [isLoading, setIsLoading] = useState(true);
   const [selectedYear, setSelectedYear] = useState(String(new Date().getFullYear()));
   const [selectedCategory, setSelectedCategory] = useState("All Categories");
@@ -144,8 +146,12 @@ export function BlogGrid() {
           href: `/blog/${String(item.id)}`,
         }));
         setPosts(mapped);
+        setVisibleCount(LISTING_PAGE_SIZE);
       } catch {
-        if (mounted) setPosts([]);
+        if (mounted) {
+          setPosts([]);
+          setVisibleCount(LISTING_PAGE_SIZE);
+        }
       } finally {
         if (mounted) setIsLoading(false);
       }
@@ -162,6 +168,13 @@ export function BlogGrid() {
       setSelectedCategory("All Categories");
     }
   }, [categoryOptions, selectedCategory]);
+
+  const displayedPosts = useMemo(
+    () => posts.slice(0, visibleCount),
+    [posts, visibleCount],
+  );
+
+  const hasMore = posts.length > displayedPosts.length;
 
   return (
     <section
@@ -204,16 +217,28 @@ export function BlogGrid() {
                   className="grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 xl:grid-cols-3 xl:gap-x-[34px] xl:gap-y-12"
                   staggerChildren={0.16}
                 >
-                  {posts.map((post, index) => (
+                  {displayedPosts.map((post, index) => (
                     <ScrollReveal key={post.id} direction="up" delay={index * 0.04} distance={30}>
                       <BlogCard post={post} />
                     </ScrollReveal>
                   ))}
                 </StaggerContainer>
 
-                <ScrollReveal direction="up" delay={0.14} className="mt-12 flex justify-center px-1 sm:mt-14">
-                  <PublicationLoadMoreButton href="#">View More</PublicationLoadMoreButton>
-                </ScrollReveal>
+                {hasMore ? (
+                  <ScrollReveal direction="up" delay={0.15} className="mt-10 flex justify-center sm:mt-14 lg:mt-16">
+                    <OutlineArrowButton
+                      type="button"
+                      onClick={() =>
+                        setVisibleCount((n) =>
+                          Math.min(n + LISTING_PAGE_SIZE, posts.length),
+                        )
+                      }
+                      className="h-[52px] w-[273px] max-w-sm sm:h-[55px] sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
+                    >
+                      View More
+                    </OutlineArrowButton>
+                  </ScrollReveal>
+                ) : null}
               </>
             )}
           </div>

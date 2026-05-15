@@ -8,7 +8,7 @@ import type {
 } from "react";
 
 const loadMoreClassName =
-  "group cta-hover-trigger btn-grad btn-primary-gradient inline-flex w-full max-w-sm items-center justify-center gap-4 px-8 py-3.5 n-bold fs-20 lh-24 uppercase tracking-[0.1em] text-white sm:w-auto sm:max-w-none sm:gap-5 sm:px-12 sm:py-[18px] sm:text-base lg:text-lg";
+  "group cta-hover-trigger btn-grad btn-primary-gradient inline-flex w-full max-w-sm cursor-pointer items-center justify-center gap-4 px-8 py-3.5 n-bold fs-20 lh-24 uppercase tracking-[0.1em] text-white sm:w-auto sm:max-w-none sm:gap-5 sm:px-12 sm:py-[18px] sm:text-base lg:text-lg";
 
 type SharedProps = {
   children: ReactNode;
