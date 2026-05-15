@@ -115,7 +115,7 @@ export function MagazineGrid() {
                       Math.min(n + LISTING_PAGE_SIZE, issues.length),
                     )
                   }
-                  className="h-[52px] w-[273px] max-w-sm sm:h-[55px] sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
+                  className="h-[52px] w-[273px] max-w-sm justify-center sm:h-[55px] sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
                 >
                   View More
                 </OutlineArrowButton>
