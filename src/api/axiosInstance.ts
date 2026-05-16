@@ -50,9 +50,20 @@ axiosInstance.interceptors.response.use(
     const isAdminContext =
       typeof window !== "undefined" &&
       window.location.pathname.startsWith("/admin");
+    const isFileUploadRequest =
+      requestUrl.includes("/files/upload") ||
+      requestUrl.includes("/files/bulk-upload");
+    const status = error.response?.status;
 
-    if (error.response?.status && error.response.status >= 500) {
+    if (status && status >= 500) {
       showError(normalized.message);
+    } else if (isAdminContext && isFileUploadRequest && status === 413) {
+      const isBulkUpload = requestUrl.includes("/files/bulk-upload");
+      showError(
+        isBulkUpload
+          ? "Upload is too large. Use images under 15 MB each or upload fewer files at once."
+          : "Upload is too large. Use smaller images or upload fewer files at once.",
+      );
     } else if (!error.response) {
       // Network / CORS — only toast on admin (marketing pages fail silently + empty states).
       if (isAdminContext) {

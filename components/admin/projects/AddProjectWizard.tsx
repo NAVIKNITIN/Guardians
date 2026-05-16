@@ -32,6 +32,11 @@ import {
   catalogKeysFromProjectAmenities,
 } from "@/lib/admin/amenityCatalog";
 import { cn } from "@/utils/cn";
+import {
+  getUploadErrorMessage,
+  MAX_BULK_UPLOAD_FILE_BYTES,
+  formatMaxBulkUploadSizeMb,
+} from "@/src/utils/uploadErrorMessage";
 
 type StepId = "basic" | "details" | "location";
 
@@ -482,6 +487,10 @@ export function AddProjectWizard() {
   const [galleryLimitNotice, setGalleryLimitNotice] = useState<string | null>(
     null,
   );
+  const [galleryUploadError, setGalleryUploadError] = useState<string | null>(
+    null,
+  );
+  const galleryUploadInFlightRef = useRef(0);
 
   /** Set when an immediate file upload (logo/hero/gallery) is in progress. */
   const [fileUploading, setFileUploading] = useState<{
@@ -532,6 +541,21 @@ export function AddProjectWizard() {
 
   /** Bumps each time the load effect re-runs so stale async work never applies state. */
   const projectLoadTokenRef = useRef(0);
+
+  function beginGalleryUpload() {
+    galleryUploadInFlightRef.current += 1;
+    setFileUploading((s) => ({ ...s, gallery: true }));
+  }
+
+  function endGalleryUpload() {
+    galleryUploadInFlightRef.current = Math.max(
+      0,
+      galleryUploadInFlightRef.current - 1,
+    );
+    if (galleryUploadInFlightRef.current === 0) {
+      setFileUploading((s) => ({ ...s, gallery: false }));
+    }
+  }
 
   useEffect(() => {
     if (!projectId) {
@@ -705,9 +729,7 @@ export function AddProjectWizard() {
       setForm((current) => ({ ...current, logoFileName: file.name }));
       setExistingProjectFiles((f) => ({ ...f, logoId: id }));
     } catch (error) {
-      setErrorMessage(
-        error instanceof Error ? error.message : "Logo upload failed.",
-      );
+      setErrorMessage(getUploadErrorMessage(error, "Logo upload failed."));
       setForm((current) => ({ ...current, logoFileName: "" }));
     } finally {
       setFileUploading((s) => ({ ...s, logo: false }));
@@ -729,7 +751,7 @@ export function AddProjectWizard() {
       setExistingProjectFiles((f) => ({ ...f, heroId: id }));
     } catch (error) {
       setErrorMessage(
-        error instanceof Error ? error.message : "Hero image upload failed.",
+        getUploadErrorMessage(error, "Hero image upload failed."),
       );
       setForm((current) => ({ ...current, heroImageName: "" }));
     } finally {
@@ -741,6 +763,7 @@ export function AddProjectWizard() {
     setForm((current) => ({ ...current, galleryFileNames: [] }));
     setExistingProjectFiles((f) => ({ ...f, galleryIds: [] }));
     setGalleryLimitNotice(null);
+    setGalleryUploadError(null);
     setErrorMessage("");
   }
 
@@ -774,7 +797,19 @@ export function AddProjectWizard() {
         : null,
     );
 
-    setFileUploading((s) => ({ ...s, gallery: true }));
+    const oversized = filesToUpload.find(
+      (file) => file.size > MAX_BULK_UPLOAD_FILE_BYTES,
+    );
+    if (oversized) {
+      setGalleryUploadError(
+        `"${oversized.name}" is over ${formatMaxBulkUploadSizeMb()}. Use smaller images before uploading.`,
+      );
+      input.value = "";
+      return;
+    }
+
+    beginGalleryUpload();
+    setGalleryUploadError(null);
     setErrorMessage("");
     try {
       const newIds = await uploadGalleryAssets(
@@ -794,13 +829,15 @@ export function AddProjectWizard() {
       }));
     } catch (error) {
       setGalleryLimitNotice(null);
-      setErrorMessage(
-        error instanceof Error
-          ? error.message
-          : "Gallery image upload failed.",
+      setGalleryUploadError(
+        getUploadErrorMessage(
+          error,
+          "Gallery image upload failed.",
+          MAX_BULK_UPLOAD_FILE_BYTES,
+        ),
       );
     } finally {
-      setFileUploading((s) => ({ ...s, gallery: false }));
+      endGalleryUpload();
       input.value = "";
     }
   }
@@ -826,7 +863,10 @@ export function AddProjectWizard() {
     )) as SingleFileUploadResponse;
 
     if (!result.success) {
-      throw new Error(`Failed to upload ${fileType.toLowerCase()} file.`);
+      throw new Error(
+        result.message?.trim() ||
+          `Failed to upload ${fileType.toLowerCase()} file.`,
+      );
     }
 
     return result.data.id;
@@ -852,7 +892,13 @@ export function AddProjectWizard() {
     )) as MultiFileUploadResponse;
 
     if (!result.success) {
-      throw new Error("Failed to upload gallery images.");
+      throw new Error(
+        result.message?.trim() || "Failed to upload gallery images.",
+      );
+    }
+
+    if (!Array.isArray(result.data)) {
+      throw new Error("Invalid response from gallery upload.");
     }
 
     return result.data.map((item) => item.id);
@@ -1358,8 +1404,9 @@ export function AddProjectWizard() {
               helperText={
                 fileUploading.gallery
                   ? "Uploading…"
-                  : `${existingProjectFiles.galleryIds.length} / ${REQUIRED_GALLERY_IMAGES} images — add more until complete (batch uploads append).`
+                  : `${existingProjectFiles.galleryIds.length} / ${REQUIRED_GALLERY_IMAGES} images — add more until complete (batch uploads append). Max ${formatMaxBulkUploadSizeMb()} per image.`
               }
+              errorText={galleryUploadError ?? undefined}
               selectedFileNames={form.galleryFileNames}
               multiple
               leadingContent={<IconUpload className="h-8 w-8" />}
