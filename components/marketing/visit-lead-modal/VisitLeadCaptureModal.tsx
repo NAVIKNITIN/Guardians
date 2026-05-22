@@ -150,16 +150,17 @@ export function VisitLeadCaptureModal({
                 >
                   Book A Visit
                 </h2>
-                <p
-                  id={descriptionId}
-                  className="mx-auto mt-3 max-w-[320px] n-reg text-sm leading-relaxed text-[#6B5F60] dark:text-neutral-300"
-                >
-                  Tell us how to reach you — we&apos;ll confirm your visit shortly.
-                </p>
+                
               </div>
 
               <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-6 pb-8 pt-6 sm:px-8 sm:pb-9">
                 <VisitLeadCaptureForm onSuccess={handleSuccess} />
+                <p
+                  id={descriptionId}
+                  className="mx-auto w-full mt-3 ml-0 lg:pl-[20px]  n-reg text-sm leading-relaxed text-[#6B5F60] dark:text-neutral-300"
+                >
+                  Tell us how to reach you — we&apos;ll confirm your visit shortly.
+                </p>
               </div>
             </motion.div>
           </div>
