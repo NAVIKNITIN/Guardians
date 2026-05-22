@@ -1,6 +1,7 @@
 "use client";
 
 import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
+import { CONTACT } from "@/data/audience-marketing-shared";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
@@ -285,7 +286,7 @@ function CommercialPanel({
         <div className="mt-auto flex justify-center pt-6 sm:pt-8">
           <OutlineArrowButton
             href={knowMoreHref}
-            className="h-[53.99px] w-[253px] cursor-pointer disabled:pointer-events-none disabled:opacity-50 sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
+            className="h-[53.99px] w-[253px] border border-white/30 cursor-pointer !shadow-none focus-visible:outline-none focus-visible:outline-offset-0 disabled:pointer-events-none disabled:opacity-50 sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
             iconClassName="w-[13px] h-[13px]"
           >
             Know More
@@ -320,7 +321,7 @@ export function ServicesGrid({
   accordionTitle = "Commercial Services",
   accordionItems = DEFAULT_ACCORDION_ITEMS,
   accordionImageSrc = "/images/Developer/services/commercial.svg",
-  knowMoreHref = "#",
+  knowMoreHref = CONTACT,
   panelsByTile,
 }: ServicesGridProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);

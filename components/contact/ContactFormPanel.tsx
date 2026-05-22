@@ -1,26 +1,13 @@
 "use client";
 
 import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
+import {
+  ContactEnquiryEmailIcon,
+  ContactEnquiryPhoneIcon,
+} from "@/components/common/ContactEnquiryIcons";
+import { CONTACT_ENQUIRIES, type ContactEnquiry } from "@/data/contactEnquiries";
 import { cn } from "@/utils/cn";
 import { useState } from "react";
-
-// ─── Icons ───────────────────────────────────────────────────────────────────
-
-function PhoneIcon() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none" aria-hidden className="shrink-0 mt-0.5">
-      <path d="M4.39435 5.07808C4.95547 6.24678 5.7204 7.34214 6.68913 8.31087C7.65786 9.2796 8.75322 10.0445 9.92192 10.6057C10.0224 10.6539 10.0727 10.6781 10.1363 10.6966C10.3623 10.7625 10.6399 10.7152 10.8313 10.5781C10.8852 10.5395 10.9313 10.4934 11.0234 10.4013C11.3053 10.1194 11.4462 9.97849 11.5879 9.88635C12.1223 9.53888 12.8113 9.53888 13.3458 9.88635C13.4875 9.97849 13.6284 10.1194 13.9103 10.4013L14.0674 10.5584C14.4958 10.9868 14.71 11.2011 14.8264 11.4311C15.0579 11.8887 15.0579 12.4291 14.8264 12.8867C14.71 13.1168 14.4958 13.331 14.0674 13.7594L13.9403 13.8865C13.5133 14.3135 13.2998 14.527 13.0095 14.6901C12.6874 14.871 12.1872 15.0011 11.8178 15C11.4848 14.999 11.2573 14.9344 10.8022 14.8053C8.35667 14.1111 6.04899 12.8015 4.12377 10.8762C2.19854 8.95101 0.888867 6.64333 0.19474 4.19776C0.0655784 3.74269 0.000997077 3.51516 6.9162e-06 3.18224C-0.00109252 2.81281 0.129 2.31256 0.309931 1.99047C0.472986 1.70021 0.686481 1.48672 1.11347 1.05973L1.24056 0.932638C1.66902 0.504181 1.88324 0.289953 2.11332 0.17358C2.5709 -0.05786 3.11128 -0.0578601 3.56885 0.17358C3.79893 0.289953 4.01316 0.504181 4.44162 0.932638L4.59872 1.08974C4.88058 1.3716 5.02151 1.51253 5.11365 1.65425C5.46112 2.18868 5.46112 2.87765 5.11365 3.41209C5.02151 3.5538 4.88058 3.69473 4.59872 3.97659C4.50656 4.06875 4.46048 4.11483 4.42191 4.16869C4.28485 4.36011 4.23752 4.63766 4.30341 4.86368C4.32195 4.92729 4.34608 4.97755 4.39435 5.07808Z" stroke="#161616" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function EmailIcon() {
-  return (
-    <svg width="16" height="12" viewBox="0 0 16 12" fill="none" aria-hidden className="shrink-0 mt-0.5">
-      <path d="M15.6 10.5L10.2857 6M5.71429 6L0.400028 10.5M0 2.25L6.53194 6.53658C7.06087 6.8837 7.32534 7.05726 7.61301 7.12448C7.86712 7.18386 8.13288 7.18386 8.38699 7.12448C8.67466 7.05726 8.93913 6.8837 9.46806 6.53658L16 2.25M3.84 12H12.16C13.5041 12 14.1762 12 14.6896 11.7548C15.1412 11.539 15.5083 11.1948 15.7384 10.7715C16 10.2902 16 9.66012 16 8.4V3.6C16 2.33988 16 1.70982 15.7384 1.22852C15.5083 0.805157 15.1412 0.46095 14.6896 0.245235C14.1762 0 13.5041 0 12.16 0H3.84C2.49587 0 1.82381 0 1.31042 0.245235C0.858834 0.46095 0.49168 0.805157 0.261584 1.22852C0 1.70982 0 2.33988 0 3.6V8.4C0 9.66012 0 10.2902 0.261584 10.7715C0.49168 11.1948 0.858834 11.539 1.31042 11.7548C1.82381 12 2.49587 12 3.84 12Z" stroke="black" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
 
 function ChevronDown({ className }: { className?: string }) {
   return (
@@ -39,38 +26,10 @@ function ChevronDown({ className }: { className?: string }) {
 
 // ─── Contact info block ───────────────────────────────────────────────────────
 
-type ContactBlock = {
-  title: string;
-  phone?: string;
-  email?: string;
-  telHref: string;
-};
-
 const CONNECT_INTRO =
   "Lorem ipsum dolor sit amet consectetur. Congue nulla ut sit ac donec eros. Sed mauris malesuada risus.";
 
-const CONTACT_BLOCKS: ContactBlock[] = [
-  {
-    title: "Business Related Enquiries",
-    email: "enquiry@theguardiansindia.com",
-    phone: "9152420242",
-    telHref: "tel:+919152420242",
-  },
-  {
-    title: "Channel Partner Related Enquiries",
-    email: "partnertalk@theguardiansindia.com",
-    phone: "022-69750000",
-    telHref: "tel:+912269750000",
-  },
-  {
-    title: "HR Related Enquiries",
-    email: "hr@theguardiansindia.com",
-    phone: "022-68770076 / 022-6877005",
-    telHref: "tel:+912268770076",
-  },
-];
-
-function ContactInfoBlock({ block }: { block: ContactBlock }) {
+function ContactInfoBlock({ block }: { block: ContactEnquiry }) {
   return (
     <div className="flex flex-col items-start text-left sm:py-2 md:py-5 lg:items-stretch">
       <h3 className="n-bold fs-20 lh-24 text-[#161616] mb-2">
@@ -81,7 +40,7 @@ function ContactInfoBlock({ block }: { block: ContactBlock }) {
           href={`mailto:${block.email}`}
           className="n-book fs-18 flex items-center gap-2 break-words text-sm leading-[1.35] text-[#161616] transition-opacity hover:opacity-70 sm:items-center sm:text-base md:text-lg lg:text-[20px] lg:leading-[24px]"
         >
-          <EmailIcon />
+          <ContactEnquiryEmailIcon className="mt-0.5 text-[#161616]" />
           {block.email}
         </a>
       )}
@@ -90,7 +49,7 @@ function ContactInfoBlock({ block }: { block: ContactBlock }) {
           href={block.telHref}
           className="n-book fs-18 mt-1 flex items-center gap-2 text-sm leading-[1.35] text-[#161616] transition-opacity hover:opacity-70 sm:text-base md:text-lg lg:text-[20px] lg:leading-[24px]"
         >
-          <PhoneIcon />
+          <ContactEnquiryPhoneIcon className="mt-0.5 text-[#161616]" />
           {block.phone}
         </a>
       )}
@@ -177,7 +136,7 @@ export function ContactFormPanel() {
               </p>
             </header>
             <div className="flex flex-col gap-6 sm:gap-7">
-              {CONTACT_BLOCKS.map((block) => (
+              {CONTACT_ENQUIRIES.map((block) => (
                 <ContactInfoBlock key={block.title} block={block} />
               ))}
             </div>

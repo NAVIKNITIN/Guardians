@@ -29,6 +29,7 @@ const BUILDER_OPTIONS = [
   "Hiranandani",
 ] as const;
 const CONFIGURATION_OPTIONS = ["All", "1 BHK", "2 BHK", "3 BHK"] as const;
+const LOCATION_OPTIONS = ["All", "CHEMBUR", "MANKHURD", "MIRA ROAD"] as const;
 const STAGE_OPTIONS = ["All", "Ongoing", "Completed"] as const;
 const SORT_OPTIONS = [
   { key: "default", label: "Default" },
@@ -70,10 +71,13 @@ function projectIsCompleted(p: ProjectRow) {
   return p.badge?.variant === "completed";
 }
 
-function subtitleMatchesLocation(subtitle: string, location: string | null) {
-  if (!location) return true;
-  const key = location.replace(/\s*\(E\)\s*$/i, "").trim().toLowerCase();
-  return subtitle.toLowerCase().includes(key);
+function projectMatchesLocation(p: ProjectRow, filterLocation: string) {
+  if (filterLocation === "All") return true;
+  const needle = filterLocation.toLowerCase();
+  const haystack = [p.subtitle, p.description, p.area, p.title]
+    .join(" ")
+    .toLowerCase();
+  return haystack.includes(needle);
 }
 
 function filterProjects(
@@ -83,7 +87,7 @@ function filterProjects(
     builder: string;
     configuration: string;
     stage: string;
-    location: string | null;
+    location: string;
     query: string;
   },
 ) {
@@ -120,7 +124,7 @@ function filterProjects(
     }
     if (opts.stage === "Ongoing" && projectIsCompleted(p)) return false;
     if (opts.stage === "Completed" && !projectIsCompleted(p)) return false;
-    if (!subtitleMatchesLocation(p.subtitle, opts.location)) return false;
+    if (!projectMatchesLocation(p, opts.location)) return false;
     return true;
   });
 }
@@ -299,10 +303,9 @@ function ProjectsPageContent() {
   const [filterConfiguration, setFilterConfiguration] =
     useState<string>("All");
   const [filterStage, setFilterStage] = useState<string>("All");
+  const [filterLocation, setFilterLocation] = useState<string>("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<SortKey>("default");
-
-  const [activeLocation, setActiveLocation] = useState<string | null>(null);
 
   const [projects, setProjects] = useState<ProjectRow[]>([]);
   const [listLoading, setListLoading] = useState(true);
@@ -389,7 +392,7 @@ function ProjectsPageContent() {
     filterBuilder,
     filterConfiguration,
     filterStage,
-    activeLocation,
+    filterLocation,
     searchQuery,
   ]);
 
@@ -399,7 +402,7 @@ function ProjectsPageContent() {
       builder: filterBuilder,
       configuration: filterConfiguration,
       stage: filterStage,
-      location: activeLocation,
+      location: filterLocation,
       query: searchQuery,
     });
     return sortProjects(filtered, sortBy);
@@ -410,7 +413,7 @@ function ProjectsPageContent() {
       filterBuilder,
       filterConfiguration,
       filterStage,
-      activeLocation,
+      filterLocation,
       searchQuery,
       sortBy,
     ],
@@ -428,7 +431,7 @@ function ProjectsPageContent() {
     setFilterBuilder("All");
     setFilterConfiguration("All");
     setFilterStage("All");
-    setActiveLocation(null);
+    setFilterLocation("All");
     setSearchQuery("");
     setShowFilters(true);
   }
@@ -516,24 +519,12 @@ function ProjectsPageContent() {
                       onChange={setFilterBuilder}
                       options={builderFilterOptions}
                     />
-
-                    {activeLocation && (
-                      <div className="inline-flex h-12 min-h-[48px] w-full max-w-full flex-wrap items-center justify-center gap-2 border border-[#161616] bg-[#BCBDC0] px-3 py-1 n-reg text-[11px] uppercase tracking-[0.08em] text-[#161616] min-[400px]:px-4 min-[400px]:text-xs sm:h-[51px] sm:min-h-0 sm:w-auto sm:max-w-none sm:justify-between sm:px-5 sm:py-0 sm:text-sm sm:tracking-widest md:text-base">
-                        <span className="min-w-0 wrap-break-word n-bold">
-                          {activeLocation}
-                        </span>
-                        <span className="mx-1 hidden h-[50px] w-px shrink-0 bg-[#161616] sm:inline-block" />
-                        <button
-                          type="button"
-                          onClick={() => setActiveLocation(null)}
-                          className="cursor-pointer text-xl  leading-none n-bold ml-2"
-                          aria-label="Remove filter"
-                        >
-                          X
-                        </button>
-                      </div>
-                    )}
-
+                    <FilterSelect
+                      label="Location"
+                      value={filterLocation}
+                      onChange={setFilterLocation}
+                      options={[...LOCATION_OPTIONS]}
+                    />
                     <FilterSelect
                       label="Configuration"
                       value={filterConfiguration}

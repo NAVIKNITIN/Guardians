@@ -6,7 +6,10 @@ import type {
   LandmarkProject,
   LandmarkSectionContent,
 } from "@/data/audience-marketing";
-import { MarketingEnquireLink } from "@/components/ui/MarketingEnquireLink";
+import {
+  PROJECTS_COMPLETED,
+  PROJECTS_ONGOING,
+} from "@/data/audience-marketing-shared";
 import { UnderlineTabs } from "@/components/ui/UnderlineTabs";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
@@ -84,6 +87,9 @@ export function LandmarkProjectsSection({
     () => (tab === "ongoing" ? content.ongoing : content.completed),
     [tab, content],
   );
+
+  const ctaHref = tab === "ongoing" ? PROJECTS_ONGOING : PROJECTS_COMPLETED;
+
   return (
     <Container
       gutter="left"
@@ -254,7 +260,7 @@ export function LandmarkProjectsSection({
         <ScrollReveal direction="up" delay={0.1} className="mt-12 flex justify-center ">
           <OutlineArrowButton
             className="w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20 uppercase"
-            href={content.ctaHref}
+            href={ctaHref}
           >
             {content.ctaLabel}
           </OutlineArrowButton>

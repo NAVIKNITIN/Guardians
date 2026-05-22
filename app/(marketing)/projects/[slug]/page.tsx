@@ -885,7 +885,7 @@ function ProjectDetailPageContent() {
                     </div>
 
                     {/* Row 3: Location / image (stored as book-visit upload_cv_file_id) */}
-                    <div className="grid grid-cols-1 gap-6 border-t n-bold lh-24 fs-14 border-[#8F8183]/30 py-6 sm:grid-cols-2 sm:gap-8 sm:items-start">
+                    {/* <div className="grid grid-cols-1 gap-6 border-t n-bold lh-24 fs-14 border-[#8F8183]/30 py-6 sm:grid-cols-2 sm:gap-8 sm:items-start">
                       <SelectField
                         label="Location"
                         name="location"
@@ -927,7 +927,7 @@ function ProjectDetailPageContent() {
                             : "!text-[#202020]/40",
                         )}
                       />
-                    </div>
+                    </div> */}
 
                     {/* Message */}
                     <div className="border-t border-[#8F8183]/30 pt-6 text-left n-bold lh-24 fs-14">

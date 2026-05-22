@@ -1,6 +1,12 @@
 import type { PartnerLogo, PartnersSectionContent } from "./audience-marketing-types";
 
 export const CONTACT = "/contact" as const;
+export const BUYER_SERVICES = "/buyer/services" as const;
+export const DEVELOPER_SERVICES = "/developer/services" as const;
+
+/** Project listing — pre-filtered by stage (see `app/(marketing)/projects/page.tsx`). */
+export const PROJECTS_ONGOING = "/projects?stage=ongoing" as const;
+export const PROJECTS_COMPLETED = "/projects?stage=completed" as const;
 
 export const DEFAULT_HERO_CTA = {
   enquireHref: CONTACT,
@@ -55,7 +61,7 @@ export function partnersBand(
     row1: DEV_PARTNER_ROW1,
     row2: DEV_PARTNER_ROW2,
     closing: "…AND MANY MORE TO",
-    ctaHref: CONTACT,
+    ctaHref: "/partners",
     ctaLabel: "Know More",
   };
 }

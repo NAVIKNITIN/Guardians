@@ -1,14 +1,37 @@
 "use client";
 import { Container } from "@/components/common/Container";
+import {
+  ContactEnquiryEmailIcon,
+  ContactEnquiryPhoneIcon,
+} from "@/components/common/ContactEnquiryIcons";
 import { IconArrowUpRight, IconChevronDown } from "@/components/common/icons";
-import { FooterMediaDropdown } from "@/components/sections/FooterMediaDropdown";
+import {
+  FooterMediaDropdown,
+  FooterPopoverDropdown,
+} from "@/components/sections/FooterPopoverDropdown";
+import {
+  BUYER_SERVICES,
+  DEVELOPER_SERVICES,
+  PROJECTS_COMPLETED,
+  PROJECTS_ONGOING,
+} from "@/data/audience-marketing-shared";
+import { CONTACT_ENQUIRIES } from "@/data/contactEnquiries";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 import Link from "next/link";
-import { useState } from "react";
+import { useState, type ReactNode } from "react";
 
 const locations = [{ "label": "Mumbai", "address": "C-602 & 603, ONE BKC, G Block, Bandra Kurla Complex, Bandra (E), Mumbai - 400051" }, { "label": "Pune", "address": "Westport, Unit No 410, Survey Nos. 32/1A/1/30 to 38 & 54 of Revenue Village, Pan Card Club Road, Baner, Pune 411045" }, { "label": "Dubai", "address": "TGREA International Advisory LLC, Office No 1807, Lake Central Tower, Business Bay, Dubai (UAE)" },{ "label": "Goa", "address": "near Baga Beach" }, ] as const;
-const queries = ["Business", "HR", "Channel Partner"] as const;
+const accordionPanelCls =
+  "overflow-hidden transition-all duration-300 ease-in-out";
+
+const accordionPanelOpenCls = "max-h-40 opacity-100";
+const accordionPanelClosedCls = "max-h-0 opacity-0";
+
+const queriesAccordionOpenCls = "max-h-44 opacity-100";
+
+const footerEnquiryLinkCls =
+  "inline-flex items-center gap-2 fs-12 n-book text-white transition-colors hover:text-white/80";
 
 /** Figma: left sub-col Facebook/Instagram, right sub-col Twitter/X & LinkedIn */
 const socialLeftCol = [
@@ -40,13 +63,19 @@ const quickLinkRows: { label: string; href: string }[][] = [
   [
     { label: "About", href: "/about" },
     { label: "Brands", href: "/about#brands" },
-    { label: "Services", href: "#services" },
   ],
-  [
-    { label: "Projects", href: "/projects" },
-    { label: "Partners & Clients", href: "/partners" },
-  ],
+  [{ label: "Partners & Clients", href: "/partners" }],
 ];
+
+const footerServicesItems = [
+  { label: "Buyer's Services", href: BUYER_SERVICES },
+  { label: "Developer's Services", href: DEVELOPER_SERVICES },
+] as const;
+
+const footerProjectsItems = [
+  { label: "Ongoing Projects", href: PROJECTS_ONGOING },
+  { label: "Completed Projects", href: PROJECTS_COMPLETED },
+] as const;
 
 /**
  * Figma section labels — small ALL-CAPS Nexa, tracked, white.
@@ -66,9 +95,54 @@ const dropdownListCls =
 const dropdownRowCls =
   "box-border flex min-h-[40px] w-full min-w-0 max-w-full items-center justify-between gap-2 border-b border-white py-1.5 text-left text-white transition-colors hover:text-white/80 sm:min-h-0 sm:py-[7px]";
 
+const quickLinkRowCls =
+  "flex w-full min-w-0 flex-wrap items-center justify-center gap-x-1.5 gap-y-0.5 n-book text-[12px] leading-[1.45] text-white sm:justify-start sm:fs-14 sm:lh-25";
+
+function FooterAccordionItem({
+  label,
+  isOpen,
+  onToggle,
+  panelClassName,
+  children,
+}: {
+  label: string;
+  isOpen: boolean;
+  onToggle: () => void;
+  panelClassName?: string;
+  children: ReactNode;
+}) {
+  return (
+    <li>
+      <button
+        suppressHydrationWarning
+        type="button"
+        className={dropdownRowCls}
+        aria-expanded={isOpen}
+        onClick={onToggle}
+      >
+        <span>{label}</span>
+        <IconChevronDown
+          className={cn(
+            "h-4 w-4 shrink-0 text-white transition-transform duration-300",
+            isOpen && "rotate-180",
+          )}
+        />
+      </button>
+      <div
+        className={cn(
+          accordionPanelCls,
+          isOpen ? panelClassName ?? accordionPanelOpenCls : accordionPanelClosedCls,
+        )}
+      >
+        {children}
+      </div>
+    </li>
+  );
+}
+
 function QuickLinkRow({ items }: { items: { label: string; href: string }[] }) {
   return (
-    <p className="flex w-full min-w-0 flex-wrap items-center justify-center gap-x-1.5 gap-y-0.5 n-book text-[12px] leading-[1.45] text-white sm:justify-start sm:fs-14 sm:lh-25">
+    <>
       {items.map((item, i) => (
         <span
           key={item.href}
@@ -87,12 +161,13 @@ function QuickLinkRow({ items }: { items: { label: string; href: string }[] }) {
           </Link>
         </span>
       ))}
-    </p>
+    </>
   );
 }
 
 export function Footer() {
   const [openLocation, setOpenLocation] = useState<string | null>(null);
+  const [openQuery, setOpenQuery] = useState<string | null>(null);
   return (
     <footer className="relative overflow-hidden bg-[#8F8183] text-white">
       {/* Horizontal inset + max width: shared <Container>. Vertical rhythm: outer py + grid py-4. */}
@@ -192,35 +267,19 @@ export function Footer() {
               <div className="w-full min-w-0">
                 <h3 className={sectionTitleCls}>Location</h3>
                 <ul className={dropdownListCls}>
-                  {locations?.map((city: { label: string; address: string }) => (
-                    <li key={city.label}>
-                      <button
-                        suppressHydrationWarning
-                        type="button"
-                        className={dropdownRowCls}
-                        onClick={() => setOpenLocation(openLocation === city.label ? null : city.label)}
-                      >
-                        <span>{city.label}</span>
-                        <IconChevronDown
-                          className={cn(
-                            "h-4 w-4 shrink-0 text-white transition-transform duration-300",
-                            openLocation === city.label && "rotate-180"
-                          )}
-                        />
-                      </button>
-
-                      {/* Accordion content */}
-                      <div
-                        className={cn(
-                          "overflow-hidden transition-all duration-300 ease-in-out",
-                          openLocation === city.label ? "max-h-40 opacity-100" : "max-h-0 opacity-0"
-                        )}
-                      >
-                        <p className="fs-12 py-3 text-white">
-                          {city.address}
-                        </p>
-                      </div>
-                    </li>
+                  {locations.map((city) => (
+                    <FooterAccordionItem
+                      key={city.label}
+                      label={city.label}
+                      isOpen={openLocation === city.label}
+                      onToggle={() =>
+                        setOpenLocation(
+                          openLocation === city.label ? null : city.label,
+                        )
+                      }
+                    >
+                      <p className="fs-12 py-3 text-white">{city.address}</p>
+                    </FooterAccordionItem>
                   ))}
                 </ul>
               </div>
@@ -287,13 +346,36 @@ export function Footer() {
               <div className="w-full min-w-0">
                 <h3 className={sectionTitleCls}>Have queries?</h3>
                 <ul className={dropdownListCls}>
-                  {queries.map((q: string) => (
-                    <li key={q}>
-                      <button type="button" className={dropdownRowCls}>
-                        <span>{q}</span>
-                        <IconChevronDown className="h-4  w-4 shrink-0 text-white" />
-                      </button>
-                    </li>
+                  {CONTACT_ENQUIRIES.map((query) => (
+                    <FooterAccordionItem
+                      key={query.label}
+                      label={query.label}
+                      isOpen={openQuery === query.label}
+                      panelClassName={queriesAccordionOpenCls}
+                      onToggle={() =>
+                        setOpenQuery(
+                          openQuery === query.label ? null : query.label,
+                        )
+                      }
+                    >
+                      <div className="flex flex-col gap-2 py-3">
+                        {query.email ? (
+                          <a
+                            href={`mailto:${query.email}`}
+                            className={footerEnquiryLinkCls}
+                          >
+                            <ContactEnquiryEmailIcon />
+                            {query.email}
+                          </a>
+                        ) : null}
+                        {query.phone ? (
+                          <a href={query.telHref} className={footerEnquiryLinkCls}>
+                            <ContactEnquiryPhoneIcon />
+                            {query.phone}
+                          </a>
+                        ) : null}
+                      </div>
+                    </FooterAccordionItem>
                   ))}
                 </ul>
               </div>
@@ -301,12 +383,30 @@ export function Footer() {
               {/* Quick links */}
               <div className="w-full min-w-0 mt-3">
                 <h3 className={sectionTitleCls}>Quick links</h3>
-                <div className="mt-2 flex flex-col gap-2 sm:gap-1.5 ">
-                  {quickLinkRows.map((row, idx) => (
-                    <QuickLinkRow key={idx} items={row} />
-                  ))}
+                <div className="mt-2 flex flex-col gap-2 sm:gap-1.5">
+                  <div className={quickLinkRowCls}>
+                    <QuickLinkRow items={quickLinkRows[0]} />
+                    <span className="select-none" aria-hidden>
+                      ·
+                    </span>
+                    <FooterPopoverDropdown
+                      label="Services"
+                      items={[...footerServicesItems]}
+                    />
+                  </div>
 
-                  <div className="flex w-full min-w-0 flex-wrap items-center justify-center gap-x-1.5 gap-y-0.5 n-book text-[12px] leading-[1.45] text-white sm:justify-start sm:fs-14 sm:lh-25">
+                  <div className={quickLinkRowCls}>
+                    <FooterPopoverDropdown
+                      label="Projects"
+                      items={[...footerProjectsItems]}
+                    />
+                    <span className="select-none" aria-hidden>
+                      ·
+                    </span>
+                    <QuickLinkRow items={quickLinkRows[1]} />
+                  </div>
+
+                  <div className={quickLinkRowCls}>
                     <span className="inline-flex items-center gap-x-1.5 n-book text-[12px] sm:fs-14">
                       <Link
                         href="/career"

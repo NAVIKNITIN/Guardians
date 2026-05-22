@@ -7,10 +7,13 @@ import type {
   MarketingPageContent,
 } from "./audience-marketing-types";
 import {
+  BUYER_SERVICES,
   CONTACT,
   DEFAULT_KNOW_MORE,
   DEFAULT_READ_MORE,
   DEFAULT_VIEW_MORE,
+  DEVELOPER_SERVICES,
+  PROJECTS_ONGOING,
   partnersBand,
 } from "./audience-marketing-shared";
 
@@ -147,7 +150,7 @@ export const DEVELOPER_MARKETING_PAGE = {
     sectionTitle: "Our services",
     description:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
-    knowMoreHref: CONTACT,
+    knowMoreHref: DEVELOPER_SERVICES,
     knowMoreLabel: DEFAULT_KNOW_MORE.knowMoreLabel,
     cards: [
       {
@@ -191,6 +194,7 @@ export const DEVELOPER_MARKETING_PAGE = {
   ourWork: {
     sectionTitle: "OUR WORK",
     ...DEFAULT_READ_MORE,
+    readMoreHref: "/projects?stage=completed",
     readMoreLabel: "READ MORE",
     slides: [
       {
@@ -225,7 +229,7 @@ export const DEVELOPER_MARKETING_PAGE = {
     tabCompletedLabel: "Completed",
     ongoing: DEV_LANDMARK_ONGOING,
     completed: DEV_LANDMARK_COMPLETED,
-    ctaHref: CONTACT,
+    ctaHref: PROJECTS_ONGOING,
     ctaLabel: "Know more",
   },
   stats: {
@@ -248,6 +252,7 @@ export const DEVELOPER_MARKETING_PAGE = {
   testimonials: {
     sectionTitle: "What our clients say",
     ...DEFAULT_VIEW_MORE,
+    viewMoreHref: "/partners",
     items: [
       {
         id: "1",

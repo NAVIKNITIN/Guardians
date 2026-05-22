@@ -1097,7 +1097,15 @@ function TgreaHero({
                 {config["title"] as string}
               </h1>
             </ScrollReveal>
-            <ScrollReveal direction="up" delay={0.1} distance={20}>
+            <ScrollReveal direction="up" delay={0.04} distance={24}>
+              <h1
+                id={config["headingId"] as string}
+                className="break-words px-1 qs-reg uppercase leading-[0.94] tracking-[0.02em] text-[#202225] text-[clamp(1.9rem,9vw,4.375rem)] lg:fs-70"
+              >
+                {config["tagline"] as string}
+              </h1>
+            </ScrollReveal>
+            {/* <ScrollReveal direction="up" delay={0.1} distance={20}>
               <p
                 className={cn(
                   "mx-auto mt-1 n-bold uppercase tracking-[0.1em] text-[#202225]",
@@ -1106,7 +1114,7 @@ function TgreaHero({
               >
                 {config["tagline"] as string}
               </p>
-            </ScrollReveal>
+            </ScrollReveal> */}
             <ScrollReveal direction="up" delay={0.14} distance={18}>
               <p
                 className={cn(

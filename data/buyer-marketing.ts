@@ -1,4 +1,8 @@
-import { CONTACT } from "./audience-marketing-shared";
+import {
+  BUYER_SERVICES,
+  CONTACT,
+  PROJECTS_ONGOING,
+} from "./audience-marketing-shared";
 import { getAudienceHero } from "@/utils/marketing-hero";
 import type { LandmarkProject, MarketingPageContent } from "./audience-marketing-types";
 import { DEV_LANDMARK_COMPLETED, DEVELOPER_MARKETING_PAGE } from "./developer-marketing";
@@ -99,6 +103,10 @@ export const BUYER_LANDMARK_COMPLETED_BUYER_MARKETING: LandmarkProject[] = BUYER
 
 export const BUYER_MARKETING_PAGE = {
   ...DEVELOPER_MARKETING_PAGE,
+  services: {
+    ...DEVELOPER_MARKETING_PAGE.services,
+    knowMoreHref: BUYER_SERVICES,
+  },
   ourWork: undefined,
   hero: getAudienceHero("buyer"),
   testimonials: undefined,
@@ -106,7 +114,7 @@ export const BUYER_MARKETING_PAGE = {
     headline: "Lorem ipsum dolor sit amet, consectetur",
     imageSrc: "/images/image 59.svg",
     ctaLabel: "Explore",
-    ctaHref: "/projects",
+    ctaHref: "/contact",
     imageAlt: "",
     ariaHeadingId: "buyer-explore-banner-heading",
   },
@@ -116,7 +124,7 @@ export const BUYER_MARKETING_PAGE = {
     tabCompletedLabel: "Completed",
     ongoing: BUYER_LANDMARK_ONGOING,
     completed: BUYER_LANDMARK_COMPLETED,
-    ctaHref: CONTACT,
+    ctaHref: PROJECTS_ONGOING,
     ctaLabel: "View more",
   },
 } satisfies MarketingPageContent;

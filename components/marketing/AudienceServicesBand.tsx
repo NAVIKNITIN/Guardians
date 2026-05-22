@@ -5,8 +5,11 @@ import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import { MarketingServiceCard } from "@/components/cards/MarketingServiceCard";
 import { Container } from "@/components/common/Container";
 import { CarouselControls } from "@/components/ui/CarouselControls";
-import { MarketingEnquireLink } from "@/components/ui";
 import type { ServicesBandContent } from "@/data/audience-marketing";
+import {
+  BUYER_SERVICES,
+  DEVELOPER_SERVICES,
+} from "@/data/audience-marketing-shared";
 import { marketingClasses } from "@/styles/marketingClasses";
 import { cn } from "@/utils/cn";
 import { useEffect, useRef, useState } from "react";
@@ -23,6 +26,7 @@ export function AudienceServicesBand({
   const [stepPx, setStepPx] = useState(0);
   const trackRef = useRef<HTMLUListElement | null>(null);
   const total = content.cards.length;
+  const knowMoreHref = isBuyer ? BUYER_SERVICES : DEVELOPER_SERVICES;
 
   useEffect(() => {
     const measure = () => {
@@ -67,7 +71,7 @@ export function AudienceServicesBand({
           <MarketingServiceCard
             key={card.id}
             card={card}
-            href={content.knowMoreHref}
+            href={knowMoreHref}
             ariaLabel={content.knowMoreLabel}
           />
         ))}
@@ -105,7 +109,7 @@ export function AudienceServicesBand({
             </ScrollReveal>
             <ScrollReveal direction="up" delay={0.16} distance={28}>
               <OutlineArrowButton
-                href={content.knowMoreHref}
+                href={knowMoreHref}
                 className="mt-10 inline-flex  sm:mt-14  lg:mt-20 w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20 uppercase"
               >
                 {content.knowMoreLabel}
