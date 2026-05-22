@@ -1,7 +1,7 @@
 "use client";
 
+import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import { cn } from "@/utils/cn";
-import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
 type UserType = "business" | "employee";
@@ -182,19 +182,14 @@ export function DownloadModal({ isOpen, onClose, issueTitle }: DownloadModalProp
           )}
 
           {/* Submit */}
-          <button
+          <OutlineArrowButton
             type="submit"
-            className="btn-grad mt-4 flex w-full items-center justify-center gap-5 py-[18px] n-bold  text-xl  uppercase tracking-[0.1em] text-white"
+            className="mt-4 flex w-full py-[18px] n-bold text-xl uppercase tracking-[0.1em]"
+            iconClassName="h-[15px] w-[15px]"
+            iconAlt=""
           >
             Submit
-            <Image
-              src="/images/arrowwhite.svg"
-              alt="Submit"
-              width={15}
-              height={15}
-              className="object-cover"
-            />
-          </button>
+          </OutlineArrowButton>
         </form>
       </div>
     </div>

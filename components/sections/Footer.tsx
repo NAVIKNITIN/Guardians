@@ -7,7 +7,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState } from "react";
 
-const locations = [{ "label": "Mumbai", "address": "C-602 & 603, ONE BKC, G Block, Bandra Kurla Complex, Bandra (E), Mumbai - 400051" }, { "label": "Pune", "address": "Westport, Unit No 410, Survey Nos. 32/1A/1/30 to 38 & 54 of Revenue Village, Pan Card Club Road, Baner, Pune 411045" }, { "label": "Dubai", "address": "TGREA International Advisory LLC, Office No 1807, Lake Central Tower, Business Bay, Dubai (UAE)" }] as const;
+const locations = [{ "label": "Mumbai", "address": "C-602 & 603, ONE BKC, G Block, Bandra Kurla Complex, Bandra (E), Mumbai - 400051" }, { "label": "Pune", "address": "Westport, Unit No 410, Survey Nos. 32/1A/1/30 to 38 & 54 of Revenue Village, Pan Card Club Road, Baner, Pune 411045" }, { "label": "Dubai", "address": "TGREA International Advisory LLC, Office No 1807, Lake Central Tower, Business Bay, Dubai (UAE)" },{ "label": "Goa", "address": "near Baga Beach" }, ] as const;
 const queries = ["Business", "HR", "Channel Partner"] as const;
 
 /** Figma: left sub-col Facebook/Instagram, right sub-col Twitter/X & LinkedIn */
@@ -43,7 +43,7 @@ const quickLinkRows: { label: string; href: string }[][] = [
     { label: "Services", href: "#services" },
   ],
   [
-    { label: "Projects", href: "#projects" },
+    { label: "Projects", href: "/projects" },
     { label: "Partners & Clients", href: "/partners" },
   ],
 ];

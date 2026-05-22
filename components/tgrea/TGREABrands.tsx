@@ -13,12 +13,6 @@ const brands = [
   { id: 3, reverse: false, href: "#", logoBG: "/images/Group 66.svg", logo: "/images/tgrea2.svg" },
 ];
 
-const readMoreClassName = cn(
-  "btn-grad inline-flex w-full max-w-xs items-center justify-center gap-3 px-6 py-3 sm:w-auto sm:max-w-none sm:justify-start sm:gap-4 sm:px-12 sm:py-5",
-  "n-bold uppercase tracking-[0.1em] text-white",
-  "text-[clamp(0.8125rem,3vw,1.25rem)] leading-[1.25rem] sm:leading-[1.5625rem]",
-);
-
 function BrandTitle({ src }: { src: string }) {
   return (
     <Image
@@ -62,7 +56,7 @@ export function TGREABrands() {
             contentClassName="flex items-center md:min-h-[520px] lg:min-h-[650px]"
             titleClassName=""
             descriptionClassName="max-w-[488px] text-[clamp(0.875rem,3vw,1rem)] leading-[1.5] sm:text-base"
-            buttonClassName={cn(readMoreClassName, "group cta-hover-trigger mt-4 sm:mt-10")}
+            buttonClassName="mt-4 h-[50px] w-full max-w-xs text-[clamp(0.8125rem,3vw,1.25rem)] leading-[1.25rem] sm:mt-10 sm:w-auto sm:max-w-none sm:px-12 sm:py-5 sm:leading-[1.5625rem]"
             imageClassName="aspect-[488/434] min-h-[220px] rounded-none md:min-h-[520px] lg:aspect-auto lg:h-full lg:min-h-[650px]"
           />
         ))}

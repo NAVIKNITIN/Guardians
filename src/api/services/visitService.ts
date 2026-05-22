@@ -5,6 +5,8 @@
  * - `GET /api/book-visits?per_page=10` — `getAllVisits`
  * - `GET /api/book-visits/:id` — `getVisitById`
  */
+import { isAxiosError } from "axios";
+import { normalizeApiError } from "@/src/utils/apiErrorHandler";
 import { axiosInstance } from "../axiosInstance";
 import { buildQueryString } from "../params";
 
@@ -13,9 +15,67 @@ export type GetAllVisitsParams = {
   page?: number;
 };
 
+/** Body for `POST /api/book-visits` (marketing forms + admin). */
+export type CreateBookVisitPayload = {
+  first_name: string;
+  last_name: string | null;
+  email: string;
+  phone_no: string;
+  location: string | null;
+  message: string | null;
+  upload_cv_file_id: number | null;
+};
+
+export type BookVisitRecord = {
+  id: number;
+  first_name: string;
+  last_name: string | null;
+  email: string;
+  phone_no: string;
+  location: string | null;
+  message: string | null;
+  cv_file_url: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type BookVisitCreateResponse = {
+  success: boolean;
+  message: string;
+  data: BookVisitRecord;
+};
+
 /** `POST /api/book-visits` */
-export function createVisit(payload: object) {
-  return axiosInstance.post<unknown>("/book-visits", payload).then((r) => r.data);
+export function createVisit(payload: CreateBookVisitPayload | object) {
+  return axiosInstance
+    .post<BookVisitCreateResponse>("/book-visits", payload, {
+      headers: { "Content-Type": "application/json" },
+    })
+    .then((r) => r.data);
+}
+
+/**
+ * Saves a book-a-visit lead. Used by the home popup and project detail form.
+ * Throws with a user-facing message when the request or `success` flag fails.
+ */
+export async function submitBookVisit(
+  payload: CreateBookVisitPayload,
+): Promise<BookVisitCreateResponse> {
+  try {
+    const result = await createVisit(payload);
+
+    if (!result?.success) {
+      throw new Error(result?.message || "Failed to submit book visit.");
+    }
+
+    return result;
+  } catch (error) {
+    if (error instanceof Error && !isAxiosError(error)) {
+      throw error;
+    }
+    const { message } = normalizeApiError(error);
+    throw new Error(message);
+  }
 }
 
 /**

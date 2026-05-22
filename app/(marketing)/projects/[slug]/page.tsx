@@ -12,6 +12,7 @@ import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import { Container } from "@/components/common/Container";
 import { FileUploadField } from "@/components/common/FileUploadField";
+import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import { IconUpload } from "@/components/admin/panel/AdminIcons";
 import { DynamicMap } from "@/components/projects/DynamicMap";
 import type { MapMarker } from "@/components/projects/DynamicMap";
@@ -85,18 +86,6 @@ function minutesFromTimeLabel(raw: string) {
   if (!match) return null;
   const n = Number(match[1]);
   return Number.isFinite(n) ? n : null;
-}
-
-// ---------------------------------------------------------------------------
-// Arrow icon
-// ---------------------------------------------------------------------------
-function ArrowUpRight() {
-  return (
-    <svg width="15" height="15" viewBox="0 0 15 15" fill="none">
-      <path d="M0 0H14.4958V14.4958" stroke="white" strokeWidth="2" />
-      <line x1="0" y1="14" x2="14" y2="0" stroke="white" strokeWidth="2" />
-    </svg>
-  );
 }
 
 // ---------------------------------------------------------------------------
@@ -957,15 +946,16 @@ function ProjectDetailPageContent() {
 
                     {/* Submit */}
                     <div className="mt-8 flex justify-center">
-                      <button
+                      <OutlineArrowButton
                         suppressHydrationWarning
                         type="submit"
                         disabled={isSubmitting}
-                        className="btn-grad inline-flex h-[52px] w-full items-center justify-center gap-4 px-8 n-reg  text-sm  uppercase tracking-widest text-white sm:h-[55px] sm:w-auto sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl disabled:cursor-not-allowed disabled:opacity-70"
+                        className="h-[52px] w-full max-w-full uppercase disabled:cursor-not-allowed disabled:opacity-70 sm:h-[55px] sm:w-auto sm:px-12 n-reg text-sm tracking-widest sm:text-base lg:text-xl"
+                        iconClassName="h-[15px] w-[15px]"
+                        iconAlt=""
                       >
                         {isSubmitting ? "Submitting..." : "Submit"}
-                        <ArrowUpRight />
-                      </button>
+                      </OutlineArrowButton>
                     </div>
                   </div>
                 </form>

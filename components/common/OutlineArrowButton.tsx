@@ -1,7 +1,7 @@
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 import Link from "next/link";
-import type { ButtonHTMLAttributes, ReactNode } from "react";
+import type { ButtonHTMLAttributes, ComponentPropsWithoutRef, ReactNode } from "react";
 
 type CommonProps = {
   children: ReactNode;
@@ -13,9 +13,10 @@ type CommonProps = {
   iconAlt?: string;
 };
 
-type LinkVariantProps = CommonProps & {
-  href: string;
-};
+type LinkVariantProps = CommonProps &
+  Omit<ComponentPropsWithoutRef<typeof Link>, "className" | "children"> & {
+    href: string;
+  };
 
 type ButtonVariantProps = CommonProps &
   Omit<ButtonHTMLAttributes<HTMLButtonElement>, "className" | "children"> & {
@@ -64,9 +65,16 @@ function ArrowIcon({
  */
 export function OutlineArrowButton(props: OutlineArrowButtonProps) {
   if ("href" in props && props.href) {
-    const { href, children, className, iconClassName, iconAlt = "" } = props;
+    const {
+      href,
+      children,
+      className,
+      iconClassName,
+      iconAlt = "",
+      ...linkProps
+    } = props;
     return (
-      <Link href={href} className={cn(baseClassName, className)}>
+      <Link href={href} className={cn(baseClassName, className)} {...linkProps}>
         <Label>{children}</Label>
         <ArrowIcon alt={iconAlt} className={iconClassName} />
       </Link>

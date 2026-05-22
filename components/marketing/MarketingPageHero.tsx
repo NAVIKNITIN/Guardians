@@ -1431,7 +1431,7 @@ export function MarketingAudienceHero({
               </span>
             </h1>
           </ScrollReveal>
-          <ScrollReveal direction="up" delay={0.12} distance={20} className="flex w-full justify-center pr-[100px]">
+          <ScrollReveal direction="up" delay={0.12} distance={20} className="flex w-full justify-center ">
             <p className=" flex w-full max-w-[500px] text-sm  text-black  text-[clamp(0.985rem,100vw,0.375rem)] md:mt-3 lg:mt-5 ">
               {content.body}
             </p>

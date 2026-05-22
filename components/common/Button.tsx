@@ -1,11 +1,10 @@
+import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import { cn } from "@/utils/cn";
-import { primaryCtaClassName } from "@/styles/buttonStyles";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
 
 type Variant = "primary" | "outline" | "ghost";
 
-const variants: Record<Variant, string> = {
-  primary: primaryCtaClassName,
+const variants: Record<Exclude<Variant, "primary">, string> = {
   outline:
     "inline-flex items-center justify-center gap-2 rounded-sm px-6 py-3 text-xs font-semibold uppercase tracking-widest bg-transparent text-brand-text-primary border border-brand-text-primary hover:bg-brand-text-primary hover:text-white transition-all duration-300 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-accent",
   ghost:
@@ -25,6 +24,20 @@ export function Button({
   type = "button",
   ...props
 }: ButtonProps) {
+  if (variant === "primary") {
+    return (
+      <OutlineArrowButton
+        type={type}
+        className={cn("text-xs", className)}
+        iconClassName="h-[15px] w-[15px]"
+        iconAlt=""
+        {...props}
+      >
+        {children}
+      </OutlineArrowButton>
+    );
+  }
+
   return (
     <button
       type={type}

@@ -1,5 +1,4 @@
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
-import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 import type { ReactNode } from "react";

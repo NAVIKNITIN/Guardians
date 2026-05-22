@@ -1,6 +1,6 @@
 import { Container } from "@/components/common/Container";
+import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import { cn } from "@/utils/cn";
-import Image from "next/image";
 
 type Branch = {
   name: string;
@@ -29,6 +29,13 @@ const BRANCHES: Branch[] = [
     mapUrl:
       "https://maps.google.com/?q=Lake+Central+Tower+Business+Bay+Dubai",
   },
+  {
+    name: "Goa",
+    address:
+      "near baga beach, Goa",
+    mapUrl:
+      "https://maps.google.com/?q=Goa",
+  },
 ];
 
 function BranchCard({ branch }: { branch: Branch }) {
@@ -44,26 +51,19 @@ function BranchCard({ branch }: { branch: Branch }) {
           {branch.address}
         </p>
         {/* Figma: “GOOGLE MAP” — compact caps, gradient bar */}
-        <a
+        <OutlineArrowButton
           href={branch.mapUrl}
           target="_blank"
           rel="noopener noreferrer"
           className={cn(
-            "btn-grad btn-primary-gradient inline-flex w-full max-w-sm shrink-0 items-center justify-center gap-3 self-center px-6 py-3 sm:w-auto sm:max-w-none sm:gap-4 sm:px-10 sm:py-3.5",
-            "n-bold fs-14 lh-18 uppercase tracking-[0.1em] text-white transition-opacity hover:opacity-90 sm:fs-15 sm:lh-21",
+            "w-full max-w-sm shrink-0 self-center px-6 py-3 sm:w-auto sm:max-w-none sm:gap-4 sm:px-10 sm:py-3.5",
+            "n-bold fs-14 lh-18 uppercase tracking-[0.1em] sm:fs-15 sm:lh-21",
           )}
+          iconClassName="h-[15px] w-[15px]"
+          iconAlt=""
         >
           Google Map
-          <span className="inline-block" aria-hidden>
-            <Image
-              src="/images/arrowwhite.svg"
-              alt=""
-              width={15}
-              height={15}
-              className="object-cover"
-            />
-          </span>
-        </a>
+        </OutlineArrowButton>
       </div>
     </div>
   );
@@ -78,7 +78,7 @@ export function BranchesSection() {
           Branches
         </h2>
 
-        <div className="grid grid-cols-1 items-stretch gap-10 sm:gap-8 md:grid-cols-3 lg:gap-10">
+        <div className="grid grid-cols-1 items-stretch gap-10 sm:gap-8 md:grid-cols-4 lg:gap-10">
           {BRANCHES.map((branch) => (
             <BranchCard key={branch.name} branch={branch} />
           ))}

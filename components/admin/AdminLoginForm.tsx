@@ -1,6 +1,7 @@
 "use client";
 
 import { StaggerContainer } from "@/components/animations/StaggerContainer";
+import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import { IconChevronLeft } from "@/components/common/icons";
 import { login as loginRequest } from "@/src/api/services/authService";
 import { login as setLoggedIn } from "@/src/utils/auth";
@@ -248,12 +249,15 @@ export function AdminLoginForm() {
           </Link>
         </div>
 
-        <button
+        <OutlineArrowButton
           type="submit"
-          className="text-3xl cursor-pointer mt-8 h-[58px] w-full rounded-[16px] btn-grad text-[1.08rem] font-bold uppercase tracking-widest text-white shadow-[0_18px_32px_rgba(239,111,82,0.24)]"
+          disabled={isSubmitting}
+          className="mt-8 h-[58px] w-full cursor-pointer rounded-[16px] text-[1.08rem] font-bold uppercase tracking-widest shadow-[0_18px_32px_rgba(239,111,82,0.24)] disabled:cursor-not-allowed disabled:opacity-70"
+          iconClassName="h-[15px] w-[15px]"
+          iconAlt=""
         >
           {isSubmitting ? "Logging In..." : "Login"}
-        </button>
+        </OutlineArrowButton>
       </form>
 
       <div className="mt-10 flex justify-center">

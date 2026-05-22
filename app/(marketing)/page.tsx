@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { HomeVisitLeadCaptureModal } from "@/components/marketing/visit-lead-modal/HomeVisitLeadCaptureModal";
 import { DividerSection } from "@/components/sections/DividerSection";
 import { HeroSection } from "@/components/sections/HeroSection";
 import { StickyScrollFillSection } from "@/components/sections/StickyScrollFillSection";
@@ -14,6 +15,7 @@ export default function HomePage() {
       <HeroSection />
       <HomeStickyScrollCopy />
       <DividerSection />
+      <HomeVisitLeadCaptureModal />
     </>
   );
 }

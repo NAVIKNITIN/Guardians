@@ -1,9 +1,8 @@
 "use client";
 
+import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import { cn } from "@/utils/cn";
-import { PublicationLoadMoreButton } from "@/components/publications/PublicationLoadMoreButton";
 import { useState } from "react";
-import Image from "next/image";
 
 // ─── Icons ───────────────────────────────────────────────────────────────────
 
@@ -279,21 +278,14 @@ export function ContactFormPanel() {
               </div>
 
               {/* Submit */}
-              <button
+              <OutlineArrowButton
                 type="submit"
-                className="btn-grad flex w-full items-center justify-center gap-5 py-[18px] n-bold fs-20 lh-24  uppercase tracking-[0.1em] text-white"
+                className="flex w-full py-[18px] n-bold fs-20 lh-24 uppercase tracking-[0.1em]"
+                iconClassName="h-[15px] w-[15px]"
+                iconAlt=""
               >
                 Submit
-                <span className="inline-block" aria-hidden>
-                  <Image
-                    src="/images/arrowwhite.svg"
-                    alt=""
-                    width={15}
-                    height={15}
-                    className="object-cover"
-                  />
-                </span>
-              </button>
+              </OutlineArrowButton>
             </form>
           </div>
         </div>

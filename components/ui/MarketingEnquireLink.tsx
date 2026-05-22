@@ -1,18 +1,15 @@
-import { IconArrowUpRight } from "@/components/common/icons";
+import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import {
   heroEnquireCtaClassName,
   ourWorkReadMoreLinkClassName,
 } from "@/styles/buttonStyles";
 import { cn } from "@/utils/cn";
-import Link from "next/link";
-import type { ComponentProps, ReactNode } from "react";
+import type { ReactNode } from "react";
 
-export type MarketingEnquireLinkProps = Omit<
-  ComponentProps<typeof Link>,
-  "className" | "children"
-> & {
+export type MarketingEnquireLinkProps = {
   children: ReactNode;
   className?: string;
+  href: string;
   /** `ourWork` = full-width Figma bar (developer Our Work band). Default matches hero CTA. */
   variant?: "default" | "ourWork";
 };
@@ -22,22 +19,21 @@ export function MarketingEnquireLink({
   children,
   className,
   variant = "default",
-  ...props
+  href,
 }: MarketingEnquireLinkProps) {
-  const baseClass =
-    heroEnquireCtaClassName;
-
-  const arrow = (
-    <IconArrowUpRight className=" h-[15px] w-[15px] shrink-0" />
-  );
-
   return (
-    <Link
-      {...props}
-      className={cn(baseClass, "group ", className)}
+    <OutlineArrowButton
+      href={href}
+      className={cn(
+        variant === "ourWork"
+          ? ourWorkReadMoreLinkClassName
+          : heroEnquireCtaClassName,
+        className,
+      )}
+      iconClassName="h-[15px] w-[15px]"
+      iconAlt=""
     >
       {children}
-      {arrow}
-    </Link>
+    </OutlineArrowButton>
   );
 }
