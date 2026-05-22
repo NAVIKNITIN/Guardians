@@ -7,16 +7,13 @@ import {
 } from "@/components/common/icons";
 import { SectionSurface } from "@/components/ui/SectionSurface";
 import {
-  formatDeveloperStatValue,
   type DeveloperStat,
   type StatsSectionContent,
 } from "@/data/audience-marketing";
-import { useCountUp } from "@/hooks/useCountUp";
 import { cn } from "@/utils/cn";
 import {
   AnimatePresence,
   motion,
-  useInView,
   useReducedMotion,
 } from "framer-motion";
 import Image from "next/image";
@@ -30,41 +27,33 @@ import {
 const CAROUSEL_PREV = "/images/leftcarousel.svg";
 const CAROUSEL_NEXT = "/images/rightcarousel.svg";
 
+const bandValueClassName =
+  "n-book tabular-nums text-center text-brand-footer whitespace-nowrap leading-none tracking-[-0.03em] text-[clamp(1.75rem,6.5vw,2.25rem)] sm:text-4xl md:text-[clamp(2.25rem,4vw,2.85rem)] md:tracking-[-0.04em]";
+
 export function StatFigure({
   stat,
-  index,
-  isInView,
   compact,
 }: {
   stat: DeveloperStat;
-  index: number;
-  isInView: boolean;
   /**
    * About-page inline column: avoid viewport-`md:` sizing (numbers explode in a narrow grid cell).
    */
   compact?: boolean;
 }) {
-  const count = useCountUp(stat.end, isInView, {
-    duration: 1800,
-    delay: index * 75,
-  });
-  const text = formatDeveloperStatValue(stat, count);
-
   return (
     <p
       className={cn(
-        "tabular-nums text-brand-footer",
         compact
           ? cn(
-            "n-bold max-w-full wrap-break-word whitespace-normal text-left font-semibold leading-none tracking-[-0.04em]",
+            "n-bold max-w-full wrap-break-word whitespace-normal text-left font-semibold leading-none tracking-[-0.04em] tabular-nums text-brand-footer",
             "text-[clamp(1.65rem,min(13cqw,4.2vw),2.65rem)]",
             "xl:text-[clamp(1.75rem,min(12cqw,3.4vw),2.85rem)]",
             "2xl:text-[clamp(1.85rem,min(11cqw,3vw),3rem)]",
           )
-          : "n-book  tracking-[-0.03em] text-center text-[clamp(1.75rem,6.5vw,2.25rem)] whitespace-nowrap sm:whitespace-normal sm:text-4xl md:text-[clamp(2.25rem,4vw,2.85rem)] md:tracking-[-0.04em]",
+          : bandValueClassName,
       )}
     >
-      {text}
+      {stat.value}
     </p>
   );
 }
@@ -84,7 +73,6 @@ export function DeveloperStatsSection({
   isBuyer?: boolean;
 }) {
   const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "0px 0px -12% 0px" });
   const metrics = content.metrics;
 
   const isTwoColInline = layout === "inline" && inlineColumns === 2;
@@ -92,8 +80,12 @@ export function DeveloperStatsSection({
   const gridClassName = cn(
     "w-full min-w-0",
     isTwoColInline
-      ? "grid grid-cols-1 justify-items-stretch gap-x-8 gap-y-10 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-12 md:grid-cols-2 lg:gap-x-14 lg:gap-y-16 fs-56 "
-      : "grid grid-cols-1 gap-x-4 gap-y-0 sm:grid-cols-2 md:grid-cols-4",
+      ? "grid grid-cols-1 justify-items-stretch gap-x-8 gap-y-10 sm:grid-cols-2 sm:gap-x-10 sm:gap-y-12 md:grid-cols-2 lg:gap-x-14 lg:gap-y-16 fs-56"
+      : cn(
+        "grid w-full auto-rows-fr grid-cols-1 items-stretch gap-y-10",
+        "sm:grid-cols-2 sm:gap-y-12",
+        "md:grid-cols-4 md:gap-y-0",
+      ),
   );
 
   const grid = (
@@ -105,27 +97,30 @@ export function DeveloperStatsSection({
               "flex min-h-0 min-w-0 flex-col",
               isTwoColInline
                 ? "items-start gap-3 text-left"
-                : "items-center justify-center px-4 py-0 text-center sm:px-8 md:px-6 lg:px-12",
-              !isTwoColInline &&
-              idx > 0 &&
-              "relative md:before:absolute md:before:left-0 md:before:top-1/2 md:before:h-5.5 md:before:w-px md:before:-translate-y-1/2 md:before:bg-[#8F8183] md:before:content-['']",
+                : cn(
+                  "relative h-full w-full min-w-0 items-center text-center",
+                  "px-2 py-2 sm:px-3 sm:py-3 md:px-4 md:py-4 lg:px-5",
+                  "max-md:even:before:absolute max-md:even:before:left-0 max-md:even:before:top-1/2 max-md:even:before:z-10 max-md:even:before:h-5.5 max-md:even:before:w-px max-md:even:before:-translate-y-1/2 max-md:even:before:bg-[#8F8183] max-md:even:before:content-['']",
+                  idx > 0 &&
+                  "md:before:absolute md:before:left-0 md:before:top-1/2 md:before:z-10 md:before:h-5.5 md:before:w-px md:before:-translate-y-1/2 md:before:bg-[#8F8183] md:before:content-['']",
+                ),
             )}
           >
-            <StatFigure
-              stat={stat}
-              index={idx}
-              isInView={isInView}
-              compact={isTwoColInline}
-            />
-            <p
-              className={cn(
-                isTwoColInline
-                  ? "max-w-68 text-pretty text-sm leading-snug text-[#5f5a5b] n-book font-normal normal-case tracking-normal"
-                  : "fs-12 lh-20 n-bold uppercase leading-snug tracking-wide text-black whitespace-nowrap",
-              )}
-            >
-              {stat.label}
-            </p>
+            {isTwoColInline ? (
+              <>
+                <StatFigure stat={stat} compact />
+                <p className="max-w-68 text-pretty text-sm leading-snug text-[#5f5a5b] n-book font-normal normal-case tracking-normal">
+                  {stat.label}
+                </p>
+              </>
+            ) : (
+              <div className="flex w-full min-w-0 flex-col items-center gap-1 md:gap-1.5">
+                <StatFigure stat={stat} />
+                <p className="w-full max-w-full shrink-0 fs-12 lh-20 n-bold text-center uppercase leading-snug tracking-wide text-pretty text-black">
+                  {stat.label}
+                </p>
+              </div>
+            )}
           </div>
         </ScrollReveal>
       ))}
@@ -139,7 +134,8 @@ export function DeveloperStatsSection({
   return (
     <SectionSurface
       aria-label="Key statistics"
-      className="bg-transparent my-0! py-0!"
+      className="w-full bg-transparent my-0! py-0!"
+      containerClassName="w-full max-w-none !px-0"
     >
       {grid}
     </SectionSurface>

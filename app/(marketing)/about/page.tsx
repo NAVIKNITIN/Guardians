@@ -33,9 +33,9 @@ const leadershipSlides = [
     imageAlt: "Leadership portrait 1",
     title: "We stay ahead of the curve with strategy",
     body:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    name: "Jayesh Rathod",
-    role: "Co-Founder & Director",
+      "Real estate is ultimately about people. Understanding what they need, building what they trust and delivering what we promise. That belief is what drove us to build The Guardians, and it is what keeps us going every single day.",
+    name: "Ram Naik",
+    role: "Co-Founder and CEO",
     imagePositionClassName: "object-center",
   },
   {
@@ -44,9 +44,9 @@ const leadershipSlides = [
     imageAlt: "Leadership portrait 2",
     title: "We stay ahead of the curve with strategy",
     body:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    name: "Jayesh Rathod",
-    role: "Co-Founder & Director",
+      "We built this firm on the right values from day one. Ethical practice, deep market knowledge and an unrelenting focus on what is best for our clients. That is not just how we work. That is who we are.",
+    name: "Kaushal Agarwal",
+    role: "Co-Founder and Chairman",
     imagePositionClassName: "object-center",
   },
   {
@@ -55,9 +55,9 @@ const leadershipSlides = [
     imageAlt: "Leadership portrait 3",
     title: "We stay ahead of the curve with strategy",
     body:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "Good strategy is what separates great outcomes from average ones. Every project we take on is backed by research, shaped by insight and executed with precision. That discipline is what makes The Guardians different.",
     name: "Jayesh Rathod",
-    role: "Co-Founder & Director",
+    role: "Co-Founder and Director",
     imagePositionClassName: "object-center",
   },
   {
@@ -66,9 +66,9 @@ const leadershipSlides = [
     imageAlt: "Leadership portrait 4",
     title: "We stay ahead of the curve with strategy",
     body:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua, dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-    name: "Jayesh Rathod",
-    role: "Co-Founder & Director",
+      "n this industry, trust is everything. We have built ours through consistency, strong relationships and results that speak for themselves. That is something no market cycle can take away from us.",
+    name: "Khetsi Barot",
+    role: "Co-Founder and Managing Director",
     imagePositionClassName: "object-center",
   },
 ] satisfies readonly LeadershipSlide[];
@@ -201,14 +201,14 @@ export default function AboutPage() {
 
           <div className="mt-12 flex justify-center">
             {/* <GradientCtaButton href="/tgrea" variant="know-more" className="fs-18 n-bold uppercase lg:px-10">
-              Know More
+              Explore More
             </GradientCtaButton> */}
             <OutlineArrowButton
               href="/tgrea"
               className="mt-5 px-12 py-4 fs-18 uppercase ls-10 lh-24"
               iconClassName="w-[13px] h-[13px]"
             >
-              Know More
+              Explore More
             </OutlineArrowButton>
           </div>
         </Container>

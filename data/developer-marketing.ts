@@ -17,7 +17,7 @@ import {
   partnersBand,
 } from "./audience-marketing-shared";
 
-const PLACEHOLDER_SERVICE_DESC =
+export const PLACEHOLDER_SERVICE_DESC =
   "Lorem ipsum dolor sit amet, consectetur adipiscing elit.";
 
 export const DEV_LANDMARK_ONGOING: LandmarkProject[] = [
@@ -57,15 +57,6 @@ export const DEV_LANDMARK_ONGOING: LandmarkProject[] = [
     bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
     imageSrc: "/images/image 44.svg",
   },
-  // {
-  //   id: "5",
-  //   brand: "MARATHON",
-  //   projectLine: "MARATHON GROUP'S",
-  //   projectName: "MONTE SOUTH",
-  //   location: "Byculla, Mumbai, Maharashtra ",
-  //   bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
-  //   imageSrc: "/images/image 44.svg",
-  // },
 ];
 
 export const DEV_LANDMARK_ONGOING_BUYER_MARKETING: LandmarkProject[] = [
@@ -116,13 +107,44 @@ export const DEV_LANDMARK_ONGOING_BUYER_MARKETING: LandmarkProject[] = [
   // },
 ];
 
-export const DEV_LANDMARK_COMPLETED: LandmarkProject[] = DEV_LANDMARK_ONGOING.map(
-  (p) => ({
-    ...p,
-    id: `${p.id}-done`,
-    projectName: `${p.projectName} — delivered`,
-  }),
-);
+export const DEV_LANDMARK_COMPLETED: LandmarkProject[] = [
+  {
+    id: "1",
+    brand: "MARATHON",
+    projectLine: "Featured Project",
+    projectName: "MONTE SOUTH",
+    location: "Byculla, Mumbai, Maharashtra ",
+    bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
+    imageSrc: "/images/image 44.svg",
+  },
+  {
+    id: "2",
+    brand: "MARATHON",
+    projectLine: "Featured Project",
+    projectName: "MONTE SOUTH",
+    location: "Byculla, Mumbai, Maharashtra ",
+    bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
+    imageSrc: "/images/image 44.svg",
+  },
+  {
+    id: "3",
+    brand: "MARATHON",
+    projectLine: "Featured Project",
+    projectName: "MONTE SOUTH",
+    location: "Byculla, Mumbai, Maharashtra ",
+    bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
+    imageSrc: "/images/image 44.svg",
+  },
+  {
+    id: "4",
+    brand: "MARATHON",
+    projectLine: "Featured Project",
+    projectName: "MONTE SOUTH",
+    location: "Byculla, Mumbai, Maharashtra ",
+    bhkRange: "2, 2.5, 3 & 3.5 BHK Residences",
+    imageSrc: "/images/image 44.svg",
+  },
+];
 export const DEV_LANDMARK_COMPLETED_BUYER_MARKETING: LandmarkProject[] = DEV_LANDMARK_ONGOING.map(
   (p) => ({
     ...p,
@@ -149,47 +171,29 @@ export const DEVELOPER_MARKETING_PAGE = {
   services: {
     sectionTitle: "Our services",
     description:
-      "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor.",
+      "Comprehensive real estate consultancy built to optimise product strategy, pricing, positioning and sales velocity.",
     knowMoreHref: DEVELOPER_SERVICES,
-    knowMoreLabel: DEFAULT_KNOW_MORE.knowMoreLabel,
+    knowMoreLabel: "Explore More",
     cards: [
       {
         id: "residential",
         title: "Residential",
         src: "/images/Developer/ourservices/1.svg",
-        description: PLACEHOLDER_SERVICE_DESC,
+        description: "End-to-end advisory covering market analysis, micro-market dynamics, unit mix planning, pricing strategy, channel partner mapping and sales lifecycle management for residential developments.",
       },
       {
         id: "business",
-        title: "Business solution",
+        title: "Business Solutions",
         src: "/images/Developer/ourservices/2.svg",
-        description: PLACEHOLDER_SERVICE_DESC,
+        description: "Consulting solutions for commercial, retail and mixed-use assets including absorption strategy, investor targeting, tenant profiling, product positioning and long-term revenue planning.",
       },
       {
-        id: "market",
-        title: "Market intelligence",
+        id: "buyer-assist",
+        title: "Developer Solutions",
         src: "/images/Developer/ourservices/2.svg",
-        description: PLACEHOLDER_SERVICE_DESC,
+        description: "Specialised support for developers including launch planning, sales infrastructure setup, project branding coordination, documentation support, inventory planning, channel partner engagement and performance tracking across sales cycles.",
       },
-      {
-        id: "partner",
-        title: "Partner network",
-        src: "/images/Developer/ourservices/2.svg",
-        description: PLACEHOLDER_SERVICE_DESC,
-      },
-      {
-        id: "institutional",
-        title: "Institutional sales",
-        src: "/images/Developer/ourservices/2.svg",
-        description: PLACEHOLDER_SERVICE_DESC,
-      },
-      {
-        id: "advisory",
-        title: "Structured advisory",
-        src: "/images/Developer/ourservices/2.svg",
-        description: PLACEHOLDER_SERVICE_DESC,
-      },
-    ],
+    ]
   },
   ourWork: {
     sectionTitle: "OUR WORK",
@@ -200,7 +204,7 @@ export const DEVELOPER_MARKETING_PAGE = {
       {
         id: "1",
         title: "The Guardians Assists with Elme Communities’ Evolution.",
-        body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+        body: "The Guardians assists with structured launches, pricing optimisation and high-performance sales strategies designed to deliver measurable outcomes across every development phase.",
         imageSrc: "/images/ourwork.svg",
       },
       {
@@ -230,28 +234,25 @@ export const DEVELOPER_MARKETING_PAGE = {
     ongoing: DEV_LANDMARK_ONGOING,
     completed: DEV_LANDMARK_COMPLETED,
     ctaHref: PROJECTS_ONGOING,
-    ctaLabel: "Know more",
+    ctaLabel: "Explore More",
   },
   stats: {
     metrics: [
-      { label: "Cr. Worth of Inventory Sold", end: 37850, format: "comma" },
-      {
-        label: "Sq. Ft. Area Developed",
-        end: 2,
-        format: "suffix",
-        suffix: " Million+",
-      },
-      { label: "Projects Delivered", end: 307, format: "suffix", suffix: "+" },
-      { label: "Units Sold", end: 29669, format: "comma" },
+      { label: "Inventory Sold", value: "37,850 Cr+" },
+      { label: "Industry Expertise", value: "10+ Years" },
+      { label: "Delivered Nationwide", value: "307+ Projects" },
+      { label: "Successfully Sold", value: "29,669 Units" },
     ] as const satisfies readonly DeveloperStat[],
   },
+  
   partners: partnersBand(
-    "Partnered with revolutionary",
-    "startups & global organizations",
+    "Partnered with leading developers, institutions and global ",
+    "real estate organisations across major markets.",
   ),
   testimonials: {
     sectionTitle: "What our clients say",
     ...DEFAULT_VIEW_MORE,
+    viewMoreLabel:"Explore More ",
     viewMoreHref: "/partners",
     items: [
       {

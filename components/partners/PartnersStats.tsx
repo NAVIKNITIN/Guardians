@@ -19,19 +19,19 @@ type StatItem = {
 
 const STATS: StatItem[] = [
   {
-    end: 250,
+    end: 307,
     suffix: "+",
     label: "Projects Completed Successfully",
   },
   {
-    end: 52565,
-    unit: " sq.ft.",
+    end: 17.3,
+    unit: " Million+ sq.ft.",
     label: "Property Sold",
   },
   {
-    end: 100,
-    unit: " units",
-    label: "Sold Under 10 Days",
+    end: 29669,
+    unit: "",
+    label: "Units Sold",
   },
 ];
 

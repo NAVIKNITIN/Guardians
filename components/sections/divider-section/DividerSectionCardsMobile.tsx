@@ -95,7 +95,7 @@ export function BuyerProfileCardMobile() {
             </h3>
           </div>
           <Link href="/buyer" className={cn(dividerCardCtaClassName, "w-fit shrink-0")}>
-            Know More
+            Explore More
             <IconArrowUpRight className="h-[13px] w-[13px] shrink-0" />
           </Link>
         </div>
@@ -166,7 +166,7 @@ export function DeveloperProfileCardMobile() {
             </h3>
           </div>
           <Link href="/developer" className={cn(dividerCardCtaClassName, "w-fit shrink-0")}>
-            Know More
+            Explore More
             <IconArrowUpRight className="h-[13px] w-[13px] shrink-0" />
           </Link>
         </div>

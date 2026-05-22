@@ -27,7 +27,10 @@ function ChevronDown({ className }: { className?: string }) {
 // ─── Contact info block ───────────────────────────────────────────────────────
 
 const CONNECT_INTRO =
-  "Lorem ipsum dolor sit amet consectetur. Congue nulla ut sit ac donec eros. Sed mauris malesuada risus.";
+  "Whether you’re exploring an opportunity or looking to take one forward, we’re here to help you move ahead with clarity.";
+
+const enquiryLinkCls =
+  "n-book fs-18 flex items-center gap-2 break-words text-sm leading-[1.35] text-[#161616] transition-opacity hover:opacity-70 sm:items-center sm:text-base md:text-lg lg:text-[20px] lg:leading-[24px]";
 
 function ContactInfoBlock({ block }: { block: ContactEnquiry }) {
   return (
@@ -35,24 +38,22 @@ function ContactInfoBlock({ block }: { block: ContactEnquiry }) {
       <h3 className="n-bold fs-20 lh-24 text-[#161616] mb-2">
         {block.title}
       </h3>
-      {block.email && (
-        <a
-          href={`mailto:${block.email}`}
-          className="n-book fs-18 flex items-center gap-2 break-words text-sm leading-[1.35] text-[#161616] transition-opacity hover:opacity-70 sm:items-center sm:text-base md:text-lg lg:text-[20px] lg:leading-[24px]"
-        >
+      {block.email ? (
+        <a href={`mailto:${block.email}`} className={enquiryLinkCls}>
           <ContactEnquiryEmailIcon className="mt-0.5 text-[#161616]" />
           {block.email}
         </a>
-      )}
-      {block.phone && (
+      ) : null}
+      {block.phones.map((phone, phoneIdx) => (
         <a
-          href={block.telHref}
-          className="n-book fs-18 mt-1 flex items-center gap-2 text-sm leading-[1.35] text-[#161616] transition-opacity hover:opacity-70 sm:text-base md:text-lg lg:text-[20px] lg:leading-[24px]"
+          key={`${phone.telHref}-${phoneIdx}`}
+          href={phone.telHref}
+          className={cn(enquiryLinkCls, (block.email || phoneIdx > 0) && "mt-1")}
         >
-          <ContactEnquiryPhoneIcon className="mt-0.5 text-[#161616]" />
-          {block.phone}
+          <ContactEnquiryPhoneIcon className="mt-0.5 shrink-0 text-[#161616]" />
+          {phone.display}
         </a>
-      )}
+      ))}
     </div>
   );
 }

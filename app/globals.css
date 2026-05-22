@@ -1663,7 +1663,7 @@ html:not(.js-directional-grad) .btn-grad--dark:focus-visible {
     #ffa995 95%
   );
 }
-/* Home hero / marketing “KNOW MORE” (pairs with `GradientCtaButton` + Figma) */
+/* Home hero / marketing “Explore More” (pairs with `GradientCtaButton` + Figma) */
 .btn-1 {
   font-family: var(--font-nexa);
   font-weight: 600;

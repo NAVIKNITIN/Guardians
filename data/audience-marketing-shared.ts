@@ -25,7 +25,7 @@ export const DEFAULT_VIEW_MORE = {
 
 export const DEFAULT_KNOW_MORE = {
   knowMoreHref: CONTACT,
-  knowMoreLabel: "KNOW more",
+  knowMoreLabel: "Explore More",
 } as const;
 
 
@@ -62,6 +62,6 @@ export function partnersBand(
     row2: DEV_PARTNER_ROW2,
     closing: "…AND MANY MORE TO",
     ctaHref: "/partners",
-    ctaLabel: "Know More",
+    ctaLabel: "Explore More",
   };
 }

@@ -39,14 +39,14 @@ export function HeroIntroAndCta({
           variant="know-more"
           className={ctaClassName}
         >
-          KNOW MORE
+          Explore More
         </GradientCtaButton> */}
         <OutlineArrowButton
           href="#about"
           className={ctaClassName}
           iconClassName="w-[13px] h-[13px]"
         >
-          KNOW MORE
+          Explore More
         </OutlineArrowButton>
       </div>
     </>

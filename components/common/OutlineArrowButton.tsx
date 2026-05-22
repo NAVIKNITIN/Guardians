@@ -60,7 +60,7 @@ function ArrowIcon({
 }
 
 /**
- * Dark “Know more” CTA with black/gray gradient sweep (see `globals.css` `.outline-arrow-grad-anim`).
+ * Dark “Explore More” CTA with black/gray gradient sweep (see `globals.css` `.outline-arrow-grad-anim`).
  * Renders a `<Link>` when `href` is provided, otherwise a `<button>`.
  */
 export function OutlineArrowButton(props: OutlineArrowButtonProps) {

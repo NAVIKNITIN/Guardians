@@ -22,20 +22,10 @@ export type LandmarkProject = {
   imageSrc: string;
 };
 
-export type DeveloperStat =
-  | { readonly label: string; readonly end: number; readonly format: "comma" }
-  | {
-      readonly label: string;
-      readonly end: number;
-      readonly format: "suffix";
-      readonly suffix: string;
-    };
-
-export function formatDeveloperStatValue(stat: DeveloperStat, n: number): string {
-  const v = Math.min(Math.max(0, Math.round(n)), stat.end);
-  if (stat.format === "comma") return v.toLocaleString("en-US");
-  return `${v}${stat.suffix}`;
-}
+export type DeveloperStat = {
+  readonly label: string;
+  readonly value: string;
+};
 
 export type PartnerLogo = { readonly src: string; readonly alt: string };
 

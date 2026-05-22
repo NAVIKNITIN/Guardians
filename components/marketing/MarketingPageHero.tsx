@@ -587,7 +587,7 @@ function HomeHero({
 
             <OutlineArrowButton
               href={cta.href}
-              className="h-[52px] max-w-sm cursor-pointer sm:h-[55px]  sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl w-[273px]"
+              className="h-[52px] max-w-sm cursor-pointer sm:h-[55px]  sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl "
             >
               {cta.label}
             </OutlineArrowButton>
@@ -914,9 +914,11 @@ function PartnersHero({
       <div className="pointer-events-none absolute inset-0 z-0">
         <Image
           src={config["backgroundImage"] as string}
-          alt=""
+          alt={(config["imageAlt"] as string) || ""}
           fill
-          className={HERO_BG_IMAGE_CLASS}
+          className={cn(
+            (config["imageClassName"] as string) || HERO_BG_IMAGE_CLASS,
+          )}
           sizes="100vw"
           priority
         />
@@ -927,7 +929,7 @@ function PartnersHero({
       />
       <div
         className={cn(
-          "relative z-20 flex w-full min-w-0 items-center justify-center bg-black/25 px-4 py-14 sm:px-6",
+          "relative z-20 flex w-full min-w-0 flex-col items-center justify-center gap-3 bg-black/25 px-4 py-14 text-center sm:gap-4 sm:px-6",
           "h-full min-h-0 sm:py-0",
           contentPad.className,
         )}
@@ -937,14 +939,20 @@ function PartnersHero({
           <h1
             id={config["headingId"] as string}
             className={cn(
-              "max-w-full uppercase text-[#202225] text-center text-balance",
-              "qs-reg text-[clamp(1.5rem,calc(0.65rem+5vw),4.375rem)] leading-[1.08] tracking-[0.05em] sm:leading-[1.06]",
+              "max-w-full text-balance uppercase text-white",
+              "qs-reg text-[clamp(1.5rem,calc(0.65rem+5vw),3rem)] leading-[1.08] tracking-[0.05em] sm:leading-[1.06]",
             )}
           >
-            <span className="text-white">Partners</span>
-            <span> &amp; Clients</span>
+            {config["title"] as string}
           </h1>
         </ScrollReveal>
+        {typeof config["body"] === "string" && config["body"] ? (
+          <ScrollReveal direction="up" delay={0.1} distance={20}>
+            <p className="m-auto max-w-[min(42rem,100%)] n-book text-[15px] leading-[1.35] text-white/95 sm:text-base md:text-lg">
+              {config["body"] as string}
+            </p>
+          </ScrollReveal>
+        ) : null}
       </div>
     </section>
   );
@@ -1185,7 +1193,7 @@ function ServicesHero({
           <h1
             id={config["headingId"] as string}
             className={cn(
-              "max-w-[min(100%,22ch)] break-words qs-reg lh-50 uppercase leading-none tracking-[0.05em] text-[#202225] text-[clamp(1.9rem,9vw,4.375rem)] lg:fs-70",
+              "m-auto  break-words qs-reg lh-50 uppercase leading-none tracking-[0.05em] text-[#202225] text-[clamp(1.9rem,9vw,4.375rem)] lg:fs-70",
               (config["titleClassName"] as string) || undefined,
             )}
           >
@@ -1440,7 +1448,7 @@ export function MarketingAudienceHero({
             </h1>
           </ScrollReveal>
           <ScrollReveal direction="up" delay={0.12} distance={20} className="flex w-full justify-center ">
-            <p className=" flex w-full max-w-[500px] text-sm  text-black  text-[clamp(0.985rem,100vw,0.375rem)] md:mt-3 lg:mt-5 ">
+            <p className=" flex w-full max-w-[780px] text-sm  text-black  text-[clamp(0.985rem,100vw,0.375rem)] md:mt-3 lg:mt-5 ">
               {content.body}
             </p>
           </ScrollReveal>

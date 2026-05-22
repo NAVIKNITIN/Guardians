@@ -11,7 +11,7 @@
         { "line2": "SIT AMET" }
       ],
       "subtitle": "We are one of the fastest growing Real Estate consulting company in India.",
-      "cta": { "href": "/about", "label": "KNOW MORE" }
+      "cta": { "href": "/about", "label": "Experience Us" }
     },
     "blog": {
       "variant": "overlayTitle",
@@ -45,9 +45,13 @@
       "imageClassName": "object-cover object-center mt-[-1.6rem]"
     },
     "partners": {
+      "body": "Over the years, we have had the privilege of working alongside some of the most respected names in real estate. These are the partnerships that have shaped us, and the clients who have trusted us to deliver.",
       "variant": "partners",
       "headingId": "partners-hero-heading",
-      "backgroundImage": "/images/partner-client-heor.png"
+      "backgroundImage": "/images/partner-client-heor.png",
+      "imageAlt": "Partners",
+      "title": "The Names Behind Our Biggest Moves.",
+      "imageClassName": "object-cover object-center mt-[-1.6rem]"
     },
     "gazette": {
       "variant": "publication",
@@ -78,23 +82,24 @@
       "imageAlt": "The Guardians city skyline",
       "headingHtml": { "prefix": "Who", "rest": " We Are?" },
       "subtitle": "We are one of the fastest growing Real Estate consulting company in India.",
-      "cta": { "href": "/tgrea", "label": "KNOW MORE" }
+      "cta": { "href": "/tgrea", "label": "Explore More" }
     },
     "servicesBuyer": {
       "variant": "services",
       "headingId": "buyer-services-heading",
       "ariaLabelledBy": "buyer-services-heading",
-      "title": "Buyer's Services",
-      "titleClassName": "max-w-[min(100%,20ch)]",
-      "subtitle": "We are one of the fastest growing Real Estate consulting company in India.",
+      "title": "Everything You Need to Find the Space You Will Love.",
+      "titleClassName": "max-w-[min(100%,30ch)] ls-4 lh-70",
+      "subtitle": "From your first search to your final signature, we are with you at every step.",
       "backgroundImage": "/images/Buyer/services/hero.svg"
     },
     "servicesDeveloper": {
       "variant": "services",
       "headingId": "dev-services-heading",
       "ariaLabelledBy": "dev-services-heading",
-      "title": "Developer's Services",
-      "subtitle": "We are one of the fastest growing Real Estate consulting company in India.",
+      "title": "The Advisory Partner Your Project Deserves.",
+      "titleClassName": "max-w-[min(100%,30ch)] ls-4 lh-70",
+      "subtitle": "From market intelligence and pricing strategy to sales execution and channel partner management, we bring everything your project needs to perform from day one.",
       "backgroundImage": "/images/Developer/services/hero.svg"
     },
     "projects": {
@@ -110,17 +115,17 @@
     "developer": {
       "isBuyer": false,
       "backgroundImageSrc": "/images/developer-hero.svg",
-      "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "body": "At The Guardians Real Estate Advisory, we bring pricing intelligence, launch strategy, and on-ground sales execution together to maximise your project’s performance from day one.",
       "enquireHref": "/contact",
-      "enquireLabel": "Enquire now",
+      "enquireLabel": "Let’s Connect  ",
       "ariaHeadingId": "developer-hero-heading"
     },
     "buyer": {
       "isBuyer": true,
       "backgroundImageSrc": "/images/Buyer/hero.svg",
-      "body": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+      "body": "Your home-buying journey deserves clarity, comfort and the right guidance. We’re here to make every step feel easier and more meaningful.",
       "enquireHref": "/contact",
-      "enquireLabel": "Enquire now",
+      "enquireLabel": "Explore Now ",
       "ariaHeadingId": "buyer-hero-heading"
     }
   }

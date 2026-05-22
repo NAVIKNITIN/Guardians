@@ -66,15 +66,15 @@ function BuyerProfileCard({
 
           <div className="text-left">
             <p className="n-bold text-[11px] uppercase tracking-[0.1em] text-[#000000] lg:text-[24px]">
-              I am a
+              I AM A
             </p>
             <h3
               className={cn(
-                "mt-1 qs-reg text-[clamp(1.85rem,8vw,2.4rem)] uppercase leading-[0.9] ls-5",
+                "mt-1 qs-reg text-[clamp(1.85rem,8vw,2.4rem)] uppercase leading-[1] ls-5",
                 FIGMA_TAUPE_TEXT,
               )}
             >
-              Buyer
+              PROPERTY SEEKER
             </h3>
           </div>
 
@@ -86,7 +86,7 @@ function BuyerProfileCard({
             )}
             iconClassName="h-[13px] w-[13px] shrink-0"
           >
-            Know More
+            Explore Journey
           </OutlineArrowButton>
         </div>
 
@@ -146,7 +146,7 @@ function DeveloperProfileCard({
 
           <div>
             <p className="n-bold text-[11px] uppercase tracking-[0.1em] text-[#000000] lg:text-[24px]">
-              I am a
+              I AM A
             </p>
             <h3
               className={cn(
@@ -154,7 +154,7 @@ function DeveloperProfileCard({
                 FIGMA_TAUPE_TEXT,
               )}
             >
-              Developer
+              PROPERTY CREATOR
             </h3>
           </div>
 
@@ -166,7 +166,7 @@ function DeveloperProfileCard({
             )}
             iconClassName="h-[13px] w-[13px] shrink-0"
           >
-            Know More
+            Explore Journey
           </OutlineArrowButton>
         </div>
 

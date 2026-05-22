@@ -45,7 +45,7 @@ export function ExploreBanner({ content, isBuyer }: { content: MarketingBannerCo
             </div>
 
             <div className="relative z-20 flex h-full w-full max-w-full flex-col justify-end gap-5 px-5 py-6 sm:max-w-[60%] sm:justify-center sm:gap-8 sm:px-8 sm:py-7 lg:px-10 lg:py-0 xl:px-12">
-              <h2 id={headingId} className="n-book text-[clamp(1.7rem,6vw,3rem)] leading-[1.05] text-[#161616]">
+              <h2 id={headingId} className="n-book text-[clamp(1.375rem,6vw,2rem)] leading-[1.05] text-[#161616]">
                 {content.headline}
               </h2>
               <div className="w-full sm:w-auto">

@@ -4,41 +4,43 @@ import { cn } from "@/utils/cn";
 
 type Branch = {
   name: string;
-  address: string;
-  mapUrl: string;
+  addressLines: readonly string[];
 };
+
+function branchMapUrl(addressLines: readonly string[]): string {
+  const query = addressLines
+    .map((line) => line.trim())
+    .filter(Boolean)
+    .join(", ");
+  return `https://maps.google.com/?q=${encodeURIComponent(query)}`;
+}
 
 const BRANCHES: Branch[] = [
   {
-    name: "Head Office",
-    address:
+    name: "Mumbai",
+    addressLines: [
+      "The Guardians Real Estate Advisory India",
       "C-602 & 603, ONE BKC, G Block, Bandra Kurla Complex, Bandra (E), Mumbai - 400051",
-    mapUrl:
-      "https://maps.google.com/?q=ONE+BKC+Bandra+Kurla+Complex+Mumbai",
+    ],
   },
   {
     name: "Pune",
-    address:
-      "Westport, Unit No 410, Survey Nos. 32/1A/1/30 to 38 & 54 of Revenue Village, Pan Card Club Road, Baner, Pune 411045",
-    mapUrl: "https://maps.google.com/?q=Westport+Baner+Pune",
+    addressLines: [
+      "The Guardians Real Estate Advisory India Westport, Unit No 410",
+      "Survey Nos. 32/1A/1/30 to 38 & 54 of Revenue Village, Pan Card Club Road, Baner, Pune 411045",
+    ],
   },
   {
     name: "Dubai",
-    address:
+    addressLines: [
       "TGREA International Advisory LLC, Office No 1807, Lake Central Tower, Business Bay, Dubai (UAE)",
-    mapUrl:
-      "https://maps.google.com/?q=Lake+Central+Tower+Business+Bay+Dubai",
-  },
-  {
-    name: "Goa",
-    address:
-      "near baga beach, Goa",
-    mapUrl:
-      "https://maps.google.com/?q=Goa",
+    ],
   },
 ];
 
 function BranchCard({ branch }: { branch: Branch }) {
+  const mapUrl = branchMapUrl(branch.addressLines);
+
   return (
     <div className="flex h-full flex-col items-center text-center">
       {/* Figma: branch title — bold sans, step below “BRANCHES”, above body */}
@@ -48,11 +50,15 @@ function BranchCard({ branch }: { branch: Branch }) {
       <div className="mt-3 flex min-h-0 w-full flex-1 flex-col justify-between gap-5 sm:mt-4 sm:gap-6">
         {/* Figma: address — regular, smallest column text (~16–18px, ~1.45–1.5 LH) */}
         <p className="n-book fs-16 lh-24 text-[#161616] sm:fs-17 sm:lh-26 md:fs-18 md:lh-28">
-          {branch.address}
+          {branch.addressLines.map((line, lineIdx) => (
+            <span key={lineIdx} className={cn(lineIdx > 0 && "mt-1 block")}>
+              {line}
+            </span>
+          ))}
         </p>
         {/* Figma: “GOOGLE MAP” — compact caps, gradient bar */}
         <OutlineArrowButton
-          href={branch.mapUrl}
+          href={mapUrl}
           target="_blank"
           rel="noopener noreferrer"
           className={cn(
@@ -79,8 +85,8 @@ export function BranchesSection() {
         </h2>
 
         <div className="grid grid-cols-1 items-stretch gap-10 sm:gap-8 md:grid-cols-4 lg:gap-10">
-          {BRANCHES.map((branch) => (
-            <BranchCard key={branch.name} branch={branch} />
+          {BRANCHES.map((branch, index) => (
+            <BranchCard key={`${branch.name}-${index}`} branch={branch} />
           ))}
         </div>
       </Container>

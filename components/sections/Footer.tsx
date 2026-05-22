@@ -238,12 +238,12 @@ export function Footer() {
 
               {/*
                * CTA — Figma: outline border, white, Nexa Bold (all Figma CTAs use weight 700).
-               * Same outline-button pattern as Frame 62 "Know More" button.
+               * Same outline-button pattern as Frame 62 "Explore More" button.
                */}
               <Link
                 href="/contact"
                 className={cn(
-                  "group inline-flex w-full shrink-0 items-center justify-center gap-2.5",
+                  "group uppercase inline-flex w-full shrink-0 items-center justify-center gap-2.5",
                   "border border-white bg-transparent py-3 n-bold text-sm text-white mt-3",
                   "transition-colors hover:bg-white hover:text-neutral-900",
                   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white",
@@ -368,12 +368,16 @@ export function Footer() {
                             {query.email}
                           </a>
                         ) : null}
-                        {query.phone ? (
-                          <a href={query.telHref} className={footerEnquiryLinkCls}>
+                        {query.phones.map((phone, phoneIdx) => (
+                          <a
+                            key={`${phone.telHref}-${phoneIdx}`}
+                            href={phone.telHref}
+                            className={footerEnquiryLinkCls}
+                          >
                             <ContactEnquiryPhoneIcon />
-                            {query.phone}
+                            {phone.display}
                           </a>
-                        ) : null}
+                        ))}
                       </div>
                     </FooterAccordionItem>
                   ))}

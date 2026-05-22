@@ -2,6 +2,7 @@
 
 import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import { CONTACT } from "@/data/audience-marketing-shared";
+import { cn } from "@/utils/cn";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
 import { useState } from "react";
@@ -213,6 +214,7 @@ type CommercialPanelProps = {
   items: ServiceAccordionItem[];
   imageSrc: string;
   knowMoreHref: string;
+  knowMoreLabel?: string;
 };
 
 function CommercialPanel({
@@ -220,6 +222,7 @@ function CommercialPanel({
   items,
   imageSrc,
   knowMoreHref,
+  knowMoreLabel = "Explore More",
 }: CommercialPanelProps) {
   const [openIndex, setOpenIndex] = useState(0);
 
@@ -289,7 +292,7 @@ function CommercialPanel({
             className="h-[53.99px] w-[253px] border border-white/30 cursor-pointer !shadow-none focus-visible:outline-none focus-visible:outline-offset-0 disabled:pointer-events-none disabled:opacity-50 sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
             iconClassName="w-[13px] h-[13px]"
           >
-            Know More
+            {knowMoreLabel}
           </OutlineArrowButton>
         </div>
       </div>
@@ -308,10 +311,19 @@ type ServicesGridProps = {
   accordionItems?: ServiceAccordionItem[];
   /** Background image for the Commercial panel. */
   accordionImageSrc?: string;
-  /** `href` for the "Know More" button. */
+  /** `href` for the panel CTA button. */
   knowMoreHref?: string;
+  /** Panel CTA label (default: "Explore More"). */
+  knowMoreLabel?: string;
   /** Optional per-tile panel content; if omitted, uses defaults based on tiles. */
   panelsByTile?: ServicePanel[];
+};
+
+const TILE_GRID_ROWS_CLASS: Record<number, string> = {
+  3: "lg:grid-rows-3",
+  4: "lg:grid-rows-4",
+  5: "lg:grid-rows-5",
+  6: "lg:grid-rows-6",
 };
 
 /** Shared services grid for buyer and developer service pages. */
@@ -322,6 +334,7 @@ export function ServicesGrid({
   accordionItems = DEFAULT_ACCORDION_ITEMS,
   accordionImageSrc = "/images/Developer/services/commercial.svg",
   knowMoreHref = CONTACT,
+  knowMoreLabel = "Explore More",
   panelsByTile,
 }: ServicesGridProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
@@ -357,10 +370,18 @@ export function ServicesGrid({
         knowMoreHref,
       };
 
+  const tileGridRowsClass =
+    TILE_GRID_ROWS_CLASS[tiles.length] ?? "lg:grid-rows-4";
+
   return (
     <section className="mb-2 bg-white my-10 md:my-16 lg:my-20 xl:my-25" aria-label={ariaLabel}>
       <div className="flex flex-col lg:grid lg:grid-cols-[43%_1fr] lg:gap-5">
-        <div className="flex min-h-0 flex-col gap-[30px] bg-white py-[30px] lg:grid lg:grid-rows-4 lg:gap-6 lg:py-0">
+        <div
+          className={cn(
+            "flex min-h-0 flex-col gap-[30px] bg-white py-[30px] lg:grid lg:gap-6 lg:py-0",
+            tileGridRowsClass,
+          )}
+        >
           {tiles.map((tile, idx) => (
             <ServiceTileView
               key={tile.label}
@@ -377,6 +398,7 @@ export function ServicesGrid({
           items={activePanel.items}
           imageSrc={activePanel.imageSrc}
           knowMoreHref={activePanel.knowMoreHref}
+          knowMoreLabel={knowMoreLabel}
         />
       </div>
     </section>

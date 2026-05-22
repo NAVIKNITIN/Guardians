@@ -64,7 +64,7 @@ export const heroContainerTopMobile = "pt-4 sm:pt-8 md:pt-9";
 
 export const heroContainerTopDesktop = "pt-10 xl:pt-11 2xl:pt-12";
 
-/** Desktop “Know More” — no full-width stretch; scales slightly on xl / 2xl. */
+/** Desktop “Explore More” — no full-width stretch; scales slightly on xl / 2xl. */
 export const heroDesktopKnowMoreButton = cn(
   "btn-1 inline-flex w-auto shrink-0 max-h-[55px] rounded-none border-0 n-bold whitespace-nowrap",
   "text-[20px] px-[50px] py-5",
