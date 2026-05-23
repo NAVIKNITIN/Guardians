@@ -120,4 +120,7 @@ export const aboutBrandCardShell = cn(
   "min-h-[160px] px-4 py-6 sm:min-h-[172px] sm:px-6 sm:py-7 md:min-h-[182px] md:px-6 md:py-8 xl:min-h-[190px]",
 );
 
-export const aboutBrandsCtaWrap = cn("mt-10 flex justify-center sm:mt-12 lg:mt-14");
+export const aboutBrandsCtaWrap = cn(
+  "mt-10 flex justify-center sm:mt-12 lg:mt-14",
+  "[&_a]:w-fit [&_a]:max-w-full [&_button]:w-fit [&_button]:max-w-full",
+);

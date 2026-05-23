@@ -172,12 +172,12 @@ export function OurWorkSection({
             direction="up"
             delay={0.14}
             distance={28}
-            className={audienceMobileOnlyBlock(centerOnMobile, "w-full")}
+            className={audienceMobileOnlyBlock(centerOnMobile)}
           >
             <AudienceMarketingSectionCtaMobile
               href={content.readMoreHref}
               centerOnMobile={centerOnMobile}
-              wrapClassName="mt-6"
+              wrapClassName="mt-6 mb-5"
             >
               {content.readMoreLabel}
             </AudienceMarketingSectionCtaMobile>

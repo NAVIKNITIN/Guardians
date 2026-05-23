@@ -105,10 +105,13 @@ export function ExploreBanner({
 
               <div
                 className={cn(
-                  "w-full sm:w-auto",
+                  "w-fit max-w-full sm:w-auto",
                   buyerMobileLayout
                     ? audienceDesktopOnlyBlock(true)
                     : centerOnMobile && "max-lg:hidden lg:block",
+                  centerOnMobile &&
+                    !buyerMobileLayout &&
+                    "max-lg:mx-auto",
                 )}
               >
                 <AudienceMarketingSectionCtaDesktop

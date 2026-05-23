@@ -4,6 +4,10 @@ import { Container } from "@/components/common/Container";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 import { OutlineArrowButton } from "../common/OutlineArrowButton";
+import {
+    audienceMarketingOutlineCtaClass,
+    audienceMarketingOutlineCtaIconClass,
+} from "@/styles/audienceMarketingCenter";
 
 const HR_EMAIL = "hr@theguardians.com";
 
@@ -96,11 +100,20 @@ export function GrowWithUs() {
                             </a>
                         </ScrollReveal>
 
-                        <ScrollReveal direction="up" delay={0.14} distance={18}>
+                        <ScrollReveal
+                            direction="up"
+                            delay={0.14}
+                            distance={18}
+                            className="flex w-full justify-center [&_a]:w-fit [&_a]:max-w-full"
+                        >
                             <OutlineArrowButton
                                 href="/contact"
-                                className="mt-6 h-[50px] w-full max-w-[271px] items-center justify-center py-0 n-bold text-base uppercase sm:mt-8 lg:mt-8"
-                                iconClassName="h-[13px] w-[13px]"
+                                className={cn(
+                                    audienceMarketingOutlineCtaClass,
+                                    "max-lg:!w-fit max-lg:!max-w-full",
+                                    "mt-6 sm:mt-8 lg:mt-8",
+                                )}
+                                iconClassName={audienceMarketingOutlineCtaIconClass}
                             >
                                 Enquire Now
                             </OutlineArrowButton>

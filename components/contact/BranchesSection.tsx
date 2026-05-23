@@ -1,5 +1,9 @@
 import { Container } from "@/components/common/Container";
 import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
+import {
+  audienceMarketingOutlineCtaIconClass,
+  publicationCardOutlineCtaClass,
+} from "@/styles/audienceMarketingCenter";
 import { cn } from "@/utils/cn";
 
 type Branch = {
@@ -66,11 +70,8 @@ function BranchCard({ branch }: { branch: Branch }) {
           href={mapUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className={cn(
-            "w-full max-w-sm shrink-0 self-center px-6 py-3 sm:w-auto sm:max-w-none sm:gap-4 sm:px-10 sm:py-3.5",
-            "n-bold fs-14 lh-18 uppercase tracking-[0.1em] sm:fs-15 sm:lh-21",
-          )}
-          iconClassName="h-[15px] w-[15px]"
+          className={publicationCardOutlineCtaClass}
+          iconClassName={audienceMarketingOutlineCtaIconClass}
           iconAlt=""
         >
           Google Map

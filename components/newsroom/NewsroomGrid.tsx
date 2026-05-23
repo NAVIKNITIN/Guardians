@@ -16,6 +16,11 @@ import { LISTING_PAGE_SIZE } from "@/lib/listingPagination";
 import { filterArticles } from "@/src/api/services/articleService";
 import { useEffect, useMemo, useState } from "react";
 import { OutlineArrowButton } from "../common/OutlineArrowButton";
+import {
+  audienceMarketingOutlineCtaIconClass,
+  publicationViewMoreCtaClass,
+} from "@/styles/audienceMarketingCenter";
+import { cn } from "@/utils/cn";
 
 const EXCERPT =
   "Lorem ipsum dolor sit amet consectetur. Augue molestie etiam lacus velit. Eget urna sagittis faucibus mauris id lacinia sit amet volutpat.";
@@ -110,7 +115,11 @@ export function NewsroomGrid() {
             </StaggerContainer>
 
             {hasMore ? (
-              <ScrollReveal direction="up" delay={0.15} className="mt-10 flex justify-center sm:mt-14 lg:mt-16">
+              <ScrollReveal
+                direction="up"
+                delay={0.15}
+                className="mt-10 flex justify-center sm:mt-14 lg:mt-16 [&_button]:w-fit [&_button]:max-w-full"
+              >
                 <OutlineArrowButton
                   type="button"
                   onClick={() =>
@@ -118,7 +127,12 @@ export function NewsroomGrid() {
                       Math.min(n + LISTING_PAGE_SIZE, articles.length),
                     )
                   }
-                  className="h-[52px] w-[273px] max-w-sm justify-center sm:h-[55px] sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
+                  className={cn(
+                    publicationViewMoreCtaClass,
+                    "max-lg:!w-fit max-lg:!max-w-full",
+                  )}
+                  iconClassName={audienceMarketingOutlineCtaIconClass}
+                  iconAlt=""
                 >
                   View More
                 </OutlineArrowButton>

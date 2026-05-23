@@ -5,11 +5,16 @@ import {
 } from "@/components/developer/DeveloperStatsSection";
 
 import { AboutStatsGrid } from "@/components/about/AboutStatsGrid";
-import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { MarketingPageHero } from "@/components/marketing/MarketingPageHero";
 import Image from "next/image";
 import type { Metadata } from "next";
 import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
+import { aboutBrandsCtaWrap } from "@/components/about/aboutPageResponsiveClasses";
+import {
+  audienceMarketingOutlineCtaClass,
+  audienceMarketingOutlineCtaIconClass,
+} from "@/styles/audienceMarketingCenter";
+import { cn } from "@/utils/cn";
 
 export const metadata: Metadata = {
   title: { absolute: "About | The Guardians" },
@@ -199,14 +204,11 @@ export default function AboutPage() {
             ))}
           </div>
 
-          <div className="mt-12 flex justify-center">
-            {/* <GradientCtaButton href="/tgrea" variant="know-more" className="fs-18 n-bold uppercase lg:px-10">
-              Explore More
-            </GradientCtaButton> */}
+          <div className={aboutBrandsCtaWrap}>
             <OutlineArrowButton
               href="/tgrea"
-              className="mt-5 px-12 py-4 fs-18 uppercase ls-10 lh-24"
-              iconClassName="w-[13px] h-[13px]"
+              className={cn(audienceMarketingOutlineCtaClass, "max-lg:!w-fit max-lg:!max-w-full")}
+              iconClassName={audienceMarketingOutlineCtaIconClass}
             >
               Know More
             </OutlineArrowButton>

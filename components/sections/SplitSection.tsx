@@ -3,6 +3,10 @@ import { cn } from "@/utils/cn";
 import Image from "next/image";
 import type { ReactNode } from "react";
 import { OutlineArrowButton } from "../common/OutlineArrowButton";
+import {
+  audienceMarketingOutlineCtaClass,
+  audienceMarketingOutlineCtaIconClass,
+} from "@/styles/audienceMarketingCenter";
 
 interface SplitSectionImage {
   src: string;
@@ -61,9 +65,11 @@ export function SplitSection({
             </p>
             <OutlineArrowButton
               href={href}
+              iconClassName={audienceMarketingOutlineCtaIconClass}
               className={cn(
-                "mt-6 hidden h-[50px] w-full max-w-xs items-center justify-center py-0 md:inline-flex md:w-auto md:max-w-none",
+                audienceMarketingOutlineCtaClass,
                 buttonClassName,
+                "mt-6 hidden md:inline-flex",
               )}
             >
               {buttonText}
@@ -75,9 +81,18 @@ export function SplitSection({
           direction={imageDirection}
           delay={0.4}
           duration={0.65}
-          className={cn(reverse ? "md:order-1" : "md:order-2")}
+          className={cn(
+            reverse ? "md:order-1" : "md:order-2",
+            "max-md:flex max-md:justify-center",
+          )}
         >
-          <div className={cn("relative aspect-16/10 w-full overflow-hidden rounded-lg", imageClassName)}>
+          <div
+            className={cn(
+              "relative aspect-16/10 w-full overflow-hidden rounded-lg",
+              "max-md:mx-auto max-md:max-w-[min(100%,488px)]",
+              imageClassName,
+            )}
+          >
             <Image
               src={image.src}
               alt={image.alt}
@@ -94,14 +109,16 @@ export function SplitSection({
           delay={0.45}
           duration={0.65}
           className={cn(
-            "flex w-full justify-center md:col-span-2 md:hidden",
+            "flex w-full justify-center md:col-span-2 md:hidden [&_a]:w-fit [&_a]:max-w-full",
             reverse ? "md:order-3" : "md:order-3",
           )}
         >
           <OutlineArrowButton
             href={href}
+            iconClassName={audienceMarketingOutlineCtaIconClass}
             className={cn(
-              "inline-flex h-[50px] w-full max-w-[min(100%,250px)] items-center justify-center py-0 sm:max-w-xs",
+              audienceMarketingOutlineCtaClass,
+              "max-lg:!w-fit max-lg:!max-w-full",
               buttonClassName,
             )}
           >

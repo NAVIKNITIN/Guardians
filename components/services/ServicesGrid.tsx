@@ -2,6 +2,10 @@
 
 import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import { CONTACT } from "@/data/audience-marketing-shared";
+import {
+  audienceMarketingOutlineCtaClass,
+  audienceMarketingOutlineCtaIconClass,
+} from "@/styles/audienceMarketingCenter";
 import { cn } from "@/utils/cn";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
@@ -286,11 +290,18 @@ function CommercialPanel({
           ))}
         </div>
 
-        <div className="mt-auto flex justify-center pt-6 sm:pt-8">
+        <div className="mt-auto flex justify-center pt-6 sm:pt-8 [&_a]:w-fit [&_a]:max-w-full">
           <OutlineArrowButton
             href={knowMoreHref}
-            className="h-[53.99px] w-full max-w-[min(100%,16rem)] border border-white/30 cursor-pointer !shadow-none focus-visible:outline-none focus-visible:outline-offset-0 disabled:pointer-events-none disabled:opacity-50 sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
-            iconClassName="w-[13px] h-[13px]"
+            className={cn(
+              audienceMarketingOutlineCtaClass,
+              "max-lg:!w-fit max-lg:!max-w-full",
+              "cursor-pointer border border-white/30 !shadow-none",
+              "focus-visible:outline-none focus-visible:outline-offset-0",
+              "disabled:pointer-events-none disabled:opacity-50",
+              "lg:text-xl",
+            )}
+            iconClassName={audienceMarketingOutlineCtaIconClass}
           >
             {knowMoreLabel}
           </OutlineArrowButton>

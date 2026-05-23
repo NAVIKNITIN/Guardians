@@ -12,6 +12,11 @@ import { PublicationListingEmptyCard } from "@/components/publications/Publicati
 import { PublicationListingSkeleton } from "@/components/publications/PublicationListingSkeleton";
 import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import {
+  audienceMarketingOutlineCtaIconClass,
+  publicationViewMoreCtaClass,
+} from "@/styles/audienceMarketingCenter";
+import { cn } from "@/utils/cn";
+import {
   articleImage,
   normalizeFilteredArticles,
 } from "@/lib/mappers/publicArticles";
@@ -107,7 +112,11 @@ export function GazetteGrid() {
             </StaggerContainer>
 
             {hasMore ? (
-              <ScrollReveal direction="up" delay={0.15} className="mt-10 flex justify-center sm:mt-14 lg:mt-16">
+              <ScrollReveal
+                direction="up"
+                delay={0.15}
+                className="mt-10 flex justify-center sm:mt-14 lg:mt-16 [&_button]:w-fit [&_button]:max-w-full"
+              >
                 <OutlineArrowButton
                   type="button"
                   onClick={() =>
@@ -115,7 +124,12 @@ export function GazetteGrid() {
                       Math.min(n + LISTING_PAGE_SIZE, issues.length),
                     )
                   }
-                  className="h-[52px] w-[273px] max-w-sm justify-center sm:h-[55px] sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
+                  className={cn(
+                    publicationViewMoreCtaClass,
+                    "max-lg:!w-fit max-lg:!max-w-full",
+                  )}
+                  iconClassName={audienceMarketingOutlineCtaIconClass}
+                  iconAlt=""
                 >
                   View More
                 </OutlineArrowButton>

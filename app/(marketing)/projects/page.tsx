@@ -283,9 +283,12 @@ function ProjectCardSkeleton() {
       <div className="relative aspect-4/3 w-full overflow-hidden bg-[#BCBDC0]/35 sm:aspect-16/10">
         <div className="h-full w-full animate-pulse bg-linear-to-r from-[#d6d7da] via-[#ececef] to-[#d6d7da]" />
       </div>
-      <div className="flex flex-col gap-3 bg-[#ecebeb] px-4 py-4 sm:px-5 sm:py-5">
-        <div className="h-6 w-3/4 animate-pulse rounded bg-[#cfd1d5]" />
-        <div className="h-4 w-5/6 animate-pulse rounded bg-[#d9dbde]" />
+      <div className="flex flex-col items-center gap-3 bg-[#ecebeb] px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-5">
+        <div className="flex w-full flex-col items-center gap-2 sm:items-start">
+          <div className="h-6 w-3/4 max-w-[16rem] animate-pulse rounded bg-[#cfd1d5] sm:max-w-none" />
+          <div className="h-4 w-5/6 max-w-[18rem] animate-pulse rounded bg-[#d9dbde] sm:max-w-none" />
+        </div>
+        <div className="h-[55px] w-[75px] shrink-0 animate-pulse rounded bg-[#d9dbde]" />
       </div>
     </div>
   );

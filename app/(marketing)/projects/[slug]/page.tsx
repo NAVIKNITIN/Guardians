@@ -13,6 +13,11 @@ import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import { Container } from "@/components/common/Container";
 import { FileUploadField } from "@/components/common/FileUploadField";
 import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
+import {
+  audienceMarketingOutlineCtaClass,
+  audienceMarketingOutlineCtaIconClass,
+} from "@/styles/audienceMarketingCenter";
+import { cn } from "@/utils/cn";
 import { IconUpload } from "@/components/admin/panel/AdminIcons";
 import { DynamicMap } from "@/components/projects/DynamicMap";
 import type { MapMarker } from "@/components/projects/DynamicMap";
@@ -27,7 +32,6 @@ import {
   type ChangeEvent,
 } from "react";
 import { MarketingImgWithFallback } from "@/components/common/MarketingImgWithFallback";
-import { cn } from "@/utils/cn";
 
 // ---------------------------------------------------------------------------
 // Walk / Drive icon
@@ -977,13 +981,18 @@ function ProjectDetailPageContent() {
                     </div>
 
                     {/* Submit */}
-                    <div className="mt-8 flex justify-center">
+                    <div className="mt-8 flex justify-center [&_button]:w-fit [&_button]:max-w-full">
                       <OutlineArrowButton
                         suppressHydrationWarning
                         type="submit"
                         disabled={isSubmitting}
-                        className="h-[52px] w-full max-w-full uppercase disabled:cursor-not-allowed disabled:opacity-70 sm:h-[55px] sm:w-auto sm:px-12 n-reg text-sm tracking-widest sm:text-base lg:text-xl"
-                        iconClassName="h-[15px] w-[15px]"
+                        className={cn(
+                          audienceMarketingOutlineCtaClass,
+                          "max-lg:!w-fit max-lg:!max-w-full",
+                          "disabled:cursor-not-allowed disabled:opacity-70",
+                          "lg:text-xl",
+                        )}
+                        iconClassName={audienceMarketingOutlineCtaIconClass}
                         iconAlt=""
                       >
                         {isSubmitting ? "Submitting..." : "Submit"}

@@ -4,6 +4,7 @@ import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import {
   audienceDesktopOnlyCta,
   audienceMarketingOutlineCtaClass,
+  audienceMarketingOutlineCtaIconClass,
   audienceMobileBottomCtaWrap,
   audienceMobileCtaCenter,
 } from "@/styles/audienceMarketingCenter";
@@ -20,6 +21,7 @@ function ctaButtonClass(centerOnMobile: boolean | undefined, className?: string)
   return cn(
     audienceMarketingOutlineCtaClass,
     audienceMobileCtaCenter(centerOnMobile, className),
+    centerOnMobile && "max-lg:!w-fit max-lg:!max-w-full",
   );
 }
 
@@ -33,6 +35,7 @@ export function AudienceMarketingSectionCtaDesktop({
   return (
     <OutlineArrowButton
       href={href}
+      iconClassName={audienceMarketingOutlineCtaIconClass}
       className={audienceDesktopOnlyCta(
         centerOnMobile,
         ctaButtonClass(centerOnMobile, className),
@@ -58,7 +61,11 @@ export function AudienceMarketingSectionCtaMobile({
 
   return (
     <div className={audienceMobileBottomCtaWrap(true, wrapClassName)}>
-      <OutlineArrowButton href={href} className={ctaButtonClass(true, className)}>
+      <OutlineArrowButton
+        href={href}
+        iconClassName={audienceMarketingOutlineCtaIconClass}
+        className={ctaButtonClass(true, className)}
+      >
         {children}
       </OutlineArrowButton>
     </div>
@@ -85,7 +92,11 @@ export function AudienceMarketingSectionCta({
   }
 
   return (
-    <OutlineArrowButton href={href} className={ctaButtonClass(false, className)}>
+    <OutlineArrowButton
+      href={href}
+      iconClassName={audienceMarketingOutlineCtaIconClass}
+      className={ctaButtonClass(false, className)}
+    >
       {children}
     </OutlineArrowButton>
   );

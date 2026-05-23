@@ -1,6 +1,10 @@
 import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import { MarketingImgWithFallback } from "@/components/common/MarketingImgWithFallback";
 import { LOCAL_IMAGES } from "@/lib/local-images";
+import {
+  audienceMarketingOutlineCtaIconClass,
+  publicationCardOutlineCtaClass,
+} from "@/styles/audienceMarketingCenter";
 import { cn } from "@/utils/cn";
 
 export type PublicationIssue = {
@@ -51,8 +55,8 @@ export function PublicationCard({
       {/* Open File button */}
       <OutlineArrowButton
         onClick={() => onOpenFile(issue.title)}
-        className="mt-5 px-12 py-4 fs-16 ls-10 lh-24"
-        iconClassName="w-[13px] h-[13px]"
+        className={cn(publicationCardOutlineCtaClass, "mt-5")}
+        iconClassName={audienceMarketingOutlineCtaIconClass}
       >
         {buttonLabel}
       </OutlineArrowButton>

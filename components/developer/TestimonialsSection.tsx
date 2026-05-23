@@ -153,7 +153,7 @@ export function TestimonialsSection({
         direction="up"
         delay={0.14}
         distance={28}
-        className={audienceMobileOnlyBlock(centerOnMobile, "w-full")}
+        className={audienceMobileOnlyBlock(centerOnMobile)}
       >
         <AudienceMarketingSectionCtaMobile
           href={content.viewMoreHref}

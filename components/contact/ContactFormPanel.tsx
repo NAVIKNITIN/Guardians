@@ -2,6 +2,10 @@
 
 import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import {
+  audienceMarketingOutlineCtaIconClass,
+  publicationCardOutlineCtaClassLgStart,
+} from "@/styles/audienceMarketingCenter";
+import {
   ContactEnquiryEmailIcon,
   ContactEnquiryPhoneIcon,
 } from "@/components/common/ContactEnquiryIcons";
@@ -238,14 +242,16 @@ export function ContactFormPanel() {
               </div>
 
               {/* Submit */}
-              <OutlineArrowButton
-                type="submit"
-                className="flex w-full py-[18px] n-bold fs-20 lh-24 uppercase tracking-[0.1em]"
-                iconClassName="h-[15px] w-[15px]"
-                iconAlt=""
-              >
-                Submit
-              </OutlineArrowButton>
+              <div className="flex justify-center max-lg:[&_button]:w-fit lg:justify-start">
+                <OutlineArrowButton
+                  type="submit"
+                  className={publicationCardOutlineCtaClassLgStart}
+                  iconClassName={audienceMarketingOutlineCtaIconClass}
+                  iconAlt=""
+                >
+                  Submit
+                </OutlineArrowButton>
+              </div>
             </form>
           </div>
         </div>

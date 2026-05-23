@@ -84,15 +84,17 @@ export function ProjectCard({
         ) : null}
       </Link>
 
-      <div className="relative flex flex-col items-center justify-center gap-4 bg-[#ecebeb] px-4 py-4 text-center sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-5 sm:text-left">
-        <Link
-          href={href}
-          className="min-w-0 w-full flex-1 pb-[55px] pr-[75px] sm:w-auto sm:pb-0 sm:pr-0"
-        >
-          <p className="n-bold fs-24 leading-snug text-[#161616] sm:text-lg">
+      <div
+        className={cn(
+          "flex flex-col items-center gap-3 bg-[#ecebeb] px-4 py-4 text-center",
+          "sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-5 sm:py-5 sm:text-left",
+        )}
+      >
+        <Link href={href} className="min-w-0 w-full sm:flex-1 sm:w-auto">
+          <p className="n-bold fs-24 leading-snug text-[#161616] text-center sm:text-left sm:text-lg">
             {title}
           </p>
-          <p className="mt-1 n-reg fs-20 text-sm leading-snug text-[#161616]/60 sm:text-[15px]">
+          <p className="mt-1 n-reg fs-20 text-sm leading-snug text-[#161616]/60 text-center sm:text-left sm:text-[15px]">
             {subtitle}
           </p>
         </Link>
@@ -101,9 +103,8 @@ export function ProjectCard({
           href={href}
           aria-label={`View ${title}`}
           className={cn(
-            "absolute bottom-0 right-0 z-10 inline-flex shrink-0 rounded-none",
+            "inline-flex shrink-0 rounded-none",
             "!h-[55px] !w-[75px]",
-            "sm:relative sm:bottom-auto sm:right-auto sm:z-auto",
           )}
         />
       </div>

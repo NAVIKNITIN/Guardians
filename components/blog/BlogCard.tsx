@@ -1,5 +1,10 @@
 import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import { MarketingImgWithFallback } from "@/components/common/MarketingImgWithFallback";
+import {
+  audienceMarketingOutlineCtaIconClass,
+  publicationCardOutlineCtaClassLgStart,
+} from "@/styles/audienceMarketingCenter";
+import { cn } from "@/utils/cn";
 import { LOCAL_IMAGES } from "@/lib/local-images";
 import Link from "next/link";
 
@@ -45,7 +50,11 @@ export function BlogCard({ post }: { post: BlogPost }) {
       </p>
 
       {/* Read More button */}
-      <OutlineArrowButton href={`/blog/${post.id}`} className="mt-5">
+      <OutlineArrowButton
+        href={`/blog/${post.id}`}
+        className={cn(publicationCardOutlineCtaClassLgStart, "mt-5")}
+        iconClassName={audienceMarketingOutlineCtaIconClass}
+      >
         Read More
       </OutlineArrowButton>
     </article>

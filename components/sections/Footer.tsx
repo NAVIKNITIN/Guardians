@@ -228,15 +228,14 @@ export function Footer() {
                */}
               <h2
                 className={cn(
-                  "n-bold max-w-[min(100%,26rem)] lh-42",
-                  "fs-42",
-                  "text-balance",
-                  "sm:mt-6 sm:leading-[1.1]",
+                  "n-bold max-w-[min(100%,26rem)] text-balance text-white",
+                  "text-[clamp(1.35rem,4.8vw,1.85rem)] leading-[1.12]",
+                  "sm:mt-6 sm:text-[clamp(1.5rem,4.5vw,2.25rem)] sm:leading-[1.1]",
+                  "md:fs-42 md:lh-42 md:leading-[1.1]",
                 )}
               >
-                <span className="text-[#BCBDC0]">Lorem Ipsum Dolor? </span>
-                <span className="text-[#BCBDC0]">Let&apos;s </span>
-                <span className="n-bold text-[#F7F7F7]">Collaborate.</span>
+                Have a vision for your next move?{" "}
+                <span className="text-[#BCBDC0]">Let&apos;s build it together.</span>
               </h2>
 
               {/*
@@ -246,15 +245,16 @@ export function Footer() {
               <Link
                 href="/contact"
                 className={cn(
-                  "group uppercase inline-flex w-full shrink-0 items-center justify-center gap-2.5",
-                  "border border-white bg-transparent py-3 n-bold text-sm text-white mt-3",
+                  "group mt-3 inline-flex w-fit max-w-full shrink-0 items-center justify-center gap-2 uppercase",
+                  "border border-white bg-transparent py-2 n-bold text-[11px] leading-[16px] text-white",
                   "transition-colors hover:bg-white hover:text-neutral-900",
                   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white",
-                  "md:max-w-[180px] fs-16 n-bold",
+                  "md:w-fit md:gap-2.5 md:py-3 md:text-sm md:fs-16 md:leading-normal",
+                  "px-4 py-2.5"
                 )}
               >
                 Get In Touch
-                <IconArrowUpRight className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                <IconArrowUpRight className="h-3 w-3 transition-transform duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 md:h-3.5 md:w-3.5" />
               </Link>
             </div>
 

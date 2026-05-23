@@ -2,7 +2,12 @@
 
 import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import { MarketingImgWithFallback } from "@/components/common/MarketingImgWithFallback";
+import {
+  audienceMarketingOutlineCtaIconClass,
+  publicationCardOutlineCtaClassLgStart,
+} from "@/styles/audienceMarketingCenter";
 import { LOCAL_IMAGES } from "@/lib/local-images";
+import { cn } from "@/utils/cn";
 
 export type NewsArticle = {
   id: string;
@@ -49,8 +54,8 @@ export function NewsCard({ article }: { article: NewsArticle }) {
       <OutlineArrowButton
         href={article.href}
         iconAlt="Read More"
-        className="mt-6 w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20 px-10 uppercase"
-        iconClassName="h-3 w-3 sm:h-[15px] sm:w-[15px]"
+        className={cn(publicationCardOutlineCtaClassLgStart, "mt-6")}
+        iconClassName={audienceMarketingOutlineCtaIconClass}
       >
         Read More
       </OutlineArrowButton>

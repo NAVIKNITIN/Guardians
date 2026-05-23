@@ -1,9 +1,10 @@
 import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
+import {
+  audienceMarketingOutlineCtaIconClass,
+  publicationViewMoreCtaClass,
+} from "@/styles/audienceMarketingCenter";
 import { cn } from "@/utils/cn";
 import type { ButtonHTMLAttributes, ReactNode } from "react";
-
-const loadMoreClassName =
-  "w-full max-w-sm sm:w-auto sm:max-w-none px-8 py-3.5 n-bold fs-20 lh-24 uppercase tracking-[0.1em] sm:gap-5 sm:px-12 sm:py-[18px] sm:text-base lg:text-lg";
 
 type SharedProps = {
   children: ReactNode;
@@ -25,9 +26,13 @@ export function PublicationLoadMoreButton(
   props: PublicationLoadMoreLinkProps | PublicationLoadMoreButtonProps,
 ) {
   const { children, className } = props;
-  const classes = cn(loadMoreClassName, className);
+  const classes = cn(
+    publicationViewMoreCtaClass,
+    "max-lg:!w-fit max-lg:!max-w-full",
+    className,
+  );
   const iconProps = {
-    iconClassName: "h-[15px] w-[15px]" as const,
+    iconClassName: audienceMarketingOutlineCtaIconClass,
     iconAlt: "",
   };
 

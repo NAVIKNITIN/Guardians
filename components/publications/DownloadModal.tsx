@@ -1,6 +1,10 @@
 "use client";
 
 import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
+import {
+  audienceMarketingOutlineCtaClass,
+  audienceMarketingOutlineCtaIconClass,
+} from "@/styles/audienceMarketingCenter";
 import { cn } from "@/utils/cn";
 import { useEffect, useRef, useState } from "react";
 
@@ -182,14 +186,19 @@ export function DownloadModal({ isOpen, onClose, issueTitle }: DownloadModalProp
           )}
 
           {/* Submit */}
-          <OutlineArrowButton
-            type="submit"
-            className="mt-4 flex w-full py-[18px] n-bold text-xl uppercase tracking-[0.1em]"
-            iconClassName="h-[15px] w-[15px]"
-            iconAlt=""
-          >
-            Submit
-          </OutlineArrowButton>
+          <div className="mt-4 flex justify-center [&_button]:w-fit [&_button]:max-w-full">
+            <OutlineArrowButton
+              type="submit"
+              className={cn(
+                audienceMarketingOutlineCtaClass,
+                "max-lg:!w-fit max-lg:!max-w-full",
+              )}
+              iconClassName={audienceMarketingOutlineCtaIconClass}
+              iconAlt=""
+            >
+              Submit
+            </OutlineArrowButton>
+          </div>
         </form>
       </div>
     </div>

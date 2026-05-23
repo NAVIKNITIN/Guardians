@@ -27,11 +27,15 @@ export type OutlineArrowButtonProps = LinkVariantProps | ButtonVariantProps;
 
 const baseClassName = cn(
   /* Named group so nested `group` on cards does not trigger arrow styles on card hover */
-  "group/outline divider-card-cta-slow uppercase outline-arrow-grad-anim inline-flex w-fit max-w-full cursor-pointer flex-nowrap items-center justify-center gap-5",
-  "rounded-none border-0 px-[45px] py-[15px]",
-  "n-bold text-base  tracking-widest text-white",
+  "group/outline divider-card-cta-slow uppercase outline-arrow-grad-anim inline-flex w-fit max-w-full cursor-pointer flex-nowrap items-center justify-center",
+  "gap-2 rounded-none border-0 px-4 py-2.5",
+  "n-bold text-[12px] leading-[18px] tracking-normal text-white",
+  "sm:gap-5 sm:px-[45px] sm:py-[15px] sm:text-base sm:leading-none sm:tracking-widest",
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50",
 );
+
+const defaultIconClassName =
+  "h-[11px] w-[11px] sm:h-[15px] sm:w-[15px]";
 
 function Label({ children }: { children: ReactNode }) {
   return (
@@ -56,6 +60,7 @@ function ArrowIcon({
       height={15}
       className={cn(
         "cta-icon-hover invert object-cover transition-[filter] duration-300",
+        defaultIconClassName,
         className,
       )}
       aria-hidden={alt === ""}

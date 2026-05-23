@@ -1,8 +1,12 @@
+"use client";
+
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { Container } from "@/components/common/Container";
-import { localImageByIndex } from "@/lib/local-images";
+import { CarouselControls } from "@/components/ui/CarouselControls";
 import { cn } from "@/utils/cn";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
+import { useState } from "react";
 
 type ReasonCard = {
   id: string;
@@ -52,75 +56,150 @@ const REASONS: ReasonCard[] = [
   },
 ];
 
-export function ReasonCard({ card }: { card: ReasonCard }) {
+function ReasonCardArrow() {
+  return (
+    <svg width="51" height="12" viewBox="0 0 51 12" fill="none" aria-hidden>
+      <path
+        d="M0 6H49M49 6L44 1M49 6L44 11"
+        stroke="#000000"
+        strokeWidth="1.8"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+export function ReasonCard({
+  card,
+  variant = "desktop",
+}: {
+  card: ReasonCard;
+  variant?: "desktop" | "mobile";
+}) {
+  const isMobile = variant === "mobile";
+
   return (
     <div
       className={cn(
-        "group relative min-h-[200px] min-w-0 shrink basis-0 overflow-hidden bg-white sm:min-h-0",
-        /* Base flex-grow comes from --reason-grow; sm+ hover bumps it way up so */
-        /* the hovered card expands while its siblings proportionally compress. */
-        "grow-(--reason-grow) sm:hover:grow-900",
-        "transition-[flex-grow] duration-1100 ease-[cubic-bezier(0.22,1,0.36,1)]",
-        "will-change-[flex-grow]",
+        isMobile
+          ? "relative h-[min(72vw,360px)] w-full overflow-hidden bg-white"
+          : [
+              "group relative min-h-[200px] min-w-0 shrink basis-0 overflow-hidden bg-white sm:min-h-0",
+              "grow-(--reason-grow) sm:hover:grow-900",
+              "transition-[flex-grow] duration-1100 ease-[cubic-bezier(0.22,1,0.36,1)]",
+              "will-change-[flex-grow]",
+            ],
       )}
-      style={{ ["--reason-grow" as string]: card.flex } as React.CSSProperties}
+      style={
+        isMobile ? undefined : ({ ["--reason-grow" as string]: card.flex } as React.CSSProperties)
+      }
     >
-      {/* Photo — cropped to card height */}
       <div className="absolute inset-0 z-0">
         <Image
           src={card.imageSrc}
           alt={card.imageAlt}
           fill
-          className="object-cover object-center transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]"
-          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          className={cn(
+            "object-cover object-center",
+            !isMobile &&
+              "transition-transform duration-1000 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:scale-[1.06]",
+          )}
+          sizes={
+            isMobile
+              ? "100vw"
+              : "(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          }
         />
-        {/* Light by default; transitions to dark on hover. */}
-        <div className="absolute inset-0 bg-linear-to-t to-transparent transition-colors duration-900 ease-[cubic-bezier(0.22,1,0.36,1)]" />
+        <div
+          className={cn(
+            "absolute inset-0 bg-linear-to-t to-transparent",
+            !isMobile && "transition-colors duration-900 ease-[cubic-bezier(0.22,1,0.36,1)]",
+          )}
+        />
       </div>
 
-      {/* Label content — pinned to bottom */}
       <div className="absolute inset-x-0 bottom-0 z-10 p-5">
-        <h3 className="n-bold text-xl leading-snug text-brand-text-primary transition-transform duration-850 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-0.5">
+        <h3
+          className={cn(
+            "n-bold text-xl leading-snug text-brand-text-primary",
+            !isMobile &&
+              "transition-transform duration-850 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:-translate-y-0.5",
+          )}
+        >
           {card.title}
         </h3>
 
-        {/* Subtitle — kept for cards that have it; fades in smoothly on hover */}
-        {card.subtitle && (
+        {card.subtitle ? (
           <p
             className={cn(
               "mt-1 n-book text-sm leading-normal text-brand-text-primary",
-              "transition-all duration-900 ease-[cubic-bezier(0.22,1,0.36,1)]",
-              "max-h-0 -translate-y-1 overflow-hidden opacity-0 group-hover:max-h-20 group-hover:translate-y-0 group-hover:opacity-100",
+              isMobile
+                ? "mt-2 opacity-100"
+                : [
+                    "transition-all duration-900 ease-[cubic-bezier(0.22,1,0.36,1)]",
+                    "max-h-0 -translate-y-1 overflow-hidden opacity-0 group-hover:max-h-20 group-hover:translate-y-0 group-hover:opacity-100",
+                  ],
             )}
           >
             {card.subtitle}
           </p>
-        )}
+        ) : null}
 
-        {/* Arrow — always shown on featured card; fades in on hover for the rest */}
         <div
           className={cn(
-            "mt-3 transition-all duration-900 ease-[cubic-bezier(0.22,1,0.36,1)]",
-            " translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100",
+            "mt-3",
+            isMobile || card.showArrow
+              ? "opacity-100"
+              : "translate-y-2 opacity-0 transition-all duration-900 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0 group-hover:opacity-100",
           )}
         >
-          <svg
-            width="51"
-            height="12"
-            viewBox="0 0 51 12"
-            fill="none"
-            aria-hidden
-          >
-            <path
-              d="M0 6H49M49 6L44 1M49 6L44 11"
-              stroke="#000000"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
+          <ReasonCardArrow />
         </div>
       </div>
+    </div>
+  );
+}
+
+function ReasonsToJoinMobileCarousel() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const activeCard = REASONS[activeIndex]!;
+
+  const goPrev = () => {
+    setActiveIndex((i) => (i - 1 + REASONS.length) % REASONS.length);
+  };
+
+  const goNext = () => {
+    setActiveIndex((i) => (i + 1) % REASONS.length);
+  };
+
+  return (
+    <div className="mt-4 sm:hidden" aria-roledescription="carousel" aria-label="Reasons to join">
+      <div className="overflow-hidden">
+        <AnimatePresence mode="wait" initial={false}>
+          <motion.div
+            key={activeCard.id}
+            initial={{ opacity: 0, x: 16 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -16 }}
+            transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <ReasonCard card={activeCard} variant="mobile" />
+          </motion.div>
+        </AnimatePresence>
+      </div>
+
+      <CarouselControls
+        currentIndex={activeIndex}
+        total={REASONS.length}
+        onPrev={goPrev}
+        onNext={goNext}
+        prevLabel="Previous reason"
+        nextLabel="Next reason"
+        className="mt-6 w-full justify-center gap-4"
+        buttonClassName="cursor-pointer border-0 bg-transparent hover:bg-black/[0.04]"
+        counterClassName="n-reg text-sm text-[#161616]"
+      />
     </div>
   );
 }
@@ -128,11 +207,10 @@ export function ReasonCard({ card }: { card: ReasonCard }) {
 export function ReasonsToJoin() {
   return (
     <section
-      className="bg-white mb-12  sm:mb-20  pt-4 md:pt-10 lg:pt-25"
+      className="bg-white mb-12 sm:mb-20 pt-4 md:pt-10 lg:pt-25"
       aria-labelledby="reasons-heading"
     >
       <Container>
-        {/* Centered Qasbyne title */}
         <ScrollReveal direction="up" distance={30}>
           <h2
             id="reasons-heading"
@@ -147,17 +225,18 @@ export function ReasonsToJoin() {
           </h2>
         </ScrollReveal>
 
-        {/* 4-card photo row */}
+        <ReasonsToJoinMobileCarousel />
+
         <ScrollReveal
           className={cn(
-            "flex flex-col gap-3 sm:h-[clamp(260px,35vw,450px)] sm:flex-row sm:gap-4 mt-4 md:mt-8 lg:mt-10",
+            "mt-4 hidden h-[clamp(260px,35vw,450px)] sm:mt-8 sm:flex sm:flex-row sm:gap-4 md:mt-8 lg:mt-10",
           )}
           direction="up"
           delay={0.08}
           distance={24}
         >
           {REASONS.map((card) => (
-            <ReasonCard key={card.id} card={card} />
+            <ReasonCard key={card.id} card={card} variant="desktop" />
           ))}
         </ScrollReveal>
       </Container>

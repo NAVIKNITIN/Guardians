@@ -10,9 +10,10 @@ const FIGMA_GRAD_OVERLAY_BUYER =
 const FIGMA_GRAD_OVERLAY_DEVELOPER =
   "bg-[linear-gradient(250deg,rgba(188,189,192,0.2),rgba(143,129,131,0.2))]";
 
+/** Mobile divider cards only — desktop uses `DividerSectionCards.tsx`. */
 const dividerCardCtaClassName = cn(
-  "h-[43px] w-fit shrink-0 gap-2 px-4 py-2.5",
-  "text-[12px] leading-[18px] tracking-normal w-full",
+  "h-[36px] w-fit max-w-full shrink-0 gap-1.5 px-3 py-2",
+  "text-[11px] leading-[16px] tracking-normal",
 );
 
 type CardImageColumnProps = {
@@ -105,7 +106,7 @@ export function BuyerProfileCardMobile() {
           <OutlineArrowButton
             href="/buyer"
             className={dividerCardCtaClassName}
-            iconClassName="h-[13px] w-[13px] shrink-0"
+            iconClassName="h-[11px] w-[11px] shrink-0"
             iconAlt=""
           >
             Explore Journey
@@ -185,7 +186,7 @@ export function DeveloperProfileCardMobile() {
           <OutlineArrowButton
             href="/developer"
             className={dividerCardCtaClassName}
-            iconClassName="h-[13px] w-[13px] shrink-0"
+            iconClassName="h-[11px] w-[11px] shrink-0"
             iconAlt=""
           >
             Explore Journey

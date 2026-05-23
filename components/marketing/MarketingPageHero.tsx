@@ -1613,7 +1613,13 @@ export function MarketingAudienceHero({
           <div className="mt-8 flex w-full justify-center sm:mt-10">
             <OutlineArrowButton
               href={content.enquireHref}
-              className=" h-[55px] fs-20 n-bold w-[307px] uppercase"
+              iconClassName="h-[11px] w-[11px] shrink-0 sm:h-[15px] sm:w-[15px]"
+              className={cn(
+                "w-fit max-w-full uppercase",
+                "h-[36px] gap-1.5 px-4 py-2 n-bold text-[11px] leading-[16px] tracking-normal",
+                "sm:h-[55px] sm:w-fit sm:max-w-full sm:gap-5 sm:px-[45px] sm:py-[15px] sm:fs-20 sm:leading-none sm:tracking-widest",
+                "lg:w-[307px] lg:max-w-[307px]",
+              )}
             >
               {content.enquireLabel}
             </OutlineArrowButton>

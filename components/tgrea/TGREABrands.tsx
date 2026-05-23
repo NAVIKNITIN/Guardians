@@ -20,7 +20,7 @@ function BrandTitle({ src }: { src: string }) {
       alt="Ground Holding – Real Estate"
       width={223}
       height={80}
-      className="block h-auto w-[150px] object-contain object-left sm:w-[180px] lg:w-[223px]"
+      className="mx-auto block h-auto w-[150px] object-contain object-center md:mx-0 md:object-left sm:w-[180px] lg:w-[223px]"
     />
   );
 }
@@ -42,7 +42,7 @@ export function TGREABrands() {
       </Container>
 
       {/* Brand rows */}
-      <StaggerContainer className="space-y-2 sm:space-y-4 lg:space-y-[70px] mb-10 md:mb-15 lg:mb-20">
+      <StaggerContainer className="mb-10 md:mb-15 lg:mb-20">
         {brands.map(({ id, reverse, href, logoBG, logo }) => (
           <SplitSection
             key={id}
@@ -52,11 +52,11 @@ export function TGREABrands() {
             description={DESCRIPTION}
             buttonText="Read more"
             image={{ src: logo, alt: "Construction site at sunset" }}
-            className="px-4 py-2 sm:px-8 sm:py-4 lg:px-16 lg:py-0"
-            contentClassName="flex items-center md:min-h-[520px] lg:min-h-[650px]"
-            titleClassName=""
-            descriptionClassName="max-w-[488px] text-[clamp(0.875rem,3vw,1rem)] leading-[1.5] sm:text-base"
-            buttonClassName="mt-4 h-[50px] w-full max-w-xs items-center justify-center gap-4 py-0 text-[clamp(0.8125rem,3vw,1.25rem)] leading-none sm:mt-10 sm:w-auto sm:max-w-none sm:px-12"
+            className="px-4 py-10 sm:px-8 lg:px-16"
+            contentClassName="max-md:flex max-md:flex-col max-md:items-center max-md:text-center md:flex md:items-center md:min-h-[520px] lg:min-h-[650px]"
+            titleClassName="max-md:flex max-md:justify-center"
+            descriptionClassName="max-w-[488px] text-[clamp(0.875rem,3vw,1rem)] leading-[1.5] max-md:mx-auto max-md:text-center sm:text-base md:mx-0 md:text-left"
+            buttonClassName="mt-4 sm:mt-10"
             imageClassName="aspect-[488/434] min-h-[220px] rounded-none md:min-h-[520px] lg:aspect-auto lg:h-full lg:min-h-[650px]"
           />
         ))}
