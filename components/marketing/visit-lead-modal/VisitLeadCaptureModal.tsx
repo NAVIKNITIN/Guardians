@@ -2,6 +2,7 @@
 
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { useCallback, useEffect, useId, useRef } from "react";
+import { VisitLeadBusinessEnquiries } from "./VisitLeadBusinessEnquiries";
 import { VisitLeadCaptureForm } from "./VisitLeadCaptureForm";
 import { useBodyScrollLock } from "./useBodyScrollLock";
 import { useFocusTrap } from "./useFocusTrap";
@@ -112,7 +113,7 @@ export function VisitLeadCaptureModal({
               initial="hidden"
               animate="visible"
               exit="exit"
-              className="pointer-events-auto relative flex max-h-[min(90vh,720px)] w-full max-w-[480px] flex-col overflow-hidden rounded-2xl bg-[#FAFAFA] shadow-[0_32px_64px_-12px_rgba(22,22,22,0.22)] ring-1 ring-black/[0.06] dark:bg-[#1c1c1c] dark:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.55)] dark:ring-white/[0.08]"
+              className="pointer-events-auto relative flex max-h-[min(90vh,720px)] w-full max-w-[600px] flex-col overflow-hidden rounded-2xl bg-[#FAFAFA] shadow-[0_32px_64px_-12px_rgba(22,22,22,0.22)] ring-1 ring-black/[0.06] dark:bg-[#1c1c1c] dark:shadow-[0_32px_64px_-12px_rgba(0,0,0,0.55)] dark:ring-white/[0.08]"
               onClick={(e) => e.stopPropagation()}
             >
               <div
@@ -124,7 +125,7 @@ export function VisitLeadCaptureModal({
                 ref={closeButtonRef}
                 type="button"
                 onClick={onClose}
-                className="absolute right-4 top-5 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/[0.04] text-[#202225] transition-colors hover:bg-black/[0.08] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#f07c61] dark:bg-white/[0.08] dark:text-neutral-200 dark:hover:bg-white/[0.12]"
+                className="absolute cursor-pointer  right-4 top-5 z-10 flex h-9 w-9 items-center justify-center rounded-full bg-black/[0.04] text-[#202225] transition-colors hover:bg-black/[0.08] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#f07c61] dark:bg-white/[0.08] dark:text-neutral-200 dark:hover:bg-white/[0.12]"
                 aria-label="Close book a visit dialog"
               >
                 <svg width="14" height="14" viewBox="0 0 16 16" fill="none" aria-hidden>
@@ -155,12 +156,7 @@ export function VisitLeadCaptureModal({
 
               <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain px-6 pb-8 pt-6 sm:px-8 sm:pb-9">
                 <VisitLeadCaptureForm onSuccess={handleSuccess} />
-                <p
-                  id={descriptionId}
-                  className="mx-auto w-full mt-3 ml-0 lg:pl-[20px]  n-reg text-sm leading-relaxed text-[#6B5F60] dark:text-neutral-300"
-                >
-                  Tell us how to reach you — we&apos;ll confirm your visit shortly.
-                </p>
+                <VisitLeadBusinessEnquiries id={descriptionId} />
               </div>
             </motion.div>
           </div>

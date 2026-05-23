@@ -226,7 +226,7 @@ export function Navbar() {
                   alt="The Guardians Real Estate Advisory"
                   width={220}
                   height={52}
-                  className="h-8 w-auto max-w-[min(72vw,220px)] object-cover"
+                  className="h-12 w-auto max-w-[min(72vw,220px)] object-cover"
                   sizes="220px"
                   priority
                 />

@@ -182,9 +182,9 @@ export default function AboutPage() {
 
       <section id="brands" className="bg-[#F2F2F2] py-12 sm:py-16 lg:py-10">
         <Container className="min-w-0">
-          <div className="flex items-center justify-center gap-5">
-            <p className="text-[0.95rem] n-bold fs-20 uppercase leading-none tracking-[0.1em] text-[#161616]">
-            One legacy. Multiple capabilities.
+          <div className="flex items-center justify-center gap-5 max-lg:w-full">
+            <p className="max-lg:w-full max-lg:text-center text-[0.95rem] n-bold fs-20 uppercase leading-none tracking-[0.1em] text-[#161616] lg:text-left">
+              One legacy. Multiple capabilities.
             </p>
           </div>
 

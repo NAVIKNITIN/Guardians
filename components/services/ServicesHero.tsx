@@ -15,7 +15,7 @@ export function ServicesHero({ audience }: ServicesHeroProps) {
     <MarketingPageHero
       heroId={audience === "buyer" ? "servicesBuyer" : "servicesDeveloper"}
       heightPx={710}
-      mobileHeightPx={380}
+      mobileHeightPx={500}
       useViewportHeightFlag
       viewportHeightBreakpointPx={1024}
       shiftExtraContentTopPx={audience === "buyer" ? 100 : 160}
