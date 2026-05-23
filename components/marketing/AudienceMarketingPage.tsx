@@ -33,13 +33,13 @@ export function AudienceMarketingPage({
       <AudienceHero
         key={content.hero.ariaHeadingId}
         content={content.hero}
-        heightPx={1122}
+        heightPx={750}
         mobileHeightPx={500}
         useViewportHeightFlag
         viewportHeightBreakpointPx={VIEWPORT_HEIGHT_BREAKPOINT_PX}
         shiftUnderHeader={true}
         shiftTillSearch={true}
-        shiftExtraContentTopPx={isMobile ? 50 : 80}
+        shiftExtraContentTopPx={isMobile ? 50 : 150}
         negativePadding={50}
       />
       <div

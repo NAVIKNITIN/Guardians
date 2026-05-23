@@ -6,13 +6,13 @@ export function CareerHero() {
   return (
     <MarketingPageHero
       heroId="career"
-      heightPx={513}
-      mobileHeightPx={340}
+      heightPx={550}
+      mobileHeightPx={500}
       useViewportHeightFlag
       viewportHeightBreakpointPx={VIEWPORT_HEIGHT_BREAKPOINT_PX}
       shiftUnderHeader={false}
       shiftTillSearch={false}
-      shiftExtraContentTopPx={72}
+      shiftExtraContentTopPx={120}
       mobileShiftExtraContentTopPx={0}
       negativePadding={16}
     />
