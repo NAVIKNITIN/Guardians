@@ -19,6 +19,8 @@ export type MarketingHeroViewportOptions = {
   mobileHeightPx?: number;
   viewportHeightBreakpointPx?: number;
   negativePadding?: MarketingHeroNegativeContentShift;
+  mobileShiftExtraContentTopPx?: number;
+  mobileNegativePadding?: MarketingHeroNegativeContentShift;
 };
 
 /** Shared mobile/desktop hero height + negative-padding resolution for marketing heroes. */
@@ -28,13 +30,18 @@ export function useMarketingHeroViewport({
   mobileHeightPx,
   viewportHeightBreakpointPx = DEFAULT_VIEWPORT_HEIGHT_BREAKPOINT,
   negativePadding,
+  mobileShiftExtraContentTopPx,
+  mobileNegativePadding,
 }: MarketingHeroViewportOptions) {
   const shouldUseViewportHeightFlag =
     Boolean(useViewportHeightFlag) &&
     isCustomHeroHeight(heightPx) &&
     isCustomHeroHeight(mobileHeightPx);
   const shouldDetectMobileViewport =
-    shouldUseViewportHeightFlag || hasActiveNegativePadding(negativePadding);
+    shouldUseViewportHeightFlag ||
+    hasActiveNegativePadding(negativePadding) ||
+    hasActiveNegativePadding(mobileNegativePadding) ||
+    mobileShiftExtraContentTopPx != null;
   const isMobileViewport = useViewportIsMobile(
     shouldDetectMobileViewport,
     viewportHeightBreakpointPx,
@@ -44,6 +51,7 @@ export function useMarketingHeroViewport({
   const resolvedNegativePadding = resolveNegativePaddingForViewport(
     negativePadding,
     isMobileViewport,
+    mobileNegativePadding,
   );
 
   return {

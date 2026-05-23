@@ -59,6 +59,7 @@ export type ApiProjectListItem = {
   uploaded_files?: ApiProjectListFile[];
   configurations?: Array<{
     bhk_type?: string | null;
+    location?: string | null;
     price_min?: number | string | null;
     price_max?: number | string | null;
     available_units?: number | string | null;

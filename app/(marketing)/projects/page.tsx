@@ -43,7 +43,7 @@ type SortKey = (typeof SORT_OPTIONS)[number]["key"];
 /** Max project cards shown before “View More”. */
 const INITIAL_VISIBLE_CARDS = 10;
 const PROJECT_LIST_SKELETON_COUNT = 6;
-const DEFAULT_PROJECTS_HERO_SHIFT_TOP = 70;
+const VIEWPORT_HEIGHT_BREAKPOINT_PX = 1024;
 
 type ProjectRow = ProjectRowFilterShape;
 
@@ -316,25 +316,6 @@ function ProjectsPageContent() {
 
   const [visibleCardCount, setVisibleCardCount] =
     useState(INITIAL_VISIBLE_CARDS);
-  const [projectsHeroShiftTop, setProjectsHeroShiftTop] = useState(
-    DEFAULT_PROJECTS_HERO_SHIFT_TOP,
-  );
-
-  useEffect(() => {
-    if (typeof window === "undefined") return;
-
-    const computeShift = () => {
-      const vh = window.innerHeight;
-      if (vh < 700) return 40;
-      if (vh < 820) return 55;
-      return DEFAULT_PROJECTS_HERO_SHIFT_TOP;
-    };
-
-    const apply = () => setProjectsHeroShiftTop(computeShift());
-    apply();
-    window.addEventListener("resize", apply);
-    return () => window.removeEventListener("resize", apply);
-  }, []);
 
   useEffect(() => {
     const stage = searchParams.get("stage");
@@ -435,20 +416,21 @@ function ProjectsPageContent() {
     setSearchQuery("");
     setShowFilters(true);
   }
-
   return (
     <main>
       <MarketingPageHero
         heroId="projects"
         projectsStage={filterStage === "Completed" ? "Completed" : "Ongoing"}
-        heightPx={650}
-        mobileHeightPx={230}
+        heightPx={750}
+        mobileHeightPx={500}
         useViewportHeightFlag
-        viewportHeightBreakpointPx={1024}
-        shiftUnderHeader={false}
-        shiftTillSearch={false}
-        shiftExtraContentTopPx={projectsHeroShiftTop}
-        negativePadding={10}
+        viewportHeightBreakpointPx={VIEWPORT_HEIGHT_BREAKPOINT_PX}
+        shiftUnderHeader
+        shiftTillSearch
+        shiftExtraContentTopPx={80}
+        mobileShiftExtraContentTopPx={0}
+        negativePadding={50}
+        mobileNegativePadding={250}
       />
 
       {/* ------------------------------------------------------------------ */}

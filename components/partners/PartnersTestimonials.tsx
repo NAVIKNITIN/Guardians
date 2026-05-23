@@ -151,6 +151,18 @@ export function PartnersTestimonials() {
     [index, n, items],
   );
 
+  const carouselControls = (
+    <CarouselControls
+      className="w-auto"
+      currentIndex={index}
+      total={n}
+      onPrev={() => advance(-1)}
+      onNext={() => advance(1)}
+      prevLabel="Previous testimonials"
+      nextLabel="Next testimonials"
+    />
+  );
+
   return (
     <section
       className=" bg-brand-background"
@@ -166,15 +178,7 @@ export function PartnersTestimonials() {
             >
               What Our Clients Say
             </h2>
-            <CarouselControls
-              className="w-auto"
-              currentIndex={index}
-              total={n}
-              onPrev={() => advance(-1)}
-              onNext={() => advance(1)}
-              prevLabel="Previous testimonials"
-              nextLabel="Next testimonials"
-            />
+            <div className="hidden md:block">{carouselControls}</div>
           </div>
         </ScrollReveal>
 
@@ -190,11 +194,12 @@ export function PartnersTestimonials() {
           ))}
         </StaggerContainer>
 
-        {/* Mobile: single card */}
+        {/* Mobile: single card + controls below */}
         <div className="mt-6 md:hidden">
           <ScrollReveal direction="up" delay={0.1} distance={32}>
             <TestimonialCard item={items[index]!} />
           </ScrollReveal>
+          <div className="mt-6 flex justify-center">{carouselControls}</div>
         </div>
       </div>
     </section>

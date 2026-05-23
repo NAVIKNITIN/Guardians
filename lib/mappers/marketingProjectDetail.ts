@@ -15,9 +15,10 @@ type ApiUploadedFile = {
 
 type ApiConfig = {
   id: number;
-  bhk_type: string;
-  price_min: number;
-  price_max: number;
+  bhk_type?: string | null;
+  price_min?: number | string | null;
+  price_max?: number | string | null;
+  location?: string | null;
 };
 
 type ApiProjectLocation = {
@@ -75,7 +76,12 @@ export type ProjectDetailView = {
   }[];
   caseStudy: { posterSrc: string; videoUrl: string; paragraphs: string[] };
   bookVisitBg: string;
+  /** @deprecated Use `configurationLocation` — kept for compatibility. */
   bookVisitAddressLine: string;
+  /** Display line from API `configurations[0].location` (admin configuration). */
+  configurationLocation: string;
+  /** Display line from API `configurations[0].bhk_type` (admin configuration). */
+  configurationBhkType: string;
 };
 
 const DEFAULT_MAP_CENTER: [number, number] = [19.076, 72.8777];
@@ -171,15 +177,29 @@ function formatCompletionDate(raw: string | null | undefined): string {
   return s;
 }
 
-function firstLocationLine(loc: ApiProjectLocation | undefined) {
-  if (!loc) return "—";
-  const parts = [
-    loc.address,
-    [loc.place_name, loc.city, loc.state].filter(Boolean).join(", "),
-  ]
-    .map((p) => (p || "").trim())
-    .filter(Boolean);
-  return parts[0] || "—";
+/** Primary marketing address from `configurations[0].location` only. */
+function configurationLocationLine(config: ApiConfig | null | undefined): string {
+  const text = String(config?.location ?? "").trim();
+  return text || "—";
+}
+
+/** BHK / unit type from `configurations[0].bhk_type` only. */
+function configurationBhkTypeLine(config: ApiConfig | null | undefined): string {
+  const text = String(config?.bhk_type ?? "").trim();
+  return text || "—";
+}
+
+function primaryConfiguration(
+  configurations: ApiConfig[] | null | undefined,
+): ApiConfig | null {
+  if (!configurations) return null;
+  if (Array.isArray(configurations)) {
+    return configurations[0] ?? null;
+  }
+  if (typeof configurations === "object") {
+    return configurations as ApiConfig;
+  }
+  return null;
 }
 
 /**
@@ -323,7 +343,9 @@ export function mapProjectDetailsToViewModel(
   );
   const bookVisitBg = buildingHeroSrc;
 
-  const primary = project.configurations?.[0] ?? null;
+  const primary = primaryConfiguration(project.configurations);
+  const configurationLocation = configurationLocationLine(primary);
+  const configurationBhkType = configurationBhkTypeLine(primary);
   const firstLoc = project.locations?.[0];
   const lat0 = parseCoord(
     firstLoc?.latitude,
@@ -380,12 +402,12 @@ export function mapProjectDetailsToViewModel(
       },
       {
         label: "Type",
-        value: primary?.bhk_type || project.type || "—",
+        value: configurationBhkType,
         unit: "",
       },
       {
         label: "Location",
-        value: firstLocationLine(firstLoc),
+        value: configurationLocation,
         unit: "",
       },
       {
@@ -409,6 +431,8 @@ export function mapProjectDetailsToViewModel(
       paragraphs: caseStudyParagraphs,
     },
     bookVisitBg,
-    bookVisitAddressLine: firstLocationLine(firstLoc),
+    bookVisitAddressLine: configurationLocation,
+    configurationLocation,
+    configurationBhkType,
   };
 }

@@ -14,12 +14,25 @@ export function hasActiveNegativePadding(
   );
 }
 
-/** On mobile viewports, drop upward content nudge so hero copy is not clipped. */
+/**
+ * Resolves upward content nudge per viewport.
+ * On mobile: uses `mobileNegativePadding` when provided; otherwise clears desktop `negativePadding` (legacy).
+ */
 export function resolveNegativePaddingForViewport(
   negativePadding: MarketingHeroNegativeContentShift | undefined,
   isMobileViewport: boolean,
+  mobileNegativePadding?: MarketingHeroNegativeContentShift,
 ): MarketingHeroNegativeContentShift | undefined {
-  if (!isMobileViewport || !hasActiveNegativePadding(negativePadding)) {
+  if (!isMobileViewport) {
+    return negativePadding;
+  }
+  if (mobileNegativePadding !== undefined) {
+    if (mobileNegativePadding === false || mobileNegativePadding === 0) {
+      return undefined;
+    }
+    return mobileNegativePadding;
+  }
+  if (!hasActiveNegativePadding(negativePadding)) {
     return negativePadding;
   }
   return 0;

@@ -58,13 +58,12 @@ type FormState = {
 
 type ConfigurationSection = {
   id: number;
+  location: string;
   bhkType: string;
   priceMin: string;
   priceMax: string;
-  carpetArea: string;
-  builtupArea: string;
-  totalUnits: string;
-  availableUnits: string;
+  active: boolean;
+  status: string | null;
 };
 
 type LocationConnectivitySection = {
@@ -90,13 +89,22 @@ type UploadedFile = {
 
 type ProjectConfiguration = {
   id: number;
+  location?: string | null;
   bhk_type: string;
   price_min: number | string | null;
   price_max: number | string | null;
-  carpet_area?: string | null;
-  builtup_area?: string | null;
-  total_units?: number | string | null;
-  available_units?: number | string | null;
+  active?: boolean | null;
+  status?: string | null;
+};
+
+type ProjectConfigurationPayload = {
+  id?: number;
+  bhk_type: string;
+  price_min: number;
+  price_max: number;
+  location: string | null;
+  active?: boolean;
+  status?: string | null;
 };
 
 type ProjectLocation = {
@@ -207,23 +215,66 @@ function createEmptyLocationSection(
     longitude: "",
     city: "",
     state: "",
-    pincode: "",
+    pincode: "", // field disabled in UI; kept for section shape
     place: "",
     walkingTime: "",
     drivingTime: "",
   };
 }
 
+/** True for API primary keys (e.g. 165); false for client `createLocalId()` timestamps. */
+function isPersistedApiId(id: number | string | undefined) {
+  const n = Number(id);
+  return Number.isFinite(n) && n > 0 && n < 1_000_000_000;
+}
+
+function configurationLocationFromApi(configuration: ProjectConfiguration) {
+  return trimSectionValue(configuration.location);
+}
+
+function configurationSectionHasData(section: ConfigurationSection) {
+  return Boolean(
+    section.location.trim() ||
+      section.bhkType.trim() ||
+      section.priceMin.trim() ||
+      section.priceMax.trim(),
+  );
+}
+
+function buildConfigurationApiPayload(
+  section: ConfigurationSection,
+): ProjectConfigurationPayload | null {
+  if (!configurationSectionHasData(section)) {
+    return null;
+  }
+
+  const locationText = section.location.trim();
+
+  const row: ProjectConfigurationPayload = {
+    bhk_type: section.bhkType.trim(),
+    price_min: parsePrice(section.priceMin),
+    price_max: parsePrice(section.priceMax),
+    location: locationText.length > 0 ? locationText : null,
+    active: section.active,
+    status: section.status,
+  };
+
+  if (isPersistedApiId(section.id)) {
+    row.id = Number(section.id);
+  }
+
+  return row;
+}
+
 function createEmptyConfigurationSection(id = createLocalId()): ConfigurationSection {
   return {
     id,
+    location: "",
     bhkType: "",
     priceMin: "",
     priceMax: "",
-    carpetArea: "",
-    builtupArea: "",
-    totalUnits: "",
-    availableUnits: "",
+    active: true,
+    status: null,
   };
 }
 
@@ -310,7 +361,9 @@ function mapProjectLocationsToSections(
     longitude: trimSectionValue(location.longitude),
     city: trimSectionValue(location.city),
     state: trimSectionValue(location.state),
-    pincode: trimSectionValue(location.pincode ?? location.pin_code),
+    // Pincode disabled in admin UI — not loaded into form when editing.
+    // pincode: trimSectionValue(location.pincode ?? location.pin_code),
+    pincode: "",
     // Always map API `place_name` to the "Place / Landmark" field (was dropped when
     // place_name === city and no walk/drive times, which killed round-trips to the API).
     place: trimSectionValue(location.place_name),
@@ -319,23 +372,26 @@ function mapProjectLocationsToSections(
   }));
 }
 
-function mapProjectConfigurationsToSections(
+function mapProjectConfiguration(
   configurations: ProjectConfiguration[],
-): ConfigurationSection[] {
-  if (configurations.length === 0) {
-    return [createEmptyConfigurationSection()];
+): ConfigurationSection {
+  const configuration = configurations[0];
+  if (!configuration) {
+    return createEmptyConfigurationSection();
   }
 
-  return configurations.map((configuration) => ({
+  return {
     id: toSectionId(configuration.id),
+    location: configurationLocationFromApi(configuration),
     bhkType: trimSectionValue(configuration.bhk_type),
     priceMin: trimSectionValue(configuration.price_min),
     priceMax: trimSectionValue(configuration.price_max),
-    carpetArea: trimSectionValue(configuration.carpet_area),
-    builtupArea: trimSectionValue(configuration.builtup_area),
-    totalUnits: trimSectionValue(configuration.total_units),
-    availableUnits: trimSectionValue(configuration.available_units),
-  }));
+    active: configuration.active !== false,
+    status:
+      configuration.status == null || configuration.status === ""
+        ? null
+        : String(configuration.status).trim(),
+  };
 }
 
 function SectionCard({
@@ -528,9 +584,9 @@ export function AddProjectWizard() {
   });
 
   const [selectedAmenityKeys, setSelectedAmenityKeys] = useState<string[]>([]);
-  const [configurationSections, setConfigurationSections] = useState<
-    ConfigurationSection[]
-  >([createEmptyConfigurationSection()]);
+  const [configuration, setConfiguration] = useState<ConfigurationSection>(
+    createEmptyConfigurationSection(),
+  );
 
   const [locationSections, setLocationSections] = useState<
     LocationConnectivitySection[]
@@ -619,9 +675,7 @@ export function AddProjectWizard() {
           ),
         });
 
-        setConfigurationSections(
-          mapProjectConfigurationsToSections(project.configurations),
-        );
+        setConfiguration(mapProjectConfiguration(project.configurations));
 
         const mappedLocationSections = mapProjectLocationsToSections(
           project.locations,
@@ -681,30 +735,10 @@ export function AddProjectWizard() {
     setLocationSections((current) => [...current, createEmptyLocationSection()]);
   }
 
-  function updateConfigurationSection<
+  function updateConfigurationField<
     Key extends keyof Omit<ConfigurationSection, "id">,
-  >(id: number, key: Key, value: ConfigurationSection[Key]) {
-    const rowId = Number(id);
-    setConfigurationSections((current) =>
-      current.map((item) =>
-        Number(item.id) === rowId ? { ...item, [key]: value } : item,
-      ),
-    );
-  }
-
-  function addConfigurationSection() {
-    setConfigurationSections((current) => [
-      ...current,
-      createEmptyConfigurationSection(),
-    ]);
-  }
-
-  function removeConfigurationSection(id: number) {
-    const rowId = Number(id);
-    setConfigurationSections((current) => {
-      if (current.length <= 1) return current;
-      return current.filter((item) => Number(item.id) !== rowId);
-    });
+  >(key: Key, value: ConfigurationSection[Key]) {
+    setConfiguration((current) => ({ ...current, [key]: value }));
   }
 
   function removeLocationSection(id: number) {
@@ -922,27 +956,8 @@ export function AddProjectWizard() {
     projectFileIds: number[],
     amenityPayload: Array<{ name: string; amenities_image_id: number }>,
   ) {
-    const configurations = configurationSections
-      .filter((section) =>
-        Boolean(
-          section.bhkType.trim() ||
-            section.priceMin.trim() ||
-            section.priceMax.trim() ||
-            section.carpetArea.trim() ||
-            section.builtupArea.trim() ||
-            section.totalUnits.trim() ||
-            section.availableUnits.trim(),
-        ),
-      )
-      .map((section) => ({
-        bhk_type: section.bhkType.trim(),
-        price_min: parsePrice(section.priceMin),
-        price_max: parsePrice(section.priceMax),
-        carpet_area: parseOptionalNonNegativeFloat(section.carpetArea),
-        builtup_area: parseOptionalNonNegativeFloat(section.builtupArea),
-        total_units: parseOptionalPositiveInt(section.totalUnits),
-        available_units: parseOptionalPositiveInt(section.availableUnits),
-      }));
+    const configurationRow = buildConfigurationApiPayload(configuration);
+    const configurations = configurationRow ? [configurationRow] : [];
 
     const locations = locationSections
       .filter((section) =>
@@ -952,15 +967,17 @@ export function AddProjectWizard() {
           section.longitude.trim() ||
           section.city.trim() ||
           section.state.trim() ||
-          section.pincode.trim() ||
+          // section.pincode.trim() ||
           section.place.trim() ||
           section.walkingTime.trim() ||
           section.drivingTime.trim(),
         ),
       )
       .map((section) => {
-        const pinRaw = toLaravelLocationString(section.pincode);
+        // Pincode not collected in admin — omit from create/update payload.
+        // const pinRaw = toLaravelLocationString(section.pincode);
         return {
+          ...(isPersistedApiId(section.id) ? { id: Number(section.id) } : {}),
           place_name:
             section.place.trim() ||
             section.city.trim() ||
@@ -970,9 +987,8 @@ export function AddProjectWizard() {
           city: toLaravelLocationString(section.city),
           state: toLaravelLocationString(section.state),
           address: toLaravelLocationString(section.fullAddress),
-          pincode: pinRaw,
-          /** Laravel commonly mass-assigns `pin_code`; keep both so either convention works. */
-          pin_code: pinRaw,
+          // pincode: pinRaw,
+          // pin_code: pinRaw,
           latitude: toLaravelLocationString(section.latitude),
           longitude: toLaravelLocationString(section.longitude),
           walking_time: toLaravelLocationString(section.walkingTime),
@@ -1015,21 +1031,15 @@ export function AddProjectWizard() {
       return;
     }
 
-    for (const section of configurationSections) {
-      const hasAny =
-        Boolean(section.bhkType.trim()) ||
-        Boolean(section.priceMin.trim()) ||
-        Boolean(section.priceMax.trim()) ||
-        Boolean(section.carpetArea.trim()) ||
-        Boolean(section.builtupArea.trim()) ||
-        Boolean(section.totalUnits.trim()) ||
-        Boolean(section.availableUnits.trim());
-      if (!hasAny) continue;
-      if (!section.bhkType.trim()) {
-        setErrorMessage("Configuration BHK type is required when row has data.");
+    if (configurationSectionHasData(configuration)) {
+      if (!configuration.bhkType.trim()) {
+        setErrorMessage("Configuration BHK type is required when configuration has data.");
         return;
       }
-      if (parsePrice(section.priceMin) <= 0 || parsePrice(section.priceMax) <= 0) {
+      if (
+        parsePrice(configuration.priceMin) <= 0 ||
+        parsePrice(configuration.priceMax) <= 0
+      ) {
         setErrorMessage("Configuration price min/max must be valid numbers.");
         return;
       }
@@ -1252,108 +1262,38 @@ export function AddProjectWizard() {
 
           <SectionCard
             icon={<IconSparkles className="h-7 w-7" />}
-            title="Configurations"
+            title="Configuration"
           >
-            <div className="space-y-4">
-              {configurationSections.map((section, index) => (
-                <div
-                  key={`cfg-${String(section.id)}-${index}`}
-                  className="space-y-4 rounded-[18px] border border-[#ece7e1] bg-[#fcfcfb] p-4"
-                >
-                  <p className="text-[0.95rem] font-semibold text-[#44506a]">
-                    Configuration {index + 1}
-                  </p>
-                  <div className="grid gap-4 lg:grid-cols-3">
-                    <TextInput
-                      placeholder="BHK Type (e.g. 2 BHK)"
-                      value={section.bhkType}
-                      onChange={(value) =>
-                        updateConfigurationSection(section.id, "bhkType", value)
-                      }
-                    />
-                    <TextInput
-                      type="number"
-                      inputMode="decimal"
-                      min={0}
-                      step={0.01}
-                      placeholder="Price Min"
-                      value={section.priceMin}
-                      onChange={(value) =>
-                        updateConfigurationSection(section.id, "priceMin", value)
-                      }
-                    />
-                    <TextInput
-                      type="number"
-                      inputMode="decimal"
-                      min={0}
-                      step={0.01}
-                      placeholder="Price Max"
-                      value={section.priceMax}
-                      onChange={(value) =>
-                        updateConfigurationSection(section.id, "priceMax", value)
-                      }
-                    />
-                    <TextInput
-                      type="number"
-                      inputMode="decimal"
-                      min={0}
-                      step={1}
-                      placeholder="Carpet area (sq.ft)"
-                      value={section.carpetArea}
-                      onChange={(value) =>
-                        updateConfigurationSection(section.id, "carpetArea", value)
-                      }
-                    />
-                    <TextInput
-                      type="number"
-                      inputMode="decimal"
-                      min={0}
-                      step={1}
-                      placeholder="Built-up area (sq.ft)"
-                      value={section.builtupArea}
-                      onChange={(value) =>
-                        updateConfigurationSection(section.id, "builtupArea", value)
-                      }
-                    />
-                    <TextInput
-                      type="number"
-                      inputMode="numeric"
-                      min={0}
-                      step={1}
-                      placeholder="Total units"
-                      value={section.totalUnits}
-                      onChange={(value) =>
-                        updateConfigurationSection(section.id, "totalUnits", value)
-                      }
-                    />
-                    <TextInput
-                      type="number"
-                      inputMode="numeric"
-                      min={0}
-                      step={1}
-                      placeholder="Available units"
-                      value={section.availableUnits}
-                      onChange={(value) =>
-                        updateConfigurationSection(section.id, "availableUnits", value)
-                      }
-                    />
-                  </div>
-                  {configurationSections.length > 1 ? (
-                    <div className="flex justify-end">
-                      <RemoveItemButton
-                        label="Remove Configuration"
-                        onClick={() => removeConfigurationSection(section.id)}
-                      />
-                    </div>
-                  ) : null}
-                </div>
-              ))}
-              <div className="flex justify-end">
-                <AddItemButton
-                  label="Add Configuration"
-                  onClick={addConfigurationSection}
-                />
-              </div>
+            <div className="grid gap-4 lg:grid-cols-3">
+              <TextInput
+                placeholder="Location (shown on project detail & book a visit)"
+                value={configuration.location}
+                onChange={(value) => updateConfigurationField("location", value)}
+                className="lg:col-span-3"
+              />
+              <TextInput
+                placeholder="BHK Type (e.g. 2 BHK)"
+                value={configuration.bhkType}
+                onChange={(value) => updateConfigurationField("bhkType", value)}
+              />
+              <TextInput
+                type="number"
+                inputMode="decimal"
+                min={0}
+                step={0.01}
+                placeholder="Price Min"
+                value={configuration.priceMin}
+                onChange={(value) => updateConfigurationField("priceMin", value)}
+              />
+              <TextInput
+                type="number"
+                inputMode="decimal"
+                min={0}
+                step={0.01}
+                placeholder="Price Max"
+                value={configuration.priceMax}
+                onChange={(value) => updateConfigurationField("priceMax", value)}
+              />
             </div>
           </SectionCard>
 
@@ -1550,7 +1490,7 @@ export function AddProjectWizard() {
                 ))}
               </div>
 
-              <div className="grid gap-5 lg:grid-cols-3">
+              <div className="grid gap-5 lg:grid-cols-2">
                 {locationAddressFields.map((field) => (
                   <TextInput
                     key={field.key}
@@ -1561,6 +1501,7 @@ export function AddProjectWizard() {
                     }
                   />
                 ))}
+                {/* Pincode — disabled in admin (not sent on create/update).
                 <TextInput
                   type="text"
                   inputMode="numeric"
@@ -1572,6 +1513,7 @@ export function AddProjectWizard() {
                     updateLocationSection(section.id, "pincode", value)
                   }
                 />
+                */}
               </div>
 
               <div className="border-t border-[#efede9] pt-6">

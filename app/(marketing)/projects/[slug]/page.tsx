@@ -280,6 +280,20 @@ function ProjectDetailPageContent() {
     location: "",
     message: "",
   });
+
+  useEffect(() => {
+    if (!project) return;
+    const fromConfiguration =
+      project.configurationLocation !== "—"
+        ? project.configurationLocation
+        : "";
+    if (!fromConfiguration) return;
+    setForm((prev) => ({
+      ...prev,
+      location: prev.location || fromConfiguration,
+    }));
+  }, [project]);
+
   const [cvFileId, setCvFileId] = useState<number | null>(null);
   const [cvFileName, setCvFileName] = useState("");
   const [isUploadingCv, setIsUploadingCv] = useState(false);
@@ -511,15 +525,27 @@ function ProjectDetailPageContent() {
                     >
                       {stat.label}
                     </span>
-                    <div className="flex min-w-0 max-w-full items-baseline gap-x-1 border-b border-black pb-2 text-[#8F8183] n-reg sm:pb-2.5">
+                    <div
+                      className={cn(
+                        "flex min-w-0 max-w-full items-baseline border-b border-black pb-2 text-[#8F8183] n-reg sm:gap-x-1 sm:pb-2.5",
+                        stat.unit &&
+                          "max-sm:justify-center max-sm:gap-x-1.5",
+                      )}
+                    >
                       <span
-                        className="min-w-0 flex-1 truncate text-[clamp(1rem,4.5vw,1.125rem)] leading-[1.2] tracking-tight sm:text-2xl sm:leading-none md:text-3xl lg:text-[2.625rem]"
+                        className={cn(
+                          "truncate text-[clamp(1rem,4.5vw,1.125rem)] leading-[1.2] tracking-tight sm:text-2xl sm:leading-none md:text-3xl lg:text-[2.625rem]",
+                          stat.unit
+                            ? "max-sm:shrink-0 max-sm:flex-none"
+                            : "min-w-0 flex-1",
+                          "sm:min-w-0 sm:flex-1",
+                        )}
                         title={stat.value}
                       >
                         {stat.value}
                       </span>
                       {stat.unit ? (
-                        <span className="shrink-0 text-xs leading-none sm:text-base md:text-xl lg:text-2xl">
+                        <span className="shrink-0 text-xs leading-none max-sm:self-end sm:text-base md:text-xl lg:text-2xl">
                           {stat.unit}
                         </span>
                       ) : null}
@@ -679,6 +705,12 @@ function ProjectDetailPageContent() {
                 Location
               </h2>
 
+              {project.configurationLocation !== "—" ? (
+                <p className="mb-6 text-center n-book text-base leading-relaxed text-[#161616] sm:mb-8 sm:text-left">
+                  {project.configurationLocation}
+                </p>
+              ) : null}
+
               <div className="flex flex-col ">
                 {project.locationItems.map((item, i) => (
                   <div key={i}>
@@ -822,7 +854,7 @@ function ProjectDetailPageContent() {
                       Location
                     </p>
                     <p className="mx-auto mt-2 max-w-[16rem] n-book text-sm leading-relaxed text-white sm:mx-0">
-                      {project.bookVisitAddressLine}
+                      {project.configurationLocation}
                     </p>
                   </div>
                   <div className="w-full sm:w-auto">

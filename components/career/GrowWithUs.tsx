@@ -1,7 +1,6 @@
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import { Container } from "@/components/common/Container";
-import { GradientCtaButton } from "@/components/common/GradientCtaButton";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
 import { OutlineArrowButton } from "../common/OutlineArrowButton";
@@ -31,30 +30,46 @@ function IconEnvelopeOutline({ className }: { className?: string }) {
 export function GrowWithUs() {
     return (
         <section
-            className="relative overflow-hidden  mb-12 md:mb-20 lg:mb-24"
+            className="relative mb-12 overflow-hidden md:mb-20 lg:mb-24"
             aria-labelledby="grow-heading"
         >
-            <div className="relative mx-auto lg:max-w-[953px] lg:max-h-[400px]">
+            <div
+                className={cn(
+                    "relative mx-auto w-full max-w-[953px] overflow-hidden",
+                    "max-lg:h-auto",
+                    "lg:aspect-[953/400]",
+                )}
+            >
                 <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
                     <Image
                         src="/images/bg-arrow.svg"
                         alt=""
                         fill
-                        className=""
-                        sizes="100vw"
+                        className="object-cover object-center"
+                        sizes="(max-width: 1024px) 100vw, 953px"
                     />
                     <div className="absolute inset-0 bg-[#BCBDC0]/20" />
                     <div className="absolute inset-0 bg-white/80" />
                 </div>
 
-                <Container className="relative z-10">
-                    <StaggerContainer className="mx-auto flex flex-col items-center text-center " staggerChildren={0.14}>
+                <Container
+                    className={cn(
+                        "relative z-10",
+                        "py-8 sm:py-10",
+                        "lg:absolute lg:inset-0 lg:flex lg:flex-col lg:justify-center lg:py-0",
+                    )}
+                >
+                    <StaggerContainer
+                        className="mx-auto flex w-full flex-col items-center text-center"
+                        staggerChildren={0.14}
+                    >
                         <ScrollReveal direction="up" distance={28}>
                             <h2
                                 id="grow-heading"
                                 className={cn(
                                     "qs-reg uppercase text-brand-text-primary",
-                                    "fs-50 lh-70 ls-6 mt-2 md:mt-4 lg:mt-10",
+                                    "text-[clamp(1.75rem,5vw,3.125rem)] leading-[1.08] tracking-[0.05em]",
+                                    "lg:fs-50 lg:lh-[1.2] lg:ls-6",
                                 )}
                             >
                                 Come grow with us
@@ -62,7 +77,7 @@ export function GrowWithUs() {
                         </ScrollReveal>
 
                         <ScrollReveal direction="up" delay={0.06} distance={24}>
-                            <p className="mt-5 w-full max-w-[min(55rem,92vw)] n-book fs-16 text-[#161616]sm:mt-6 sm:text-base lg:text-lg">
+                            <p className="mt-4 w-full max-w-[min(55rem,92vw)] n-book text-base leading-relaxed text-[#161616] sm:mt-5 sm:text-base lg:mt-6 lg:text-lg">
                                 The Guardians provide endless opportunities for professional growth in
                                 promising times like these. A stimulating work environment, rich and
                                 diverse exposure &amp; inspiring leadership are a few reasons that make
@@ -73,7 +88,7 @@ export function GrowWithUs() {
                         <ScrollReveal direction="up" delay={0.1} distance={20}>
                             <a
                                 href={`mailto:${HR_EMAIL}`}
-                                className="mt-6 inline-flex items-center gap-2 n-bold text-sm tracking-[0.05em] text-[#161616] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-text-primary sm:mt-8 sm:gap-2.5 sm:text-base lg:text-lg"
+                                className="mt-5 inline-flex items-center gap-2 n-bold text-sm tracking-[0.05em] text-[#161616] transition-opacity hover:opacity-80 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand-text-primary sm:mt-6 sm:gap-2.5 sm:text-base lg:text-lg"
                             >
                                 <IconEnvelopeOutline className="h-4 w-4 shrink-0 text-[#161616] sm:h-5 sm:w-5" />
                                 <span className="break-all">{HR_EMAIL}</span>
@@ -81,17 +96,10 @@ export function GrowWithUs() {
                         </ScrollReveal>
 
                         <ScrollReveal direction="up" delay={0.14} distance={18}>
-                            {/* <GradientCtaButton
-                                href="/contact"
-                                variant="know-more"
-                                className="my-4 md:my-6 lg:mt-8 lg:mb-12 w-[271px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20 px-10"
-                            >
-                                Enquire Now
-                            </GradientCtaButton> */}
                             <OutlineArrowButton
                                 href="/contact"
-                                className="my-4 md:my-6 lg:mt-8 lg:mb-12 w-[271px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-22 uppercase px-10"
-                                iconClassName="w-[13px] h-[13px]"
+                                className="mt-6 h-[50px] w-full max-w-[271px] items-center justify-center py-0 n-bold text-base uppercase sm:mt-8 lg:mt-8"
+                                iconClassName="h-[13px] w-[13px]"
                             >
                                 Enquire Now
                             </OutlineArrowButton>

@@ -53,18 +53,43 @@ type MarketingPageHeroBase = {
    * Defaults to 32. Pass `0` to turn off.
    */
   shiftExtraContentTopPx?: number;
+  /**
+   * Below `viewportHeightBreakpointPx`, overrides `shiftExtraContentTopPx` on mobile viewports
+   * (same detection as `mobileHeightPx` when `useViewportHeightFlag` is true).
+   */
+  mobileShiftExtraContentTopPx?: number;
   /** See `MarketingHeroNegativeContentShift`. */
   negativePadding?: MarketingHeroNegativeContentShift;
+  /** Below `viewportHeightBreakpointPx`, overrides `negativePadding` on mobile when set. */
+  mobileNegativePadding?: MarketingHeroNegativeContentShift;
 };
 
 type MarketingPageHeroProps =
   | (MarketingPageHeroBase & {
     heroId: Exclude<MarketingHeroId, "projects">;
     projectsStage?: never;
+    negativePadding?: MarketingHeroNegativeContentShift;
+    shiftExtraContentTopPx?: number;
+    mobileShiftExtraContentTopPx?: number;
+    heightPx?: number;
+    mobileHeightPx?: number;
+    useViewportHeightFlag?: boolean;
+    viewportHeightBreakpointPx?: number;
+    shiftUnderHeader?: boolean;
+    shiftTillSearch?: boolean;
   })
   | (MarketingPageHeroBase & {
     heroId: "projects";
     projectsStage: ProjectsStage;
+    negativePadding?: MarketingHeroNegativeContentShift;
+    shiftExtraContentTopPx?: number;
+    mobileShiftExtraContentTopPx?: number;
+    heightPx?: number;
+    mobileHeightPx?: number;
+    useViewportHeightFlag?: boolean;
+    viewportHeightBreakpointPx?: number;
+    shiftUnderHeader?: boolean;
+    shiftTillSearch?: boolean;
   });
 
 function heroNavOverlapClass(shiftUnderHeader?: boolean, shiftTillSearch?: boolean) {
@@ -84,6 +109,10 @@ const SHIFT_EXTRA_VAR = "--shift-extra";
 
 const NEGATIVE_HERO_CONTENT_CLASS_DEFAULT = "-mt-4 sm:-mt-5";
 const HERO_BG_IMAGE_CLASS = "object-cover object-center";
+/** Ongoing/completed listing hero photo — cover on mobile; fill Figma artboard on desktop (avoids harsh center-crop). */
+const PROJECTS_HERO_PHOTO_CLASS =
+  "max-lg:!object-cover max-lg:!object-top lg:!object-fill lg:!object-center";
+const ONGOING_HERO_TEXTURE_SRC = "/images/ongoing-bg.svg";
 function mergeNegativeContentPad(shift: MarketingHeroNegativeContentShift | undefined, pad: HeroContentPad): HeroContentPad {
   if (shift === undefined || shift === false) {
     return pad;
@@ -270,6 +299,33 @@ function marketingFirstSectionHeightStyle(heightPx?: number): CSSProperties | un
   };
 }
 
+/** Mobile/desktop fixed heights via CSS media query (honors `mobileHeightPx` on first paint). */
+function marketingViewportHeightSection(
+  useViewportHeightFlag: boolean | undefined,
+  desktopHeightPx: number | undefined,
+  mobileHeightPx: number | undefined,
+  resolvedHeightPx: number | undefined,
+): { className: string; style?: CSSProperties } {
+  if (
+    useViewportHeightFlag &&
+    isCustomHeroHeight(desktopHeightPx) &&
+    isCustomHeroHeight(mobileHeightPx)
+  ) {
+    return {
+      className:
+        "marketing-hero-height-viewport min-w-0 w-full [&_img]:!object-top [&_video]:!object-top",
+      style: {
+        ["--marketing-hero-h-mobile" as string]: `${mobileHeightPx}px`,
+        ["--marketing-hero-h-desktop" as string]: `${desktopHeightPx}px`,
+      },
+    };
+  }
+  return {
+    className: marketingFirstSectionHeightClass(resolvedHeightPx),
+    style: marketingFirstSectionHeightStyle(resolvedHeightPx),
+  };
+}
+
 function resolveHeadline(hero: MarketingHeroContent) {
   const defaults = hero.isBuyer
     ? { lead: "Looking To", accent: "Buy?" }
@@ -278,6 +334,21 @@ function resolveHeadline(hero: MarketingHeroContent) {
     lead: hero.headingLead ?? defaults.lead,
     accent: hero.headingAccent ?? defaults.accent,
   };
+}
+
+function resolveShiftContentExtraPx(
+  shiftUnderHeader: boolean | undefined,
+  shiftExtraContentTopPx: number | undefined,
+  mobileShiftExtraContentTopPx: number | undefined,
+  isMobileViewport: boolean,
+): number {
+  if (isMobileViewport && mobileShiftExtraContentTopPx != null) {
+    return mobileShiftExtraContentTopPx;
+  }
+  if (shiftUnderHeader) {
+    return shiftExtraContentTopPx ?? 32;
+  }
+  return shiftExtraContentTopPx ?? 0;
 }
 
 /**
@@ -290,17 +361,21 @@ function resolveHeadline(hero: MarketingHeroContent) {
 export function MarketingPageHero(props: MarketingPageHeroProps) {
   const shift = props.shiftUnderHeader;
   const shiftTill = Boolean(shift && props.shiftTillSearch);
-  const { heightPx, negativePadding } = useMarketingHeroViewport({
+  const { heightPx, negativePadding, isMobileViewport } = useMarketingHeroViewport({
     useViewportHeightFlag: props.useViewportHeightFlag,
     heightPx: props.heightPx,
     mobileHeightPx: props.mobileHeightPx,
     viewportHeightBreakpointPx: props.viewportHeightBreakpointPx,
     negativePadding: props.negativePadding,
+    mobileShiftExtraContentTopPx: props.mobileShiftExtraContentTopPx,
+    mobileNegativePadding: props.mobileNegativePadding,
   });
-  /** With header shift: default +32px extra (legacy). Without shift: use `shiftExtraContentTopPx` when passed (e.g. projects), else 0. */
-  const shiftContentExtra = shift
-    ? (props.shiftExtraContentTopPx ?? 32)
-    : (props.shiftExtraContentTopPx ?? 0);
+  const shiftContentExtra = resolveShiftContentExtraPx(
+    shift,
+    props.shiftExtraContentTopPx,
+    props.mobileShiftExtraContentTopPx,
+    isMobileViewport,
+  );
   if (props.heroId === "projects") {
     return (
       <ProjectsHeroSection
@@ -411,6 +486,9 @@ export function MarketingPageHero(props: MarketingPageHeroProps) {
           config={raw}
           contentExtraTopPx={shiftContentExtra}
           heightPx={heightPx}
+          desktopHeightPx={props.heightPx}
+          mobileHeightPx={props.mobileHeightPx}
+          useViewportHeightFlag={props.useViewportHeightFlag}
           shiftUnderHeader={shift}
           shiftTillSearch={shiftTill}
           negativePadding={negativePadding}
@@ -1020,6 +1098,9 @@ function TgreaHero({
   className,
   config,
   heightPx,
+  desktopHeightPx,
+  mobileHeightPx,
+  useViewportHeightFlag,
   shiftUnderHeader,
   shiftTillSearch,
   contentExtraTopPx,
@@ -1028,84 +1109,88 @@ function TgreaHero({
   className?: string;
   config: Record<string, unknown>;
   heightPx?: number;
+  desktopHeightPx?: number;
+  mobileHeightPx?: number;
+  useViewportHeightFlag?: boolean;
   shiftUnderHeader?: boolean;
   shiftTillSearch?: boolean;
   contentExtraTopPx: number;
   negativePadding?: MarketingHeroNegativeContentShift;
 }) {
-  const contentPad = mergeNegativeContentPad(
-    negativePadding,
-    getHeroContentPad(Boolean(shiftUnderHeader), Boolean(shiftTillSearch), contentExtraTopPx),
+  const sectionHeight = marketingViewportHeightSection(
+    useViewportHeightFlag,
+    desktopHeightPx,
+    mobileHeightPx,
+    heightPx,
   );
+  const bgSrc = (config["backgroundImage"] as string) || LOCAL_IMAGES.tgreaHero;
+  const [heroBgSrc, setHeroBgSrc] = useState(bgSrc);
+  const shiftStyle =
+    !shiftUnderHeader && contentExtraTopPx > 0
+      ? ({ [SHIFT_EXTRA_VAR as string]: `${contentExtraTopPx}px` } as CSSProperties)
+      : undefined;
+  const contentPad = mergeNegativeContentPad(negativePadding, {});
+
   return (
     <section
       className={cn(
-        marketingFirstSectionHeightClass(heightPx),
-        "relative w-full min-w-0 overflow-hidden bg-neutral-200",
+        sectionHeight.className,
+        "overflow-hidden bg-neutral-200",
+        "max-lg:[&_img]:!object-cover max-lg:[&_img]:!object-center",
         heroNavOverlapClass(shiftUnderHeader, shiftTillSearch),
+        contentPad.className,
         className,
       )}
-      style={marketingFirstSectionHeightStyle(heightPx)}
+      style={{ ...sectionHeight.style, ...contentPad.style }}
       aria-labelledby={config["headingId"] as string}
     >
-      <div className="relative h-full overflow-hidden">
+      <div className="relative h-full min-h-[inherit] overflow-hidden">
         <div className="pointer-events-none absolute inset-0 z-0">
           <Image
-            src={config["backgroundImage"] as string}
+            src={heroBgSrc}
             alt=""
             fill
             className={cn(
               (config["imageClassName"] as string) || "object-stretch object-center",
+              "max-lg:!object-cover max-lg:!object-center",
             )}
             sizes="100vw"
             priority
+            onError={() => {
+              if (heroBgSrc !== LOCAL_IMAGES.projectCompleted) {
+                setHeroBgSrc("/images/ongoing-bg.svg");
+              }
+            }}
           />
           <div className="absolute inset-0 bg-white/10" />
         </div>
         <div
           className={cn(
-            "absolute inset-x-0 top-[9%] px-4 text-center sm:top-[8%] sm:px-6 lg:top-[7.5%] lg:px-0 lg:pt-25",
-            contentPad.className,
+            "relative z-10 px-4 text-center sm:px-6",
+            "max-lg:flex max-lg:h-full max-lg:flex-col max-lg:items-center max-lg:justify-center max-lg:pt-[var(--site-header-height)] max-lg:pb-8",
+            "lg:absolute lg:inset-x-0 lg:top-[7.5%] lg:px-0",
+            contentExtraTopPx > 0 ? "lg:pt-[var(--shift-extra)]" : "lg:pt-25",
           )}
-          style={contentPad.style}
+          style={shiftStyle}
         >
           <Container className="min-w-0">
-            <ScrollReveal direction="up" delay={0.04} distance={24}>
-              <h1
-                id={config["headingId"] as string}
-                className="break-words px-1 qs-reg uppercase leading-[0.94] tracking-[0.02em] text-[#202225] text-[clamp(1.9rem,9vw,4.375rem)] lg:fs-70"
-              >
-                {config["title"] as string}
-              </h1>
-            </ScrollReveal>
-            <ScrollReveal direction="up" delay={0.04} distance={24}>
-              <h1
-                id={config["headingId"] as string}
-                className="break-words px-1 qs-reg uppercase leading-[0.94] tracking-[0.02em] text-[#202225] text-[clamp(1.9rem,9vw,4.375rem)] lg:fs-70"
-              >
-                {config["tagline"] as string}
-              </h1>
-            </ScrollReveal>
-            {/* <ScrollReveal direction="up" delay={0.1} distance={20}>
-              <p
-                className={cn(
-                  "mx-auto mt-1 n-bold uppercase tracking-[0.1em] text-[#202225]",
-                  "text-[clamp(0.8125rem,3.4vw,1.25rem)]",
-                )}
-              >
-                {config["tagline"] as string}
-              </p>
-            </ScrollReveal> */}
-            <ScrollReveal direction="up" delay={0.14} distance={18}>
-              <p
-                className={cn(
-                  "mx-auto mt-4 max-w-[min(1180px,100%)] text-[#000000] fs-18 lh-22 n-book",
-                  "text-[15px] leading-[1.15]",
-                )}
-              >
-                {config["body"] as string}
-              </p>
-            </ScrollReveal>
+            <h1
+              id={config["headingId"] as string}
+              className="break-words px-1 qs-reg uppercase leading-[0.94] tracking-[0.02em] text-[#202225] text-[clamp(1.9rem,9vw,4.375rem)] lg:fs-70"
+            >
+              {config["title"] as string}
+            </h1>
+            <p className="break-words px-1 qs-reg uppercase leading-[0.94] tracking-[0.02em] text-[#202225] text-[clamp(1.9rem,9vw,4.375rem)] lg:fs-70">
+              {config["tagline"] as string}
+            </p>
+            <p
+              className={cn(
+                "mx-auto mt-4 max-w-[min(1180px,100%)] text-[#000000] fs-18 lh-22 n-book",
+                "text-[15px] leading-[1.15]",
+              )}
+            >
+              {config["body"] as string}
+            </p>
           </Container>
         </div>
       </div>
@@ -1166,7 +1251,7 @@ function ServicesHero({
           <h1
             id={config["headingId"] as string}
             className={cn(
-              "m-auto break-words text-balance uppercase text-[#202225]",
+              "m-auto break-words qs-reg text-balance uppercase text-[#202225]",
               "text-[clamp(1.35rem,4.8vw,2.5rem)] leading-[1.12] tracking-[0.04em]",
               "sm:text-[clamp(1.6rem,5.2vw,3.1rem)] sm:leading-[1.1] sm:tracking-[0.05em]",
               "lg:text-[clamp(1.9rem,3.5vw,4.375rem)] lg:leading-none lg:tracking-[0.05em]",
@@ -1306,7 +1391,7 @@ function ProjectsHeroSection({
             src={displaySrc}
             alt=""
             fill
-            className={HERO_BG_IMAGE_CLASS}
+            className={PROJECTS_HERO_PHOTO_CLASS}
             sizes="100vw"
             priority
             onError={() => {
@@ -1316,7 +1401,6 @@ function ProjectsHeroSection({
             }}
           />
         </div>
-
       </div>
 
       <div

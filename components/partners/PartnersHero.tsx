@@ -9,7 +9,7 @@ type PartnersHeroProps = Omit<
 
 const defaultProps: Partial<PartnersHeroProps> = {
   heightPx: 600,
-  mobileHeightPx: 360,
+  mobileHeightPx: 500,
   useViewportHeightFlag: true,
   viewportHeightBreakpointPx: 1024,
   shiftExtraContentTopPx: 0,

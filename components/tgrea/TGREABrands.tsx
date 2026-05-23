@@ -56,7 +56,7 @@ export function TGREABrands() {
             contentClassName="flex items-center md:min-h-[520px] lg:min-h-[650px]"
             titleClassName=""
             descriptionClassName="max-w-[488px] text-[clamp(0.875rem,3vw,1rem)] leading-[1.5] sm:text-base"
-            buttonClassName="mt-4 h-[50px] w-full max-w-xs text-[clamp(0.8125rem,3vw,1.25rem)] leading-[1.25rem] sm:mt-10 sm:w-auto sm:max-w-none sm:px-12 sm:py-5 sm:leading-[1.5625rem]"
+            buttonClassName="mt-4 h-[50px] w-full max-w-xs items-center justify-center gap-4 py-0 text-[clamp(0.8125rem,3vw,1.25rem)] leading-none sm:mt-10 sm:w-auto sm:max-w-none sm:px-12"
             imageClassName="aspect-[488/434] min-h-[220px] rounded-none md:min-h-[520px] lg:aspect-auto lg:h-full lg:min-h-[650px]"
           />
         ))}

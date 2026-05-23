@@ -648,6 +648,24 @@ html:not(.js-directional-grad) .btn-grad--dark:focus-visible {
   animation: none;
 }
 
+/* `useViewportHeightFlag` heroes — respects `mobileHeightPx` / `heightPx` without JS (TGREA, etc.). */
+.marketing-hero-height-viewport {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: var(--marketing-hero-h-mobile, 500px);
+  max-height: var(--marketing-hero-h-mobile, 500px);
+  min-height: var(--marketing-hero-h-mobile, 500px);
+}
+
+@media (min-width: 1024px) {
+  .marketing-hero-height-viewport {
+    height: var(--marketing-hero-h-desktop, 650px);
+    max-height: var(--marketing-hero-h-desktop, 650px);
+    min-height: var(--marketing-hero-h-desktop, 650px);
+  }
+}
+
 .marketing-first-section-height {
   /* Mobile/tablet: reduce oversized hero height and keep full-width composition readable. */
   height: clamp(200px, 88vw, 760px);

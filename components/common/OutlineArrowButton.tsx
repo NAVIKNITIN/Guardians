@@ -34,7 +34,11 @@ const baseClassName = cn(
 );
 
 function Label({ children }: { children: ReactNode }) {
-  return <span className="shrink-0 whitespace-nowrap">{children}</span>;
+  return (
+    <span className="inline-flex shrink-0 items-center whitespace-nowrap leading-none">
+      {children}
+    </span>
+  );
 }
 
 function ArrowIcon({

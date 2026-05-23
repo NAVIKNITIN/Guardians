@@ -62,7 +62,7 @@ export function SplitSection({
             <OutlineArrowButton
               href={href}
               className={cn(
-                "mt-6 hidden h-[50px] w-full max-w-xs pt-1 md:inline-flex md:w-auto md:max-w-none",
+                "mt-6 hidden h-[50px] w-full max-w-xs items-center justify-center py-0 md:inline-flex md:w-auto md:max-w-none",
                 buttonClassName,
               )}
             >
@@ -101,7 +101,7 @@ export function SplitSection({
           <OutlineArrowButton
             href={href}
             className={cn(
-              "inline-flex h-[50px] w-full max-w-[min(100%,250px)] pt-1 sm:max-w-xs",
+              "inline-flex h-[50px] w-full max-w-[min(100%,250px)] items-center justify-center py-0 sm:max-w-xs",
               buttonClassName,
             )}
           >

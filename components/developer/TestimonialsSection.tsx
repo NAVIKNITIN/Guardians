@@ -131,7 +131,7 @@ export function TestimonialsSection({
         className={cn(
           "mt-10 w-full",
           centerOnMobile
-            ? "hidden lg:flex lg:justify-start"
+            ? "hidden lg:flex lg:justify-center"
             : "flex justify-center",
         )}
       >

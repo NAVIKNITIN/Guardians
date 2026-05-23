@@ -70,12 +70,42 @@ export function getProjectById(id: string | number) {
   return promise;
 }
 
-export function createProject(payload: object) {
-  return axiosInstance.post<unknown>("/projects", payload).then((r) => r.data);
+/** Nested configuration row for `POST/PUT /api/projects` (`configurations[].location`, etc.). */
+export type ProjectConfigurationApiRow = {
+  id?: number;
+  bhk_type: string;
+  price_min: number;
+  price_max: number;
+  location: string | null;
+  carpet_area?: number | null;
+  builtup_area?: number | null;
+  total_units?: number | null;
+  available_units?: number | null;
+  active?: boolean;
+  status?: string | null;
+};
+
+export type ProjectMutationPayload = {
+  name: string;
+  configurations?: ProjectConfigurationApiRow[];
+  [key: string]: unknown;
+};
+
+export function createProject(payload: ProjectMutationPayload | object) {
+  return axiosInstance
+    .post<unknown>("/projects", payload, {
+      headers: { "Content-Type": "application/json" },
+    })
+    .then((r) => r.data);
 }
 
-export function updateProject(id: string | number, payload: object) {
+export function updateProject(
+  id: string | number,
+  payload: ProjectMutationPayload | object,
+) {
   return axiosInstance
-    .put<unknown>(`/projects/${id}`, payload)
+    .put<unknown>(`/projects/${id}`, payload, {
+      headers: { "Content-Type": "application/json" },
+    })
     .then((r) => r.data);
 }
