@@ -1052,7 +1052,7 @@ function PartnersHero({
         </ScrollReveal>
         {typeof config["body"] === "string" && config["body"] ? (
           <ScrollReveal direction="up" delay={0.1} distance={20}>
-            <p className={cn(MARKETING_HERO_SUBTITLE_ON_DARK, "m-auto sm:mt-4 sm:lh-17 md:lh-20 sm:text-center")}>
+            <p className={cn(MARKETING_HERO_SUBTITLE_ON_DARK, "m-auto sm:mt-4 mt-5 sm:lh-17 md:lh-20 sm:text-center")}>
               {config["body"] as string}
             </p>
           </ScrollReveal>
@@ -1247,7 +1247,7 @@ function TgreaHero({
             >
               {config["tagline"] as string}
             </p>
-            <p className={MARKETING_HERO_SUBTITLE_WIDE}>
+            <p className={`${MARKETING_HERO_SUBTITLE_WIDE} mt-4`}>
               {config["body"] as string}
             </p>
           </Container>

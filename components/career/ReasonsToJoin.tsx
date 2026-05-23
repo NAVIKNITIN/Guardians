@@ -137,9 +137,10 @@ export function ReasonsToJoin() {
           <h2
             id="reasons-heading"
             className={cn(
-              "text-center uppercase text-brand-text-primary qs-reg ls-10",
-              "qs-reg text-[clamp(1rem,calc(0.5rem+2.5vw),1.75rem)] md:text-[clamp(2rem,calc(1rem+5.5vw),2.75rem)] leading-[1.15] ls-8",
-              "mb-6 sm:mb-5",
+              "text-center uppercase text-brand-text-primary qs-reg ls-10 sm:text-center",
+              "text-[clamp(2.156rem,4.8vw,2.5rem)] leading-[1.12] tracking-[0.04em]",
+              "sm:text-[clamp(2.25rem,5.2vw,3.1rem)] sm:leading-[1.1] sm:tracking-[0.05em]",
+              "lg:text-[clamp(2.75rem,3.5vw,4.375rem)] lg:leading-[1.05] lg:tracking-[0.05em]",
             )}
           >
             Reasons to Join Guardians

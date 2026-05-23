@@ -67,10 +67,11 @@ export function GrowWithUs() {
                             <h2
                                 id="grow-heading"
                                 className={cn(
-                                    "qs-reg uppercase text-brand-text-primary",
-                                    "text-[clamp(1.75rem,5vw,3.125rem)] leading-[1.08] tracking-[0.05em]",
-                                    "lg:fs-50 lg:lh-[1.2] lg:ls-6",
-                                )}
+                                    "text-center uppercase text-brand-text-primary qs-reg ls-10 sm:text-center",
+                                    "text-[clamp(2.156rem,4.8vw,2.5rem)] leading-[1.12] tracking-[0.04em]",
+                                    "sm:text-[clamp(2.25rem,5.2vw,3.1rem)] sm:leading-[1.1] sm:tracking-[0.05em]",
+                                    "lg:text-[clamp(2.75rem,3.5vw,4.375rem)] lg:leading-[1.05] lg:tracking-[0.05em]",
+                                  )}
                             >
                                 Come grow with us
                             </h2>

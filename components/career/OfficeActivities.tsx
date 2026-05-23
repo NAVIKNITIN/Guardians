@@ -38,9 +38,10 @@ export function OfficeActivities() {
           <h2
             id="activities-heading"
             className={cn(
-            "text-center uppercase text-brand-text-primary qs-reg ls-8",
-              "qs-reg fs-50 leading-[1.15] ls-8",
-              "mb-4 md:mb-8 lg:mb-10",
+              "text-center uppercase text-brand-text-primary qs-reg ls-10 sm:text-center",
+              "text-[clamp(2.156rem,4.8vw,2.5rem)] leading-[1.12] tracking-[0.04em]",
+              "sm:text-[clamp(2.25rem,5.2vw,3.1rem)] sm:leading-[1.1] sm:tracking-[0.05em]",
+              "lg:text-[clamp(2.75rem,3.5vw,4.375rem)] lg:leading-[1.05] lg:tracking-[0.05em]",
             )}
           >
             Office Activities

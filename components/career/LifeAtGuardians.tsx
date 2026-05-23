@@ -18,12 +18,13 @@ export function LifeAtGuardians() {
             <h2
               id="life-heading"
               className={cn(
-                "uppercase text-brand-text-primary qs-reg ls-10",
-                /* Fluid type — no fixed fs-70/lh-70 so the title scales on narrow phones */
-                "text-[clamp(5rem,calc(1rem+2.5vw),2.75rem)] leading-[1.05] tracking-[0.05em]",
+                "text-center uppercase text-brand-text-primary qs-reg ls-10 sm:text-left",
+                "text-[clamp(2.156rem,4.8vw,2.5rem)] leading-[1.12] tracking-[0.04em]",
+                "sm:text-[clamp(2.25rem,5.2vw,3.1rem)] sm:leading-[1.1] sm:tracking-[0.05em]",
+                "lg:text-[clamp(2.75rem,3.5vw,4.375rem)] lg:leading-[1.05] lg:tracking-[0.05em]",
               )}
             >
-              Life at<br />Guardians
+              Life at Guardians
             </h2>
           </ScrollReveal>
 
