@@ -138,7 +138,7 @@ export function ReasonsToJoin() {
             id="reasons-heading"
             className={cn(
               "text-center uppercase text-brand-text-primary qs-reg ls-10",
-              "qs-reg fs-50 leading-[1.15] ls-8",
+              "qs-reg text-[clamp(1rem,calc(0.5rem+2.5vw),1.75rem)] md:text-[clamp(2rem,calc(1rem+5.5vw),2.75rem)] leading-[1.15] ls-8",
               "mb-6 sm:mb-5",
             )}
           >

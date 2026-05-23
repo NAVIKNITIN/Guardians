@@ -133,9 +133,9 @@ const MARKETING_HERO_TITLE_BASE = cn(
 /** Shared marketing hero subtitle / body copy (responsive `fs-*` + `lh-*` on lg). */
 const MARKETING_HERO_SUBTITLE = cn(
   "sub-title mx-auto n-book text-pretty text-[#000000]",
-  "text-[0.9375rem] leading-[1.5]",
+  "text-[0.9375rem] leading-[1.2]",
   "sm:text-[15px] sm:leading-[1.45]",
-  "lg:fs-18 lg:lh-24",
+  "lg:fs-18 lg:text-[20px] lg:lh-24",
 );
 const MARKETING_HERO_SUBTITLE_GAP = "mt-0 md:mt-3 lg:mt-5";
 const MARKETING_HERO_SUBTITLE_WIDE = cn(
@@ -1593,8 +1593,10 @@ export function MarketingAudienceHero({
             <h1
               id={content.ariaHeadingId}
               className={cn(
-                "break-words qs-reg uppercase leading-[1.05] ls-5",
+                "break-words qs-reg uppercase leading-[1.05] ls-5 ",
                 MARKETING_HERO_TITLE_SIZE,
+                "lg:text-[clamp(2.9rem,5.5vw,4.375rem)] lg:leading-[1.05] lg:tracking-[0.05em]",
+                "text-[clamp(2.156rem,4.8vw,2.5rem)] leading-[1.12] tracking-[0.04em]",
               )}
             >
               <span className="block">
@@ -1604,7 +1606,7 @@ export function MarketingAudienceHero({
             </h1>
           </ScrollReveal>
           <ScrollReveal direction="up" delay={0.12} distance={20} className="flex w-full justify-center ">
-            <p className={MARKETING_HERO_SUBTITLE_AUDIENCE}>
+            <p className={`${MARKETING_HERO_SUBTITLE_AUDIENCE} mt-4`}>
               {content.body}
             </p>
           </ScrollReveal>

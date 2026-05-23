@@ -20,7 +20,7 @@ export function LifeAtGuardians() {
               className={cn(
                 "uppercase text-brand-text-primary qs-reg ls-10",
                 /* Fluid type — no fixed fs-70/lh-70 so the title scales on narrow phones */
-                "text-[clamp(2rem,calc(1rem+5.5vw),3.75rem)] leading-[1.05] tracking-[0.05em]",
+                "text-[clamp(5rem,calc(1rem+2.5vw),2.75rem)] leading-[1.05] tracking-[0.05em]",
               )}
             >
               Life at<br />Guardians
