@@ -6,7 +6,7 @@ import type { Metadata } from "next";
 // In production this data would come from a CMS or API based on the slug.
 const POST: BlogDetailPost = {
   category: "CATEGORY",
-  date: "12 Dec 2025",
+  date: "24 May 2026",
   title: "Revolutionising real estate - The Power of GIS mapping in India",
   featuredImage: LOCAL_IMAGES.blogDetail,
   featuredImageAlt: "GIS mapping in real estate",

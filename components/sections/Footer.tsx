@@ -435,7 +435,7 @@ export function Footer() {
           {/* ── Copyright ──────────────────────────────────────────────────── */}
           <div className="mt-8 border-t border-white/50 pt-5 sm:mt-10 sm:pt-3">
             <p className="text-center n-reg text-[11px] fw-300 text-white leading-[1.4] sm:fs-14 sm:lh-20 sm:leading-relaxed">
-              © 2025 The Guardians. All rights reserved.
+              © 2026 The Guardians. All rights reserved.
             </p>
           </div>
         </div>
