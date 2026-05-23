@@ -150,7 +150,7 @@ export default function AboutPage() {
             </div>
           </div>
 
-          <div className="mt-40 grid items-start justify-items-center gap-y-10 text-center lg:grid-cols-[2fr_3fr] lg:justify-items-stretch lg:gap-x-12 lg:gap-y-0 lg:text-left xl:gap-x-20">
+          <div className="mt-16 grid items-start justify-items-center gap-y-10 text-center sm:mt-24 md:mt-32 lg:mt-40 lg:grid-cols-[2fr_3fr] lg:justify-items-stretch lg:gap-x-12 lg:gap-y-0 lg:text-left xl:gap-x-20">
             <div className="">
               <h3 className="mx-auto  lg:mx-0 n-bold fs-42 text-[clamp(1.72rem,2.1vw,2.6rem)] font-semibold leading-[1.08] tracking-[-0.03em] text-[#161616] ">
                 Revolutionising real
@@ -173,7 +173,7 @@ export default function AboutPage() {
 
       <section className="py-10 sm:py-14 lg:py-25">
         <Container className="min-w-0 ">
-          <h2 className="qs-reg fs-50 uppercase tracking-[0.05em] text-[#000000] mb-3 ">
+          <h2 className="qs-reg mb-3 text-center text-[clamp(1.75rem,5vw,3.125rem)] uppercase leading-[1.08] tracking-[0.05em] text-[#000000] sm:mb-4">
             Meet The Leadership
           </h2>
           <AboutLeadershipSection slides={leadershipSlides} />

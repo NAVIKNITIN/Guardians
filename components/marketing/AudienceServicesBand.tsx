@@ -12,15 +12,25 @@ import {
 } from "@/data/audience-marketing-shared";
 import { marketingClasses } from "@/styles/marketingClasses";
 import { cn } from "@/utils/cn";
+import {
+  AudienceMarketingSectionCtaDesktop,
+  AudienceMarketingSectionCtaMobile,
+} from "@/components/marketing/AudienceMarketingSectionCta";
+import {
+  audienceMobileCopyCenter,
+  audienceMobileStackCenter,
+} from "@/styles/audienceMarketingCenter";
 import { useEffect, useRef, useState } from "react";
-import { OutlineArrowButton } from "../common/OutlineArrowButton";
 
 export function AudienceServicesBand({
   content,
   isBuyer,
+  centerOnMobile = false,
 }: {
   content: ServicesBandContent;
   isBuyer: boolean;
+  /** Center title, copy, and CTA below `lg` (buyer/developer pages). */
+  centerOnMobile?: boolean;
 }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [stepPx, setStepPx] = useState(0);
@@ -57,7 +67,7 @@ export function AudienceServicesBand({
     setCurrentIndex((idx) => Math.min(Math.max(0, total - 1), idx + 1));
 
   const cardsStrip = (
-    <div className="w-full overflow-hidden">
+    <div className="w-full min-w-0 overflow-hidden">
       <ul
         ref={trackRef}
         role="list"
@@ -80,12 +90,13 @@ export function AudienceServicesBand({
   );
 
   return (
-    <section aria-labelledby="audience-services-heading" className="justify-center items-center flex">
+    <section
+      aria-labelledby="audience-services-heading"
+      className="flex w-full min-w-0 flex-col"
+    >
       <Container
         gutter="left"
-        className={cn(
-          "w-full py-0",
-        )}
+        className="w-full min-w-0 py-0"
       >
         <div
           className={cn(
@@ -93,36 +104,52 @@ export function AudienceServicesBand({
             "lg:flex-row lg:items-start lg:gap-10 xl:gap-12 2xl:gap-16",
           )}
         >
-          <StaggerContainer className="min-w-0 shrink-0 lg:w-4/12 lg:max-w-xl " staggerChildren={0.18}>
+          <StaggerContainer
+            className={audienceMobileStackCenter(
+              centerOnMobile,
+              "min-w-0 w-full shrink-0 px-4 xs:px-5 sm:px-8 md:px-10 lg:w-4/12 lg:max-w-xl lg:px-0",
+            )}
+            staggerChildren={0.18}
+          >
             <ScrollReveal direction="up" distance={36}>
               <h2
                 id="audience-services-heading"
-                className={marketingClasses.headingDisplay}
+                className={audienceMobileCopyCenter(
+                  centerOnMobile,
+                  marketingClasses.headingDisplay,
+                )}
               >
                 {content.sectionTitle}
               </h2>
             </ScrollReveal>
             <ScrollReveal direction="up" delay={0.08} distance={32}>
-              <p className="mt-3 max-w-sm n-book fs-18 lh-22 text-[#000000] 2xl:max-w-sm">
+              <p
+                className={audienceMobileCopyCenter(
+                  centerOnMobile,
+                  "mt-3 max-w-sm n-book fs-18 lh-22 text-[#000000] 2xl:max-w-sm",
+                )}
+              >
                 {content.description}
               </p>
             </ScrollReveal>
             <ScrollReveal direction="up" delay={0.16} distance={28}>
-              <OutlineArrowButton
+              <AudienceMarketingSectionCtaDesktop
                 href={knowMoreHref}
-                className="mt-10 inline-flex  sm:mt-14  lg:mt-20 w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20 uppercase"
+                centerOnMobile={centerOnMobile}
+                className="mt-10 sm:mt-14 lg:mt-20"
               >
                 {content.knowMoreLabel}
-              </OutlineArrowButton>
+              </AudienceMarketingSectionCtaDesktop>
             </ScrollReveal>
           </StaggerContainer>
 
           <ScrollReveal
             className={cn(
-              /* Break out of container on the right so cards touch viewport edge. */
-              "lg:mr-[calc(50%-50vw)] relative",
+              "relative w-full min-w-0",
+              /* Break out of container on the right so cards touch viewport edge (desktop). */
+              "lg:mr-[calc(50%-50vw)]",
             )}
-            direction="right"
+            direction="up"
             delay={0.18}
             distance={44}
           >
@@ -143,6 +170,16 @@ export function AudienceServicesBand({
             className="w-full justify-center gap-10"
           />
         </div>
+
+        <ScrollReveal direction="up" delay={0.2} distance={28}>
+          <AudienceMarketingSectionCtaMobile
+            href={knowMoreHref}
+            centerOnMobile={centerOnMobile}
+            wrapClassName="mt-6"
+          >
+            {content.knowMoreLabel}
+          </AudienceMarketingSectionCtaMobile>
+        </ScrollReveal>
       </Container>
     </section>
   );

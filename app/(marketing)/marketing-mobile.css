@@ -90,6 +90,39 @@
   .marketing-mobile-root .min-h-\[155vh\] {
     min-height: 118vh;
   }
+
+  /* Prevent page-level horizontal scroll */
+  .marketing-mobile-root,
+  .marketing-mobile-root main {
+    overflow-x: clip;
+  }
+
+  /* Stats band — allow values/labels to wrap on narrow screens */
+  .marketing-mobile-root [aria-label="Key statistics"] p.tabular-nums {
+    white-space: normal;
+    text-wrap: balance;
+    font-size: clamp(1.35rem, 5.5vw, 2rem);
+    line-height: 1.1;
+  }
+
+  .marketing-mobile-root [aria-label="Key statistics"] {
+    padding-left: max(0.875rem, env(safe-area-inset-left));
+    padding-right: max(0.875rem, env(safe-area-inset-right));
+  }
+
+  /* Fixed-width marketing CTAs → fluid on phones */
+  .marketing-mobile-root main a[class*="w-[250px]"],
+  .marketing-mobile-root main a[class*="w-[253px]"] {
+    width: 100% !important;
+    max-width: min(100%, 20rem);
+  }
+
+  /* Services hero — long titles */
+  .marketing-mobile-root #buyer-services-heading,
+  .marketing-mobile-root #dev-services-heading {
+    text-wrap: balance;
+    max-width: 100%;
+  }
 }
 
 /* -------------------------------------------------------------------------- */

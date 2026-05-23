@@ -13,7 +13,6 @@ const stickyScrollCopyTypography = cn(
   "tracking-[-0.01em]",
   /* Narrow phones: readable floor, grows with vw */
   "text-[clamp(1.125rem,0.55rem+3.2vw,1.5rem)] leading-[1.28]",
-  "min-[400px]:text-[clamp(1.2rem,0.5rem+3.4vw,1.875rem)] min-[400px]:leading-[1.26]",
   "sm:text-[clamp(1.35rem,0.65rem+3vw,2.125rem)] sm:leading-[1.24]",
   "md:text-[clamp(1.5rem,0.75rem+2.6vw,2.75rem)] md:leading-[1.22]",
   /* Laptop+ anchor to design (48px), then step up on wide monitors */

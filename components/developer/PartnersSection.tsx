@@ -56,7 +56,7 @@ export function PartnersSection({
           </ScrollReveal>
           <ScrollReveal direction="up" delay={0.08} distance={20}>
             <OutlineArrowButton
-              className="w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20 uppercase"
+              className="h-[55px] w-full max-w-[min(100%,250px)] n-bold fs-16 uppercase sm:w-[250px] md:fs-18 lg:fs-20"
               href={content.ctaHref}
             >
               {content.ctaLabel}

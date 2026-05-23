@@ -15,6 +15,7 @@ const defaultProps: Partial<PartnersHeroProps> = {
   shiftExtraContentTopPx: 0,
   shiftUnderHeader: true,
   shiftTillSearch: false,
+  negativePadding: 50,
 };
 
 export function PartnersHero(props: PartnersHeroProps) {

@@ -1,7 +1,6 @@
-import { IconArrowUpRight } from "@/components/common/icons";
+import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
-import Link from "next/link";
 
 const FIGMA_CARD_BG = "bg-[#F2F2F2]";
 const FIGMA_TAUPE_TEXT = "text-[#8F8183]";
@@ -12,9 +11,8 @@ const FIGMA_GRAD_OVERLAY_DEVELOPER =
   "bg-[linear-gradient(250deg,rgba(188,189,192,0.2),rgba(143,129,131,0.2))]";
 
 const dividerCardCtaClassName = cn(
-  "inline-flex h-[38px] items-center justify-center gap-2 rounded-none border border-[#202225] bg-transparent px-4 py-2.5",
-  "n-bold text-[12px] leading-[18px] tracking-normal text-[#000000]",
-  "transition-colors duration-300 hover:bg-black/5",
+  "h-[43px] w-fit shrink-0 gap-2 px-4 py-2.5",
+  "text-[12px] leading-[18px] tracking-normal w-full",
 );
 
 type CardImageColumnProps = {
@@ -37,7 +35,12 @@ function CardImageColumn({
   align = "right",
 }: CardImageColumnProps) {
   return (
-    <div className={cn("relative h-full shrink-0 self-stretch", className)}>
+    <div
+      className={cn(
+        "pointer-events-none relative h-full shrink-0 self-stretch",
+        className,
+      )}
+    >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={portraitSrc}
@@ -77,34 +80,43 @@ export function BuyerProfileCardMobile() {
       {/* Content row */}
       <div className="relative z-10 flex h-full w-full flex-row items-stretch">
         {/* Left: text */}
-        <div className="flex w-[42%] shrink-0 flex-col items-start justify-center gap-3 px-5 py-5">
+        <div className="relative z-20 flex w-[60%] shrink-0 flex-col items-start justify-center gap-3 px-5 py-5">
           <Image
             src="/images/Buyer/Vector.svg"
             alt=""
             width={36}
             height={38}
-            className={cn("absolute top-0  mt-5 left-5 h-[38px] w-[36px] shrink-0 object-contain", FIGMA_TAUPE_TEXT)}
+            className={cn("mr-[200px] absolute top-0  mt-5 left-5 h-[38px] w-[36px] shrink-0 object-contain", FIGMA_TAUPE_TEXT)}
             aria-hidden
           />
-          <div className="text-left relative z-10 mt-10">
+          <div className="relative z-10 mt-10 text-left">
             <p className="n-bold text-[10px] uppercase tracking-[0.1em] text-[#000000]">
-              I am a
+              I AM A
             </p>
-            <h3 className={cn("mt-0.5 qs-reg text-[2rem] uppercase leading-[0.9] ls-5", FIGMA_TAUPE_TEXT)}>
-              Buyer
+            <h3
+              className={cn(
+                "mt-0.5 qs-reg text-balance text-[clamp(1.05rem,5.2vw,1.65rem)] uppercase leading-[0.95] ls-5",
+                FIGMA_TAUPE_TEXT,
+              )}
+            >
+              PROPERTY SEEKER
             </h3>
           </div>
-          <Link href="/buyer" className={cn(dividerCardCtaClassName, "w-fit shrink-0")}>
-            Explore More
-            <IconArrowUpRight className="h-[13px] w-[13px] shrink-0" />
-          </Link>
+          <OutlineArrowButton
+            href="/buyer"
+            className={dividerCardCtaClassName}
+            iconClassName="h-[13px] w-[13px] shrink-0"
+            iconAlt=""
+          >
+            Explore Journey
+          </OutlineArrowButton>
         </div>
 
         {/* Right: portrait anchored bottom-right, taller than card */}
         <CardImageColumn
           portraitSrc="/images/Buyer/image 41.svg"
           portraitAlt="Professional representing property buyers"
-          className="w-[58%]"
+          className="w-full -left-[210px]"
           align="right"
         />
       </div>
@@ -138,17 +150,17 @@ export function DeveloperProfileCardMobile() {
       />
 
       {/* Content row — portrait left, text right */}
-      <div className="relative z-10 flex h-full w-full flex-row items-stretch">
+      <div className="relative z-10 flex h-full w-full ">
         {/* Left: portrait anchored bottom-left, taller than card */}
         <CardImageColumn
           portraitSrc="/images/Developer/image 42.svg"
           portraitAlt="Professional representing real estate developers"
-          className="w-[50%]"
+          className="w-[60%]"
           align="left"
         />
 
         {/* Right: text */}
-        <div className="flex w-[50%] shrink-0 flex-col items-start justify-center gap-3 px-5 py-5">
+        <div className="relative z-20 flex w-[auto] shrink-0 flex-col items-start justify-center gap-3 px-5 py-5 ml-[-80]">
           <Image
             src="/images/Developer/DeveloperFilterIcon.svg"
             alt=""
@@ -157,18 +169,27 @@ export function DeveloperProfileCardMobile() {
             className={cn("absolute top-0  mt-5 right-5  h-[38px] w-[36px] shrink-0 object-contain", FIGMA_TAUPE_TEXT)}
             aria-hidden
           />
-          <div className="text-left relative z-10 mt-10">
+          <div className="relative z-10 mt-10 text-left">
             <p className="n-bold text-[10px] uppercase tracking-[0.1em] text-[#000000]">
-              I am a
+              I AM A
             </p>
-            <h3 className={cn("mt-0.5 qs-reg text-[2rem] uppercase leading-[0.9] ls-5", FIGMA_TAUPE_TEXT)}>
-              Developer
+            <h3
+              className={cn(
+                "mt-0.5 qs-reg text-balance text-[clamp(1.05rem,5.2vw,1.65rem)] uppercase leading-[0.9] ls-5",
+                FIGMA_TAUPE_TEXT,
+              )}
+            >
+              PROPERTY CREATOR
             </h3>
           </div>
-          <Link href="/developer" className={cn(dividerCardCtaClassName, "w-fit shrink-0")}>
-            Explore More
-            <IconArrowUpRight className="h-[13px] w-[13px] shrink-0" />
-          </Link>
+          <OutlineArrowButton
+            href="/developer"
+            className={dividerCardCtaClassName}
+            iconClassName="h-[13px] w-[13px] shrink-0"
+            iconAlt=""
+          >
+            Explore Journey
+          </OutlineArrowButton>
         </div>
       </div>
     </article>

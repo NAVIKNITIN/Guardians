@@ -20,6 +20,7 @@ export function AboutStatsGrid({
       <DeveloperStatsSection
         layout="inline"
         inlineColumns={2}
+        centerOnMobile
         content={content}
       />
     </div>

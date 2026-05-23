@@ -7,5 +7,5 @@ import { cn } from "@/utils/cn";
 
 export const aboutStatsGridOuter = cn(
   "@container w-full min-w-0 max-w-full",
-  "lg:ml-auto",
+  "mx-auto max-lg:flex max-lg:justify-center lg:ml-auto",
 );

@@ -7,6 +7,11 @@ import { MarketingEnquireLink } from "@/components/ui/MarketingEnquireLink";
 import type { MarketingHeroContent } from "@/data/audience-marketing-types";
 import { LOCAL_IMAGES } from "@/lib/local-images";
 import { cn } from "@/utils/cn";
+import {
+  DEFAULT_VIEWPORT_HEIGHT_BREAKPOINT,
+  isCustomHeroHeight,
+  useMarketingHeroViewport,
+} from "@/hooks/useMarketingHeroViewport";
 import { getMarketingHeroConfig, type MarketingHeroId } from "@/utils/marketing-hero";
 import { useEffect, useState, type CSSProperties } from "react";
 import Image from "next/image";
@@ -14,12 +19,8 @@ import { OutlineArrowButton } from "../common/OutlineArrowButton";
 
 type ProjectsStage = "Ongoing" | "Completed";
 
-/**
- * Nudges the main content block up: `true` = default responsive `-mt` (see `mergeNegativeContentPad`),
- * a positive number = `-mt` by that many px, `false` / `0` / omitted = off.
- * (CSS has no negative padding; this uses negative margin.)
- */
-export type MarketingHeroNegativeContentShift = boolean | number;
+export type { MarketingHeroNegativeContentShift } from "@/utils/heroNegativePadding";
+import type { MarketingHeroNegativeContentShift } from "@/utils/heroNegativePadding";
 
 type MarketingPageHeroBase = {
   className?: string;
@@ -83,24 +84,6 @@ const SHIFT_EXTRA_VAR = "--shift-extra";
 
 const NEGATIVE_HERO_CONTENT_CLASS_DEFAULT = "-mt-4 sm:-mt-5";
 const HERO_BG_IMAGE_CLASS = "object-cover object-center";
-const DEFAULT_VIEWPORT_HEIGHT_BREAKPOINT = 1024;
-
-function useViewportIsMobile(enabled: boolean, breakpointPx: number): boolean {
-  // Keep SSR and first client paint identical (desktop=false) to avoid hydration mismatch.
-  // After mount, compute real viewport and update.
-  const [isMobile, setIsMobile] = useState(false);
-
-  useEffect(() => {
-    if (!enabled) return;
-    const onResize = () => setIsMobile(window.innerWidth < breakpointPx);
-    onResize();
-    window.addEventListener("resize", onResize);
-    return () => window.removeEventListener("resize", onResize);
-  }, [enabled, breakpointPx]);
-
-  return isMobile;
-}
-
 function mergeNegativeContentPad(shift: MarketingHeroNegativeContentShift | undefined, pad: HeroContentPad): HeroContentPad {
   if (shift === undefined || shift === false) {
     return pad;
@@ -269,10 +252,6 @@ function getProjectsContentPad(shift: boolean, till: boolean, extra: number): He
   return { className: "pt-[calc(2rem+89px)] sm:pt-[calc(3.5rem+89px)]" };
 }
 
-function isCustomHeroHeight(heightPx?: number): heightPx is number {
-  return heightPx != null && Number.isFinite(heightPx) && heightPx > 0;
-}
-
 /** Replaces `marketing-first-section-height` when `heightPx` is set. */
 function marketingFirstSectionHeightClass(heightPx?: number) {
   return isCustomHeroHeight(heightPx)
@@ -311,19 +290,13 @@ function resolveHeadline(hero: MarketingHeroContent) {
 export function MarketingPageHero(props: MarketingPageHeroProps) {
   const shift = props.shiftUnderHeader;
   const shiftTill = Boolean(shift && props.shiftTillSearch);
-  const shouldUseViewportHeightFlag =
-    Boolean(props.useViewportHeightFlag) &&
-    isCustomHeroHeight(props.heightPx) &&
-    isCustomHeroHeight(props.mobileHeightPx);
-  const isMobileViewport = useViewportIsMobile(
-    shouldUseViewportHeightFlag,
-    props.viewportHeightBreakpointPx ?? DEFAULT_VIEWPORT_HEIGHT_BREAKPOINT,
-  );
-  const heightPx =
-    shouldUseViewportHeightFlag && isMobileViewport
-      ? props.mobileHeightPx
-      : props.heightPx;
-  const negativePadding = props.negativePadding;
+  const { heightPx, negativePadding } = useMarketingHeroViewport({
+    useViewportHeightFlag: props.useViewportHeightFlag,
+    heightPx: props.heightPx,
+    mobileHeightPx: props.mobileHeightPx,
+    viewportHeightBreakpointPx: props.viewportHeightBreakpointPx,
+    negativePadding: props.negativePadding,
+  });
   /** With header shift: default +32px extra (legacy). Without shift: use `shiftExtraContentTopPx` when passed (e.g. projects), else 0. */
   const shiftContentExtra = shift
     ? (props.shiftExtraContentTopPx ?? 32)
@@ -1184,7 +1157,7 @@ function ServicesHero({
       </div>
       <div
         className={cn(
-          "relative z-10 flex min-h-[inherit] flex-col items-center justify-start gap-2 px-5 pb-8 text-center qs-reg sm:gap-2 sm:px-6 sm:pb-10 lg:min-h-0 lg:px-4 lg:pb-0",
+          "relative z-10 flex min-h-[inherit] flex-col items-center justify-start gap-3 px-4 pb-8 text-center qs-reg sm:gap-4 sm:px-6 sm:pb-10 lg:min-h-0 lg:gap-2 lg:px-4 lg:pb-0",
           contentPad.className,
         )}
         style={contentPad.style}
@@ -1193,7 +1166,10 @@ function ServicesHero({
           <h1
             id={config["headingId"] as string}
             className={cn(
-              "m-auto  break-words qs-reg lh-50 uppercase leading-none tracking-[0.05em] text-[#202225] text-[clamp(1.9rem,9vw,4.375rem)] lg:fs-70",
+              "m-auto break-words text-balance uppercase text-[#202225]",
+              "text-[clamp(1.35rem,4.8vw,2.5rem)] leading-[1.12] tracking-[0.04em]",
+              "sm:text-[clamp(1.6rem,5.2vw,3.1rem)] sm:leading-[1.1] sm:tracking-[0.05em]",
+              "lg:text-[clamp(1.9rem,3.5vw,4.375rem)] lg:leading-none lg:tracking-[0.05em]",
               (config["titleClassName"] as string) || undefined,
             )}
           >
@@ -1201,7 +1177,7 @@ function ServicesHero({
           </h1>
         </ScrollReveal>
         <ScrollReveal direction="up" delay={0.12} distance={20}>
-          <p className="n-reg fs-18 lh-24 text-black max-w-2xl mt-2 md:mt-4 lg:mt-4">
+          <p className="mx-auto mt-1 max-w-[min(100%,18.5rem)] text-pretty text-[0.9375rem] leading-[1.5] text-black sm:mt-2 sm:max-w-md sm:text-base sm:leading-[1.55] md:mt-3 lg:mt-4 lg:max-w-2xl lg:fs-18 lg:lh-24">
             {config["subtitle"] as string}
           </p>
         </ScrollReveal>
@@ -1374,15 +1350,22 @@ export function MarketingAudienceHero({
   className,
   content,
   heightPx,
+  mobileHeightPx,
+  useViewportHeightFlag,
   shiftUnderHeader,
   shiftTillSearch,
   shiftExtraContentTopPx,
-  negativePadding,
+  negativePadding = 50,
+  viewportHeightBreakpointPx = DEFAULT_VIEWPORT_HEIGHT_BREAKPOINT,
 }: {
   className?: string;
   content: MarketingHeroContent;
   /** When set, replaces default `marketing-first-section-height` clamp with this fixed height (px). */
   heightPx?: number;
+  /** Mobile hero height (px) when `useViewportHeightFlag` is true. */
+  mobileHeightPx?: number;
+  /** Swap to `mobileHeightPx` below `viewportHeightBreakpointPx`. */
+  useViewportHeightFlag?: boolean;
   shiftUnderHeader?: boolean;
   shiftTillSearch?: boolean;
   /**
@@ -1390,22 +1373,34 @@ export function MarketingAudienceHero({
    * Defaults to 32. Pass `0` to turn off.
    */
   shiftExtraContentTopPx?: number;
-  /** See `MarketingHeroNegativeContentShift`. */
+  /** See `MarketingHeroNegativeContentShift`. Disabled on viewports below `viewportHeightBreakpointPx`. */
   negativePadding?: MarketingHeroNegativeContentShift;
+  /** Mobile/desktop cutoff for height + negative-padding resolution. Default: 1024. */
+  viewportHeightBreakpointPx?: number;
 }) {
   const { lead, accent } = resolveHeadline(content);
   const tillSearch = Boolean(shiftUnderHeader && shiftTillSearch);
   const shift = Boolean(shiftUnderHeader);
   const contentExtraTopPx = shift ? (shiftExtraContentTopPx ?? 32) : 0;
-  const contentPad = mergeNegativeContentPad(
+  const {
+    heightPx: resolvedHeightPx,
+    negativePadding: resolvedNegativePadding,
+  } = useMarketingHeroViewport({
+    useViewportHeightFlag,
+    heightPx,
+    mobileHeightPx,
+    viewportHeightBreakpointPx,
     negativePadding,
+  });
+  const contentPad = mergeNegativeContentPad(
+    resolvedNegativePadding,
     getHeroContentPad(shift, tillSearch, contentExtraTopPx),
   );
 
   return (
     <section
       className={cn(
-        marketingFirstSectionHeightClass(heightPx),
+        marketingFirstSectionHeightClass(resolvedHeightPx),
         "relative isolate w-full min-w-0 overflow-hidden bg-neutral-300",
         shiftUnderHeader
           ? "pt-0 sm:pt-0 lg:pt-0 2xl:pt-0 pb-28 sm:pb-32 lg:pb-40 2xl:pb-44"
@@ -1413,7 +1408,7 @@ export function MarketingAudienceHero({
         heroNavOverlapClass(shiftUnderHeader, tillSearch),
         className,
       )}
-      style={marketingFirstSectionHeightStyle(heightPx)}
+      style={marketingFirstSectionHeightStyle(resolvedHeightPx)}
       aria-labelledby={content.ariaHeadingId}
     >
       <div className="pointer-events-none absolute inset-0 z-0">

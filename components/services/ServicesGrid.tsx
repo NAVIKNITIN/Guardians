@@ -88,7 +88,7 @@ function AnimatedWaveTitle({ title }: { title: string }) {
   return (
     <motion.h2
       key={title}
-      className="mb-6 w-full text-center qs-reg uppercase tracking-[0.05em] text-white text-[clamp(1.75rem,5vw,3.125rem)] leading-[1.05] sm:mb-8"
+      className="mb-6 w-full max-w-full text-balance text-center qs-reg uppercase tracking-[0.05em] text-white text-[clamp(1.35rem,4.5vw,2.5rem)] leading-[1.08] sm:mb-8 sm:text-[clamp(1.75rem,5vw,3.125rem)] sm:leading-[1.05]"
       initial="hidden"
       animate="visible"
       variants={{
@@ -166,7 +166,7 @@ function ServiceTileView({
     <motion.button
       type="button"
       onClick={onClick}
-      className="group relative block h-[140px] min-h-[140px] flex-1 cursor-pointer overflow-hidden bg-[#D5D3D4] lg:h-auto lg:min-h-0"
+      className="group relative block min-h-[120px] flex-1 cursor-pointer overflow-hidden bg-[#D5D3D4] sm:min-h-[140px] lg:h-auto lg:min-h-0"
       aria-pressed={isActive}
       initial={false}
       animate={isActive ? { scale: 1.01 } : { scale: 1 }}
@@ -199,8 +199,8 @@ function ServiceTileView({
             : "linear-gradient(180deg, rgba(32,34,37,0.00) 0%, #202225 100%)",
         }}
       />
-      <div className="absolute bottom-0 left-0 right-0 top-0 flex items-center justify-center gap-2 px-4 py-3 sm:gap-3 sm:px-8 sm:py-[17px] lg:gap-5 lg:px-12">
-        <span className="min-w-0 n-bold uppercase text-white tracking-[0.08em] sm:tracking-[0.1em] text-sm leading-tight sm:text-base md:text-lg lg:text-[20px] lg:leading-[24px]">
+      <div className="absolute inset-0 flex items-center justify-center gap-2 px-3 py-3 sm:gap-3 sm:px-8 sm:py-[17px] lg:gap-5 lg:px-12">
+        <span className="min-w-0 max-w-[92%] text-balance text-center n-bold uppercase text-white tracking-[0.06em] text-xs leading-tight sm:max-w-none sm:tracking-[0.1em] sm:text-base md:text-lg lg:text-[20px] lg:leading-[24px]">
           {tile.label}
         </span>
         <ChevronRight />
@@ -227,7 +227,7 @@ function CommercialPanel({
   const [openIndex, setOpenIndex] = useState(0);
 
   return (
-    <div className="relative h-full min-h-[420px] overflow-hidden bg-[#D5D3D4] sm:min-h-[480px] lg:min-h-[560px]">
+    <div className="relative h-full min-h-[380px] overflow-hidden bg-[#D5D3D4] sm:min-h-[480px] lg:min-h-[560px]">
       <Image
         src={imageSrc}
         alt=""
@@ -243,7 +243,7 @@ function CommercialPanel({
         }}
       />
 
-      <div className="relative z-10 flex h-full flex-col px-5 py-8 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
+      <div className="relative z-10 flex h-full min-h-0 flex-col px-4 py-6 sm:px-8 sm:py-10 lg:px-10 lg:py-12">
         <AnimatedWaveTitle title={title} />
 
         <div className="flex flex-1 flex-col">
@@ -253,11 +253,11 @@ function CommercialPanel({
               <button
                 type="button"
                 onClick={() => setOpenIndex(i === openIndex ? -1 : i)}
-                className="flex w-full cursor-pointer items-center justify-between gap-4 py-3 text-left transition-opacity hover:opacity-80 sm:py-4"
+                className="flex w-full cursor-pointer items-start justify-between gap-3 py-3 text-left transition-opacity hover:opacity-80 sm:items-center sm:gap-4 sm:py-4"
               >
                 <AnimatedWaveInlineText
                   text={item.title}
-                  className="n-reg text-base leading-snug text-white sm:text-lg lg:text-[20px]"
+                  className="n-reg min-w-0 flex-1 text-sm leading-snug text-white sm:text-lg lg:text-[20px]"
                 />
                 <span className="shrink-0 n-reg text-lg text-white sm:text-xl">
                   {openIndex === i ? "−" : "+"}
@@ -289,7 +289,7 @@ function CommercialPanel({
         <div className="mt-auto flex justify-center pt-6 sm:pt-8">
           <OutlineArrowButton
             href={knowMoreHref}
-            className="h-[53.99px] w-[253px] border border-white/30 cursor-pointer !shadow-none focus-visible:outline-none focus-visible:outline-offset-0 disabled:pointer-events-none disabled:opacity-50 sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
+            className="h-[53.99px] w-full max-w-[min(100%,16rem)] border border-white/30 cursor-pointer !shadow-none focus-visible:outline-none focus-visible:outline-offset-0 disabled:pointer-events-none disabled:opacity-50 sm:h-[55px] sm:w-auto sm:max-w-none sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
             iconClassName="w-[13px] h-[13px]"
           >
             {knowMoreLabel}
@@ -374,17 +374,20 @@ export function ServicesGrid({
     TILE_GRID_ROWS_CLASS[tiles.length] ?? "lg:grid-rows-4";
 
   return (
-    <section className="mb-2 bg-white my-10 md:my-16 lg:my-20 xl:my-25" aria-label={ariaLabel}>
-      <div className="flex flex-col lg:grid lg:grid-cols-[43%_1fr] lg:gap-5">
+    <section
+      className="mb-2 overflow-x-clip bg-white px-4 my-10 sm:px-6 md:my-16 lg:my-20 lg:px-0 xl:my-25"
+      aria-label={ariaLabel}
+    >
+      <div className="flex min-w-0 flex-col gap-6 lg:grid lg:grid-cols-[43%_1fr] lg:gap-5">
         <div
           className={cn(
-            "flex min-h-0 flex-col gap-[30px] bg-white py-[30px] lg:grid lg:gap-6 lg:py-0",
+            "flex min-h-0 flex-col gap-4 bg-white py-4 sm:gap-[30px] sm:py-[30px] lg:grid lg:gap-6 lg:py-0",
             tileGridRowsClass,
           )}
         >
           {tiles.map((tile, idx) => (
             <ServiceTileView
-              key={tile.label}
+              key={`${tile.label}-${idx}`}
               tile={tile}
               isActive={idx === activeIndex}
               onClick={() => setActiveIndex(idx)}

@@ -6,7 +6,7 @@ import { Suspense } from "react";
 /** Standard chrome for public marketing routes (nav + main + footer). */
 export function MarketingShell({ children }: { children: ReactNode }) {
   return (
-    <div className="flex min-h-screen min-w-0 flex-col overflow-x-visible">
+    <div className="flex min-h-screen min-w-0 flex-col overflow-x-clip">
       <Suspense fallback={null}>
         <Navbar />
       </Suspense>

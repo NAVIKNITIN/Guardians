@@ -59,7 +59,13 @@ export function SplitSection({
             <p className={cn("n-reg text-base leading-relaxed text-[#161616] md:min-h-[200px]", descriptionClassName)}>
               {description}
             </p>
-            <OutlineArrowButton href={href} className={cn("mt-6 h-[50px] w-full max-w-xs pt-1 sm:w-auto sm:max-w-none", buttonClassName)}>
+            <OutlineArrowButton
+              href={href}
+              className={cn(
+                "mt-6 hidden h-[50px] w-full max-w-xs pt-1 md:inline-flex md:w-auto md:max-w-none",
+                buttonClassName,
+              )}
+            >
               {buttonText}
             </OutlineArrowButton>
           </div>
@@ -81,6 +87,26 @@ export function SplitSection({
               sizes="(max-width: 768px) 100vw, 50vw"
             />
           </div>
+        </ScrollReveal>
+
+        <ScrollReveal
+          direction="up"
+          delay={0.45}
+          duration={0.65}
+          className={cn(
+            "flex w-full justify-center md:col-span-2 md:hidden",
+            reverse ? "md:order-3" : "md:order-3",
+          )}
+        >
+          <OutlineArrowButton
+            href={href}
+            className={cn(
+              "inline-flex h-[50px] w-full max-w-[min(100%,250px)] pt-1 sm:max-w-xs",
+              buttonClassName,
+            )}
+          >
+            {buttonText}
+          </OutlineArrowButton>
         </ScrollReveal>
       </div>
     </section>

@@ -31,7 +31,7 @@ const accordionPanelClosedCls = "max-h-0 opacity-0";
 const queriesAccordionOpenCls = "max-h-44 opacity-100";
 
 const footerEnquiryLinkCls =
-  "inline-flex items-center gap-2 fs-12 n-book text-white transition-colors hover:text-white/80";
+  "inline-flex items-center gap-2 fs-10 md:fs-12 n-book text-white transition-colors hover:text-white/80";
 
 /** Figma: left sub-col Facebook/Instagram, right sub-col Twitter/X & LinkedIn */
 const socialLeftCol = [
@@ -96,7 +96,10 @@ const dropdownRowCls =
   "box-border flex min-h-[40px] w-full min-w-0 max-w-full items-center justify-between gap-2 border-b border-white py-1.5 text-left text-white transition-colors hover:text-white/80 sm:min-h-0 sm:py-[7px]";
 
 const quickLinkRowCls =
-  "flex w-full min-w-0 flex-wrap items-center justify-center gap-x-1.5 gap-y-0.5 n-book text-[12px] leading-[1.45] text-white sm:justify-start sm:fs-14 sm:lh-25";
+  "flex w-full min-w-0 flex-wrap items-center justify-center gap-x-1.5 gap-y-1 n-book text-[12px] leading-[1.45] text-white sm:justify-start sm:fs-14 sm:lh-25";
+
+/** Social + Quick links — shared bottom band on mobile two-column footer */
+const footerBottomSectionCls = "mt-auto w-full min-w-0 pt-6 sm:pt-8";
 
 function FooterAccordionItem({
   label,
@@ -194,7 +197,7 @@ export function Footer() {
            */}
           <div
             className={cn(
-              "grid grid-cols-2 gap-x-4 gap-y-8 sm:gap-8",
+              "grid grid-cols-2 items-stretch gap-x-6 gap-y-8 sm:gap-8",
               "lg:grid-cols-12 lg:items-start lg:gap-x-8 lg:gap-y-0 lg:pt-4",
               "xl:gap-x-14 mt-2 md:mt-3",
             )}
@@ -258,7 +261,7 @@ export function Footer() {
             {/* ── Column 2: Location + Social ────────────────────────────── */}
             <div
               className={cn(
-                "flex min-w-0 flex-col items-center gap-6 text-center",
+                "flex min-h-full min-w-0 flex-col items-center gap-6 text-center",
                 "sm:items-stretch sm:text-left",
                 "col-span-1 lg:col-span-3 lg:pt-2 lg:mr-8",
               )}
@@ -278,22 +281,22 @@ export function Footer() {
                         )
                       }
                     >
-                      <p className="fs-12 py-3 text-white">{city.address}</p>
+                      <p className="fs-10 md:fs-12 py-3 text-white">{city.address}</p>
                     </FooterAccordionItem>
                   ))}
                 </ul>
               </div>
 
               {/* Social — two sub-columns: left (Facebook, Instagram) | right (Twitter/X, LinkedIn) */}
-              <div className="w-full min-w-0 mt-3">
+              <div className={footerBottomSectionCls}>
                 <h3 className={sectionTitleCls}>Social</h3>
-                <div className="mt-4 flex w-full min-w-0 items-start justify-center gap-6 sm:justify-start sm:gap-8">
-                  <ul className="flex flex-col gap-1">
+                <div className="mx-auto mt-3 flex w-fit max-w-full items-start justify-center gap-8 sm:mx-0 sm:justify-start">
+                  <ul className="flex flex-col items-start gap-2">
                     {socialLeftCol.map(({ label, href, iconSrc }) => (
                       <li key={label}>
                         <Link
                           href={href}
-                          className="inline-flex items-center gap-2 n-book text-[12px] leading-[1.35] text-white transition-colors hover:text-white/80 sm:fs-14"
+                          className="inline-flex items-center gap-2 whitespace-nowrap n-book text-[12px] leading-[1.35] text-white transition-colors hover:text-white/80 sm:fs-14"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -309,12 +312,12 @@ export function Footer() {
                       </li>
                     ))}
                   </ul>
-                  <ul className="flex flex-col gap-1">
+                  <ul className="flex flex-col items-start gap-2">
                     {socialRightCol.map(({ label, href, iconSrc }) => (
                       <li key={label}>
                         <Link
                           href={href}
-                          className="inline-flex items-center gap-2 n-book text-[12px] leading-[1.35] text-white transition-colors hover:text-white/80 sm:fs-14"
+                          className="inline-flex items-center gap-2 whitespace-nowrap n-book text-[12px] leading-[1.35] text-white transition-colors hover:text-white/80 sm:fs-14"
                           target="_blank"
                           rel="noopener noreferrer"
                         >
@@ -337,7 +340,7 @@ export function Footer() {
             {/* ── Column 3: Have queries + Quick links ───────────────────── */}
             <div
               className={cn(
-                "flex min-w-0 flex-col items-center gap-6 text-center lg:ml-8",
+                "flex min-h-full min-w-0 flex-col items-center gap-6 text-center lg:ml-8",
                 "sm:items-stretch sm:text-left",
                 "col-span-1 lg:col-span-3 lg:pt-2",
               )}
@@ -385,9 +388,9 @@ export function Footer() {
               </div>
 
               {/* Quick links */}
-              <div className="w-full min-w-0 mt-3">
+              <div className={footerBottomSectionCls}>
                 <h3 className={sectionTitleCls}>Quick links</h3>
-                <div className="mt-2 flex flex-col gap-2 sm:gap-1.5">
+                <div className="mx-auto mt-2 flex w-full max-w-full flex-col items-center gap-1 sm:mx-0 sm:items-start sm:gap-0.5">
                   <div className={quickLinkRowCls}>
                     <QuickLinkRow items={quickLinkRows[0]} />
                     <span className="select-none" aria-hidden>

@@ -89,7 +89,7 @@
       "headingId": "buyer-services-heading",
       "ariaLabelledBy": "buyer-services-heading",
       "title": "Everything You Need to Find the Space You Will Love.",
-      "titleClassName": "max-w-[min(100%,30ch)] ls-4 lh-70",
+      "titleClassName": "mx-auto max-w-[min(100%,20ch)] text-balance leading-[1.12] tracking-[0.04em] sm:max-w-[24ch] sm:leading-[1.1] lg:max-w-[min(100%,30ch)] lg:ls-4 lg:leading-none lg:lh-70 lg:tracking-[0.05em]",
       "subtitle": "From your first search to your final signature, we are with you at every step.",
       "backgroundImage": "/images/Buyer/services/hero.svg"
     },

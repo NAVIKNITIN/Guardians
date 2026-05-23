@@ -8,12 +8,8 @@ export const HOME_STICKY_LINES_DESKTOP = [
 
 /** Mobile only (narrow viewports): eight shorter lines. */
 export const HOME_STICKY_LINES_MOBILE = [
-  "We are one of the",
-  "fastest growing",
+  "We are one of thefastest growing",
   "Real Estate consulting company",
-  "in India. It's growth, today,",
-  "has far outrun most of the",
-  "other real estate advisory",
-  "company across the",
-  "country.",
+  "in India. It's growth, today has far ","outrun most of the other real ","estate advisory company across",
+  " the country.",
 ] as const;

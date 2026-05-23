@@ -1,8 +1,17 @@
 "use client";
 
+import {
+  DeveloperStatsSection,
+  type DeveloperStatsSectionProps,
+} from "@/components/developer/DeveloperStatsSection";
+
 /**
- * Stats band (animated figures + labels) for audience marketing pages.
- * Same UI and behavior as the developer page — content is supplied via
- * `MarketingPageContent.stats` (buyer: `buyer-marketing.ts`, developer: `developer-marketing.ts`).
+ * Stats band for audience marketing pages (buyer / developer).
+ * Centers figures and labels on viewports below `lg` by default.
  */
-export { DeveloperStatsSection as AudienceStatsSection } from "@/components/developer/DeveloperStatsSection";
+export function AudienceStatsSection({
+  centerOnMobile = true,
+  ...props
+}: DeveloperStatsSectionProps) {
+  return <DeveloperStatsSection {...props} centerOnMobile={centerOnMobile} />;
+}

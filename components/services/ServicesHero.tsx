@@ -8,6 +8,7 @@ type ServicesHeroProps = {
 /**
  * Shared hero for Buyer's and Developer's service pages.
  * Copy and images are defined in `utils/static.json` (`servicesBuyer` / `servicesDeveloper`).
+ * `negativePadding` is cleared on mobile inside `MarketingPageHero`.
  */
 export function ServicesHero({ audience }: ServicesHeroProps) {
   return (

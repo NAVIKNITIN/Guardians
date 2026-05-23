@@ -12,10 +12,15 @@ import {
 } from "@/data/audience-marketing-shared";
 import { UnderlineTabs } from "@/components/ui/UnderlineTabs";
 import { cn } from "@/utils/cn";
+import {
+  AudienceMarketingSectionCta,
+  AudienceMarketingSectionCtaDesktop,
+  AudienceMarketingSectionCtaMobile,
+} from "@/components/marketing/AudienceMarketingSectionCta";
+import { audienceMobileCopyCenter } from "@/styles/audienceMarketingCenter";
 import Image from "next/image";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Container } from "../common/Container";
-import { OutlineArrowButton } from "../common/OutlineArrowButton";
 
 type Tab = "ongoing" | "completed";
 
@@ -32,9 +37,11 @@ const CAROUSEL_ASPECT = "aspect-[144/50]";
 export function LandmarkProjectsSection({
   content,
   isBuyer: _isBuyer,
+  centerOnMobile = false,
 }: {
   content: LandmarkSectionContent;
   isBuyer: boolean;
+  centerOnMobile?: boolean;
 }) {
   const [tab, setTab] = useState<Tab>("ongoing");
   const [previousActiveIndex, setPreviousActiveIndex] = useState(1);
@@ -117,11 +124,20 @@ export function LandmarkProjectsSection({
   transition-duration: 550ms;
 }
 			`}</style>
-      <StaggerContainer className="flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between sm:gap-6" staggerChildren={0.12}>
+      <StaggerContainer
+        className={cn(
+          "flex flex-col gap-8 sm:flex-row sm:items-end sm:justify-between sm:gap-6",
+          centerOnMobile && "max-lg:items-center max-lg:justify-center max-lg:text-center",
+        )}
+        staggerChildren={0.12}
+      >
         <ScrollReveal direction="left" distance={34}>
           <h2
             id="landmark-heading"
-            className="min-w-0 shrink qs-reg text-[clamp(1.5rem,4.5vw,3.125rem)] uppercase leading-[1.15] ls-5 text-brand-text-primary sm:shrink-0 sm:whitespace-nowrap"
+            className={audienceMobileCopyCenter(
+              centerOnMobile,
+              "min-w-0 shrink qs-reg text-[clamp(1.5rem,4.5vw,3.125rem)] uppercase leading-[1.15] ls-5 text-brand-text-primary sm:shrink-0 sm:whitespace-nowrap max-lg:w-full",
+            )}
           >
             {content.sectionTitle}
           </h2>
@@ -136,7 +152,10 @@ export function LandmarkProjectsSection({
               setActiveIndex(1);
             }}
             options={options}
-            className="shrink-0 sm:pb-0.5 text-[#8F8183]"
+            className={cn(
+              "w-full min-w-0 max-w-full sm:w-auto sm:shrink-0 sm:pb-0.5 text-[#8F8183]",
+              centerOnMobile && "max-lg:mx-auto",
+            )}
           />
         </ScrollReveal>
       </StaggerContainer>
@@ -257,13 +276,36 @@ export function LandmarkProjectsSection({
           </div>
         </div>
 
-        <ScrollReveal direction="up" delay={0.1} className="mt-12 flex justify-center ">
-          <OutlineArrowButton
-            className="w-[250px] h-[55px] n-bold fs-16 md:fs-18 lg:fs-20 uppercase"
+        <ScrollReveal
+          direction="up"
+          delay={0.1}
+          className={cn(
+            "mt-12 flex w-full",
+            centerOnMobile ? "hidden justify-center lg:flex" : "justify-center",
+          )}
+        >
+          {centerOnMobile ? (
+            <AudienceMarketingSectionCtaDesktop
+              href={ctaHref}
+              centerOnMobile={centerOnMobile}
+            >
+              {content.ctaLabel}
+            </AudienceMarketingSectionCtaDesktop>
+          ) : (
+            <AudienceMarketingSectionCta href={ctaHref}>
+              {content.ctaLabel}
+            </AudienceMarketingSectionCta>
+          )}
+        </ScrollReveal>
+
+        <ScrollReveal direction="up" delay={0.12} distance={28}>
+          <AudienceMarketingSectionCtaMobile
             href={ctaHref}
+            centerOnMobile={centerOnMobile}
+            wrapClassName="mt-12"
           >
             {content.ctaLabel}
-          </OutlineArrowButton>
+          </AudienceMarketingSectionCtaMobile>
         </ScrollReveal>
       </div>
     </Container>
