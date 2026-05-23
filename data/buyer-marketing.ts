@@ -5,7 +5,7 @@ import {
   PROJECTS_ONGOING,
 } from "./audience-marketing-shared";
 import { getAudienceHero } from "@/utils/marketing-hero";
-import type { LandmarkProject, MarketingPageContent } from "./audience-marketing-types";
+import type { DeveloperStat, LandmarkProject, MarketingPageContent } from "./audience-marketing-types";
 import { DEV_LANDMARK_COMPLETED, DEVELOPER_MARKETING_PAGE, PLACEHOLDER_SERVICE_DESC } from "./developer-marketing";
 
 
@@ -151,5 +151,13 @@ export const BUYER_MARKETING_PAGE = {
     completed: BUYER_LANDMARK_COMPLETED,
     ctaHref: PROJECTS_ONGOING,
     ctaLabel: "Explore More ",
+  },
+  stats: {
+    metrics: [
+      { label: "In Homes Sold", value: "37,850 Cr+" },
+      { label: "Of Proven Guidance", value: "9+ Years" },
+      { label: "Handpicked for You", value: "307+ Projects" },
+      { label: "Dreams Realised", value: "29,669 Homes" },
+    ] as const satisfies readonly DeveloperStat[],
   },
 } satisfies MarketingPageContent;

@@ -19,15 +19,14 @@ const BRANCHES: Branch[] = [
   {
     name: "Mumbai",
     addressLines: [
-      "The Guardians Real Estate Advisory India",
-      "C-602 & 603, ONE BKC, G Block, Bandra Kurla Complex, Bandra (E), Mumbai - 400051",
+      // "The Guardians Real Estate Advisory India","10th Floor, A Wing, Kanakia Wall Street Andheri Kurla Road, Andheri East Mumbai 400093",
+      "The Guardians Real Estate Advisory India","10th Floor A Wing, Kanakia Wall Street Andheri Kurla Road, Andheri East Mumbai 400093 ","C-602 & 603, ONE BKC, G Block, Bandra Kurla Complex, Bandra (E), Mumbai - 400051."
     ],
   },
   {
     name: "Pune",
     addressLines: [
-      "The Guardians Real Estate Advisory India Westport, Unit No 410",
-      "Survey Nos. 32/1A/1/30 to 38 & 54 of Revenue Village, Pan Card Club Road, Baner, Pune 411045",
+      "The Guardians Real Estate Advisory India "," Westport, Unit No 410 , Survey Nos. 32/1A/1/30 to 38 & 54 of Revenue Village, Pan Card Club Road, Baner, Pune 411045",
     ],
   },
   {
@@ -87,7 +86,8 @@ export function BranchesSection() {
       <Container>
         {/* Figma: “BRANCHES” — serif caps, same band as other qs-reg section titles */}
         <h2 className="qs-reg mb-10 text-center text-[clamp(2rem,4vw,3.125rem)] uppercase leading-[1.05] tracking-[0.05em] text-[#202225] sm:mb-5 lg:mb-8">
-          Branches
+        Our Presence 
+
         </h2>
 
         <div className="grid grid-cols-1 items-stretch gap-10 sm:gap-8 md:grid-cols-4 lg:gap-10">
