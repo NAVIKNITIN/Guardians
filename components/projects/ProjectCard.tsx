@@ -1,11 +1,6 @@
-import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import { MarketingImgWithFallback } from "@/components/common/MarketingImgWithFallback";
-import {
-  ArrowIconLink,
-  arrowIconTileClassName,
-} from "@/components/ui/ArrowIconLink";
+import { ArrowIconLink } from "@/components/ui/ArrowIconLink";
 import { LOCAL_IMAGES } from "@/lib/local-images";
-import { audienceMarketingOutlineCtaClass } from "@/styles/audienceMarketingCenter";
 import Link from "next/link";
 import { cn } from "@/utils/cn";
 
@@ -89,8 +84,11 @@ export function ProjectCard({
         ) : null}
       </Link>
 
-      <div className="flex flex-col items-center justify-center gap-4 bg-[#ecebeb] px-4 py-4 text-center sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-5 sm:text-left">
-        <Link href={href} className="min-w-0 w-full flex-1 sm:w-auto">
+      <div className="relative flex flex-col items-center justify-center gap-4 bg-[#ecebeb] px-4 py-4 text-center sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-5 sm:text-left">
+        <Link
+          href={href}
+          className="min-w-0 w-full flex-1 pb-[55px] pr-[75px] sm:w-auto sm:pb-0 sm:pr-0"
+        >
           <p className="n-bold fs-24 leading-snug text-[#161616] sm:text-lg">
             {title}
           </p>
@@ -99,27 +97,13 @@ export function ProjectCard({
           </p>
         </Link>
 
-        <div className="flex w-full shrink-0 justify-center sm:hidden">
-          <OutlineArrowButton
-            href={href}
-            aria-label={`Explore more: ${title}`}
-            iconAlt=""
-            iconClassName="h-[13px] w-[13px] shrink-0"
-            className={cn(
-              audienceMarketingOutlineCtaClass,
-              "inline-flex h-[43px] w-full max-w-[min(100%,250px)] gap-2 px-4 py-2.5 n-bold text-[12px] leading-[18px] tracking-normal",
-            )}
-          >
-            Explore More
-          </OutlineArrowButton>
-        </div>
-
         <ArrowIconLink
           href={href}
           aria-label={`View ${title}`}
           className={cn(
-            arrowIconTileClassName,
-            "hidden !h-[55px] !w-[75px] shrink-0 sm:inline-flex",
+            "absolute bottom-0 right-0 z-10 inline-flex shrink-0 rounded-none",
+            "!h-[55px] !w-[75px]",
+            "sm:relative sm:bottom-auto sm:right-auto sm:z-auto",
           )}
         />
       </div>

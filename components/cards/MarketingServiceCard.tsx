@@ -1,6 +1,5 @@
 "use client";
 
-import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
 import { ArrowIconLink } from "@/components/ui";
 import type { DeveloperServiceCard } from "@/data/audience-marketing";
 import { cn } from "@/utils/cn";
@@ -54,7 +53,7 @@ export function MarketingServiceCard({
 
   return (
     <li className="w-[90vw] max-w-[90vw] shrink-0 snap-start sm:w-72 sm:max-w-none lg:min-w-[356px]">
-      <article className="flex h-full min-h-88 flex-col rounded-none bg-[#EEEEEE] transition-opacity hover:opacity-[0.97]">
+      <article className="relative flex h-full min-h-88 flex-col rounded-none bg-[#EEEEEE] transition-opacity hover:opacity-[0.97]">
         <div className="p-4 sm:p-5">
           <div className="bg-white">
             <div
@@ -85,7 +84,7 @@ export function MarketingServiceCard({
               "sm:mt-8 sm:min-h-20 sm:flex-row sm:items-end sm:justify-between sm:gap-0",
             )}
           >
-            <div className="min-w-0 flex-1 px-4 sm:px-0">
+            <div className="min-w-0 flex-1 px-4 pb-16 pr-16 sm:px-0 sm:pb-0 sm:pr-0">
               <p
                 ref={descriptionRef}
                 className={cn(
@@ -104,24 +103,15 @@ export function MarketingServiceCard({
                   Read more
                 </button>
               ) : null}
-
-              <div className="mt-6 flex w-full justify-center sm:hidden">
-                <OutlineArrowButton
-                  href={href}
-                  aria-label={ariaLabel}
-                  iconClassName="h-[13px] w-[13px] shrink-0"
-                  iconAlt=""
-                  className="inline-flex h-[43px] w-full max-w-[min(100%,250px)] shrink-0 gap-2 px-4 py-2.5 n-bold text-[12px] leading-[18px] tracking-normal"
-                >
-                  Explore
-                </OutlineArrowButton>
-              </div>
             </div>
 
             <ArrowIconLink
               href={href}
               aria-label={ariaLabel}
-              className="hidden shrink-0 sm:inline-flex"
+              className={cn(
+                "absolute bottom-0 right-0 z-10 inline-flex rounded-none",
+                "!h-14 !w-14 sm:relative sm:bottom-auto sm:right-auto sm:z-auto sm:shrink-0 sm:!h-15 sm:!w-20 lg:!h-[65px] lg:!w-[65px]",
+              )}
             />
           </div>
         </div>
