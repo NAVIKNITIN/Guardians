@@ -66,7 +66,7 @@ const leadershipSlides = [
     imageAlt: "Leadership portrait 4",
     title: "We stay ahead of the curve with strategy",
     body:
-      "n this industry, trust is everything. We have built ours through consistency, strong relationships and results that speak for themselves. That is something no market cycle can take away from us.",
+      "In this industry, trust is everything. We have built ours through consistency, strong relationships and results that speak for themselves. That is something no market cycle can take away from us.",
     name: "Khetsi Barot",
     role: "Co-Founder and Managing Director",
     imagePositionClassName: "object-center",
@@ -184,7 +184,7 @@ export default function AboutPage() {
         <Container className="min-w-0">
           <div className="flex items-center justify-center gap-5">
             <p className="text-[0.95rem] n-bold fs-20 uppercase leading-none tracking-[0.1em] text-[#161616]">
-              The Guardians Real Estate Advisory
+            One legacy. Multiple capabilities.
             </p>
           </div>
 
@@ -208,7 +208,7 @@ export default function AboutPage() {
               className="mt-5 px-12 py-4 fs-18 uppercase ls-10 lh-24"
               iconClassName="w-[13px] h-[13px]"
             >
-              Explore More
+              Know More
             </OutlineArrowButton>
           </div>
         </Container>

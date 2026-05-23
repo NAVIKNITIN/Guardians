@@ -1242,30 +1242,32 @@ function ServicesHero({
       </div>
       <div
         className={cn(
-          "relative z-10 flex min-h-[inherit] flex-col items-center justify-start gap-3 px-4 pb-8 text-center qs-reg sm:gap-4 sm:px-6 sm:pb-10 lg:min-h-0 lg:gap-2 lg:px-4 lg:pb-0",
+          "relative z-10 flex min-h-[inherit] flex-col items-center justify-start px-4 pb-8 text-center qs-reg sm:px-6 sm:pb-10 lg:min-h-0 lg:px-4 lg:pb-0",
           contentPad.className,
         )}
         style={contentPad.style}
       >
-        <ScrollReveal direction="up" delay={0.04} distance={24}>
-          <h1
-            id={config["headingId"] as string}
-            className={cn(
-              "m-auto break-words qs-reg text-balance uppercase text-[#202225]",
-              "text-[clamp(1.35rem,4.8vw,2.5rem)] leading-[1.12] tracking-[0.04em]",
-              "sm:text-[clamp(1.6rem,5.2vw,3.1rem)] sm:leading-[1.1] sm:tracking-[0.05em]",
-              "lg:text-[clamp(1.9rem,3.5vw,4.375rem)] lg:leading-none lg:tracking-[0.05em]",
-              (config["titleClassName"] as string) || undefined,
-            )}
-          >
-            {config["title"] as string}
-          </h1>
-        </ScrollReveal>
-        <ScrollReveal direction="up" delay={0.12} distance={20}>
-          <p className="mx-auto mt-1 max-w-[min(100%,18.5rem)] text-pretty text-[0.9375rem] leading-[1.5] text-black sm:mt-2 sm:max-w-md sm:text-base sm:leading-[1.55] md:mt-3 lg:mt-4 lg:max-w-2xl lg:fs-18 lg:lh-24">
-            {config["subtitle"] as string}
-          </p>
-        </ScrollReveal>
+        <div className="mx-auto flex w-full min-w-0 max-w-[820px] flex-col items-center gap-3 px-1 sm:gap-4 sm:px-2 md:gap-5">
+          <ScrollReveal direction="up" delay={0.04} distance={24} className="w-full">
+            <h1
+              id={config["headingId"] as string}
+              className={cn(
+                "mx-auto break-words qs-reg text-balance uppercase text-[#202225]",
+                "text-[clamp(1.35rem,4.8vw,2.5rem)] leading-[1.12] tracking-[0.04em]",
+                "sm:text-[clamp(1.6rem,5.2vw,3.1rem)] sm:leading-[1.1] sm:tracking-[0.05em]",
+                "lg:text-[clamp(1.9rem,3.5vw,4.375rem)] lg:leading-[1.05] lg:tracking-[0.05em]",
+                (config["titleClassName"] as string) || undefined,
+              )}
+            >
+              {config["title"] as string}
+            </h1>
+          </ScrollReveal>
+          <ScrollReveal direction="up" delay={0.12} distance={20} className="w-full">
+            <p className="mx-auto max-w-[min(100%,18.5rem)] text-pretty text-[0.9375rem] leading-[1.5] text-black sm:max-w-md sm:text-base sm:leading-[1.55] lg:max-w-2xl lg:fs-18 lg:lh-24">
+              {config["subtitle"] as string}
+            </p>
+          </ScrollReveal>
+        </div>
       </div>
     </section>
   );

@@ -30,22 +30,20 @@ export function UnderlineTabs<T extends string>({
   className,
   equalTabWidth = false,
 }: UnderlineTabsProps<T>) {
-  if (equalTabWidth) {
-    return (
-      <div
-        className={cn(
-          "relative flex w-full min-w-[17.5rem] max-w-full gap-0 leading-none n-reg sm:ml-auto sm:max-w-[325px]",
-          className,
-        )}
-        role="tablist"
-      >
-        {/* Single continuous baseline under both tabs */}
-        <span
-          aria-hidden
-          className="pointer-events-none absolute inset-x-0 bottom-0 z-0 h-px bg-[#8F8183]"
-        />
-        {options.map((opt) => {
-          const selected = opt.value === value;
+  return (
+    <div
+      className={cn(
+        "flex n-reg",
+        equalTabWidth
+          ? "w-full min-w-[17.5rem] max-w-full gap-0 leading-none sm:ml-auto sm:max-w-[325px]"
+          : "fs-20 gap-10 border-b border-neutral-200",
+        className,
+      )}
+      role="tablist"
+    >
+      {options.map((opt) => {
+        const selected = opt.value === value;
+        if (equalTabWidth) {
           return (
             <button
               key={opt.value}
@@ -53,11 +51,13 @@ export function UnderlineTabs<T extends string>({
               role="tab"
               aria-selected={selected}
               onClick={() => onChange(opt.value)}
-              className="relative z-[1] flex min-h-8 flex-1 basis-0 cursor-pointer flex-col items-stretch justify-end px-2 pb-[3px] transition-colors sm:px-3"
+              className={cn(
+                "flex min-h-0 min-w-0 flex-1 basis-0 cursor-pointer flex-col justify-end gap-1  transition-colors",
+              )}
             >
               <span
                 className={cn(
-                  "n-reg block w-full whitespace-nowrap pb-2 text-center text-sm leading-tight sm:fs-18 sm:leading-none",
+                  "n-reg px-1 pb-2 text-center text-sm leading-tight sm:fs-18 sm:leading-none",
                   selected
                     ? "text-[#8F8183] n-bold"
                     : "text-[#8F8183] hover:text-[#8F8183]/85",
@@ -65,26 +65,17 @@ export function UnderlineTabs<T extends string>({
               >
                 {opt.label}
               </span>
-              {selected ? (
-                <span
-                  aria-hidden
-                  className="absolute inset-x-0 bottom-0 z-[2] h-[3px] bg-[#8F8183]"
-                />
-              ) : null}
+              {/* Segmented rule: thick taupe (active) vs 1px grey — fills half width */}
+              <span
+                aria-hidden
+                className={cn(
+                  "block w-full shrink-0 rounded-[1px]",
+                  selected ? "h-[3px] bg-[#8F8183]" : "h-px bg-[#8F8183]",
+                )}
+              />
             </button>
           );
-        })}
-      </div>
-    );
-  }
-
-  return (
-    <div
-      className={cn("flex n-reg fs-20 gap-10 border-b border-neutral-200", className)}
-      role="tablist"
-    >
-      {options.map((opt) => {
-        const selected = opt.value === value;
+        }
         return (
           <button
             key={opt.value}
