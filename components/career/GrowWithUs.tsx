@@ -37,14 +37,11 @@ export function GrowWithUs() {
             className="relative mb-12 overflow-hidden md:mb-20 lg:mb-24"
             aria-labelledby="grow-heading"
         >
-            <div
-                className={cn(
-                    "relative mx-auto w-full max-w-[953px] overflow-hidden",
-                    "max-lg:h-auto",
-                    "lg:aspect-[953/400]",
-                )}
-            >
-                <div className="pointer-events-none absolute inset-0 z-0" aria-hidden>
+            <div className="relative mx-auto w-full max-w-[953px]">
+                <div
+                    className="pointer-events-none absolute inset-0 z-0 overflow-hidden"
+                    aria-hidden
+                >
                     <Image
                         src="/images/bg-arrow.svg"
                         alt=""
@@ -59,8 +56,7 @@ export function GrowWithUs() {
                 <Container
                     className={cn(
                         "relative z-10",
-                        "py-8 sm:py-10",
-                        "lg:absolute lg:inset-0 lg:flex lg:flex-col lg:justify-center lg:py-0",
+                        "py-10 sm:py-12 lg:py-14",
                     )}
                 >
                     <StaggerContainer
@@ -71,10 +67,11 @@ export function GrowWithUs() {
                             <h2
                                 id="grow-heading"
                                 className={cn(
-                                    "text-center uppercase text-brand-text-primary qs-reg ls-10 sm:text-center",
-                                    "text-[clamp(2.156rem,4.8vw,2.5rem)] leading-[1.12] tracking-[0.04em]",
-                                    "sm:text-[clamp(2.25rem,5.2vw,3.1rem)] sm:leading-[1.1] sm:tracking-[0.05em]",
-                                    "lg:text-[clamp(2.75rem,3.5vw,4.375rem)] lg:leading-[1.05] lg:tracking-[0.05em]",
+                                    "text-center uppercase text-brand-text-primary qs-reg ls-10",
+                                    "text-[clamp(2rem,4.8vw,2.5rem)] leading-[1.2] tracking-[0.04em]",
+                                    "sm:text-[clamp(2.25rem,5.2vw,3.1rem)] sm:leading-[1.15] sm:tracking-[0.05em]",
+                                    "lg:text-[clamp(2.75rem,3.2vw,4.375rem)] lg:leading-[1.12] lg:tracking-[0.05em]",
+                                    "lg:pt-0.5",
                                   )}
                             >
                                 Come grow with us
@@ -82,7 +79,7 @@ export function GrowWithUs() {
                         </ScrollReveal>
 
                         <ScrollReveal direction="up" delay={0.06} distance={24}>
-                            <p className="mt-4 w-full max-w-[min(55rem,92vw)] n-book text-base leading-relaxed text-[#161616] sm:mt-5 sm:text-base lg:mt-6 lg:text-lg">
+                            <p className="mt-4 w-full max-w-[min(42rem,100%)] n-book text-base leading-relaxed text-[#161616] sm:mt-5 sm:text-base lg:mt-5 lg:max-w-[38rem] lg:text-lg">
                                 The Guardians provide endless opportunities for professional growth in
                                 promising times like these. A stimulating work environment, rich and
                                 diverse exposure &amp; inspiring leadership are a few reasons that make
