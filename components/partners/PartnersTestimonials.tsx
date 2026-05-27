@@ -3,12 +3,15 @@
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { CarouselControls } from "@/components/ui/CarouselControls";
 import { useCycleIndex } from "@/hooks/useCycleIndex";
+import { useViewportIsMobile } from "@/hooks/useViewportIsMobile";
 import { marketingClasses } from "@/styles/marketingClasses";
 import { cn } from "@/utils/cn";
 import Image from "next/image";
-import { memo, useLayoutEffect, useMemo, useRef } from "react";
+import { memo, useEffect, useLayoutEffect, useMemo, useRef } from "react";
 
 const VISIBLE_COUNT = 4;
+/** Match `sm:` breakpoint — mobile shows one testimonial per carousel step. */
+const MOBILE_CAROUSEL_BREAKPOINT_PX = 640;
 
 const partnerLogo = (group: number) =>
   `/images/partners/logos/Group ${group}.png`;
@@ -84,6 +87,26 @@ const TESTIMONIALS: PartnersTestimonial[] = [
     role: "Sales Lead, Ashford Group",
     location: "Navi Mumbai",
   },
+  {
+    id: "7",
+    brandLogoSrc: partnerLogo(32),
+    brandLogoAlt: "Sheth Creators",
+    quote:
+      "Lorem ipsum dolor sit amet consectetur. Aliquam vel consectetur feugiat nibh sed eget lacus sed. Turpis sit bibendum nisl egestas nunc lacinia sit gravida fringilla.",
+    name: "Vikram Joshi",
+    role: "Director — Sales, Sheth Creators",
+    location: "Andheri, Mumbai",
+  },
+  {
+    id: "8",
+    brandLogoSrc: partnerLogo(47),
+    brandLogoAlt: "Guru Prerna Corporation",
+    quote:
+      "Lorem ipsum dolor sit amet consectetur. Aliquam vel consectetur feugiat nibh sed eget lacus sed. Turpis sit bibendum nisl egestas nunc lacinia sit gravida fringilla.",
+    name: "Priya Mehta",
+    role: "Director — Sales, Guru Prerna Corporation",
+    location: "Andheri, Mumbai",
+  },
 ];
 
 export const TestimonialCard = memo(function TestimonialCard({
@@ -150,16 +173,22 @@ function visibleForPage(
 export function PartnersTestimonials() {
   const items = TESTIMONIALS;
   const n = items.length;
-  const pageCount = Math.max(1, Math.ceil(n / VISIBLE_COUNT));
-  const { index: page, advance } = useCycleIndex(pageCount, 0);
+  const isMobileCarousel = useViewportIsMobile(true, MOBILE_CAROUSEL_BREAKPOINT_PX);
+  const desktopPageCount = Math.max(1, Math.ceil(n / VISIBLE_COUNT));
+  const pageCount = isMobileCarousel ? n : desktopPageCount;
+  const { index: page, advance, setIndex } = useCycleIndex(pageCount, 0);
 
   const visible = useMemo(
     () => visibleForPage(items, page),
     [items, page],
   );
 
-  const mobileIndex = (page * VISIBLE_COUNT) % n;
+  const mobileIndex = page;
   const gridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setIndex((current) => (current >= pageCount ? 0 : current));
+  }, [pageCount, setIndex]);
 
   useLayoutEffect(() => {
     const grid = gridRef.current;
@@ -251,9 +280,14 @@ export function PartnersTestimonials() {
           ))}
         </div>
 
-        {/* Mobile: single card */}
+        {/* Mobile: one card per step (1 / n) */}
         <div className="mt-6 sm:hidden">
-          <ScrollReveal direction="up" delay={0.1} distance={32}>
+          <ScrollReveal
+            key={items[mobileIndex]!.id}
+            direction="up"
+            delay={0.1}
+            distance={32}
+          >
             <TestimonialCard item={items[mobileIndex]!} />
           </ScrollReveal>
         </div>

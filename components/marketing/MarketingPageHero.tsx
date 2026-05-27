@@ -13,6 +13,7 @@ import {
   useMarketingHeroViewport,
 } from "@/hooks/useMarketingHeroViewport";
 import { getMarketingHeroConfig, type MarketingHeroId } from "@/utils/marketing-hero";
+import { useViewportIsMobile } from "@/hooks/useViewportIsMobile";
 import { useEffect, useState, type CSSProperties } from "react";
 import Image from "next/image";
 import { OutlineArrowButton } from "../common/OutlineArrowButton";
@@ -114,56 +115,71 @@ const PROJECTS_HERO_PHOTO_CLASS =
   "max-lg:!object-cover max-lg:!object-top lg:!object-fill lg:!object-center";
 const ONGOING_HERO_TEXTURE_SRC = "/images/ongoing-bg.svg";
 
-/** Shared marketing hero title scale (mobile → sm → lg). */
-const MARKETING_HERO_TITLE_SIZE_MOBILE_SM = cn(
-  "text-[clamp(1.556rem,4.8vw,2.5rem)] leading-[1.12] tracking-[0.04em]",
-  "sm:text-[clamp(1.6rem,5.2vw,3.1rem)] sm:leading-[1.1] sm:tracking-[0.05em] text-center",
+/**
+ * Hero typography: stepped fluid type below `lg`, fixed 70px / 18px at laptop+.
+ * Clamps use `max-lg:` so they never override `lg:text-[70px]`.
+ */
+const HERO_TITLE_CLAMP_DEFAULT = cn(
+  "max-lg:text-[clamp(1.25rem,calc(0.45rem+5.5vw),2.25rem)] max-lg:leading-[1.1]",
+  "sm:max-lg:text-[clamp(1.5rem,calc(0.6rem+4.5vw),2.5rem)]",
+  "md:max-lg:text-[clamp(1.75rem,calc(0.7rem+3.5vw),2.875rem)]",
 );
-const MARKETING_HERO_TITLE_SIZE_LG = cn(
-  "lg:text-[clamp(1.9rem,3.5vw,4.375rem)] lg:leading-[1.05] lg:tracking-[0.05em]",
+const HERO_TITLE_CLAMP_HOME = cn(
+  "max-lg:text-[clamp(1.15rem,calc(0.4rem+6vw),2rem)] max-lg:leading-none",
+  "sm:max-lg:text-[clamp(1.35rem,calc(0.45rem+5.5vw),2.5rem)]",
+  "md:max-lg:text-[clamp(1.625rem,calc(0.5rem+4.5vw),3.25rem)]",
 );
-const MARKETING_HERO_TITLE_SIZE = cn(
-  MARKETING_HERO_TITLE_SIZE_MOBILE_SM,
-  MARKETING_HERO_TITLE_SIZE_LG,
+const HERO_TITLE_CLAMP_OVERLAY = cn(
+  "max-lg:text-[clamp(1.625rem,calc(0.5rem+6.5vw),2.25rem)] max-lg:leading-[1]",
+  "sm:max-lg:text-[clamp(2rem,calc(0.85rem+5vw),2.75rem)]",
+  "md:max-lg:text-[clamp(2.25rem,calc(1rem+4vw),3.5rem)]",
 );
-const MARKETING_HERO_TITLE_BASE = cn(
-  "mx-auto break-words qs-reg text-balance uppercase",
+const HERO_TITLE_CLAMP_CAREER = cn(
+  "max-lg:text-[clamp(1.5rem,calc(0.65rem+5vw),2.25rem)] max-lg:leading-[1.08]",
+  "sm:max-lg:text-[clamp(1.75rem,calc(0.8rem+4.5vw),2.75rem)]",
+  "md:max-lg:text-[clamp(2rem,calc(0.9rem+3.5vw),3.25rem)]",
+);
+const HERO_TITLE_CLAMP_NEWSROOM = cn(
+  "max-lg:text-[clamp(1.625rem,calc(0.55rem+5.5vw),2.5rem)] max-lg:leading-[1]",
+  "sm:max-lg:text-[clamp(1.875rem,calc(0.9rem+4.5vw),3rem)]",
+  "md:max-lg:text-[clamp(2.125rem,calc(1.1rem+3.5vw),3.75rem)]",
+);
+const HERO_TITLE_CLAMP_LARGE = cn(
+  "max-lg:text-[clamp(1.5rem,calc(0.55rem+7.5vw),2.25rem)] max-lg:leading-[0.94]",
+  "sm:max-lg:text-[clamp(1.75rem,calc(0.7rem+5.5vw),2.75rem)]",
+  "md:max-lg:text-[clamp(2rem,calc(0.85rem+4vw),3.5rem)]",
+);
+const HERO_TITLE_CLAMP_AUDIENCE = cn(
+  "max-lg:text-[clamp(1.5rem,calc(0.55rem+6.5vw),2.5rem)] max-lg:leading-[1.05]",
+  "sm:max-lg:text-[clamp(1.875rem,calc(0.75rem+5vw),3rem)]",
+  "md:max-lg:text-[clamp(2rem,calc(0.9rem+4vw),3.75rem)]",
+);
+const HERO_TITLE_CLAMP_PROJECTS = cn(
+  "max-lg:text-[clamp(1.375rem,calc(0.5rem+7vw),2rem)] max-lg:leading-[1.08]",
+  "sm:max-lg:text-[clamp(1.5rem,calc(0.55rem+6vw),2.5rem)]",
+  "md:max-lg:text-[clamp(1.75rem,calc(0.65rem+4.5vw),2.875rem)]",
 );
 
-/** Shared marketing hero subtitle / body copy (responsive `fs-*` + `lh-*` on lg). */
-const MARKETING_HERO_SUBTITLE = cn(
-  "sub-title mx-auto n-book text-pretty text-[#000000]",
-  "text-[0.9375rem] leading-[1.2]",
-  "sm:text-[15px] sm:leading-[1.45]",
-  "lg:fs-18 lg:text-[20px] lg:lh-24",
-);
-const MARKETING_HERO_SUBTITLE_GAP = "mt-0 md:mt-3 lg:mt-5";
-const MARKETING_HERO_SUBTITLE_WIDE = cn(
-  MARKETING_HERO_SUBTITLE,
-  MARKETING_HERO_SUBTITLE_GAP,
-  "max-w-[min(1180px,100%)]",
-);
-const MARKETING_HERO_SUBTITLE_SERVICES = cn(
-  MARKETING_HERO_SUBTITLE,
-  "max-w-[min(100%,18.5rem)] sm:max-w-md lg:max-w-2xl",
-);
-const MARKETING_HERO_SUBTITLE_PROJECTS = cn(
-  MARKETING_HERO_SUBTITLE,
-  "flex w-full justify-center px-1 text-center",
-);
-const MARKETING_HERO_SUBTITLE_AUDIENCE = cn(
-  MARKETING_HERO_SUBTITLE,
-  MARKETING_HERO_SUBTITLE_GAP,
-  "w-full max-w-[780px]",
-);
-const MARKETING_HERO_SUBTITLE_ON_DARK = cn(
-  MARKETING_HERO_SUBTITLE,
-  "max-w-[min(42rem,100%)] text-white/95",
-);
-const MARKETING_HERO_SUBTITLE_CAREER = cn(
-  MARKETING_HERO_SUBTITLE,
-  "mt-4 max-w-[700px] sm:mt-1",
-);
+function marketingHeroTitleClass(clampClass: string, extra?: string) {
+  return cn(
+    "qs-reg text-balance break-words uppercase",
+    "max-lg:tracking-[0.04em] lg:tracking-[0.05em]",
+    clampClass,
+    "lg:text-[70px] lg:leading-[1.05]",
+    extra,
+  );
+}
+
+function marketingHeroSubtitleClass(extra?: string) {
+  return cn(
+    "n-book text-pretty break-words",
+    "text-[0.875rem] leading-[1.4]",
+    "xs:text-[15px] xs:leading-[1.35]",
+    "md:text-base md:leading-[1.35]",
+    "lg:text-[18px] lg:leading-[1.35]",
+    extra,
+  );
+}
 
 function mergeNegativeContentPad(shift: MarketingHeroNegativeContentShift | undefined, pad: HeroContentPad): HeroContentPad {
   if (shift === undefined || shift === false) {
@@ -276,13 +292,13 @@ function getServicesContentPad(shift: boolean, till: boolean, extra: number): He
     if (till) {
       return {
         className:
-          "pt-[calc(2rem+var(--site-header-height))] sm:pt-[calc(2.75rem+var(--site-header-height))] md:pt-[calc(4rem+var(--site-header-height)+var(--shift-extra))] lg:mt-[calc(100px+var(--site-header-height)+var(--shift-extra))] lg:min-h-0 lg:pb-0",
+          "pt-[calc(2rem+var(--site-header-height)+var(--shift-extra))] sm:pt-[calc(2.75rem+var(--site-header-height)+var(--shift-extra))] md:pt-[calc(4rem+var(--site-header-height)+var(--shift-extra))] lg:mt-[calc(100px+var(--site-header-height)+var(--shift-extra))] lg:min-h-0 lg:pb-0",
         style: s,
       };
     }
     return {
       className:
-        "pt-[calc(2rem+89px)] sm:pt-[calc(2.75rem+89px)] md:pt-[calc(4rem+89px+var(--shift-extra))] lg:mt-[calc(189px+var(--shift-extra))] lg:min-h-0 lg:pb-0",
+        "pt-[calc(2rem+89px+var(--shift-extra))] sm:pt-[calc(2.75rem+89px+var(--shift-extra))] md:pt-[calc(4rem+89px+var(--shift-extra))] lg:mt-[calc(189px+var(--shift-extra))] lg:min-h-0 lg:pb-0",
       style: s,
     };
   }
@@ -650,9 +666,9 @@ function HomeHero({
           <ScrollReveal direction="up" delay={0.04} distance={26}>
             <h1
               id={config["headingId"] as string}
-              className={cn(
-                "w-full max-w-[760px] qs-reg not-italic uppercase tracking-[0.05em] text-[#202225]",
-                "text-[clamp(1.1rem,calc(0.5rem+6.4vw),65px)] leading-none",
+              className={marketingHeroTitleClass(
+                HERO_TITLE_CLAMP_HOME,
+                "w-full max-w-[760px] not-italic text-[#202225]",
               )}
             >
               {lines[0] ? (
@@ -668,10 +684,8 @@ function HomeHero({
           </ScrollReveal>
           <ScrollReveal direction="up" delay={0.12} distance={22}>
             <p
-              className={cn(
-                MARKETING_HERO_SUBTITLE,
-                "mt-4 w-full max-w-2xl n-reg sm:mt-7 lg:mt-4",
-                "text-[clamp(0.76rem,calc(0.5rem+0.87vw),1.125rem)] leading-[1.35] lg:leading-[1.22]",
+              className={marketingHeroSubtitleClass(
+                "mx-auto mt-4 w-full max-w-2xl text-[#000000] sm:mt-7 lg:mt-4",
               )}
             >
               {config["subtitle"] as string}
@@ -757,7 +771,13 @@ function OverlayTitleHero({
         <ScrollReveal direction="up" delay={0.04} distance={24}>
           <h1
             id={config["headingId"] as string}
-            className={config["titleClassName"] as string}
+            className={cn(
+              marketingHeroTitleClass(
+                HERO_TITLE_CLAMP_OVERLAY,
+                "text-white",
+              ),
+              config["titleClassName"] as string,
+            )}
           >
             {config["title"] as string}
           </h1>
@@ -830,7 +850,7 @@ function ContactHero({
         <ScrollReveal direction="up" delay={0.04} distance={24}>
           <h1
             id={config["headingId"] as string}
-            className="qs-reg uppercase text-[clamp(2.5rem,6.5vw,4.375rem)] leading-[1] tracking-[0.05em]"
+            className={marketingHeroTitleClass(HERO_TITLE_CLAMP_OVERLAY)}
           >
             <span className="text-[#8F8183]">Contact </span>
             <span className="text-[#202225]">Us</span>
@@ -894,16 +914,20 @@ function CareerHero({
         <ScrollReveal direction="up" delay={0.04} distance={24}>
           <h1
             id={config["headingId"] as string}
-            className={cn(
-              "max-w-[18ch] break-words qs-reg uppercase text-[#202225] sm:max-w-none",
-              MARKETING_HERO_TITLE_SIZE,
+            className={marketingHeroTitleClass(
+              HERO_TITLE_CLAMP_CAREER,
+              "max-w-[18ch] break-words text-[#202225] sm:max-w-none",
             )}
           >
             {config["title"] as string}
           </h1>
         </ScrollReveal>
         <ScrollReveal direction="up" delay={0.12} distance={20}>
-          <p className={MARKETING_HERO_SUBTITLE_CAREER}>
+          <p
+            className={marketingHeroSubtitleClass(
+              "mt-4 max-w-[700px] text-black sm:mt-1",
+            )}
+          >
             {config["subtitle"] as string}
           </p>
         </ScrollReveal>
@@ -967,9 +991,9 @@ function NewsroomHero({
         <ScrollReveal direction="up" delay={0.04} distance={24}>
           <h1
             id={config["headingId"] as string}
-            className={cn(
-              "qs-reg nt-normal text-center uppercase text-white",
-              MARKETING_HERO_TITLE_SIZE,
+            className={marketingHeroTitleClass(
+              HERO_TITLE_CLAMP_NEWSROOM,
+              "nt-normal text-center text-white",
             )}
           >
             {config["title"] as string}
@@ -1030,8 +1054,8 @@ function PartnersHero({
       />
       <div
         className={cn(
-          "relative z-20 flex w-full min-w-0 flex-col items-center justify-center  bg-black/25 px-4 py-14 text-center  sm:px-6",
-          "h-full min-h-0 sm:py-0",
+          "relative z-20 flex h-full min-h-0 w-full min-w-0 flex-col items-center justify-center gap-2 bg-black/25 px-4 py-10 text-center",
+          "xs:gap-3 xs:px-5 sm:gap-4 sm:px-6 sm:py-0 md:py-0",
           contentPad.className,
         )}
         style={contentPad.style}
@@ -1039,9 +1063,9 @@ function PartnersHero({
         <ScrollReveal direction="up" delay={0.04} distance={24}>
           <h1
             id={config["headingId"] as string}
-            className={cn(
-              "max-w-full text-balance uppercase text-white qs-reg",
-              MARKETING_HERO_TITLE_SIZE,
+            className={marketingHeroTitleClass(
+              HERO_TITLE_CLAMP_DEFAULT,
+              "max-w-full text-balance text-white",
             )}
           >
             {config["title"] as string}
@@ -1049,7 +1073,11 @@ function PartnersHero({
         </ScrollReveal>
         {typeof config["body"] === "string" && config["body"] ? (
           <ScrollReveal direction="up" delay={0.1} distance={20}>
-            <p className={cn(MARKETING_HERO_SUBTITLE_ON_DARK, "m-auto sm:mt-4 mt-5 sm:lh-17 md:lh-20 sm:text-center")}>
+            <p
+              className={marketingHeroSubtitleClass(
+                "m-auto max-w-[min(42rem,100%)] text-white/95",
+              )}
+            >
               {config["body"] as string}
             </p>
           </ScrollReveal>
@@ -1131,9 +1159,7 @@ function PublicationHeroView({
           <h1
             id={config["headingId"] as string}
             className={cn(
-              "qs-reg ls-10 uppercase text-[#202225]",
-              MARKETING_HERO_TITLE_SIZE,
-              "lg:fs-70 lg:leading-none",
+              marketingHeroTitleClass(HERO_TITLE_CLAMP_OVERLAY, "ls-10 text-[#202225]"),
               (config["titleClassName"] as string) || undefined,
             )}
           >
@@ -1162,80 +1188,79 @@ function TgreaHero({
   contentExtraTopPx: number;
   negativePadding?: MarketingHeroNegativeContentShift;
 }) {
-  const tagline =
-    typeof config["tagline"] === "string" ? config["tagline"].trim() : "";
-  const bgSrc = (config["backgroundImage"] as string) || LOCAL_IMAGES.tgreaHero;
-  const [heroBgSrc, setHeroBgSrc] = useState(bgSrc);
-  const bgImageClass =
-    (config["imageClassName"] as string) || "object-cover object-top";
   const contentPad = mergeNegativeContentPad(
     negativePadding,
     getHeroContentPad(Boolean(shiftUnderHeader), Boolean(shiftTillSearch), contentExtraTopPx),
   );
+  const tagline =
+    typeof config["tagline"] === "string" ? config["tagline"].trim() : "";
+  const bgImageClass =
+    (config["imageClassName"] as string) || "object-cover object-top";
 
   return (
     <section
       className={cn(
-        marketingFirstSectionHeightClass(heightPx),
+        isCustomHeroHeight(heightPx)
+          ? "min-h-0 min-w-0 w-full [&_img]:!object-cover [&_img]:!object-top"
+          : "marketing-first-section-height",
         "relative isolate w-full min-w-0 overflow-hidden bg-[#e8e8e8]",
-        "[&_img]:!object-cover [&_img]:!object-top",
         heroNavOverlapClass(shiftUnderHeader, shiftTillSearch),
         className,
       )}
       style={marketingFirstSectionHeightStyle(heightPx)}
       aria-labelledby={config["headingId"] as string}
     >
-      <div className="pointer-events-none absolute inset-0 z-0">
+      <div className="pointer-events-none absolute inset-0 z-0 min-h-full">
         <Image
-          src={heroBgSrc}
+          src={config["backgroundImage"] as string}
           alt=""
           fill
-          className={bgImageClass}
+          className={cn(bgImageClass)}
           sizes="100vw"
           priority
-          onError={() => {
-            if (heroBgSrc !== LOCAL_IMAGES.tgreaHero) {
-              setHeroBgSrc(LOCAL_IMAGES.tgreaHero);
-            }
-          }}
         />
         <div className="absolute inset-0 bg-white/10" aria-hidden />
       </div>
       <div
         className={cn(
-          "relative z-10 flex h-full min-h-[inherit] flex-col items-center justify-center px-4 py-10 text-center sm:px-6 sm:py-12",
-          "lg:justify-start lg:pt-25 lg:pb-16",
+          "relative z-10 px-4 pt-[10%] pb-10 text-center sm:px-6 sm:pt-[9%] sm:pb-12 lg:px-0 lg:pt-25 lg:pb-16",
           contentPad.className,
         )}
         style={contentPad.style}
       >
         <Container className="min-w-0">
-          <h1
-            id={config["headingId"] as string}
-            className={cn(
-              "break-words px-1 qs-reg uppercase text-[#202225]",
-              MARKETING_HERO_TITLE_SIZE_MOBILE_SM,
-              "lg:text-[70px] lg:leading-[0.94] lg:tracking-[0.02em]",
-            )}
-          >
-            {config["title"] as string}
-          </h1>
-          {tagline ? (
-            <p
-              className={cn(
-                "mt-1 break-words px-1 qs-reg uppercase text-[#202225]",
-                MARKETING_HERO_TITLE_SIZE_MOBILE_SM,
-                "lg:text-[70px] lg:leading-[0.94] lg:tracking-[0.02em]",
+          <ScrollReveal direction="up" delay={0.04} distance={24}>
+            <h1
+              id={config["headingId"] as string}
+              className={marketingHeroTitleClass(
+                HERO_TITLE_CLAMP_LARGE,
+                "break-words px-1 tracking-[0.02em] text-[#202225]",
               )}
             >
-              {tagline}
-            </p>
+              {config["title"] as string}
+            </h1>
+          </ScrollReveal>
+          {tagline ? (
+            <ScrollReveal direction="up" delay={0.08} distance={22}>
+              <p
+                className={marketingHeroTitleClass(
+                  HERO_TITLE_CLAMP_LARGE,
+                  "mt-1 break-words px-1 tracking-[0.02em] text-[#202225]",
+                )}
+              >
+                {tagline}
+              </p>
+            </ScrollReveal>
           ) : null}
-          {typeof config["body"] === "string" && config["body"] ? (
-            <p className={cn(MARKETING_HERO_SUBTITLE_WIDE, "mt-4")}>
+          <ScrollReveal direction="up" delay={0.14} distance={18}>
+            <p
+              className={marketingHeroSubtitleClass(
+                "mx-auto mt-4 max-w-[min(1180px,100%)] text-[#000000]",
+              )}
+            >
               {config["body"] as string}
             </p>
-          ) : null}
+          </ScrollReveal>
         </Container>
       </div>
     </section>
@@ -1291,26 +1316,29 @@ function ServicesHero({
         )}
         style={contentPad.style}
       >
-        <div className="mx-auto flex w-full min-w-0 max-w-[820px] flex-col items-center gap-3 px-1 sm:gap-4 sm:px-2 md:gap-5">
-          <ScrollReveal direction="up" delay={0.04} distance={24} className="w-full">
-            <h1
-              id={config["headingId"] as string}
-              className={cn(
-                MARKETING_HERO_TITLE_BASE,
-                "text-[#202225]",
-                MARKETING_HERO_TITLE_SIZE,
-                (config["titleClassName"] as string) || undefined,
-              )}
-            >
-              {config["title"] as string}
-            </h1>
-          </ScrollReveal>
-          <ScrollReveal direction="up" delay={0.12} distance={20} className="w-full">
-            <p className={MARKETING_HERO_SUBTITLE_SERVICES}>
-              {config["subtitle"] as string}
-            </p>
-          </ScrollReveal>
-        </div>
+        <ScrollReveal direction="up" delay={0.04} distance={24}>
+          <h1
+            id={config["headingId"] as string}
+            className={cn(
+              marketingHeroTitleClass(
+                HERO_TITLE_CLAMP_LARGE,
+                "m-auto break-words text-[#202225]",
+              ),
+              (config["titleClassName"] as string) || undefined,
+            )}
+          >
+            {config["title"] as string}
+          </h1>
+        </ScrollReveal>
+        <ScrollReveal direction="up" delay={0.12} distance={20}>
+          <p
+            className={marketingHeroSubtitleClass(
+              "mt-2 max-w-2xl text-black md:mt-4 lg:mt-4",
+            )}
+          >
+            {config["subtitle"] as string}
+          </p>
+        </ScrollReveal>
       </div>
     </section>
   );
@@ -1368,11 +1396,9 @@ function AboutHero({
         <Container className="min-w-0">
           <ScrollReveal direction="up" delay={0.04} distance={24}>
             <h1
-              className={cn(
-                "break-words px-1 qs-reg uppercase text-[#202225]",
-                MARKETING_HERO_TITLE_SIZE_MOBILE_SM,
-                "text-[clamp(2.556rem,4.8vw,2.5rem)]",
-                "lg:fs-70 lg:leading-[0.94] lg:tracking-[0.02em]",
+              className={marketingHeroTitleClass(
+                HERO_TITLE_CLAMP_LARGE,
+                "break-words px-1 tracking-[0.02em] text-[#202225]",
               )}
             >
               <span className="ml-2 inline-block sm:ml-3 sm:inline text-[#202225]">
@@ -1382,7 +1408,11 @@ function AboutHero({
             </h1>
           </ScrollReveal>
           <ScrollReveal direction="up" delay={0.12} distance={20}>
-            <p className={MARKETING_HERO_SUBTITLE_WIDE}>
+            <p
+              className={marketingHeroSubtitleClass(
+                "mx-auto mt-4 max-w-[min(1180px,100%)] text-[#000000]",
+              )}
+            >
               {config["subtitle"] as string}
             </p>
           </ScrollReveal>
@@ -1465,11 +1495,9 @@ function ProjectsHeroSection({
         <div className="mx-auto flex w-full min-w-0 max-w-3xl flex-col items-start gap-1 text-left sm:gap-2">
           <ScrollReveal direction="up" delay={0.04} distance={24} className="flex w-full justify-center justify-content-center">
             <h1
-              className={cn(
-                "qs-reg uppercase text-[#0a0a0a]",
-                MARKETING_HERO_TITLE_SIZE_MOBILE_SM,
-                "text-[clamp(1.956rem,4.8vw,2.5rem)]",
-                "lg:text-[clamp(2.75rem,5vw,4rem)] lg:leading-[1.08] lg:tracking-[0.06em]",
+              className={marketingHeroTitleClass(
+                HERO_TITLE_CLAMP_PROJECTS,
+                "tracking-[0.04em] text-[#0a0a0a] lg:tracking-[0.06em]",
               )}
             >
               <span className="inline-block whitespace-normal tracking-[0.04em] sm:whitespace-nowrap sm:tracking-[0.07em]">
@@ -1478,7 +1506,11 @@ function ProjectsHeroSection({
             </h1>
           </ScrollReveal>
           <ScrollReveal direction="up" delay={0.12} distance={20} className="flex w-full justify-center justify-content-center">
-            <p className={MARKETING_HERO_SUBTITLE_PROJECTS}>
+            <p
+              className={marketingHeroSubtitleClass(
+                "flex w-full justify-center px-1 text-black",
+              )}
+            >
               {cfg.subtitle}
             </p>
           </ScrollReveal>
@@ -1577,11 +1609,9 @@ export function MarketingAudienceHero({
           <ScrollReveal direction="up" delay={0.04} distance={24}>
             <h1
               id={content.ariaHeadingId}
-              className={cn(
-                "break-words qs-reg uppercase leading-[1.05] ls-5 ",
-                MARKETING_HERO_TITLE_SIZE,
-                "lg:text-[clamp(2.9rem,5.5vw,4.375rem)] lg:leading-[1.05] lg:tracking-[0.05em]",
-                "text-[clamp(2.156rem,4.8vw,2.5rem)] leading-[1.12] tracking-[0.04em]",
+              className={marketingHeroTitleClass(
+                HERO_TITLE_CLAMP_AUDIENCE,
+                "break-words ls-5",
               )}
             >
               <span className="block">
@@ -1591,7 +1621,11 @@ export function MarketingAudienceHero({
             </h1>
           </ScrollReveal>
           <ScrollReveal direction="up" delay={0.12} distance={20} className="flex w-full justify-center ">
-            <p className={`${MARKETING_HERO_SUBTITLE_AUDIENCE} mt-4`}>
+            <p
+              className={marketingHeroSubtitleClass(
+                "flex w-full max-w-[780px] text-black md:mt-3 lg:mt-5",
+              )}
+            >
               {content.body}
             </p>
           </ScrollReveal>
