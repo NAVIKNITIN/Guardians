@@ -30,10 +30,7 @@ export function LifeAtGuardians() {
           {/* Right – body description */}
           <ScrollReveal direction="right" delay={0.08} distance={30}>
             <p className="n-book lh-24 text-base leading-normal text-[#161616] sm:text-lg lg:text-xl">
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua. dolor
-              sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-              incididunt ut labore et dolore magna aliqua.
+            The Guardians is not only dedicated to work but also provide a healthy work-life balance which is evident through the various fun activities conducted by us. It helps our employees bond better, refreshes them & gives them the zeal to come back to work more enthusiastically.
             </p>
           </ScrollReveal>
         </div>

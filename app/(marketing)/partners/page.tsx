@@ -1,5 +1,6 @@
-import { FeaturedPartnerShowcase } from "@/components/partners/FeaturedPartnerShowcase";
 import { PartnersHero } from "@/components/partners/PartnersHero";
+import { PartnersLogoGrid } from "@/components/partners/PartnersLogoGrid";
+import { FeaturedPartnerShowcase } from "@/components/partners/FeaturedPartnerShowcase";
 import { PartnersStats } from "@/components/partners/PartnersStats";
 import { PartnersTestimonials } from "@/components/partners/PartnersTestimonials";
 import type { Metadata } from "next";
@@ -14,7 +15,9 @@ export default function PartnersClientsPage() {
   return (
     <>
       <PartnersHero />
-      <FeaturedPartnerShowcase />
+      
+      {/* <FeaturedPartnerShowcase /> */}
+      <PartnersLogoGrid />
       <PartnersTestimonials />
       <PartnersStats />
     </>

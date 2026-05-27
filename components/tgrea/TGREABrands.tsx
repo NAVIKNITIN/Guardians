@@ -4,13 +4,10 @@ import { SplitSection } from "@/components/sections/SplitSection";
 import Image from "next/image";
 import { cn } from "@/utils/cn";
 
-const DESCRIPTION =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et.";
-
 const brands = [
-  { id: 1, reverse: false, href: "#", logoBG: "/images/holdingLogo.svg", logo: "/images/holdingImg.svg" },
-  { id: 2, reverse: true, href: "#", logoBG: "/images/Group 70.svg", logo: "/images/tgrea3.svg" },
-  { id: 3, reverse: false, href: "#", logoBG: "/images/Group 66.svg", logo: "/images/tgrea2.svg" },
+  { id: 1, reverse: false, href: "#", logoBG: "/images/holdingLogo.svg", logo: "/images/holdingImg.svg" ,description: "The Guardians Real Estate Advisory* & Kotak Realty Fund have come together to overcome the challenges of project bottlenecks, project delays, inefficient processes, lack of latest marketing tools and methods, and the absence of industry intelligence. We are India’s first institutionally owned 'Real Estate Development Management and Advisory Company'. Ground Holding is committed to augmenting the clients’ assets and investment value with pathbreaking business solutions by renowned industry doyens."},
+  { id: 2, reverse: true, href: "#", logoBG: "/images/Group 70.svg", logo: "/images/tgrea3.svg" ,description: "With Guardians International, we are realising that dream by providing expert real estate advisory for developers and customers with a seamless, end-to-end experience from concept to occupancy. We are providing a 360-degree experience for NRI and HNWI with access to the best-in-class property investment opportunities across the breadth and length of India. We deliver an end-to-end service that guides them through every step of their international real estate investment journey."},
+  { id: 3, reverse: false, href: "#", logoBG: "/images/Group 66.svg", logo: "/images/tgrea2.svg" ,description: "Your one-stop destination for seamless home-buying experience. With years of expertise and a deep understanding of the real estate market, we provide personalized guidance every step of the way. From luxurious properties to family-friendly homes, we ensure your vision becomes a reality. Trust us to make your dream home a lasting one."},
 ];
 
 function BrandTitle({ src }: { src: string }) {
@@ -43,13 +40,13 @@ export function TGREABrands() {
 
       {/* Brand rows */}
       <StaggerContainer className="space-y-2 sm:space-y-4 lg:space-y-[70px] mb-10 md:mb-15 lg:mb-20">
-        {brands.map(({ id, reverse, href, logoBG, logo }) => (
+        {brands.map(({ id, reverse, href, logoBG, logo, description }) => (
           <SplitSection
             key={id}
             reverse={reverse}
             href={href}
             title={<BrandTitle src={logoBG} />}
-            description={DESCRIPTION}
+            description={description}
             buttonText="Read more"
             image={{ src: logo, alt: "Construction site at sunset" }}
             className="px-4 py-2 sm:px-8 sm:py-4 lg:px-16 lg:py-0"
