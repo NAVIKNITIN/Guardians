@@ -21,7 +21,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useState, type ReactNode } from "react";
 
-const locations = [{ "label": "Mumbai", "address": "C-602 & 603, ONE BKC, G Block, Bandra Kurla Complex, Bandra (E), Mumbai - 400051" }, { "label": "Pune", "address": "Westport, Unit No 410, Survey Nos. 32/1A/1/30 to 38 & 54 of Revenue Village, Pan Card Club Road, Baner, Pune 411045" }, { "label": "Dubai", "address": "TGREA International Advisory LLC, Office No 1807, Lake Central Tower, Business Bay, Dubai (UAE)" },{ "label": "Goa", "address": "near Baga Beach" }, ] as const;
+const locations = [{ "label": "Mumbai", "address": "C-602 & 603, ONE BKC, G Block, Bandra Kurla Complex, Bandra (E), Mumbai - 400051" }, { "label": "Pune", "address": "Westport, Unit No 410, Survey Nos. 32/1A/1/30 to 38 & 54 of Revenue Village, Pan Card Club Road, Baner, Pune 411045" }, { "label": "Dubai", "address": "TGREA International Advisory LLC, Office No 1807, Lake Central Tower, Business Bay, Dubai (UAE)" },{ "label": "Goa", "address": "The Guardians Real Estate Advisory, 708, 7th floor, Gera's Imperium Grand, Patto Centre, Panjim, Goa 403001" }, ] as const;
 const accordionPanelCls =
   "overflow-hidden transition-all duration-300 ease-in-out";
 

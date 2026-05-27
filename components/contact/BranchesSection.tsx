@@ -42,7 +42,7 @@ const BRANCHES: Branch[] = [
   {
     name: "Goa",
     addressLines: [
-      "GOA - NEAR BAGA BEACH",
+      "The Guardians Real Estate Advisory, 708, 7th floor, Gera's Imperium Grand, Patto Centre, Panjim, Goa 403001",
     ],
   },
 ];
