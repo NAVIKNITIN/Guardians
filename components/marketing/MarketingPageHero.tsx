@@ -538,9 +538,6 @@ export function MarketingPageHero(props: MarketingPageHeroProps) {
           config={raw}
           contentExtraTopPx={shiftContentExtra}
           heightPx={heightPx}
-          desktopHeightPx={props.heightPx}
-          mobileHeightPx={props.mobileHeightPx}
-          useViewportHeightFlag={props.useViewportHeightFlag}
           shiftUnderHeader={shift}
           shiftTillSearch={shiftTill}
           negativePadding={negativePadding}
@@ -1152,9 +1149,6 @@ function TgreaHero({
   className,
   config,
   heightPx,
-  desktopHeightPx,
-  mobileHeightPx,
-  useViewportHeightFlag,
   shiftUnderHeader,
   shiftTillSearch,
   contentExtraTopPx,
@@ -1163,95 +1157,86 @@ function TgreaHero({
   className?: string;
   config: Record<string, unknown>;
   heightPx?: number;
-  desktopHeightPx?: number;
-  mobileHeightPx?: number;
-  useViewportHeightFlag?: boolean;
   shiftUnderHeader?: boolean;
   shiftTillSearch?: boolean;
   contentExtraTopPx: number;
   negativePadding?: MarketingHeroNegativeContentShift;
 }) {
-  const sectionHeight = marketingViewportHeightSection(
-    useViewportHeightFlag,
-    desktopHeightPx,
-    mobileHeightPx,
-    heightPx,
-  );
+  const tagline =
+    typeof config["tagline"] === "string" ? config["tagline"].trim() : "";
   const bgSrc = (config["backgroundImage"] as string) || LOCAL_IMAGES.tgreaHero;
   const [heroBgSrc, setHeroBgSrc] = useState(bgSrc);
-  const shiftStyle =
-    !shiftUnderHeader && contentExtraTopPx > 0
-      ? ({ [SHIFT_EXTRA_VAR as string]: `${contentExtraTopPx}px` } as CSSProperties)
-      : undefined;
-  const contentPad = mergeNegativeContentPad(negativePadding, {});
+  const bgImageClass =
+    (config["imageClassName"] as string) || "object-cover object-top";
+  const contentPad = mergeNegativeContentPad(
+    negativePadding,
+    getHeroContentPad(Boolean(shiftUnderHeader), Boolean(shiftTillSearch), contentExtraTopPx),
+  );
 
   return (
     <section
       className={cn(
-        sectionHeight.className,
-        "overflow-hidden bg-neutral-200",
-        "max-lg:[&_img]:!object-cover max-lg:[&_img]:!object-center",
+        marketingFirstSectionHeightClass(heightPx),
+        "relative isolate w-full min-w-0 overflow-hidden bg-[#e8e8e8]",
+        "[&_img]:!object-cover [&_img]:!object-top",
         heroNavOverlapClass(shiftUnderHeader, shiftTillSearch),
-        contentPad.className,
         className,
       )}
-      style={{ ...sectionHeight.style, ...contentPad.style }}
+      style={marketingFirstSectionHeightStyle(heightPx)}
       aria-labelledby={config["headingId"] as string}
     >
-      <div className="relative h-full min-h-[inherit] overflow-hidden">
-        <div className="pointer-events-none absolute inset-0 z-0">
-          <Image
-            src={heroBgSrc}
-            alt=""
-            fill
+      <div className="pointer-events-none absolute inset-0 z-0">
+        <Image
+          src={heroBgSrc}
+          alt=""
+          fill
+          className={bgImageClass}
+          sizes="100vw"
+          priority
+          onError={() => {
+            if (heroBgSrc !== LOCAL_IMAGES.tgreaHero) {
+              setHeroBgSrc(LOCAL_IMAGES.tgreaHero);
+            }
+          }}
+        />
+        <div className="absolute inset-0 bg-white/10" aria-hidden />
+      </div>
+      <div
+        className={cn(
+          "relative z-10 flex h-full min-h-[inherit] flex-col items-center justify-center px-4 py-10 text-center sm:px-6 sm:py-12",
+          "lg:justify-start lg:pt-25 lg:pb-16",
+          contentPad.className,
+        )}
+        style={contentPad.style}
+      >
+        <Container className="min-w-0">
+          <h1
+            id={config["headingId"] as string}
             className={cn(
-              (config["imageClassName"] as string) || "object-stretch object-center",
-              "max-lg:!object-cover max-lg:!object-center",
+              "break-words px-1 qs-reg uppercase text-[#202225]",
+              MARKETING_HERO_TITLE_SIZE_MOBILE_SM,
+              "lg:text-[70px] lg:leading-[0.94] lg:tracking-[0.02em]",
             )}
-            sizes="100vw"
-            priority
-            onError={() => {
-              if (heroBgSrc !== LOCAL_IMAGES.projectCompleted) {
-                setHeroBgSrc("/images/ongoing-bg.svg");
-              }
-            }}
-          />
-          <div className="absolute inset-0 bg-white/10" />
-        </div>
-        <div
-          className={cn(
-            "relative z-10 px-4 text-center sm:px-6",
-            "max-lg:flex max-lg:h-full max-lg:flex-col max-lg:items-center max-lg:justify-center max-lg:pt-[var(--site-header-height)] max-lg:pb-8",
-            "lg:absolute lg:inset-x-0 lg:top-[7.5%] lg:px-0",
-            contentExtraTopPx > 0 ? "lg:pt-[var(--shift-extra)]" : "lg:pt-25",
-          )}
-          style={shiftStyle}
-        >
-          <Container className="min-w-0">
-            <h1
-              id={config["headingId"] as string}
-              className={cn(
-                "break-words px-1 qs-reg uppercase text-[#202225]",
-                MARKETING_HERO_TITLE_SIZE_MOBILE_SM,
-                "lg:fs-70 lg:leading-[0.94] lg:tracking-[0.02em]",
-              )}
-            >
-              {config["title"] as string}
-            </h1>
+          >
+            {config["title"] as string}
+          </h1>
+          {tagline ? (
             <p
               className={cn(
-                "break-words px-1 qs-reg uppercase text-[#202225]",
+                "mt-1 break-words px-1 qs-reg uppercase text-[#202225]",
                 MARKETING_HERO_TITLE_SIZE_MOBILE_SM,
-                "lg:fs-70 lg:leading-[0.94] lg:tracking-[0.02em]",
+                "lg:text-[70px] lg:leading-[0.94] lg:tracking-[0.02em]",
               )}
             >
-              {config["tagline"] as string}
+              {tagline}
             </p>
-            <p className={`${MARKETING_HERO_SUBTITLE_WIDE} mt-4`}>
+          ) : null}
+          {typeof config["body"] === "string" && config["body"] ? (
+            <p className={cn(MARKETING_HERO_SUBTITLE_WIDE, "mt-4")}>
               {config["body"] as string}
             </p>
-          </Container>
-        </div>
+          ) : null}
+        </Container>
       </div>
     </section>
   );

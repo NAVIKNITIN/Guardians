@@ -12,9 +12,8 @@ export function TGREAHero() {
       viewportHeightBreakpointPx={VIEWPORT_HEIGHT_BREAKPOINT_PX}
       shiftUnderHeader={false}
       shiftTillSearch={false}
-      shiftExtraContentTopPx={60}
-      negativePadding={10}
-      mobileNegativePadding={150}
+      shiftExtraContentTopPx={0}
+      mobileShiftExtraContentTopPx={24}
     />
   );
 }

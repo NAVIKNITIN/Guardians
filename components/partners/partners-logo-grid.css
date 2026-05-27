@@ -1,0 +1,27 @@
+/**
+ * Figma line dividers — 1px stroke, layer opacity 60%, linear gradient:
+ * 0% transparent → 20% solid → 80% solid → 100% transparent.
+ */
+.partners-grid-divider-h {
+  height: 1px;
+  opacity: 0.6;
+  background: linear-gradient(
+    to right,
+    rgb(0 0 0 / 0) 0%,
+    rgb(0 0 0 / 1) 20%,
+    rgb(0 0 0 / 1) 80%,
+    rgb(0 0 0 / 0) 100%
+  );
+}
+
+.partners-grid-divider-v {
+  width: 1px;
+  opacity: 0.6;
+  background: linear-gradient(
+    to bottom,
+    rgb(0 0 0 / 0) 0%,
+    rgb(0 0 0 / 1) 20%,
+    rgb(0 0 0 / 1) 80%,
+    rgb(0 0 0 / 0) 100%
+  );
+}

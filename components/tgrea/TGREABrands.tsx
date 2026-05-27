@@ -4,13 +4,10 @@ import { SplitSection } from "@/components/sections/SplitSection";
 import Image from "next/image";
 import { cn } from "@/utils/cn";
 
-const DESCRIPTION =
-  "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et.";
-
 const brands = [
-  { id: 1, reverse: false, href: "#", logoBG: "/images/holdingLogo.svg", logo: "/images/holdingImg.svg" },
-  { id: 2, reverse: true, href: "#", logoBG: "/images/Group 70.svg", logo: "/images/tgrea3.svg" },
-  { id: 3, reverse: false, href: "#", logoBG: "/images/Group 66.svg", logo: "/images/tgrea2.svg" },
+  { id: 1, reverse: false, href: "#", logoBG: "/images/holdingLogo.svg", logo: "/images/holdingImg.svg" ,description: "The Guardians Real Estate Advisory* & Kotak Realty Fund have come together to overcome the challenges of project bottlenecks, project delays, inefficient processes, lack of latest marketing tools and methods, and the absence of industry intelligence. We are India’s first institutionally owned 'Real Estate Development Management and Advisory Company'. Ground Holding is committed to augmenting the clients’ assets and investment value with pathbreaking business solutions by renowned industry doyens."},
+  { id: 2, reverse: true, href: "#", logoBG: "/images/Group 70.svg", logo: "/images/tgrea3.svg" ,description: "With Guardians International, we are realising that dream by providing expert real estate advisory for developers and customers with a seamless, end-to-end experience from concept to occupancy. We are providing a 360-degree experience for NRI and HNWI with access to the best-in-class property investment opportunities across the breadth and length of India. We deliver an end-to-end service that guides them through every step of their international real estate investment journey."},
+  { id: 3, reverse: false, href: "#", logoBG: "/images/Group 66.svg", logo: "/images/tgrea2.svg" ,description: "Your one-stop destination for seamless home-buying experience. With years of expertise and a deep understanding of the real estate market, we provide personalized guidance every step of the way. From luxurious properties to family-friendly homes, we ensure your vision becomes a reality. Trust us to make your dream home a lasting one."},
 ];
 
 function BrandTitle({ src }: { src: string }) {
@@ -20,7 +17,7 @@ function BrandTitle({ src }: { src: string }) {
       alt="Ground Holding – Real Estate"
       width={223}
       height={80}
-      className="mx-auto block h-auto w-[150px] object-contain object-center md:mx-0 md:object-left sm:w-[180px] lg:w-[223px]"
+      className="block h-auto w-[150px] object-contain object-left sm:w-[180px] lg:w-[223px]"
     />
   );
 }
@@ -42,21 +39,21 @@ export function TGREABrands() {
       </Container>
 
       {/* Brand rows */}
-      <StaggerContainer className="mb-10 md:mb-15 lg:mb-20">
-        {brands.map(({ id, reverse, href, logoBG, logo }) => (
+      <StaggerContainer className="space-y-2 sm:space-y-4 lg:space-y-[70px] mb-10 md:mb-15 lg:mb-20">
+        {brands.map(({ id, reverse, href, logoBG, logo, description }) => (
           <SplitSection
             key={id}
             reverse={reverse}
             href={href}
             title={<BrandTitle src={logoBG} />}
-            description={DESCRIPTION}
+            description={description}
             buttonText="Read more"
             image={{ src: logo, alt: "Construction site at sunset" }}
-            className="px-4 py-10 sm:px-8 lg:px-16"
-            contentClassName="max-md:flex max-md:flex-col max-md:items-center max-md:text-center md:flex md:items-center md:min-h-[520px] lg:min-h-[650px]"
-            titleClassName="max-md:flex max-md:justify-center"
-            descriptionClassName="max-w-[488px] text-[clamp(0.875rem,3vw,1rem)] leading-[1.5] max-md:mx-auto max-md:text-center sm:text-base md:mx-0 md:text-left"
-            buttonClassName="mt-4 sm:mt-10"
+            className="px-4 py-2 sm:px-8 sm:py-4 lg:px-16 lg:py-0"
+            contentClassName="flex items-center md:min-h-[520px] lg:min-h-[650px]"
+            titleClassName=""
+            descriptionClassName="max-w-[488px] text-[clamp(0.875rem,3vw,1rem)] leading-[1.5] sm:text-base"
+            buttonClassName="mt-4 h-[50px] w-full max-w-xs text-[clamp(0.8125rem,3vw,1.25rem)] leading-[1.25rem] sm:mt-10 sm:w-auto sm:max-w-none sm:px-12 sm:py-5 sm:leading-[1.5625rem]"
             imageClassName="aspect-[488/434] min-h-[220px] rounded-none md:min-h-[520px] lg:aspect-auto lg:h-full lg:min-h-[650px]"
           />
         ))}
