@@ -20,6 +20,48 @@ import { LISTING_PAGE_SIZE } from "@/lib/listingPagination";
 import { LOCAL_IMAGES } from "@/lib/local-images";
 import { useMemo, useState } from "react";
 
+function toGoogleDriveDownloadUrl(url: string): string {
+  try {
+    const u = new URL(url);
+    // Already a "uc" link.
+    if (u.hostname === "drive.google.com" && u.pathname === "/uc") {
+      return url;
+    }
+
+    // Common formats:
+    // - https://drive.google.com/file/d/<id>/view?...  (extract from path)
+    // - https://drive.google.com/open?id=<id>          (extract from query)
+    // - https://drive.google.com/uc?id=<id>&export=download
+    const pathMatch = u.pathname.match(/^\/file\/d\/([^/]+)\/?/);
+    const id = pathMatch?.[1] ?? u.searchParams.get("id");
+    if (!id) return url;
+
+    const direct = new URL("https://drive.google.com/uc");
+    direct.searchParams.set("export", "download");
+    direct.searchParams.set("id", id);
+    return direct.toString();
+  } catch {
+    return url;
+  }
+}
+
+function toDriveProxyDownloadUrl(args: { driveUrl: string; filename: string }): string {
+  const direct = toGoogleDriveDownloadUrl(args.driveUrl);
+  try {
+    const u = new URL(direct);
+    const id = u.searchParams.get("id");
+    if (!id) return direct;
+    return (
+      "/api/publications/download?kind=drive&file=" +
+      encodeURIComponent(id) +
+      "&name=" +
+      encodeURIComponent(args.filename)
+    );
+  } catch {
+    return direct;
+  }
+}
+
 export function GazetteGridHardCoded() {
   const [activeIssue, setActiveIssue] = useState<PublicationIssue | null>(null);
   const issues: PublicationIssue[] = useMemo(
@@ -31,9 +73,11 @@ export function GazetteGridHardCoded() {
         imageAlt: "The Guardians Gazette",
         fallbackSrc: LOCAL_IMAGES.blogDetail,
         href: "/gazette/1",
-        fileUrl:
-          "/api/publications/download?kind=gazette&file=" +
-          encodeURIComponent("TheGuardiansGazette.pdf"),
+        fileUrl: toDriveProxyDownloadUrl({
+          driveUrl:
+            "https://drive.google.com/file/d/1W0Rp_X_aTz0kFJR-DbSqtqfbnipgaUk0/view?usp=drive_link",
+          filename: "TheGuardiansGazette.pdf",
+        }),
       },
       {
         id: "2",
@@ -42,9 +86,11 @@ export function GazetteGridHardCoded() {
         imageAlt: "The Guardians Gazette — 2025",
         fallbackSrc: LOCAL_IMAGES.blogDetail,
         href: "/gazette/2",
-        fileUrl:
-          "/api/publications/download?kind=gazette&file=" +
-          encodeURIComponent("TheGuardiansGazette_2025.pdf"),
+        fileUrl: toDriveProxyDownloadUrl({
+          driveUrl:
+            "https://drive.google.com/file/d/1ah8KqPEjjE5JR2Pz7Izg0thca7LMZQOg/view?usp=drive_link",
+          filename: "TheGuardiansGazette_2025.pdf",
+        }),
       },
       {
         id: "3",
@@ -53,9 +99,11 @@ export function GazetteGridHardCoded() {
         imageAlt: "TG Gazette Newsletter — August 2025",
         fallbackSrc: LOCAL_IMAGES.blogDetail,
         href: "/gazette/3",
-        fileUrl:
-          "/api/publications/download?kind=gazette&file=" +
-          encodeURIComponent("TG Gazette Newsletter_ August2025.pdf"),
+        fileUrl: toDriveProxyDownloadUrl({
+          driveUrl:
+            "https://drive.google.com/file/d/1XO7XfeiCR63PEzSQ1PA7fholMdnEpT0a/view?usp=drive_link",
+          filename: "TG-Gazette-Newsletter-August2025.pdf",
+        }),
       },
     ],
     [],

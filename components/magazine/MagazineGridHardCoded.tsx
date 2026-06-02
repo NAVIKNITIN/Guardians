@@ -22,6 +22,41 @@ import { LOCAL_IMAGES } from "@/lib/local-images";
 // import { filterArticles } from "@/src/api/services/articleService";
 import { useMemo, useState } from "react";
 
+function toGoogleDriveDownloadUrl(url: string): string {
+  try {
+    const u = new URL(url);
+    if (u.hostname === "drive.google.com" && u.pathname === "/uc") return url;
+
+    const pathMatch = u.pathname.match(/^\/file\/d\/([^/]+)\/?/);
+    const id = pathMatch?.[1] ?? u.searchParams.get("id");
+    if (!id) return url;
+
+    const direct = new URL("https://drive.google.com/uc");
+    direct.searchParams.set("export", "download");
+    direct.searchParams.set("id", id);
+    return direct.toString();
+  } catch {
+    return url;
+  }
+}
+
+function toDriveProxyDownloadUrl(args: { driveUrl: string; filename: string }): string {
+  const direct = toGoogleDriveDownloadUrl(args.driveUrl);
+  try {
+    const u = new URL(direct);
+    const id = u.searchParams.get("id");
+    if (!id) return direct;
+    return (
+      "/api/publications/download?kind=drive&file=" +
+      encodeURIComponent(id) +
+      "&name=" +
+      encodeURIComponent(args.filename)
+    );
+  } catch {
+    return direct;
+  }
+}
+
 export function MagazineGridHardCoded() {
   const [activeIssue, setActiveIssue] = useState<PublicationIssue | null>(null);
   const issues: PublicationIssue[] = useMemo(
@@ -33,9 +68,11 @@ export function MagazineGridHardCoded() {
         imageAlt: "Guardians Magazine — January 2025",
         fallbackSrc: LOCAL_IMAGES.blogDetail,
         href: "/magazine/1",
-        fileUrl:
-          "/api/publications/download?kind=magazine&file=" +
-          encodeURIComponent("OPEN ACRES Feb 2025.pdf"),
+        fileUrl: toDriveProxyDownloadUrl({
+          driveUrl:
+            "https://drive.google.com/file/d/1LgDRfgOuvoSY0Em7bj8H2C00UFpSiMsu/view?usp=drive_link",
+          filename: "Guardians-Magazine-January-2025.pdf",
+        }),
       },
       {
         id: "2",
@@ -44,9 +81,12 @@ export function MagazineGridHardCoded() {
         imageAlt: "Guardians Magazine — February 2024",
         fallbackSrc: LOCAL_IMAGES.blogDetail,
         href: "/magazine/2",
-        fileUrl:
-          "/api/publications/download?kind=magazine&file=" +
-          encodeURIComponent("OPEN ACRES June 2024.pdf"),
+        fileUrl: toDriveProxyDownloadUrl({
+          driveUrl:
+            
+            "https://drive.google.com/file/d/1fVjtTGoxG9Az-vYCMX7J3Fjj9jIKyj9-/view?usp=drive_link",
+          filename: "Guardians-Magazine-February-2024.pdf",
+        }),
       },
     ],
     [],
