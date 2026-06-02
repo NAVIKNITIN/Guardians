@@ -29,84 +29,34 @@ export type PartnersTestimonial = {
 const TESTIMONIALS: PartnersTestimonial[] = [
   {
     id: "1",
-    brandLogoSrc: partnerLogo(29),
+    brandLogoSrc: "/images/partners/gbd-logo.png",
     brandLogoAlt: "Adani Realty",
     quote:
-      "Lorem ipsum dolor sit amet consectetur. Aliquam vel consectetur feugiat nibh sed eget lacus sed. Turpis sit bibendum nisl egestas nunc lacinia sit gravida fringilla.",
-    name: "Abhishek Naagar",
-    role: "Project Manager, Adani Realty",
-    location: "BKC, Mumbai",
+      "Our journey is defined by the trust and confidence of our esteemed clients. Bajrang Singh, Managing Director of GBD Realty, shares his thoughts on our collaboration and the impact we’ve created together. Stay tuned as we bring you more success stories!",
+    name: "Bajrang Singh",
+    role: "Managing Director, GBD Realty",
+    location: "",
   },
   {
     id: "2",
-    brandLogoSrc: partnerLogo(33),
+    brandLogoSrc: "/images/partners/haware-logo.png",
     brandLogoAlt: "Godrej Properties",
     quote:
-      "Lorem ipsum dolor sit amet consectetur. Aliquam vel consectetur feugiat nibh sed eget lacus sed. Turpis sit bibendum nisl egestas nunc lacinia sit gravida fringilla.",
+      "We take pride in delivering excellence, and nothing speaks louder than the words of our valued clients. Amit Haware, CEO & MD of Haware Properties, shares his experience working with us, highlighting our commitment to trust, quality, and innovation. Stay tuned for more insights!",
     name: "Priya Shah",
-    role: "Head of Sales, Godrej Properties",
-    location: "Lower Parel, Mumbai",
+    role: "CEO & MD, Haware Properties",
+    location: "",
   },
   {
     id: "3",
-    brandLogoSrc: partnerLogo(34),
+    brandLogoSrc: "/images/partners/promesa-logo.svg",
     brandLogoAlt: "Marathon Group",
     quote:
-      "Lorem ipsum dolor sit amet consectetur. Aliquam vel consectetur feugiat nibh sed eget lacus sed. Turpis sit bibendum nisl egestas nunc lacinia sit gravida fringilla.",
+      "Mamik Jain & Pritesh Jain, Directors of Promesa Realty, share their insights on the evolving real estate landscape. Stay tuned as we bring you their vision, expertise, and success story!",
     name: "Rahul Verma",
-    role: "Director — Projects, Marathon Group",
-    location: "Byculla, Mumbai",
-  },
-  {
-    id: "4",
-    brandLogoSrc: partnerLogo(36),
-    brandLogoAlt: "Sunteck Realty",
-    quote:
-      "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam eaque ipsa quae ab illo inventore veritatis.",
-    name: "Ananya Desai",
-    role: "VP — Customer Experience, Sunteck",
-    location: "Goregaon, Mumbai",
-  },
-  {
-    id: "5",
-    brandLogoSrc: partnerLogo(38),
-    brandLogoAlt: "Piramal Realty",
-    quote:
-      "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.",
-    name: "Karan Mehta",
-    role: "Associate Director, Piramal Realty",
-    location: "Thane, Mumbai",
-  },
-  {
-    id: "6",
-    brandLogoSrc: partnerLogo(39),
-    brandLogoAlt: "Ashford Group",
-    quote:
-      "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti quos dolores et quas molestias excepturi.",
-    name: "Neha Kulkarni",
-    role: "Sales Lead, Ashford Group",
-    location: "Navi Mumbai",
-  },
-  {
-    id: "7",
-    brandLogoSrc: partnerLogo(32),
-    brandLogoAlt: "Sheth Creators",
-    quote:
-      "Lorem ipsum dolor sit amet consectetur. Aliquam vel consectetur feugiat nibh sed eget lacus sed. Turpis sit bibendum nisl egestas nunc lacinia sit gravida fringilla.",
-    name: "Vikram Joshi",
-    role: "Director — Sales, Sheth Creators",
-    location: "Andheri, Mumbai",
-  },
-  {
-    id: "8",
-    brandLogoSrc: partnerLogo(47),
-    brandLogoAlt: "Guru Prerna Corporation",
-    quote:
-      "Lorem ipsum dolor sit amet consectetur. Aliquam vel consectetur feugiat nibh sed eget lacus sed. Turpis sit bibendum nisl egestas nunc lacinia sit gravida fringilla.",
-    name: "Priya Mehta",
-    role: "Director — Sales, Guru Prerna Corporation",
-    location: "Andheri, Mumbai",
-  },
+    role: "Directors of Promesa Realty",
+    location: "",
+  }, 
 ];
 
 export const TestimonialCard = memo(function TestimonialCard({
@@ -164,8 +114,9 @@ function visibleForPage(
   page: number,
 ): PartnersTestimonial[] {
   const n = items.length;
-  return Array.from({ length: VISIBLE_COUNT }, (_, offset) => {
-    const i = (page * VISIBLE_COUNT + offset) % n;
+  const visibleCount = Math.min(VISIBLE_COUNT, n);
+  return Array.from({ length: visibleCount }, (_, offset) => {
+    const i = (page * visibleCount + offset) % n;
     return items[i]!;
   });
 }
@@ -173,8 +124,9 @@ function visibleForPage(
 export function PartnersTestimonials() {
   const items = TESTIMONIALS;
   const n = items.length;
+  const visibleCount = Math.min(VISIBLE_COUNT, n);
   const isMobileCarousel = useViewportIsMobile(true, MOBILE_CAROUSEL_BREAKPOINT_PX);
-  const desktopPageCount = Math.max(1, Math.ceil(n / VISIBLE_COUNT));
+  const desktopPageCount = Math.max(1, Math.ceil(n / visibleCount));
   const pageCount = isMobileCarousel ? n : desktopPageCount;
   const { index: page, advance, setIndex } = useCycleIndex(pageCount, 0);
 

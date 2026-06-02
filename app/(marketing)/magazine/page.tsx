@@ -1,6 +1,7 @@
 import { MagazineGrid } from "@/components/magazine/MagazineGrid";
 import { MagazineHero } from "@/components/magazine/MagazineHero";
 import type { Metadata } from "next";
+import { MagazineGridHardCoded } from "@/components/magazine/MagazineGridHardCoded";
 
 export const metadata: Metadata = {
   title: { absolute: "Magazine | The Guardians" },
@@ -12,7 +13,8 @@ export default function MagazinePage() {
   return (
     <>
       <MagazineHero />
-      <MagazineGrid />
+      {/* <MagazineGrid /> */}
+      <MagazineGridHardCoded />
     </>
   );
 }

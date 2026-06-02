@@ -28,13 +28,12 @@ const brandCards = [
   { title: "Cavalry", subtitle: "The Guardians", url: "/images/Group 66.svg" },
 ] as const;
 
-const heroImage = "/images/mumbai-skyline-bw.png";
 const brandPromiseOrnament = "/images/ornament.jpeg";
 
 const leadershipSlides = [
   {
     id: "leader-1",
-    imageSrc: "/images/about/Leader.png",
+    imageSrc: "/images/about/Ram-Naik.jpg",
     imageAlt: "Leadership portrait 1",
     title: "We stay ahead of the curve with strategy",
     body:
@@ -45,7 +44,7 @@ const leadershipSlides = [
   },
   {
     id: "leader-2",
-    imageSrc: "/images/about/Leader.png",
+    imageSrc: "/images/about/Kaushal-Agarwal.jpg",
     imageAlt: "Leadership portrait 2",
     title: "We stay ahead of the curve with strategy",
     body:
@@ -56,7 +55,7 @@ const leadershipSlides = [
   },
   {
     id: "leader-3",
-    imageSrc: "/images/about/Leader.png",
+    imageSrc: "/images/about/Jayesh-Rathod.jpg",
     imageAlt: "Leadership portrait 3",
     title: "We stay ahead of the curve with strategy",
     body:
@@ -67,7 +66,7 @@ const leadershipSlides = [
   },
   {
     id: "leader-4",
-    imageSrc: "/images/about/Leader.png",
+    imageSrc: "/images/about/Khetsi-Barot.jpg",
     imageAlt: "Leadership portrait 4",
     title: "We stay ahead of the curve with strategy",
     body:

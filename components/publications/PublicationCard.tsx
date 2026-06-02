@@ -14,11 +14,12 @@ export type PublicationIssue = {
   imageAlt: string;
   fallbackSrc?: string;
   href?: string;
+  fileUrl?: string;
 };
 
 type PublicationCardProps = {
   issue: PublicationIssue;
-  onOpenFile: (title: string) => void;
+  onOpenFile: (issue: PublicationIssue) => void;
   /** Button label — defaults to "Open File" */
   buttonLabel?: string;
   className?: string;
@@ -54,7 +55,7 @@ export function PublicationCard({
 
       {/* Open File button */}
       <OutlineArrowButton
-        onClick={() => onOpenFile(issue.title)}
+        onClick={() => onOpenFile(issue)}
         className={cn(publicationCardOutlineCtaClass, "mt-5")}
         iconClassName={audienceMarketingOutlineCtaIconClass}
       >

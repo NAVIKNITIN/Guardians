@@ -14,6 +14,7 @@ interface DownloadModalProps {
   isOpen: boolean;
   onClose: () => void;
   issueTitle: string;
+  fileUrl?: string;
 }
 
 function RadioCircle({ checked }: { checked: boolean }) {
@@ -44,9 +45,32 @@ function ChevronDown() {
 const inputCls =
   "w-full border border-black/20 bg-black/5 px-3.5 py-3 n-reg  text-base text-black/60 placeholder:text-black/60 focus:outline-none focus:border-black/40 transition-colors";
 
-export function DownloadModal({ isOpen, onClose, issueTitle }: DownloadModalProps) {
+export function DownloadModal({
+  isOpen,
+  onClose,
+  issueTitle,
+  fileUrl,
+}: DownloadModalProps) {
   const [userType, setUserType] = useState<UserType>("business");
+  const [formError, setFormError] = useState<string | null>(null);
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [company, setCompany] = useState("");
+  const [designation, setDesignation] = useState("");
   const overlayRef = useRef<HTMLDivElement>(null);
+
+  const resetForm = () => {
+    setFormError(null);
+    setFirstName("");
+    setLastName("");
+    setEmail("");
+    setPhone("");
+    setCompany("");
+    setDesignation("");
+    setUserType("business");
+  };
 
   // Close on Escape
   useEffect(() => {
@@ -64,7 +88,32 @@ export function DownloadModal({ isOpen, onClose, issueTitle }: DownloadModalProp
     return () => { document.body.style.overflow = ""; };
   }, [isOpen]);
 
+  useEffect(() => {
+    if (!isOpen) return;
+    resetForm();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen, issueTitle]);
+
+  useEffect(() => {
+    if (userType !== "employee") setDesignation("");
+  }, [userType]);
+
   if (!isOpen) return null;
+
+  const normalizedPhone = phone.replace(/\s+/g, "");
+  const isValidEmail = (value: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+  const isValidPhone = (value: string) => /^\d{10}$/.test(value.trim());
+
+  const validate = () => {
+    if (!firstName.trim()) return "Please enter your first name.";
+    if (!lastName.trim()) return "Please enter your last name.";
+    if (!email.trim() || !isValidEmail(email)) return "Please enter a valid email.";
+    if (!normalizedPhone || !isValidPhone(normalizedPhone)) return "Please enter a valid 10-digit phone number.";
+    if (!company.trim()) return "Please enter your company name.";
+    if (userType === "employee" && !designation.trim()) return "Please enter your designation.";
+    if (!fileUrl) return "Download is unavailable for this issue.";
+    return null;
+  };
 
   return (
     <div
@@ -105,9 +154,41 @@ export function DownloadModal({ isOpen, onClose, issueTitle }: DownloadModalProp
         {/* Form */}
         <form
           className="mt-8 mx-auto max-w-[452px]"
-          onSubmit={(e) => { e.preventDefault(); onClose(); }}
+          onSubmit={(e) => {
+            e.preventDefault();
+
+            const error = validate();
+            if (error) {
+              setFormError(error);
+              return;
+            }
+
+            setFormError(null);
+
+            // Trigger browser download (served by `/api/publications/download`)
+            // Note: keep the download behavior here so we only download after submit.
+            if (fileUrl) {
+              const a = document.createElement("a");
+              a.href = fileUrl;
+              a.download = "";
+              a.rel = "noopener";
+              document.body.appendChild(a);
+              a.click();
+              a.remove();
+            }
+
+            resetForm();
+            onClose();
+          }}
           noValidate
+          data-file-url={fileUrl ?? ""}
         >
+          {formError ? (
+            <p className="mb-4 rounded border border-red-500/30 bg-red-500/10 px-3 py-2 n-reg text-sm text-red-700">
+              {formError}
+            </p>
+          ) : null}
+
           {/* User type toggle */}
           <div className="flex items-center gap-6 mb-6">
             <button
@@ -135,12 +216,18 @@ export function DownloadModal({ isOpen, onClose, issueTitle }: DownloadModalProp
               type="text"
               placeholder="First Name"
               aria-label="First Name"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
             />
             <input
               className={inputCls}
               type="text"
               placeholder="Last Name"
               aria-label="Last Name"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required
             />
           </div>
 
@@ -151,6 +238,9 @@ export function DownloadModal({ isOpen, onClose, issueTitle }: DownloadModalProp
               type="email"
               placeholder="Email"
               aria-label="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
             />
           </div>
 
@@ -165,23 +255,39 @@ export function DownloadModal({ isOpen, onClose, issueTitle }: DownloadModalProp
               type="tel"
               placeholder="Phone Number"
               aria-label="Phone Number"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+              inputMode="numeric"
+              pattern="\\d{10}"
+              required
             />
           </div>
 
           {/* Company Name */}
           <div className="mb-3">
-            <div className={cn(inputCls, "flex items-center justify-between cursor-pointer")}>
-              <span>Company Name</span>
-              <ChevronDown />
-            </div>
+            <input
+              className={inputCls}
+              type="text"
+              placeholder="Company Name"
+              aria-label="Company Name"
+              value={company}
+              onChange={(e) => setCompany(e.target.value)}
+              required
+            />
           </div>
 
           {/* Designation — Employee only */}
           {userType === "employee" && (
             <div className="mb-3">
-              <div className={cn(inputCls, "flex items-center justify-between cursor-pointer")}>
-                <span>Designation</span>
-              </div>
+              <input
+                className={inputCls}
+                type="text"
+                placeholder="Designation"
+                aria-label="Designation"
+                value={designation}
+                onChange={(e) => setDesignation(e.target.value)}
+                required
+              />
             </div>
           )}
 

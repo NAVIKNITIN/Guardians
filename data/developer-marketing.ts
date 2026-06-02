@@ -178,19 +178,19 @@ export const DEVELOPER_MARKETING_PAGE = {
       {
         id: "residential",
         title: "Residential",
-        src: "/images/Developer/ourservices/1.svg",
+        src: "/images/OurServices/Residential Services.jpg",
         description: "End-to-end advisory covering market analysis, micro-market dynamics, unit mix planning, pricing strategy, channel partner mapping and sales lifecycle management for residential developments.",
       },
       {
         id: "business",
         title: "Business Solutions",
-        src: "/images/Developer/ourservices/2.svg",
+        src: "/images/OurServices/Business Solutions.jpg",
         description: "Consulting solutions for commercial, retail and mixed-use assets including absorption strategy, investor targeting, tenant profiling, product positioning and long-term revenue planning.",
       },
       {
         id: "buyer-assist",
         title: "Developer Solutions",
-        src: "/images/Developer/ourservices/2.svg",
+        src: "/images/OurServices/Developer Solutions.jpg",
         description: "Specialised support for developers including launch planning, sales infrastructure setup, project branding coordination, documentation support, inventory planning, channel partner engagement and performance tracking across sales cycles.",
       },
     ]

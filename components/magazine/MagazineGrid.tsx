@@ -26,7 +26,7 @@ import { filterArticles } from "@/src/api/services/articleService";
 import { useEffect, useMemo, useState } from "react";
 
 export function MagazineGrid() {
-  const [activeIssue, setActiveIssue] = useState<string | null>(null);
+  const [activeIssue, setActiveIssue] = useState<PublicationIssue | null>(null);
   const [issues, setIssues] = useState<PublicationIssue[]>([]);
   const [visibleCount, setVisibleCount] = useState(LISTING_PAGE_SIZE);
   const [isLoading, setIsLoading] = useState(true);
@@ -143,7 +143,8 @@ export function MagazineGrid() {
       <DownloadModal
         isOpen={activeIssue !== null}
         onClose={() => setActiveIssue(null)}
-        issueTitle={activeIssue ?? ""}
+        issueTitle={activeIssue?.title ?? ""}
+        fileUrl={activeIssue?.fileUrl}
       />
     </section>
   );

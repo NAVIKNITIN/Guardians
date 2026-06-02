@@ -80,11 +80,7 @@ function BuyerProfileCard({
 
           <OutlineArrowButton
             href="/buyer"
-            className={cn(
-              dividerCardCtaClassName,
-              "mt-1 h-[43px] w-fit shrink-0 lg:mt-0",
-            )}
-            iconClassName="h-[13px] w-[13px] shrink-0"
+            iconClassName="h-[13px] w-[13px]"
           >
             Explore Journey
           </OutlineArrowButton>
@@ -160,10 +156,7 @@ function DeveloperProfileCard({
 
           <OutlineArrowButton
             href="/developer"
-            className={cn(
-              dividerCardCtaClassName,
-              "divider-card-cta-slow mt-1 w-fit shrink-0 self-start lg:mt-0 lg:self-end",
-            )}
+            
             iconClassName="h-[13px] w-[13px] shrink-0"
           >
             Explore Journey

@@ -1,6 +1,7 @@
 import { GazetteGrid } from "@/components/gazette/GazetteGrid";
 import { GazetteHero } from "@/components/gazette/GazetteHero";
 import type { Metadata } from "next";
+import { GazetteGridHardCoded } from "@/components/gazette/GazetteGridHardCoded";
 
 export const metadata: Metadata = {
   title: { absolute: "Gazette | The Guardians" },
@@ -12,7 +13,8 @@ export default function GazettePage() {
   return (
     <>
       <GazetteHero />
-      <GazetteGrid />
+      {/* <GazetteGrid /> */}
+      <GazetteGridHardCoded />
     </>
   );
 }

@@ -6,19 +6,19 @@ const KNOW_MORE = CONTACT;
 export const BUYER_SERVICE_TILES: ServiceTile[] = [
   {
     label: "Residential Services",
-    imageSrc: "/images/Buyer/services/resident.svg",
+    imageSrc: "/images/OurServices/Residential Services.jpg",
     imageAlt: "Residential Services",
     href: KNOW_MORE,
   },
   {
     label: "Commercial Services",
-    imageSrc: "/images/Developer/services/commercial.svg",
+    imageSrc: "/images/OurServices/Commercial Services.jpg",
     imageAlt: "Commercial Services",
     href: KNOW_MORE,
   },
   {
     label: "Buyer Assist",
-    imageSrc: "/images/Developer/ourservices/2.svg",
+    imageSrc: "/images/OurServices/Buyer Assist.jpg",
     imageAlt: "Buyer Assist",
     href: KNOW_MORE,
   },
