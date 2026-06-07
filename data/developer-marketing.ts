@@ -153,17 +153,38 @@ export const DEV_LANDMARK_COMPLETED_BUYER_MARKETING: LandmarkProject[] = DEV_LAN
   }),
 );
 
-const AWARD_ROTATION_IMAGES = [
-  "/images/award.svg",
-  "/images/tgrea2.svg",
+const AWARD_IMAGE_FILES = [
+  "IMG_6294 .png",
+  "IMG_6295.png",
+  "IMG_6297.png",
+  "IMG_6299.png",
+  "IMG_6300.png",
+  "IMG_6301.png",
+  "IMG_6302.png",
+  "IMG_6305.png",
+  "IMG_6306 .png",
+  "IMG_6307.png",
+  "IMG_6308.png",
+  "IMG_6309.png",
+  "IMG_6310 .png",
+  "IMG_6311.png",
+  "IMG_6312.png",
+  "IMG_6313.png",
+  "IMG_6314.png",
+  "IMG_6315.png",
+  "IMG_6316.png",
+  "IMG_6317.png",
 ] as const;
 
-const DEV_AWARD_SLIDES: AwardSlide[] = Array.from({ length: 25 }, (_, i) => ({
+const awardImageSrc = (filename: string) =>
+  `/images/awards/${encodeURIComponent(filename)}`;
+
+const DEV_AWARD_SLIDES: AwardSlide[] = AWARD_IMAGE_FILES.map((filename, i) => ({
   id: String(i + 1),
   company: "[COMPANY NAME HERE]",
   achievement: "[Achievement here]",
   year: "[YEAR RECEIVED]",
-  imageSrc: AWARD_ROTATION_IMAGES[i % AWARD_ROTATION_IMAGES.length],
+  imageSrc: awardImageSrc(filename),
 }));
 
 export const DEVELOPER_MARKETING_PAGE = {
