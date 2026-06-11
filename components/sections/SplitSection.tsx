@@ -65,6 +65,7 @@ export function SplitSection({
             </p>
             <OutlineArrowButton
               href={href}
+              target="_blank"
               iconClassName={audienceMarketingOutlineCtaIconClass}
               className={cn(
                 audienceMarketingOutlineCtaClass,

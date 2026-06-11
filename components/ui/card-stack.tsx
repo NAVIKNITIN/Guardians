@@ -50,20 +50,8 @@ const CardStackInner = forwardRef<CardStackHandle, CardStackProps>(
 			};
 		}, [items]);
 
+		// next: front card moves to the back, revealing the following slide
 		const animateNext = () => {
-			if (cards.length <= 1) return false;
-
-			setCards((prev) => {
-				const arr = [...prev];
-				const last = arr.pop();
-				if (last) arr.unshift(last);
-				return arr;
-			});
-
-			return true;
-		};
-
-		const animatePrev = () => {
 			if (cards.length <= 1) return false;
 
 			setCards((prev) => {
@@ -81,6 +69,20 @@ const CardStackInner = forwardRef<CardStackHandle, CardStackProps>(
 					}, 80);
 				}
 
+				return arr;
+			});
+
+			return true;
+		};
+
+		// prev: the previous slide comes back from the rear onto the top of the stack
+		const animatePrev = () => {
+			if (cards.length <= 1) return false;
+
+			setCards((prev) => {
+				const arr = [...prev];
+				const last = arr.pop();
+				if (last) arr.unshift(last);
 				return arr;
 			});
 
@@ -156,12 +158,13 @@ const CardStackInner = forwardRef<CardStackHandle, CardStackProps>(
 										/>
 									</div>
 
-									<div className="absolute inset-0 z-10">
+									{/* inset wrapper keeps the photo clear of the top ornament and fully inside the card */}
+									<div className="absolute inset-x-[8%] bottom-[4%] top-[13%] z-10">
 										<Image
 											src={card.imageSrc}
 											alt=""
 											fill
-											className="object-contain object-center scale-[0.82] translate-y-6"
+											className="object-contain object-center"
 											sizes="(max-width: 1024px) 100vw, 520px"
 											priority={index === 0}
 										/>

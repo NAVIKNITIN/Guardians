@@ -153,38 +153,45 @@ export const DEV_LANDMARK_COMPLETED_BUYER_MARKETING: LandmarkProject[] = DEV_LAN
   }),
 );
 
-const AWARD_IMAGE_FILES = [
-  "IMG_6294 .png",
-  "IMG_6295.png",
-  "IMG_6297.png",
-  "IMG_6299.png",
-  "IMG_6300.png",
-  "IMG_6301.png",
-  "IMG_6302.png",
-  "IMG_6305.png",
-  "IMG_6306 .png",
-  "IMG_6307.png",
-  "IMG_6308.png",
-  "IMG_6309.png",
-  "IMG_6310 .png",
-  "IMG_6311.png",
-  "IMG_6312.png",
-  "IMG_6313.png",
-  "IMG_6314.png",
-  "IMG_6315.png",
-  "IMG_6316.png",
-  "IMG_6317.png",
-] as const;
+type AwardImageEntry = {
+  file: string;
+  title: string;
+  subtitle: string;
+  year: string;
+};
+
+const AWARD_IMAGE_FILES: AwardImageEntry[] = [
+  { file: "IMG_6294 .png", title: "NAREDCO Maharashtra", subtitle: "HOMETHON Property Expo", year: "2022" },
+  { file: "IMG_6295.png", title: "ET Real Estate Conclave Awards", subtitle: "360 Degree Marketing Campaign — Dosti Eastern Bay", year: "2021" },
+  { file: "IMG_6297.png", title: "SBI Home Loans", subtitle: "Contribution to Home Loan Business", year: "2022" },
+  { file: "IMG_6299.png", title: "Bank of Baroda", subtitle: "Contribution in Home Loan Business", year: "2022" },
+  { file: "IMG_6300.png", title: "ICICI Bank", subtitle: "Partners in Prosperity — Mortgage Business", year: "" },
+  { file: "IMG_6301.png", title: "HDFC Bank Home Loan", subtitle: "CREDAI-MCHI Property Expo", year: "2024" },
+  { file: "IMG_6302.png", title: "Axis Bank", subtitle: "Certificate of Appreciation", year: "" },
+  { file: "IMG_6305.png", title: "Real Estate & Business Excellence Awards", subtitle: "Excellence in Marketing and Distribution Strategy", year: "2023" },
+  { file: "IMG_6306 .png", title: "SBI Home Loans", subtitle: "Award of Appreciation — Home Loan Business", year: "2023" },
+  { file: "IMG_6307.png", title: "ET Real Estate Conclave Awards", subtitle: "Property Launch Campaign — Passcode Great Guarantee", year: "2021" },
+  { file: "IMG_6308.png", title: "NAREDCO Maharashtra", subtitle: "HOMETHON Property Expo", year: "2023" },
+  { file: "IMG_6309.png", title: "ICICI Bank Home Loans", subtitle: "Top 10 in Disbursements PAN-India", year: "2021" },
+  { file: "IMG_6310 .png", title: "ICICI Bank Home Loans", subtitle: "Top 10 in Disbursements PAN-India", year: "2022" },
+  { file: "IMG_6311.png", title: "Real Estate & Business Excellence Awards", subtitle: "Certificate of Excellence — Marketing and Distribution Strategy", year: "2023" },
+  { file: "IMG_6312.png", title: "ICICI Bank Home Loans", subtitle: "Top 10 in Disbursements PAN-India", year: "2022" },
+  { file: "IMG_6313.png", title: "SBI Home Loans", subtitle: "Award of Excellence", year: "" },
+  { file: "IMG_6314.png", title: "GEAWA", subtitle: "GEAWA Premier League", year: "2023" },
+  { file: "IMG_6315.png", title: "ICICI Bank Home Loans", subtitle: "Top 10 in Disbursements PAN-India", year: "2021" },
+  { file: "IMG_6316.png", title: "ICICI Bank Home Loans", subtitle: "Top 10 in Disbursements PAN-India", year: "2022" },
+  { file: "IMG_6317.png", title: "The Economic Times", subtitle: "Best Realty Brands", year: "2020-21" },
+];
 
 const awardImageSrc = (filename: string) =>
   `/images/awards/${encodeURIComponent(filename)}`;
 
-const DEV_AWARD_SLIDES: AwardSlide[] = AWARD_IMAGE_FILES.map((filename, i) => ({
+const DEV_AWARD_SLIDES: AwardSlide[] = AWARD_IMAGE_FILES.map((entry, i) => ({
   id: String(i + 1),
-  company: "[COMPANY NAME HERE]",
-  achievement: "[Achievement here]",
-  year: "[YEAR RECEIVED]",
-  imageSrc: awardImageSrc(filename),
+  company: entry.title,
+  achievement: entry.subtitle,
+  year: entry.year,
+  imageSrc: awardImageSrc(entry.file),
 }));
 
 export const DEVELOPER_MARKETING_PAGE = {

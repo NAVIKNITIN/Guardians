@@ -12,7 +12,7 @@ export const BUYER_SERVICE_TILES: ServiceTile[] = [
   },
   {
     label: "Commercial Services",
-    imageSrc: "/images/OurServices/Commercial Services.jpg",
+    imageSrc: "/images/Developer/services/commercial.svg",
     imageAlt: "Commercial Services",
     href: KNOW_MORE,
   },

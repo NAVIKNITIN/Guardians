@@ -37,6 +37,7 @@ function AwardsSectionBody({
 	const total = content.slides.length;
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const [rollDir, setRollDir] = useState<1 | -1>(1);
+	const [isTransitioning, setIsTransitioning] = useState(false);
 	const cardStackRef = useRef<CardStackHandle>(null);
 	const contentTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
@@ -57,15 +58,18 @@ function AwardsSectionBody({
 			clearTimeout(contentTimerRef.current);
 		}
 
+		setIsTransitioning(true);
 		contentTimerRef.current = setTimeout(() => {
 			setCurrentIndex((prev) =>
 				direction === 1 ? (prev + 1) % total : (prev - 1 + total) % total,
 			);
 			contentTimerRef.current = null;
+			setIsTransitioning(false);
 		}, CARD_STACK_EXIT_DURATION_MS);
 	};
 
 	const goNext = () => {
+		if (isTransitioning) return;
 		setRollDir(1);
 		if (cardStackRef.current?.next()) {
 			syncContentChange(1);
@@ -73,6 +77,7 @@ function AwardsSectionBody({
 	};
 
 	const goPrev = () => {
+		if (isTransitioning) return;
 		setRollDir(-1);
 		if (cardStackRef.current?.prev()) {
 			syncContentChange(-1);
@@ -139,6 +144,7 @@ function AwardsSectionBody({
 							total={total}
 							onPrev={goPrev}
 							onNext={goNext}
+							disabled={isTransitioning}
 							prevLabel="Previous award"
 							nextLabel="Next award"
 							buttonClassName="cursor-pointer border-0  bg-transparent hover:bg-transparent"

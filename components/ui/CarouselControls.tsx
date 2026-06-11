@@ -15,6 +15,8 @@ export type CarouselControlsProps = {
   onNext: () => void;
   prevLabel: string;
   nextLabel: string;
+  /** Disable both prev/next buttons (e.g. while a slide transition runs) */
+  disabled?: boolean;
   /** @default true */
   showCounter?: boolean;
   className?: string;
@@ -39,6 +41,7 @@ export function CarouselControls({
   onNext,
   prevLabel,
   nextLabel,
+  disabled = false,
   showCounter = true,
   className,
   buttonClassName,
@@ -50,6 +53,7 @@ export function CarouselControls({
       <RoundIconButton
         label={prevLabel}
         onClick={onPrev}
+        disabled={disabled}
         className={buttonClassName}
       >
         <Image
@@ -77,6 +81,7 @@ export function CarouselControls({
       <RoundIconButton
         label={nextLabel}
         onClick={onNext}
+        disabled={disabled}
         className={buttonClassName}
       >
         <Image
