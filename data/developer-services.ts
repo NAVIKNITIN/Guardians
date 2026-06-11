@@ -30,7 +30,7 @@ export const DEVELOPER_SERVICE_TILES: ServiceTile[] = [
   },
   {
     label: "Financial Services",
-    imageSrc: "/images/Buyer/services/market.svg",
+    imageSrc: "/images/Developer/services/image 162.png",
     imageAlt: "Financial Services",
     href: KNOW_MORE,
   },
