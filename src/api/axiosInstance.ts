@@ -22,6 +22,10 @@ axiosInstance.interceptors.request.use((config) => {
   if (isAuthenticated()) {
     config.headers.set("x-auth", "true");
   }
+  // Browser must set multipart boundary; a preset Content-Type breaks file uploads.
+  if (typeof FormData !== "undefined" && config.data instanceof FormData) {
+    config.headers.delete("Content-Type");
+  }
   return config;
 });
 

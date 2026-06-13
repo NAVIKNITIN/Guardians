@@ -5,6 +5,7 @@
  * - `GET /api/projects/:id` → `getProjectById`
  * - `POST /api/projects` → `createProject` (body: name, type, rera_number, files: [{ file_id }], …)
  * - `PUT /api/projects/:id` → `updateProject`
+ * - `DELETE /api/projects/:id` → `deleteProject`
  */
 import { axiosInstance } from "../axiosInstance";
 import { buildQueryString } from "../params";
@@ -108,4 +109,8 @@ export function updateProject(
       headers: { "Content-Type": "application/json" },
     })
     .then((r) => r.data);
+}
+
+export function deleteProject(id: string | number) {
+  return axiosInstance.delete<unknown>(`/projects/${id}`).then((r) => r.data);
 }

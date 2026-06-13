@@ -424,7 +424,7 @@ function ProjectsPageContent() {
       <MarketingPageHero
         heroId="projects"
         projectsStage={filterStage === "Completed" ? "Completed" : "Ongoing"}
-        heightPx={750}
+        heightPx={900}
         mobileHeightPx={500}
         useViewportHeightFlag
         viewportHeightBreakpointPx={VIEWPORT_HEIGHT_BREAKPOINT_PX}

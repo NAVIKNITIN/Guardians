@@ -3,7 +3,7 @@ import { resolveProjectListingThumbnail } from "@/lib/mappers/projectListingThum
 /** Aligned with marketing `projects` page filters (`budget` buckets match the UI). */
 export type ProjectRowFilterShape = {
   id: number;
-  imageSrc: string;
+  imageSrc: string | null;
   title: string;
   subtitle: string;
   badge?: { label?: string; count?: number; variant: "units-left" | "completed" };

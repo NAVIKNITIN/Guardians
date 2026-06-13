@@ -42,3 +42,6 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 .cursor
+
+# local-only dev utilities (import scripts, one-off tools — never commit)
+/scripts/local/

@@ -1,13 +1,11 @@
 "use client";
 
-import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { FileUploadField } from "@/components/common/FileUploadField";
 import { useRouter, useSearchParams } from "next/navigation";
 import type { ChangeEvent, ComponentProps, ReactNode } from "react";
 import { useEffect, useRef, useState } from "react";
 import {
   uploadFile as uploadFileRequest,
-  uploadFilesBulk,
 } from "@/src/api/services/fileService";
 import {
   createProject,
@@ -18,10 +16,8 @@ import {
   IconCheckSeal,
   IconImageSquare,
   IconInfoCircle,
-  IconMapPin,
   IconPlus,
   IconRoute,
-  IconSave,
   IconSparkles,
   IconUpload,
 } from "@/components/admin/panel/AdminIcons";
@@ -33,23 +29,23 @@ import {
 } from "@/lib/admin/amenityCatalog";
 import { cn } from "@/utils/cn";
 import {
+  ALLOWED_UPLOAD_IMAGE_ACCEPT,
   getUploadErrorMessage,
-  MAX_BULK_UPLOAD_FILE_BYTES,
-  formatMaxBulkUploadSizeMb,
+  MAX_UPLOAD_FILE_BYTES,
+  formatMaxUploadSizeMb,
+  validateUploadImageFile,
 } from "@/src/utils/uploadErrorMessage";
-
-type StepId = "basic" | "details" | "location";
 
 type FormState = {
   projectName: string;
   reraNumber: string;
+  /** Maps to API `type` (builder filter on marketing listings). */
+  builderName: string;
   logoFileName: string;
   heroImageName: string;
-  galleryFileNames: string[];
   areaSqft: string;
-  propertyType: string;
   description: string;
-  /** ISO date `YYYY-MM-DD` for API `completion_date` */
+  /** `YYYY-MM` for `<input type="month" />`; sent to API as `YYYY-MM-01`. */
   completionDate: string;
   caseStudyInfo: string;
   /** Project completion flag sent as API `isCompleted`. */
@@ -157,12 +153,6 @@ type SingleFileUploadResponse = {
   data: UploadedFile;
 };
 
-type MultiFileUploadResponse = {
-  success: boolean;
-  message: string;
-  data: UploadedFile[];
-};
-
 type ProjectMutationResponse = {
   success: boolean;
   data: {
@@ -171,20 +161,69 @@ type ProjectMutationResponse = {
   };
 };
 
+type GallerySlot = {
+  fileId: number | null;
+  fileName: string;
+};
+
 type ExistingProjectFiles = {
   logoId: number | null;
   heroId: number | null;
-  galleryIds: number[];
+  gallerySlots: GallerySlot[];
 };
-
-const steps = [
-  { id: "basic", label: "Basic Info & Hero" },
-  { id: "details", label: "Details & Media" },
-  { id: "location", label: "Location & Connectivity" },
-] as const;
 
 /** Gallery SEQUENCE files — exactly this many required on create/update. */
 const REQUIRED_GALLERY_IMAGES = 6;
+
+function createEmptyGallerySlots(): GallerySlot[] {
+  return Array.from({ length: REQUIRED_GALLERY_IMAGES }, () => ({
+    fileId: null,
+    fileName: "",
+  }));
+}
+
+function gallerySlotsFromApiFiles(files: UploadedFile[]): GallerySlot[] {
+  const slots = createEmptyGallerySlots();
+  const sequenceFiles = files
+    .filter((file) => file.file_type === "SEQUENCE")
+    .sort((first, second) => {
+      const firstSeq = first.sequence_no ?? 0;
+      const secondSeq = second.sequence_no ?? 0;
+      return firstSeq - secondSeq;
+    });
+
+  for (const file of sequenceFiles) {
+    const seqIndex = (file.sequence_no ?? 0) - 1;
+    let targetIndex = seqIndex;
+    if (targetIndex < 0 || targetIndex >= REQUIRED_GALLERY_IMAGES) {
+      targetIndex = slots.findIndex((slot) => slot.fileId == null);
+    }
+    if (targetIndex < 0 || targetIndex >= REQUIRED_GALLERY_IMAGES) {
+      continue;
+    }
+    if (slots[targetIndex]?.fileId != null) {
+      targetIndex = slots.findIndex((slot) => slot.fileId == null);
+    }
+    if (targetIndex < 0) continue;
+
+    slots[targetIndex] = {
+      fileId: file.id,
+      fileName: file.file_name ?? "",
+    };
+  }
+
+  return slots;
+}
+
+function filledGalleryCount(slots: GallerySlot[]) {
+  return slots.filter((slot) => slot.fileId != null).length;
+}
+
+function galleryIdsFromSlots(slots: GallerySlot[]) {
+  return slots
+    .map((slot) => slot.fileId)
+    .filter((id): id is number => id != null);
+}
 
 const BUTTON_PRIMARY_CLASS =
   "inline-flex cursor-pointer items-center justify-center gap-2.5 rounded-[14px] text-[0.96rem] font-semibold text-white btn-primary-gradient shadow-[0_14px_24px_rgba(240,150,132,0.22)]";
@@ -233,12 +272,7 @@ function configurationLocationFromApi(configuration: ProjectConfiguration) {
 }
 
 function configurationSectionHasData(section: ConfigurationSection) {
-  return Boolean(
-    section.location.trim() ||
-      section.bhkType.trim() ||
-      section.priceMin.trim() ||
-      section.priceMax.trim(),
-  );
+  return Boolean(section.location.trim() || section.bhkType.trim());
 }
 
 function buildConfigurationApiPayload(
@@ -251,9 +285,9 @@ function buildConfigurationApiPayload(
   const locationText = section.location.trim();
 
   const row: ProjectConfigurationPayload = {
-    bhk_type: section.bhkType.trim(),
-    price_min: parsePrice(section.priceMin),
-    price_max: parsePrice(section.priceMax),
+    bhk_type: section.bhkType.trim() || "—",
+    price_min: parsePrice(section.priceMin) || 0,
+    price_max: parsePrice(section.priceMax) || 0,
     location: locationText.length > 0 ? locationText : null,
     active: section.active,
     status: section.status,
@@ -333,18 +367,80 @@ function trimSectionValue(value: string | number | null | undefined) {
   return toTextValue(value).trim();
 }
 
-/** `YYYY-MM-DD` for `<input type="date" />` from API string or ISO. */
-function toInputDateValue(raw: string | null | undefined): string {
+/** `YYYY-MM` for `<input type="month" />` from API string or ISO. */
+function toInputMonthValue(raw: string | null | undefined): string {
   if (raw == null || raw === "") return "";
   const s = String(raw).trim();
-  if (/^\d{4}-\d{2}-\d{2}/.test(s)) {
-    return s.slice(0, 10);
+  if (/^\d{4}-\d{2}/.test(s)) {
+    return s.slice(0, 7);
   }
   const d = new Date(s);
   if (Number.isNaN(d.getTime())) {
     return "";
   }
-  return d.toISOString().slice(0, 10);
+  const year = d.getUTCFullYear();
+  const month = String(d.getUTCMonth() + 1).padStart(2, "0");
+  return `${year}-${month}`;
+}
+
+/** API `completion_date` from month picker value (`YYYY-MM` → `YYYY-MM-01`). */
+function completionDateForApi(monthValue: string): string | null {
+  const trimmed = monthValue.trim();
+  if (!trimmed) return null;
+  if (/^\d{4}-\d{2}$/.test(trimmed)) {
+    return `${trimmed}-01`;
+  }
+  if (/^\d{4}-\d{2}-\d{2}$/.test(trimmed)) {
+    return trimmed.slice(0, 7) + "-01";
+  }
+  return trimmed;
+}
+
+/**
+ * Compare `YYYY-MM` to the current calendar month.
+ * @returns negative if past, positive if future, 0 if same month, null if invalid/empty.
+ */
+function compareCompletionMonthToToday(
+  monthValue: string,
+  now = new Date(),
+): number | null {
+  const match = /^(\d{4})-(\d{2})$/.exec(monthValue.trim());
+  if (!match) return null;
+
+  const year = Number(match[1]);
+  const month = Number(match[2]);
+  if (!Number.isFinite(year) || !Number.isFinite(month) || month < 1 || month > 12) {
+    return null;
+  }
+
+  const currentYear = now.getFullYear();
+  const currentMonth = now.getMonth() + 1;
+
+  if (year !== currentYear) {
+    return year - currentYear;
+  }
+  return month - currentMonth;
+}
+
+/**
+ * Completed when “Project completed in” is before the current month/year.
+ * Ongoing when it is the same month or in the future.
+ */
+function isCompletedFromCompletionMonth(monthValue: string): boolean {
+  const comparison = compareCompletionMonthToToday(monthValue);
+  if (comparison == null) {
+    return false;
+  }
+  return comparison < 0;
+}
+
+function projectStatusLabelFromCompletionMonth(monthValue: string): string {
+  if (!monthValue.trim()) {
+    return "Set a completion month to classify the project.";
+  }
+  return isCompletedFromCompletionMonth(monthValue)
+    ? "Completed project"
+    : "Ongoing project";
 }
 
 function mapProjectLocationsToSections(
@@ -435,18 +531,48 @@ function SectionCard({
   );
 }
 
+const FIELD_LABEL_CLASS =
+  "block text-[1rem] font-semibold leading-snug text-[#33425e] md:text-[1.05rem]";
+
+const TABLE_INPUT_CLASS =
+  "h-[52px] rounded-[14px] px-4 text-[0.98rem] md:h-[54px] md:px-5";
+
+function FormField({
+  label,
+  htmlFor,
+  hint,
+  className,
+  children,
+}: {
+  label: string;
+  htmlFor?: string;
+  hint?: string;
+  className?: string;
+  children: ReactNode;
+}) {
+  return (
+    <div className={cn("space-y-2", className)}>
+      <label htmlFor={htmlFor} className={FIELD_LABEL_CLASS}>
+        {label}
+      </label>
+      {children}
+      {hint ? (
+        <p className="text-[0.88rem] leading-relaxed text-[#657188]">{hint}</p>
+      ) : null}
+    </div>
+  );
+}
+
 type TextInputProps = {
-  placeholder: string;
   value: string;
   onChange: (value: string) => void;
   className?: string;
 } & Omit<
   ComponentProps<"input">,
-  "value" | "defaultValue" | "onChange" | "placeholder" | "className"
+  "value" | "defaultValue" | "onChange" | "className"
 >;
 
 function TextInput({
-  placeholder,
   value,
   onChange,
   className,
@@ -458,9 +584,8 @@ function TextInput({
       type={type}
       value={value}
       onChange={(event) => onChange(event.target.value)}
-      placeholder={placeholder}
       className={[
-        "h-[74px] w-full rounded-[20px] border border-[#e0e4eb] bg-white px-7 text-[1.15rem] text-[#44506a] outline-none transition placeholder:text-[#a3acbb] focus:border-[#f09684]",
+        "h-[74px] w-full rounded-[20px] border border-[#e0e4eb] bg-white px-7 text-[1.15rem] text-[#44506a] outline-none transition focus:border-[#f09684]",
         className ?? "",
       ].join(" ")}
       {...rest}
@@ -469,24 +594,24 @@ function TextInput({
 }
 
 function TextArea({
-  placeholder,
   value,
   onChange,
   className,
+  id,
 }: {
-  placeholder: string;
   value: string;
   onChange: (value: string) => void;
   className?: string;
+  id?: string;
 }) {
   return (
     <textarea
+      id={id}
       rows={4}
       value={value}
       onChange={(event) => onChange(event.target.value)}
-      placeholder={placeholder}
       className={[
-        "w-full rounded-[20px] border border-[#e0e4eb] bg-white px-7 py-6 text-[1.15rem] text-[#44506a] outline-none transition placeholder:text-[#a3acbb] focus:border-[#f09684]",
+        "w-full rounded-[20px] border border-[#e0e4eb] bg-white px-7 py-6 text-[1.15rem] text-[#44506a] outline-none transition focus:border-[#f09684]",
         className ?? "",
       ].join(" ")}
     />
@@ -512,22 +637,19 @@ function AddItemButton({
   );
 }
 
-function RemoveItemButton({
-  label,
-  onClick,
-}: {
-  label: string;
-  onClick: () => void;
-}) {
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`${BUTTON_OUTLINE_CLASS} h-[54px]`}
-    >
-      {label}
-    </button>
-  );
+function countWords(text: string) {
+  const trimmed = text.trim();
+  if (!trimmed) return 0;
+  return trimmed.split(/\s+/).length;
+}
+
+function truncateFileName(name: string, maxLength = 42) {
+  const trimmed = name.trim();
+  if (trimmed.length <= maxLength) return trimmed;
+  const extMatch = trimmed.match(/(\.[a-z0-9]+)$/i);
+  const ext = extMatch?.[1] ?? "";
+  const baseMax = Math.max(maxLength - ext.length - 1, 8);
+  return `${trimmed.slice(0, baseMax)}…${ext}`;
 }
 
 export function AddProjectWizard() {
@@ -536,47 +658,50 @@ export function AddProjectWizard() {
   const projectId = searchParams.get("id");
   const isEditMode = Boolean(projectId);
 
-  const [step, setStep] = useState<StepId>("basic");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isLoadingProject, setIsLoadingProject] = useState(isEditMode);
   const [errorMessage, setErrorMessage] = useState("");
-  const [galleryLimitNotice, setGalleryLimitNotice] = useState<string | null>(
+  const [bannerUploadError, setBannerUploadError] = useState<string | null>(
     null,
   );
+  const [logoUploadError, setLogoUploadError] = useState<string | null>(null);
   const [galleryUploadError, setGalleryUploadError] = useState<string | null>(
     null,
   );
-  const galleryUploadInFlightRef = useRef(0);
+
+  /** Per-slot upload state for gallery images 1–6. */
+  const [gallerySlotUploading, setGallerySlotUploading] = useState<boolean[]>(
+    () => Array.from({ length: REQUIRED_GALLERY_IMAGES }, () => false),
+  );
 
   /** Set when an immediate file upload (logo/hero/gallery) is in progress. */
   const [fileUploading, setFileUploading] = useState<{
     logo: boolean;
     hero: boolean;
-    gallery: boolean;
   }>({
     logo: false,
     hero: false,
-    gallery: false,
   });
 
   const isAnyFileUploading =
-    fileUploading.logo || fileUploading.hero || fileUploading.gallery;
+    fileUploading.logo ||
+    fileUploading.hero ||
+    gallerySlotUploading.some(Boolean);
 
   const [existingProjectFiles, setExistingProjectFiles] =
     useState<ExistingProjectFiles>({
       logoId: null,
       heroId: null,
-      galleryIds: [],
+      gallerySlots: createEmptyGallerySlots(),
     });
 
   const [form, setForm] = useState<FormState>({
     projectName: "",
     reraNumber: "",
+    builderName: "",
     logoFileName: "",
     heroImageName: "",
-    galleryFileNames: [],
     areaSqft: "",
-    propertyType: "",
     description: "",
     completionDate: "",
     caseStudyInfo: "",
@@ -592,25 +717,15 @@ export function AddProjectWizard() {
     LocationConnectivitySection[]
   >([createEmptyLocationSection()]);
 
-  const currentStepIndex = steps.findIndex((item) => item.id === step);
-  const isLastStep = currentStepIndex === steps.length - 1;
-
   /** Bumps each time the load effect re-runs so stale async work never applies state. */
   const projectLoadTokenRef = useRef(0);
 
-  function beginGalleryUpload() {
-    galleryUploadInFlightRef.current += 1;
-    setFileUploading((s) => ({ ...s, gallery: true }));
-  }
-
-  function endGalleryUpload() {
-    galleryUploadInFlightRef.current = Math.max(
-      0,
-      galleryUploadInFlightRef.current - 1,
-    );
-    if (galleryUploadInFlightRef.current === 0) {
-      setFileUploading((s) => ({ ...s, gallery: false }));
-    }
+  function setGallerySlotUploadingAt(slotIndex: number, uploading: boolean) {
+    setGallerySlotUploading((current) => {
+      const next = [...current];
+      next[slotIndex] = uploading;
+      return next;
+    });
   }
 
   useEffect(() => {
@@ -641,37 +756,24 @@ export function AddProjectWizard() {
         const project = result.data;
         const logoFile = project.files.find((file) => file.file_type === "LOGO");
         const heroFile = project.files.find((file) => file.file_type === "HERO");
-        const galleryFiles = project.files
-          .filter((file) => file.file_type === "SEQUENCE")
-          .sort((first, second) => {
-            const firstSeq = first.sequence_no ?? 0;
-            const secondSeq = second.sequence_no ?? 0;
-            return firstSeq - secondSeq;
-          });
-
         setExistingProjectFiles({
           logoId: logoFile?.id ?? null,
           heroId: heroFile?.id ?? null,
-          galleryIds: galleryFiles
-            .map((file) => file.id)
-            .slice(0, REQUIRED_GALLERY_IMAGES),
+          gallerySlots: gallerySlotsFromApiFiles(project.files),
         });
 
         setForm({
           projectName: project.name ?? "",
           reraNumber: project.rera_number ?? "",
+          builderName: project.type ?? "",
           logoFileName: logoFile?.file_name ?? "",
           heroImageName: heroFile?.file_name ?? "",
-          galleryFileNames: galleryFiles
-            .map((file) => file.file_name)
-            .slice(0, REQUIRED_GALLERY_IMAGES),
           areaSqft: stripLeadingNumeric(project.area),
-          propertyType: project.type ?? "",
           description: project.description ?? "",
-          completionDate: toInputDateValue(project.completion_date),
+          completionDate: toInputMonthValue(project.completion_date),
           caseStudyInfo: project.case_study_info ?? "",
-          isCompleted: Boolean(
-            project.isCompleted ?? (project.status === false),
+          isCompleted: isCompletedFromCompletionMonth(
+            toInputMonthValue(project.completion_date),
           ),
         });
 
@@ -720,6 +822,14 @@ export function AddProjectWizard() {
     }));
   }
 
+  function updateCompletionDate(monthValue: string) {
+    setForm((current) => ({
+      ...current,
+      completionDate: monthValue,
+      isCompleted: isCompletedFromCompletionMonth(monthValue),
+    }));
+  }
+
   function updateLocationSection<
     Key extends keyof Omit<LocationConnectivitySection, "id">,
   >(id: number, key: Key, value: LocationConnectivitySection[Key]) {
@@ -749,148 +859,17 @@ export function AddProjectWizard() {
     });
   }
 
-  async function handleLogoFile(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0] ?? null;
-    if (!file) {
-      setForm((current) => ({ ...current, logoFileName: "" }));
-      setExistingProjectFiles((f) => ({ ...f, logoId: null }));
-      return;
-    }
-    setFileUploading((s) => ({ ...s, logo: true }));
-    setErrorMessage("");
-    try {
-      const id = await uploadSingleAsset(file, "LOGO");
-      setForm((current) => ({ ...current, logoFileName: file.name }));
-      setExistingProjectFiles((f) => ({ ...f, logoId: id }));
-    } catch (error) {
-      setErrorMessage(getUploadErrorMessage(error, "Logo upload failed."));
-      setForm((current) => ({ ...current, logoFileName: "" }));
-    } finally {
-      setFileUploading((s) => ({ ...s, logo: false }));
-    }
-  }
-
-  async function handleHeroFile(event: ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0] ?? null;
-    if (!file) {
-      setForm((current) => ({ ...current, heroImageName: "" }));
-      setExistingProjectFiles((f) => ({ ...f, heroId: null }));
-      return;
-    }
-    setFileUploading((s) => ({ ...s, hero: true }));
-    setErrorMessage("");
-    try {
-      const id = await uploadSingleAsset(file, "HERO");
-      setForm((current) => ({ ...current, heroImageName: file.name }));
-      setExistingProjectFiles((f) => ({ ...f, heroId: id }));
-    } catch (error) {
-      setErrorMessage(
-        getUploadErrorMessage(error, "Hero image upload failed."),
-      );
-      setForm((current) => ({ ...current, heroImageName: "" }));
-    } finally {
-      setFileUploading((s) => ({ ...s, hero: false }));
-    }
-  }
-
-  function clearGallerySelection() {
-    setForm((current) => ({ ...current, galleryFileNames: [] }));
-    setExistingProjectFiles((f) => ({ ...f, galleryIds: [] }));
-    setGalleryLimitNotice(null);
-    setGalleryUploadError(null);
-    setErrorMessage("");
-  }
-
-  async function handleGalleryFiles(event: ChangeEvent<HTMLInputElement>) {
-    const rawFiles = Array.from(event.target.files ?? []);
-    const input = event.target;
-
-    if (rawFiles.length === 0) {
-      clearGallerySelection();
-      input.value = "";
-      return;
-    }
-
-    const currentCount = existingProjectFiles.galleryIds.length;
-    const remaining = REQUIRED_GALLERY_IMAGES - currentCount;
-
-    if (remaining <= 0) {
-      setErrorMessage(
-        `Gallery already has ${REQUIRED_GALLERY_IMAGES} images. Use “Clear gallery” to replace them.`,
-      );
-      input.value = "";
-      return;
-    }
-
-    const filesToUpload =
-      rawFiles.length > remaining ? rawFiles.slice(0, remaining) : rawFiles;
-
-    setGalleryLimitNotice(
-      rawFiles.length > remaining
-        ? `Only ${remaining} more image(s) were added (${REQUIRED_GALLERY_IMAGES} required total). Extra files were not uploaded.`
-        : null,
-    );
-
-    const oversized = filesToUpload.find(
-      (file) => file.size > MAX_BULK_UPLOAD_FILE_BYTES,
-    );
-    if (oversized) {
-      setGalleryUploadError(
-        `"${oversized.name}" is over ${formatMaxBulkUploadSizeMb()}. Use smaller images before uploading.`,
-      );
-      input.value = "";
-      return;
-    }
-
-    beginGalleryUpload();
-    setGalleryUploadError(null);
-    setErrorMessage("");
-    try {
-      const newIds = await uploadGalleryAssets(
-        filesToUpload,
-        currentCount + 1,
-      );
-      setForm((current) => ({
-        ...current,
-        galleryFileNames: [
-          ...current.galleryFileNames,
-          ...filesToUpload.map((file) => file.name),
-        ],
-      }));
-      setExistingProjectFiles((prev) => ({
-        ...prev,
-        galleryIds: [...prev.galleryIds, ...newIds],
-      }));
-    } catch (error) {
-      setGalleryLimitNotice(null);
-      setGalleryUploadError(
-        getUploadErrorMessage(
-          error,
-          "Gallery image upload failed.",
-          MAX_BULK_UPLOAD_FILE_BYTES,
-        ),
-      );
-    } finally {
-      endGalleryUpload();
-      input.value = "";
-    }
-  }
-
-  function toggleAmenityKey(key: string) {
-    setSelectedAmenityKeys((current) =>
-      current.includes(key)
-        ? current.filter((k) => k !== key)
-        : [...current, key],
-    );
-  }
-
-  async function uploadSingleAsset(
+  async function uploadProjectImageFile(
     file: File,
-    fileType: "LOGO" | "HERO" | "ICON",
+    fileType: "LOGO" | "HERO" | "SEQUENCE",
+    sequenceNo?: number,
   ): Promise<number> {
     const formData = new FormData();
     formData.append("file", file);
     formData.append("file_type", fileType);
+    if (fileType === "SEQUENCE" && sequenceNo != null) {
+      formData.append("sequence_no", String(sequenceNo));
+    }
 
     const result = (await uploadFileRequest(
       formData,
@@ -906,36 +885,152 @@ export function AddProjectWizard() {
     return result.data.id;
   }
 
-  /** `sequenceStart` is 1-based index of the first file in this batch (for API `sequence_no`). */
-  async function uploadGalleryAssets(
-    files: File[],
-    sequenceStart: number,
-  ): Promise<number[]> {
-    if (!files.length) return [];
+  function removeLogoImage() {
+    setForm((current) => ({ ...current, logoFileName: "" }));
+    setExistingProjectFiles((current) => ({ ...current, logoId: null }));
+    setLogoUploadError(null);
+  }
 
-    const formData = new FormData();
-    formData.append("file_type", "SEQUENCE");
+  async function handleLogoFile(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0] ?? null;
+    const input = event.target;
 
-    files.forEach((file, index) => {
-      formData.append("files[]", file);
-      formData.append("sequence_no[]", String(sequenceStart + index));
-    });
+    if (!file) {
+      input.value = "";
+      return;
+    }
 
-    const result = (await uploadFilesBulk(
-      formData,
-    )) as MultiFileUploadResponse;
+    const validationError = validateUploadImageFile(file, MAX_UPLOAD_FILE_BYTES);
+    if (validationError) {
+      setLogoUploadError(validationError);
+      input.value = "";
+      return;
+    }
 
-    if (!result.success) {
-      throw new Error(
-        result.message?.trim() || "Failed to upload gallery images.",
+    setFileUploading((current) => ({ ...current, logo: true }));
+    setLogoUploadError(null);
+    setErrorMessage("");
+
+    try {
+      const id = await uploadProjectImageFile(file, "LOGO");
+      setForm((current) => ({ ...current, logoFileName: file.name }));
+      setExistingProjectFiles((current) => ({ ...current, logoId: id }));
+    } catch (error) {
+      setLogoUploadError(
+        getUploadErrorMessage(error, "Logo upload failed."),
       );
+    } finally {
+      setFileUploading((current) => ({ ...current, logo: false }));
+      input.value = "";
+    }
+  }
+
+  function removeBannerImage() {
+    setForm((current) => ({ ...current, heroImageName: "" }));
+    setExistingProjectFiles((current) => ({ ...current, heroId: null }));
+    setBannerUploadError(null);
+  }
+
+  async function handleBannerFile(event: ChangeEvent<HTMLInputElement>) {
+    const file = event.target.files?.[0] ?? null;
+    const input = event.target;
+
+    if (!file) {
+      input.value = "";
+      return;
     }
 
-    if (!Array.isArray(result.data)) {
-      throw new Error("Invalid response from gallery upload.");
+    const validationError = validateUploadImageFile(file, MAX_UPLOAD_FILE_BYTES);
+    if (validationError) {
+      setBannerUploadError(validationError);
+      input.value = "";
+      return;
     }
 
-    return result.data.map((item) => item.id);
+    setFileUploading((current) => ({ ...current, hero: true }));
+    setBannerUploadError(null);
+    setErrorMessage("");
+
+    try {
+      const id = await uploadProjectImageFile(file, "HERO");
+      setForm((current) => ({ ...current, heroImageName: file.name }));
+      setExistingProjectFiles((current) => ({ ...current, heroId: id }));
+    } catch (error) {
+      setBannerUploadError(
+        getUploadErrorMessage(error, "Banner image upload failed."),
+      );
+    } finally {
+      setFileUploading((current) => ({ ...current, hero: false }));
+      input.value = "";
+    }
+  }
+
+  function removeGallerySlot(slotIndex: number) {
+    setExistingProjectFiles((current) => {
+      const gallerySlots = [...current.gallerySlots];
+      gallerySlots[slotIndex] = { fileId: null, fileName: "" };
+      return { ...current, gallerySlots };
+    });
+    setGalleryUploadError(null);
+  }
+
+  async function handleGallerySlotFile(
+    slotIndex: number,
+    event: ChangeEvent<HTMLInputElement>,
+  ) {
+    const file = event.target.files?.[0] ?? null;
+    const input = event.target;
+
+    if (!file) {
+      input.value = "";
+      return;
+    }
+
+    const validationError = validateUploadImageFile(file, MAX_UPLOAD_FILE_BYTES);
+    if (validationError) {
+      setGalleryUploadError(`Image ${slotIndex + 1}: ${validationError}`);
+      input.value = "";
+      return;
+    }
+
+    setGallerySlotUploadingAt(slotIndex, true);
+    setGalleryUploadError(null);
+    setErrorMessage("");
+
+    try {
+      const id = await uploadProjectImageFile(file, "SEQUENCE", slotIndex + 1);
+      setExistingProjectFiles((current) => {
+        const gallerySlots = [...current.gallerySlots];
+        gallerySlots[slotIndex] = { fileId: id, fileName: file.name };
+        return { ...current, gallerySlots };
+      });
+    } catch (error) {
+      setGalleryUploadError(
+        getUploadErrorMessage(
+          error,
+          `Gallery image ${slotIndex + 1} upload failed.`,
+        ),
+      );
+    } finally {
+      setGallerySlotUploadingAt(slotIndex, false);
+      input.value = "";
+    }
+  }
+
+  function toggleAmenityKey(key: string) {
+    setSelectedAmenityKeys((current) =>
+      current.includes(key)
+        ? current.filter((k) => k !== key)
+        : [...current, key],
+    );
+  }
+
+  function toggleAllAmenities() {
+    setSelectedAmenityKeys((current) =>
+      current.length === AMENITY_CATALOG.length
+        ? []
+        : AMENITY_CATALOG.map((item) => item.key),
+    );
   }
 
   function getPreparedAmenities(): Array<{
@@ -996,18 +1091,22 @@ export function AddProjectWizard() {
         };
       });
 
+    const isCompleted = isCompletedFromCompletionMonth(form.completionDate);
+
     return {
       name: form.projectName.trim(),
-      type: form.propertyType.trim() || null,
+      type: form.builderName.trim() || null,
       rera_number: form.reraNumber.trim() || null,
       description: form.description.trim() || null,
       area:
         form.areaSqft.trim() === ""
           ? null
           : String(parseOptionalNonNegativeFloat(form.areaSqft) ?? form.areaSqft.trim()),
-      completion_date: form.completionDate.trim() || null,
+      completion_date: completionDateForApi(form.completionDate),
       case_study_info: form.caseStudyInfo.trim() || null,
-      isCompleted: form.isCompleted,
+      isCompleted,
+      /** Marketing detail + admin list: `false` = completed / inactive. */
+      status: !isCompleted,
       files: projectFileIds.map((file_id) => ({ file_id })),
       configurations,
       locations,
@@ -1024,25 +1123,12 @@ export function AddProjectWizard() {
       return;
     }
 
-    if (existingProjectFiles.galleryIds.length !== REQUIRED_GALLERY_IMAGES) {
+    const galleryCount = filledGalleryCount(existingProjectFiles.gallerySlots);
+    if (galleryCount !== REQUIRED_GALLERY_IMAGES) {
       setErrorMessage(
-        `Exactly ${REQUIRED_GALLERY_IMAGES} gallery images are required (currently ${existingProjectFiles.galleryIds.length}).`,
+        `Exactly ${REQUIRED_GALLERY_IMAGES} gallery images are required (currently ${galleryCount}).`,
       );
       return;
-    }
-
-    if (configurationSectionHasData(configuration)) {
-      if (!configuration.bhkType.trim()) {
-        setErrorMessage("Configuration BHK type is required when configuration has data.");
-        return;
-      }
-      if (
-        parsePrice(configuration.priceMin) <= 0 ||
-        parsePrice(configuration.priceMax) <= 0
-      ) {
-        setErrorMessage("Configuration price min/max must be valid numbers.");
-        return;
-      }
     }
 
     try {
@@ -1057,10 +1143,9 @@ export function AddProjectWizard() {
       if (existingProjectFiles.heroId) {
         projectFileIds.push(existingProjectFiles.heroId);
       }
-      if (existingProjectFiles.galleryIds.length > 0) {
-        projectFileIds.push(
-          ...existingProjectFiles.galleryIds.slice(0, REQUIRED_GALLERY_IMAGES),
-        );
+      const galleryIds = galleryIdsFromSlots(existingProjectFiles.gallerySlots);
+      if (galleryIds.length > 0) {
+        projectFileIds.push(...galleryIds);
       }
 
       const uploadedAmenities = preparedAmenities.map((amenity) => ({
@@ -1090,486 +1175,579 @@ export function AddProjectWizard() {
     }
   }
 
-  async function goToNextStep() {
-    if (isLastStep) {
-      await publishProject();
-      return;
-    }
-
-    setStep(steps[currentStepIndex + 1].id);
+  async function handleSubmit() {
+    await publishProject();
   }
 
-  const basicFields: Array<{
-    key: "projectName" | "reraNumber";
-    placeholder: string;
-  }> = [
-      { key: "projectName", placeholder: "Project Name" },
-      { key: "reraNumber", placeholder: "RERA Number" },
-    ];
+  const descriptionWordCount = countWords(form.description);
+  const filledGalleryImages = filledGalleryCount(
+    existingProjectFiles.gallerySlots,
+  );
+  const hasBannerImage = Boolean(existingProjectFiles.heroId);
+  const hasLogoImage = Boolean(existingProjectFiles.logoId);
+  const derivedProjectStatusLabel = projectStatusLabelFromCompletionMonth(
+    form.completionDate,
+  );
+  const isDerivedCompletedProject = isCompletedFromCompletionMonth(
+    form.completionDate,
+  );
+  const selectedAmenityCount = selectedAmenityKeys.length;
+  const allAmenitiesSelected =
+    selectedAmenityCount === AMENITY_CATALOG.length;
+  const someAmenitiesSelected =
+    selectedAmenityCount > 0 && !allAmenitiesSelected;
+  const selectAllAmenitiesRef = useRef<HTMLInputElement>(null);
 
-  const locationCoordinateFields: Array<{
-    key: "latitude" | "longitude";
-    placeholder: string;
-  }> = [
-      { key: "latitude", placeholder: "Latitude" },
-      { key: "longitude", placeholder: "Longitude" },
-    ];
+  useEffect(() => {
+    if (selectAllAmenitiesRef.current) {
+      selectAllAmenitiesRef.current.indeterminate = someAmenitiesSelected;
+    }
+  }, [someAmenitiesSelected]);
 
-  const locationAddressFields: Array<{
-    key: "city" | "state";
-    placeholder: string;
+  const projectDetailFields: Array<{
+    key: "projectName" | "reraNumber" | "builderName" | "areaSqft";
+    label: string;
+    id: string;
+    type?: ComponentProps<"input">["type"];
+    hint?: string;
   }> = [
-      { key: "city", placeholder: "City" },
-      { key: "state", placeholder: "State" },
-    ];
-
-  const locationConnectivityFields: Array<{
-    key: "place" | "walkingTime" | "drivingTime";
-    placeholder: string;
-  }> = [
-      { key: "place", placeholder: "Place / Landmark" },
-      { key: "walkingTime", placeholder: "Walk (minutes)" },
-      { key: "drivingTime", placeholder: "Drive (minutes)" },
-    ];
+    { key: "projectName", label: "Name of the Project", id: "project-name" },
+    { key: "reraNumber", label: "RERA Number", id: "rera-number" },
+    { key: "builderName", label: "Builder Name", id: "builder-name" },
+    {
+      key: "areaSqft",
+      label: "Area",
+      id: "project-area",
+      type: "number",
+      hint: "Square feet",
+    },
+  ];
 
   return (
     <section className="w-full space-y-5">
-      <ScrollReveal direction="up" delay={0.04} distance={18}>
-        <div className="rounded-[22px] border border-[#e7e4df] bg-white p-2.5 shadow-[0_8px_18px_rgba(22,20,19,0.06)]">
-          <div className="grid gap-2.5 lg:grid-cols-3">
-            {steps.map((item) => {
-              const active = item.id === step;
-
-              return (
-                <button
-                  key={item.id}
-                  type="button"
-                  onClick={() => setStep(item.id)}
-                  className={[
-                    "rounded-[14px] cursor-pointer px-2.5 py-1.5 text-[0.98rem] font-semibold transition md:px-5 md:py-3.5",
-                    active
-                      ? "btn-primary-gradient text-white shadow-[0_18px_30px_rgba(240,150,132,0.22)]"
-                      : "text-[#556179] hover:bg-[#faf6f3]",
-                  ].join(" ")}
-                >
-                  {item.label}
-                </button>
-              );
-            })}
-          </div>
+      <SectionCard
+        icon={<IconInfoCircle className="h-7 w-7" />}
+        title="Project Information"
+      >
+        <div className="grid gap-2.5 md:gap-5 lg:grid-cols-2">
+          {projectDetailFields.map((field) => (
+            <FormField
+              key={field.key}
+              label={field.label}
+              htmlFor={field.id}
+              hint={field.hint}
+            >
+              <TextInput
+                id={field.id}
+                type={field.type}
+                inputMode={field.type === "number" ? "decimal" : undefined}
+                min={field.type === "number" ? 0 : undefined}
+                step={field.type === "number" ? 1 : undefined}
+                value={form[field.key]}
+                onChange={(value) => updateField(field.key, value)}
+              />
+            </FormField>
+          ))}
+          <FormField
+            label="Type"
+            htmlFor="project-type"
+            hint="e.g. 2 BHK, Residential"
+          >
+            <TextInput
+              id="project-type"
+              value={configuration.bhkType}
+              onChange={(value) => updateConfigurationField("bhkType", value)}
+            />
+          </FormField>
+          <FormField label="Location" htmlFor="project-location">
+            <TextInput
+              id="project-location"
+              value={configuration.location}
+              onChange={(value) => updateConfigurationField("location", value)}
+            />
+          </FormField>
+          <FormField
+            label="Project completed in"
+            htmlFor="project-completion-date"
+            hint="Month and year only"
+            className="lg:col-span-2"
+          >
+            <TextInput
+              id="project-completion-date"
+              type="month"
+              value={form.completionDate}
+              onChange={(value) => updateCompletionDate(value)}
+            />
+            <p
+              className={cn(
+                "text-[0.92rem] font-medium",
+                !form.completionDate.trim()
+                  ? "text-[#657188]"
+                  : isDerivedCompletedProject
+                    ? "text-[#059669]"
+                    : "text-[#b45309]",
+              )}
+            >
+              {derivedProjectStatusLabel}
+              {form.completionDate.trim()
+                ? " — based on completion month vs today."
+                : ""}
+            </p>
+          </FormField>
         </div>
-      </ScrollReveal>
+      </SectionCard>
 
-      {step === "basic" ? (
-        <>
-          <SectionCard
-            icon={<IconInfoCircle className="h-7 w-7" />}
-            title="Basic Information"
-          >
-            <div className="grid gap-2.5 md:gap-5 lg:grid-cols-2">
-              {basicFields.map((field) => (
-                <TextInput
-                  key={field.key}
-                  placeholder={field.placeholder}
-                  value={form[field.key]}
-                  onChange={(value) => updateField(field.key, value)}
-                />
-              ))}
+      <SectionCard
+        icon={<IconImageSquare className="h-7 w-7" />}
+        title="Logo, Banner & Gallery"
+      >
+        <div className="space-y-6">
+          <div className="flex min-w-0 flex-col gap-3 overflow-hidden rounded-[20px] border border-[#e7e4df] bg-[#fafafa] p-4">
+            <div className="flex items-center justify-between gap-2">
+              <span className={FIELD_LABEL_CLASS}>Logo</span>
+              {hasLogoImage ? (
+                <button
+                  type="button"
+                  onClick={removeLogoImage}
+                  disabled={fileUploading.logo}
+                  className="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center rounded-[10px] border border-[#f09684] px-3 text-[0.82rem] font-semibold text-[#f07c61] transition hover:bg-[#fff5f1] disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  Remove
+                </button>
+              ) : null}
             </div>
-          </SectionCard>
 
-          <SectionCard
-            icon={<IconImageSquare className="h-7 w-7" />}
-            title="Hero Section"
-          >
+            {form.logoFileName ? (
+              <p
+                className="truncate text-[0.88rem] font-medium text-[#657188]"
+                title={form.logoFileName}
+              >
+                {truncateFileName(form.logoFileName)}
+              </p>
+            ) : null}
+
             <FileUploadField
               key={`logo-${String(existingProjectFiles.logoId)}`}
               id="project-logo"
-              label="Logo Upload"
-              title="Upload Logo"
-              helperText={
+              accept={ALLOWED_UPLOAD_IMAGE_ACCEPT}
+              title={
                 fileUploading.logo
                   ? "Uploading…"
-                  : "Select a file to upload. It uploads as soon as you choose it."
+                  : hasLogoImage
+                    ? "Replace image"
+                    : "Choose image"
+              }
+              helperText={
+                form.logoFileName
+                  ? undefined
+                  : `JPG or PNG, max ${formatMaxUploadSizeMb()}. Shown as the developer logo on the project page.`
               }
               selectedFileNames={
                 form.logoFileName ? [form.logoFileName] : []
               }
-              leadingContent={<IconUpload className="h-8 w-8" />}
+              showFileSummary={false}
+              leadingContent={<IconUpload className="h-6 w-6" />}
               disabled={fileUploading.logo}
+              dropzoneClassName="min-h-[130px] rounded-[18px] [&_p:first-of-type]:mt-3 [&_p:first-of-type]:text-[1.05rem]"
+              className="w-full min-w-0"
               onChange={handleLogoFile}
             />
+
+            {logoUploadError ? (
+              <p className="text-[0.95rem] font-medium text-[#d05c43]">
+                {logoUploadError}
+              </p>
+            ) : null}
+          </div>
+
+          <div className="flex min-w-0 flex-col gap-3 overflow-hidden rounded-[20px] border border-[#e7e4df] bg-[#fafafa] p-4">
+            <div className="flex items-center justify-between gap-2">
+              <span className={FIELD_LABEL_CLASS}>Banner Image</span>
+              {hasBannerImage ? (
+                <button
+                  type="button"
+                  onClick={removeBannerImage}
+                  disabled={fileUploading.hero}
+                  className="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center rounded-[10px] border border-[#f09684] px-3 text-[0.82rem] font-semibold text-[#f07c61] transition hover:bg-[#fff5f1] disabled:cursor-not-allowed disabled:opacity-50"
+                >
+                  Remove
+                </button>
+              ) : null}
+            </div>
+
+            {form.heroImageName ? (
+              <p
+                className="truncate text-[0.88rem] font-medium text-[#657188]"
+                title={form.heroImageName}
+              >
+                {truncateFileName(form.heroImageName)}
+              </p>
+            ) : null}
 
             <FileUploadField
               key={`hero-${String(existingProjectFiles.heroId)}`}
               id="project-hero"
-              label="Hero Image"
-              title="Upload Hero Image"
-              helperText={
+              accept={ALLOWED_UPLOAD_IMAGE_ACCEPT}
+              title={
                 fileUploading.hero
                   ? "Uploading…"
-                  : "Select a file to upload. It uploads as soon as you choose it."
+                  : hasBannerImage
+                    ? "Replace image"
+                    : "Choose image"
+              }
+              helperText={
+                form.heroImageName
+                  ? undefined
+                  : `JPG or PNG, max ${formatMaxUploadSizeMb()}. Uploads as soon as you select a file.`
               }
               selectedFileNames={
                 form.heroImageName ? [form.heroImageName] : []
               }
-              leadingContent={<IconUpload className="h-8 w-8" />}
+              showFileSummary={false}
+              leadingContent={<IconUpload className="h-6 w-6" />}
               disabled={fileUploading.hero}
-              onChange={handleHeroFile}
-            />
-          </SectionCard>
-        </>
-      ) : null}
-
-      {step === "details" ? (
-        <>
-          <SectionCard
-            icon={<IconSparkles className="h-7 w-7" />}
-            title="Project Highlights"
-          >
-            <div className="grid gap-5 lg:grid-cols-2">
-              <TextInput
-                type="number"
-                inputMode="decimal"
-                min={0}
-                step={1}
-                placeholder="Area (sq.ft)"
-                value={form.areaSqft}
-                onChange={(value) => updateField("areaSqft", value)}
-              />
-              <TextInput
-                placeholder="Property Type"
-                value={form.propertyType}
-                onChange={(value) => updateField("propertyType", value)}
-              />
-            </div>
-            <div className="mt-5 rounded-[16px] border border-[#f1d4cc] bg-[#fff8f5] p-4">
-              <label className="flex cursor-pointer items-center gap-3">
-                <input
-                  type="checkbox"
-                  checked={form.isCompleted}
-                  onChange={(event) =>
-                    updateField("isCompleted", event.target.checked)
-                  }
-                  className="h-4 w-4 accent-[#f07c61]"
-                />
-                <span className="text-[0.96rem] font-semibold text-[#6a3c2f]">
-                  Mark this project as completed
-                </span>
-              </label>
-            </div>
-          </SectionCard>
-
-          <SectionCard
-            icon={<IconSparkles className="h-7 w-7" />}
-            title="Configuration"
-          >
-            <div className="grid gap-4 lg:grid-cols-3">
-              <TextInput
-                placeholder="Location (shown on project detail & book a visit)"
-                value={configuration.location}
-                onChange={(value) => updateConfigurationField("location", value)}
-                className="lg:col-span-3"
-              />
-              <TextInput
-                placeholder="BHK Type (e.g. 2 BHK)"
-                value={configuration.bhkType}
-                onChange={(value) => updateConfigurationField("bhkType", value)}
-              />
-              <TextInput
-                type="number"
-                inputMode="decimal"
-                min={0}
-                step={0.01}
-                placeholder="Price Min"
-                value={configuration.priceMin}
-                onChange={(value) => updateConfigurationField("priceMin", value)}
-              />
-              <TextInput
-                type="number"
-                inputMode="decimal"
-                min={0}
-                step={0.01}
-                placeholder="Price Max"
-                value={configuration.priceMax}
-                onChange={(value) => updateConfigurationField("priceMax", value)}
-              />
-            </div>
-          </SectionCard>
-
-          <SectionCard
-            icon={<IconInfoCircle className="h-7 w-7" />}
-            title="Description & case study"
-          >
-            <div className="space-y-4">
-              <p className="text-[1.2rem] font-medium text-[#46536d]">
-                Project description
-              </p>
-              <TextArea
-                placeholder="Short description (shown in listings / detail if supported)"
-                value={form.description}
-                onChange={(value) => updateField("description", value)}
-                className="min-h-[120px]"
-              />
-              <p className="text-[1.2rem] font-medium text-[#46536d]">
-                Case study / highlights
-              </p>
-              <TextArea
-                placeholder="Case study, ROI, or other long-form copy"
-                value={form.caseStudyInfo}
-                onChange={(value) => updateField("caseStudyInfo", value)}
-                className="min-h-[120px]"
-              />
-              <p className="text-[1.2rem] font-medium text-[#46536d]">
-                Expected completion
-              </p>
-              <TextInput
-                type="date"
-                placeholder="Completion date"
-                value={form.completionDate}
-                onChange={(value) => updateField("completionDate", value)}
-              />
-            </div>
-          </SectionCard>
-
-          <SectionCard
-            icon={<IconImageSquare className="h-7 w-7" />}
-            title="Project Gallery"
-          >
-            <FileUploadField
-              key={`gallery-${existingProjectFiles.galleryIds.join("-") || "0"}`}
-              id="project-gallery"
-              label="Project Images"
-              title="Upload Project Images"
-              helperText={
-                fileUploading.gallery
-                  ? "Uploading…"
-                  : `${existingProjectFiles.galleryIds.length} / ${REQUIRED_GALLERY_IMAGES} images — add more until complete (batch uploads append). Max ${formatMaxBulkUploadSizeMb()} per image.`
-              }
-              errorText={galleryUploadError ?? undefined}
-              selectedFileNames={form.galleryFileNames}
-              multiple
-              leadingContent={<IconUpload className="h-8 w-8" />}
-              disabled={
-                fileUploading.gallery ||
-                existingProjectFiles.galleryIds.length >= REQUIRED_GALLERY_IMAGES
-              }
-              onChange={handleGalleryFiles}
+              dropzoneClassName="min-h-[130px] rounded-[18px] [&_p:first-of-type]:mt-3 [&_p:first-of-type]:text-[1.05rem]"
+              className="w-full min-w-0"
+              onChange={handleBannerFile}
             />
 
-            <div className="mt-3 flex flex-wrap items-center gap-3">
-              <button
-                type="button"
-                onClick={clearGallerySelection}
-                disabled={
-                  fileUploading.gallery ||
-                  existingProjectFiles.galleryIds.length === 0
-                }
-                className="inline-flex h-11 cursor-pointer items-center justify-center rounded-[12px] border border-[#f09684] px-5 text-[0.88rem] font-semibold text-[#f07c61] transition hover:bg-[#fff5f1] disabled:cursor-not-allowed disabled:opacity-50"
-              >
-                Clear gallery
-              </button>
-            </div>
-
-            {galleryLimitNotice ? (
-              <p className="mt-2 text-[0.95rem] font-medium text-[#b45309]">
-                {galleryLimitNotice}
+            {bannerUploadError ? (
+              <p className="text-[0.95rem] font-medium text-[#d05c43]">
+                {bannerUploadError}
               </p>
             ) : null}
+          </div>
 
-            <p className="text-[1rem] text-[#657188]">
-              Required: exactly {REQUIRED_GALLERY_IMAGES} gallery images to create or
-              update a project. Recommended: high-quality images (minimum 1920×1080px).
-            </p>
-          </SectionCard>
-
-          <SectionCard
-            icon={<IconSparkles className="h-7 w-7" />}
-            title="Amenities & Features"
+          <FormField
+            label="Gallery Images"
+            hint={`${filledGalleryImages} / ${REQUIRED_GALLERY_IMAGES} uploaded — JPG or PNG, max ${formatMaxUploadSizeMb()} each. Upload each slot independently.`}
           >
-            <p className="text-[0.98rem] leading-relaxed text-[#657188]">
-              Select one or more amenities. Name and image file ids are sent in the
-              project payload, same as before — images are taken from the preset
-              catalog (update{" "}
-              <code className="rounded bg-[#f0f4f8] px-1 text-[0.85rem]">
-                lib/admin/amenityCatalog.ts
-              </code>{" "}
-              if your file ids differ).
-            </p>
-            <div
-              className="mt-5 grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3"
-              role="group"
-              aria-label="Amenities"
-            >
-              {AMENITY_CATALOG.map((opt) => {
-                const selected = selectedAmenityKeys.includes(opt.key);
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {existingProjectFiles.gallerySlots.map((slot, slotIndex) => {
+                const slotUploading = gallerySlotUploading[slotIndex];
+                const slotLabel = `Gallery image ${slotIndex + 1}`;
+
                 return (
-                  <label
-                    key={opt.key}
-                    className={cn(
-                      "flex cursor-pointer items-center gap-3 rounded-[20px] border-2 p-3 transition",
-                      selected
-                        ? "border-[#f07c61] bg-[#fff8f5] shadow-sm"
-                        : "border-[#ece7e1] bg-white hover:border-[#e8d5cf]",
-                    )}
+                  <div
+                    key={`gallery-slot-${slotIndex}`}
+                    className="flex min-w-0 flex-col gap-3 overflow-hidden rounded-[20px] border border-[#e7e4df] bg-[#fafafa] p-4"
                   >
-                    <input
-                      type="checkbox"
-                      className="sr-only"
-                      checked={selected}
-                      onChange={() => toggleAmenityKey(opt.key)}
-                    />
-                    <div className="relative h-12 w-12 shrink-0">
-                      <Image
-                        src={opt.thumbnailSrc}
-                        alt=""
-                        width={48}
-                        height={48}
-                        unoptimized
-                        className="h-12 w-12 object-contain"
-                      />
-                    </div>
-                    <span className="min-w-0 flex-1 text-left text-[0.95rem] font-medium leading-snug text-[#33425e]">
-                      {opt.name}
-                    </span>
-                    {selected ? (
-                      <span className="shrink-0 text-[#f07c61]" aria-hidden>
-                        <IconCheckSeal className="h-5 w-5" />
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[0.95rem] font-semibold text-[#33425e]">
+                        {slotLabel}
                       </span>
+                      {slot.fileId ? (
+                        <button
+                          type="button"
+                          onClick={() => removeGallerySlot(slotIndex)}
+                          disabled={slotUploading}
+                          className="inline-flex h-9 shrink-0 cursor-pointer items-center justify-center rounded-[10px] border border-[#f09684] px-3 text-[0.82rem] font-semibold text-[#f07c61] transition hover:bg-[#fff5f1] disabled:cursor-not-allowed disabled:opacity-50"
+                        >
+                          Remove
+                        </button>
+                      ) : null}
+                    </div>
+
+                    {slot.fileName ? (
+                      <p
+                        className="truncate text-[0.88rem] font-medium text-[#657188]"
+                        title={slot.fileName}
+                      >
+                        {truncateFileName(slot.fileName)}
+                      </p>
                     ) : null}
-                  </label>
+
+                    <FileUploadField
+                      key={`gallery-slot-${slotIndex}-${String(slot.fileId)}`}
+                      id={`project-gallery-${slotIndex + 1}`}
+                      accept={ALLOWED_UPLOAD_IMAGE_ACCEPT}
+                      title={
+                        slotUploading
+                          ? "Uploading…"
+                          : slot.fileId
+                            ? "Replace image"
+                            : "Choose image"
+                      }
+                      helperText={
+                        slot.fileName
+                          ? undefined
+                          : `JPG or PNG, max ${formatMaxUploadSizeMb()}. Uploads as soon as you select a file.`
+                      }
+                      selectedFileNames={slot.fileName ? [slot.fileName] : []}
+                      showFileSummary={false}
+                      leadingContent={<IconUpload className="h-6 w-6" />}
+                      disabled={slotUploading}
+                      dropzoneClassName="min-h-[130px] rounded-[18px] [&_p:first-of-type]:mt-3 [&_p:first-of-type]:text-[1.05rem]"
+                      className="w-full min-w-0"
+                      onChange={(event) =>
+                        handleGallerySlotFile(slotIndex, event)
+                      }
+                    />
+                  </div>
                 );
               })}
             </div>
-          </SectionCard>
-        </>
-      ) : null}
+          </FormField>
 
-      {step === "location" ? (
-        <div className="space-y-4">
-          <div className="rounded-[20px] border border-[#e5ebf3] bg-[#f8fafc] px-5 py-4 text-[0.95rem] leading-relaxed text-[#4a5568]">
-            <p className="font-semibold text-[#0d1e46]">How multiple locations are saved</p>
-            <p className="mt-1.5">
-              The top card is <code className="text-[0.88rem]">locations[0]</code> in
-              the API, the next is <code className="text-[0.88rem]">locations[1]</code>
-              , and so on. Data you enter in the second block only updates the second
-              item — it does not fill the first. To make your main address the first
-              entry, edit the first card or remove an unused card with
-              &quot;Remove full section&quot; (when two or more are shown).
+          {galleryUploadError ? (
+            <p className="text-[0.95rem] font-medium text-[#d05c43]">
+              {galleryUploadError}
             </p>
-          </div>
-          {locationSections.map((section, index) => (
-            <SectionCard
-              key={`loc-${String(section.id)}-${index}`}
-              icon={<IconMapPin className="h-7 w-7" />}
-              title={`Location & Connectivity — ${index + 1} of ${locationSections.length} `}
-              titleClassName="font-nexa text-[clamp(1.5rem,2.4vw,2.75rem)] font-bold leading-tight text-[#081a43] sm:leading-none"
-            >
-              <TextArea
-                placeholder="Full Address"
-                value={section.fullAddress}
-                onChange={(value) =>
-                  updateLocationSection(section.id, "fullAddress", value)
-                }
-                className="min-h-[150px]"
-              />
+          ) : null}
 
-              <div className="grid gap-5 lg:grid-cols-2">
-                {locationCoordinateFields.map((field) => (
-                  <TextInput
-                    key={field.key}
-                    type="number"
-                    inputMode="decimal"
-                    step="any"
-                    placeholder={field.placeholder}
-                    value={section[field.key]}
-                    onChange={(value) =>
-                      updateLocationSection(section.id, field.key, value)
-                    }
-                  />
-                ))}
-              </div>
-
-              <div className="grid gap-5 lg:grid-cols-2">
-                {locationAddressFields.map((field) => (
-                  <TextInput
-                    key={field.key}
-                    placeholder={field.placeholder}
-                    value={section[field.key]}
-                    onChange={(value) =>
-                      updateLocationSection(section.id, field.key, value)
-                    }
-                  />
-                ))}
-                {/* Pincode — disabled in admin (not sent on create/update).
-                <TextInput
-                  type="text"
-                  inputMode="numeric"
-                  autoComplete="postal-code"
-                  maxLength={10}
-                  placeholder="Pincode"
-                  value={section.pincode}
-                  onChange={(value) =>
-                    updateLocationSection(section.id, "pincode", value)
-                  }
-                />
-                */}
-              </div>
-
-              <div className="border-t border-[#efede9] pt-6">
-                <div className="mb-5 flex items-center gap-4">
-                  <div className="flex h-[56px] w-[56px] items-center justify-center rounded-[16px] bg-[#fff3ed] text-[#f07c61]">
-                    <IconRoute className="h-6 w-6" />
-                  </div>
-
-                  <div className="min-w-0">
-                    <h3 className="font-nexa text-[1.35rem] font-bold leading-tight text-[#33425e] sm:text-[1.45rem]">
-                      Nearby connectivity
-                    </h3>
-                    <p className="mt-1 n-reg text-[0.8rem] text-[#6b7a90] sm:text-sm">
-                      Walk and drive times are stored and shown in minutes.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="grid gap-5 lg:grid-cols-3">
-                  {locationConnectivityFields.map((field) => (
-                    <TextInput
-                      key={field.key}
-                      type={
-                        field.key === "place" ? "text" : "number"
-                      }
-                      inputMode={
-                        field.key === "place" ? undefined : "decimal"
-                      }
-                      min={field.key === "place" ? undefined : 0}
-                      step={field.key === "place" ? undefined : 1}
-                      placeholder={field.placeholder}
-                      value={section[field.key]}
-                      onChange={(value) =>
-                        updateLocationSection(section.id, field.key, value)
-                      }
-                    />
-                  ))}
-                </div>
-              </div>
-
-              {locationSections.length > 1 ? (
-                <div className="flex justify-end">
-                  <RemoveItemButton
-                    label="Remove Full Section"
-                    onClick={() => removeLocationSection(section.id)}
-                  />
-                </div>
-              ) : null}
-            </SectionCard>
-          ))}
-
-          <div className="flex justify-end">
-            <AddItemButton label="Add Connectivity" onClick={addLocationSection} />
-          </div>
+          <p className="text-[1rem] text-[#657188]">
+            Required: exactly {REQUIRED_GALLERY_IMAGES} gallery images to create
+            or update a project.
+          </p>
         </div>
-      ) : null}
+      </SectionCard>
+
+      <SectionCard
+        icon={<IconInfoCircle className="h-7 w-7" />}
+        title="Short Description"
+      >
+        <FormField
+          label="Short description of property"
+          htmlFor="project-description"
+          hint="30–50 words recommended"
+        >
+          <TextArea
+            id="project-description"
+            value={form.description}
+            onChange={(value) => updateField("description", value)}
+            className="min-h-[140px]"
+          />
+        </FormField>
+        <p
+          className={cn(
+            "text-[0.92rem] font-medium",
+            descriptionWordCount >= 30 && descriptionWordCount <= 50
+              ? "text-[#059669]"
+              : "text-[#657188]",
+          )}
+        >
+          {descriptionWordCount} word{descriptionWordCount === 1 ? "" : "s"}
+          {descriptionWordCount > 0 && descriptionWordCount < 30
+            ? " — aim for 30–50 words"
+            : descriptionWordCount > 50
+              ? " — consider trimming to 30–50 words"
+              : descriptionWordCount >= 30 && descriptionWordCount <= 50
+                ? " — within recommended range"
+                : ""}
+        </p>
+      </SectionCard>
+
+      <SectionCard
+        icon={<IconSparkles className="h-7 w-7" />}
+        title="Project Amenities"
+      >
+        <div className="flex flex-wrap items-center justify-between gap-3">
+          <p className="text-[0.98rem] leading-relaxed text-[#657188]">
+            Select one or more amenities for this project.
+          </p>
+          <label className="inline-flex cursor-pointer items-center gap-2.5 rounded-[12px] border border-[#e7e4df] bg-[#fafafa] px-4 py-2.5 transition hover:border-[#e8d5cf]">
+            <input
+              ref={selectAllAmenitiesRef}
+              type="checkbox"
+              checked={allAmenitiesSelected}
+              onChange={toggleAllAmenities}
+              className="h-4 w-4 accent-[#f07c61]"
+              aria-label="Select all amenities"
+            />
+            <span className="text-[0.92rem] font-semibold text-[#33425e]">
+              Select all ({selectedAmenityCount}/{AMENITY_CATALOG.length})
+            </span>
+          </label>
+        </div>
+        <div
+          className="mt-5 grid grid-cols-1 gap-3 min-[480px]:grid-cols-2 sm:grid-cols-2 lg:grid-cols-3"
+          role="group"
+          aria-label="Amenities"
+        >
+          {AMENITY_CATALOG.map((opt) => {
+            const selected = selectedAmenityKeys.includes(opt.key);
+            return (
+              <label
+                key={opt.key}
+                className={cn(
+                  "flex cursor-pointer items-center gap-3 rounded-[20px] border-2 p-3 transition",
+                  selected
+                    ? "border-[#f07c61] bg-[#fff8f5] shadow-sm"
+                    : "border-[#ece7e1] bg-white hover:border-[#e8d5cf]",
+                )}
+              >
+                <input
+                  type="checkbox"
+                  className="sr-only"
+                  checked={selected}
+                  onChange={() => toggleAmenityKey(opt.key)}
+                />
+                <div className="relative h-12 w-12 shrink-0">
+                  <Image
+                    src={opt.thumbnailSrc}
+                    alt=""
+                    width={48}
+                    height={48}
+                    unoptimized
+                    className="h-12 w-12 object-contain"
+                  />
+                </div>
+                <span className="min-w-0 flex-1 text-left text-[0.95rem] font-medium leading-snug text-[#33425e]">
+                  {opt.name}
+                </span>
+                {selected ? (
+                  <span className="shrink-0 text-[#f07c61]" aria-hidden>
+                    <IconCheckSeal className="h-5 w-5" />
+                  </span>
+                ) : null}
+              </label>
+            );
+          })}
+        </div>
+      </SectionCard>
+
+      <SectionCard
+        icon={<IconRoute className="h-7 w-7" />}
+        title="Location & Connectivity"
+        titleClassName="font-nexa text-[clamp(1.5rem,2.4vw,2.75rem)] font-bold leading-tight text-[#081a43] sm:leading-none"
+      >
+        <p className="text-[0.98rem] leading-relaxed text-[#657188]">
+          Add nearby landmarks with walk or drive times in minutes. Each row is
+          saved as a separate connectivity entry on the project.
+        </p>
+
+        <div className="mt-5 overflow-x-auto rounded-[20px] border border-[#e7e4df]">
+          <table className="w-full min-w-[720px] border-collapse text-left">
+            <thead>
+              <tr className="border-b border-[#efede9] bg-[#fafafa]">
+                <th
+                  scope="col"
+                  className="w-12 px-3 py-3.5 text-[0.82rem] font-semibold uppercase tracking-wide text-[#657188] md:px-4"
+                >
+                  #
+                </th>
+                <th
+                  scope="col"
+                  className="min-w-[220px] px-3 py-3.5 text-[0.82rem] font-semibold uppercase tracking-wide text-[#657188] md:px-4"
+                >
+                  Location
+                </th>
+                <th
+                  scope="col"
+                  className="w-[120px] px-3 py-3.5 text-[0.82rem] font-semibold uppercase tracking-wide text-[#657188] md:w-[140px] md:px-4"
+                >
+                  Walk (min)
+                </th>
+                <th
+                  scope="col"
+                  className="w-[120px] px-3 py-3.5 text-[0.82rem] font-semibold uppercase tracking-wide text-[#657188] md:w-[140px] md:px-4"
+                >
+                  Drive (min)
+                </th>
+                <th
+                  scope="col"
+                  className="w-[88px] px-3 py-3.5 text-right text-[0.82rem] font-semibold uppercase tracking-wide text-[#657188] md:px-4"
+                >
+                  <span className="sr-only">Actions</span>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {locationSections.map((section, index) => {
+                const placeId = `connectivity-${String(section.id)}-place`;
+                const walkId = `connectivity-${String(section.id)}-walk`;
+                const driveId = `connectivity-${String(section.id)}-drive`;
+
+                return (
+                  <tr
+                    key={`loc-${String(section.id)}-${index}`}
+                    className="border-b border-[#efede9] last:border-b-0 odd:bg-white even:bg-[#fcfcfb]"
+                  >
+                    <td className="px-3 py-3 align-middle text-[0.95rem] font-semibold text-[#657188] md:px-4">
+                      {index + 1}
+                    </td>
+                    <td className="px-3 py-3 align-middle md:px-4">
+                      <label htmlFor={placeId} className="sr-only">
+                        Location {index + 1}
+                      </label>
+                      <TextInput
+                        id={placeId}
+                        value={section.place}
+                        onChange={(value) =>
+                          updateLocationSection(section.id, "place", value)
+                        }
+                        className={TABLE_INPUT_CLASS}
+                      />
+                    </td>
+                    <td className="px-3 py-3 align-middle md:px-4">
+                      <label htmlFor={walkId} className="sr-only">
+                        Walk minutes {index + 1}
+                      </label>
+                      <TextInput
+                        id={walkId}
+                        type="number"
+                        inputMode="decimal"
+                        min={0}
+                        step={1}
+                        value={section.walkingTime}
+                        onChange={(value) =>
+                          updateLocationSection(
+                            section.id,
+                            "walkingTime",
+                            value,
+                          )
+                        }
+                        className={TABLE_INPUT_CLASS}
+                      />
+                    </td>
+                    <td className="px-3 py-3 align-middle md:px-4">
+                      <label htmlFor={driveId} className="sr-only">
+                        Drive minutes {index + 1}
+                      </label>
+                      <TextInput
+                        id={driveId}
+                        type="number"
+                        inputMode="decimal"
+                        min={0}
+                        step={1}
+                        value={section.drivingTime}
+                        onChange={(value) =>
+                          updateLocationSection(
+                            section.id,
+                            "drivingTime",
+                            value,
+                          )
+                        }
+                        className={TABLE_INPUT_CLASS}
+                      />
+                    </td>
+                    <td className="px-3 py-3 text-right align-middle md:px-4">
+                      {locationSections.length > 1 ? (
+                        <button
+                          type="button"
+                          onClick={() => removeLocationSection(section.id)}
+                          className="inline-flex h-10 cursor-pointer items-center justify-center rounded-[10px] border border-[#f09684] px-3 text-[0.82rem] font-semibold text-[#f07c61] transition hover:bg-[#fff5f1]"
+                        >
+                          Remove
+                        </button>
+                      ) : (
+                        <span className="inline-block h-10" aria-hidden />
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+
+        <div className="mt-4 flex justify-end">
+          <AddItemButton
+            label="Add connectivity"
+            onClick={addLocationSection}
+          />
+        </div>
+      </SectionCard>
 
       <div className="space-y-3">
         {errorMessage ? (
@@ -1579,22 +1757,16 @@ export function AddProjectWizard() {
         <div className="flex justify-end">
           <button
             type="button"
-            onClick={goToNextStep}
+            onClick={handleSubmit}
             disabled={
               isSubmitting ||
               isLoadingProject ||
               isAnyFileUploading ||
-              (isLastStep &&
-                existingProjectFiles.galleryIds.length !==
-                  REQUIRED_GALLERY_IMAGES)
+              filledGalleryImages !== REQUIRED_GALLERY_IMAGES
             }
             className={`${BUTTON_PRIMARY_CLASS} h-[52px] w-full px-7 text-[0.98rem] transition disabled:cursor-not-allowed disabled:opacity-70 sm:w-auto`}
           >
-            {isLastStep ? (
-              <IconCheckSeal className="h-5 w-5" />
-            ) : (
-              <IconSave className="h-5 w-5" />
-            )}
+            <IconCheckSeal className="h-5 w-5" />
             <span>
               {isLoadingProject
                 ? "Loading..."
@@ -1602,25 +1774,19 @@ export function AddProjectWizard() {
                   ? isEditMode
                     ? "Updating..."
                     : "Creating…"
-                  : isLastStep
-                    ? isEditMode
-                      ? "Update Project"
-                      : "Create Project"
-                    : "Next"}
+                  : isEditMode
+                    ? "Update Project"
+                    : "Create Project"}
             </span>
           </button>
         </div>
 
-        {isLastStep &&
-        existingProjectFiles.galleryIds.length !== REQUIRED_GALLERY_IMAGES ? (
+        {filledGalleryImages !== REQUIRED_GALLERY_IMAGES ? (
           <p className="text-end text-[0.88rem] font-medium text-[#657188]">
-            Add {REQUIRED_GALLERY_IMAGES - existingProjectFiles.galleryIds.length}{" "}
-            more gallery image
-            {REQUIRED_GALLERY_IMAGES - existingProjectFiles.galleryIds.length === 1
-              ? ""
-              : "s"}{" "}
-            on the Details step ({existingProjectFiles.galleryIds.length}/
-            {REQUIRED_GALLERY_IMAGES}).
+            Add {REQUIRED_GALLERY_IMAGES - filledGalleryImages} more gallery
+            image
+            {REQUIRED_GALLERY_IMAGES - filledGalleryImages === 1 ? "" : "s"} (
+            {filledGalleryImages}/{REQUIRED_GALLERY_IMAGES}).
           </p>
         ) : null}
       </div>

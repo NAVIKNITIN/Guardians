@@ -14,9 +14,16 @@ export type GetAllFilesParams = {
   page?: number;
 };
 
-/** `POST /api/files/upload` (multipart) */
+const MULTIPART_UPLOAD_CONFIG = {
+  maxBodyLength: Infinity,
+  maxContentLength: Infinity,
+} as const;
+
+/** `POST /api/files/upload` (multipart: `file`, `file_type`, optional `sequence_no`) */
 export function uploadFile(formData: FormData) {
-  return axiosInstance.post<unknown>("/files/upload", formData).then((r) => r.data);
+  return axiosInstance
+    .post<unknown>("/files/upload", formData, MULTIPART_UPLOAD_CONFIG)
+    .then((r) => r.data);
 }
 
 /**
@@ -24,7 +31,7 @@ export function uploadFile(formData: FormData) {
  */
 export function uploadFilesBulk(formData: FormData) {
   return axiosInstance
-    .post<unknown>("/files/bulk-upload", formData)
+    .post<unknown>("/files/bulk-upload", formData, MULTIPART_UPLOAD_CONFIG)
     .then((r) => r.data);
 }
 

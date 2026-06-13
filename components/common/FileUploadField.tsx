@@ -80,7 +80,7 @@ export type FileUploadFieldProps = {
 };
 
 const CARD_DROPZONE =
-  "group flex min-h-[230px] cursor-pointer flex-col items-center justify-center rounded-[30px] border-2 border-dashed border-[#d7dde6] bg-white px-6 text-center transition hover:border-[#f09684]";
+  "group flex min-h-[230px] w-full min-w-0 cursor-pointer flex-col items-center justify-center overflow-hidden rounded-[30px] border-2 border-dashed border-[#d7dde6] bg-white px-6 text-center transition hover:border-[#f09684]";
 
 const INLINE_DROPZONE =
   "flex h-[74px] cursor-pointer items-center justify-center rounded-[20px] border-2 border-dashed border-[#d7dde6] bg-white px-5 text-center transition hover:border-[#f09684]";
@@ -389,16 +389,23 @@ export const FileUploadField = forwardRef<HTMLInputElement, FileUploadFieldProps
           ) : null}
 
           {title ? (
-            <p className="mt-6 text-[1.9rem] font-medium text-[#33425e]">{title}</p>
+            <p className="mt-6 max-w-full truncate px-4 text-[1.9rem] font-medium text-[#33425e]">
+              {title}
+            </p>
           ) : null}
           {helperText ? (
-            <p className="mt-2 text-[1.08rem] text-[#9ca6b8]">{helperText}</p>
+            <p className="mt-2 max-w-full break-all px-4 text-[1.08rem] leading-snug text-[#9ca6b8] line-clamp-2">
+              {helperText}
+            </p>
           ) : null}
         </label>
 
         {showFileSummary && selectedFileNames.length > 0 ? (
-          <div className="mt-3 rounded-[18px] bg-[#fff8f5] px-5 py-4 text-[1rem] text-[#7a6a60]">
-            {selectedFileNames.join(", ")}
+          <div
+            className="mt-3 rounded-[18px] bg-[#fff8f5] px-5 py-4 text-[1rem] text-[#7a6a60]"
+            title={selectedFileNames.join(", ")}
+          >
+            <p className="truncate">{selectedFileNames.join(", ")}</p>
           </div>
         ) : null}
 

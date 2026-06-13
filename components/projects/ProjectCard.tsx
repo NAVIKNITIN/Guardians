@@ -1,13 +1,14 @@
-import { MarketingImgWithFallback } from "@/components/common/MarketingImgWithFallback";
+"use client";
+
 import { ArrowIconLink } from "@/components/ui/ArrowIconLink";
-import { LOCAL_IMAGES } from "@/lib/local-images";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { cn } from "@/utils/cn";
 
 export type BadgeVariant = "units-left" | "completed";
 
 export interface ProjectCardProps {
-  imageSrc: string;
+  imageSrc: string | null;
   imageAlt?: string;
   title: string;
   subtitle: string;
@@ -20,6 +21,32 @@ export interface ProjectCardProps {
   stage: string;
 }
 
+function ProjectCardImageMissing({ label }: { label: string }) {
+  return (
+    <div
+      className="absolute inset-0 flex items-center justify-center bg-[#ececec] px-5"
+      role="img"
+      aria-label={label}
+    >
+      <div className="flex max-w-full items-center gap-2.5 text-[#5f6368]">
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          className="h-[18px] w-[18px] shrink-0 opacity-80"
+          aria-hidden
+        >
+          <rect x="3.5" y="5.5" width="17" height="13" rx="1.25" />
+          <path strokeLinecap="round" strokeLinejoin="round" d="M8 14l2.5-2.5L13 14l2-2 3 3" />
+          <path strokeLinecap="round" d="M4.5 4.5l15 15" />
+        </svg>
+        <span className="n-reg truncate text-[13px] leading-snug">{label}</span>
+      </div>
+    </div>
+  );
+}
+
 export function ProjectCard({
   imageSrc,
   imageAlt = "",
@@ -29,6 +56,12 @@ export function ProjectCard({
   badge,
   stage,
 }: ProjectCardProps) {
+  const [imageFailed, setImageFailed] = useState(false);
+
+  useEffect(() => {
+    setImageFailed(false);
+  }, [imageSrc]);
+
   const badgeClass =
     badge?.variant === "completed" ? "bg-[#161616]" : "bg-[#8F8183]";
   const isCompletedProject = badge?.variant === "completed";
@@ -48,6 +81,10 @@ export function ProjectCard({
     ? "Completed"
     : `${badge?.count} ${badge?.count === 1 ? "unit" : "units"} left`;
 
+  const missingLabel = imageAlt.trim() || title.trim() || "Image not added";
+  const resolvedImageSrc = imageSrc?.trim() ?? "";
+  const showMissingImage = !resolvedImageSrc || imageFailed;
+
   return (
     <article
       className={cn(
@@ -60,13 +97,18 @@ export function ProjectCard({
         className="relative block aspect-[4/3] w-full overflow-hidden bg-[#BCBDC0] sm:aspect-[16/10]"
         aria-label={`View ${title}`}
       >
-        <MarketingImgWithFallback
-          src={imageSrc}
-          fallbackSrc={LOCAL_IMAGES.projectImage}
-          alt={imageAlt}
-          fill
-          className="object-cover transition-transform duration-500 hover:scale-[1.03]"
-        />
+        {showMissingImage ? (
+          <ProjectCardImageMissing label={missingLabel} />
+        ) : (
+          <img
+            src={resolvedImageSrc}
+            alt={imageAlt}
+            loading="lazy"
+            decoding="async"
+            onError={() => setImageFailed(true)}
+            className="absolute inset-0 h-full w-full object-cover transition-transform duration-500 hover:scale-[1.03]"
+          />
+        )}
         {shouldShowBadge ? (
           <div
             className={cn(

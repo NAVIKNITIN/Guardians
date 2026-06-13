@@ -1,5 +1,4 @@
 import { resolveApiAssetUrl } from "@/lib/api/resolveAssetUrl";
-import { LOCAL_IMAGES } from "@/lib/local-images";
 
 /** Uploaded row shape shared by list + detail API payloads. */
 export type ProjectListingFileRow = {
@@ -54,12 +53,11 @@ function firstRowWithUrl(
  */
 export function resolveProjectListingThumbnail(
   filesInput: ProjectListingFileRow[] | undefined | null,
-): string {
+): string | null {
   const files = filesInput ?? [];
-  const CARD_FALLBACK = LOCAL_IMAGES.projectImage;
 
   if (files.length === 0) {
-    return CARD_FALLBACK;
+    return null;
   }
 
   const hero =
@@ -94,5 +92,5 @@ export function resolveProjectListingThumbnail(
   url = firstRawUrlFrom(files);
   if (url) return url;
 
-  return CARD_FALLBACK;
+  return null;
 }

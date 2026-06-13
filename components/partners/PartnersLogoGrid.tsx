@@ -1,9 +1,20 @@
+"use client";
+
 import { Container } from "@/components/common/Container";
+import { CarouselControls } from "@/components/ui/CarouselControls";
+import { useCycleIndex } from "@/hooks/useCycleIndex";
+import { useViewportIsMobile } from "@/hooks/useViewportIsMobile";
 import { PARTNERS_GRID_LOGOS } from "@/data/partners-logo-grid";
+import type { PartnersGridLogo } from "@/data/partners-logo-grid";
 import { cn } from "@/utils/cn";
+import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
+import { useEffect, useMemo, useState } from "react";
 
 import "./partners-logo-grid.css";
+
+const MOBILE_GRID_BREAKPOINT_PX = 768;
+const PAGE_TRANSITION = { duration: 0.32, ease: [0.22, 1, 0.36, 1] as const };
 
 function GridDividers({
   columns,
@@ -46,38 +57,100 @@ function GridDividers({
   );
 }
 
+function PartnerLogoCell({ logo }: { logo: PartnersGridLogo }) {
+  return (
+    <li className="bg-white">
+      <div
+        className={cn(
+          "flex h-full min-h-[5.5rem] items-center justify-center",
+          "px-5 py-7 sm:min-h-[6.25rem] sm:px-8 sm:py-9",
+          "md:min-h-[7rem] md:px-10 md:py-10",
+          "lg:min-h-[7.75rem] lg:px-12 lg:py-11",
+        )}
+      >
+        <div className="relative h-10 w-full max-w-[9.5rem] sm:h-11 sm:max-w-[10.5rem] md:h-12 md:max-w-[11.5rem] lg:h-[3.25rem] lg:max-w-[12.5rem]">
+          <Image
+            src={logo.src}
+            alt={logo.name}
+            fill
+            sizes="(max-width: 768px) 40vw, 180px"
+            className="object-contain object-center"
+          />
+        </div>
+      </div>
+    </li>
+  );
+}
+
+function visibleLogosForPage(
+  logos: readonly PartnersGridLogo[],
+  page: number,
+  columns: number,
+  rows: number,
+) {
+  const cellCount = columns * rows;
+  const start = (page * columns) % logos.length;
+
+  return Array.from({ length: cellCount }, (_, index) => {
+    const logoIndex = (start + index) % logos.length;
+    return logos[logoIndex]!;
+  });
+}
+
 export function PartnersLogoGrid() {
+  const logos = PARTNERS_GRID_LOGOS;
+  const isMobileGrid = useViewportIsMobile(true, MOBILE_GRID_BREAKPOINT_PX);
+  const columns = isMobileGrid ? 2 : 4;
+  const rows = isMobileGrid ? 8 : 4;
+  const pageCount = Math.max(1, logos.length / columns);
+  const { index: page, advance, setIndex } = useCycleIndex(pageCount, 0);
+  const [direction, setDirection] = useState<1 | -1>(1);
+
+  useEffect(() => {
+    setIndex((current) => (current >= pageCount ? 0 : current));
+  }, [pageCount, setIndex]);
+
+  const visibleLogos = useMemo(
+    () => visibleLogosForPage(logos, page, columns, rows),
+    [logos, page, columns, rows],
+  );
+
+  function goPrev() {
+    setDirection(-1);
+    advance(-1);
+  }
+
+  function goNext() {
+    setDirection(1);
+    advance(1);
+  }
+
   return (
     <section
       className="bg-white py-10 sm:py-14 lg:py-16"
       aria-label="Partner brands"
+      aria-roledescription="carousel"
     >
       <Container>
-        <div className="relative mx-auto w-full max-w-[min(75rem,100%)]">
-          <ul className="relative z-0 grid grid-cols-2 md:grid-cols-4">
-            {PARTNERS_GRID_LOGOS.map((logo) => (
-              <li key={logo.id} className="bg-white">
-                <div
-                  className={cn(
-                    "flex h-full min-h-[5.5rem] items-center justify-center",
-                    "px-5 py-7 sm:min-h-[6.25rem] sm:px-8 sm:py-9",
-                    "md:min-h-[7rem] md:px-10 md:py-10",
-                    "lg:min-h-[7.75rem] lg:px-12 lg:py-11",
-                  )}
-                >
-                  <div className="relative h-10 w-full max-w-[9.5rem] sm:h-11 sm:max-w-[10.5rem] md:h-12 md:max-w-[11.5rem] lg:h-[3.25rem] lg:max-w-[12.5rem]">
-                    <Image
-                      src={logo.src}
-                      alt={logo.name}
-                      fill
-                      sizes="(max-width: 768px) 40vw, 180px"
-                      className="object-contain object-center"
-                    />
-                  </div>
-                </div>
-              </li>
-            ))}
-          </ul>
+        <div className="relative mx-auto w-full max-w-[min(75rem,100%)] overflow-hidden">
+          <AnimatePresence mode="wait" initial={false} custom={direction}>
+            <motion.ul
+              key={page}
+              custom={direction}
+              initial={{ opacity: 0, x: direction * 28 }}
+              animate={{ opacity: 1, x: 0 }}
+              exit={{ opacity: 0, x: direction * -28 }}
+              transition={PAGE_TRANSITION}
+              className="relative z-0 grid grid-cols-2 md:grid-cols-4"
+            >
+              {visibleLogos.map((logo, index) => (
+                <PartnerLogoCell
+                  key={`${logo.id}-${page}-${index}`}
+                  logo={logo}
+                />
+              ))}
+            </motion.ul>
+          </AnimatePresence>
 
           {/* Mobile: 2×8 — one vertical, seven horizontal */}
           <GridDividers columns={2} rows={8} className="md:hidden" />
@@ -86,6 +159,18 @@ export function PartnersLogoGrid() {
             columns={4}
             rows={4}
             className="hidden md:block"
+          />
+        </div>
+
+        <div className="mt-8 flex justify-center">
+          <CarouselControls
+            currentIndex={page}
+            total={pageCount}
+            onPrev={goPrev}
+            onNext={goNext}
+            prevLabel="Previous partner logos"
+            nextLabel="Next partner logos"
+            className="gap-4"
           />
         </div>
       </Container>
