@@ -216,7 +216,7 @@ function SearchIcon({ className = "" }: { className?: string }) {
 }
 
 const filterSelectClass =
-  "relative inline-flex h-12 min-h-[48px] w-full min-w-0 max-w-full cursor-pointer appearance-none items-center border border-[#0000000] bg-white pl-4 pr-9 n-bold text-[11px] uppercase tracking-[0.08em] text-[#161616] outline-none transition-colors hover:bg-black/[0.02] min-[400px]:text-xs sm:h-[51px] sm:min-w-[8.5rem] sm:max-w-none sm:pl-5 sm:pr-10 sm:text-sm sm:tracking-[0.1em] md:min-w-[9.5rem] md:text-base";
+  "relative inline-flex h-12 min-h-[48px] w-full min-w-0 max-w-full cursor-pointer appearance-none items-center overflow-hidden text-ellipsis whitespace-nowrap border border-[#0000000] bg-white pl-4 pr-9 n-bold text-[11px] uppercase tracking-[0.08em] text-[#161616] outline-none transition-colors hover:bg-black/[0.02] min-[400px]:text-xs sm:h-[51px] sm:w-[10.75rem] sm:min-w-[10.75rem] sm:max-w-[10.75rem] sm:pl-5 sm:pr-10 sm:text-sm sm:tracking-[0.1em] md:text-base";
 
 function FilterSelect({
   label,
@@ -230,7 +230,7 @@ function FilterSelect({
   options: readonly string[];
 }) {
   return (
-    <label className="relative inline-flex items-center">
+    <label className="relative inline-flex w-full min-w-0 sm:w-[10.75rem] sm:shrink-0">
       <span className="sr-only">{label}</span>
       <select
         aria-label={label}
@@ -279,11 +279,11 @@ function SortSelect({
 
 function ProjectCardSkeleton() {
   return (
-    <div className="relative flex flex-col overflow-hidden bg-white shadow-[0_4px_24px_rgba(0,0,0,0.08)]">
+    <div className="relative flex h-full flex-col overflow-hidden bg-white shadow-[0_4px_24px_rgba(0,0,0,0.08)]">
       <div className="relative aspect-4/3 w-full overflow-hidden bg-[#BCBDC0]/35 sm:aspect-16/10">
         <div className="h-full w-full animate-pulse bg-linear-to-r from-[#d6d7da] via-[#ececef] to-[#d6d7da]" />
       </div>
-      <div className="flex flex-col items-center gap-3 bg-[#ecebeb] px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-5">
+      <div className="flex flex-1 flex-col items-center gap-3 bg-[#ecebeb] px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-5 sm:py-5">
         <div className="flex w-full flex-col items-center gap-2 sm:items-start">
           <div className="h-6 w-3/4 max-w-[16rem] animate-pulse rounded bg-[#cfd1d5] sm:max-w-none" />
           <div className="h-4 w-5/6 max-w-[18rem] animate-pulse rounded bg-[#d9dbde] sm:max-w-none" />
@@ -559,12 +559,13 @@ function ProjectsPageContent() {
             </p>
           ) : null} */}
 
-          <StaggerContainer className="grid grid-cols-1 gap-6 sm:grid-cols-2 sm:gap-8 lg:gap-10 xl:gap-10" staggerChildren={0.14}>
+          <StaggerContainer className="grid grid-cols-1 items-stretch gap-6 sm:grid-cols-2 sm:gap-8 lg:gap-10 xl:gap-10" staggerChildren={0.14}>
             {listLoading
               ? Array.from({ length: PROJECT_LIST_SKELETON_COUNT }).map(
                 (_, index) => (
                   <ScrollReveal
                     key={`project-skeleton-${index}`}
+                    className="h-full"
                     direction="up"
                     delay={index * 0.02}
                     distance={20}
@@ -574,7 +575,13 @@ function ProjectsPageContent() {
                 ),
               )
               : displayedProjects.map((project, index) => (
-                <ScrollReveal key={project.id} direction="up" delay={index * 0.03} distance={28}>
+                <ScrollReveal
+                  key={project.id}
+                  className="h-full"
+                  direction="up"
+                  delay={index * 0.03}
+                  distance={28}
+                >
                   <ProjectCard
                     imageSrc={project.imageSrc}
                     title={project.title}

@@ -88,7 +88,7 @@ export function ProjectCard({
   return (
     <article
       className={cn(
-        "relative flex flex-col overflow-hidden bg-white",
+        "relative flex h-full flex-col overflow-hidden bg-white",
         "shadow-[0_4px_24px_rgba(0,0,0,0.08)]",
       )}
     >
@@ -128,15 +128,15 @@ export function ProjectCard({
 
       <div
         className={cn(
-          "flex flex-col items-center gap-3 bg-[#ecebeb] px-4 py-4 text-center",
+          "flex flex-1 flex-col items-center gap-3 bg-[#ecebeb] px-4 py-4 text-center",
           "sm:flex-row sm:items-center sm:justify-between sm:gap-4 sm:px-5 sm:py-5 sm:text-left",
         )}
       >
-        <Link href={href} className="min-w-0 w-full sm:flex-1 sm:w-auto">
-          <p className="n-bold fs-24 leading-snug text-[#161616] text-center sm:text-left sm:text-lg">
+        <Link href={href} className="flex min-h-0 min-w-0 flex-1 flex-col justify-center sm:w-auto">
+          <p className="line-clamp-2 n-bold fs-24 leading-snug text-[#161616] text-center sm:text-left sm:text-lg">
             {title}
           </p>
-          <p className="mt-1 n-reg fs-20 text-sm leading-snug text-[#161616]/60 text-center sm:text-left sm:text-[15px]">
+          <p className="mt-1 line-clamp-2 n-reg fs-20 text-sm leading-snug text-[#161616]/60 text-center sm:text-left sm:text-[15px]">
             {subtitle}
           </p>
         </Link>

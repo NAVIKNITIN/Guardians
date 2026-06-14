@@ -1,9 +1,5 @@
 import { LOCAL_IMAGES } from "@/lib/local-images";
 import { resolveApiAssetUrl } from "@/lib/api/resolveAssetUrl";
-import {
-  catalogThumbnailForAmenityName,
-  catalogThumbnailForImageFileId,
-} from "@/lib/admin/amenityCatalog";
 
 type ApiUploadedFile = {
   id: number;
@@ -48,7 +44,8 @@ type ApiAmenity = {
 export type ProjectAmenityItem = {
   id: number;
   label: string;
-  imageSrc: string;
+  /** `GET /api/files/:id` — resolved at render time via `AmenityImageByFileId`. */
+  imageFileId: number | null;
 };
 
 export type ProjectDetailView = {
@@ -63,7 +60,7 @@ export type ProjectDetailView = {
   stats: { label: string; value: string; unit: string }[];
   description: string;
   gallery: { src: string; span: "half" | "full" | "third" }[];
-  /** From API `amenities[]` + `files` via `amenities_image_id`. */
+  /** From API `amenities[]`; images loaded via `GET /api/files/:id`. */
   amenities: ProjectAmenityItem[];
   mapCenter: [number, number];
   mapZoom: number;
@@ -101,48 +98,12 @@ function fileByType(files: ApiUploadedFile[], t: string) {
   );
 }
 
-function fileById(files: ApiUploadedFile[], id: number | string | null) {
-  if (id == null || id === "") return undefined;
+function parseAmenityImageFileId(
+  id: number | string | null | undefined,
+): number | null {
+  if (id == null || id === "") return null;
   const n = Number(id);
-  if (!Number.isFinite(n)) return undefined;
-  return files.find((f) => Number(f.id) === n);
-}
-
-function urlFromNestedAmenityFile(a: ApiAmenity): string | null {
-  const row = a.file ?? a.uploaded_file;
-  return resolveApiAssetUrl(row?.file_url);
-}
-
-/**
- * Amenity image resolution. Preset `amenities_image_id` values (catalog 1–9) use
- * public `/images/Projects/Amenities/*.svg` first. Then nested relation, `project.files`
- * by id, then name catalog. Remote `file_url` values go through `resolveApiAssetUrl`
- * (path join + HTTPS upgrade for Hostinger on secure pages).
- */
-function resolveAmenityImageSrc(
-  a: ApiAmenity,
-  files: ApiUploadedFile[],
-  fallback: string,
-): string {
-  const imageId = a.amenities_image_id;
-  if (imageId != null && imageId !== "") {
-    const preset = catalogThumbnailForImageFileId(imageId);
-    if (preset) return preset;
-  }
-
-  const nested = urlFromNestedAmenityFile(a);
-  if (nested) return nested;
-
-  if (imageId != null && imageId !== "") {
-    const fileRow = fileById(files, imageId);
-    const u = resolveApiAssetUrl(fileRow?.file_url);
-    if (u) return u;
-  }
-
-  const fromCatalogName = catalogThumbnailForAmenityName(a.name);
-  if (fromCatalogName) return fromCatalogName;
-
-  return fallback;
+  return Number.isFinite(n) ? n : null;
 }
 
 function safeUrlFromFile(f: ApiUploadedFile | undefined, fallback: string) {
@@ -266,8 +227,8 @@ function buildLocationItems(
       time = `Drive ${drive}`;
     }
     const name =
-      [loc.place_name, loc.city, loc.state].filter(Boolean).join(" · ") ||
-      loc.address ||
+      (loc.place_name || "").trim() ||
+      (loc.address || "").trim() ||
       "Location";
     const lat = parseCoord(loc.latitude, center[0]);
     const lng = parseCoord(loc.longitude, center[1]);
@@ -375,16 +336,9 @@ export function mapProjectDetailsToViewModel(
     (a) => ({
       id: a.id,
       label: (a.name || "").trim() || "—",
-      imageSrc: resolveAmenityImageSrc(a, files, LOCAL_IMAGES.holding),
+      imageFileId: parseAmenityImageFileId(a.amenities_image_id),
     }),
   );
-  if (amenities.length === 0) {
-    amenities.push({
-      id: 0,
-      label: "—",
-      imageSrc: LOCAL_IMAGES.holding,
-    });
-  }
 
   return {
     id: project.id,

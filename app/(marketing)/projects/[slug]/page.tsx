@@ -8,6 +8,7 @@ import {
   mapProjectDetailsToViewModel,
   type ProjectAmenityItem,
 } from "@/lib/mappers/marketingProjectDetail";
+import { AmenityImageByFileId } from "@/components/common/AmenityImageByFileId";
 import { ScrollReveal } from "@/components/animations/ScrollReveal";
 import { StaggerContainer } from "@/components/animations/StaggerContainer";
 import { Container } from "@/components/common/Container";
@@ -167,12 +168,11 @@ function CaseStudySection({
 // Amenity item
 // ---------------------------------------------------------------------------
 function AmenityItem({ amenity }: { amenity: ProjectAmenityItem }) {
-  const src = amenity.imageSrc;
   return (
     <div className="group flex flex-col items-center gap-2 text-center sm:gap-3">
       <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full bg-white/50 p-1.5 transition-all duration-500 ease-out group-hover:-translate-y-0.5 group-hover:bg-white/80 group-hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] sm:h-20 sm:w-20">
-        <MarketingImgWithFallback
-          src={src}
+        <AmenityImageByFileId
+          imageFileId={amenity.imageFileId}
           fallbackSrc={LOCAL_IMAGES.holding}
           alt=""
           width={80}
@@ -667,33 +667,43 @@ function ProjectDetailPageContent() {
           </ScrollReveal>
 
           {/* API-driven amenities: first 8, then remaining rows (4-col desktop) */}
-          <StaggerContainer className="grid w-full grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-5 lg:gap-x-12 lg:gap-y-10 mt-4 md:mt-10" staggerChildren={0.1}>
-            {project.amenities.slice(0, 8).map((amenity, i) => (
-              <ScrollReveal
-                key={`amenity-${amenity.id}-${i}`}
-                direction="up"
-                delay={i * 0.025}
-                distance={18}
-              >
-                <AmenityItem amenity={amenity} />
-              </ScrollReveal>
-            ))}
-          </StaggerContainer>
+          {project.amenities.length === 0 ? (
+            <ScrollReveal direction="up" distance={18} className="mt-4 md:mt-10">
+              <p className="text-center n-book fs-16 lh-24 text-[#161616]/70">
+                There are no amenities listed for this project.
+              </p>
+            </ScrollReveal>
+          ) : (
+            <>
+              <StaggerContainer className="grid w-full grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-5 lg:gap-x-12 lg:gap-y-10 mt-4 md:mt-10" staggerChildren={0.1}>
+                {project.amenities.slice(0, 8).map((amenity, i) => (
+                  <ScrollReveal
+                    key={`amenity-${amenity.id}-${i}`}
+                    direction="up"
+                    delay={i * 0.025}
+                    distance={18}
+                  >
+                    <AmenityItem amenity={amenity} />
+                  </ScrollReveal>
+                ))}
+              </StaggerContainer>
 
-          {project.amenities.length > 8 ? (
-            <StaggerContainer className="mt-8 grid w-full grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-10 lg:gap-x-12 lg:gap-y-12" staggerChildren={0.1}>
-              {project.amenities.slice(8).map((amenity, i) => (
-                <ScrollReveal
-                  key={`amenity-${amenity.id}-${i + 8}`}
-                  direction="up"
-                  delay={i * 0.04}
-                  distance={18}
-                >
-                  <AmenityItem amenity={amenity} />
-                </ScrollReveal>
-              ))}
-            </StaggerContainer>
-          ) : null}
+              {project.amenities.length > 8 ? (
+                <StaggerContainer className="mt-8 grid w-full grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-4 sm:gap-x-6 sm:gap-y-10 lg:gap-x-12 lg:gap-y-12" staggerChildren={0.1}>
+                  {project.amenities.slice(8).map((amenity, i) => (
+                    <ScrollReveal
+                      key={`amenity-${amenity.id}-${i + 8}`}
+                      direction="up"
+                      delay={i * 0.04}
+                      distance={18}
+                    >
+                      <AmenityItem amenity={amenity} />
+                    </ScrollReveal>
+                  ))}
+                </StaggerContainer>
+              ) : null}
+            </>
+          )}
         </Container>
       </section>
 
@@ -709,11 +719,11 @@ function ProjectDetailPageContent() {
                 Location
               </h2>
 
-              {project.configurationLocation !== "—" ? (
+              {/* {project.configurationLocation !== "—" ? (
                 <p className="mb-6 text-center n-book text-base leading-relaxed text-[#161616] sm:mb-8 sm:text-left">
                   {project.configurationLocation}
                 </p>
-              ) : null}
+              ) : null} */}
 
               <div className="flex flex-col ">
                 {project.locationItems.map((item, i) => (
@@ -858,7 +868,8 @@ function ProjectDetailPageContent() {
                       Location
                     </p>
                     <p className="mx-auto mt-2 max-w-[16rem] n-book text-sm leading-relaxed text-white sm:mx-0">
-                      {project.configurationLocation}
+                      {/* {project.configurationLocation} */}
+                      C-602 & 603, ONE BKC, G Block, Bandra Kurla Complex, Bandra (E), Mumbai - 400051
                     </p>
                   </div>
                   <div className="w-full sm:w-auto">
