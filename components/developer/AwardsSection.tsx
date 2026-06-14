@@ -2,14 +2,13 @@
 
 import type { AwardsSectionContent } from "@/data/audience-marketing";
 import {
-	CARD_STACK_EXIT_DURATION_MS,
+	CARD_STACK_TRANSITION_MS,
 	CardStack,
 	type CardStackHandle,
 } from "@/components/ui/card-stack";
 import { CarouselControls } from "@/components/ui/CarouselControls";
 import { SectionSurface } from "@/components/ui/SectionSurface";
 import { cn } from "@/utils/cn";
-import { RollingText } from "@/components/ui/RollingText";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 
@@ -36,7 +35,6 @@ function AwardsSectionBody({
 }) {
 	const total = content.slides.length;
 	const [currentIndex, setCurrentIndex] = useState(0);
-	const [rollDir, setRollDir] = useState<1 | -1>(1);
 	const [isTransitioning, setIsTransitioning] = useState(false);
 	const cardStackRef = useRef<CardStackHandle>(null);
 	const contentTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -53,34 +51,32 @@ function AwardsSectionBody({
 
 	const slide = content.slides[currentIndex]!;
 
-	const syncContentChange = (direction: 1 | -1) => {
+	const beginTransition = (direction: 1 | -1) => {
 		if (contentTimerRef.current) {
 			clearTimeout(contentTimerRef.current);
 		}
 
 		setIsTransitioning(true);
+		setCurrentIndex((prev) =>
+			direction === 1 ? (prev + 1) % total : (prev - 1 + total) % total,
+		);
 		contentTimerRef.current = setTimeout(() => {
-			setCurrentIndex((prev) =>
-				direction === 1 ? (prev + 1) % total : (prev - 1 + total) % total,
-			);
 			contentTimerRef.current = null;
 			setIsTransitioning(false);
-		}, CARD_STACK_EXIT_DURATION_MS);
+		}, CARD_STACK_TRANSITION_MS);
 	};
 
 	const goNext = () => {
 		if (isTransitioning) return;
-		setRollDir(1);
 		if (cardStackRef.current?.next()) {
-			syncContentChange(1);
+			beginTransition(1);
 		}
 	};
 
 	const goPrev = () => {
 		if (isTransitioning) return;
-		setRollDir(-1);
 		if (cardStackRef.current?.prev()) {
-			syncContentChange(-1);
+			beginTransition(-1);
 		}
 	};
 
@@ -148,42 +144,22 @@ function AwardsSectionBody({
 							prevLabel="Previous award"
 							nextLabel="Next award"
 							buttonClassName="cursor-pointer border-0  bg-transparent hover:bg-transparent"
-							renderCounter={({ currentIndex, total }) => (
-								<span className="inline-flex min-w-[2.75rem] items-baseline justify-center gap-0.5 px-2 tabular-nums text-[#141414] sm:text-lg">
-									<RollingText
-										value={String(currentIndex + 1)}
-										direction={rollDir}
-									/>
-									<span className="opacity-70 mx-1" aria-hidden>
-										/
-									</span>
-									<span>{total}</span>
-								</span>
-							)}
+							counterClassName="min-w-[2.75rem] px-2 text-[#141414] sm:text-lg"
 						/>
 					</div>
 
 					<div className="flex min-h-0 w-full min-w-0 flex-1 flex-col justify-between gap-6 lg:mt-25">
 						<div className="w-full min-w-0">
-							<RollingText
-								value={slide.company}
-								direction={rollDir}
-								className="n-bold text-[clamp(0.875rem,2.5vw,1.125rem)] uppercase tracking-[0.05em] text-[#161616] sm:text-[18px]"
-							/>
-							<div className="w-full min-w-0">
-								<RollingText
-									block
-									value={slide.achievement}
-									direction={rollDir}
-									className="n-bold text-[clamp(1.5rem,6vw,2.25rem)] tracking-[0.02em] text-[#161616] sm:text-[36px]"
-								/>
-							</div>
+							<p className="n-bold m-0 text-[clamp(0.875rem,2.5vw,1.125rem)] uppercase tracking-[0.05em] text-[#161616] sm:text-[18px]">
+								{slide.company}
+							</p>
+							<p className="n-bold m-0 text-[clamp(1.5rem,6vw,2.25rem)] tracking-[0.02em] text-[#161616] sm:text-[36px]">
+								{slide.achievement}
+							</p>
 						</div>
-						<RollingText
-							value={slide.year}
-							direction={rollDir}
-							className="fw-600 n-bold text-[14px] uppercase tracking-[0.2em] text-brand-text-secondary lg:mb-5"
-						/>
+						<p className="fw-600 n-bold m-0 text-[14px] uppercase tracking-[0.2em] text-brand-text-secondary lg:mb-5">
+							{slide.year}
+						</p>
 					</div>
 				</div>
 			</div>

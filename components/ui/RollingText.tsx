@@ -3,6 +3,11 @@
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import { cn } from "@/utils/cn";
 
+export const ROLLING_TEXT_TRANSITION = {
+  duration: 0.28,
+  ease: [0.33, 1, 0.38, 1] as const,
+};
+
 export type RollingTextProps = {
   value: string;
   className?: string;
@@ -45,16 +50,13 @@ export function RollingText({
         className,
       )}
     >
-      <AnimatePresence mode="wait" initial={false}>
+      <AnimatePresence mode="sync" initial={false}>
         <motion.div
           key={value}
           initial={enter}
           animate={center}
           exit={exit}
-          transition={{
-            duration: 0.2,
-            ease: [0.22, 1, 0.16, 1],
-          }}
+          transition={ROLLING_TEXT_TRANSITION}
           className={cn(block && "w-full")}
         >
           {block ? (

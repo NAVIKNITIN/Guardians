@@ -16,7 +16,10 @@ export type CardStackHandle = {
 	prev: () => boolean;
 };
 
-export const CARD_STACK_EXIT_DURATION_MS = 600;
+export const CARD_STACK_TRANSITION_MS = 280;
+export const CARD_STACK_TRANSITION_EASING = "cubic-bezier(0.33, 1, 0.38, 1)";
+/** @deprecated Use CARD_STACK_TRANSITION_MS */
+export const CARD_STACK_EXIT_DURATION_MS = CARD_STACK_TRANSITION_MS;
 
 type CardStackProps = {
 	items: AwardSlide[];
@@ -122,7 +125,7 @@ const CardStackInner = forwardRef<CardStackHandle, CardStackProps>(
 									marginRight: index === 0 ? "10px" : index === 1 ? "20px" : "30px",
 									transition: isNoTransition
 										? "none"
-										: "top 600ms cubic-bezier(0.34, 1.4, 0.64, 1), transform 1000ms cubic-bezier(0.34, 1.4, 0.64, 1), opacity 1500ms ease",
+										: `top ${CARD_STACK_TRANSITION_MS}ms ${CARD_STACK_TRANSITION_EASING}, transform ${CARD_STACK_TRANSITION_MS}ms ${CARD_STACK_TRANSITION_EASING}, opacity ${CARD_STACK_TRANSITION_MS}ms ${CARD_STACK_TRANSITION_EASING}, filter ${CARD_STACK_TRANSITION_MS}ms ${CARD_STACK_TRANSITION_EASING}`,
 
 									willChange: "top, transform, opacity",
 								}}
