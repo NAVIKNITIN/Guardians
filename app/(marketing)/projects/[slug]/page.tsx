@@ -509,7 +509,7 @@ function ProjectDetailPageContent() {
 
           {/* Stats bar — 1 col on mobile, 2×2 from sm, 1×4 from lg */}
           <div className="mt-6 sm:mt-8 border-t border-black">
-            <StaggerContainer className="grid min-w-0 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-10" staggerChildren={0.12}>
+            <StaggerContainer className="grid min-w-0 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-10" staggerChildren={0.12}>
               {project.stats.map((stat, i) => (
                 <ScrollReveal
                   key={i}

@@ -349,11 +349,11 @@ export function mapProjectDetailsToViewModel(
     developerLogo,
     buildingHeroSrc,
     stats: [
-      {
-        label: "Area",
-        value: formatNumArea(project.area),
-        unit: "sq. ft.",
-      },
+      // {
+      //   label: "Area",
+      //   value: formatNumArea(project.area),
+      //   unit: "sq. ft.",
+      // },
       {
         label: "Type",
         value: configurationBhkType,

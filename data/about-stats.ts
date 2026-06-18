@@ -7,7 +7,7 @@ import type { DeveloperStat, StatsSectionContent } from "./audience-marketing-ty
 export const ABOUT_STATS_CONTENT = {
   metrics: [
     { label: "Cr. Worth of Inventory Sold", value: "37,850 Cr+" },
-    { label: "Sq. Ft. Area Developed", value: "2 Million+" },
+    { label: "Sq. Ft. Area Developed", value: "17.3 Million+" },
     { label: "Units Sold", value: "29,669" },
     { label: "Projects Delivered", value: "307+" },
   ] as const satisfies readonly DeveloperStat[],

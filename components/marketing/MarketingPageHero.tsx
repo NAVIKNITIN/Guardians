@@ -397,7 +397,7 @@ function marketingViewportHeightSection(
 function resolveHeadline(hero: MarketingHeroContent) {
   const defaults = hero.isBuyer
     ? { lead: "Looking To", accent: "Buy?" }
-    : { lead: "Looking to", accent: "sell?" };
+    : { lead: "Looking to", accent: "shape your next move?" };
   return {
     lead: hero.headingLead ?? defaults.lead,
     accent: hero.headingAccent ?? defaults.accent,
@@ -662,13 +662,13 @@ function HomeHero({
         className={cn("relative z-10", homePad.className)}
         style={homePad.style}
       >
-        <div className="mx-auto flex min-w-0 max-w-[760px] flex-col items-center px-2 text-center min-[400px]:px-3 sm:px-0">
+        <div className="mx-auto flex min-w-0  flex-col items-center px-2 text-center min-[400px]:px-3 sm:px-0">
           <ScrollReveal direction="up" delay={0.04} distance={26}>
             <h1
               id={config["headingId"] as string}
               className={marketingHeroTitleClass(
                 HERO_TITLE_CLAMP_HOME,
-                "w-full max-w-[760px] not-italic text-[#202225]",
+                "w-full  not-italic text-[#202225]",
               )}
             >
               {lines[0] ? (

@@ -7,10 +7,10 @@
       "backgroundImage": "/images/Home/1.png",
       "imageClassName": "object-cover object-center lg:object-fill",
       "lines": [
-        { "line1": "LOREM IPSUM", "accent": "DOLOR" },
-        { "line2": "SIT AMET" }
+        { "line1": "Shaping  ", "accent": " Real Estate" },
+        { "line2": "Growing bigger better together" }
       ],
-      "subtitle": "We are one of the fastest growing Real Estate consulting company in India.",
+      "subtitle": "Working across markets as one of the country’s foremost real estate firms, reshaping how India experiences real estate consultancy.",
       "cta": { "href": "/about", "label": "Experience Us" }
     },
     "blog": {
@@ -80,8 +80,8 @@
       "variant": "about",
       "backgroundImage": "/images/image 77.svg",
       "imageAlt": "The Guardians city skyline",
-      "headingHtml": { "prefix": "Who", "rest": " We Are?" },
-      "subtitle": "We are one of the fastest growing Real Estate consulting company in India.",
+      "headingHtml": { "prefix": "Raising the Bar,", "rest": " Across Every Market, Every Project, Every Time" },
+      "subtitle": "Nine years in, and we are still just getting started. From a six-person team to one of the most trusted real estate advisory firms in the country, everything we have built has been grounded in one belief: real estate deserves better.",
       "cta": { "href": "/tgrea", "label": "Explore More" }
     },
     "servicesBuyer": {

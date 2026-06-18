@@ -132,14 +132,15 @@ export default function AboutPage() {
               </div>
               <div className=" text-center mx-5 md:mx-30 lg:mx-40">
                 <p className=" text-[#3c393a] lh-27 n-book fs-20">
-                  <span className="font-semibold text-[#242021]">The Guardians</span> mark the coming
-                  together of the best of minds from the Indian real estate industry, a set of professionals
-                  who have played diverse roles across their careers. Their collective experience spans
+                  <span className="font-semibold text-[#242021]">Reshaping real estate through insight, ambition and integrity.</span>
+                  <br />
+                  <br />
+                  <span className="font-semibold text-[#242021]">The Guardians</span> bring together some of the sharpest minds in Indian real estate. Professionals who have spent careers across every corner of this industry, from product strategy and sales to land transactions and commercial advisory. Together, our experience spans
                   <span className="font-semibold text-[#242021]"> over 12 decades </span>
-                  and extends to a pan India portfolio of the best of both regional and national real estate
-                  brands. The team has till date sold
-                  <span className="font-semibold text-[#242021]">  over 17.3 Million of sq.ft. </span>
-                  of projects in both residential and commercial real estate categories.
+                  covers a pan-India portfolio of regional and national real estate brands.
+                 <br />
+                  <span > We do not just consult. We commit. To every developer we partner with, every buyer we guide, and every market we enter, we bring the same standard: rigorous thinking, transparent process and outcomes you can measure. That is a promise we have kept for <span className="font-semibold text-[#242021]">over nine years</span>, and one we continue to raise the bar on.</span>
+
                 </p>
               </div>
               <div className="absolute right-3 top-1/2 hidden -translate-y-1/2 lg:block">
