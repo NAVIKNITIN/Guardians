@@ -25,10 +25,20 @@ import { AmenityImageByFileId } from "@/components/common/AmenityImageByFileId";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import {
+  LEGACY_AMENITY_IMAGE_IDS,
   LOCAL_AMENITY_IMAGE_FILE_ID,
+  isPresetAmenityKey,
+  parseAmenityApiIdFromKey,
   projectAmenitiesForWizard,
   type WizardProjectAmenity,
 } from "@/lib/admin/amenityCatalog";
+import {
+  PROJECT_AMENITY_PRESETS,
+  findPresetByKey,
+  findPresetByName,
+  presetImageSrc,
+  type ProjectAmenityPreset,
+} from "@/lib/admin/projectAmenityPresets";
 import { resolveApiAssetUrl } from "@/lib/api/resolveAssetUrl";
 import { cn } from "@/utils/cn";
 import {
@@ -249,6 +259,32 @@ const MEDIA_UPLOAD_ERROR_CLASS = "text-[0.82rem] font-medium text-[#d05c43]";
 
 const AMENITY_COMPACT_INPUT_CLASS =
   "h-[48px] rounded-[12px] px-4 text-[0.92rem]";
+
+const AMENITY_COMPACT_TEXTAREA_CLASS =
+  "min-h-[96px] resize-y rounded-[12px] px-4 py-3 text-[0.92rem] leading-snug";
+
+/** Split bulk amenity input on commas, newlines, and common paste separators. */
+function parseAmenityNamesFromInput(input: string): string[] {
+  const normalized = input
+    .replace(/\r\n/g, "\n")
+    .replace(/[，;|]/g, ",");
+
+  const parts = normalized
+    .split(/[,\n]+/)
+    .map((part) => part.trim())
+    .filter(Boolean);
+  const seen = new Set<string>();
+  const names: string[] = [];
+
+  for (const part of parts) {
+    const key = part.toLowerCase();
+    if (seen.has(key)) continue;
+    seen.add(key);
+    names.push(part);
+  }
+
+  return names;
+}
 
 const AMENITY_CUSTOM_PANEL_CLASS =
   "rounded-[14px] border border-dashed border-[#e8d5cf] bg-[#fffdfb] p-3";
@@ -754,7 +790,10 @@ export function AddProjectWizard() {
   const [isUploadingAmenityImage, setIsUploadingAmenityImage] = useState(false);
   const [isSavingAmenity, setIsSavingAmenity] = useState(false);
   const [editingAmenityKey, setEditingAmenityKey] = useState<string | null>(null);
+  const [amenityPresetSearch, setAmenityPresetSearch] = useState("");
+  const [uploadingPresetKeys, setUploadingPresetKeys] = useState<string[]>([]);
   const projectAmenityKeyRef = useRef(0);
+  const presetImageUploadCacheRef = useRef(new Map<string, number>());
   const newAmenityPreviewRef = useRef<string | null>(null);
   const [configuration, setConfiguration] = useState<ConfigurationSection>(
     createEmptyConfigurationSection(),
@@ -833,6 +872,18 @@ export function AddProjectWizard() {
         setLocationSections(mappedLocationSections);
 
         const loadedAmenities = projectAmenitiesForWizard(project.amenities);
+        for (const amenity of loadedAmenities) {
+          if (
+            amenity.thumbnailSrc.startsWith("/images/projects_amenities/") &&
+            amenity.imageFileId != null &&
+            !LEGACY_AMENITY_IMAGE_IDS.has(amenity.imageFileId)
+          ) {
+            presetImageUploadCacheRef.current.set(
+              amenity.thumbnailSrc,
+              amenity.imageFileId,
+            );
+          }
+        }
         setProjectAmenities(loadedAmenities);
         setSelectedAmenityKeys(loadedAmenities.map((item) => item.key));
       } catch (error) {
@@ -1077,6 +1128,178 @@ export function AddProjectWizard() {
     );
   }
 
+  function isPresetSelected(presetKey: string) {
+    return projectAmenities.some((item) => item.key === presetKey);
+  }
+
+  function isPresetUploading(presetKey: string) {
+    return uploadingPresetKeys.includes(presetKey);
+  }
+
+  function setPresetUploading(presetKey: string, uploading: boolean) {
+    setUploadingPresetKeys((current) =>
+      uploading
+        ? current.includes(presetKey)
+          ? current
+          : [...current, presetKey]
+        : current.filter((key) => key !== presetKey),
+    );
+  }
+
+  function presetLocalImageSrc(preset: ProjectAmenityPreset) {
+    return presetImageSrc(preset);
+  }
+
+  function resolvePresetLocalImageSrc(amenity: {
+    key: string;
+    thumbnailSrc: string;
+  }): string | null {
+    if (amenity.thumbnailSrc.startsWith("/images/projects_amenities/")) {
+      return amenity.thumbnailSrc;
+    }
+
+    if (isPresetAmenityKey(amenity.key)) {
+      const preset = findPresetByKey(amenity.key);
+      return preset ? presetLocalImageSrc(preset) : null;
+    }
+
+    return null;
+  }
+
+  async function uploadPresetImageBySrc(localSrc: string): Promise<number> {
+    const cache = presetImageUploadCacheRef.current;
+    const cached = cache.get(localSrc);
+    if (cached != null) return cached;
+
+    const uploadedId = await uploadLocalAmenityImage(localSrc);
+    cache.set(localSrc, uploadedId);
+    return uploadedId;
+  }
+
+  async function ensurePresetImageUploaded(
+    preset: ProjectAmenityPreset,
+  ): Promise<number> {
+    const localSrc = presetLocalImageSrc(preset);
+    const existing = projectAmenities.find((entry) => entry.key === preset.key);
+    if (
+      existing?.imageFileId != null &&
+      !LEGACY_AMENITY_IMAGE_IDS.has(existing.imageFileId) &&
+      existing.imageFileId !== LOCAL_AMENITY_IMAGE_FILE_ID
+    ) {
+      presetImageUploadCacheRef.current.set(localSrc, existing.imageFileId);
+      return existing.imageFileId;
+    }
+
+    return uploadPresetImageBySrc(localSrc);
+  }
+
+  async function addPresetAmenity(preset: ProjectAmenityPreset) {
+    if (isPresetSelected(preset.key) || isPresetUploading(preset.key)) return;
+
+    setPresetUploading(preset.key, true);
+    setErrorMessage("");
+
+    try {
+      const imageFileId = await ensurePresetImageUploaded(preset);
+      const entry: WizardProjectAmenity = {
+        key: preset.key,
+        name: preset.name,
+        imageFileId,
+        thumbnailSrc: presetLocalImageSrc(preset),
+      };
+
+      setProjectAmenities((current) => {
+        const withoutDuplicate = current.filter((item) => item.key !== preset.key);
+        return [...withoutDuplicate, entry];
+      });
+      setSelectedAmenityKeys((current) =>
+        current.includes(preset.key) ? current : [...current, preset.key],
+      );
+    } catch (error) {
+      setErrorMessage(
+        getUploadErrorMessage(
+          error,
+          `Could not upload icon for ${preset.name}.`,
+        ),
+      );
+    } finally {
+      setPresetUploading(preset.key, false);
+    }
+  }
+
+  async function togglePresetAmenity(preset: ProjectAmenityPreset) {
+    if (isPresetSelected(preset.key)) {
+      removeProjectAmenity(preset.key);
+      return;
+    }
+    await addPresetAmenity(preset);
+  }
+
+  async function toggleAllFilteredPresets(presets: readonly ProjectAmenityPreset[]) {
+    if (presets.length === 0) return;
+
+    const allSelected = presets.every((preset) => isPresetSelected(preset.key));
+    if (allSelected) {
+      const presetKeys = new Set(presets.map((preset) => preset.key));
+      setProjectAmenities((current) =>
+        current.filter((item) => !presetKeys.has(item.key)),
+      );
+      setSelectedAmenityKeys((current) =>
+        current.filter((key) => !presetKeys.has(key)),
+      );
+      return;
+    }
+
+    const presetsToAdd = presets.filter((preset) => !isPresetSelected(preset.key));
+    if (presetsToAdd.length === 0) return;
+
+    setErrorMessage("");
+    for (const preset of presetsToAdd) {
+      setPresetUploading(preset.key, true);
+    }
+
+    try {
+      const uploadedEntries = await Promise.all(
+        presetsToAdd.map(async (preset) => {
+          const imageFileId = await ensurePresetImageUploaded(preset);
+          return {
+            key: preset.key,
+            name: preset.name,
+            imageFileId,
+            thumbnailSrc: presetLocalImageSrc(preset),
+          } satisfies WizardProjectAmenity;
+        }),
+      );
+
+      setProjectAmenities((current) => {
+        const existingKeys = new Set(current.map((item) => item.key));
+        const next = [...current];
+        for (const entry of uploadedEntries) {
+          if (!existingKeys.has(entry.key)) {
+            next.push(entry);
+            existingKeys.add(entry.key);
+          }
+        }
+        return next;
+      });
+      setSelectedAmenityKeys((current) => {
+        const next = [...current];
+        for (const entry of uploadedEntries) {
+          if (!next.includes(entry.key)) next.push(entry.key);
+        }
+        return next;
+      });
+    } catch (error) {
+      setErrorMessage(
+        getUploadErrorMessage(error, "Could not upload selected amenity icons."),
+      );
+    } finally {
+      for (const preset of presetsToAdd) {
+        setPresetUploading(preset.key, false);
+      }
+    }
+  }
+
   function revokeNewAmenityPreview() {
     if (newAmenityPreviewRef.current) {
       URL.revokeObjectURL(newAmenityPreviewRef.current);
@@ -1194,10 +1417,74 @@ export function AddProjectWizard() {
     return result.data;
   }
 
+  async function uploadLocalAmenityImage(imageSrc: string): Promise<number> {
+    const response = await fetch(imageSrc);
+    if (!response.ok) {
+      throw new Error(`Could not load amenity image (${imageSrc}).`);
+    }
+
+    const blob = await response.blob();
+    const fileName = decodeURIComponent(imageSrc.split("/").pop() ?? "amenity.png");
+    const file = new File([blob], fileName, {
+      type: blob.type || "image/png",
+    });
+    const uploaded = await uploadAmenityIconFile(file);
+    return uploaded.id;
+  }
+
+  async function resolveAmenityImageFileId(
+    amenity: {
+      key: string;
+      name: string;
+      existingImageId: number | null;
+      thumbnailSrc: string;
+    },
+    uploadCache: Map<string, number>,
+  ): Promise<number> {
+    if (
+      amenity.existingImageId != null &&
+      !LEGACY_AMENITY_IMAGE_IDS.has(amenity.existingImageId) &&
+      (!isPresetAmenityKey(amenity.key) ||
+        amenity.existingImageId !== LOCAL_AMENITY_IMAGE_FILE_ID)
+    ) {
+      return amenity.existingImageId;
+    }
+
+    const localSrc = resolvePresetLocalImageSrc(amenity);
+
+    if (localSrc) {
+      const cached = uploadCache.get(localSrc) ??
+        presetImageUploadCacheRef.current.get(localSrc);
+      if (cached != null) {
+        uploadCache.set(localSrc, cached);
+        return cached;
+      }
+
+      const uploadedId = await uploadPresetImageBySrc(localSrc);
+      uploadCache.set(localSrc, uploadedId);
+      return uploadedId;
+    }
+
+    if (amenity.existingImageId != null) {
+      return amenity.existingImageId;
+    }
+
+    throw new Error(`Missing image for amenity "${amenity.name}".`);
+  }
+
   async function saveAmenityFromForm() {
-    const name = newAmenityName.trim();
-    if (!name) {
-      setNewAmenityError("Amenity name is required.");
+    const names = editingAmenityKey
+      ? newAmenityName.trim()
+        ? [newAmenityName.trim()]
+        : []
+      : parseAmenityNamesFromInput(newAmenityName);
+
+    if (names.length === 0) {
+      setNewAmenityError(
+        editingAmenityKey
+          ? "Amenity name is required."
+          : "Add at least one amenity name (one per line or comma-separated).",
+      );
       return;
     }
 
@@ -1235,7 +1522,7 @@ export function AddProjectWizard() {
         setProjectAmenities((current) =>
           current.map((entry) =>
             entry.key === editingAmenityKey
-              ? { ...entry, name, imageFileId, thumbnailSrc }
+              ? { ...entry, name: names[0]!, imageFileId, thumbnailSrc }
               : entry,
           ),
         );
@@ -1245,19 +1532,67 @@ export function AddProjectWizard() {
             : [...current, editingAmenityKey],
         );
       } else {
-        projectAmenityKeyRef.current += 1;
-        const key = `amenity-${Date.now()}-${projectAmenityKeyRef.current}`;
-        const entry: WizardProjectAmenity = {
-          key,
-          name,
-          imageFileId,
-          thumbnailSrc,
-        };
+        const presetsToAdd: ProjectAmenityPreset[] = [];
+        const customNames: string[] = [];
 
-        setProjectAmenities((current) => [...current, entry]);
-        setSelectedAmenityKeys((current) =>
-          current.includes(key) ? current : [...current, key],
+        for (const name of names) {
+          const preset = findPresetByName(name);
+          if (preset) {
+            if (
+              !projectAmenities.some((entry) => entry.key === preset.key) &&
+              !presetsToAdd.some((entry) => entry.key === preset.key)
+            ) {
+              presetsToAdd.push(preset);
+            }
+            continue;
+          }
+          customNames.push(name);
+        }
+
+        if (customNames.length > 0 && imageFileId == null) {
+          setNewAmenityError("Amenity image is required for custom amenities.");
+          return;
+        }
+
+        if (presetsToAdd.length === 0 && customNames.length === 0) {
+          setNewAmenityError("All listed amenities are already added.");
+          return;
+        }
+
+        const newPresetEntries: WizardProjectAmenity[] = await Promise.all(
+          presetsToAdd.map(async (preset) => ({
+            key: preset.key,
+            name: preset.name,
+            imageFileId: await ensurePresetImageUploaded(preset),
+            thumbnailSrc: presetLocalImageSrc(preset),
+          })),
         );
+
+        const newCustomEntries: WizardProjectAmenity[] = customNames.map(
+          (name) => {
+            projectAmenityKeyRef.current += 1;
+            const key = `amenity-${Date.now()}-${projectAmenityKeyRef.current}`;
+            return {
+              key,
+              name,
+              imageFileId,
+              thumbnailSrc,
+            };
+          },
+        );
+
+        const newEntries = [...newPresetEntries, ...newCustomEntries];
+
+        setProjectAmenities((current) => [...current, ...newEntries]);
+        setSelectedAmenityKeys((current) => {
+          const next = [...current];
+          for (const entry of newEntries) {
+            if (!next.includes(entry.key)) {
+              next.push(entry.key);
+            }
+          }
+          return next;
+        });
       }
 
       clearAmenityDraft();
@@ -1279,25 +1614,43 @@ export function AddProjectWizard() {
   }
 
   function getPreparedAmenities(): Array<{
+    key: string;
     name: string;
-    existingImageId: number;
+    existingImageId: number | null;
+    thumbnailSrc: string;
+    apiId: number | null;
   }> {
-    const out: Array<{ name: string; existingImageId: number }> = [];
+    const out: Array<{
+      key: string;
+      name: string;
+      existingImageId: number | null;
+      thumbnailSrc: string;
+      apiId: number | null;
+    }> = [];
+
     for (const key of selectedAmenityKeys) {
       const item = projectAmenities.find((entry) => entry.key === key);
-      if (item?.imageFileId != null) {
-        out.push({
-          name: item.name,
-          existingImageId: item.imageFileId,
-        });
-      }
+      if (!item) continue;
+
+      out.push({
+        key: item.key,
+        name: item.name,
+        existingImageId: item.imageFileId,
+        thumbnailSrc: item.thumbnailSrc,
+        apiId: item.apiId ?? parseAmenityApiIdFromKey(item.key),
+      });
     }
+
     return out;
   }
 
   function buildProjectPayload(
     projectFileIds: number[],
-    amenityPayload: Array<{ name: string; amenities_image_id: number }>,
+    amenityPayload: Array<{
+      id?: number;
+      name: string;
+      amenities_image_id: number;
+    }>,
   ) {
     const configurationRow = buildConfigurationApiPayload(configuration);
     const configurations = configurationRow ? [configurationRow] : [];
@@ -1396,10 +1749,21 @@ export function AddProjectWizard() {
         projectFileIds.push(...galleryIds);
       }
 
-      const uploadedAmenities = preparedAmenities.map((amenity) => ({
-        name: amenity.name.trim(),
-        amenities_image_id: amenity.existingImageId,
-      }));
+      const amenityUploadCache = new Map<string, number>();
+      const uploadedAmenities = await Promise.all(
+        preparedAmenities.map(async (amenity) => {
+          const amenities_image_id = await resolveAmenityImageFileId(
+            amenity,
+            amenityUploadCache,
+          );
+
+          return {
+            ...(isEditMode && amenity.apiId != null ? { id: amenity.apiId } : {}),
+            name: amenity.name.trim(),
+            amenities_image_id,
+          };
+        }),
+      );
 
       const payload = buildProjectPayload(projectFileIds, uploadedAmenities);
 
@@ -1430,7 +1794,10 @@ export function AddProjectWizard() {
   const filledGalleryImages = filledGalleryCount(
     existingProjectFiles.gallerySlots,
   );
-  const isBlockingFileUpload = isAnyFileUploading || isUploadingAmenityImage;
+  const isBlockingFileUpload =
+    isAnyFileUploading ||
+    isUploadingAmenityImage ||
+    uploadingPresetKeys.length > 0;
   const hasBannerImage = Boolean(existingProjectFiles.heroId);
   const hasLogoImage = Boolean(existingProjectFiles.logoId);
   const derivedProjectStatusLabel = projectStatusLabelFromCompletionMonth(
@@ -1455,15 +1822,54 @@ export function AddProjectWizard() {
   const amenityDraftImageFileId = useLocalAmenityImage
     ? LOCAL_AMENITY_IMAGE_FILE_ID
     : newAmenityUploadedFileId ?? editingAmenity?.imageFileId ?? null;
-  const canSaveAmenityDraft =
-    Boolean(amenityDraftImageFileId) ||
-    Boolean(editingAmenityKey && editingAmenity?.imageFileId);
+  const canSaveAmenityDraft = editingAmenityKey
+    ? Boolean(amenityDraftImageFileId) ||
+      Boolean(editingAmenity?.imageFileId)
+    : (() => {
+        const parsedNames = parseAmenityNamesFromInput(newAmenityName);
+        if (parsedNames.length === 0) return false;
+        const hasCustomNames = parsedNames.some((name) => !findPresetByName(name));
+        return !hasCustomNames || Boolean(amenityDraftImageFileId);
+      })();
+  const parsedAmenityNameCount = editingAmenityKey
+    ? 0
+    : parseAmenityNamesFromInput(newAmenityName).length;
+  const parsedCustomAmenityNameCount = editingAmenityKey
+    ? 0
+    : parseAmenityNamesFromInput(newAmenityName).filter(
+        (name) => !findPresetByName(name),
+      ).length;
+  const customProjectAmenities = projectAmenities.filter(
+    (item) => !isPresetAmenityKey(item.key),
+  );
+  const amenityPresetSearchNormalized = amenityPresetSearch.trim().toLowerCase();
+  const filteredAmenityPresets = PROJECT_AMENITY_PRESETS.filter(
+    (preset) =>
+      !amenityPresetSearchNormalized ||
+      preset.name.toLowerCase().includes(amenityPresetSearchNormalized),
+  );
+  const selectedPresetCount = PROJECT_AMENITY_PRESETS.filter((preset) =>
+    isPresetSelected(preset.key),
+  ).length;
+  const allFilteredPresetsSelected =
+    filteredAmenityPresets.length > 0 &&
+    filteredAmenityPresets.every((preset) => isPresetSelected(preset.key));
+  const someFilteredPresetsSelected =
+    filteredAmenityPresets.some((preset) => isPresetSelected(preset.key)) &&
+    !allFilteredPresetsSelected;
+  const selectAllPresetsRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     if (selectAllAmenitiesRef.current) {
       selectAllAmenitiesRef.current.indeterminate = someAmenitiesSelected;
     }
   }, [someAmenitiesSelected]);
+
+  useEffect(() => {
+    if (selectAllPresetsRef.current) {
+      selectAllPresetsRef.current.indeterminate = someFilteredPresetsSelected;
+    }
+  }, [someFilteredPresetsSelected]);
 
   useEffect(() => {
     return () => {
@@ -1745,7 +2151,11 @@ export function AddProjectWizard() {
       >
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="text-[0.88rem] font-semibold text-[#33425e]">
-            {editingAmenityKey ? "Edit amenity" : "Add amenity"}
+            {selectedPresetCount} of {PROJECT_AMENITY_PRESETS.length} standard
+            amenities selected
+            {customProjectAmenities.length > 0
+              ? ` · ${customProjectAmenities.length} custom`
+              : ""}
           </p>
           {totalAmenityCount > 0 ? (
             <label className="inline-flex cursor-pointer items-center gap-2 rounded-[10px] border border-[#e7e4df] bg-[#fafafa] px-3 py-1.5 transition hover:border-[#e8d5cf]">
@@ -1755,37 +2165,183 @@ export function AddProjectWizard() {
                 checked={allAmenitiesSelected}
                 onChange={toggleAllAmenities}
                 className="h-3.5 w-3.5 accent-[#f07c61]"
-                aria-label="Select all amenities"
+                aria-label="Include all added amenities in project"
               />
               <span className="text-[0.82rem] font-semibold text-[#33425e]">
-                Select all ({selectedAmenityCount}/{totalAmenityCount})
+                Include all ({selectedAmenityCount}/{totalAmenityCount})
               </span>
             </label>
           ) : null}
         </div>
 
+        <div className="space-y-2 rounded-[14px] border border-[#ece7e1] bg-[#fafafa] p-3">
+          <div className="flex flex-wrap items-center justify-between gap-2">
+            <p className="text-[0.86rem] font-semibold text-[#33425e]">
+              Standard amenities
+            </p>
+            <label className="inline-flex cursor-pointer items-center gap-2 rounded-[10px] border border-[#e7e4df] bg-white px-3 py-1.5 transition hover:border-[#e8d5cf]">
+              <input
+                ref={selectAllPresetsRef}
+                type="checkbox"
+                checked={allFilteredPresetsSelected}
+                onChange={() => {
+                  void toggleAllFilteredPresets(filteredAmenityPresets);
+                }}
+                disabled={uploadingPresetKeys.length > 0}
+                className="h-3.5 w-3.5 accent-[#f07c61]"
+                aria-label="Select all filtered amenities"
+              />
+              <span className="text-[0.82rem] font-semibold text-[#33425e]">
+                Select all shown
+              </span>
+            </label>
+          </div>
+
+          <TextInput
+            id="amenity-preset-search"
+            value={amenityPresetSearch}
+            onChange={setAmenityPresetSearch}
+            placeholder="Search amenities…"
+            className={AMENITY_COMPACT_INPUT_CLASS}
+            aria-label="Search amenities"
+          />
+
+          <div
+            className="max-h-[420px] overflow-y-auto rounded-[12px] border border-[#ece7e1] bg-white p-2"
+            role="group"
+            aria-label="Standard amenities"
+          >
+            {filteredAmenityPresets.length === 0 ? (
+              <p className="px-2 py-3 text-[0.84rem] text-[#657188]">
+                No amenities match your search.
+              </p>
+            ) : (
+              <div className="grid grid-cols-1 gap-2 min-[480px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                {filteredAmenityPresets.map((preset) => {
+                  const selected = isPresetSelected(preset.key);
+                  const uploading = isPresetUploading(preset.key);
+                  const imageSrc = presetImageSrc(preset);
+                  return (
+                    <label
+                      key={preset.key}
+                      className={cn(
+                        AMENITY_CARD_CLASS,
+                        uploading ? "cursor-wait opacity-70" : "cursor-pointer",
+                        selected
+                          ? "border-[#f07c61] bg-[#fff8f5]"
+                          : "border-[#ece7e1] bg-white hover:border-[#e8d5cf]",
+                      )}
+                    >
+                      <input
+                        type="checkbox"
+                        className="sr-only"
+                        checked={selected}
+                        disabled={uploading}
+                        onChange={() => {
+                          void togglePresetAmenity(preset);
+                        }}
+                      />
+                      <div className="flex min-w-0 flex-1 items-center gap-2 p-2">
+                        <div className="relative flex h-9 w-9 shrink-0 items-center justify-center overflow-hidden rounded-full bg-[#ece7e1]">
+                          <Image
+                            src={imageSrc}
+                            alt=""
+                            width={36}
+                            height={36}
+                            unoptimized
+                            className="h-9 w-9 object-contain"
+                          />
+                        </div>
+                        <span className="min-w-0 flex-1 text-left text-[0.86rem] font-medium leading-snug text-[#33425e]">
+                          {preset.name}
+                          {uploading ? (
+                            <span className="mt-0.5 block text-[0.72rem] font-normal text-[#657188]">
+                              Uploading…
+                            </span>
+                          ) : null}
+                        </span>
+                        {selected && !uploading ? (
+                          <span className="shrink-0 text-[#f07c61]" aria-hidden>
+                            <IconCheckSeal className="h-4 w-4" />
+                          </span>
+                        ) : null}
+                      </div>
+                    </label>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div className="space-y-2">
+          <p className="text-[0.86rem] font-semibold text-[#33425e]">
+            {editingAmenityKey ? "Edit custom amenity" : "Custom amenities"}
+          </p>
+          <p className="text-[0.78rem] text-[#657188]">
+            Optional. Paste comma-separated names for amenities not in the list
+            above. Known names are matched to standard icons automatically.
+          </p>
+        </div>
+
         <div className={AMENITY_CUSTOM_PANEL_CLASS}>
-          <div className="grid grid-cols-1 gap-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)_auto] lg:items-end">
+          <div className="grid grid-cols-1 gap-2 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)_auto] lg:items-start">
             <div className="min-w-0">
               <label htmlFor="new-amenity-name" className={AMENITY_COMPACT_LABEL_CLASS}>
-                Amenity name
+                {editingAmenityKey ? "Amenity name" : "Amenity names"}
               </label>
-              <TextInput
-                id="new-amenity-name"
-                value={newAmenityName}
-                onChange={setNewAmenityName}
-                placeholder="Swimming Pool"
-                className={AMENITY_COMPACT_INPUT_CLASS}
-                disabled={isSavingAmenity}
-                required
-                aria-required="true"
-              />
+              {editingAmenityKey ? (
+                <TextInput
+                  id="new-amenity-name"
+                  value={newAmenityName}
+                  onChange={setNewAmenityName}
+                  placeholder="Swimming Pool"
+                  className={AMENITY_COMPACT_INPUT_CLASS}
+                  disabled={isSavingAmenity}
+                  required
+                  aria-required="true"
+                />
+              ) : (
+                <>
+                  <textarea
+                    id="new-amenity-name"
+                    value={newAmenityName}
+                    onChange={(event) => setNewAmenityName(event.target.value)}
+                    placeholder="Grand Entrance Lobby, Gymnasium, Multipurpose Hall, Swimming Pool with Deck"
+                    rows={4}
+                    disabled={isSavingAmenity}
+                    required
+                    aria-required="true"
+                    aria-describedby="new-amenity-names-hint"
+                    className={[
+                      "w-full border border-[#e0e4eb] bg-white text-[#44506a] outline-none transition focus:border-[#f09684]",
+                      AMENITY_COMPACT_TEXTAREA_CLASS,
+                    ].join(" ")}
+                  />
+                  <p
+                    id="new-amenity-names-hint"
+                    className="mt-1 text-[0.76rem] text-[#657188]"
+                  >
+                    Paste comma-separated names. Standard names use their own
+                    icons; only custom names need the shared image below.
+                    {parsedAmenityNameCount > 0 ? (
+                      <span className="ml-1 font-semibold text-[#33425e]">
+                        {parsedAmenityNameCount} detected
+                        {parsedCustomAmenityNameCount > 0
+                          ? ` (${parsedCustomAmenityNameCount} custom)`
+                          : ""}
+                        .
+                      </span>
+                    ) : null}
+                  </p>
+                </>
+              )}
             </div>
 
             <div className="min-w-0">
               <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
                 <label htmlFor="new-amenity-image" className={AMENITY_COMPACT_LABEL_CLASS}>
-                  Amenity image
+                  {editingAmenityKey ? "Amenity image" : "Shared amenity image"}
                 </label>
                 <label className="inline-flex cursor-pointer items-center gap-1.5">
                   <input
@@ -1836,7 +2392,7 @@ export function AddProjectWizard() {
               />
             </div>
 
-            <div className="flex flex-wrap gap-2 lg:flex-col lg:items-stretch xl:flex-row xl:items-end">
+            <div className="flex flex-wrap gap-2 lg:flex-col lg:items-stretch xl:flex-row xl:items-start">
               <button
                 type="button"
                 onClick={() => void saveAmenityFromForm()}
@@ -1861,7 +2417,7 @@ export function AddProjectWizard() {
                   ? "Saving…"
                   : editingAmenityKey
                     ? "Save"
-                    : "Add"}
+                    : "Add amenities"}
               </button>
               {editingAmenityKey ? (
                 <button
@@ -1912,17 +2468,18 @@ export function AddProjectWizard() {
           ) : null}
         </div>
 
-        {projectAmenities.length === 0 ? (
+        {customProjectAmenities.length === 0 ? (
           <p className="text-[0.84rem] text-[#657188]">
-            No amenities yet. Add one above with a name and image.
+            No custom amenities yet. Select standard amenities above or add
+            custom names with a shared image.
           </p>
         ) : (
           <div
             className="grid grid-cols-1 gap-2 min-[480px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4"
             role="group"
-            aria-label="Amenities"
+            aria-label="Custom amenities"
           >
-            {projectAmenities.map((opt) => {
+            {customProjectAmenities.map((opt) => {
               const selected = selectedAmenityKeys.includes(opt.key);
               const isEditing = editingAmenityKey === opt.key;
               return (

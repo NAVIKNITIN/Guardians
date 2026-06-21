@@ -1,5 +1,9 @@
 import { LOCAL_IMAGES } from "@/lib/local-images";
 import { resolveApiAssetUrl } from "@/lib/api/resolveAssetUrl";
+import {
+  findPresetByName,
+  presetImageSrc,
+} from "@/lib/admin/projectAmenityPresets";
 
 type ApiUploadedFile = {
   id: number;
@@ -46,6 +50,8 @@ export type ProjectAmenityItem = {
   label: string;
   /** `GET /api/files/:id` — resolved at render time via `AmenityImageByFileId`. */
   imageFileId: number | null;
+  /** Direct display URL when API file fetch is unavailable or legacy id is used. */
+  imageSrc?: string | null;
 };
 
 export type ProjectDetailView = {
@@ -333,11 +339,23 @@ export function mapProjectDetailsToViewModel(
     : [description];
 
   const amenities: ProjectAmenityItem[] = (project.amenities ?? []).map(
-    (a) => ({
-      id: a.id,
-      label: (a.name || "").trim() || "—",
-      imageFileId: parseAmenityImageFileId(a.amenities_image_id),
-    }),
+    (a) => {
+      const label = (a.name || "").trim() || "—";
+      const preset = findPresetByName(label);
+      const imageFromRelation = resolveApiAssetUrl(
+        a.file?.file_url ?? a.uploaded_file?.file_url,
+      );
+      const imageFileId = parseAmenityImageFileId(a.amenities_image_id);
+
+      return {
+        id: a.id,
+        label,
+        imageFileId,
+        imageSrc:
+          imageFromRelation ??
+          (preset ? presetImageSrc(preset) : null),
+      };
+    },
   );
 
   return {
