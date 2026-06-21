@@ -9,6 +9,8 @@ export type ProjectAmenityPreset = {
 };
 
 const AMENITY_IMAGE_DIR = "/images/projects_amenities";
+/** Bump when preset PNG mappings change — busts CDN/browser caches. */
+const PRESET_ASSET_VERSION = "2";
 
 /** All selectable amenity presets for the admin project wizard. */
 export const PROJECT_AMENITY_PRESETS: readonly ProjectAmenityPreset[] = [
@@ -47,7 +49,7 @@ export const PROJECT_AMENITY_PRESETS: readonly ProjectAmenityPreset[] = [
   { key: "preset-gazebo", name: "Gazebo", imageFileName: "gazebo 1.png" },
   { key: "preset-clubhouse-grand", name: "Grand Clubhouse", imageFileName: "clubhouse-grand 1.png" },
   { key: "preset-lobby-entrance", name: "Grand Entrance Lobby", imageFileName: "lobby-entrance 1.png" },
-  { key: "preset-gymnasium", name: "Gymnasium", imageFileName: "gym 1.png" },
+  { key: "preset-gymnasium", name: "Gymnasium", imageFileName: "fitness 1.png" },
   {
     key: "preset-half-basketball",
     name: "Half Basketball Court",
@@ -71,7 +73,7 @@ export const PROJECT_AMENITY_PRESETS: readonly ProjectAmenityPreset[] = [
   { key: "preset-jodi-options", name: "Jodi Options Available", imageFileName: "jodi-options 1.png" },
   { key: "preset-jogging", name: "Jogging Track", imageFileName: "jogging 1.png" },
   { key: "preset-kids-play", name: "Kids' Play Area", imageFileName: "kids-play 1.png" },
-  { key: "preset-kids-pool", name: "Kids' Pool", imageFileName: "pool-kids 1.png" },
+  { key: "preset-kids-pool", name: "Kids' Pool", imageFileName: "pool-infinity 1.png" },
   { key: "preset-kids-rock-climbing", name: "Kids' Rock Climbing", imageFileName: "rock-climbing 1.png" },
   {
     key: "preset-retail-large",
@@ -81,7 +83,7 @@ export const PROJECT_AMENITY_PRESETS: readonly ProjectAmenityPreset[] = [
   { key: "preset-lap-pool", name: "Lap Pool", imageFileName: "pool-lap 1.png" },
   { key: "preset-lobby", name: "Lobby", imageFileName: "lobby 1.png" },
   { key: "preset-badminton", name: "Mini Badminton Court", imageFileName: "sports-badminton 1.png" },
-  { key: "preset-mini-theatre", name: "Mini Theatre", imageFileName: "theatre 1.png" },
+  { key: "preset-mini-theatre", name: "Mini Theatre", imageFileName: "theatre-outdoor 1.png" },
   { key: "preset-cafeteria", name: "Modern Cafeteria", imageFileName: "cafeteria 1.png" },
   { key: "preset-multipurpose-court", name: "Multipurpose Court", imageFileName: "sports-court 1.png" },
   { key: "preset-multipurpose-hall", name: "Multipurpose Hall", imageFileName: "multipurpose-hall 1.png" },
@@ -103,7 +105,7 @@ export const PROJECT_AMENITY_PRESETS: readonly ProjectAmenityPreset[] = [
   { key: "preset-seating", name: "Senior Citizen Sit-outs", imageFileName: "seating 1.png" },
   { key: "preset-skating", name: "Skating Rink", imageFileName: "skating 1.png" },
   { key: "preset-sky-lounge", name: "Sky Lounge", imageFileName: "sky-lounge 1.png" },
-  { key: "preset-spa", name: "Spa & Sauna", imageFileName: "spa 1.png" },
+  { key: "preset-spa", name: "Spa & Sauna", imageFileName: "theatre 1.png" },
   {
     key: "preset-parking-stack",
     name: "Stack & Surface Parking",
@@ -122,8 +124,8 @@ export const PROJECT_AMENITY_PRESETS: readonly ProjectAmenityPreset[] = [
     imageFileName: "water-tank 1.png",
   },
   { key: "preset-washroom", name: "Washroom Facilities", imageFileName: "washroom 1.png" },
-  { key: "preset-yoga-area", name: "Yoga & Meditation Area", imageFileName: "yoga-area 1.png" },
-  { key: "preset-yoga-lawn", name: "Yoga Lawn", imageFileName: "yoga-lawn 1.png" },
+  { key: "preset-yoga-area", name: "Yoga & Meditation Area", imageFileName: "yoga-room 1.png" },
+  { key: "preset-yoga-lawn", name: "Yoga Lawn", imageFileName: "garden-terrace 1.png" },
   { key: "preset-yoga-room", name: "Yoga Room", imageFileName: "yoga-room 1.png" },
 ] as const;
 
@@ -153,7 +155,7 @@ export function isPresetAmenityKey(key: string): boolean {
 }
 
 export function presetImageSrc(preset: ProjectAmenityPreset): string {
-  return `${AMENITY_IMAGE_DIR}/${encodeURIComponent(preset.imageFileName)}`;
+  return `${AMENITY_IMAGE_DIR}/${encodeURIComponent(preset.imageFileName)}?v=${PRESET_ASSET_VERSION}`;
 }
 
 export function findPresetByKey(key: string): ProjectAmenityPreset | undefined {
@@ -165,5 +167,6 @@ export function findPresetByName(name: string): ProjectAmenityPreset | undefined
 }
 
 export function isPresetLocalImageSrc(src: string | null | undefined): boolean {
-  return Boolean(src?.startsWith(`${AMENITY_IMAGE_DIR}/`));
+  if (!src) return false;
+  return src.split("?")[0]!.startsWith(`${AMENITY_IMAGE_DIR}/`);
 }

@@ -1,5 +1,6 @@
 import { LOCAL_IMAGES } from "@/lib/local-images";
 import { resolveApiAssetUrl } from "@/lib/api/resolveAssetUrl";
+import { LEGACY_AMENITY_IMAGE_IDS } from "@/lib/admin/amenityCatalog";
 import {
   findPresetByName,
   presetImageSrc,
@@ -346,14 +347,16 @@ export function mapProjectDetailsToViewModel(
         a.file?.file_url ?? a.uploaded_file?.file_url,
       );
       const imageFileId = parseAmenityImageFileId(a.amenities_image_id);
+      const hasUploadedImage =
+        imageFileId != null && !LEGACY_AMENITY_IMAGE_IDS.has(imageFileId);
 
       return {
         id: a.id,
         label,
-        imageFileId,
-        imageSrc:
-          imageFromRelation ??
-          (preset ? presetImageSrc(preset) : null),
+        imageFileId: hasUploadedImage ? imageFileId : null,
+        imageSrc: hasUploadedImage
+          ? imageFromRelation ?? null
+          : imageFromRelation ?? (preset ? presetImageSrc(preset) : null),
       };
     },
   );

@@ -90,10 +90,7 @@ export function projectAmenitiesForWizard(
       amenities.push({
         key: preset.key,
         name: preset.name,
-        imageFileId:
-          imageId != null && !LEGACY_AMENITY_IMAGE_IDS.has(imageId)
-            ? imageId
-            : null,
+        imageFileId: null,
         thumbnailSrc: presetImageSrc(preset),
         apiId: item.id ?? null,
       });
@@ -114,7 +111,8 @@ export function projectAmenitiesForWizard(
     amenities.push({
       key,
       name: label,
-      imageFileId: imageId,
+      imageFileId:
+        imageId != null && LEGACY_AMENITY_IMAGE_IDS.has(imageId) ? null : imageId,
       thumbnailSrc: "",
       apiId: item.id ?? null,
     });

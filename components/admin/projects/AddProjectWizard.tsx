@@ -27,11 +27,16 @@ import Image from "next/image";
 import {
   LEGACY_AMENITY_IMAGE_IDS,
   LOCAL_AMENITY_IMAGE_FILE_ID,
+  isCustomAmenityKey,
   isPresetAmenityKey,
   parseAmenityApiIdFromKey,
   projectAmenitiesForWizard,
   type WizardProjectAmenity,
 } from "@/lib/admin/amenityCatalog";
+import {
+  resolveAmenityPayloadForSubmit,
+  type AmenityPayloadInput,
+} from "@/lib/admin/resolveAmenityPayload";
 import {
   PROJECT_AMENITY_PRESETS,
   findPresetByKey,
@@ -787,13 +792,12 @@ export function AddProjectWizard() {
   >(null);
   const [useLocalAmenityImage, setUseLocalAmenityImage] = useState(false);
   const [newAmenityError, setNewAmenityError] = useState<string | null>(null);
-  const [isUploadingAmenityImage, setIsUploadingAmenityImage] = useState(false);
   const [isSavingAmenity, setIsSavingAmenity] = useState(false);
   const [editingAmenityKey, setEditingAmenityKey] = useState<string | null>(null);
   const [amenityPresetSearch, setAmenityPresetSearch] = useState("");
-  const [uploadingPresetKeys, setUploadingPresetKeys] = useState<string[]>([]);
   const projectAmenityKeyRef = useRef(0);
-  const presetImageUploadCacheRef = useRef(new Map<string, number>());
+  const newAmenityPendingFileRef = useRef<File | null>(null);
+  const amenityPendingFilesRef = useRef<Map<string, File>>(new Map());
   const newAmenityPreviewRef = useRef<string | null>(null);
   const [configuration, setConfiguration] = useState<ConfigurationSection>(
     createEmptyConfigurationSection(),
@@ -872,18 +876,7 @@ export function AddProjectWizard() {
         setLocationSections(mappedLocationSections);
 
         const loadedAmenities = projectAmenitiesForWizard(project.amenities);
-        for (const amenity of loadedAmenities) {
-          if (
-            amenity.thumbnailSrc.startsWith("/images/projects_amenities/") &&
-            amenity.imageFileId != null &&
-            !LEGACY_AMENITY_IMAGE_IDS.has(amenity.imageFileId)
-          ) {
-            presetImageUploadCacheRef.current.set(
-              amenity.thumbnailSrc,
-              amenity.imageFileId,
-            );
-          }
-        }
+        amenityPendingFilesRef.current.clear();
         setProjectAmenities(loadedAmenities);
         setSelectedAmenityKeys(loadedAmenities.map((item) => item.key));
       } catch (error) {
@@ -1132,110 +1125,59 @@ export function AddProjectWizard() {
     return projectAmenities.some((item) => item.key === presetKey);
   }
 
-  function isPresetUploading(presetKey: string) {
-    return uploadingPresetKeys.includes(presetKey);
-  }
-
-  function setPresetUploading(presetKey: string, uploading: boolean) {
-    setUploadingPresetKeys((current) =>
-      uploading
-        ? current.includes(presetKey)
-          ? current
-          : [...current, presetKey]
-        : current.filter((key) => key !== presetKey),
-    );
-  }
-
   function presetLocalImageSrc(preset: ProjectAmenityPreset) {
     return presetImageSrc(preset);
+  }
+
+  function normalizePresetAssetPath(src: string): string {
+    return src.split("?")[0] ?? src;
   }
 
   function resolvePresetLocalImageSrc(amenity: {
     key: string;
     thumbnailSrc: string;
   }): string | null {
-    if (amenity.thumbnailSrc.startsWith("/images/projects_amenities/")) {
-      return amenity.thumbnailSrc;
+    const normalizedThumb = normalizePresetAssetPath(amenity.thumbnailSrc);
+    if (normalizedThumb.startsWith("/images/projects_amenities/")) {
+      return normalizedThumb;
     }
 
     if (isPresetAmenityKey(amenity.key)) {
       const preset = findPresetByKey(amenity.key);
-      return preset ? presetLocalImageSrc(preset) : null;
+      return preset ? normalizePresetAssetPath(presetLocalImageSrc(preset)) : null;
     }
 
     return null;
   }
 
-  async function uploadPresetImageBySrc(localSrc: string): Promise<number> {
-    const cache = presetImageUploadCacheRef.current;
-    const cached = cache.get(localSrc);
-    if (cached != null) return cached;
-
-    const uploadedId = await uploadLocalAmenityImage(localSrc);
-    cache.set(localSrc, uploadedId);
-    return uploadedId;
-  }
-
-  async function ensurePresetImageUploaded(
-    preset: ProjectAmenityPreset,
-  ): Promise<number> {
-    const localSrc = presetLocalImageSrc(preset);
-    const existing = projectAmenities.find((entry) => entry.key === preset.key);
-    if (
-      existing?.imageFileId != null &&
-      !LEGACY_AMENITY_IMAGE_IDS.has(existing.imageFileId) &&
-      existing.imageFileId !== LOCAL_AMENITY_IMAGE_FILE_ID
-    ) {
-      presetImageUploadCacheRef.current.set(localSrc, existing.imageFileId);
-      return existing.imageFileId;
-    }
-
-    return uploadPresetImageBySrc(localSrc);
-  }
-
   async function addPresetAmenity(preset: ProjectAmenityPreset) {
-    if (isPresetSelected(preset.key) || isPresetUploading(preset.key)) return;
+    if (isPresetSelected(preset.key)) return;
 
-    setPresetUploading(preset.key, true);
-    setErrorMessage("");
+    const entry: WizardProjectAmenity = {
+      key: preset.key,
+      name: preset.name,
+      imageFileId: null,
+      thumbnailSrc: presetLocalImageSrc(preset),
+    };
 
-    try {
-      const imageFileId = await ensurePresetImageUploaded(preset);
-      const entry: WizardProjectAmenity = {
-        key: preset.key,
-        name: preset.name,
-        imageFileId,
-        thumbnailSrc: presetLocalImageSrc(preset),
-      };
-
-      setProjectAmenities((current) => {
-        const withoutDuplicate = current.filter((item) => item.key !== preset.key);
-        return [...withoutDuplicate, entry];
-      });
-      setSelectedAmenityKeys((current) =>
-        current.includes(preset.key) ? current : [...current, preset.key],
-      );
-    } catch (error) {
-      setErrorMessage(
-        getUploadErrorMessage(
-          error,
-          `Could not upload icon for ${preset.name}.`,
-        ),
-      );
-    } finally {
-      setPresetUploading(preset.key, false);
-    }
+    setProjectAmenities((current) => {
+      const withoutDuplicate = current.filter((item) => item.key !== preset.key);
+      return [...withoutDuplicate, entry];
+    });
+    setSelectedAmenityKeys((current) =>
+      current.includes(preset.key) ? current : [...current, preset.key],
+    );
   }
 
-  async function togglePresetAmenity(preset: ProjectAmenityPreset) {
+  function togglePresetAmenity(preset: ProjectAmenityPreset) {
     if (isPresetSelected(preset.key)) {
       removeProjectAmenity(preset.key);
       return;
     }
-    await addPresetAmenity(preset);
+    addPresetAmenity(preset);
   }
 
-  async function toggleAllFilteredPresets(presets: readonly ProjectAmenityPreset[]) {
+  function toggleAllFilteredPresets(presets: readonly ProjectAmenityPreset[]) {
     if (presets.length === 0) return;
 
     const allSelected = presets.every((preset) => isPresetSelected(preset.key));
@@ -1253,51 +1195,31 @@ export function AddProjectWizard() {
     const presetsToAdd = presets.filter((preset) => !isPresetSelected(preset.key));
     if (presetsToAdd.length === 0) return;
 
-    setErrorMessage("");
-    for (const preset of presetsToAdd) {
-      setPresetUploading(preset.key, true);
-    }
+    const newEntries: WizardProjectAmenity[] = presetsToAdd.map((preset) => ({
+      key: preset.key,
+      name: preset.name,
+      imageFileId: null,
+      thumbnailSrc: presetLocalImageSrc(preset),
+    }));
 
-    try {
-      const uploadedEntries = await Promise.all(
-        presetsToAdd.map(async (preset) => {
-          const imageFileId = await ensurePresetImageUploaded(preset);
-          return {
-            key: preset.key,
-            name: preset.name,
-            imageFileId,
-            thumbnailSrc: presetLocalImageSrc(preset),
-          } satisfies WizardProjectAmenity;
-        }),
-      );
-
-      setProjectAmenities((current) => {
-        const existingKeys = new Set(current.map((item) => item.key));
-        const next = [...current];
-        for (const entry of uploadedEntries) {
-          if (!existingKeys.has(entry.key)) {
-            next.push(entry);
-            existingKeys.add(entry.key);
-          }
+    setProjectAmenities((current) => {
+      const existingKeys = new Set(current.map((item) => item.key));
+      const next = [...current];
+      for (const entry of newEntries) {
+        if (!existingKeys.has(entry.key)) {
+          next.push(entry);
+          existingKeys.add(entry.key);
         }
-        return next;
-      });
-      setSelectedAmenityKeys((current) => {
-        const next = [...current];
-        for (const entry of uploadedEntries) {
-          if (!next.includes(entry.key)) next.push(entry.key);
-        }
-        return next;
-      });
-    } catch (error) {
-      setErrorMessage(
-        getUploadErrorMessage(error, "Could not upload selected amenity icons."),
-      );
-    } finally {
-      for (const preset of presetsToAdd) {
-        setPresetUploading(preset.key, false);
       }
-    }
+      return next;
+    });
+    setSelectedAmenityKeys((current) => {
+      const next = [...current];
+      for (const entry of newEntries) {
+        if (!next.includes(entry.key)) next.push(entry.key);
+      }
+      return next;
+    });
   }
 
   function revokeNewAmenityPreview() {
@@ -1310,6 +1232,7 @@ export function AddProjectWizard() {
 
   function clearAmenityDraft() {
     revokeNewAmenityPreview();
+    newAmenityPendingFileRef.current = null;
     setNewAmenityName("");
     setNewAmenityFileName("");
     setNewAmenityUploadedFileId(null);
@@ -1323,6 +1246,7 @@ export function AddProjectWizard() {
     if (!item) return;
 
     revokeNewAmenityPreview();
+    newAmenityPendingFileRef.current = null;
     setEditingAmenityKey(key);
     setNewAmenityName(item.name);
     const isLocalImage = item.imageFileId === LOCAL_AMENITY_IMAGE_FILE_ID;
@@ -1344,6 +1268,7 @@ export function AddProjectWizard() {
 
     if (checked) {
       revokeNewAmenityPreview();
+      newAmenityPendingFileRef.current = null;
       setNewAmenityFileName("Local image");
       setNewAmenityUploadedFileId(LOCAL_AMENITY_IMAGE_FILE_ID);
     } else {
@@ -1370,33 +1295,16 @@ export function AddProjectWizard() {
 
     setUseLocalAmenityImage(false);
     revokeNewAmenityPreview();
+    newAmenityPendingFileRef.current = null;
     setNewAmenityUploadedFileId(null);
     const previewUrl = URL.createObjectURL(file);
     newAmenityPreviewRef.current = previewUrl;
     setNewAmenityPreview(previewUrl);
     setNewAmenityFileName(file.name);
+    newAmenityPendingFileRef.current = file;
     setNewAmenityError(null);
-    setIsUploadingAmenityImage(true);
     setErrorMessage("");
-
-    try {
-      const uploaded = await uploadAmenityIconFile(file);
-      setNewAmenityUploadedFileId(uploaded.id);
-      const apiThumbnail =
-        resolveApiAssetUrl(uploaded.file_url) ?? previewUrl;
-      revokeNewAmenityPreview();
-      setNewAmenityPreview(apiThumbnail);
-    } catch (error) {
-      revokeNewAmenityPreview();
-      setNewAmenityFileName("");
-      setNewAmenityUploadedFileId(null);
-      setNewAmenityError(
-        getUploadErrorMessage(error, "Amenity image upload failed."),
-      );
-    } finally {
-      setIsUploadingAmenityImage(false);
-      input.value = "";
-    }
+    input.value = "";
   }
 
   async function uploadAmenityIconFile(file: File): Promise<SingleFileUploadResponse["data"]> {
@@ -1432,46 +1340,6 @@ export function AddProjectWizard() {
     return uploaded.id;
   }
 
-  async function resolveAmenityImageFileId(
-    amenity: {
-      key: string;
-      name: string;
-      existingImageId: number | null;
-      thumbnailSrc: string;
-    },
-    uploadCache: Map<string, number>,
-  ): Promise<number> {
-    if (
-      amenity.existingImageId != null &&
-      !LEGACY_AMENITY_IMAGE_IDS.has(amenity.existingImageId) &&
-      (!isPresetAmenityKey(amenity.key) ||
-        amenity.existingImageId !== LOCAL_AMENITY_IMAGE_FILE_ID)
-    ) {
-      return amenity.existingImageId;
-    }
-
-    const localSrc = resolvePresetLocalImageSrc(amenity);
-
-    if (localSrc) {
-      const cached = uploadCache.get(localSrc) ??
-        presetImageUploadCacheRef.current.get(localSrc);
-      if (cached != null) {
-        uploadCache.set(localSrc, cached);
-        return cached;
-      }
-
-      const uploadedId = await uploadPresetImageBySrc(localSrc);
-      uploadCache.set(localSrc, uploadedId);
-      return uploadedId;
-    }
-
-    if (amenity.existingImageId != null) {
-      return amenity.existingImageId;
-    }
-
-    throw new Error(`Missing image for amenity "${amenity.name}".`);
-  }
-
   async function saveAmenityFromForm() {
     const names = editingAmenityKey
       ? newAmenityName.trim()
@@ -1492,11 +1360,13 @@ export function AddProjectWizard() {
       ? projectAmenities.find((entry) => entry.key === editingAmenityKey)
       : null;
 
-    const draftImageFileId = useLocalAmenityImage
-      ? LOCAL_AMENITY_IMAGE_FILE_ID
-      : newAmenityUploadedFileId;
+    const draftPendingFile = newAmenityPendingFileRef.current;
+    const hasDraftImage =
+      useLocalAmenityImage ||
+      Boolean(draftPendingFile) ||
+      Boolean(existing?.imageFileId);
 
-    if (!draftImageFileId && !existing?.imageFileId) {
+    if (editingAmenityKey && existing && isCustomAmenityKey(existing.key) && !hasDraftImage) {
       setNewAmenityError("Amenity image is required.");
       return;
     }
@@ -1506,23 +1376,34 @@ export function AddProjectWizard() {
     setIsSavingAmenity(true);
 
     try {
-      const imageFileId = draftImageFileId ?? existing?.imageFileId ?? null;
       const thumbnailSrc = useLocalAmenityImage
         ? ""
-        : newAmenityPreview ??
-          existing?.thumbnailSrc ??
-          "";
-
-      if (imageFileId == null) {
-        setNewAmenityError("Amenity image is required.");
-        return;
-      }
+        : draftPendingFile && newAmenityPreview
+          ? newAmenityPreview
+          : existing?.thumbnailSrc ?? "";
 
       if (editingAmenityKey && existing) {
+        if (draftPendingFile) {
+          amenityPendingFilesRef.current.set(editingAmenityKey, draftPendingFile);
+        } else if (useLocalAmenityImage) {
+          amenityPendingFilesRef.current.delete(editingAmenityKey);
+        }
+
         setProjectAmenities((current) =>
           current.map((entry) =>
             entry.key === editingAmenityKey
-              ? { ...entry, name: names[0]!, imageFileId, thumbnailSrc }
+              ? {
+                  ...entry,
+                  name: names[0]!,
+                  imageFileId: useLocalAmenityImage
+                    ? LOCAL_AMENITY_IMAGE_FILE_ID
+                    : draftPendingFile
+                      ? null
+                      : entry.imageFileId,
+                  thumbnailSrc: isCustomAmenityKey(existing.key)
+                    ? thumbnailSrc
+                    : entry.thumbnailSrc,
+                }
               : entry,
           ),
         );
@@ -1535,7 +1416,15 @@ export function AddProjectWizard() {
         const presetsToAdd: ProjectAmenityPreset[] = [];
         const customNames: string[] = [];
 
+        const hasSharedCustomImage =
+          useLocalAmenityImage || Boolean(draftPendingFile);
+
         for (const name of names) {
+          if (hasSharedCustomImage) {
+            customNames.push(name);
+            continue;
+          }
+
           const preset = findPresetByName(name);
           if (preset) {
             if (
@@ -1549,7 +1438,7 @@ export function AddProjectWizard() {
           customNames.push(name);
         }
 
-        if (customNames.length > 0 && imageFileId == null) {
+        if (customNames.length > 0 && !hasSharedCustomImage) {
           setNewAmenityError("Amenity image is required for custom amenities.");
           return;
         }
@@ -1559,24 +1448,27 @@ export function AddProjectWizard() {
           return;
         }
 
-        const newPresetEntries: WizardProjectAmenity[] = await Promise.all(
-          presetsToAdd.map(async (preset) => ({
+        const newPresetEntries: WizardProjectAmenity[] = presetsToAdd.map(
+          (preset) => ({
             key: preset.key,
             name: preset.name,
-            imageFileId: await ensurePresetImageUploaded(preset),
+            imageFileId: null,
             thumbnailSrc: presetLocalImageSrc(preset),
-          })),
+          }),
         );
 
         const newCustomEntries: WizardProjectAmenity[] = customNames.map(
           (name) => {
             projectAmenityKeyRef.current += 1;
             const key = `amenity-${Date.now()}-${projectAmenityKeyRef.current}`;
+            if (draftPendingFile) {
+              amenityPendingFilesRef.current.set(key, draftPendingFile);
+            }
             return {
               key,
               name,
-              imageFileId,
-              thumbnailSrc,
+              imageFileId: useLocalAmenityImage ? LOCAL_AMENITY_IMAGE_FILE_ID : null,
+              thumbnailSrc: draftPendingFile && newAmenityPreview ? newAmenityPreview : "",
             };
           },
         );
@@ -1609,39 +1501,31 @@ export function AddProjectWizard() {
     if (editingAmenityKey === key) {
       clearAmenityDraft();
     }
+    amenityPendingFilesRef.current.delete(key);
     setProjectAmenities((current) => current.filter((item) => item.key !== key));
     setSelectedAmenityKeys((current) => current.filter((k) => k !== key));
   }
 
-  function getPreparedAmenities(): Array<{
-    key: string;
-    name: string;
-    existingImageId: number | null;
-    thumbnailSrc: string;
-    apiId: number | null;
-  }> {
-    const out: Array<{
-      key: string;
-      name: string;
-      existingImageId: number | null;
-      thumbnailSrc: string;
-      apiId: number | null;
-    }> = [];
+  function buildAmenityPayloadInputs(): AmenityPayloadInput[] {
+    const inputs: AmenityPayloadInput[] = [];
 
     for (const key of selectedAmenityKeys) {
       const item = projectAmenities.find((entry) => entry.key === key);
       if (!item) continue;
 
-      out.push({
+      const localAssetPath = resolvePresetLocalImageSrc(item);
+
+      inputs.push({
         key: item.key,
         name: item.name,
-        existingImageId: item.imageFileId,
-        thumbnailSrc: item.thumbnailSrc,
         apiId: item.apiId ?? parseAmenityApiIdFromKey(item.key),
+        imageFileId: item.imageFileId,
+        localAssetPath,
+        pendingFile: amenityPendingFilesRef.current.get(item.key) ?? null,
       });
     }
 
-    return out;
+    return inputs;
   }
 
   function buildProjectPayload(
@@ -1735,7 +1619,6 @@ export function AddProjectWizard() {
     try {
       setIsSubmitting(true);
 
-      const preparedAmenities = getPreparedAmenities();
       const projectFileIds: number[] = [];
 
       if (existingProjectFiles.logoId) {
@@ -1749,23 +1632,17 @@ export function AddProjectWizard() {
         projectFileIds.push(...galleryIds);
       }
 
-      const amenityUploadCache = new Map<string, number>();
-      const uploadedAmenities = await Promise.all(
-        preparedAmenities.map(async (amenity) => {
-          const amenities_image_id = await resolveAmenityImageFileId(
-            amenity,
-            amenityUploadCache,
-          );
+      const amenityPayload = await resolveAmenityPayloadForSubmit({
+        amenities: buildAmenityPayloadInputs(),
+        isEditMode,
+        uploadLocalAsset: uploadLocalAmenityImage,
+        uploadFile: async (file) => {
+          const uploaded = await uploadAmenityIconFile(file);
+          return uploaded.id;
+        },
+      });
 
-          return {
-            ...(isEditMode && amenity.apiId != null ? { id: amenity.apiId } : {}),
-            name: amenity.name.trim(),
-            amenities_image_id,
-          };
-        }),
-      );
-
-      const payload = buildProjectPayload(projectFileIds, uploadedAmenities);
+      const payload = buildProjectPayload(projectFileIds, amenityPayload);
 
       const result = (isEditMode
         ? await updateProject(projectId!, payload)
@@ -1778,6 +1655,7 @@ export function AddProjectWizard() {
       }
 
       router.push("/admin/projects");
+      amenityPendingFilesRef.current.clear();
     } catch (error) {
       setErrorMessage(
         error instanceof Error ? error.message : "Something went wrong.",
@@ -1794,10 +1672,7 @@ export function AddProjectWizard() {
   const filledGalleryImages = filledGalleryCount(
     existingProjectFiles.gallerySlots,
   );
-  const isBlockingFileUpload =
-    isAnyFileUploading ||
-    isUploadingAmenityImage ||
-    uploadingPresetKeys.length > 0;
+  const isBlockingFileUpload = isAnyFileUploading;
   const hasBannerImage = Boolean(existingProjectFiles.heroId);
   const hasLogoImage = Boolean(existingProjectFiles.logoId);
   const derivedProjectStatusLabel = projectStatusLabelFromCompletionMonth(
@@ -1822,23 +1697,28 @@ export function AddProjectWizard() {
   const amenityDraftImageFileId = useLocalAmenityImage
     ? LOCAL_AMENITY_IMAGE_FILE_ID
     : newAmenityUploadedFileId ?? editingAmenity?.imageFileId ?? null;
+  const hasAmenityDraftImage =
+    Boolean(newAmenityPendingFileRef.current) ||
+    Boolean(useLocalAmenityImage) ||
+    Boolean(amenityDraftImageFileId);
   const canSaveAmenityDraft = editingAmenityKey
-    ? Boolean(amenityDraftImageFileId) ||
-      Boolean(editingAmenity?.imageFileId)
+    ? hasAmenityDraftImage || Boolean(editingAmenity?.imageFileId)
     : (() => {
         const parsedNames = parseAmenityNamesFromInput(newAmenityName);
         if (parsedNames.length === 0) return false;
-        const hasCustomNames = parsedNames.some((name) => !findPresetByName(name));
-        return !hasCustomNames || Boolean(amenityDraftImageFileId);
+        if (hasAmenityDraftImage) return true;
+        return parsedNames.every((name) => Boolean(findPresetByName(name)));
       })();
   const parsedAmenityNameCount = editingAmenityKey
     ? 0
     : parseAmenityNamesFromInput(newAmenityName).length;
   const parsedCustomAmenityNameCount = editingAmenityKey
     ? 0
-    : parseAmenityNamesFromInput(newAmenityName).filter(
-        (name) => !findPresetByName(name),
-      ).length;
+    : hasAmenityDraftImage
+      ? parsedAmenityNameCount
+      : parseAmenityNamesFromInput(newAmenityName).filter(
+          (name) => !findPresetByName(name),
+        ).length;
   const customProjectAmenities = projectAmenities.filter(
     (item) => !isPresetAmenityKey(item.key),
   );
@@ -2185,9 +2065,8 @@ export function AddProjectWizard() {
                 type="checkbox"
                 checked={allFilteredPresetsSelected}
                 onChange={() => {
-                  void toggleAllFilteredPresets(filteredAmenityPresets);
+                  toggleAllFilteredPresets(filteredAmenityPresets);
                 }}
-                disabled={uploadingPresetKeys.length > 0}
                 className="h-3.5 w-3.5 accent-[#f07c61]"
                 aria-label="Select all filtered amenities"
               />
@@ -2219,14 +2098,13 @@ export function AddProjectWizard() {
               <div className="grid grid-cols-1 gap-2 min-[480px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                 {filteredAmenityPresets.map((preset) => {
                   const selected = isPresetSelected(preset.key);
-                  const uploading = isPresetUploading(preset.key);
                   const imageSrc = presetImageSrc(preset);
                   return (
                     <label
                       key={preset.key}
                       className={cn(
                         AMENITY_CARD_CLASS,
-                        uploading ? "cursor-wait opacity-70" : "cursor-pointer",
+                        "cursor-pointer",
                         selected
                           ? "border-[#f07c61] bg-[#fff8f5]"
                           : "border-[#ece7e1] bg-white hover:border-[#e8d5cf]",
@@ -2236,9 +2114,8 @@ export function AddProjectWizard() {
                         type="checkbox"
                         className="sr-only"
                         checked={selected}
-                        disabled={uploading}
                         onChange={() => {
-                          void togglePresetAmenity(preset);
+                          togglePresetAmenity(preset);
                         }}
                       />
                       <div className="flex min-w-0 flex-1 items-center gap-2 p-2">
@@ -2254,13 +2131,8 @@ export function AddProjectWizard() {
                         </div>
                         <span className="min-w-0 flex-1 text-left text-[0.86rem] font-medium leading-snug text-[#33425e]">
                           {preset.name}
-                          {uploading ? (
-                            <span className="mt-0.5 block text-[0.72rem] font-normal text-[#657188]">
-                              Uploading…
-                            </span>
-                          ) : null}
                         </span>
-                        {selected && !uploading ? (
+                        {selected ? (
                           <span className="shrink-0 text-[#f07c61]" aria-hidden>
                             <IconCheckSeal className="h-4 w-4" />
                           </span>
@@ -2322,8 +2194,9 @@ export function AddProjectWizard() {
                     id="new-amenity-names-hint"
                     className="mt-1 text-[0.76rem] text-[#657188]"
                   >
-                    Paste comma-separated names. Standard names use their own
-                    icons; only custom names need the shared image below.
+                    Paste comma-separated names. With a shared image below, all
+                    names are saved as custom amenities using that image.
+                    Without an image, known names use standard icons.
                     {parsedAmenityNameCount > 0 ? (
                       <span className="ml-1 font-semibold text-[#33425e]">
                         {parsedAmenityNameCount} detected
@@ -2350,7 +2223,7 @@ export function AddProjectWizard() {
                     onChange={(event) =>
                       handleUseLocalAmenityImageChange(event.target.checked)
                     }
-                    disabled={isSavingAmenity || isUploadingAmenityImage}
+                    disabled={isSavingAmenity}
                     className="h-3.5 w-3.5 accent-[#f07c61]"
                     aria-label="Use local image"
                   />
@@ -2367,11 +2240,9 @@ export function AddProjectWizard() {
                 valueDisplay={
                   useLocalAmenityImage
                     ? `Local image (ID ${LOCAL_AMENITY_IMAGE_FILE_ID})`
-                    : isUploadingAmenityImage
-                      ? "Uploading…"
-                      : newAmenityFileName
-                        ? truncateFileName(newAmenityFileName, 28)
-                        : undefined
+                    : newAmenityFileName
+                      ? truncateFileName(newAmenityFileName, 28)
+                      : undefined
                 }
                 inlinePlaceholder={
                   useLocalAmenityImage
@@ -2385,7 +2256,6 @@ export function AddProjectWizard() {
                 inlineContentClassName="gap-2"
                 disabled={
                   isSavingAmenity ||
-                  isUploadingAmenityImage ||
                   useLocalAmenityImage
                 }
                 aria-label="Upload amenity image"
@@ -2399,7 +2269,6 @@ export function AddProjectWizard() {
                 disabled={
                   isSavingAmenity ||
                   isBlockingFileUpload ||
-                  isUploadingAmenityImage ||
                   !canSaveAmenityDraft
                 }
                 className={cn(
@@ -2407,7 +2276,6 @@ export function AddProjectWizard() {
                   "h-[48px] shrink-0 px-5 text-[0.88rem] lg:w-auto",
                   (isSavingAmenity ||
                     isBlockingFileUpload ||
-                    isUploadingAmenityImage ||
                     !canSaveAmenityDraft) &&
                     "cursor-not-allowed opacity-60",
                 )}
@@ -2504,7 +2372,11 @@ export function AddProjectWizard() {
                       {opt.imageFileId != null || opt.thumbnailSrc ? (
                         <AmenityImageByFileId
                           imageFileId={opt.imageFileId}
-                          src={opt.thumbnailSrc || undefined}
+                          src={
+                            opt.imageFileId == null
+                              ? opt.thumbnailSrc || undefined
+                              : undefined
+                          }
                           alt=""
                           width={36}
                           height={36}

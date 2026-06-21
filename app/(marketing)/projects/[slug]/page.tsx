@@ -173,7 +173,7 @@ function AmenityItem({ amenity }: { amenity: ProjectAmenityItem }) {
       <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-full bg-white/50 p-1.5 transition-all duration-500 ease-out group-hover:-translate-y-0.5 group-hover:bg-white/80 group-hover:shadow-[0_10px_24px_rgba(0,0,0,0.12)] sm:h-20 sm:w-20">
         <AmenityImageByFileId
           imageFileId={amenity.imageFileId}
-          src={amenity.imageSrc}
+          src={amenity.imageFileId != null ? undefined : amenity.imageSrc}
           fallbackSrc={LOCAL_IMAGES.holding}
           alt=""
           width={80}

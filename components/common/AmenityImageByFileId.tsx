@@ -37,17 +37,24 @@ export function AmenityImageByFileId({
   );
 
   useEffect(() => {
-    if (src?.trim()) {
-      setResolvedSrc(src);
-      return;
-    }
-
     let cancelled = false;
 
     void (async () => {
-      const url = await fetchFileDisplayUrlById(imageFileId);
+      const fileId =
+        imageFileId == null || imageFileId === ""
+          ? null
+          : Number(imageFileId);
+
+      if (fileId != null && Number.isFinite(fileId)) {
+        const url = await fetchFileDisplayUrlById(fileId);
+        if (!cancelled) {
+          setResolvedSrc(url ?? src?.trim() ?? null);
+        }
+        return;
+      }
+
       if (!cancelled) {
-        setResolvedSrc(url);
+        setResolvedSrc(src?.trim() ?? null);
       }
     })();
 
