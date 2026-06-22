@@ -165,9 +165,7 @@ export default function AboutPage() {
                 innovation
               </h3>
               <p className="mx-auto mt-8 max-w-[355px] text-[14px] leading-[1.28] text-[#161616] nexa-bold fs-16 lh-20 lg:mx-0">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-                ut labore et dolore magna aliqua, dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua.
+              Over the years, we have advised on projects, transactions, and developments that have shaped communities across the country. Behind every number is a client relationship, a strategic decision, and a commitment to creating long term value through insight, expertise, and execution.
               </p>
             </div>
 

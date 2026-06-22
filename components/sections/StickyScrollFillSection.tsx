@@ -30,6 +30,8 @@ interface StickyScrollFillSectionProps {
   /** Tailwind min-height on the scroll track (controls how long the pin + fill lasts). */
   trackClassName?: string;
   className?: string;
+  /** Override default responsive headline scale (e.g. desktop-only copy). */
+  typographyClassName?: string;
   fromColor?: string;
   toColor?: string;
   stagger?: number;
@@ -94,6 +96,7 @@ export function StickyScrollFillSection({
   /** Must be taller than `100dvh - header` or scroll range collapses and fill/sticky break. */
   trackClassName = defaultTrackClassName,
   className,
+  typographyClassName,
   fromColor = "#c4c4c4",
   toColor = "#111111",
   stagger = 0.11,
@@ -151,7 +154,7 @@ export function StickyScrollFillSection({
             "w-full min-w-0 max-w-full text-center",
             "space-y-1.5 sm:space-y-2 md:space-y-2 lg:space-y-2 xl:space-y-2.5",
             "px-4 sm:px-6 md:px-8 lg:px-10 xl:px-12 2xl:px-16",
-            stickyScrollCopyTypography,
+            typographyClassName ?? stickyScrollCopyTypography,
             "n-bold",
             className,
           )}
