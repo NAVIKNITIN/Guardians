@@ -18,9 +18,17 @@ const FIGMA_GRAD_OVERLAY_DEVELOPER =
 const FIGMA_CARD_SIZE = "w-full min-w-0 lg:max-h-[350px]";
 
 const dividerCardCtaClassName = cn(
-  "h-[43px] gap-2 px-4 py-2.5",
-  "text-[12px] leading-[18px] tracking-normal lg:h-[43px] lg:px-7 lg:py-6 lg:text-[18px] lg:leading-[22px]",
+  "shrink-0 self-start !max-w-none",
+  "gap-2 px-4 py-2.5",
+  "text-[12px] leading-[18px] tracking-normal",
+  /* Reset OutlineArrowButton `sm:` defaults — too wide/tall inside split cards when zoomed */
+  "sm:gap-2 sm:px-4 sm:py-2.5 sm:text-[12px] sm:leading-[18px] sm:tracking-normal",
+  "md:gap-2.5 md:px-5 md:py-3 md:text-[14px] md:leading-[20px]",
+  "lg:gap-3 lg:px-[clamp(1rem,2.2vw,1.75rem)] lg:py-[clamp(0.625rem,1vw,1rem)] lg:text-[clamp(14px,1.15vw,18px)] lg:leading-[1.22]",
 );
+
+const dividerCardCtaIconClassName =
+  "h-[11px] w-[11px] shrink-0 md:h-[13px] md:w-[13px] lg:h-[15px] lg:w-[15px]";
 
 function BuyerProfileCard({
   className,
@@ -80,7 +88,8 @@ function BuyerProfileCard({
 
           <OutlineArrowButton
             href="/buyer"
-            iconClassName="h-[13px] w-[13px]"
+            className={dividerCardCtaClassName}
+            iconClassName={dividerCardCtaIconClassName}
           >
             Explore Journey
           </OutlineArrowButton>
@@ -156,8 +165,8 @@ function DeveloperProfileCard({
 
           <OutlineArrowButton
             href="/developer"
-            
-            iconClassName="h-[13px] w-[13px] shrink-0"
+            className={dividerCardCtaClassName}
+            iconClassName={dividerCardCtaIconClassName}
           >
             Explore Journey
           </OutlineArrowButton>

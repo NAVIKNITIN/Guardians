@@ -39,7 +39,7 @@ const defaultIconClassName =
 
 function Label({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex shrink-0 items-center whitespace-nowrap leading-none">
+    <span className="inline-flex shrink-0 items-center whitespace-nowrap leading-[inherit]">
       {children}
     </span>
   );

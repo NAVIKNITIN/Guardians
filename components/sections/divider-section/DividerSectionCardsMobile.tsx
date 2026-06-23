@@ -12,8 +12,9 @@ const FIGMA_GRAD_OVERLAY_DEVELOPER =
 
 /** Mobile divider cards only — desktop uses `DividerSectionCards.tsx`. */
 const dividerCardCtaClassName = cn(
-  "h-[36px] w-fit max-w-full shrink-0 gap-1.5 px-3 py-2",
+  "min-h-[36px] w-fit max-w-full shrink-0 self-start gap-1.5 px-3 py-2",
   "text-[11px] leading-[16px] tracking-normal",
+  "sm:gap-2 sm:px-4 sm:py-2.5 sm:text-[12px] sm:leading-[18px] sm:tracking-normal",
 );
 
 type CardImageColumnProps = {
