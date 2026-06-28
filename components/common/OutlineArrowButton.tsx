@@ -27,10 +27,11 @@ export type OutlineArrowButtonProps = LinkVariantProps | ButtonVariantProps;
 
 const baseClassName = cn(
   /* Named group so nested `group` on cards does not trigger arrow styles on card hover */
-  "group/outline divider-card-cta-slow uppercase outline-arrow-grad-anim inline-flex w-fit max-w-full cursor-pointer flex-nowrap items-center justify-center",
-  "gap-2 rounded-none border-0 px-4 py-2.5",
-  "n-bold text-[12px] leading-[18px] tracking-normal text-white",
-  "sm:gap-5 sm:px-[45px] sm:py-[15px] sm:text-base sm:leading-none sm:tracking-widest",
+  "group/outline divider-card-cta-slow uppercase outline-arrow-grad-anim",
+  "inline-flex w-fit max-w-full cursor-pointer flex-nowrap items-center justify-center",
+  "gap-2 rounded-none border-0 px-4 py-0 min-h-[36px]",
+  "n-bold text-[12px] leading-none tracking-normal text-white",
+  "sm:gap-5 sm:min-h-[55px] sm:px-[45px] sm:py-0 sm:text-base sm:leading-none sm:tracking-widest",
   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white/50",
 );
 
@@ -39,7 +40,7 @@ const defaultIconClassName =
 
 function Label({ children }: { children: ReactNode }) {
   return (
-    <span className="inline-flex shrink-0 items-center whitespace-nowrap leading-[inherit]">
+    <span className="outline-arrow-cta-label inline-flex shrink-0 items-center justify-center whitespace-nowrap leading-none">
       {children}
     </span>
   );
@@ -53,18 +54,22 @@ function ArrowIcon({
   className?: string;
 }) {
   return (
-    <Image
-      src="/images/arrow.svg"
-      alt={alt}
-      width={15}
-      height={15}
-      className={cn(
-        "cta-icon-hover invert object-cover transition-[filter] duration-300",
-        defaultIconClassName,
-        className,
-      )}
+    <span
+      className="outline-arrow-cta-icon inline-flex shrink-0 items-center justify-center self-center leading-[0]"
       aria-hidden={alt === ""}
-    />
+    >
+      <Image
+        src="/images/arrow.svg"
+        alt={alt}
+        width={15}
+        height={15}
+        className={cn(
+          "cta-icon-hover block shrink-0 object-contain invert transition-[filter] duration-300",
+          defaultIconClassName,
+          className,
+        )}
+      />
+    </span>
   );
 }
 

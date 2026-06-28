@@ -50,7 +50,7 @@ export function CareerApplyCTA() {
             <Link
               href="/contact"
               className={cn(
-                "group cta-hover-trigger inline-flex w-fit max-w-full shrink-0 items-center gap-2",
+                "group cta-hover-trigger inline-flex w-fit max-w-full shrink-0 items-center justify-center gap-2 leading-none",
                 "border border-white bg-white px-8 py-3.5 n-reg  text-xs  uppercase tracking-[0.2em] text-[#202225]",
                 "transition-colors hover:bg-[#DADADB]",
                 "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white",

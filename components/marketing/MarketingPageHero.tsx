@@ -702,7 +702,7 @@ function HomeHero({
 
             <OutlineArrowButton
               href={cta.href}
-              className="h-[52px] max-w-sm cursor-pointer sm:h-[55px]  sm:justify-start sm:gap-5 sm:px-12 sm:text-base lg:text-xl "
+              className="h-[52px] max-w-sm cursor-pointer items-center justify-center sm:h-[55px] sm:gap-5 sm:px-12 sm:text-base lg:text-xl"
             >
               {cta.label}
             </OutlineArrowButton>
@@ -1634,9 +1634,9 @@ export function MarketingAudienceHero({
               href={content.enquireHref}
               iconClassName="h-[11px] w-[11px] shrink-0 sm:h-[15px] sm:w-[15px]"
               className={cn(
-                "w-fit max-w-full uppercase !shadow-none",
-                "h-[36px] gap-1.5 px-4 py-2 n-bold text-[11px] leading-[16px] tracking-normal",
-                "sm:h-[55px] sm:w-fit sm:max-w-full sm:gap-5 sm:px-[45px] sm:py-[15px] sm:fs-20 sm:leading-none sm:tracking-widest",
+                "w-fit max-w-full items-center justify-center uppercase !shadow-none",
+                "h-[36px] gap-1.5 px-4 py-0 n-bold text-[11px] leading-none tracking-normal",
+                "sm:h-[55px] sm:w-fit sm:max-w-full sm:gap-5 sm:px-[45px] sm:py-0 sm:fs-20 sm:leading-none sm:tracking-widest",
                 "lg:w-[307px] lg:max-w-[307px]",
               )}
             >

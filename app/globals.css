@@ -496,6 +496,10 @@ a.btn-know-more-gradient {
  * Idle: position left; :hover / :focus-visible: position right (0.5s).
  */
 .outline-arrow-grad-anim {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
   background-color: #000;
   background-image: linear-gradient(
     to right,
@@ -524,6 +528,44 @@ a.btn-know-more-gradient {
 
 a.outline-arrow-grad-anim {
   text-decoration: none;
+}
+
+.outline-arrow-grad-anim img {
+  display: block;
+  flex-shrink: 0;
+}
+
+/* Nexa caps sit high in the line box — trim bottom leading and optically center label + icon. */
+.outline-arrow-grad-anim .outline-arrow-cta-label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 1;
+  height: 1em;
+  padding: 0;
+  margin: 0;
+  overflow: hidden;
+}
+
+.outline-arrow-grad-anim .outline-arrow-cta-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  line-height: 0;
+  flex-shrink: 0;
+}
+
+/* Audience marketing CTAs — fixed width only at `lg+` (avoids mobile `[class*="w-[250px]"]` overrides). */
+@media (min-width: 1024px) {
+  .audience-marketing-cta-lg-width {
+    width: 250px;
+    max-width: min(100%, 250px);
+  }
+
+  .audience-marketing-cta-view-more-lg-width {
+    width: 273px;
+    max-width: min(100%, 273px);
+  }
 }
 
 /* Directional L↔R gradient on hover: `DirectionalButtonGradientClient` (sets `html.js-directional-grad`). */

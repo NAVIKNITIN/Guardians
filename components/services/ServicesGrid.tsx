@@ -9,7 +9,7 @@ import {
 import { cn } from "@/utils/cn";
 import { AnimatePresence, motion } from "framer-motion";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 export type ServiceTile = {
   label: string;
@@ -161,17 +161,21 @@ function ServiceTileView({
   tile,
   isActive,
   onClick,
+  panelId,
 }: {
   tile: ServiceTile;
   isActive: boolean;
   onClick: () => void;
+  panelId: string;
 }) {
   return (
     <motion.button
       type="button"
       onClick={onClick}
-      className="group relative block min-h-[120px] flex-1 cursor-pointer overflow-hidden bg-[#D5D3D4] sm:min-h-[140px] lg:h-auto lg:min-h-0"
+      className="group relative block min-h-[120px] w-full flex-1 cursor-pointer overflow-hidden bg-[#D5D3D4] sm:min-h-[140px] lg:h-auto lg:min-h-0"
       aria-pressed={isActive}
+      aria-expanded={isActive}
+      aria-controls={panelId}
       initial={false}
       animate={isActive ? { scale: 1.01 } : { scale: 1 }}
       whileTap={{ scale: 0.985 }}
@@ -337,6 +341,15 @@ const TILE_GRID_ROWS_CLASS: Record<number, string> = {
   6: "lg:grid-rows-6",
 };
 
+const LG_BREAKPOINT_PX = 1024;
+
+function scrollPanelIntoView(panel: HTMLDivElement | null) {
+  if (!panel) return;
+  requestAnimationFrame(() => {
+    panel.scrollIntoView({ behavior: "smooth", block: "start" });
+  });
+}
+
 /** Shared services grid for buyer and developer service pages. */
 export function ServicesGrid({
   ariaLabel,
@@ -349,6 +362,25 @@ export function ServicesGrid({
   panelsByTile,
 }: ServicesGridProps) {
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
+
+  const handleTileClick = (idx: number) => {
+    const isMobile = window.matchMedia(`(max-width: ${LG_BREAKPOINT_PX - 1}px)`).matches;
+
+    setActiveIndex((current) => {
+      if (isMobile) {
+        return current === idx ? null : idx;
+      }
+      return idx;
+    });
+  };
+
+  useEffect(() => {
+    if (activeIndex === null) return;
+    const isMobile = window.matchMedia(`(max-width: ${LG_BREAKPOINT_PX - 1}px)`).matches;
+    if (!isMobile) return;
+    scrollPanelIntoView(panelRef.current);
+  }, [activeIndex]);
 
   const resolvedPanels: ServicePanel[] =
     panelsByTile && panelsByTile.length > 0
@@ -366,23 +398,32 @@ export function ServicesGrid({
         knowMoreHref: tile.href && tile.href !== "#" ? tile.href : knowMoreHref,
       }));
 
-  const activePanel =
-    activeIndex === null
-      ? {
-        title: accordionTitle,
-        items: accordionItems,
-        imageSrc: accordionImageSrc,
-        knowMoreHref,
-      }
-      : resolvedPanels[activeIndex] ?? {
-        title: accordionTitle,
-        items: accordionItems,
-        imageSrc: accordionImageSrc,
-        knowMoreHref,
-      };
-
   const tileGridRowsClass =
     TILE_GRID_ROWS_CLASS[tiles.length] ?? "lg:grid-rows-4";
+
+  const defaultPanel: ServicePanel = {
+    title: accordionTitle,
+    items: accordionItems,
+    imageSrc: accordionImageSrc,
+    knowMoreHref,
+  };
+
+  const getPanelForIndex = (idx: number): ServicePanel =>
+    resolvedPanels[idx] ?? defaultPanel;
+
+  const activePanel =
+    activeIndex === null ? defaultPanel : getPanelForIndex(activeIndex);
+
+  const renderCommercialPanel = (panel: ServicePanel, panelKey: string) => (
+    <CommercialPanel
+      key={panelKey}
+      title={panel.title}
+      items={panel.items}
+      imageSrc={panel.imageSrc}
+      knowMoreHref={panel.knowMoreHref}
+      knowMoreLabel={knowMoreLabel}
+    />
+  );
 
   return (
     <section
@@ -390,30 +431,65 @@ export function ServicesGrid({
       aria-label={ariaLabel}
     >
       <div className="flex min-w-0 flex-col gap-6 lg:grid lg:grid-cols-[43%_1fr] lg:gap-5">
+        {/* Mobile — each tile expands its panel directly underneath */}
+        <div className="flex min-h-0 flex-col gap-4 bg-white py-4 sm:gap-[30px] sm:py-[30px] lg:hidden">
+          {tiles.map((tile, idx) => {
+            const panel = getPanelForIndex(idx);
+            const panelId = `services-panel-${idx}`;
+            const isOpen = activeIndex === idx;
+
+            return (
+              <div key={`${tile.label}-mobile-${idx}`} className="flex flex-col">
+                <ServiceTileView
+                  tile={tile}
+                  isActive={isOpen}
+                  panelId={panelId}
+                  onClick={() => handleTileClick(idx)}
+                />
+                <AnimatePresence initial={false}>
+                  {isOpen ? (
+                    <motion.div
+                      ref={panelRef}
+                      id={panelId}
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.35, ease: [0.22, 1, 0.36, 1] }}
+                      className="overflow-hidden"
+                    >
+                      {renderCommercialPanel(panel, `${panel.title}-mobile`)}
+                    </motion.div>
+                  ) : null}
+                </AnimatePresence>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Desktop — tile column + shared detail panel */}
         <div
           className={cn(
-            "flex min-h-0 flex-col gap-4 bg-white py-4 sm:gap-[30px] sm:py-[30px] lg:grid lg:gap-6 lg:py-0",
+            "hidden min-h-0 flex-col gap-4 bg-white py-4 sm:gap-[30px] sm:py-[30px] lg:grid lg:gap-6 lg:py-0",
             tileGridRowsClass,
           )}
         >
           {tiles.map((tile, idx) => (
             <ServiceTileView
-              key={`${tile.label}-${idx}`}
+              key={`${tile.label}-desktop-${idx}`}
               tile={tile}
               isActive={idx === activeIndex}
-              onClick={() => setActiveIndex(idx)}
+              panelId="services-detail-panel-desktop"
+              onClick={() => handleTileClick(idx)}
             />
           ))}
         </div>
 
-
-        <CommercialPanel
-          title={activePanel.title}
-          items={activePanel.items}
-          imageSrc={activePanel.imageSrc}
-          knowMoreHref={activePanel.knowMoreHref}
-          knowMoreLabel={knowMoreLabel}
-        />
+        <div
+          id="services-detail-panel-desktop"
+          className="hidden min-w-0 lg:block"
+        >
+          {renderCommercialPanel(activePanel, activePanel.title)}
+        </div>
       </div>
     </section>
   );

@@ -110,11 +110,13 @@
     padding-right: max(0.875rem, env(safe-area-inset-right));
   }
 
-  /* Fixed-width marketing CTAs → fluid on phones */
-  .marketing-mobile-root main a[class*="w-[250px]"],
-  .marketing-mobile-root main a[class*="w-[253px]"] {
-    width: 100% !important;
-    max-width: min(100%, 20rem);
+  /* Fixed-width marketing CTAs — lg-only widths (see `.audience-marketing-cta-*` in globals.css) */
+  .marketing-mobile-root main a.audience-marketing-cta {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    width: fit-content !important;
+    max-width: 100%;
   }
 
   /* Services hero — long titles */

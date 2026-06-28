@@ -19,12 +19,12 @@ const FIGMA_CARD_SIZE = "w-full min-w-0 lg:max-h-[350px]";
 
 const dividerCardCtaClassName = cn(
   "shrink-0 self-start !max-w-none",
-  "gap-2 px-4 py-2.5",
-  "text-[12px] leading-[18px] tracking-normal",
+  "gap-2 px-4 py-0 min-h-[36px]",
+  "text-[12px] leading-none tracking-normal",
   /* Reset OutlineArrowButton `sm:` defaults — too wide/tall inside split cards when zoomed */
-  "sm:gap-2 sm:px-4 sm:py-2.5 sm:text-[12px] sm:leading-[18px] sm:tracking-normal",
-  "md:gap-2.5 md:px-5 md:py-3 md:text-[14px] md:leading-[20px]",
-  "lg:gap-3 lg:px-[clamp(1rem,2.2vw,1.75rem)] lg:py-[clamp(0.625rem,1vw,1rem)] lg:text-[clamp(14px,1.15vw,18px)] lg:leading-[1.22]",
+  "sm:gap-2 sm:min-h-[36px] sm:px-4 sm:py-0 sm:text-[12px] sm:leading-none sm:tracking-normal",
+  "md:gap-2.5 md:min-h-[40px] md:px-5 md:py-0 md:text-[14px] md:leading-none",
+  "lg:gap-3 lg:min-h-[44px] lg:px-[clamp(1rem,2.2vw,1.75rem)] lg:py-0 lg:text-[clamp(14px,1.15vw,18px)] lg:leading-none",
 );
 
 const dividerCardCtaIconClassName =

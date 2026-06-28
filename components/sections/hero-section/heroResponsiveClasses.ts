@@ -66,7 +66,7 @@ export const heroContainerTopDesktop = "pt-10 xl:pt-11 2xl:pt-12";
 
 /** Desktop “Explore More” — no full-width stretch; scales slightly on xl / 2xl. */
 export const heroDesktopKnowMoreButton = cn(
-  "btn-1 inline-flex w-auto shrink-0 max-h-[55px] rounded-none border-0 n-bold whitespace-nowrap",
+  "btn-1 inline-flex w-auto shrink-0 max-h-[55px] items-center justify-center rounded-none border-0 n-bold whitespace-nowrap leading-none",
   "text-[20px] px-[50px] py-5",
   "xl:text-[21px] xl:px-[52px] xl:py-[1.35rem]",
   "2xl:text-[22px] 2xl:px-14 2xl:py-6",

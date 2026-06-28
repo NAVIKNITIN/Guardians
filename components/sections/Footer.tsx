@@ -245,11 +245,11 @@ export function Footer() {
               <Link
                 href="/contact"
                 className={cn(
-                  "group mt-3 inline-flex w-fit max-w-full shrink-0 items-center justify-center gap-2 uppercase",
-                  "border border-white bg-transparent py-2 n-bold text-[11px] leading-[16px] text-white",
+                  "group mt-3 inline-flex w-fit max-w-full shrink-0 items-center justify-center gap-2 uppercase leading-none",
+                  "border border-white bg-transparent py-2 n-bold text-[11px] text-white",
                   "transition-colors hover:bg-white hover:text-neutral-900",
                   "focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white",
-                  "md:w-fit md:gap-2.5 md:py-3 md:text-sm md:fs-16 md:leading-normal",
+                  "md:w-fit md:gap-2.5 md:py-3 md:text-sm md:fs-16",
                   "px-4 py-2.5"
                 )}
               >

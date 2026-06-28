@@ -36,7 +36,7 @@ export function HeroSectionMobile() {
             subtitleClassName={heroSubtitleTypography}
             ctaWrapperClassName={heroCtaRowMobile}
             ctaClassName={cn(
-              "btn-1 w-full min-w-0 max-w-[285px] max-h-[55px] rounded-none border-0 n-bold text-sm",
+              "btn-1 w-full min-w-0 max-w-[285px] max-h-[55px] items-center justify-center rounded-none border-0 n-bold text-sm leading-none",
               "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#B48183]",
               "sm:min-w-[180px] sm:max-w-none",
             )}

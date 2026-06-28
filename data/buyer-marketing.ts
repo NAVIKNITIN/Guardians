@@ -138,7 +138,7 @@ export const BUYER_MARKETING_PAGE = {
   banner: {
     headline: "Ready to explore spaces that truly feel like home? Let’s take the next step together.",
     imageSrc: "/images/image 59.svg",
-    ctaLabel: "Connect with Us ",
+    ctaLabel: "Connect with Us",
     ctaHref: "/contact",
     imageAlt: "",
     ariaHeadingId: "buyer-explore-banner-heading",
