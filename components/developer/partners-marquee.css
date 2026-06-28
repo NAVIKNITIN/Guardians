@@ -17,6 +17,56 @@
   overflow: hidden;
 }
 
+/** Partners band headline — fixed px steps (no clamp / fs-* utilities). */
+.partners-headline {
+  max-width: min(100%, 21rem);
+  padding-inline: 0.75rem;
+  font-size: 12px;
+  line-height: 1.5;
+  letter-spacing: 0.04em;
+  text-wrap: balance;
+}
+
+@media (min-width: 640px) {
+  .partners-headline {
+    max-width: 42rem;
+    padding-inline: 0;
+    font-size: 13px;
+    letter-spacing: 0.042em;
+    text-wrap: pretty;
+  }
+}
+
+@media (min-width: 768px) {
+  .partners-headline {
+    font-size: 15px;
+    letter-spacing: 0.045em;
+  }
+}
+
+@media (min-width: 1024px) {
+  .partners-headline {
+    max-width: 56rem;
+    font-size: 20px;
+    line-height: 1.35;
+    letter-spacing: 0.05em;
+  }
+}
+
+@media (min-width: 1280px) {
+  .partners-headline {
+    font-size: 23px;
+    letter-spacing: 0.05em;
+  }
+}
+
+@media (min-width: 1536px) {
+  .partners-headline {
+    font-size: 25px;
+    letter-spacing: 0.05em;
+  }
+}
+
 .partners-marquee__track {
   display: flex;
   width: max-content;

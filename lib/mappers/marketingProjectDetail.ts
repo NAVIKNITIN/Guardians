@@ -79,7 +79,6 @@ export type ProjectDetailView = {
     lng: number;
   }[];
   caseStudy: { posterSrc: string; videoUrl: string; paragraphs: string[] };
-  bookVisitBg: string;
   /** @deprecated Use `configurationLocation` — kept for compatibility. */
   bookVisitAddressLine: string;
   /** Display line from API `configurations[0].location` (admin configuration). */
@@ -309,7 +308,6 @@ export function mapProjectDetailsToViewModel(
     logo ?? files[0],
     "/images/Projects/Group 45.svg",
   );
-  const bookVisitBg = buildingHeroSrc;
 
   const primary = primaryConfiguration(project.configurations);
   const configurationLocation = configurationLocationLine(primary);
@@ -405,7 +403,6 @@ export function mapProjectDetailsToViewModel(
       videoUrl: "",
       paragraphs: caseStudyParagraphs,
     },
-    bookVisitBg,
     bookVisitAddressLine: configurationLocation,
     configurationLocation,
     configurationBhkType,

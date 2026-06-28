@@ -14,8 +14,9 @@ import {
 import type { ProjectRowFilterShape } from "@/lib/mappers/projectListApi";
 import { getAllProjects } from "@/src/api/services/projectService";
 import { useSearchParams } from "next/navigation";
-import { Suspense, useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useId, useMemo, useRef, useState } from "react";
 import { OutlineArrowButton } from "@/components/common/OutlineArrowButton";
+import { cn } from "@/utils/cn";
 
 // ---------------------------------------------------------------------------
 // Filter option sets (demo data — replace with CMS / API)
@@ -256,24 +257,89 @@ function SortSelect({
   value: SortKey;
   onChange: (value: SortKey) => void;
 }) {
+  const [open, setOpen] = useState(false);
+  const rootRef = useRef<HTMLDivElement>(null);
+  const menuId = useId();
+  const triggerId = `${menuId}-trigger`;
+
+  useEffect(() => {
+    if (!open) {
+      return;
+    }
+    const onDocPointerDown = (e: Event) => {
+      const target = e.target;
+      if (target instanceof Node && rootRef.current?.contains(target)) {
+        return;
+      }
+      setOpen(false);
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setOpen(false);
+      }
+    };
+    document.addEventListener("pointerdown", onDocPointerDown, { capture: true });
+    document.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("pointerdown", onDocPointerDown, { capture: true });
+      document.removeEventListener("keydown", onKey);
+    };
+  }, [open]);
+
   return (
-    <label className="relative inline-flex items-center gap-2 n-reg text-sm uppercase tracking-widest text-brand-footer sm:text-base">
-      <span className="sr-only">Sort projects</span>
-      <select
-        aria-label="Sort projects"
-        value={value}
-        onChange={(e) => onChange(e.target.value as SortKey)}
-        className="absolute inset-0 z-10 h-full w-full cursor-pointer appearance-none opacity-0"
+    <div ref={rootRef} className="relative z-50 inline-flex">
+      <button
+        type="button"
+        id={triggerId}
+        aria-haspopup="listbox"
+        aria-expanded={open}
+        aria-controls={menuId}
+        className="inline-flex cursor-pointer items-center gap-2 n-reg text-sm uppercase tracking-widest text-brand-footer sm:text-base"
+        onClick={() => setOpen((prev) => !prev)}
       >
-        {SORT_OPTIONS.map((option) => (
-          <option key={option.key} value={option.key}>
-            {option.label.toUpperCase()}
-          </option>
-        ))}
-      </select>
-      <span className="pointer-events-none">Sort By</span>
-      <ChevronDown className="pointer-events-none text-brand-footer" />
-    </label>
+        Sort By
+        <ChevronDown
+          className={cn(
+            "text-brand-footer transition-transform",
+            open && "rotate-180",
+          )}
+        />
+      </button>
+      <ul
+        id={menuId}
+        role="listbox"
+        aria-labelledby={triggerId}
+        className={cn(
+          "absolute bottom-full left-0 z-50 mb-2 min-w-[13.5rem] list-none border border-black/15 bg-white py-1.5 shadow-[0_4px_16px_rgba(0,0,0,0.12)]",
+          !open && "hidden",
+        )}
+      >
+        {SORT_OPTIONS.map((option) => {
+          const selected = option.key === value;
+          return (
+            <li key={option.key} role="none">
+              <button
+                type="button"
+                role="option"
+                aria-selected={selected}
+                className={cn(
+                  "n-reg block w-full px-4 py-2.5 text-left text-[11px] uppercase tracking-[0.08em] transition-colors min-[400px]:text-xs sm:text-sm sm:tracking-[0.1em]",
+                  selected
+                    ? "bg-brand-footer text-white"
+                    : "text-[#161616] hover:bg-black/[0.04]",
+                )}
+                onClick={() => {
+                  onChange(option.key);
+                  setOpen(false);
+                }}
+              >
+                {option.label}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </div>
   );
 }
 
@@ -445,7 +511,7 @@ function ProjectsPageContent() {
           <Container className="min-w-0 py-4 sm:py-5 lg:py-6">
             <ScrollReveal direction="up" distance={30}>
               <div className="pt-10 flex min-w-0 flex-col items-center gap-3 text-center sm:flex-row sm:flex-wrap sm:items-center sm:justify-between sm:gap-4 sm:text-left lg:px-8 xl:px-12 2xl:px-16">
-                <div className="flex min-w-0 flex-wrap items-center justify-center gap-3 sm:min-w-0 sm:justify-start sm:gap-5">
+                <div className="relative z-20 flex min-w-0 flex-wrap items-center justify-center gap-3 sm:min-w-0 sm:justify-start sm:gap-5">
                   <button
                     type="button"
                     onClick={() => setShowFilters((prev) => !prev)}

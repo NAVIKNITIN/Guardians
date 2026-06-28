@@ -115,7 +115,7 @@ export const BUYER_MARKETING_PAGE = {
       {
         id: "residential",
         title: "Residential",
-        src: "/images/OurServices/Residential Services.jpg",
+        src: "/images/Buyer/services/resident.svg",
         description: "Explore homes that match your taste, your lifestyle and your future plans. We shortlist, guide and simplify it all for you.",
       },
       {

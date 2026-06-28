@@ -35,9 +35,16 @@ export function PartnersSection({
         <ScrollReveal direction="up" distance={32}>
           <h2
             id="partners-heading"
-            className="mx-auto max-w-4xl text-center n-bold fs-20 uppercase  tracking-[0.05em] text-brand-text-primary sm:text-xs fs-20"
+            className="partners-headline mx-auto text-center n-bold uppercase text-brand-text-primary"
           >
-            {content.headlineLine1} <br /> {content.headlineLine2}
+            <span className="sm:hidden">
+              {`${content.headlineLine1.trim()} ${content.headlineLine2.trim()}`}
+            </span>
+            <span className="hidden sm:block">
+              {content.headlineLine1.trim()}
+              <br />
+              {content.headlineLine2.trim()}
+            </span>
           </h2>
         </ScrollReveal>
       </Container>
@@ -126,16 +133,16 @@ function LogoTile({
     <div
       className={cn(
         "relative shrink-0 overflow-hidden rounded-sm border border-black/6 bg-white shadow-sm",
-        /* Outer frame 223×95; content area inset by Figma padding 20px (x) / 10px (y) */
-        "aspect-245/95 w-[clamp(7.5rem,32vw,13.9375rem)] max-w-55.75",
+        "aspect-245/95 max-w-55.75",
+        "w-[8.5rem] sm:w-[9.5rem] md:w-[10.75rem] lg:w-[13.9375rem]",
       )}
     >
-      <div className="absolute inset-[10px_20px]">
+      <div className="absolute inset-[8px_12px] sm:inset-[9px_16px] lg:inset-[10px_20px]">
         <Image
           src={item.src}
           alt={decorative ? "" : item.alt}
           fill
-          sizes="(max-width: 480px) 120px, (max-width: 768px) 160px, 223px"
+          sizes="(max-width: 639px) 136px, (max-width: 768px) 160px, 223px"
           className="object-contain object-center"
         />
       </div>

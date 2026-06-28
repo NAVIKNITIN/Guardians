@@ -18,6 +18,8 @@ export const LOCAL_IMAGES = {
   retailService: "/images/Buyer/services/retail.svg",
   landService: "/images/Buyer/services/land.svg",
   projectImage: "/images/Projects/image 118.svg",
+  /** Shared Book a Visit section background (all project detail pages). */
+  bookVisitBg: "/images/Projects/image 118.svg",
   gazette: "/images/gazette.svg",
   blog: "/images/blog.svg",
   blogDetail: "/images/blog-detail.svg",

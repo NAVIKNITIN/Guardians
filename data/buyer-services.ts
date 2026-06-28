@@ -6,7 +6,7 @@ const KNOW_MORE = CONTACT;
 export const BUYER_SERVICE_TILES: ServiceTile[] = [
   {
     label: "Residential Services",
-    imageSrc: "/images/OurServices/Residential Services.jpg",
+    imageSrc: "/images/Buyer/services/resident.svg",
     imageAlt: "Residential Services",
     href: KNOW_MORE,
   },

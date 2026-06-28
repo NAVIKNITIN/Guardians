@@ -146,7 +146,7 @@ export function ReasonCard({
           </p>
         ) : null}
 
-        <div
+        {/* <div
           className={cn(
             "mt-3",
             isMobile || card.showArrow
@@ -155,7 +155,7 @@ export function ReasonCard({
           )}
         >
           <ReasonCardArrow />
-        </div>
+        </div> */}
       </div>
     </div>
   );

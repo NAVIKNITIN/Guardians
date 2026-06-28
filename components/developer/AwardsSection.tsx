@@ -86,7 +86,7 @@ function AwardsSectionBody({
 			aria-labelledby="awards-heading"
 			className="border-t-0 border-b-0 bg-transparent"
 		>
-			<div className="grid gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-10 xl:gap-14 2xl:gap-16">
+			<div className="grid min-w-0 gap-12 lg:grid-cols-12 lg:items-stretch lg:gap-10 xl:gap-14 2xl:gap-16">
 				{/* Left: heading */}
 				<div className="flex w-full min-w-0 flex-col items-center text-center lg:col-span-3 lg:items-start lg:text-left">
 					<Image
@@ -99,10 +99,13 @@ function AwardsSectionBody({
 					<h2
 						id="awards-heading"
 						className={cn(
-							"qs-reg fs-50 lh-50 mt-10 md:mt-30",
+							"qs-reg mt-10 md:mt-30",
 							"w-full min-w-0 max-w-full px-0",
-							"text-balance uppercase leading-tight tracking-[0.08em] text-[#202225]",
-							"text-[clamp(1.125rem,calc(0.5rem+3.4vw),2.25rem)] sm:text-[clamp(1.35rem,calc(0.55rem+2.4vw),2.35rem)] lg:text-[clamp(1.5rem,2.5vw,2rem)]",
+							"text-balance uppercase text-[#202225]",
+							"max-sm:text-[25px] max-sm:leading-[1.35] max-sm:tracking-[0.06em]",
+							"sm:leading-tight sm:tracking-[0.08em]",
+							"sm:text-[clamp(1.35rem,calc(0.55rem+2.4vw),2.35rem)]",
+							"lg:fs-50 lg:lh-50 lg:tracking-[0.08em]",
 						)}
 					>
 						{content.headingLine1}
@@ -111,10 +114,10 @@ function AwardsSectionBody({
 					</h2>
 				</div>
 
-				{/* Center: card stack */}
-				<div className="relative flex justify-center lg:col-span-5 lg:justify-center lg:pl-10">
+				{/* Center: card stack — top peek needs overflow-visible; horizontal inset via px */}
+				<div className="relative flex w-full min-w-0 justify-center px-4 xs:px-5 sm:px-6 lg:col-span-5 lg:px-0 lg:pl-10">
 					<div
-						className="relative mx-auto w-full max-w-[min(100%,385px)]"
+						className="relative mx-auto w-full max-w-[385px]"
 						style={{
 							aspectRatio: "385 / 459",
 							height: "500px",

@@ -22,9 +22,19 @@ export type LandmarkProject = {
   imageSrc: string;
 };
 
+export type DeveloperStatCountUp = {
+  end: number;
+  prefix?: string;
+  suffix?: string;
+  unit?: string;
+  decimals?: number;
+};
+
 export type DeveloperStat = {
   readonly label: string;
   readonly value: string;
+  /** When set, the figure counts up on scroll (falls back to `value` before in view). */
+  readonly countUp?: DeveloperStatCountUp;
 };
 
 export type PartnerLogo = { readonly src: string; readonly alt: string };

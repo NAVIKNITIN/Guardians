@@ -8,12 +8,15 @@ import {
 import { SectionSurface } from "@/components/ui/SectionSurface";
 import {
   type DeveloperStat,
+  type DeveloperStatCountUp,
   type StatsSectionContent,
 } from "@/data/audience-marketing";
+import { useCountUp } from "@/hooks/useCountUp";
 import { cn } from "@/utils/cn";
 import {
   AnimatePresence,
   motion,
+  useInView,
   useReducedMotion,
 } from "framer-motion";
 import Image from "next/image";
@@ -30,10 +33,28 @@ const CAROUSEL_NEXT = "/images/rightcarousel.svg";
 const bandValueClassName =
   "n-book tabular-nums text-center text-brand-footer leading-none tracking-[-0.03em] text-[clamp(1.35rem,5.5vw,2rem)] text-balance max-md:whitespace-normal md:whitespace-nowrap sm:text-4xl md:text-[clamp(2.25rem,4vw,2.85rem)] md:tracking-[-0.04em]";
 
+function formatCountUpValue(count: number, config: DeveloperStatCountUp): string {
+  const { end, prefix = "", suffix = "", unit = "", decimals } = config;
+  const capped = Math.min(count, end);
+  let numeric: string;
+
+  if (decimals !== undefined) {
+    numeric = capped.toFixed(decimals);
+  } else if (end >= 1000) {
+    numeric = Math.round(capped).toLocaleString("en-US");
+  } else {
+    numeric = String(Math.round(capped));
+  }
+
+  return `${prefix}${numeric}${suffix}${unit}`;
+}
+
 export function StatFigure({
   stat,
   compact,
   centerOnMobile = false,
+  isInView = false,
+  animationIndex = 0,
 }: {
   stat: DeveloperStat;
   /**
@@ -41,7 +62,20 @@ export function StatFigure({
    */
   compact?: boolean;
   centerOnMobile?: boolean;
+  isInView?: boolean;
+  animationIndex?: number;
 }) {
+  const countUp = stat.countUp;
+  const animate = Boolean(countUp) && isInView;
+  const count = useCountUp(countUp?.end ?? 0, animate, {
+    duration: 1800,
+    delay: animationIndex * 100,
+  });
+  const displayValue =
+    countUp && animate
+      ? formatCountUpValue(count, countUp)
+      : stat.value;
+
   return (
     <p
       className={cn(
@@ -58,7 +92,7 @@ export function StatFigure({
           : bandValueClassName,
       )}
     >
-      {stat.value}
+      {displayValue}
     </p>
   );
 }
@@ -84,6 +118,12 @@ export function DeveloperStatsSection({
 }: DeveloperStatsSectionProps) {
   const ref = useRef<HTMLDivElement>(null);
   const metrics = content.metrics;
+  const hasAnimatedStats = metrics.some((metric) => metric.countUp);
+  const isInView = useInView(ref, {
+    once: true,
+    margin: "0px 0px -12% 0px",
+    amount: 0.2,
+  });
 
   const isTwoColInline = layout === "inline" && inlineColumns === 2;
 
@@ -132,6 +172,8 @@ export function DeveloperStatsSection({
                   stat={stat}
                   compact
                   centerOnMobile={centerOnMobile}
+                  isInView={hasAnimatedStats ? isInView : false}
+                  animationIndex={idx}
                 />
                 <p
                   className={cn(
@@ -144,7 +186,11 @@ export function DeveloperStatsSection({
               </>
             ) : (
               <div className="flex w-full min-w-0 flex-col items-center gap-1 md:gap-1.5">
-                <StatFigure stat={stat} />
+                <StatFigure
+                  stat={stat}
+                  isInView={hasAnimatedStats ? isInView : false}
+                  animationIndex={idx}
+                />
                 <p className="w-full max-w-full shrink-0 fs-12 lh-20 n-bold text-center uppercase leading-snug tracking-wide text-pretty text-black">
                   {stat.label}
                 </p>

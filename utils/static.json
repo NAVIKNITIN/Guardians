@@ -114,7 +114,7 @@
   "audienceHeroes": {
     "developer": {
       "isBuyer": false,
-      "backgroundImageSrc": "/images/developer-hero.svg",
+      "backgroundImageSrc": "/images/Developer/developer_hero.png",
       "body": "At The Guardians Real Estate Advisory, we bring pricing intelligence, launch strategy, and on-ground sales execution together to maximise your project’s performance from day one.",
       "enquireHref": "/contact",
       "enquireLabel": "Let’s Connect  ",

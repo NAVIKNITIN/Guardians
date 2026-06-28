@@ -840,8 +840,8 @@ function ProjectDetailPageContent() {
         <section className="relative mb-10 min-h-0 w-full min-w-0 overflow-hidden py-0 lg:mb-30">
           {/* Background */}
           <MarketingImgWithFallback
-            src={project.bookVisitBg}
-            fallbackSrc={LOCAL_IMAGES.projectImage}
+            src={LOCAL_IMAGES.bookVisitBg}
+            fallbackSrc={LOCAL_IMAGES.bookVisitBg}
             alt=""
             fill
             className="object-cover object-center transition-transform duration-1000 ease-out hover:scale-105"

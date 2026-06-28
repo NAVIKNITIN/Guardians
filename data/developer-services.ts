@@ -208,7 +208,7 @@ export const DEVELOPER_SERVICE_PANELS: ServicePanel[] = [
   },
   {
     title: "Financial Services",
-    imageSrc: "/images/Buyer/services/market.svg",
+    imageSrc: "/images/Developer/services/image 162.png",
     knowMoreHref: KNOW_MORE,
     items: [
       {

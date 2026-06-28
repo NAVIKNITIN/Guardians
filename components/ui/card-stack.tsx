@@ -101,13 +101,13 @@ const CardStackInner = forwardRef<CardStackHandle, CardStackProps>(
 
 		return (
 			<div
-				className={cn("relative h-full w-full overflow-visible mt-10", className)}
-
+				className={cn("relative mt-10 h-full w-full min-w-0 overflow-visible", className)}
 			>
 				<div className="relative h-full w-full overflow-visible">
 					{cards.map((card, index) => {
 						const visible = index < 3;
 						const isNoTransition = noTransitionId === card.id;
+						const inset = index === 0 ? 10 : index === 1 ? 20 : 30;
 
 						return (
 							<div
@@ -121,8 +121,8 @@ const CardStackInner = forwardRef<CardStackHandle, CardStackProps>(
 									opacity: visible ? 1 : 0,
 									transformOrigin: "top center",
 									pointerEvents: index === 0 ? "auto" : "none",
-									marginLeft: index === 0 ? "10px" : index === 1 ? "20px" : "30px",
-									marginRight: index === 0 ? "10px" : index === 1 ? "20px" : "30px",
+									marginLeft: `${inset}px`,
+									marginRight: `${inset}px`,
 									transition: isNoTransition
 										? "none"
 										: `top ${CARD_STACK_TRANSITION_MS}ms ${CARD_STACK_TRANSITION_EASING}, transform ${CARD_STACK_TRANSITION_MS}ms ${CARD_STACK_TRANSITION_EASING}, opacity ${CARD_STACK_TRANSITION_MS}ms ${CARD_STACK_TRANSITION_EASING}, filter ${CARD_STACK_TRANSITION_MS}ms ${CARD_STACK_TRANSITION_EASING}`,
@@ -132,13 +132,8 @@ const CardStackInner = forwardRef<CardStackHandle, CardStackProps>(
 							>
 								<div className="relative h-full w-full overflow-hidden">
 									<div
-										className="pointer-events-none absolute z-6"
+										className="pointer-events-none absolute inset-0 z-[6] mix-blend-darken"
 										style={{
-											left: -17,
-											top: 1,
-											width: 407,
-											height: 457,
-											mixBlendMode: "darken",
 											boxShadow: "0 -24px 42px rgba(15, 23, 42, 0.22)",
 										}}
 									>

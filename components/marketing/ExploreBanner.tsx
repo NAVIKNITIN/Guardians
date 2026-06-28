@@ -29,8 +29,8 @@ export function ExploreBanner({
     <section className="w-full" aria-labelledby={headingId}>
       <Container
         className={cn(
-          "min-w-0 justify-center",
-          buyerMobileLayout ? "max-lg:flex max-lg:flex-col max-lg:items-stretch" : "flex",
+          "min-w-0 flex flex-col items-center",
+          buyerMobileLayout && "max-lg:items-stretch",
         )}
       >
         {/* Figma: banner frame 994 × 300 */}
@@ -38,13 +38,13 @@ export function ExploreBanner({
           direction="up"
           distance={34}
           className={cn(
-            "w-full max-w-[994px]",
+            "mx-auto w-full max-w-[994px]",
             buyerMobileLayout && "max-lg:shrink-0",
           )}
         >
           <div
             className={cn(
-              "relative w-full max-w-[994px] overflow-hidden bg-[#d9d9d9]",
+              "relative mx-auto w-full max-w-[994px] overflow-hidden bg-[#d9d9d9]",
               "min-h-[280px] sm:min-h-[260px] lg:h-[300px] lg:min-h-[300px]",
               buyerMobileLayout && "max-lg:min-h-[300px]",
             )}
@@ -136,7 +136,12 @@ export function ExploreBanner({
         </ScrollReveal>
 
         {!buyerMobileLayout ? (
-          <ScrollReveal direction="up" delay={0.1} distance={28}>
+          <ScrollReveal
+            direction="up"
+            delay={0.1}
+            distance={28}
+            className="mx-auto w-full max-w-[994px]"
+          >
             <AudienceMarketingSectionCtaMobile
               href={content.ctaHref}
               centerOnMobile={centerOnMobile}

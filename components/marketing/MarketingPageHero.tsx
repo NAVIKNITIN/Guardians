@@ -145,9 +145,9 @@ const HERO_TITLE_CLAMP_NEWSROOM = cn(
   "md:max-lg:text-[clamp(2.125rem,calc(1.1rem+3.5vw),3.75rem)]",
 );
 const HERO_TITLE_CLAMP_LARGE = cn(
-  "max-lg:text-[clamp(1.5rem,calc(0.55rem+7.5vw),2.25rem)] max-lg:leading-[0.94]",
-  "sm:max-lg:text-[clamp(1.75rem,calc(0.7rem+5.5vw),2.75rem)]",
-  "md:max-lg:text-[clamp(2rem,calc(0.85rem+4vw),3.5rem)]",
+  "max-lg:text-[36px] max-lg:leading-[0.94]",
+  "sm:max-lg:text-[44px]",
+  "md:max-lg:text-[56px]",
 );
 const HERO_TITLE_CLAMP_AUDIENCE = cn(
   "max-lg:text-[clamp(1.5rem,calc(0.55rem+6.5vw),2.5rem)] max-lg:leading-[1.05]",
@@ -165,7 +165,7 @@ function marketingHeroTitleClass(clampClass: string, extra?: string) {
     "qs-reg text-balance break-words uppercase",
     "max-lg:tracking-[0.04em] lg:tracking-[0.05em]",
     clampClass,
-    "lg:text-[70px] lg:leading-[1.05]",
+    "sm:text-[40px] md:text-[50px] lg:text-[60px] lg:leading-[1.05]",
     extra,
   );
 }
@@ -1591,7 +1591,7 @@ export function MarketingAudienceHero({
           src={content.backgroundImageSrc}
           alt=""
           fill
-          className={HERO_BG_IMAGE_CLASS}
+          className={"max-w-[1440px] mx-auto"}
           sizes="100vw"
           priority
         />
@@ -1634,7 +1634,7 @@ export function MarketingAudienceHero({
               href={content.enquireHref}
               iconClassName="h-[11px] w-[11px] shrink-0 sm:h-[15px] sm:w-[15px]"
               className={cn(
-                "w-fit max-w-full uppercase",
+                "w-fit max-w-full uppercase !shadow-none",
                 "h-[36px] gap-1.5 px-4 py-2 n-bold text-[11px] leading-[16px] tracking-normal",
                 "sm:h-[55px] sm:w-fit sm:max-w-full sm:gap-5 sm:px-[45px] sm:py-[15px] sm:fs-20 sm:leading-none sm:tracking-widest",
                 "lg:w-[307px] lg:max-w-[307px]",

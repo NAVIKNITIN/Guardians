@@ -4,6 +4,7 @@ import { Container } from "@/components/common/Container";
 import { IconChevronDown, IconSearch } from "@/components/common/icons";
 import { cn } from "@/utils/cn";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
+import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname, useSearchParams } from "next/navigation";
@@ -106,7 +107,18 @@ function navStateClass(isActive: boolean) {
     : "n-book text-[#202225] fs-18";
 }
 
+const mobileMenuTransition = {
+  duration: 0.28,
+  ease: [0.22, 1, 0.36, 1] as const,
+};
+
+const mobileSubmenuTransition = {
+  duration: 0.24,
+  ease: [0.22, 1, 0.36, 1] as const,
+};
+
 export function Navbar() {
+  const shouldReduceMotion = Boolean(useReducedMotion());
   const [open, setOpen] = useState(false);
   const [mobileOpenSections, setMobileOpenSections] = useState<
     Record<string, boolean>
@@ -211,7 +223,7 @@ export function Navbar() {
           "bg-[#BCBDC0]/30 backdrop-blur-[18px] [-webkit-backdrop-filter:blur(9px)]",
         )}
       >
-        <div className="border-t border-t-white/30 border-b border-b-white/10">
+        <div className="relative border-t border-t-white/30 border-b border-b-white/10">
           <Container className="relative">
             {/* Mobile: centered logo, menu control on the right */}
             <div className="relative flex min-h-[4.25rem] items-center justify-between py-3 sm:min-h-[4.5rem] xl:hidden">
@@ -233,7 +245,7 @@ export function Navbar() {
               </Link>
               <button
                 type="button"
-                className="flex h-10 w-10 shrink-0 flex-col items-center justify-center gap-1.5 rounded border border-black/10"
+                className="relative inline-flex h-10 w-10 shrink-0 items-center justify-center rounded border border-black/10"
                 onClick={() => setOpen((v) => !v)}
                 aria-expanded={open}
                 aria-controls="mobile-menu"
@@ -241,20 +253,20 @@ export function Navbar() {
               >
                 <span
                   className={cn(
-                    "h-0.5 w-5 bg-[#1A1A1A] transition-transform",
-                    open && "translate-y-1.5 rotate-45",
+                    "absolute block h-0.5 w-5 bg-[#1A1A1A] transition-all duration-200 ease-out",
+                    open ? "rotate-45" : "-translate-y-2",
                   )}
                 />
                 <span
                   className={cn(
-                    "h-0.5 w-5 bg-[#1A1A1A] transition-opacity",
-                    open && "opacity-0",
+                    "absolute block h-0.5 w-5 bg-[#1A1A1A] transition-all duration-200 ease-out",
+                    open ? "scale-x-0 opacity-0" : "opacity-100",
                   )}
                 />
                 <span
                   className={cn(
-                    "h-0.5 w-5 bg-[#1A1A1A] transition-transform",
-                    open && "-translate-y-1.5 -rotate-45",
+                    "absolute block h-0.5 w-5 bg-[#1A1A1A] transition-all duration-200 ease-out",
+                    open ? "-rotate-45" : "translate-y-2",
                   )}
                 />
               </button>
@@ -394,107 +406,162 @@ export function Navbar() {
               </nav>
             </div>
           </Container>
-        </div>
 
-        <div
-          id="mobile-menu"
-          className={cn(
-            "border-b border-black/[0.06] bg-[#FAFAFA] xl:hidden",
-            open ? "block" : "hidden",
-          )}
-        >
-          <Container className="flex max-h-[calc(100svh-8.5rem)] flex-col gap-4 overflow-y-auto py-5">
-            <div className="flex flex-col gap-3 ">
-              {navLeft.map((item) => {
-                const dropdownItems =
-                  "dropdownItems" in item ? item.dropdownItems : undefined;
-                const hasMenu =
-                  Array.isArray(dropdownItems) && dropdownItems.length > 0;
-                const sectionOpen = Boolean(mobileOpenSections[item.label]);
+          <AnimatePresence initial={false}>
+            {open ? (
+              <motion.div
+                id="mobile-menu"
+                key="mobile-menu-panel"
+                initial={
+                  shouldReduceMotion ? false : { opacity: 0, y: -10, clipPath: "inset(0 0 100% 0)" }
+                }
+                animate={
+                  shouldReduceMotion
+                    ? { opacity: 1, y: 0 }
+                    : { opacity: 1, y: 0, clipPath: "inset(0 0 0% 0)" }
+                }
+                exit={
+                  shouldReduceMotion
+                    ? { opacity: 0 }
+                    : { opacity: 0, y: -8, clipPath: "inset(0 0 100% 0)" }
+                }
+                transition={mobileMenuTransition}
+                className="absolute inset-x-0 top-full z-[60] overflow-hidden border-b border-black/[0.06] bg-[#FAFAFA] shadow-[0_12px_32px_rgba(0,0,0,0.12)] xl:hidden"
+              >
+                <Container className="flex max-h-[calc(100dvh-var(--site-header-height))] flex-col gap-4 overflow-y-auto py-5">
+                  <motion.div
+                    className="flex flex-col gap-3"
+                    initial={shouldReduceMotion ? false : "closed"}
+                    animate="open"
+                    variants={{
+                      open: {
+                        transition: { staggerChildren: 0.045, delayChildren: 0.06 },
+                      },
+                      closed: {
+                        transition: { staggerChildren: 0.02, staggerDirection: -1 },
+                      },
+                    }}
+                  >
+                    {navLeft.map((item) => {
+                      const dropdownItems =
+                        "dropdownItems" in item ? item.dropdownItems : undefined;
+                      const hasMenu =
+                        Array.isArray(dropdownItems) && dropdownItems.length > 0;
+                      const sectionOpen = Boolean(mobileOpenSections[item.label]);
 
-                return (
-                  <div key={item.label} className="flex flex-col gap-2">
-                    <div className="flex min-h-[44px] items-center justify-between gap-2">
+                      return (
+                        <motion.div
+                          key={item.label}
+                          className="flex flex-col gap-2"
+                          variants={
+                            shouldReduceMotion
+                              ? undefined
+                              : {
+                                  closed: { opacity: 0, y: -6 },
+                                  open: { opacity: 1, y: 0 },
+                                }
+                          }
+                        >
+                          <div className="flex min-h-[44px] items-center justify-between gap-2">
+                            <Link
+                              href={item.href}
+                              className={cn(
+                                navLinkClassMobile,
+                                navStateClass(
+                                  isActiveHref(pathname, searchParams, item.href),
+                                ),
+                                "inline-flex min-h-[44px] flex-1 items-center gap-1.5 py-1",
+                              )}
+                              onClick={() => setOpen(false)}
+                            >
+                              {item.label}
+                            </Link>
+                            {hasMenu ? (
+                              <button
+                                type="button"
+                                className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded border border-black/[0.08]"
+                                aria-expanded={sectionOpen}
+                                aria-controls={`mobile-submenu-${item.label}`}
+                                aria-label={`${sectionOpen ? "Collapse" : "Expand"} ${item.label}`}
+                                onClick={() =>
+                                  setMobileOpenSections((prev) => ({
+                                    ...prev,
+                                    [item.label]: !prev[item.label],
+                                  }))
+                                }
+                              >
+                                <IconChevronDown
+                                  className={cn(
+                                    "h-3.5 w-3.5 shrink-0 text-[#202225]/70 transition-transform duration-200 ease-out",
+                                    sectionOpen && "rotate-180",
+                                  )}
+                                />
+                              </button>
+                            ) : null}
+                          </div>
+                          <AnimatePresence initial={false}>
+                            {hasMenu && dropdownItems && sectionOpen ? (
+                              <motion.div
+                                id={`mobile-submenu-${item.label}`}
+                                key={`mobile-submenu-${item.label}`}
+                                initial={
+                                  shouldReduceMotion
+                                    ? false
+                                    : { height: 0, opacity: 0 }
+                                }
+                                animate={{ height: "auto", opacity: 1 }}
+                                exit={{ height: 0, opacity: 0 }}
+                                transition={mobileSubmenuTransition}
+                                className="flex flex-col gap-2 overflow-hidden"
+                              >
+                                {dropdownItems.map((sub) => (
+                                  <Link
+                                    key={sub.href}
+                                    href={sub.href}
+                                    className={cn(
+                                      navLinkClassMobile,
+                                      navStateClass(
+                                        isActiveHref(pathname, searchParams, sub.href),
+                                      ),
+                                      "ml-1 border-l-2 border-black/[0.08] py-1 pl-4",
+                                    )}
+                                    onClick={() => setOpen(false)}
+                                  >
+                                    {sub.label}
+                                  </Link>
+                                ))}
+                              </motion.div>
+                            ) : null}
+                          </AnimatePresence>
+                        </motion.div>
+                      );
+                    })}
+                  </motion.div>
+                  <motion.div
+                    className="flex flex-col items-center justify-center gap-3 border-t border-black/[0.06] pt-4"
+                    initial={shouldReduceMotion ? false : { opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ ...mobileMenuTransition, delay: shouldReduceMotion ? 0 : 0.12 }}
+                  >
+                    {navRight.map((item) => (
                       <Link
+                        key={item.label}
                         href={item.href}
                         className={cn(
                           navLinkClassMobile,
-                          navStateClass(
-                            isActiveHref(pathname, searchParams, item.href),
-                          ),
-                          "inline-flex min-h-[44px] flex-1 items-center gap-1.5 py-1",
+                          navStateClass(isActivePath(pathname, item.href)),
+                          item.label === "TGREA" && "uppercase",
                         )}
                         onClick={() => setOpen(false)}
                       >
                         {item.label}
                       </Link>
-                      {hasMenu ? (
-                        <button
-                          type="button"
-                          className="inline-flex h-10 w-10 shrink-0 items-center justify-center rounded border border-black/[0.08]"
-                          aria-expanded={sectionOpen}
-                          aria-controls={`mobile-submenu-${item.label}`}
-                          aria-label={`${sectionOpen ? "Collapse" : "Expand"} ${item.label}`}
-                          onClick={() =>
-                            setMobileOpenSections((prev) => ({
-                              ...prev,
-                              [item.label]: !prev[item.label],
-                            }))
-                          }
-                        >
-                          <IconChevronDown
-                            className={cn(
-                              "h-3.5 w-3.5 shrink-0 text-[#202225]/70 transition-transform",
-                              sectionOpen && "rotate-180",
-                            )}
-                          />
-                        </button>
-                      ) : null}
-                    </div>
-                    {hasMenu && dropdownItems && sectionOpen ? (
-                      <div
-                        id={`mobile-submenu-${item.label}`}
-                        className="flex flex-col gap-2"
-                      >
-                        {dropdownItems.map((sub) => (
-                          <Link
-                            key={sub.href}
-                            href={sub.href}
-                            className={cn(
-                              navLinkClassMobile,
-                              navStateClass(
-                                isActiveHref(pathname, searchParams, sub.href),
-                              ),
-                              "ml-1 border-l-2 border-black/[0.08] py-1 pl-4",
-                            )}
-                            onClick={() => setOpen(false)}
-                          >
-                            {sub.label}
-                          </Link>
-                        ))}
-                      </div>
-                    ) : null}
-                  </div>
-                );
-              })}
-            </div>
-            <div className=" items-center justify-center align-middle flex flex-col gap-3 border-t border-black/[0.06] pt-4">
-              {navRight.map((item) => (
-                <Link
-                  key={item.label}
-                  href={item.href}
-                  className={cn(
-                    navLinkClassMobile,
-                    navStateClass(isActivePath(pathname, item.href)),
-                    item.label === "TGREA" && "uppercase",
-                  )}
-                  onClick={() => setOpen(false)}
-                >
-                  {item.label}
-                </Link>
-              ))}
-            </div>
-          </Container>
+                    ))}
+                  </motion.div>
+                </Container>
+              </motion.div>
+            ) : null}
+          </AnimatePresence>
         </div>
       </header>
     </>
