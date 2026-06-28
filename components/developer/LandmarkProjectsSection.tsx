@@ -10,6 +10,11 @@ import {
   PROJECTS_COMPLETED,
   PROJECTS_ONGOING,
 } from "@/data/audience-marketing-shared";
+import { splitLandmarkProjectsFromApi } from "@/lib/mappers/landmarkProjectApi";
+import {
+  parseProjectListResponse,
+} from "@/lib/mappers/projectListApi";
+import { getAllProjects } from "@/src/api/services/projectService";
 import { UnderlineTabs } from "@/components/ui/UnderlineTabs";
 import { cn } from "@/utils/cn";
 import {
@@ -31,12 +36,36 @@ function tabOptions(content: LandmarkSectionContent) {
   ];
 }
 
+/** Desktop carousel always shows 4 panels (original Figma layout). */
+const LANDMARK_VISIBLE_COUNT = 4;
+
 /** Reduced height variant (~100px shorter on desktop widths) */
 const CAROUSEL_ASPECT = "aspect-[144/50]";
 
+function buildVisibleProjects(
+  projects: LandmarkProject[],
+  listOffset: number,
+): LandmarkProject[] {
+  const total = projects.length;
+  if (total === 0) {
+    return [];
+  }
+  if (total <= LANDMARK_VISIBLE_COUNT) {
+    return projects;
+  }
+  return Array.from({ length: LANDMARK_VISIBLE_COUNT }, (_, i) => {
+    return projects[(listOffset + i) % total]!;
+  });
+}
+
+function initialActiveIndex(projectCount: number) {
+  const panelCount = Math.min(LANDMARK_VISIBLE_COUNT, projectCount);
+  return panelCount > 1 ? 1 : 0;
+}
+
 export function LandmarkProjectsSection({
   content,
-  isBuyer: _isBuyer,
+  isBuyer,
   centerOnMobile = false,
 }: {
   content: LandmarkSectionContent;
@@ -44,42 +73,118 @@ export function LandmarkProjectsSection({
   centerOnMobile?: boolean;
 }) {
   const [tab, setTab] = useState<Tab>("ongoing");
+  /** Circular start index when more than 4 projects — window slides one project per step. */
+  const [listOffset, setListOffset] = useState(0);
   const [previousActiveIndex, setPreviousActiveIndex] = useState(1);
   const [activeIndex, setActiveIndex] = useState(1);
   const [hiddenWrapIndex, setHiddenWrapIndex] = useState<number | null>(null);
+  const [apiProjects, setApiProjects] = useState<{
+    ongoing: LandmarkProject[];
+    completed: LandmarkProject[];
+  } | null>(null);
   const intervalRef = useRef<NodeJS.Timeout | null>(null);
   const isHovered = useRef(false);
+  const projectCountRef = useRef(0);
+  const totalProjectCountRef = useRef(0);
 
   useEffect(() => {
-    startAutoRotate();
+    let cancelled = false;
 
-    return () => stopAutoRotate();
-  }, []);
+    (async () => {
+      try {
+        const raw = await getAllProjects({
+          per_page: 100,
+          page: 1,
+          with: "files",
+        });
+        if (cancelled) return;
 
-  const startAutoRotate = () => {
-    stopAutoRotate(); // prevent multiple intervals
+        const { items } = parseProjectListResponse(raw);
+        setApiProjects(splitLandmarkProjectsFromApi(items, isBuyer));
+      } catch {
+        if (!cancelled) {
+          setApiProjects(null);
+        }
+      }
+    })();
 
-    intervalRef.current = setInterval(() => {
-      if (!isHovered.current) {
-        setActiveIndex((prev) => {
-          const count = projects.length;
-          const next = (prev + 1) % count;
+    return () => {
+      cancelled = true;
+    };
+  }, [isBuyer]);
 
-          setPreviousActiveIndex(prev);
+  const options = useMemo(() => tabOptions(content), [content]);
 
-          // this is the small card that moves from left to last
-          const wrapCardIndex = (prev - 1 + count) % count;
-          setHiddenWrapIndex(wrapCardIndex);
+  const projects: LandmarkProject[] = useMemo(() => {
+    if (apiProjects) {
+      return tab === "ongoing" ? apiProjects.ongoing : apiProjects.completed;
+    }
+    return tab === "ongoing" ? content.ongoing : content.completed;
+  }, [tab, apiProjects, content]);
 
-          window.setTimeout(() => {
-            setHiddenWrapIndex(null);
-          }, 650);
+  const slidesAllProjects = projects.length > LANDMARK_VISIBLE_COUNT;
 
-          return next;
+  const visibleProjects = useMemo(
+    () => buildVisibleProjects(projects, listOffset),
+    [projects, listOffset],
+  );
+
+  totalProjectCountRef.current = projects.length;
+  projectCountRef.current = visibleProjects.length;
+
+  const focusPanel = (panelIndex: number) => {
+    if (slidesAllProjects) {
+      const total = projects.length;
+      const projectAtPanel = visibleProjects[panelIndex];
+      if (!projectAtPanel) return;
+      const fullIndex = projects.findIndex((p) => p.id === projectAtPanel.id);
+      if (fullIndex < 0) return;
+      setPreviousActiveIndex(activeIndex);
+      setActiveIndex(panelIndex);
+      setListOffset(((fullIndex - panelIndex) % total + total) % total);
+      return;
+    }
+    setPreviousActiveIndex(activeIndex);
+    setActiveIndex(panelIndex);
+  };
+
+  const advanceCarousel = () => {
+    const total = totalProjectCountRef.current;
+    const count = projectCountRef.current;
+
+    if (count <= 1) {
+      return;
+    }
+
+    setActiveIndex((prev) => {
+      const next = (prev + 1) % count;
+      setPreviousActiveIndex(prev);
+
+      const wrapCardIndex = (prev - 1 + count) % count;
+      setHiddenWrapIndex(wrapCardIndex);
+      window.setTimeout(() => {
+        setHiddenWrapIndex(null);
+      }, 650);
+
+      if (total > LANDMARK_VISIBLE_COUNT) {
+        setListOffset((offset) => {
+          const currentFeatured = (offset + prev) % total;
+          const newFeatured = (currentFeatured + 1) % total;
+          return (newFeatured - next + total) % total;
         });
       }
-    }, 4000); // change speed here (3s)
+
+      return next;
+    });
   };
+
+  useEffect(() => {
+    setListOffset(0);
+    const initial = initialActiveIndex(projects.length);
+    setPreviousActiveIndex(initial);
+    setActiveIndex(initial);
+    setHiddenWrapIndex(null);
+  }, [tab, projects]);
 
   const stopAutoRotate = () => {
     if (intervalRef.current) {
@@ -88,12 +193,25 @@ export function LandmarkProjectsSection({
     }
   };
 
-  const options = useMemo(() => tabOptions(content), [content]);
+  const startAutoRotate = () => {
+    stopAutoRotate();
 
-  const projects: LandmarkProject[] = useMemo(
-    () => (tab === "ongoing" ? content.ongoing : content.completed),
-    [tab, content],
-  );
+    intervalRef.current = setInterval(() => {
+      if (!isHovered.current) {
+        advanceCarousel();
+      }
+    }, 4000);
+  };
+
+  useEffect(() => {
+    if (visibleProjects.length <= 1) {
+      stopAutoRotate();
+      return;
+    }
+
+    startAutoRotate();
+    return () => stopAutoRotate();
+  }, [visibleProjects.length, projects.length]);
 
   const ctaHref = tab === "ongoing" ? PROJECTS_ONGOING : PROJECTS_COMPLETED;
 
@@ -146,11 +264,7 @@ export function LandmarkProjectsSection({
           <UnderlineTabs
             value={tab}
             equalTabWidth
-            onChange={(v) => {
-              setTab(v);
-              setPreviousActiveIndex(1);
-              setActiveIndex(1);
-            }}
+            onChange={setTab}
             options={options}
             className={cn(
               "w-full min-w-0 max-w-full sm:w-auto sm:shrink-0 sm:pb-0.5 text-[#8F8183]",
@@ -161,6 +275,13 @@ export function LandmarkProjectsSection({
       </StaggerContainer>
 
       <div className="w-full">
+        {projects.length === 0 ? (
+          <p className="mt-6 text-center n-book text-sm text-[#8F8183] sm:text-base">
+            No {tab === "ongoing" ? "ongoing" : "completed"} projects to show
+            right now.
+          </p>
+        ) : (
+          <>
         <div className="mt-5 flex gap-4 overflow-x-auto pb-2 md:hidden">
           {projects.map((project, i) => (
             <button
@@ -200,17 +321,16 @@ export function LandmarkProjectsSection({
             )}
           >
             <div className={cn("landmark-moving-carousel px-0", CAROUSEL_ASPECT)}>
-              {projects.map((project, i) => {
+              {visibleProjects.map((project, i) => {
                 const gap = 1.5;
                 const active = i === activeIndex;
+                const panelCount = visibleProjects.length;
                 const activeWidth = 64;
                 const collapsedWidth =
-                  (100 - activeWidth - gap * (projects.length - 1)) /
-                  Math.max(projects.length - 1, 1);
+                  (100 - activeWidth - gap * (panelCount - 1)) /
+                  Math.max(panelCount - 1, 1);
 
-                // Keep the expanded card always in the 2nd visual position.
-                // The clicked card moves into that slot, while every other card stays collapsed.
-                const count = projects.length;
+                const count = panelCount;
                 const getVisualSlot = (
                   itemIndex: number,
                   currentActiveIndex: number,
@@ -237,21 +357,17 @@ export function LandmarkProjectsSection({
                       gap * 2 +
                       (visualSlot - 2) * (collapsedWidth + gap);
 
-                // If a card wraps from the far left to far right, place it instantly.
-                // This keeps the rotation continuous instead of showing the card sliding backwards.
                 const jumpReset =
                   (previousVisualSlot === 0 && visualSlot === count - 1) ||
                   (previousVisualSlot === count - 1 && visualSlot === 0);
 
                 return (
                   <button
-                    key={project.id}
+                    key={`${tab}-landmark-panel-${i}`}
                     type="button"
-                    onClick={() => {
-                      setPreviousActiveIndex(activeIndex);
-                      setActiveIndex(i);
-                    }}
+                    onClick={() => focusPanel(i)}
                     aria-label={`Show project ${project.projectName}`}
+                    aria-current={active ? "true" : undefined}
                     style={{
                       left: `${left}%`,
                       width: `${width}%`,
@@ -267,7 +383,7 @@ export function LandmarkProjectsSection({
                       project={project}
                       active={active}
                       panelIndex={i}
-                      totalPanels={projects.length}
+                      totalPanels={panelCount}
                     />
                   </button>
                 );
@@ -275,7 +391,11 @@ export function LandmarkProjectsSection({
             </div>
           </div>
         </div>
+          </>
+        )}
 
+        {projects.length > 0 ? (
+          <>
         <ScrollReveal
           direction="up"
           delay={0.1}
@@ -307,6 +427,8 @@ export function LandmarkProjectsSection({
             {content.ctaLabel}
           </AudienceMarketingSectionCtaMobile>
         </ScrollReveal>
+          </>
+        ) : null}
       </div>
     </Container>
   );
@@ -334,6 +456,7 @@ function ProjectPanelVisual({
           src={project.imageSrc}
           alt=""
           fill
+          unoptimized={project.imageSrc.startsWith("/gw-storage/")}
           className="object-cover object-center blur-4xl scale-1.1"
           sizes={imageSizes}
           priority={active}
@@ -352,6 +475,7 @@ function ProjectPanelVisual({
           src={project.imageSrc}
           alt=""
           fill
+          unoptimized={project.imageSrc.startsWith("/gw-storage/")}
           className={cn(
             "object-cover object-center transition-[filter,opacity] duration-500",
             active ? "grayscale-0 opacity-100" : "grayscale opacity-90",

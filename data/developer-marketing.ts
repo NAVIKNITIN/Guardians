@@ -278,64 +278,37 @@ export const DEVELOPER_MARKETING_PAGE = {
     "real estate organisations across major markets.",
   ),
   testimonials: {
-    sectionTitle: "What our clients say",
+    sectionTitle: "What Our Clients Say",
     ...DEFAULT_VIEW_MORE,
     viewMoreLabel:"Explore More ",
     viewMoreHref: "/partners",
     items: [
       {
         id: "1",
-        brandLabel: "adani Realty",
+        brandLabel: "GBD Realty",
         quote:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
-        name: "Abhishek Naagar",
-        role: "Project Manager, Adani Realty",
-        location: "BKC, Mumbai",
+          "Our journey is defined by the trust and confidence of our esteemed clients. Bajrang Singh, Managing Director of GBD Realty, shares his thoughts on our collaboration and the impact we've created together. Stay tuned as we bring you more success stories!",
+        name: "Bajrang Singh",
+        role: "Managing Director, GBD Realty",
+        location: "",
       },
       {
         id: "2",
-        brandLabel: "Marathon Group",
+        brandLabel: "Haware Properties",
         quote:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "We take pride in delivering excellence, and nothing speaks louder than the words of our valued clients. Amit Haware, CEO & MD of Haware Properties, shares his experience working with us, highlighting our commitment to trust, quality, and innovation. Stay tuned for more insights!",
         name: "Priya Shah",
-        role: "Head of Sales",
-        location: "Mumbai",
+        role: "CEO & MD, Haware Properties",
+        location: "",
       },
       {
         id: "3",
-        brandLabel: "Sunteck",
+        brandLabel: "Promesa Realty",
         quote:
-          "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+          "Mamik Jain & Pritesh Jain, Directors of Promesa Realty, share their insights on the evolving real estate landscape. Stay tuned as we bring you their vision, expertise, and success story!",
         name: "Rahul Verma",
-        role: "Director — Projects",
-        location: "Pune",
-      },
-      {
-        id: "4",
-        brandLabel: "Piramal Realty",
-        quote:
-          "Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.",
-        name: "Ananya Desai",
-        role: "VP — Customer Experience",
-        location: "Lower Parel, Mumbai",
-      },
-      {
-        id: "5",
-        brandLabel: "Sheth Creators",
-        quote:
-          "Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores.",
-        name: "Karan Mehta",
-        role: "Associate Director",
-        location: "Thane",
-      },
-      {
-        id: "6",
-        brandLabel: "Guru Prerna",
-        quote:
-          "At vero eos et accusamus et iusto odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti.",
-        name: "Neha Kulkarni",
-        role: "Sales Lead",
-        location: "Navi Mumbai",
+        role: "Directors of Promesa Realty",
+        location: "",
       },
     ],
   },

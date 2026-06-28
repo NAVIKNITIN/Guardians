@@ -1,4 +1,5 @@
 import { resolveProjectListingThumbnail } from "@/lib/mappers/projectListingThumbnail";
+import { isApiProjectCompleted } from "@/lib/mappers/landmarkProjectApi";
 
 /** Aligned with marketing `projects` page filters (`budget` buckets match the UI). */
 export type ProjectRowFilterShape = {
@@ -208,7 +209,7 @@ function ongoingBadgeCount(
 export function mapApiProjectListItemToRow(
   item: ApiProjectListItem,
 ): ProjectRowFilterShape {
-  const isCompleted = item.isCompleted === true;
+  const isCompleted = isApiProjectCompleted(item);
   const buckets = configurationBucketsFrom(item.configurations);
   const rera = (item.rera_number || "").trim();
   const description = (item.description || "").trim();
