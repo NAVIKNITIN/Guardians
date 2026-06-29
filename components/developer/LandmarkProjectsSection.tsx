@@ -24,6 +24,7 @@ import {
 } from "@/components/marketing/AudienceMarketingSectionCta";
 import { audienceMobileCopyCenter } from "@/styles/audienceMarketingCenter";
 import Image from "next/image";
+import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { Container } from "../common/Container";
 
@@ -61,6 +62,12 @@ function buildVisibleProjects(
 function initialActiveIndex(projectCount: number) {
   const panelCount = Math.min(LANDMARK_VISIBLE_COUNT, projectCount);
   return panelCount > 1 ? 1 : 0;
+}
+
+function landmarkProjectHref(projectId: string, tab: Tab) {
+  return tab === "completed"
+    ? `/projects/${projectId}?status=completed`
+    : `/projects/${projectId}`;
 }
 
 export function LandmarkProjectsSection({
@@ -283,24 +290,20 @@ export function LandmarkProjectsSection({
         ) : (
           <>
         <div className="mt-5 flex gap-4 overflow-x-auto pb-2 md:hidden">
-          {projects.map((project, i) => (
-            <button
+          {projects.map((project) => (
+            <Link
               key={project.id}
-              type="button"
-              onClick={() => {
-                setPreviousActiveIndex(activeIndex);
-                setActiveIndex(i);
-              }}
+              href={landmarkProjectHref(project.id, tab)}
               className="relative aspect-[4/5] w-[min(18rem,82vw)] shrink-0 overflow-hidden border border-white/70 bg-neutral-200 text-left shadow-[0_10px_28px_rgba(0,0,0,0.14)]"
-              aria-label={`Show project ${project.projectName}`}
+              aria-label={`View project ${project.projectName}`}
             >
               <ProjectPanelVisual
                 project={project}
                 active
-                panelIndex={i}
+                panelIndex={0}
                 totalPanels={projects.length}
               />
-            </button>
+            </Link>
           ))}
         </div>
 
@@ -361,30 +364,49 @@ export function LandmarkProjectsSection({
                   (previousVisualSlot === 0 && visualSlot === count - 1) ||
                   (previousVisualSlot === count - 1 && visualSlot === 0);
 
+                const panelClassName = cn(
+                  "landmark-moving-panel cursor-pointer",
+                  active ? "is-active" : "is-collapsed",
+                  jumpReset && "is-jump-reset",
+                );
+                const panelStyle = {
+                  left: `${left}%`,
+                  width: `${width}%`,
+                  opacity: hiddenWrapIndex === i ? 0 : undefined,
+                };
+                const panelVisual = (
+                  <ProjectPanelVisual
+                    project={project}
+                    active={active}
+                    panelIndex={i}
+                    totalPanels={panelCount}
+                  />
+                );
+
+                if (active) {
+                  return (
+                    <Link
+                      key={`${tab}-landmark-panel-${i}`}
+                      href={landmarkProjectHref(project.id, tab)}
+                      aria-label={`View project ${project.projectName}`}
+                      style={panelStyle}
+                      className={panelClassName}
+                    >
+                      {panelVisual}
+                    </Link>
+                  );
+                }
+
                 return (
                   <button
                     key={`${tab}-landmark-panel-${i}`}
                     type="button"
                     onClick={() => focusPanel(i)}
                     aria-label={`Show project ${project.projectName}`}
-                    aria-current={active ? "true" : undefined}
-                    style={{
-                      left: `${left}%`,
-                      width: `${width}%`,
-                      opacity: hiddenWrapIndex === i ? 0 : undefined,
-                    }}
-                    className={cn(
-                      "landmark-moving-panel cursor-pointer",
-                      active ? "is-active" : "is-collapsed",
-                      jumpReset && "is-jump-reset",
-                    )}
+                    style={panelStyle}
+                    className={panelClassName}
                   >
-                    <ProjectPanelVisual
-                      project={project}
-                      active={active}
-                      panelIndex={i}
-                      totalPanels={panelCount}
-                    />
+                    {panelVisual}
                   </button>
                 );
               })}

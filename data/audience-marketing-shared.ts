@@ -1,4 +1,5 @@
 import type { PartnerLogo, PartnersSectionContent } from "./audience-marketing-types";
+import { partnerLogoFromGroup } from "./partners-logo-grid";
 
 export const CONTACT = "/contact" as const;
 export const BUYER_SERVICES = "/buyer/services" as const;
@@ -29,26 +30,24 @@ export const DEFAULT_KNOW_MORE = {
 } as const;
 
 
-export function partnerLogoSrc(filename: string): string {
-  return `/images/Developer/partners/${encodeURIComponent(filename)}`;
-}
-
+/** Marquee row 1 — colour logos (matches partners grid assets). */
 export const DEV_PARTNER_ROW1: readonly PartnerLogo[] = [
-  { src: partnerLogoSrc("Group 32.svg"), alt: "Partner logo" },
-  { src: partnerLogoSrc("Group 33.svg"), alt: "Partner logo" },
-  { src: partnerLogoSrc("Group 34.svg"), alt: "Partner logo" },
-  { src: partnerLogoSrc("Group 36.svg"), alt: "Partner logo" },
-  { src: partnerLogoSrc("Group 38.svg"), alt: "Partner logo" },
-  { src: partnerLogoSrc("Group 39.svg"), alt: "Partner logo" },
+  partnerLogoFromGroup(39),
+  partnerLogoFromGroup(36),
+  partnerLogoFromGroup(32),
+  partnerLogoFromGroup(47),
+  partnerLogoFromGroup(38),
+  partnerLogoFromGroup(30),
 ];
 
+/** Marquee row 2 — colour logos (matches partners grid assets). */
 export const DEV_PARTNER_ROW2: readonly PartnerLogo[] = [
-  { src: partnerLogoSrc("Group 42.svg"), alt: "Partner logo" },
-  { src: partnerLogoSrc("Group 44.svg"), alt: "Partner logo" },
-  { src: partnerLogoSrc("Group 47.svg"), alt: "Partner logo" },
-  { src: partnerLogoSrc("Group 48.svg"), alt: "Partner logo" },
-  { src: partnerLogoSrc("Group 49.svg"), alt: "Partner logo" },
-  { src: partnerLogoSrc("Group 50.svg"), alt: "Partner logo" },
+  partnerLogoFromGroup(45),
+  partnerLogoFromGroup(48),
+  partnerLogoFromGroup(37),
+  partnerLogoFromGroup(42),
+  partnerLogoFromGroup(34),
+  partnerLogoFromGroup(50),
 ];
 
 export function partnersBand(

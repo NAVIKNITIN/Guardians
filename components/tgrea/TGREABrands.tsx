@@ -39,7 +39,7 @@ export function TGREABrands() {
       </Container>
 
       {/* Brand rows */}
-      <StaggerContainer className="space-y-2 sm:space-y-4 lg:space-y-[70px] mb-10 md:mb-15 lg:mb-20">
+      <StaggerContainer className="space-y-18 sm:space-y-24 lg:space-y-32 mb-10 md:mb-15 lg:mb-20">
         {brands.map(({ id, reverse, href, logoBG, logo, description }) => (
           <SplitSection
             key={id}

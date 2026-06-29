@@ -28,8 +28,21 @@ const KNOWN_PARTNER_NAMES: Record<number, string> = {
   44: "Chandak",
   45: "Ashish Group",
   47: "Guru Prerna Corporation",
+  48: "Sonam",
   49: "Tridhaatu",
+  50: "ID Group",
 };
+
+/** Marquee / band row — same colour asset as partners grid for a legacy Group N. */
+export function partnerLogoFromGroup(group: number): {
+  src: string;
+  alt: string;
+} {
+  return {
+    src: colourLogo(group),
+    alt: KNOWN_PARTNER_NAMES[group] ?? `Partner brand ${group}`,
+  };
+}
 
 function buildPartnersGridLogos(): PartnersGridLogo[] {
   return Array.from(
