@@ -35,7 +35,7 @@ const leadershipSlides = [
     id: "leader-1",
     imageSrc: "/images/about/Ram-Naik.jpg",
     imageAlt: "Leadership portrait 1",
-    title: "We stay ahead of the curve with strategy",
+    title: "Building trust through people-focused real estate leadership.",
     body:
       "Real estate is ultimately about people. Understanding what they need, building what they trust and delivering what we promise. That belief is what drove us to build The Guardians, and it is what keeps us going every single day.",
     name: "Ram Naik",
@@ -46,7 +46,7 @@ const leadershipSlides = [
     id: "leader-2",
     imageSrc: "/images/about/Kaushal-Agarwal.jpg",
     imageAlt: "Leadership portrait 2",
-    title: "We stay ahead of the curve with strategy",
+    title: "Leading with integrity, expertise, and client-first values.",
     body:
       "We built this firm on the right values from day one. Ethical practice, deep market knowledge and an unrelenting focus on what is best for our clients. That is not just how we work. That is who we are.",
     name: "Kaushal Agarwal",
@@ -57,7 +57,7 @@ const leadershipSlides = [
     id: "leader-3",
     imageSrc: "/images/about/Jayesh-Rathod.jpg",
     imageAlt: "Leadership portrait 3",
-    title: "We stay ahead of the curve with strategy",
+    title: "Turning market insights into strategic real estate success.",
     body:
       "Good strategy is what separates great outcomes from average ones. Every project we take on is backed by research, shaped by insight and executed with precision. That discipline is what makes The Guardians different.",
     name: "Jayesh Rathod",
@@ -68,7 +68,7 @@ const leadershipSlides = [
     id: "leader-4",
     imageSrc: "/images/about/Khetsi-Barot.jpg",
     imageAlt: "Leadership portrait 4",
-    title: "We stay ahead of the curve with strategy",
+    title: "Building lasting trust through relationships and consistent results.",
     body:
       "In this industry, trust is everything. We have built ours through consistency, strong relationships and results that speak for themselves. That is something no market cycle can take away from us.",
     name: "Khetsi Barot",
