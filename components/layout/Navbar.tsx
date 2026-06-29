@@ -17,8 +17,8 @@ const navLeft = [
     href: "/buyer/services",
     dropdown: true,
     dropdownItems: [
-      { label: "Buyer's Services", href: "/buyer/services" },
-      { label: "Developer's Services", href: "/developer/services" },
+      { label: "Buyer", href: "/buyer/services" },
+      { label: "Developer", href: "/developer/services" },
     ],
   },
   {

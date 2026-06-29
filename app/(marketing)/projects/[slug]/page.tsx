@@ -856,11 +856,11 @@ function ProjectDetailPageContent() {
                   <h2 className="qs-reg text-[clamp(1.75rem,6vw,4.375rem)] uppercase leading-none tracking-[0.05em] text-white sm:text-[clamp(2.5rem,5vw,4.375rem)]">
                     Book A Visit
                   </h2>
-                  <p className="mx-auto mt-10  n-reg text-sm leading-relaxed text-white sm:text-base lg:mx-0">
+                  {/* <p className="mx-auto mt-10  n-reg text-sm leading-relaxed text-white sm:text-base lg:mx-0">
                     Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed
                     do eiusmod tempor incididunt ut labore et dolore magna
                     aliqua. dolor sit amet, consectetur adipiscing elit.
-                  </p>
+                  </p> */}
                 </div>
 
                 <div className="mt-10 flex flex-col gap-6 border-t border-white pt-8 sm:flex-row sm:gap-12 md:gap-30 lg:gap-50 sm:text-left w-full items-center justify-start ">
