@@ -57,26 +57,28 @@ function GridDividers({
   );
 }
 
-function PartnerLogoCell({ logo }: { logo: PartnersGridLogo }) {
+function PartnerLogoCell({ logo }: { logo: PartnersGridLogo | null }) {
   return (
     <li className="bg-white">
       <div
         className={cn(
           "flex h-full min-h-[5.5rem] items-center justify-center",
-          "px-5 py-7 sm:min-h-[6.25rem] sm:px-8 sm:py-9",
-          "md:min-h-[7rem] md:px-10 md:py-10",
-          "lg:min-h-[7.75rem] lg:px-12 lg:py-11",
+          "px-4 py-6 sm:min-h-[6.25rem] sm:px-6 sm:py-8",
+          "md:min-h-[7rem] md:px-8 md:py-9",
+          "lg:min-h-[7.75rem] lg:px-10 lg:py-10",
         )}
       >
-        <div className="relative h-10 w-full max-w-[9.5rem] sm:h-11 sm:max-w-[10.5rem] md:h-12 md:max-w-[11.5rem] lg:h-[3.25rem] lg:max-w-[12.5rem]">
-          <Image
-            src={logo.src}
-            alt={logo.name}
-            fill
-            sizes="(max-width: 768px) 40vw, 180px"
-            className="object-contain object-center"
-          />
-        </div>
+        {logo ? (
+          <div className="relative h-11 w-full max-w-[11rem] sm:h-12 sm:max-w-[12rem] md:h-[3.25rem] md:max-w-[13.5rem] lg:h-14 lg:max-w-[15rem]">
+            <Image
+              src={logo.src}
+              alt={logo.name}
+              fill
+              sizes="(max-width: 768px) 40vw, 200px"
+              className="object-contain object-center"
+            />
+          </div>
+        ) : null}
       </div>
     </li>
   );
@@ -85,15 +87,12 @@ function PartnerLogoCell({ logo }: { logo: PartnersGridLogo }) {
 function visibleLogosForPage(
   logos: readonly PartnersGridLogo[],
   page: number,
-  columns: number,
-  rows: number,
-) {
-  const cellCount = columns * rows;
-  const start = (page * columns) % logos.length;
+  cellCount: number,
+): (PartnersGridLogo | null)[] {
+  const start = page * cellCount;
 
   return Array.from({ length: cellCount }, (_, index) => {
-    const logoIndex = (start + index) % logos.length;
-    return logos[logoIndex]!;
+    return logos[start + index] ?? null;
   });
 }
 
@@ -102,7 +101,8 @@ export function PartnersLogoGrid() {
   const isMobileGrid = useViewportIsMobile(true, MOBILE_GRID_BREAKPOINT_PX);
   const columns = isMobileGrid ? 2 : 4;
   const rows = isMobileGrid ? 8 : 4;
-  const pageCount = Math.max(1, logos.length / columns);
+  const cellCount = columns * rows;
+  const pageCount = Math.max(1, Math.ceil(logos.length / cellCount));
   const { index: page, advance, setIndex } = useCycleIndex(pageCount, 0);
   const [direction, setDirection] = useState<1 | -1>(1);
 
@@ -111,8 +111,8 @@ export function PartnersLogoGrid() {
   }, [pageCount, setIndex]);
 
   const visibleLogos = useMemo(
-    () => visibleLogosForPage(logos, page, columns, rows),
-    [logos, page, columns, rows],
+    () => visibleLogosForPage(logos, page, cellCount),
+    [logos, page, cellCount],
   );
 
   function goPrev() {
@@ -145,7 +145,7 @@ export function PartnersLogoGrid() {
             >
               {visibleLogos.map((logo, index) => (
                 <PartnerLogoCell
-                  key={`${logo.id}-${page}-${index}`}
+                  key={logo ? `${logo.id}-${page}` : `empty-${page}-${index}`}
                   logo={logo}
                 />
               ))}

@@ -4,25 +4,48 @@ export type PartnersGridLogo = {
   src: string;
 };
 
-const logo = (group: number) =>
-  `/images/partners/logos/Group ${group}.png`;
+/** Colour partner logos — `Asset N.svg` matches legacy `Group N.png` numbering (+204). */
+const colourLogo = (group: number) =>
+  `/images/Colour%20logos/Asset%20${group + 204}.svg`;
 
-/** 4×4 grid order (Figma partners page) — row-major, left to right. */
-export const PARTNERS_GRID_LOGOS: readonly PartnersGridLogo[] = [
-  { id: "adani", name: "Adani Realty", src: logo(29) },
-  { id: "godrej", name: "Godrej Properties", src: logo(33) },
-  { id: "marathon", name: "Marathon", src: logo(34) },
-  { id: "sunteck", name: "Sunteck", src: logo(36) },
-  { id: "piramal", name: "Piramal Realty", src: logo(38) },
-  { id: "sheth", name: "Sheth Creators", src: logo(32) },
-  { id: "guru-prerna", name: "Guru Prerna Corporation", src: logo(47) },
-  { id: "integrated", name: "Integrated", src: logo(37) },
-  { id: "tridhaatu", name: "Tridhaatu", src: logo(49) },
-  { id: "bhimjyani", name: "Bhimjyani Realty", src: logo(43) },
-  { id: "siddha", name: "Siddha", src: logo(40) },
-  { id: "chandak", name: "Chandak", src: logo(44) },
-  { id: "crystal", name: "Crystal", src: logo(30) },
-  { id: "crescent", name: "Crescent", src: logo(42) },
-  { id: "ashford", name: "Ashford", src: logo(39) },
-  { id: "ashish", name: "Ashish Group", src: logo(45) },
-] as const;
+const COLOUR_LOGO_FIRST_ASSET = 233;
+const COLOUR_LOGO_LAST_ASSET = 287;
+
+/** Display names for partners we can identify (remaining use generic alt text). */
+const KNOWN_PARTNER_NAMES: Record<number, string> = {
+  29: "Adani Realty",
+  30: "Crystal",
+  32: "Sheth Creators",
+  33: "Godrej Properties",
+  34: "Marathon",
+  36: "Sunteck",
+  37: "Integrated",
+  38: "Piramal Realty",
+  39: "Ashford",
+  40: "Siddha",
+  42: "Crescent",
+  43: "Bhimjyani Realty",
+  44: "Chandak",
+  45: "Ashish Group",
+  47: "Guru Prerna Corporation",
+  49: "Tridhaatu",
+};
+
+function buildPartnersGridLogos(): PartnersGridLogo[] {
+  return Array.from(
+    { length: COLOUR_LOGO_LAST_ASSET - COLOUR_LOGO_FIRST_ASSET + 1 },
+    (_, index) => {
+      const asset = COLOUR_LOGO_FIRST_ASSET + index;
+      const group = asset - 204;
+      return {
+        id: `group-${group}`,
+        name: KNOWN_PARTNER_NAMES[group] ?? `Partner brand ${group}`,
+        src: colourLogo(group),
+      };
+    },
+  );
+}
+
+/** All colour logos in `public/images/Colour logos/` (Asset 233–287). */
+export const PARTNERS_GRID_LOGOS: readonly PartnersGridLogo[] =
+  buildPartnersGridLogos();
