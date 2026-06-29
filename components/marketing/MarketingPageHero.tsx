@@ -1598,7 +1598,7 @@ export function MarketingAudienceHero({
 
       </div>
       <div
-        className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-36 bg-gradient-to-t from-white/100 via-white/45 to-transparent sm:h-44 md:h-52"
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-[1] h-36 bg-gradient-to-t from-white/100 via-white/45 to-transparent sm:h-74 md:h-72"
         aria-hidden
       />
       <Container
